@@ -1740,18 +1740,18 @@ export default function App() {
       return (
         <View style={[styles.screen, styles.creditsScreen]}>
           <View style={styles.creditsHeader}>
-            <TouchableOpacity style={styles.creditsBackButton} onPress={() => setTab('Create')} accessibilityLabel="Назад">
-              <Text style={styles.creditsBackText}>‹</Text>
-            </TouchableOpacity>
+            <Text style={styles.creditsHeaderIcon}>▤</Text>
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
           </View>
           <View style={styles.creditIllustration}>
-            <Image
-              source={require('./НейроСцена_ синяя галактика творчества-3.png')}
-              resizeMode="stretch"
-              style={styles.creditCoinsReferenceCrop}
-              accessibilityLabel="Золотые монеты из утверждённого макета"
-            />
+            <View style={styles.creditCoinsWindow}>
+              <Image
+                source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+                resizeMode="stretch"
+                style={styles.creditCoinsReferenceCrop}
+                accessibilityLabel="Золотые монеты из утверждённого макета"
+              />
+            </View>
             <Text style={styles.creditBalanceValue}>
               {creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}
             </Text>
@@ -3470,17 +3470,21 @@ const COSMIC_OVERRIDES = {
   galleryPreview: { borderRadius: 10, overflow: 'hidden' },
   galleryLimit: { textAlign: 'center', color: '#B5D8FF', marginTop: 12, marginBottom: 5, fontSize: 12 },
   creditsScreen: { paddingTop: 14 },
+  creditsHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 9, marginBottom: 12 },
+  creditsHeaderIcon: { color: '#DCEBFF', fontSize: 23, lineHeight: 27 },
+  creditsTitle: { color: '#FFFFFF', fontSize: 21, lineHeight: 26, fontWeight: '800' },
   creditIllustration: { height: 150, marginTop: 0, marginBottom: 12, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(37,139,255,0.72)', backgroundColor: 'rgba(5,24,57,0.88)', shadowColor: '#087BFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 6, overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 7 },
+  creditCoinsWindow: { position: 'absolute', top: 0, left: 0, right: 0, height: 88, overflow: 'hidden' },
   creditCoinsReferenceCrop: { position: 'absolute', width: '663%', height: 1412, left: '-421%', top: -372 },
   creditBalanceValue: { fontSize: 32, lineHeight: 36, color: '#FFE08A', fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 12, marginTop: 0 },
   creditBalanceCaption: { color: '#FFFFFF', fontSize: 13, lineHeight: 17, fontWeight: '700' },
   packageCard: { minHeight: 62, paddingVertical: 11, paddingHorizontal: 13, marginTop: 9, borderRadius: 13, backgroundColor: 'rgba(10,28,58,0.98)', borderColor: 'rgba(40,125,218,0.65)' },
   packageAmount: { color: '#F5F9FF', fontSize: 15, fontWeight: '800' },
   popularBadge: { backgroundColor: '#087BFF', borderColor: '#7BD7FF', borderWidth: 1, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 4 },
-  profileIdentity: { alignItems: 'center', paddingTop: 12, paddingBottom: 18, marginBottom: 12, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(28,133,255,0.62)', backgroundColor: 'rgba(5,24,56,0.82)' },
-  profileGuestAvatar: { width: 82, height: 82, borderRadius: 41, borderColor: '#13B8FF', backgroundColor: 'rgba(0,91,180,0.18)', shadowColor: '#00A8FF', shadowOpacity: 0.72, shadowRadius: 16, elevation: 7 },
-  profileGuestHead: { backgroundColor: '#35BFFF' },
-  profileGuestBody: { backgroundColor: '#35BFFF' },
+  profileIdentity: { alignItems: 'center', paddingTop: 10, paddingBottom: 12, marginBottom: 8, borderRadius: 18, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
+  profileGuestAvatar: { width: 76, height: 76, borderRadius: 38, borderColor: 'transparent', backgroundColor: 'transparent', shadowColor: '#00A8FF', shadowOpacity: 0.72, shadowRadius: 16, elevation: 7 },
+  profileGuestHead: { backgroundColor: 'transparent', borderWidth: 2, borderColor: '#35BFFF' },
+  profileGuestBody: { backgroundColor: 'transparent', borderWidth: 2, borderColor: '#35BFFF' },
   profileGuestName: { color: '#FFFFFF', fontSize: 18, fontWeight: '800' },
   profileGuestStatus: { color: '#83BFFF', fontSize: 12, marginTop: 4 },
   profileCard: { backgroundColor: 'rgba(5,24,56,0.92)', borderColor: 'rgba(35,127,222,0.7)', borderRadius: 14 },
