@@ -2010,7 +2010,7 @@ export default function App() {
                 <View style={styles.navPersonBody} />
               </View>
             ) : (
-              <Text style={styles.navIcon}>{item.icon}</Text>
+              <Text style={[styles.navIcon, tab === item.id && styles.navIconActive]}>{item.icon}</Text>
             )}
             <Text style={[styles.navLabel, tab === item.id && styles.navLabelActive]}>
               {item.label}
@@ -3434,7 +3434,9 @@ const COSMIC_OVERRIDES = {
   navItem: { minHeight: 54, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0 },
   navItemActive: { backgroundColor: 'transparent', borderColor: 'transparent', shadowColor: '#008CFF', shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
   navIcon: { color: '#4CAEFF', fontSize: 22 },
-  navLabel: { color: '#8CA8C9', fontSize: 10, lineHeight: 12 },
+  navIconActive: { color: '#00BFFF', textShadowColor: '#008CFF', textShadowRadius: 10 },
+
+  navLabel: { color: '#8CA8C9', fontSize: 10, lineHeight: 12, textAlign: 'center' },
   navLabelActive: { color: '#43B8FF', textShadowColor: '#087BFF', textShadowRadius: 9, fontWeight: '900' },
   createFeatureHeading: { marginTop: 4, marginBottom: 8 },
   createFeatureGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 10, marginBottom: 18 },
