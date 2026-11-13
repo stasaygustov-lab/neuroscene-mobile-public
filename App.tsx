@@ -1815,6 +1815,9 @@ export default function App() {
               <Text style={styles.profileGuestName}>{authUser.display_name || authUser.name || authUser.email || 'Пользователь'}</Text>
               <Text style={styles.profileGuestStatus}>{authUser.email || ''}</Text>
             </View>
+            <TouchableOpacity activeOpacity={0.86} style={styles.profileSignOutButton} onPress={logoutAllDevices} disabled={authBusy}>
+              <Text style={styles.profileSignOutText}>Выйти</Text>
+            </TouchableOpacity>
 
           </>
         ) : (
@@ -1910,9 +1913,6 @@ export default function App() {
         </View>
         {authToken && (
           <View style={styles.profileAccountActions}>
-            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={logoutAllDevices} disabled={authBusy}>
-              <Text style={styles.authSecondaryText}>Выйти</Text>
-            </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={deleteAccount} disabled={authBusy}>
               <Text style={[styles.authLinkText, { color: '#FF8A93' }]}>Удалить аккаунт и личные данные</Text>
             </TouchableOpacity>
@@ -3379,6 +3379,8 @@ const COSMIC_OVERRIDES = {
   buyCreditsHint: { color: '#C5E5FF', fontSize: 10, marginTop: 2 },
   creditNeverExpire: { textAlign: 'center', color: '#A9C8EA', fontSize: 13, marginTop: 8, marginBottom: 12 },
   profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
+  profileSignOutButton: { alignSelf: 'center', minWidth: 116, minHeight: 36, paddingHorizontal: 18, paddingVertical: 7, borderRadius: 11, borderWidth: 1, borderColor: '#00AFFF', backgroundColor: 'rgba(2,18,43,0.9)', alignItems: 'center', justifyContent: 'center', marginTop: -4, marginBottom: 12 },
+  profileSignOutText: { color: '#42D8FF', fontSize: 13, fontWeight: '700' },
   profileSettingsButton: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#1E5A99', backgroundColor: 'rgba(5,22,51,0.92)' },
   profileSettingsIcon: { color: '#C5E5FF', fontSize: 22 },
 
