@@ -2052,14 +2052,22 @@ export default function App() {
           <Animated.View style={[styles.introOrbitOuter, { transform: [{ perspective: 900 }, { rotateX: '68deg' }, { rotateZ: introRotateZ }] }]} />
           <Animated.View style={[styles.introOrbitInner, { transform: [{ perspective: 900 }, { rotateY: '64deg' }, { rotateZ: introRotateReverse }] }]} />
           <Animated.View style={[styles.introLogoHalo, { transform: [{ scale: introPulseScale }] }]} />
-          <Animated.Image
-            source={require('./assets/Футуристический серебряно-синий монограмный логотип HC-1.png')}
-            style={[styles.introLogoImage, { transform: [{ perspective: 900 }, { scale: introScale }, { rotateY: introRotateZ }] }]}
-            resizeMode="contain"
-          />
-          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>НейроСцена</Animated.Text>
+          <Animated.View style={[styles.introReelWrap, { transform: [{ scale: introScale }, { rotateY: introRotateZ }] }]}>
+            <View style={styles.introFilmStrip} />
+            <View style={styles.introReelOuter}>
+              <View style={styles.introReelHoleTop} />
+              <View style={styles.introReelHoleLeft} />
+              <View style={styles.introReelHoleRight} />
+              <View style={styles.introReelHoleBottomLeft} />
+              <View style={styles.introReelHoleBottomRight} />
+              <View style={styles.introReelHub}>
+                <Text style={styles.introReelPlay}>▶</Text>
+              </View>
+            </View>
+          </Animated.View>
+          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{ '\\n' }Сцена</Animated.Text>
           <View style={styles.introAccentLine} />
-          <Text style={styles.introTagline}>Магия ИИ{ '\n' }в твоих руках</Text>
+          <Text style={styles.introTagline}>Ваши идеи —{ '\\n' }на экране</Text>
           <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
         </Animated.View>
       )}
@@ -3509,6 +3517,16 @@ const styles = StyleSheet.create({
   introOrbitInner: { position: 'absolute', width: 265, height: 265, borderRadius: 132, borderWidth: 1.5, borderColor: 'rgba(129,218,255,0.42)' },
   introLogoHalo: { position: 'absolute', width: 255, height: 205, borderRadius: 105, backgroundColor: '#0756C5', opacity: 0.28, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 55, elevation: 30 },
   introLogoImage: { width: 270, height: 205 },
+  introReelWrap: { width: 280, height: 285, alignItems: 'center', justifyContent: 'center', marginTop: -8 },
+  introFilmStrip: { position: 'absolute', top: 10, left: 18, width: 300, height: 82, borderWidth: 9, borderColor: '#168CFF', borderRadius: 16, transform: [{ rotate: '-24deg' }], shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 20, elevation: 14 },
+  introReelOuter: { width: 248, height: 248, borderRadius: 124, borderWidth: 13, borderColor: '#56C9FF', backgroundColor: '#061B43', alignItems: 'center', justifyContent: 'center', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 28, elevation: 22 },
+  introReelHoleTop: { position: 'absolute', top: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
+  introReelHoleLeft: { position: 'absolute', left: 19, top: 73, width: 75, height: 58, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
+  introReelHoleRight: { position: 'absolute', right: 19, top: 73, width: 75, height: 58, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
+  introReelHoleBottomLeft: { position: 'absolute', left: 45, bottom: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8', transform: [{ rotate: '42deg' }] },
+  introReelHoleBottomRight: { position: 'absolute', right: 45, bottom: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8', transform: [{ rotate: '-42deg' }] },
+  introReelHub: { width: 82, height: 82, borderRadius: 41, backgroundColor: '#06265A', borderWidth: 4, borderColor: '#65DFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#00B8FF', shadowOpacity: 1, shadowRadius: 18, elevation: 14 },
+  introReelPlay: { color: '#9CEBFF', fontSize: 34, marginLeft: 5, textShadowColor: '#00B8FF', textShadowRadius: 12 },
   introAccentLine: { width: 116, height: 3, borderRadius: 2, backgroundColor: '#48C9FF', marginTop: 24, shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 14, elevation: 10 },
   introGlowLarge: { position: 'absolute', width: 430, height: 430, borderRadius: 215, backgroundColor: '#123A83', opacity: 0.42, top: '18%', alignSelf: 'center', transform: [{ scaleX: 1.12 }] },
   introGlowSmall: { position: 'absolute', width: 260, height: 260, borderRadius: 130, backgroundColor: '#1765C8', opacity: 0.24, top: '31%', alignSelf: 'center' },
