@@ -1,4 +1,5 @@
 # Android UI smoke test uses POSIX-compatible shell for emulator runner.
+# Re-run full APK build and emulator capture after fixing the previous smoke-test attempt.
 name: NeuroScene Android APK and UI smoke test
 
 on:
