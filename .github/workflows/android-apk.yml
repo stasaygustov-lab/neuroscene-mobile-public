@@ -66,6 +66,7 @@ jobs:
           retention-days: 7
 
   visual-smoke-test:
+    if: ${{ false }} # APK-only preview: emulator/UI checks require separate approval
     name: Capture Android UI screens
     needs: build-android-apk
     runs-on: ubuntu-24.04
