@@ -1757,24 +1757,28 @@ export default function App() {
             </Text>
             <Text style={styles.creditBalanceCaption}>Кредитов</Text>
           </View>
+          <Text style={styles.creditPackagesHeading}>Пакеты кредитов</Text>
           {[500, 1500, 5000].map((amount) => (
             <View style={styles.packageCard} key={amount}>
               <View style={styles.packageIconWrap}>
-                <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
+                <Text style={styles.packageIcon}>▤</Text>
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
-                <Text style={styles.packagePrice}>{amount === 500 ? '₽149' : amount === 1500 ? '₽399' : '₽999'}</Text>
+                <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')} кредитов</Text>
               </View>
               <View style={styles.packageRight}>
-                {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
-                <Text style={styles.packagePriceHint}>Разовая покупка</Text>
+                {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярный</Text></View>}
+                <Text style={styles.packagePrice}>{amount === 500 ? '₽149' : amount === 1500 ? '₽399' : '₽999'}</Text>
               </View>
             </View>
           ))}
+          <View style={styles.creditBenefits}>
+            <Text style={styles.creditBenefit}>✓  Кредиты не сгорают</Text>
+            <Text style={styles.creditBenefit}>✓  Без подписок</Text>
+            <Text style={styles.creditBenefit}>✓  Без рекламы</Text>
+          </View>
           <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
             <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
-            <Text style={styles.buyCreditsHint}>Покупка скоро станет доступна</Text>
           </TouchableOpacity>
           {creditHistory.length > 0 && (
             <View style={{ marginTop: 22 }}>
@@ -1887,50 +1891,46 @@ export default function App() {
           </>
         )}
         <View style={styles.profileMenuCard}>
-        {['My videos', 'Notifications', 'About', 'Support', 'Sign out'].map((key, menuIndex) => uiText(language, key, ({
-          'My videos': 'Мои видео',
-          'Notifications': 'Уведомления',
-          'About': 'О приложении',
-          'Support': 'Поддержка',
-          'Sign out': 'Выход',
-        } as Record<string, string>)[key] || key)).map((item, menuIndex) => (
+        {['Уведомления', 'Покупки и кредиты', 'Настройки', 'О приложении', 'Поддержка'].map((item, menuIndex) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item}
             style={[styles.menuItem, menuIndex === 4 && styles.menuItemLast]}
             onPress={() => {
-              if (item === 'Мои видео') {
-                setTab('Gallery');
+              if (item === 'Покупки и кредиты') {
+                setTab('Credits');
+              } else if (item === 'Настройки') {
+                Alert.alert('Настройки', 'Настройки профиля');
               } else if (item === 'О приложении') {
                 Alert.alert('НейроСцена', 'Твоя творческая студия на компьютере.');
-              } else if (item === 'Выход' || item === 'Sign out') {
-                if (authToken) logoutAllDevices();
-                else Alert.alert('НейроСцена', 'Вы уже используете приложение как гость.');
-              } else if (item === (uiText(language, 'Help / FAQ', 'Помощь / FAQ'))) {
-                setShowSupport(false);
-                setShowNotifications(false);
-                setShowFaq(true);
-                void loadFaq();
-              } else if (item === (uiText(language, 'Support', 'Поддержка'))) {
+              } else if (item === 'Поддержка') {
                 setSelectedSupportTicket(null);
                 setShowNotifications(false);
                 setShowSupport(true);
                 void loadSupportTickets();
-              } else if (item === (uiText(language, 'Notifications', 'Уведомления'))) {
+              } else if (item === 'Уведомления') {
                 setShowSupport(false);
                 setShowNotifications(true);
                 void loadNotifications();
-              } else {
-                Alert.alert(item, uiText(language, 'This section will be connected in a later stage.', 'Этот раздел будет подключён на следующем этапе.'));
               }
             }}
           >
-            <Text style={styles.menuIcon}>{item === 'Мои видео' ? '▣' : item === 'Уведомления' ? '♧' : item === 'О приложении' ? 'ⓘ' : item === 'Поддержка' ? '?' : '⇥'}</Text>
+            <Text style={styles.menuIcon}>{item === 'Уведомления' ? '♧' : item === 'Покупки и кредиты' ? '▤' : item === 'Настройки' ? '⚙' : item === 'О приложении' ? 'ⓘ' : '♙'}</Text>
             <Text style={styles.menuText}>{item}</Text>
             {item === 'Уведомления' && unreadNotifications > 0 && <View style={styles.menuNotificationBadge}><Text style={styles.menuNotificationText}>{Math.min(unreadNotifications, 9)}</Text></View>}
             <Text style={styles.menuArrow}>›</Text>
           </TouchableOpacity>
         ))}
         </View>
+        {authToken && (
+          <View style={styles.profileAccountActions}>
+            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={logoutAllDevices} disabled={authBusy}>
+              <Text style={styles.authSecondaryText}>Выйти</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={deleteAccount} disabled={authBusy}>
+              <Text style={[styles.authLinkText, { color: '#FF8A93' }]}>Удалить аккаунт и личные данные</Text>
+            </TouchableOpacity>
+          </View>
+        )}
         {authToken && ['owner', 'admin'].includes(authUser?.role) && (
           <TouchableOpacity activeOpacity={0.86}
             style={[styles.menuItem, { marginTop: 12, borderBottomColor: BLUE }]}
@@ -3469,6 +3469,10 @@ const COSMIC_OVERRIDES = {
   creditCoinsReferenceCrop: { position: 'absolute', width: '663%', height: 1412, left: '-421%', top: -372 },
   creditBalanceValue: { fontSize: 32, lineHeight: 36, color: '#FFE08A', fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 12, marginTop: 0 },
   creditBalanceCaption: { color: '#FFFFFF', fontSize: 13, lineHeight: 17, fontWeight: '700' },
+  creditPackagesHeading: { color: '#FFFFFF', fontSize: 14, fontWeight: '800', marginTop: 3, marginBottom: 2 },
+  creditBenefits: { marginTop: 12, marginBottom: 7, paddingHorizontal: 4, gap: 5 },
+  creditBenefit: { color: '#D9EBFF', fontSize: 13, lineHeight: 17, fontWeight: '600' },
+  profileAccountActions: { marginTop: 10 },
   packageCard: { minHeight: 62, paddingVertical: 11, paddingHorizontal: 13, marginTop: 9, borderRadius: 13, backgroundColor: 'rgba(10,28,58,0.98)', borderColor: 'rgba(40,125,218,0.65)' },
   packageAmount: { color: '#F5F9FF', fontSize: 15, fontWeight: '800' },
   popularBadge: { backgroundColor: '#087BFF', borderColor: '#7BD7FF', borderWidth: 1, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 4 },
