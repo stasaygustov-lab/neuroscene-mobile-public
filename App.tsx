@@ -2941,7 +2941,7 @@ function FAQScreen({
       {loading && <ActivityIndicator color={BLUE} style={{ marginVertical: 12 }} />}
       {!loading && visibleItems.length === 0 && <Text style={styles.note}>{uiText(language, 'No matching questions found.', 'По этому запросу ничего не найдено.')}</Text>}
       {visibleItems.map((item) => (
-        <View key={item.faq_id} style={styles.galleryCard}>
+        <View key={item.faq_id} style={styles.contentPanelCard}>
           <Text style={styles.eyebrow}>{categoryName(item.category)}{!item.is_active ? ' · ' + (uiText(language, 'HIDDEN', 'СКРЫТО')) : ''}</Text>
           <Text style={styles.packageAmount}>{faqText(language, item, 'question')}</Text>
           <Text style={styles.description}>{faqText(language, item, 'answer')}</Text>
@@ -3089,7 +3089,7 @@ function SupportScreen({
             </TouchableOpacity>
           )}
           {(selectedTicket.messages || []).map((item: any) => (
-            <View key={item.message_id} style={[styles.galleryCard, { marginTop: 9 }]}>
+            <View key={item.message_id} style={[styles.contentPanelCard, { marginTop: 9 }]}>
               <Text style={styles.eyebrow}>
                 {item.sender_role === 'user' ? (uiText(language, 'YOU', 'ВЫ')) : (uiText(language, 'SUPPORT', 'ПОДДЕРЖКА'))}
               </Text>
@@ -3462,6 +3462,8 @@ const COSMIC_OVERRIDES = {
   galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 8 },
   galleryCard: { width: '48.2%', padding: 0, marginTop: 8, marginBottom: 4, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
   notificationCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
+  contentPanelCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
+
 
   galleryPreview: { borderRadius: 10, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(67,157,255,0.4)' },
   galleryLimit: { textAlign: 'center', color: '#B5D8FF', marginTop: 12, marginBottom: 5, fontSize: 12 },
