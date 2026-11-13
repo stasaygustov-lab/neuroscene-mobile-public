@@ -2075,7 +2075,7 @@ export default function App() {
           <Text style={styles.introTagline}>Ваши идеи —{'\n'}на экране</Text>
           <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
         </Animated.View>
-      )}}
+      )}
     </SafeAreaView>
   );
 }
