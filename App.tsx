@@ -1927,7 +1927,11 @@ export default function App() {
             <Text style={styles.menuArrow}>›</Text>
           </TouchableOpacity>
         )}
-        <Text style={styles.version}>НЕЙРОСЦЕНА · {uiText(language, 'VERSION 1.0', 'ВЕРСИЯ 1.0')}</Text>
+        <View style={styles.profileAboutCard}>
+          <Text style={styles.profileAboutTitle}>НейроСцена</Text>
+          <Text style={styles.profileAboutVersion}>Версия 1.0.0</Text>
+          <Text style={styles.profileAboutTagline}>Создавай. Вдохновляй. Делись.</Text>
+        </View>
       </View>
     );
   };
@@ -3372,7 +3376,7 @@ const COSMIC_OVERRIDES = {
   buyCreditsButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
   buyCreditsHint: { color: '#C5E5FF', fontSize: 10, marginTop: 2 },
   creditNeverExpire: { textAlign: 'center', color: '#A9C8EA', fontSize: 13, marginTop: 8, marginBottom: 12 },
-  profileSignOutButton: { alignSelf: 'center', minWidth: 116, minHeight: 36, paddingHorizontal: 18, paddingVertical: 7, borderRadius: 11, borderWidth: 1, borderColor: '#00AFFF', backgroundColor: 'rgba(2,18,43,0.9)', alignItems: 'center', justifyContent: 'center', marginTop: -4, marginBottom: 12 },
+  profileSignOutButton: { alignSelf: 'center', minWidth: 116, minHeight: 34, paddingHorizontal: 18, paddingVertical: 6, borderRadius: 10, borderWidth: 1, borderColor: '#00AFFF', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', marginTop: -2, marginBottom: 5 },
   profileSignOutText: { color: '#42D8FF', fontSize: 13, fontWeight: '700' },
   profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
   profileSignOutButton: { alignSelf: 'center', minWidth: 116, minHeight: 36, paddingHorizontal: 18, paddingVertical: 7, borderRadius: 11, borderWidth: 1, borderColor: '#00AFFF', backgroundColor: 'rgba(2,18,43,0.9)', alignItems: 'center', justifyContent: 'center', marginTop: -4, marginBottom: 12 },
@@ -3470,18 +3474,23 @@ const COSMIC_OVERRIDES = {
   creditBenefits: { marginTop: 12, marginBottom: 7, paddingHorizontal: 4, gap: 5 },
   creditBenefit: { color: '#D9EBFF', fontSize: 13, lineHeight: 17, fontWeight: '600' },
   profileAccountActions: { marginTop: 10 },
+  profileAboutCard: { minHeight: 76, marginTop: 10, marginBottom: 6, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 13, backgroundColor: 'rgba(4,20,48,0.9)', borderWidth: 1, borderColor: 'rgba(23,89,158,0.36)', alignItems: 'center', justifyContent: 'center' },
+  profileAboutTitle: { color: '#EAF4FF', fontSize: 13, lineHeight: 17, fontWeight: '800' },
+  profileAboutVersion: { color: '#B6CBE4', fontSize: 10, lineHeight: 14, marginTop: 1 },
+  profileAboutTagline: { color: '#69BFFF', fontSize: 10, lineHeight: 14, marginTop: 4 },
+
   packageCard: { minHeight: 62, paddingVertical: 11, paddingHorizontal: 13, marginTop: 9, borderRadius: 13, backgroundColor: 'rgba(10,28,58,0.98)', borderColor: 'rgba(40,125,218,0.65)' },
   packageAmount: { color: '#F5F9FF', fontSize: 15, fontWeight: '800' },
   popularBadge: { backgroundColor: '#087BFF', borderColor: '#7BD7FF', borderWidth: 1, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 4 },
-  profileIdentity: { alignItems: 'center', paddingTop: 10, paddingBottom: 12, marginBottom: 8, borderRadius: 18, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
-  profileGuestAvatar: { width: 76, height: 76, borderRadius: 38, borderColor: 'transparent', backgroundColor: 'transparent', shadowColor: '#00A8FF', shadowOpacity: 0.72, shadowRadius: 16, elevation: 7 },
+  profileIdentity: { alignItems: 'center', paddingTop: 4, paddingBottom: 5, marginBottom: 2, borderRadius: 18, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
+  profileGuestAvatar: { width: 76, height: 76, borderRadius: 38, borderColor: '#00AFFF', borderWidth: 1.5, backgroundColor: 'transparent', shadowColor: '#00A8FF', shadowOpacity: 0.72, shadowRadius: 16, elevation: 7 },
   profileGuestHead: { backgroundColor: 'transparent', borderWidth: 2, borderColor: '#35BFFF' },
   profileGuestBody: { backgroundColor: 'transparent', borderWidth: 2, borderColor: '#35BFFF' },
   profileGuestName: { color: '#FFFFFF', fontSize: 18, fontWeight: '800' },
   profileGuestStatus: { color: '#83BFFF', fontSize: 12, marginTop: 4 },
   profileCard: { backgroundColor: 'rgba(5,24,56,0.92)', borderColor: 'rgba(35,127,222,0.7)', borderRadius: 14 },
-  profileMenuCard: { backgroundColor: 'rgba(5,21,48,0.94)', borderColor: 'rgba(34,112,196,0.58)', borderWidth: 1, borderRadius: 15, paddingHorizontal: 12 },
-  menuItem: { borderBottomColor: 'rgba(59,119,190,0.24)', minHeight: 54 },
+  profileMenuCard: { backgroundColor: 'transparent', borderColor: 'transparent', borderWidth: 0, borderRadius: 0, paddingHorizontal: 2 },
+  menuItem: { borderBottomColor: 'rgba(59,119,190,0.24)', minHeight: 46, borderBottomWidth: 0 },
   introOverlay: { backgroundColor: '#01091D' },
   introReelWrap: { top: '8%', width: 330, height: 350 },
   introFilmStrip: { width: 360, height: 84, borderColor: '#22A9FF', shadowRadius: 26 },
