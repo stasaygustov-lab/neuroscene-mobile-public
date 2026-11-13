@@ -2,6 +2,7 @@
 """Capture NeuroScene Android smoke-test screenshots using adb."""
 from pathlib import Path
 import re
+import hashlib
 import subprocess
 import time
 import xml.etree.ElementTree as ET
@@ -79,9 +80,6 @@ for label, index, filename in [
     tap_text(label, x, nav_y)
     time.sleep(3)
     capture(filename)
-    if label == "Кредиты":
-        tap_text("Назад", 55, 135)
-        time.sleep(2)
     if label == "Профиль":
         tap_text("Войти по email", width // 2, int(height * 0.70))
         time.sleep(2)
@@ -98,4 +96,16 @@ required = [
 missing = [name for name in required if not (OUT / name).is_file() or (OUT / name).stat().st_size < 1000]
 if missing:
     raise SystemExit(f"Missing or invalid screenshots: {missing}")
-print(f"Successfully captured {len(required)} screenshots", flush=True)
+
+hashes = {
+    name: hashlib.sha256((OUT / name).read_bytes()).hexdigest()
+    for name in required
+}
+duplicates = {}
+for name, digest in hashes.items():
+    duplicates.setdefault(digest, []).append(name)
+duplicates = [names for names in duplicates.values() if len(names) > 1]
+if duplicates:
+    raise SystemExit(f"Some screen captures are identical; navigation may have failed: {duplicates}")
+
+print(f"Successfully captured {len(required)} distinct screenshots", flush=True)
