@@ -63,6 +63,7 @@ jobs:
     name: Capture Android UI screens
     needs: build-android-apk
     runs-on: ubuntu-24.04
+    timeout-minutes: 25
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -76,6 +77,8 @@ jobs:
           arch: x86_64
           profile: pixel_2
           emulator-options: -no-window -no-audio -no-boot-anim -camera-back none -camera-front none
+          emulator-boot-timeout: 600
+          disable-animations: true
           script: |
             set -euo pipefail
             mkdir -p screenshots
@@ -87,41 +90,58 @@ jobs:
             sleep 5
             adb shell screencap -p /sdcard/create.png
             adb pull /sdcard/create.png screenshots/01-create.png
+
             python3 - <<'PY'
-            import subprocess, time, xml.etree.ElementTree as ET
-            targets = [("Галерея", "02-gallery.png"), ("Кредиты", "03-credits.png"), ("Профиль", "04-profile.png")]
-            for label, filename in targets:
-              subprocess.run(["adb","shell","uiautomator","dump","/sdcard/window.xml"],check=True,stdout=subprocess.DEVNULL)
-              root = ET.fromstring(subprocess.check_output(["adb","shell","cat","/sdcard/window.xml"],text=True))
-              candidates = [n for n in root.iter("node") if n.attrib.get("text")==label or n.attrib.get("content-desc")==label]
-              if not candidates: raise SystemExit(f"Cannot locate navigation item: {label}")
-              def cy(node):
-                b=list(map(int,node.attrib["bounds"].replace("][",",").strip("[]").split(",")))
-                return (b[1]+b[3])//2
-              node=max(candidates,key=cy)
-              b=list(map(int,node.attrib["bounds"].replace("][",",").strip("[]").split(",")))
-              subprocess.run(["adb","shell","input","tap",str((b[0]+b[2])//2),str((b[1]+b[3])//2)],check=True)
+            import subprocess, time, xml.etree.ElementTree as ET, re
+
+            def run(args, timeout=45, **kwargs):
+              return subprocess.run(args, check=True, timeout=timeout, **kwargs)
+
+            def screen_size():
+              value = subprocess.check_output(["adb", "shell", "wm", "size"], text=True, timeout=15)
+              match = re.search(r"(\\d+)x(\\d+)", value)
+              if not match:
+                raise RuntimeError(f"Cannot read emulator screen size: {value}")
+              return int(match.group(1)), int(match.group(2))
+
+            width, height = screen_size()
+
+            def hierarchy():
+              run(["adb", "shell", "uiautomator", "dump", "/sdcard/window.xml"], timeout=50, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+              raw = subprocess.check_output(["adb", "shell", "cat", "/sdcard/window.xml"], text=True, timeout=15)
+              return ET.fromstring(raw)
+
+            def tap_text(label, fallback_x, fallback_y):
+              try:
+                root = hierarchy()
+                candidates = [n for n in root.iter("node") if n.attrib.get("text") == label or n.attrib.get("content-desc") == label]
+                if candidates:
+                  def bounds(node):
+                    return list(map(int, node.attrib["bounds"].replace("][", ",").strip("[]").split(",")))
+                  b = bounds(candidates[0])
+                  run(["adb", "shell", "input", "tap", str((b[0]+b[2])//2), str((b[1]+b[3])//2)], timeout=15)
+                  return
+              except Exception as exc:
+                print(f"Accessibility lookup for {label!r} unavailable: {exc}")
+              run(["adb", "shell", "input", "tap", str(fallback_x), str(fallback_y)], timeout=15)
+
+            nav_y = height - 180
+            tabs = [("Галерея", 1), ("Кредиты", 2), ("Профиль", 3)]
+            for label, index in tabs:
+              x = width * (2 * index + 1) // 8
+              tap_text(label, x, nav_y)
               time.sleep(3)
-              subprocess.run(["adb","shell","screencap","-p",f"/sdcard/{filename}"],check=True)
-              subprocess.run(["adb","pull",f"/sdcard/{filename}",f"screenshots/{filename}"],check=True)
-              if label=="Кредиты":
-                subprocess.run(["adb","shell","uiautomator","dump","/sdcard/window.xml"],check=True,stdout=subprocess.DEVNULL)
-                root=ET.fromstring(subprocess.check_output(["adb","shell","cat","/sdcard/window.xml"],text=True))
-                backs=[n for n in root.iter("node") if n.attrib.get("content-desc")=="Назад" or n.attrib.get("text")=="‹"]
-                if not backs: raise SystemExit("Cannot locate Credits back button")
-                b=list(map(int,backs[0].attrib["bounds"].replace("][",",").strip("[]").split(",")))
-                subprocess.run(["adb","shell","input","tap",str((b[0]+b[2])//2),str((b[1]+b[3])//2)],check=True)
+              filename = {"Галерея":"02-gallery.png", "Кредиты":"03-credits.png", "Профиль":"04-profile.png"}[label]
+              run(["adb", "shell", "screencap", "-p", f"/sdcard/{filename}"])
+              run(["adb", "pull", f"/sdcard/{filename}", f"screenshots/{filename}"])
+              if label == "Кредиты":
+                tap_text("Назад", 55, 135)
                 time.sleep(2)
-              if label=="Профиль":
-                subprocess.run(["adb","shell","uiautomator","dump","/sdcard/window.xml"],check=True,stdout=subprocess.DEVNULL)
-                root=ET.fromstring(subprocess.check_output(["adb","shell","cat","/sdcard/window.xml"],text=True))
-                emails=[n for n in root.iter("node") if n.attrib.get("text")=="Войти по email"]
-                if not emails: raise SystemExit("Cannot locate email sign-in control")
-                b=list(map(int,emails[0].attrib["bounds"].replace("][",",").strip("[]").split(",")))
-                subprocess.run(["adb","shell","input","tap",str((b[0]+b[2])//2),str((b[1]+b[3])//2)],check=True)
-                time.sleep(1)
-                subprocess.run(["adb","shell","screencap","-p","/sdcard/email-login.png"],check=True)
-                subprocess.run(["adb","pull","/sdcard/email-login.png","screenshots/05-email-login.png"],check=True)
+              if label == "Профиль":
+                tap_text("Войти по email", width // 2, int(height * 0.70))
+                time.sleep(2)
+                run(["adb", "shell", "screencap", "-p", "/sdcard/05-email-login.png"])
+                run(["adb", "pull", "/sdcard/05-email-login.png", "screenshots/05-email-login.png"])
             PY
       - uses: actions/upload-artifact@v4
         with:
