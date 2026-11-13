@@ -85,11 +85,11 @@ jobs:
             adb install artifacts/app-release.apk
             adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 1
             sleep 1
-            adb shell screencap -p /sdcard/splash.png
-            adb pull /sdcard/splash.png screenshots/00-splash.png
+            adb shell screencap -p /data/local/tmp/splash.png
+            adb pull /data/local/tmp/splash.png screenshots/00-splash.png
             sleep 5
-            adb shell screencap -p /sdcard/create.png
-            adb pull /sdcard/create.png screenshots/01-create.png
+            adb shell screencap -p /data/local/tmp/create.png
+            adb pull /data/local/tmp/create.png screenshots/01-create.png
 
             python3 - <<'PY'
             import subprocess, time, xml.etree.ElementTree as ET, re
@@ -107,8 +107,8 @@ jobs:
             width, height = screen_size()
 
             def hierarchy():
-              run(["adb", "shell", "uiautomator", "dump", "/sdcard/window.xml"], timeout=50, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-              raw = subprocess.check_output(["adb", "shell", "cat", "/sdcard/window.xml"], text=True, timeout=15)
+              run(["adb", "shell", "uiautomator", "dump", "/data/local/tmp/window.xml"], timeout=50, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+              raw = subprocess.check_output(["adb", "shell", "cat", "/data/local/tmp/window.xml"], text=True, timeout=15)
               return ET.fromstring(raw)
 
             def tap_text(label, fallback_x, fallback_y):
@@ -130,16 +130,16 @@ jobs:
               tap_text(label, x, nav_y)
               time.sleep(3)
               filename = {"Галерея":"02-gallery.png", "Кредиты":"03-credits.png", "Профиль":"04-profile.png"}[label]
-              run(["adb", "shell", "screencap", "-p", f"/sdcard/{filename}"])
-              run(["adb", "pull", f"/sdcard/{filename}", f"screenshots/{filename}"])
+              run(["adb", "shell", "screencap", "-p", f"/data/local/tmp/{filename}"])
+              run(["adb", "pull", f"/data/local/tmp/{filename}", f"screenshots/{filename}"])
               if label == "Кредиты":
                 tap_text("Назад", 55, 135)
                 time.sleep(2)
               if label == "Профиль":
                 tap_text("Войти по email", width // 2, int(height * 0.70))
                 time.sleep(2)
-                run(["adb", "shell", "screencap", "-p", "/sdcard/05-email-login.png"])
-                run(["adb", "pull", "/sdcard/05-email-login.png", "screenshots/05-email-login.png"])
+                run(["adb", "shell", "screencap", "-p", "/data/local/tmp/05-email-login.png"])
+                run(["adb", "pull", "/data/local/tmp/05-email-login.png", "screenshots/05-email-login.png"])
             PY
       - uses: actions/upload-artifact@v4
         with:
