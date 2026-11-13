@@ -1796,7 +1796,6 @@ export default function App() {
               ))}
             </View>
           )}
-          <Text style={styles.creditNeverExpire}>∞  Кредиты не сгорают</Text>
         </View>
       );
     }
@@ -1816,19 +1815,7 @@ export default function App() {
               <Text style={styles.profileGuestName}>{authUser.display_name || authUser.name || authUser.email || 'Пользователь'}</Text>
               <Text style={styles.profileGuestStatus}>{authUser.email || ''}</Text>
             </View>
-            <View style={styles.profileCard}>
-              <View style={styles.avatar}><Text style={styles.avatarText}>Н+С</Text></View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.profileName}>{uiText(language, 'YOUR ACCOUNT', 'ВАШ АККАУНТ')}</Text>
-                <Text style={styles.mutedText}>{authUser.email}</Text>
-              </View>
-            </View>
-            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={logoutAllDevices} disabled={authBusy}>
-              <Text style={styles.authSecondaryText}>{uiText(language, 'Sign out all devices', 'Выйти со всех устройств')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={deleteAccount} disabled={authBusy}>
-              <Text style={[styles.authSecondaryText, { color: '#FF7777' }]}>{uiText(language, 'Delete account and personal data', 'Удалить аккаунт и личные данные')}</Text>
-            </TouchableOpacity>
+
           </>
         ) : (
           <>
