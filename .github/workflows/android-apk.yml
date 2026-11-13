@@ -1,0 +1,131 @@
+name: NeuroScene Android APK and UI smoke test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-android-apk:
+    name: Build standalone Android APK
+    runs-on: ubuntu-24.04
+    env:
+      EXPO_PUBLIC_API_URL: ${{ vars.EXPO_PUBLIC_API_URL }}
+      EXPO_PUBLIC_VK_CLIENT_ID: ${{ vars.EXPO_PUBLIC_VK_CLIENT_ID }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools'
+          accept-android-sdk-licenses: true
+      - name: Install Android platform and NDK
+        run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
+      - run: npm ci
+      - name: Fit launcher logo inside Android safe area
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install Pillow
+          .venv/bin/python scripts/fit-android-icon.py
+      - name: Generate native Android project
+        run: npx expo prebuild --platform android --no-install --clean
+      - name: Build standalone installable APK
+        run: |
+          cd android
+          chmod +x ./gradlew
+          ./gradlew --no-daemon assembleRelease
+      - name: Verify standalone APK and embedded JavaScript
+        run: |
+          APK="android/app/build/outputs/apk/release/app-release.apk"
+          test -s "$APK"
+          unzip -l "$APK" | grep -E 'assets/index.android.bundle'
+          ls -lh "$APK"
+          file "$APK"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: neurosScene-preview-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+          retention-days: 7
+
+  visual-smoke-test:
+    name: Capture Android UI screens
+    needs: build-android-apk
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: neurosScene-preview-apk
+          path: artifacts
+      - name: Start Android emulator and capture screens
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          emulator-options: -no-window -no-audio -no-boot-anim -camera-back none -camera-front none
+          script: |
+            set -euo pipefail
+            mkdir -p screenshots
+            adb install artifacts/app-release.apk
+            adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 1
+            sleep 1
+            adb shell screencap -p /sdcard/splash.png
+            adb pull /sdcard/splash.png screenshots/00-splash.png
+            sleep 5
+            adb shell screencap -p /sdcard/create.png
+            adb pull /sdcard/create.png screenshots/01-create.png
+            python3 - <<'PY'
+            import subprocess, time, xml.etree.ElementTree as ET
+            targets = [("Галерея", "02-gallery.png"), ("Кредиты", "03-credits.png"), ("Профиль", "04-profile.png")]
+            for label, filename in targets:
+              subprocess.run(["adb","shell","uiautomator","dump","/sdcard/window.xml"],check=True,stdout=subprocess.DEVNULL)
+              root = ET.fromstring(subprocess.check_output(["adb","shell","cat","/sdcard/window.xml"],text=True))
+              candidates = [n for n in root.iter("node") if n.attrib.get("text")==label or n.attrib.get("content-desc")==label]
+              if not candidates: raise SystemExit(f"Cannot locate navigation item: {label}")
+              def cy(node):
+                b=list(map(int,node.attrib["bounds"].replace("][",",").strip("[]").split(",")))
+                return (b[1]+b[3])//2
+              node=max(candidates,key=cy)
+              b=list(map(int,node.attrib["bounds"].replace("][",",").strip("[]").split(",")))
+              subprocess.run(["adb","shell","input","tap",str((b[0]+b[2])//2),str((b[1]+b[3])//2)],check=True)
+              time.sleep(3)
+              subprocess.run(["adb","shell","screencap","-p",f"/sdcard/{filename}"],check=True)
+              subprocess.run(["adb","pull",f"/sdcard/{filename}",f"screenshots/{filename}"],check=True)
+              if label=="Кредиты":
+                subprocess.run(["adb","shell","uiautomator","dump","/sdcard/window.xml"],check=True,stdout=subprocess.DEVNULL)
+                root=ET.fromstring(subprocess.check_output(["adb","shell","cat","/sdcard/window.xml"],text=True))
+                backs=[n for n in root.iter("node") if n.attrib.get("content-desc")=="Назад" or n.attrib.get("text")=="‹"]
+                if not backs: raise SystemExit("Cannot locate Credits back button")
+                b=list(map(int,backs[0].attrib["bounds"].replace("][",",").strip("[]").split(",")))
+                subprocess.run(["adb","shell","input","tap",str((b[0]+b[2])//2),str((b[1]+b[3])//2)],check=True)
+                time.sleep(2)
+              if label=="Профиль":
+                subprocess.run(["adb","shell","uiautomator","dump","/sdcard/window.xml"],check=True,stdout=subprocess.DEVNULL)
+                root=ET.fromstring(subprocess.check_output(["adb","shell","cat","/sdcard/window.xml"],text=True))
+                emails=[n for n in root.iter("node") if n.attrib.get("text")=="Войти по email"]
+                if not emails: raise SystemExit("Cannot locate email sign-in control")
+                b=list(map(int,emails[0].attrib["bounds"].replace("][",",").strip("[]").split(",")))
+                subprocess.run(["adb","shell","input","tap",str((b[0]+b[2])//2),str((b[1]+b[3])//2)],check=True)
+                time.sleep(1)
+                subprocess.run(["adb","shell","screencap","-p","/sdcard/email-login.png"],check=True)
+                subprocess.run(["adb","pull","/sdcard/email-login.png","screenshots/05-email-login.png"],check=True)
+            PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: neurosScene-visual-screenshots
+          path: screenshots/*.png
+          if-no-files-found: error
+          retention-days: 7
