@@ -2047,67 +2047,14 @@ export default function App() {
 
       {showIntro && (
         <Animated.View style={[styles.introOverlay, { opacity: introOpacity }]}>
-          <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-            <View style={styles.introGlowTop} />
-            <View style={styles.introGlowCore} />
-            <View style={styles.introGlowBottom} />
-            <View style={styles.introGrid} />
-            <View style={styles.introHorizon} />
-            {Array.from({ length: 22 }, (_, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.introStar,
-                  {
-                    top: `${(index * 37 + 9) % 88}%`,
-                    left: `${(index * 53 + 5) % 96}%`,
-                    opacity: 0.22 + ((index * 11) % 7) / 10,
-                  },
-                ]}
-              />
-            ))}
-          </View>
-
-          <View style={styles.introEyebrow}>
-            <View style={styles.introEyebrowDot} />
-            <Text style={styles.introEyebrowText}>AI FILM STUDIO</Text>
-          </View>
-
-          <Animated.View
-            style={[
-              styles.introArtwork,
-              { transform: [{ scale: introScale }] },
-            ]}
-          >
-            <Animated.View
-              style={[
-                styles.introHalo,
-                { transform: [{ scale: introPulseScale }] },
-              ]}
-            />
-            <Image
-              source={require('./Футуристический серебряно-синий монограмный логотип HC-1.png')}
-              resizeMode="contain"
-              style={styles.introLogoImage}
-              accessibilityLabel="Логотип НейроСцена"
-            />
-          </Animated.View>
-
-          <View style={styles.introBrand}>
-            <Text style={styles.introTitle}>Нейро<Text style={styles.introTitleAccent}>Сцена</Text></Text>
-            <View style={styles.introAccentLine} />
-            <Text style={styles.introTagline}>Ваши идеи — на экране</Text>
-            <Text style={styles.introSubline}>ПРЕВРАЩАЕМ ВООБРАЖЕНИЕ В КИНО</Text>
-          </View>
-
-          <View style={styles.introLoading}>
-            <View style={styles.introProgressTrack}>
-              <View style={styles.introProgressFill} />
-            </View>
-            <Text style={styles.introLoadingText}>ЗАГРУЗКА СТУДИИ</Text>
-          </View>
+          <Image
+            source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+            resizeMode="stretch"
+            style={styles.introReferenceImage}
+            accessibilityLabel="Утверждённая заставка НейроСцена"
+          />
         </Animated.View>
-      )}
+      )}}
     </SafeAreaView>
   );
 }
@@ -3577,6 +3524,7 @@ const styles = StyleSheet.create({
   ambientStarTwo: { position: 'absolute', top: '43%', right: '13%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#70C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
   ambientStarThree: { position: 'absolute', bottom: '19%', left: '28%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#A7E7FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
   introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#030817', alignItems: 'center', justifyContent: 'center' },
+  introReferenceImage: { position: 'absolute', width: '507%', height: '151%', left: '-5%', top: '-24%' },
   introGlowTop: { position: 'absolute', width: 420, height: 420, borderRadius: 210, top: '3%', alignSelf: 'center', backgroundColor: '#064AC4', opacity: 0.24, shadowColor: '#087CFF', shadowOpacity: 1, shadowRadius: 90, elevation: 24 },
   introGlowCore: { position: 'absolute', width: 290, height: 290, borderRadius: 145, top: '29%', alignSelf: 'center', backgroundColor: '#0B3B8B', opacity: 0.2, shadowColor: '#22AFFF', shadowOpacity: 0.9, shadowRadius: 55, elevation: 20 },
   introGlowBottom: { position: 'absolute', width: 520, height: 260, borderRadius: 260, bottom: '-2%', alignSelf: 'center', backgroundColor: '#005F91', opacity: 0.18, shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 75, elevation: 18 },
