@@ -67,6 +67,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
+      - uses: actions/checkout@v5
       - uses: actions/download-artifact@v4
         with:
           name: neurosScene-preview-apk
@@ -82,66 +83,9 @@ jobs:
           emulator-boot-timeout: 900
           script: |
             set -eu
-            mkdir -p screenshots
             adb install artifacts/app-release.apk
             adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 1
-            sleep 1
-            adb shell screencap -p /data/local/tmp/splash.png
-            adb pull /data/local/tmp/splash.png screenshots/00-splash.png
-            sleep 5
-            adb shell screencap -p /data/local/tmp/create.png
-            adb pull /data/local/tmp/create.png screenshots/01-create.png
-
-            python3 - <<'PY'
-            import subprocess, time, xml.etree.ElementTree as ET, re
-
-            def run(args, timeout=45, **kwargs):
-              return subprocess.run(args, check=True, timeout=timeout, **kwargs)
-
-            def screen_size():
-              value = subprocess.check_output(["adb", "shell", "wm", "size"], text=True, timeout=15)
-              match = re.search(r"(\d+)x(\d+)", value)
-              if not match:
-                raise RuntimeError(f"Cannot read emulator screen size: {value}")
-              return int(match.group(1)), int(match.group(2))
-
-            width, height = screen_size()
-
-            def hierarchy():
-              run(["adb", "shell", "uiautomator", "dump", "/data/local/tmp/window.xml"], timeout=50, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-              raw = subprocess.check_output(["adb", "shell", "cat", "/data/local/tmp/window.xml"], text=True, timeout=15)
-              return ET.fromstring(raw)
-
-            def tap_text(label, fallback_x, fallback_y):
-              try:
-                root = hierarchy()
-                candidates = [n for n in root.iter("node") if n.attrib.get("text") == label or n.attrib.get("content-desc") == label]
-                if candidates:
-                  b = list(map(int, candidates[0].attrib["bounds"].replace("][", ",").strip("[]").split(",")))
-                  run(["adb", "shell", "input", "tap", str((b[0]+b[2])//2), str((b[1]+b[3])//2)], timeout=15)
-                  return
-              except Exception as exc:
-                print(f"Accessibility lookup for {label!r} unavailable: {exc}")
-              run(["adb", "shell", "input", "tap", str(fallback_x), str(fallback_y)], timeout=15)
-
-            nav_y = height - 180
-            tabs = [("Галерея", 1), ("Кредиты", 2), ("Профиль", 3)]
-            for label, index in tabs:
-              x = width * (2 * index + 1) // 8
-              tap_text(label, x, nav_y)
-              time.sleep(3)
-              filename = {"Галерея":"02-gallery.png", "Кредиты":"03-credits.png", "Профиль":"04-profile.png"}[label]
-              run(["adb", "shell", "screencap", "-p", f"/data/local/tmp/{filename}"])
-              run(["adb", "pull", f"/data/local/tmp/{filename}", f"screenshots/{filename}"])
-              if label == "Кредиты":
-                tap_text("Назад", 55, 135)
-                time.sleep(2)
-              if label == "Профиль":
-                tap_text("Войти по email", width // 2, int(height * 0.70))
-                time.sleep(2)
-                run(["adb", "shell", "screencap", "-p", "/data/local/tmp/05-email-login.png"])
-                run(["adb", "pull", "/data/local/tmp/05-email-login.png", "screenshots/05-email-login.png"])
-            PY
+            python3 scripts/capture-android-screens.py
       - uses: actions/upload-artifact@v4
         with:
           name: neurosScene-visual-screenshots
