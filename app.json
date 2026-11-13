@@ -14,8 +14,7 @@
       "package": "com.neuroscene.app",
       "adaptiveIcon": {
         "backgroundColor": "#080B14",
-        "foregroundImage": "./assets/neuroscene-brand.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/neuroscene-brand.png"
       },
       "predictiveBackGestureEnabled": false
     },
