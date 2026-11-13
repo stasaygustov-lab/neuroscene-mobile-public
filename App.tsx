@@ -2114,26 +2114,18 @@ function CreateScreen({
 
   return (
     <View>
-      <View style={styles.headerBalance}>
-        <Text style={styles.headerBalanceLabel}>ВАШ БАЛАНС</Text>
-        <Text style={styles.headerBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
-      </View>
       <View style={styles.referenceHero}>
         <Image
           source={require('./НейроСцена_ синяя галактика творчества-3.png')}
           resizeMode="stretch"
           style={styles.referenceHeroImageCrop}
-          accessibilityLabel="Пейзаж из утверждённого макета НейроСцены"
+          accessibilityLabel="Экран создания видео из утверждённого макета НейроСцены"
         />
-        <View style={styles.referenceHeroCopy}>
-          <Text style={styles.referenceHeroTitle}>Создать видео</Text>
-          <Text style={styles.referenceHeroDescription}>Из текста или изображения</Text>
-        </View>
-        <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
-          <Text style={styles.referencePlay}>▶</Text>
-          <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
-        </TouchableOpacity>
       </View>
+      <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
+        <Text style={styles.referencePlay}>▶</Text>
+        <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+      </TouchableOpacity>
       <View style={styles.createFeatureHeading}><Text style={styles.sectionTitle}>ВОЗМОЖНОСТИ</Text></View>
       <View style={styles.createFeatureGrid}>
         <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => { setGenerationType('t2v'); setShowComposer(true); }}>
@@ -3458,9 +3450,8 @@ const COSMIC_OVERRIDES = {
   languageCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderColor: '#1765B2', borderRadius: 17 },
   version: { color: '#668BB7' },
   // Reference-parity pass: use the approved artwork and preserve live account data.
-  referenceHero: { height: 300, minHeight: 270, marginTop: 2, marginBottom: 16, borderRadius: 20, padding: 16, borderColor: 'rgba(48,160,255,0.82)', shadowOpacity: 0.42, shadowRadius: 24, overflow: 'hidden' },
-  referenceHeroImageCrop: { position: 'absolute', width: '582%', height: '606%', left: '-133%', top: '-156%' },
-  referenceHeroCopy: { marginTop: 44, marginBottom: 14, maxWidth: '88%' },
+  referenceHero: { height: 205, minHeight: 190, marginTop: 2, marginBottom: 14, borderRadius: 17, padding: 0, borderColor: 'rgba(48,160,255,0.82)', shadowOpacity: 0.42, shadowRadius: 24, overflow: 'hidden' },
+  referenceHeroImageCrop: { position: 'absolute', width: '582%', height: '412%', left: '-133%', top: '-106%' },
   referenceHeroTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 29, fontWeight: '900', textShadowColor: 'rgba(0,0,0,0.85)', textShadowRadius: 12 },
   referenceHeroDescription: { color: '#E0EDFF', fontSize: 13, lineHeight: 18, marginTop: 3, textShadowColor: 'rgba(0,0,0,0.8)', textShadowRadius: 8 },
   referenceCreateButton: { height: 54, borderRadius: 16, backgroundColor: '#087BFF', borderColor: '#54C9FF' },
