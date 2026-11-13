@@ -3355,7 +3355,7 @@ const COSMIC_OVERRIDES = {
   galleryHeader: { marginBottom: 2 },
   galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 4 },
   galleryCard: { width: '48.2%', padding: 5, marginTop: 8, marginBottom: 3, borderRadius: 12, backgroundColor: 'rgba(4,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.72)' },
-  galleryPreview: { width: '100%', aspectRatio: 1.02, borderRadius: 9, overflow: 'hidden', backgroundColor: '#06152D', position: 'relative' },
+  galleryPreview: { width: '100%', aspectRatio: 1.08, borderRadius: 9, overflow: 'hidden', backgroundColor: '#06152D', position: 'relative' },
   galleryDuration: { position: 'absolute', right: 5, bottom: 5, color: '#FFFFFF', fontSize: 10, fontWeight: '800', paddingHorizontal: 5, paddingVertical: 2, borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.78)' },
   videoFrame: { width: '100%', height: 142, backgroundColor: '#000000', borderRadius: 9, overflow: 'hidden', justifyContent: 'center' },
   videoPlayer: { width: '100%', height: 142, backgroundColor: '#000000' },
