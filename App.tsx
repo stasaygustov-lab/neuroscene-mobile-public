@@ -2566,7 +2566,7 @@ function NotificationScreen({
       {items.map((item) => (
         <TouchableOpacity activeOpacity={0.86}
           key={item.notification_id}
-          style={[styles.galleryCard, { marginTop: 9, borderColor: item.read_at ? '#253147' : BLUE }]}
+          style={[styles.notificationCard, { borderColor: item.read_at ? 'rgba(52,104,163,0.55)' : BLUE }]}
           onPress={() => !item.read_at && onRead(item.notification_id)}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -3461,6 +3461,8 @@ const COSMIC_OVERRIDES = {
   referenceCreateButtonText: { fontSize: 16, letterSpacing: 0.2 },
   galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 8 },
   galleryCard: { width: '48.2%', padding: 0, marginTop: 8, marginBottom: 4, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
+  notificationCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
+
   galleryPreview: { borderRadius: 10, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(67,157,255,0.4)' },
   galleryLimit: { textAlign: 'center', color: '#B5D8FF', marginTop: 12, marginBottom: 5, fontSize: 12 },
   creditsScreen: { paddingTop: 14 },
