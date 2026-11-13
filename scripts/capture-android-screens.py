@@ -50,14 +50,24 @@ def tap_text(label, fallback_x, fallback_y):
             or node.attrib.get("content-desc") == label
         ]
         if candidates:
-            bounds = list(map(
-                int,
-                candidates[0].attrib["bounds"].replace("][", ",").strip("[]").split(","),
-            ))
+            # Tab labels also appear as screen headings. Select the lowest
+            # matching text node so duplicate labels resolve to the bottom nav.
+            def bottom_edge(node):
+                bounds = list(map(
+                    int,
+                    node.attrib["bounds"].replace("][", ",").strip("[]").split(","),
+                ))
+                return bounds[3], bounds
+
+            _, bounds = max((bottom_edge(node) for node in candidates), key=lambda item: item[0])
             x = (bounds[0] + bounds[2]) // 2
             y = (bounds[1] + bounds[3]) // 2
             run(["adb", "shell", "input", "tap", str(x), str(y)], timeout=15)
-            print(f"Tapped {label!r} using accessibility bounds", flush=True)
+            print(
+                f"Tapped {label!r} using lowest accessibility match "
+                f"({len(candidates)} matching node(s))",
+                flush=True,
+            )
             return
     except Exception as exc:
         print(f"Accessibility lookup for {label!r} unavailable; using coordinate fallback: {exc}", flush=True)
