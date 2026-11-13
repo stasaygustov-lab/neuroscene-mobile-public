@@ -1768,7 +1768,7 @@ export default function App() {
               </View>
               <View style={styles.packageRight}>
                 {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярный</Text></View>}
-                <Text style={styles.packagePrice}>{amount === 500 ? '₽149' : amount === 1500 ? '₽399' : '₽999'}</Text>
+                <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
               </View>
             </View>
           ))}
@@ -3467,7 +3467,7 @@ const COSMIC_OVERRIDES = {
   creditsTitle: { color: '#FFFFFF', fontSize: 21, lineHeight: 26, fontWeight: '800' },
   creditIllustration: { height: 180, marginTop: 0, marginBottom: 12, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(37,139,255,0.72)', backgroundColor: 'rgba(5,24,57,0.88)', shadowColor: '#087BFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 6, overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 7 },
   creditCoinsWindow: { position: 'absolute', top: 0, left: 0, right: 0, height: 112, overflow: 'hidden' },
-  creditCoinsReferenceCrop: { position: 'absolute', width: '663%', height: 1412, left: '-421%', top: -372 },
+  creditCoinsReferenceCrop: { position: 'absolute', width: '624%', height: '694%', left: '-396%', top: '-178%' },
   creditBalanceValue: { fontSize: 32, lineHeight: 36, color: '#FFE08A', fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 12, marginTop: 0 },
   creditBalanceCaption: { color: '#FFFFFF', fontSize: 13, lineHeight: 17, fontWeight: '700' },
   creditPackagesHeading: { color: '#FFFFFF', fontSize: 14, fontWeight: '800', marginTop: 3, marginBottom: 2 },
