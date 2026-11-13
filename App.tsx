@@ -1761,7 +1761,7 @@ export default function App() {
           {[500, 1500, 5000].map((amount) => (
             <View style={styles.packageCard} key={amount}>
               <View style={styles.packageIconWrap}>
-                <Text style={styles.packageIcon}>▤</Text>
+                <Text style={styles.packageIcon}>🪙</Text>
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')} кредитов</Text>
@@ -1988,11 +1988,11 @@ export default function App() {
         {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
-      {tab !== 'Credits' && <View style={styles.bottomNav}>
+      <View style={styles.bottomNav}>
         {([
-          { id: 'Create', icon: '✧', label: 'Создать' },
+          { id: 'Create', icon: '⌂', label: 'Создать' },
           { id: 'Gallery', icon: '▧', label: 'Галерея' },
-          { id: 'Credits', icon: '✦', label: 'Кредиты' },
+          { id: 'Credits', icon: '▤', label: 'Кредиты' },
           { id: 'Profile', icon: '◉', label: 'Профиль' },
         ] as const).map((item) => (
           <TouchableOpacity activeOpacity={0.86}
@@ -2000,14 +2000,8 @@ export default function App() {
             style={[styles.navItem, tab === item.id && styles.navItemActive]}
             onPress={() => { setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
-            {item.id === 'Credits' ? (
-              <View style={styles.navCoin} accessibilityLabel="Монета">
-                <View style={styles.navCoinInner}>
-                  <Text style={styles.navCoinMark}>₽</Text>
-                </View>
-              </View>
-            ) : item.id === 'Profile' ? (
-              <View style={styles.navPerson} accessibilityLabel="Человечек">
+            {item.id === 'Profile' ? (
+              <View style={styles.navPerson} accessibilityLabel="Профиль">
                 <View style={styles.navPersonHead} />
                 <View style={styles.navPersonBody} />
               </View>
@@ -2019,7 +2013,7 @@ export default function App() {
             </Text>
           </TouchableOpacity>
         ))}
-      </View>}
+      </View>
 
       {showIntro && (
         <Animated.View style={[styles.introOverlay, { opacity: introOpacity }]}>
@@ -2411,7 +2405,7 @@ function GalleryScreen({
       <View style={styles.galleryHeader}>
         <Text style={styles.screenTitle}>Галерея</Text>
         <TouchableOpacity activeOpacity={0.86} style={styles.galleryFilterButton} onPress={onRefresh} accessibilityLabel="Обновить галерею">
-          <Text style={styles.galleryFilterIcon}>☷</Text>
+          <Text style={styles.galleryFilterIcon}>▽</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.galleryTabs}>
@@ -3387,7 +3381,7 @@ const COSMIC_OVERRIDES = {
   profileSettingsIcon: { color: '#C5E5FF', fontSize: 22 },
 
   galleryFilterButton: { width: 34, height: 34, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,28,67,0.75)', borderWidth: 1, borderColor: 'rgba(55,153,255,0.55)' },
-  galleryFilterIcon: { color: '#C5E9FF', fontSize: 19, lineHeight: 22 },
+  galleryFilterIcon: { color: '#EAF6FF', fontSize: 25, lineHeight: 27, fontWeight: '500' },
   galleryVideoTitle: { color: '#E7F3FF', fontSize: 14, marginTop: 10 },
   galleryDate: { color: '#9BB8D9', fontSize: 9, marginTop: 5 },
   galleryPrompt: { color: '#D5E6FA', fontSize: 10, lineHeight: 13, marginTop: 5 },
@@ -3415,7 +3409,7 @@ const COSMIC_OVERRIDES = {
   balanceLabel: { color: '#9BCBFF' },
   bigBalance: { fontSize: 42, textShadowColor: '#147DFF', textShadowRadius: 17 },
   packageIconWrap: { width: 34, height: 34, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginRight: 10, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
-  packageIcon: { color: '#FFD45E', fontSize: 24, textShadowColor: '#FFB52E', textShadowRadius: 9 },
+  packageIcon: { color: '#FFD45E', fontSize: 22, textShadowColor: '#FFB52E', textShadowRadius: 9 },
   packageDiamond: { color: '#53C9FF', textShadowColor: '#168BFF' },
   packageRight: { alignItems: 'flex-end', justifyContent: 'center', gap: 5 },
   popularBadgeText: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
@@ -3432,7 +3426,7 @@ const COSMIC_OVERRIDES = {
   authMonogram: { width: 100, height: 76, alignSelf: 'center', marginTop: 2 },
   authBrandTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 27, fontWeight: '900', textAlign: 'center', fontFamily: 'sans-serif-rounded', marginBottom: 18, textShadowColor: '#168BFF', textShadowRadius: 12 },
   authCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderRadius: 21, borderColor: '#1765B2', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 18, elevation: 6 },
-  bottomNav: { backgroundColor: 'rgba(1,7,19,0.99)', borderTopColor: '#1768B5', borderTopWidth: 1, paddingTop: 5, paddingBottom: 8, minHeight: 70, shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 12, elevation: 10 },
+  bottomNav: { backgroundColor: 'rgba(1,7,19,0.99)', borderTopColor: '#1768B5', borderTopWidth: 1, paddingTop: 5, paddingBottom: 8, minHeight: 70, flexDirection: 'row', shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 12, elevation: 10 },
   navItem: { minHeight: 54, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0 },
   navItemActive: { backgroundColor: 'transparent', borderColor: 'transparent', shadowColor: '#008CFF', shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
   navIcon: { color: '#4CAEFF', fontSize: 22 },
