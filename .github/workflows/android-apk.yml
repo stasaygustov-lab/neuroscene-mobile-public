@@ -66,7 +66,6 @@ jobs:
           retention-days: 7
 
   visual-smoke-test:
-    if: ${{ false }} # APK-only preview: emulator/UI checks require separate approval
     name: Capture Android UI screens
     needs: build-android-apk
     runs-on: ubuntu-24.04
@@ -90,8 +89,19 @@ jobs:
           script: |
             set -eu
             adb wait-for-device
+            adb logcat -c
             adb install -r artifacts/app-release.apk
             adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 1
+            sleep 15
+            if ! adb shell pidof com.neuroscene.app >/dev/null; then
+              echo "NeuroScene process exited after launch"
+              adb logcat -d
+              exit 1
+            fi
+            if adb logcat -d -s AndroidRuntime:E | grep -E 'FATAL EXCEPTION|Process: com.neuroscene.app'; then
+              echo "Fatal Android runtime exception detected"
+              exit 1
+            fi
             python3 scripts/capture-android-screens.py
       - uses: actions/upload-artifact@v4
         with:
