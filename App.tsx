@@ -2169,6 +2169,10 @@ function CreateScreen({
           </View>
           <View style={styles.referenceHeroShade} />
         </View>
+        <View style={styles.referenceHeroCopy}>
+          <Text style={styles.referenceHeroTitle}>Создать видео</Text>
+          <Text style={styles.referenceHeroDescription}>Из текста или изображения</Text>
+        </View>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
           <Text style={styles.referencePlay}>▶</Text>
           <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
@@ -3521,6 +3525,14 @@ const COSMIC_OVERRIDES = {
   createFeatureCard: { width: '48.2%', minHeight: 104, borderRadius: 15, paddingVertical: 12, paddingHorizontal: 8, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,28,70,0.92)', borderWidth: 1, borderColor: 'rgba(0,139,255,0.62)', shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 10, elevation: 4 },
   createFeatureIcon: { color: '#25C4FF', fontSize: 30, lineHeight: 36, marginBottom: 5, textShadowColor: '#087BFF', textShadowRadius: 12 },
   createFeatureText: { color: '#E8F4FF', fontSize: 13, lineHeight: 17, fontWeight: '700', textAlign: 'center' },
+  referenceHeroCopy: { marginBottom: 14, maxWidth: '88%' },
+  referenceHeroTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 29, fontWeight: '900', textShadowColor: 'rgba(0,0,0,0.85)', textShadowRadius: 12 },
+  referenceHeroDescription: { color: '#E0EDFF', fontSize: 13, lineHeight: 18, marginTop: 3, textShadowColor: 'rgba(0,0,0,0.8)', textShadowRadius: 8 },
+  galleryCard: { width: '48.2%', padding: 7, marginTop: 10, marginBottom: 4, borderRadius: 13, backgroundColor: 'rgba(5,20,45,0.96)', borderColor: 'rgba(40,119,208,0.72)' },
+  galleryPreview: { borderRadius: 10, overflow: 'hidden' },
+  videoFrame: { height: 126, borderRadius: 9 },
+  videoPlayer: { height: 126 },
+  galleryActions: { flexDirection: 'column', gap: 5 },
   notificationButton: { backgroundColor: 'rgba(4,28,63,0.98)', borderColor: '#1765B2' },
   languageCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderColor: '#1765B2', borderRadius: 17 },
   version: { color: '#668BB7' },
