@@ -1898,22 +1898,19 @@ export default function App() {
           </>
         )}
         <View style={styles.profileMenuCard}>
-        {['Notifications', 'Purchases and credits', 'Settings', 'About', 'Support', 'Sign out'].map((key) => uiText(language, key, ({
+        {['My videos', 'Notifications', 'About', 'Support', 'Sign out'].map((key, menuIndex) => uiText(language, key, ({
+          'My videos': 'Мои видео',
           'Notifications': 'Уведомления',
-          'Purchases and credits': 'Покупки и кредиты',
-          'Settings': 'Настройки',
           'About': 'О приложении',
           'Support': 'Поддержка',
           'Sign out': 'Выход',
         } as Record<string, string>)[key] || key)).map((item, menuIndex) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item}
-            style={[styles.menuItem, menuIndex === 5 && styles.menuItemLast]}
+            style={[styles.menuItem, menuIndex === 4 && styles.menuItemLast]}
             onPress={() => {
-              if (item === 'Покупки и кредиты') {
-                setTab('Credits');
-              } else if (item === 'Настройки') {
-                Alert.alert('Настройки', 'Настройки профиля и приложения');
+              if (item === 'Мои видео') {
+                setTab('Gallery');
               } else if (item === 'О приложении') {
                 Alert.alert('НейроСцена', 'Твоя творческая студия на компьютере.');
               } else if (item === 'Выход' || item === 'Sign out') {
@@ -1938,7 +1935,7 @@ export default function App() {
               }
             }}
           >
-            <Text style={styles.menuIcon}>{item === 'Уведомления' ? '♧' : item === 'Покупки и кредиты' ? '▤' : item === 'Настройки' ? '⚙' : item === 'О приложении' ? 'ⓘ' : item === 'Поддержка' ? '?' : '⇥'}</Text>
+            <Text style={styles.menuIcon}>{item === 'Мои видео' ? '▣' : item === 'Уведомления' ? '♧' : item === 'О приложении' ? 'ⓘ' : item === 'Поддержка' ? '?' : '⇥'}</Text>
             <Text style={styles.menuText}>{item}</Text>
             {item === 'Уведомления' && unreadNotifications > 0 && <View style={styles.menuNotificationBadge}><Text style={styles.menuNotificationText}>{Math.min(unreadNotifications, 9)}</Text></View>}
             <Text style={styles.menuArrow}>›</Text>
@@ -2217,12 +2214,6 @@ function CreateScreen({
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => { setGenerationType('i2v'); setShowComposer(true); }}>
           <Text style={styles.createFeatureIcon}>▣</Text><Text style={styles.createFeatureText}>Изображение в видео</Text>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => setShowComposer(true)}>
-          <Text style={styles.createFeatureIcon}>♫</Text><Text style={styles.createFeatureText}>Добавить звук</Text>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => setShowComposer(true)}>
-          <Text style={styles.createFeatureIcon}>✧</Text><Text style={styles.createFeatureText}>Улучшить промпт</Text>
         </TouchableOpacity>
       </View>
 
