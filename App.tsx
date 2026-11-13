@@ -2047,30 +2047,35 @@ export default function App() {
 
       {showIntro && (
         <Animated.View style={[styles.introOverlay, { opacity: introOpacity }]}>
+          <View style={styles.introStarField} pointerEvents="none">
+            {Array.from({ length: 34 }, (_, index) => (
+              <View key={index} style={[styles.introStar, { top: `${(index * 29 + 7) % 68}%`, left: `${(index * 43 + 11) % 96}%`, opacity: 0.28 + ((index * 7) % 7) / 10 }]} />
+            ))}
+          </View>
           <View style={styles.introNebulaTop} />
           <View style={styles.introNebulaBottom} />
+          <View style={styles.introHorizon} />
+          <View style={styles.introWaterGlow} />
           <Animated.View style={[styles.introOrbitOuter, { transform: [{ perspective: 900 }, { rotateX: '68deg' }, { rotateZ: introRotateZ }] }]} />
           <Animated.View style={[styles.introOrbitInner, { transform: [{ perspective: 900 }, { rotateY: '64deg' }, { rotateZ: introRotateReverse }] }]} />
           <Animated.View style={[styles.introLogoHalo, { transform: [{ scale: introPulseScale }] }]} />
           <Animated.View style={[styles.introReelWrap, { transform: [{ scale: introScale }, { rotateY: introRotateZ }] }]}>
-            <View style={styles.introFilmStrip} />
+            <View style={styles.introFilmStrip}>
+              <View style={styles.introFilmRailTop}>{Array.from({ length: 13 }, (_, index) => <View key={index} style={styles.introFilmPerforation} />)}</View>
+              <View style={styles.introFilmRailBottom}>{Array.from({ length: 13 }, (_, index) => <View key={index} style={styles.introFilmPerforation} />)}</View>
+            </View>
             <View style={styles.introReelOuter}>
-              <View style={styles.introReelHoleTop} />
-              <View style={styles.introReelHoleLeft} />
-              <View style={styles.introReelHoleRight} />
-              <View style={styles.introReelHoleBottomLeft} />
-              <View style={styles.introReelHoleBottomRight} />
-              <View style={styles.introReelHub}>
-                <Text style={styles.introReelPlay}>▶</Text>
-              </View>
+              <View style={styles.introReelHoleTop} /><View style={styles.introReelHoleLeft} /><View style={styles.introReelHoleRight} />
+              <View style={styles.introReelHoleBottomLeft} /><View style={styles.introReelHoleBottomRight} />
+              <View style={styles.introReelHub}><Text style={styles.introReelPlay}>▶</Text></View>
             </View>
           </Animated.View>
-          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{ '\\n' }Сцена</Animated.Text>
+          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{'\n'}Сцена</Animated.Text>
           <View style={styles.introAccentLine} />
-          <Text style={styles.introTagline}>Ваши идеи —{ '\\n' }на экране</Text>
+          <Text style={styles.introTagline}>Ваши идеи —{'\n'}на экране</Text>
           <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
         </Animated.View>
-      )}
+      )}}
     </SafeAreaView>
   );
 }
@@ -3510,15 +3515,21 @@ const styles = StyleSheet.create({
   ambientStarOne: { position: 'absolute', top: '18%', left: '17%', width: 4, height: 4, borderRadius: 2, backgroundColor: '#9BEAFF', shadowColor: '#39AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
   ambientStarTwo: { position: 'absolute', top: '43%', right: '13%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#70C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
   ambientStarThree: { position: 'absolute', bottom: '19%', left: '28%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#A7E7FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
-  introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#020615', alignItems: 'center', justifyContent: 'center' },
+  introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010714', alignItems: 'center', justifyContent: 'center' },
+  introStarField: { ...StyleSheet.absoluteFillObject },
+  introStar: { position: 'absolute', width: 2, height: 2, borderRadius: 1, backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 0.95, shadowRadius: 5 },
+  introWaterGlow: { position: 'absolute', left: '-22%', right: '-22%', bottom: '1%', height: '27%', borderTopWidth: 1, borderTopColor: 'rgba(71,183,255,0.32)', borderRadius: 260, backgroundColor: 'rgba(0,67,125,0.16)', transform: [{ scaleX: 1.15 }] },
   introNebulaTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: '7%', backgroundColor: '#064AC4', opacity: 0.28, shadowColor: '#078CFF', shadowOpacity: 1, shadowRadius: 80, elevation: 30 },
   introNebulaBottom: { position: 'absolute', width: 500, height: 260, borderRadius: 250, bottom: '4%', backgroundColor: '#006A9E', opacity: 0.19, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 75, elevation: 25 },
   introOrbitOuter: { position: 'absolute', width: 330, height: 330, borderRadius: 165, borderWidth: 2, borderColor: 'rgba(70,177,255,0.62)', shadowColor: '#168CFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 16 },
   introOrbitInner: { position: 'absolute', width: 265, height: 265, borderRadius: 132, borderWidth: 1.5, borderColor: 'rgba(129,218,255,0.42)' },
   introLogoHalo: { position: 'absolute', width: 255, height: 205, borderRadius: 105, backgroundColor: '#0756C5', opacity: 0.28, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 55, elevation: 30 },
   introLogoImage: { width: 270, height: 205 },
-  introReelWrap: { width: 280, height: 285, alignItems: 'center', justifyContent: 'center', marginTop: -8 },
-  introFilmStrip: { position: 'absolute', top: 10, left: 18, width: 300, height: 82, borderWidth: 9, borderColor: '#168CFF', borderRadius: 16, transform: [{ rotate: '-24deg' }], shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 20, elevation: 14 },
+  introReelWrap: { position: 'absolute', top: '10%', width: 310, height: 330, alignItems: 'center', justifyContent: 'center' },
+  introFilmStrip: { position: 'absolute', top: 35, left: -15, width: 340, height: 78, borderWidth: 8, borderColor: '#168CFF', borderRadius: 12, backgroundColor: 'rgba(3,22,58,0.88)', transform: [{ rotate: '-25deg' }], shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 22, elevation: 14, overflow: 'hidden' },
+  introFilmRailTop: { position: 'absolute', top: 1, left: 7, right: 7, height: 9, flexDirection: 'row', justifyContent: 'space-between' },
+  introFilmRailBottom: { position: 'absolute', bottom: 1, left: 7, right: 7, height: 9, flexDirection: 'row', justifyContent: 'space-between' },
+  introFilmPerforation: { width: 12, height: 7, borderRadius: 2, backgroundColor: '#8BDFFF', opacity: 0.9 },
   introReelOuter: { width: 248, height: 248, borderRadius: 124, borderWidth: 13, borderColor: '#56C9FF', backgroundColor: '#061B43', alignItems: 'center', justifyContent: 'center', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 28, elevation: 22 },
   introReelHoleTop: { position: 'absolute', top: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
   introReelHoleLeft: { position: 'absolute', left: 19, top: 73, width: 75, height: 58, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
@@ -3527,7 +3538,7 @@ const styles = StyleSheet.create({
   introReelHoleBottomRight: { position: 'absolute', right: 45, bottom: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8', transform: [{ rotate: '-42deg' }] },
   introReelHub: { width: 82, height: 82, borderRadius: 41, backgroundColor: '#06265A', borderWidth: 4, borderColor: '#65DFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#00B8FF', shadowOpacity: 1, shadowRadius: 18, elevation: 14 },
   introReelPlay: { color: '#9CEBFF', fontSize: 34, marginLeft: 5, textShadowColor: '#00B8FF', textShadowRadius: 12 },
-  introAccentLine: { width: 116, height: 3, borderRadius: 2, backgroundColor: '#48C9FF', marginTop: 24, shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 14, elevation: 10 },
+  introAccentLine: { position: 'absolute', bottom: '21%', width: 116, height: 3, borderRadius: 2, backgroundColor: '#48C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 14, elevation: 10 },
   introGlowLarge: { position: 'absolute', width: 430, height: 430, borderRadius: 215, backgroundColor: '#123A83', opacity: 0.42, top: '18%', alignSelf: 'center', transform: [{ scaleX: 1.12 }] },
   introGlowSmall: { position: 'absolute', width: 260, height: 260, borderRadius: 130, backgroundColor: '#1765C8', opacity: 0.24, top: '31%', alignSelf: 'center' },
   introGlowLower: { position: 'absolute', width: 460, height: 210, borderRadius: 230, backgroundColor: '#07558B', opacity: 0.19, bottom: '10%', alignSelf: 'center' },
@@ -3535,10 +3546,10 @@ const styles = StyleSheet.create({
   introBeamLeft: { position: 'absolute', top: '18%', left: '-20%', width: '78%', height: 1, backgroundColor: 'rgba(76,159,255,0.36)', transform: [{ rotate: '24deg' }] },
   introBeamRight: { position: 'absolute', top: '24%', right: '-18%', width: '72%', height: 1, backgroundColor: 'rgba(80,196,255,0.25)', transform: [{ rotate: '-27deg' }] },
   introHorizon: { position: 'absolute', left: 0, right: 0, top: '72%', height: 1, backgroundColor: 'rgba(69,145,255,0.18)' },
-  introTitle: { color: WHITE, fontSize: 36, fontWeight: '900', fontFamily: 'sans-serif-rounded', marginTop: 18, letterSpacing: 0.6, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 25, elevation: 12 },
-  introTagline: { position: 'absolute', bottom: '16%', color: '#E6F4FF', fontSize: 17, lineHeight: 24, textAlign: 'center', fontWeight: '500', textShadowColor: '#168BFF', textShadowRadius: 12 },
-  introProgressTrack: { position: 'absolute', bottom: '9%', width: 108, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
-  introProgressFill: { width: '54%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
+  introTitle: { position: 'absolute', bottom: '25%', color: WHITE, fontSize: 43, lineHeight: 48, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.6, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 25, elevation: 12 },
+  introTagline: { position: 'absolute', bottom: '12%', color: '#B8D9FF', fontSize: 18, lineHeight: 26, textAlign: 'center', fontWeight: '500', textShadowColor: '#168BFF', textShadowRadius: 12 },
+  introProgressTrack: { position: 'absolute', bottom: '5%', width: '86%', maxWidth: 300, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
+  introProgressFill: { width: '40%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
   header: {
     paddingHorizontal: 20,
     paddingVertical: 17,
