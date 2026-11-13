@@ -1,3 +1,4 @@
+# Android UI smoke test uses POSIX-compatible shell for emulator runner.
 name: NeuroScene Android APK and UI smoke test
 
 on:
@@ -115,9 +116,7 @@ jobs:
                 root = hierarchy()
                 candidates = [n for n in root.iter("node") if n.attrib.get("text") == label or n.attrib.get("content-desc") == label]
                 if candidates:
-                  def bounds(node):
-                    return list(map(int, node.attrib["bounds"].replace("][", ",").strip("[]").split(",")))
-                  b = bounds(candidates[0])
+                  b = list(map(int, candidates[0].attrib["bounds"].replace("][", ",").strip("[]").split(",")))
                   run(["adb", "shell", "input", "tap", str((b[0]+b[2])//2), str((b[1]+b[3])//2)], timeout=15)
                   return
               except Exception as exc:
