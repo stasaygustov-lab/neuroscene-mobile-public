@@ -1775,7 +1775,7 @@ export default function App() {
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
-                <Text style={styles.packagePrice}>{amount === 500 ? '₽149' : amount === 1500 ? '₽399' : '₽999'}</Text>
+                <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
               </View>
               <View style={styles.packageRight}>
                 {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
@@ -1898,19 +1898,22 @@ export default function App() {
           </>
         )}
         <View style={styles.profileMenuCard}>
-        {['My videos', 'Notifications', 'About', 'Support', 'Sign out'].map((key, menuIndex) => uiText(language, key, ({
-          'My videos': 'Мои видео',
+        {['Notifications', 'Purchases and credits', 'Settings', 'About', 'Support', 'Sign out'].map((key) => uiText(language, key, ({
           'Notifications': 'Уведомления',
+          'Purchases and credits': 'Покупки и кредиты',
+          'Settings': 'Настройки',
           'About': 'О приложении',
           'Support': 'Поддержка',
           'Sign out': 'Выход',
         } as Record<string, string>)[key] || key)).map((item, menuIndex) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item}
-            style={[styles.menuItem, menuIndex === 4 && styles.menuItemLast]}
+            style={[styles.menuItem, menuIndex === 5 && styles.menuItemLast]}
             onPress={() => {
-              if (item === 'Мои видео') {
-                setTab('Gallery');
+              if (item === 'Покупки и кредиты') {
+                setTab('Credits');
+              } else if (item === 'Настройки') {
+                Alert.alert('Настройки', 'Настройки профиля и приложения');
               } else if (item === 'О приложении') {
                 Alert.alert('НейроСцена', 'Твоя творческая студия на компьютере.');
               } else if (item === 'Выход' || item === 'Sign out') {
@@ -1935,7 +1938,7 @@ export default function App() {
               }
             }}
           >
-            <Text style={styles.menuIcon}>{item === 'Мои видео' ? '▣' : item === 'Уведомления' ? '♧' : item === 'О приложении' ? 'ⓘ' : item === 'Поддержка' ? '?' : '⇥'}</Text>
+            <Text style={styles.menuIcon}>{item === 'Уведомления' ? '♧' : item === 'Покупки и кредиты' ? '▤' : item === 'Настройки' ? '⚙' : item === 'О приложении' ? 'ⓘ' : item === 'Поддержка' ? '?' : '⇥'}</Text>
             <Text style={styles.menuText}>{item}</Text>
             {item === 'Уведомления' && unreadNotifications > 0 && <View style={styles.menuNotificationBadge}><Text style={styles.menuNotificationText}>{Math.min(unreadNotifications, 9)}</Text></View>}
             <Text style={styles.menuArrow}>›</Text>
@@ -2169,6 +2172,21 @@ function CreateScreen({
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
           <Text style={styles.referencePlay}>▶</Text>
           <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.createFeatureHeading}><Text style={styles.sectionTitle}>ВОЗМОЖНОСТИ</Text></View>
+      <View style={styles.createFeatureGrid}>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => { setGenerationType('t2v'); setShowComposer(true); }}>
+          <Text style={styles.createFeatureIcon}>▧</Text><Text style={styles.createFeatureText}>Текст в видео</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => { setGenerationType('i2v'); setShowComposer(true); }}>
+          <Text style={styles.createFeatureIcon}>▣</Text><Text style={styles.createFeatureText}>Изображение в видео</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => setShowComposer(true)}>
+          <Text style={styles.createFeatureIcon}>♫</Text><Text style={styles.createFeatureText}>Добавить звук</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => setShowComposer(true)}>
+          <Text style={styles.createFeatureIcon}>✧</Text><Text style={styles.createFeatureText}>Улучшить промпт</Text>
         </TouchableOpacity>
       </View>
 
@@ -3498,6 +3516,11 @@ const COSMIC_OVERRIDES = {
   navIcon: { color: '#4CAEFF', fontSize: 26 },
   navLabel: { color: '#8CA8C9', fontSize: 14 },
   navLabelActive: { color: '#43B8FF', textShadowColor: '#087BFF', textShadowRadius: 9 },
+  createFeatureHeading: { marginTop: 4, marginBottom: 8 },
+  createFeatureGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 10, marginBottom: 18 },
+  createFeatureCard: { width: '48.2%', minHeight: 104, borderRadius: 15, paddingVertical: 12, paddingHorizontal: 8, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,28,70,0.92)', borderWidth: 1, borderColor: 'rgba(0,139,255,0.62)', shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 10, elevation: 4 },
+  createFeatureIcon: { color: '#25C4FF', fontSize: 30, lineHeight: 36, marginBottom: 5, textShadowColor: '#087BFF', textShadowRadius: 12 },
+  createFeatureText: { color: '#E8F4FF', fontSize: 13, lineHeight: 17, fontWeight: '700', textAlign: 'center' },
   notificationButton: { backgroundColor: 'rgba(4,28,63,0.98)', borderColor: '#1765B2' },
   languageCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderColor: '#1765B2', borderRadius: 17 },
   version: { color: '#668BB7' },
