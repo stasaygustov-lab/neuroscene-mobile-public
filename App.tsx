@@ -1746,27 +1746,16 @@ export default function App() {
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
           </View>
           <View style={styles.creditIllustration}>
-            <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-            </View>
-            <View style={[styles.creditCoinStack, styles.creditStackCenter]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-            </View>
-            <View style={[styles.creditCoinStack, styles.creditStackRight]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-            </View>
-            <View style={styles.creditStarBadge}>✦</View>
-          </View>
-          <Text style={styles.creditIntro}>Кредиты — это ваша энергия для создания видео</Text>
-          <View style={styles.creditBalanceLine}>
-            <Text style={styles.creditBalanceLabel}>ВАШ БАЛАНС</Text>
-            <Text style={styles.creditBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
+            <Image
+              source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+              resizeMode="stretch"
+              style={styles.creditCoinsReferenceCrop}
+              accessibilityLabel="Золотые монеты из утверждённого макета"
+            />
+            <Text style={styles.creditBalanceValue}>
+              {creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}
+            </Text>
+            <Text style={styles.creditBalanceCaption}>Кредитов</Text>
           </View>
           {[500, 1500, 5000].map((amount) => (
             <View style={styles.packageCard} key={amount}>
@@ -1820,8 +1809,8 @@ export default function App() {
           <>
             <View style={styles.profileIdentity}>
               <View style={styles.profileGuestAvatar}><View style={styles.profileGuestHead} /><View style={styles.profileGuestBody} /></View>
-              <Text style={styles.profileGuestName}>{authUser.email || 'Пользователь'}</Text>
-              <Text style={styles.profileGuestStatus}>В сети</Text>
+              <Text style={styles.profileGuestName}>{authUser.display_name || authUser.name || authUser.email || 'Пользователь'}</Text>
+              <Text style={styles.profileGuestStatus}>{authUser.email || ''}</Text>
             </View>
             <View style={styles.profileCard}>
               <View style={styles.avatar}><Text style={styles.avatarText}>Н+С</Text></View>
@@ -2130,21 +2119,12 @@ function CreateScreen({
         <Text style={styles.headerBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
       </View>
       <View style={styles.referenceHero}>
-        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-          <View style={styles.referenceSkyGlow} />
-          <View style={styles.referenceMoon} />
-          <View style={styles.referenceMoonShade} />
-          <View style={styles.referenceMountainBack} />
-          <View style={styles.referenceMountainFront} />
-          <View style={styles.referenceRidgeLight} />
-          <View style={styles.referencePerson}>
-            <View style={styles.referencePersonHead} />
-            <View style={styles.referencePersonBody} />
-            <View style={styles.referencePersonLegLeft} />
-            <View style={styles.referencePersonLegRight} />
-          </View>
-          <View style={styles.referenceHeroShade} />
-        </View>
+        <Image
+          source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+          resizeMode="stretch"
+          style={styles.referenceHeroImageCrop}
+          accessibilityLabel="Пейзаж из утверждённого макета НейроСцены"
+        />
         <View style={styles.referenceHeroCopy}>
           <Text style={styles.referenceHeroTitle}>Создать видео</Text>
           <Text style={styles.referenceHeroDescription}>Из текста или изображения</Text>
@@ -3477,8 +3457,12 @@ const COSMIC_OVERRIDES = {
   notificationButton: { backgroundColor: 'rgba(4,28,63,0.98)', borderColor: '#1765B2' },
   languageCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderColor: '#1765B2', borderRadius: 17 },
   version: { color: '#668BB7' },
-  // Reference-parity pass: align the five primary screens with the approved concept.
-  referenceHero: { height: 300, minHeight: 270, marginTop: 2, marginBottom: 16, borderRadius: 20, padding: 16, borderColor: 'rgba(48,160,255,0.82)', shadowOpacity: 0.42, shadowRadius: 24 },
+  // Reference-parity pass: use the approved artwork and preserve live account data.
+  referenceHero: { height: 300, minHeight: 270, marginTop: 2, marginBottom: 16, borderRadius: 20, padding: 16, borderColor: 'rgba(48,160,255,0.82)', shadowOpacity: 0.42, shadowRadius: 24, overflow: 'hidden' },
+  referenceHeroImageCrop: { position: 'absolute', width: '582%', height: '606%', left: '-133%', top: '-156%' },
+  referenceHeroCopy: { marginTop: 44, marginBottom: 14, maxWidth: '88%' },
+  referenceHeroTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 29, fontWeight: '900', textShadowColor: 'rgba(0,0,0,0.85)', textShadowRadius: 12 },
+  referenceHeroDescription: { color: '#E0EDFF', fontSize: 13, lineHeight: 18, marginTop: 3, textShadowColor: 'rgba(0,0,0,0.8)', textShadowRadius: 8 },
   referenceCreateButton: { height: 54, borderRadius: 16, backgroundColor: '#087BFF', borderColor: '#54C9FF' },
   referenceCreateButtonText: { fontSize: 16, letterSpacing: 0.2 },
   galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 8 },
@@ -3486,10 +3470,10 @@ const COSMIC_OVERRIDES = {
   galleryPreview: { borderRadius: 10, overflow: 'hidden' },
   galleryLimit: { textAlign: 'center', color: '#B5D8FF', marginTop: 12, marginBottom: 5, fontSize: 12 },
   creditsScreen: { paddingTop: 14 },
-  creditIllustration: { height: 150, marginTop: 0, marginBottom: 3, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(37,139,255,0.72)', backgroundColor: 'rgba(5,24,57,0.88)', shadowColor: '#087BFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 6 },
-  creditIntro: { color: '#C8DFFF', textAlign: 'center', fontSize: 13, marginTop: 7, marginBottom: 12 },
-  creditBalanceLine: { paddingHorizontal: 15, paddingVertical: 13, marginBottom: 12, borderRadius: 13, backgroundColor: 'rgba(5,27,62,0.96)', borderColor: '#168BFF' },
-  creditBalanceValue: { fontSize: 23, color: '#FFFFFF', textShadowColor: '#168BFF', textShadowRadius: 12 },
+  creditIllustration: { height: 150, marginTop: 0, marginBottom: 12, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(37,139,255,0.72)', backgroundColor: 'rgba(5,24,57,0.88)', shadowColor: '#087BFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 6, overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 7 },
+  creditCoinsReferenceCrop: { position: 'absolute', width: '663%', height: 1412, left: '-421%', top: -372 },
+  creditBalanceValue: { fontSize: 32, lineHeight: 36, color: '#FFE08A', fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 12, marginTop: 0 },
+  creditBalanceCaption: { color: '#FFFFFF', fontSize: 13, lineHeight: 17, fontWeight: '700' },
   packageCard: { minHeight: 62, paddingVertical: 11, paddingHorizontal: 13, marginTop: 9, borderRadius: 13, backgroundColor: 'rgba(10,28,58,0.98)', borderColor: 'rgba(40,125,218,0.65)' },
   packageAmount: { color: '#F5F9FF', fontSize: 15, fontWeight: '800' },
   popularBadge: { backgroundColor: '#087BFF', borderColor: '#7BD7FF', borderWidth: 1, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 4 },
