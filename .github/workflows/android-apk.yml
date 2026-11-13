@@ -10,10 +10,15 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: neuroscene-android-validation
+  cancel-in-progress: true
+
 jobs:
   build-android-apk:
     name: Build standalone Android APK
     runs-on: ubuntu-24.04
+    timeout-minutes: 35
     env:
       EXPO_PUBLIC_API_URL: ${{ vars.EXPO_PUBLIC_API_URL }}
       EXPO_PUBLIC_VK_CLIENT_ID: ${{ vars.EXPO_PUBLIC_VK_CLIENT_ID }}
