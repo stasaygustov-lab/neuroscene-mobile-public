@@ -1775,7 +1775,7 @@ export default function App() {
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
-                <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
+                <Text style={styles.packagePrice}>{amount === 500 ? '₽149' : amount === 1500 ? '₽399' : '₽999'}</Text>
               </View>
               <View style={styles.packageRight}>
                 {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
@@ -2088,39 +2088,12 @@ export default function App() {
                 { transform: [{ scale: introPulseScale }] },
               ]}
             />
-            <Animated.View
-              style={[
-                styles.introOrbit,
-                { transform: [{ rotate: introRotateZ }] },
-              ]}
+            <Image
+              source={require('./Футуристический серебряно-синий монограмный логотип HC-1.png')}
+              resizeMode="contain"
+              style={styles.introLogoImage}
+              accessibilityLabel="Логотип НейроСцена"
             />
-            <View style={styles.introFilmStrip}>
-              <View style={styles.introFilmPerforations}>
-                {Array.from({ length: 12 }, (_, index) => (
-                  <View key={index} style={styles.introFilmPerforation} />
-                ))}
-              </View>
-              <View style={styles.introFilmWindow} />
-              <View style={[styles.introFilmPerforations, styles.introFilmPerforationsBottom]}>
-                {Array.from({ length: 12 }, (_, index) => (
-                  <View key={index} style={styles.introFilmPerforation} />
-                ))}
-              </View>
-            </View>
-            <View style={styles.introReel}>
-              <View style={styles.introReelInner}>
-                <View style={styles.introReelCutoutTop} />
-                <View style={styles.introReelCutoutLeft} />
-                <View style={styles.introReelCutoutRight} />
-                <View style={styles.introReelCutoutBottomLeft} />
-                <View style={styles.introReelCutoutBottomRight} />
-                <View style={styles.introReelCore}>
-                  <Text style={styles.introReelMark}>▶</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.introSparkOne} />
-            <View style={styles.introSparkTwo} />
           </Animated.View>
 
           <View style={styles.introBrand}>
@@ -3623,6 +3596,7 @@ const styles = StyleSheet.create({
   introEyebrowDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#5DE0FF', shadowColor: '#39BFFF', shadowOpacity: 1, shadowRadius: 8 },
   introEyebrowText: { color: '#9CCEFF', fontSize: 10, fontWeight: '800', letterSpacing: 2.8 },
   introArtwork: { position: 'absolute', top: '22%', width: 330, height: 330, alignItems: 'center', justifyContent: 'center' },
+  introLogoImage: { width: 260, height: 260 },
   introHalo: { position: 'absolute', width: 236, height: 236, borderRadius: 118, backgroundColor: '#0756C5', opacity: 0.22, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 65, elevation: 26 },
   introOrbit: { position: 'absolute', width: 300, height: 300, borderRadius: 150, borderWidth: 1, borderColor: 'rgba(100,196,255,0.34)', borderStyle: 'dashed' },
   introFilmStrip: { position: 'absolute', width: 330, height: 82, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(91,197,255,0.9)', backgroundColor: 'rgba(4,27,64,0.94)', transform: [{ rotate: '-24deg' }], shadowColor: '#078BFF', shadowOpacity: 0.9, shadowRadius: 22, elevation: 16, overflow: 'hidden', justifyContent: 'center' },
