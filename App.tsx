@@ -3438,7 +3438,7 @@ const COSMIC_OVERRIDES = {
   version: { color: '#668BB7' },
   // Reference-parity pass: use the approved artwork and preserve live account data.
   referenceHero: { height: 205, minHeight: 190, marginTop: 2, marginBottom: 14, borderRadius: 17, padding: 0, borderColor: 'rgba(48,160,255,0.82)', shadowOpacity: 0.42, shadowRadius: 24, overflow: 'hidden' },
-  referenceHeroImageCrop: { position: 'absolute', width: '582%', height: '412%', left: '-133%', top: '-106%' },
+  referenceHeroImageCrop: { position: 'absolute', width: '582%', height: '606%', left: '-133%', top: '-156%' },
   referenceHeroTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 29, fontWeight: '900', textShadowColor: 'rgba(0,0,0,0.85)', textShadowRadius: 12 },
   referenceHeroDescription: { color: '#E0EDFF', fontSize: 13, lineHeight: 18, marginTop: 3, textShadowColor: 'rgba(0,0,0,0.8)', textShadowRadius: 8 },
   referenceCreateButton: { height: 54, borderRadius: 16, backgroundColor: '#087BFF', borderColor: '#54C9FF' },
