@@ -78,7 +78,6 @@ jobs:
           profile: pixel_2
           emulator-options: -no-window -no-audio -no-boot-anim -camera-back none -camera-front none
           emulator-boot-timeout: 900
-          disable-animations: true
           script: |
             set -eu
             mkdir -p screenshots
