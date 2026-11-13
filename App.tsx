@@ -235,39 +235,6 @@ export default function App() {
   const [faqItems, setFaqItems] = useState<any[]>([]);
   const [faqLoading, setFaqLoading] = useState(false);
   const [faqError, setFaqError] = useState('');
-  const [showIntro, setShowIntro] = useState(true);
-  const introOpacity = useRef(new Animated.Value(0)).current;
-  const introScale = useRef(new Animated.Value(0.72)).current;
-  const introRotation = useRef(new Animated.Value(0)).current;
-  const introPulse = useRef(new Animated.Value(0)).current;
-  const introRotateZ = introRotation.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] });
-  const introRotateReverse = introRotation.interpolate({ inputRange: [0, 1], outputRange: ['360deg', '0deg'] });
-  const introPulseScale = introPulse.interpolate({ inputRange: [0, 1], outputRange: [0.96, 1.045] });
-
-  useEffect(() => {
-    const orbit = Animated.loop(Animated.timing(introRotation, {
-      toValue: 1, duration: 11500, useNativeDriver: true,
-    }));
-    const pulse = Animated.loop(Animated.sequence([
-      Animated.timing(introPulse, { toValue: 1, duration: 1750, useNativeDriver: true }),
-      Animated.timing(introPulse, { toValue: 0, duration: 1750, useNativeDriver: true }),
-    ]));
-    orbit.start();
-    pulse.start();
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(introOpacity, { toValue: 1, duration: 650, useNativeDriver: true }),
-        Animated.spring(introScale, { toValue: 1, speed: 7, bounciness: 5, useNativeDriver: true }),
-      ]),
-      Animated.delay(2200),
-      Animated.timing(introOpacity, { toValue: 0, duration: 550, useNativeDriver: true }),
-    ]).start(({ finished }) => {
-      if (finished) setShowIntro(false);
-    });
-    return () => { orbit.stop(); pulse.stop(); };
-  }, [introOpacity, introScale, introRotation, introPulse]);
-
-
   const saveAuthenticatedSession = async (data: any) => {
     if (!data?.access_token || !data?.user) {
       throw new Error('Сервер вернул неполные данные авторизации');
@@ -315,6 +282,10 @@ export default function App() {
 
   useEffect(() => {
     let mounted = true;
+    // Never leave the first screen blocked if secure storage or the API stalls.
+    const startupFallback = setTimeout(() => {
+      if (mounted) setAuthReady(true);
+    }, 5000);
     const restoreSession = async () => {
       try {
         const savedToken = await SecureStore.getItemAsync(SESSION_STORAGE_KEY);
@@ -335,6 +306,7 @@ export default function App() {
       } catch {
         await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY).catch(() => undefined);
       } finally {
+        clearTimeout(startupFallback);
         if (mounted) setAuthReady(true);
       }
     };
@@ -347,6 +319,7 @@ export default function App() {
     }).catch(() => undefined);
     return () => {
       mounted = false;
+      clearTimeout(startupFallback);
       subscription.remove();
     };
   }, []);
@@ -2019,16 +1992,6 @@ export default function App() {
         ))}
       </View>
 
-      {showIntro && (
-        <Animated.View style={[styles.introOverlay, { opacity: introOpacity }]}>
-          <Image
-            source={require('./НейроСцена_ синяя галактика творчества-3.png')}
-            resizeMode="stretch"
-            style={styles.introReferenceImage}
-            accessibilityLabel="Утверждённая заставка НейроСцена"
-          />
-        </Animated.View>
-      )}}
     </SafeAreaView>
   );
 }
