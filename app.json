@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Нейро\nСцена",
+    "name": "Нейро\\nСцена",
     "slug": "neuroscene",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/neuroscene-brand.png",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#080B14",
     "ios": {
@@ -14,8 +14,7 @@
       "package": "com.neuroscene.app",
       "adaptiveIcon": {
         "backgroundColor": "#080B14",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
+        "foregroundImage": "./assets/neuroscene-brand.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false
@@ -30,7 +29,7 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#050914",
-          "image": "./assets/Футуристический серебряно-синий монограмный логотип HC-1.png",
+          "image": "./assets/neuroscene-brand.png",
           "imageWidth": 180,
           "resizeMode": "contain"
         }
