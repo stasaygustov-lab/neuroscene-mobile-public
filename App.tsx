@@ -3378,6 +3378,8 @@ const COSMIC_OVERRIDES = {
   buyCreditsButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
   buyCreditsHint: { color: '#C5E5FF', fontSize: 10, marginTop: 2 },
   creditNeverExpire: { textAlign: 'center', color: '#A9C8EA', fontSize: 13, marginTop: 8, marginBottom: 12 },
+  profileSignOutButton: { alignSelf: 'center', minWidth: 116, minHeight: 36, paddingHorizontal: 18, paddingVertical: 7, borderRadius: 11, borderWidth: 1, borderColor: '#00AFFF', backgroundColor: 'rgba(2,18,43,0.9)', alignItems: 'center', justifyContent: 'center', marginTop: -4, marginBottom: 12 },
+  profileSignOutText: { color: '#42D8FF', fontSize: 13, fontWeight: '700' },
   profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
   profileSignOutButton: { alignSelf: 'center', minWidth: 116, minHeight: 36, paddingHorizontal: 18, paddingVertical: 7, borderRadius: 11, borderWidth: 1, borderColor: '#00AFFF', backgroundColor: 'rgba(2,18,43,0.9)', alignItems: 'center', justifyContent: 'center', marginTop: -4, marginBottom: 12 },
   profileSignOutText: { color: '#42D8FF', fontSize: 13, fontWeight: '700' },
