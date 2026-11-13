@@ -2121,7 +2121,10 @@ function CreateScreen({
         <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => { setGenerationType('i2v'); setShowComposer(true); }}>
           <Text style={styles.createFeatureIcon}>▣</Text><Text style={styles.createFeatureText}>Изображение в видео</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => { setShowComposer(true); onEnhancePrompt(); }}>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => Alert.alert('Добавить звук', 'Звуковое сопровождение подключается отдельным этапом и не меняет параметры видеогенерации.')}>
+          <Text style={styles.createFeatureIcon}>♫</Text><Text style={styles.createFeatureText}>Добавить звук</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => setShowComposer(true)}>
           <Text style={styles.createFeatureIcon}>✧</Text><Text style={styles.createFeatureText}>Улучшить промпт</Text>
         </TouchableOpacity>
       </View>
@@ -3683,9 +3686,25 @@ const styles = StyleSheet.create({
   statusValue: { color: WHITE, fontSize: 18, fontWeight: '800', marginTop: 12 },
   statusSuccess: { color: '#42D992' },
   statusDescription: { color: MUTED, fontSize: 14, lineHeight: 18, marginTop: 6 },progressSegment: { flex: 1, height: 6, borderRadius: 4, backgroundColor: '#263147' },
-  progressSegmentActive: { backgroundColor: BLUE },galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  galleryLimit: { color: MUTED, fontSize: 14, marginTop: -12, marginBottom: 15 },
-  galleryCard: { backgroundColor: PANEL, borderRadius: 14, padding: 12, marginTop: 14, borderWidth: 1, borderColor: '#253147' },
+  progressSegmentActive: { backgroundColor: BLUE   galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 0, marginBottom: 0 },
+  galleryTabs: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', borderBottomWidth: 1, borderBottomColor: 'rgba(55,119,202,0.38)', marginTop: -8, marginBottom: 12 },
+  galleryTab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  galleryTabActive: { borderBottomColor: '#00AFFF' },
+  galleryTabText: { color: '#A9B8D0', fontSize: 13, fontWeight: '600' },
+  galleryTabTextActive: { color: '#EAF6FF', fontWeight: '800', textShadowColor: '#168CFF', textShadowRadius: 9 },
+  galleryFilterButton: { width: 34, height: 34, borderRadius: 10, borderWidth: 1, borderColor: 'rgba(55,153,255,0.55)', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,28,67,0.75)' },
+  galleryFilterIcon: { color: '#C5E9FF', fontSize: 19 },
+  galleryLimit: { color: '#D1E7FF', fontSize: 11, textAlign: 'center', marginTop: 9, marginBottom: 5 },
+  storageTrack: { height: 3, backgroundColor: 'rgba(59,112,173,0.28)', borderRadius: 2, marginHorizontal: 16, marginBottom: 6, overflow: 'hidden' },
+  storageProgress: { height: 3, borderRadius: 2, backgroundColor: '#00B8FF' },
+  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 4 },
+  galleryCard: { width: '48.2%', padding: 5, marginTop: 8, marginBottom: 3, borderRadius: 12, backgroundColor: 'rgba(4,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.72)' },
+  galleryPreview: { width: '100%', aspectRatio: 1.02, borderRadius: 9, overflow: 'hidden', backgroundColor: '#06152D', position: 'relative' },
+  galleryDuration: { position: 'absolute', right: 5, bottom: 5, color: '#FFFFFF', fontSize: 10, fontWeight: '800', paddingHorizontal: 5, paddingVertical: 2, borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.78)' },
+  galleryFavorite: { position: 'absolute', top: 4, right: 4, width: 24, height: 24, alignItems: 'center', justifyContent: 'center', borderRadius: 12, backgroundColor: 'rgba(0,0,0,0.5)' },
+  galleryFavoriteText: { color: '#FFFFFF', fontSize: 16 },
+  galleryDate: { color: '#9BB8D9', fontSize: 9, marginTop: 5 },
+  galleryPrompt: { color: '#D5E6FA', fontSize: 10, lineHeight: 13, marginTop: 5 },
   videoFrame: { width: '100%', height: 220, backgroundColor: '#000000', borderRadius: 10, overflow: 'hidden', justifyContent: 'center' },
   videoPlayer: { width: '100%', height: 220, backgroundColor: '#000000' },
   videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
