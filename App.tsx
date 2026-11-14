@@ -3249,7 +3249,7 @@ function GalleryVideoPlayer({ uri }: { uri: string }) {
 }
 
 
-const COSMIC_OVERRIDES = {
+const COSMIC_OVERRIDES: Record<string, any> = {
   container: { backgroundColor: '#020817' },
   ambientBackdrop: { backgroundColor: '#020817' },
   ambientGlowTop: { width: 520, height: 520, borderRadius: 260, top: -90, right: -250, backgroundColor: '#006BFF', opacity: 0.34 },
@@ -3269,7 +3269,7 @@ const COSMIC_OVERRIDES = {
   content: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 28 },
   creditsContent: { paddingBottom: 38 },
   referenceHeroImage: { borderRadius: 23 },
-  referenceHeroShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,8,22,0.10)' },
+  referenceHeroShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,8,22,0.10)' },
   referenceSkyGlow: { position: 'absolute', width: 390, height: 390, borderRadius: 195, top: 18, left: -18, backgroundColor: '#0755B8', opacity: 0.42, shadowColor: '#159DFF', shadowOpacity: 1, shadowRadius: 70, elevation: 20 },
   referenceMoon: { position: 'absolute', width: 230, height: 230, borderRadius: 115, top: 88, alignSelf: 'center', backgroundColor: '#D9E8FF', shadowColor: '#70BFFF', shadowOpacity: 1, shadowRadius: 40, elevation: 22 },
   referenceMoonShade: { position: 'absolute', width: 235, height: 235, borderRadius: 118, top: 74, left: '43%', backgroundColor: '#3B68A2', opacity: 0.23 },
@@ -3316,12 +3316,6 @@ const COSMIC_OVERRIDES = {
   screen: { paddingTop: 12 },
   screenTitle: { color: '#FFFFFF', fontSize: 20, lineHeight: 25, fontWeight: '800', fontFamily: 'sans-serif-rounded', marginTop: 7, marginBottom: 15, textShadowColor: 'rgba(16,116,255,0.38)', textShadowRadius: 9 },
   galleryHeader: { marginBottom: 2 },
-  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 4 },
-  galleryCard: { width: '48.2%', padding: 5, marginTop: 8, marginBottom: 3, borderRadius: 12, backgroundColor: 'rgba(4,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.72)' },
-  galleryPreview: { width: '100%', aspectRatio: 1.08, borderRadius: 9, overflow: 'hidden', backgroundColor: '#06152D', position: 'relative' },
-  galleryDuration: { position: 'absolute', right: 5, bottom: 5, color: '#FFFFFF', fontSize: 10, fontWeight: '800', paddingHorizontal: 5, paddingVertical: 2, borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.78)' },
-  videoFrame: { width: '100%', height: 142, backgroundColor: '#000000', borderRadius: 9, overflow: 'hidden', justifyContent: 'center' },
-  videoPlayer: { width: '100%', height: 142, backgroundColor: '#000000' },
   storageTrack: { height: 5, borderRadius: 3, overflow: 'hidden', backgroundColor: 'rgba(47,93,149,0.55)', marginTop: -6, marginBottom: 8 },
   storageProgress: { height: 5, borderRadius: 3, backgroundColor: '#079BFF', shadowColor: '#18B9FF', shadowOpacity: 0.9, shadowRadius: 8 },
   galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.72)', paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6, fontSize: 11, fontWeight: '700' },
@@ -3339,8 +3333,6 @@ const COSMIC_OVERRIDES = {
   buyCreditsButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
   buyCreditsHint: { color: '#C5E5FF', fontSize: 10, marginTop: 2 },
   creditNeverExpire: { textAlign: 'center', color: '#A9C8EA', fontSize: 13, marginTop: 8, marginBottom: 12 },
-  profileSignOutButton: { alignSelf: 'center', minWidth: 116, minHeight: 34, paddingHorizontal: 18, paddingVertical: 6, borderRadius: 10, borderWidth: 1, borderColor: '#00AFFF', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', marginTop: -2, marginBottom: 5 },
-  profileSignOutText: { color: '#42D8FF', fontSize: 13, fontWeight: '700' },
   profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
   profileSignOutButton: { alignSelf: 'center', minWidth: 116, minHeight: 36, paddingHorizontal: 18, paddingVertical: 7, borderRadius: 11, borderWidth: 1, borderColor: '#00AFFF', backgroundColor: 'rgba(2,18,43,0.9)', alignItems: 'center', justifyContent: 'center', marginTop: -4, marginBottom: 12 },
   profileSignOutText: { color: '#42D8FF', fontSize: 13, fontWeight: '700' },
@@ -3356,10 +3348,8 @@ const COSMIC_OVERRIDES = {
   galleryActionText: { color: '#B9DEFF', fontSize: 14 },
   deleteVideoButton: { backgroundColor: 'rgba(103,25,55,0.34)', borderRadius: 11 },
   emptyScreen: { minHeight: 360, padding: 22, borderRadius: 22, backgroundColor: 'rgba(4,18,42,0.86)', borderWidth: 1, borderColor: '#15599D' },
-  creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
   creditsBackButton: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.92)', borderWidth: 1, borderColor: '#2467A8', marginRight: 10 },
   creditsBackText: { color: '#D7EBFF', fontSize: 32, lineHeight: 34, marginTop: -3 },
-  creditsTitle: { color: '#FFFFFF', fontSize: 20, lineHeight: 25, fontWeight: '800', textShadowColor: 'rgba(16,116,255,0.38)', textShadowRadius: 9 },
   creditCoinStack: { position: 'absolute', bottom: 22, alignItems: 'center', justifyContent: 'flex-end' },
   creditStackLeft: { left: '22%' },
   creditStackCenter: { left: '42%', bottom: 26 },
@@ -3407,8 +3397,6 @@ const COSMIC_OVERRIDES = {
   createFeatureIcon: { color: '#25C4FF', fontSize: 30, lineHeight: 36, marginBottom: 5, textShadowColor: '#087BFF', textShadowRadius: 12 },
   createFeatureText: { color: '#E8F4FF', fontSize: 13, lineHeight: 17, fontWeight: '700', textAlign: 'center' },
   referenceHeroCopy: { marginBottom: 14, maxWidth: '88%' },
-  referenceHeroTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 29, fontWeight: '900', textShadowColor: 'rgba(0,0,0,0.85)', textShadowRadius: 12 },
-  referenceHeroDescription: { color: '#E0EDFF', fontSize: 13, lineHeight: 18, marginTop: 3, textShadowColor: 'rgba(0,0,0,0.8)', textShadowRadius: 8 },
   videoFrame: { height: 126, borderRadius: 9 },
   videoPlayer: { height: 126 },
   galleryActions: { flexDirection: 'column', gap: 5 },
@@ -3469,7 +3457,7 @@ const COSMIC_OVERRIDES = {
 
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(Object.assign({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
   ambientGlowTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: 20, right: -240, backgroundColor: '#075CEB', opacity: 0.26 },
@@ -3687,8 +3675,6 @@ const styles = StyleSheet.create({
   galleryDuration: { position: 'absolute', right: 5, bottom: 5, color: '#FFFFFF', fontSize: 10, fontWeight: '800', paddingHorizontal: 5, paddingVertical: 2, borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.78)' },
   galleryFavorite: { position: 'absolute', top: 4, right: 4, width: 24, height: 24, alignItems: 'center', justifyContent: 'center', borderRadius: 12, backgroundColor: 'rgba(0,0,0,0.5)' },
   galleryFavoriteText: { color: '#FFFFFF', fontSize: 16 },
-  galleryDate: { color: '#9BB8D9', fontSize: 9, marginTop: 5 },
-  galleryPrompt: { color: '#D5E6FA', fontSize: 10, lineHeight: 13, marginTop: 5 },
   videoFrame: { width: '100%', height: 220, backgroundColor: '#000000', borderRadius: 10, overflow: 'hidden', justifyContent: 'center' },
   videoPlayer: { width: '100%', height: 220, backgroundColor: '#000000' },
   videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
@@ -3705,7 +3691,6 @@ const styles = StyleSheet.create({
   jobId: { color: '#687D9F', fontSize: 14, marginTop: 10 },
   errorText: { color: '#FF8A93', fontSize: 14, marginTop: 10 },
   secondaryButton: {
-    minHeight: 52,
     backgroundColor: '#142344',
     borderColor: '#4A91FF',
     borderWidth: 1,
@@ -3800,6 +3785,5 @@ const styles = StyleSheet.create({
   authDivider: { alignItems: 'center', marginTop: 4, marginBottom: 4 },
   authNotice: { color: '#83B7FF', fontSize: 14, lineHeight: 17, marginTop: 12 },
   version: { color: '#566176', fontSize: 14, letterSpacing: 1.3, textAlign: 'center', marginTop: 35 },
-  ...COSMIC_OVERRIDES,
-});
+}, COSMIC_OVERRIDES) as any);
 
