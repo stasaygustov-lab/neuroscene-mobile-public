@@ -1949,6 +1949,7 @@ export default function App() {
 
       {tab === 'Create' && <View style={styles.header}>
         <View style={styles.brandRow}>
+          <Image source={require('./assets/Футуристический серебряно-синий монограмный логотип HC-1.png')} style={styles.brandLogoImage} resizeMode="contain" />
           <View style={styles.brandWordmark}>
             <Text style={styles.logo}>Нейро</Text>
             <Text style={styles.logoSecond}>Сцена</Text>
