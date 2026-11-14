@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: neuroscene-android-validation
@@ -40,12 +40,18 @@ jobs:
         run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
       - name: Regenerate npm lockfile for the aligned Expo SDK
         run: npm install --package-lock-only --ignore-scripts
-      - name: Preserve regenerated lockfile for repository update
-        uses: actions/upload-artifact@v4
-        with:
-          name: neuroscene-regenerated-package-lock
-          path: package-lock.json
-          retention-days: 7
+      - name: Commit regenerated lockfile to the pull request branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          if git diff --quiet -- package-lock.json; then
+            echo 'Lockfile is already synchronized.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package-lock.json
+          git commit -m 'chore: synchronize Expo SDK lockfile'
+          git push origin "HEAD:${GITHUB_HEAD_REF}"
       - run: npm ci
       - name: Validate Expo dependency compatibility
         run: npx expo install --check
