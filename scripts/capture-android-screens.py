@@ -54,10 +54,30 @@ def assert_visible(*expected):
 
 
 def capture(name):
-    remote = f"{REMOTE}/{name}"
-    run(["adb", "shell", "screencap", "-p", remote], timeout=45)
-    run(["adb", "pull", remote, str(OUT / name)], timeout=45)
-    print(f"Captured {name}", flush=True)
+    target = OUT / name
+    # exec-out avoids the remote-file + adb-pull round trip, which can stall
+    # on heavily loaded hosted emulators.
+    last_error = None
+    for attempt in range(3):
+        try:
+            with target.open("wb") as output:
+                subprocess.run(
+                    ["adb", "exec-out", "screencap", "-p"],
+                    check=True,
+                    timeout=120,
+                    stdout=output,
+                    stderr=subprocess.PIPE,
+                )
+            if target.stat().st_size < 1000 or target.read_bytes()[:8] != b"\\x89PNG\\r\\n\\x1a\\n":
+                raise RuntimeError(f"Invalid PNG data captured for {name}")
+            print(f"Captured {name} ({target.stat().st_size} bytes)", flush=True)
+            return
+        except Exception as exc:
+            last_error = exc
+            print(f"Screenshot attempt {attempt + 1}/3 failed for {name}: {exc}", flush=True)
+            subprocess.run(["adb", "reconnect"], capture_output=True, timeout=30)
+            time.sleep(5)
+    raise RuntimeError(f"Unable to capture {name}: {last_error}")
 
 
 def screen_size():
