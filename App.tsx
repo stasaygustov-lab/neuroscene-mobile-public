@@ -138,6 +138,56 @@ async function readResponse(response: Response): Promise<any> {
   }
 }
 
+function NeuroSceneIntroArt() {
+  const reelHole = {
+    position: 'absolute' as const,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#06152F',
+    borderWidth: 2,
+    borderColor: 'rgba(112,202,255,0.92)',
+    shadowColor: '#2AA7FF',
+    shadowOpacity: 0.7,
+    shadowRadius: 8,
+  };
+  return (
+    <View style={{ flex: 1, width: '100%', backgroundColor: '#01091D', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', paddingHorizontal: 22 }}>
+      <View style={{ position: 'absolute', width: 380, height: 380, borderRadius: 190, top: 60, left: -170, backgroundColor: '#0649B4', opacity: 0.20 }} />
+      <View style={{ position: 'absolute', width: 340, height: 340, borderRadius: 170, bottom: 80, right: -150, backgroundColor: '#087DD6', opacity: 0.16 }} />
+      <View style={{ position: 'absolute', width: 230, height: 230, borderRadius: 115, top: '22%', left: '22%', backgroundColor: '#0B4E9A', opacity: 0.10 }} />
+
+      <View style={{ width: '100%', height: 300, alignItems: 'center', justifyContent: 'center', marginTop: -30 }}>
+        <View style={{ position: 'absolute', width: 360, height: 118, borderRadius: 20, borderWidth: 3, borderColor: 'rgba(43,151,255,0.78)', backgroundColor: 'rgba(5,28,66,0.72)', transform: [{ rotate: '-19deg' }], shadowColor: '#087BFF', shadowOpacity: 0.55, shadowRadius: 22, elevation: 8, justifyContent: 'space-between', paddingVertical: 9, paddingHorizontal: 12 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            {Array.from({ length: 8 }).map((_, i) => <View key={i} style={{ width: 15, height: 8, borderRadius: 2, backgroundColor: 'rgba(106,194,255,0.78)' }} />)}
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            {Array.from({ length: 8 }).map((_, i) => <View key={i} style={{ width: 15, height: 8, borderRadius: 2, backgroundColor: 'rgba(106,194,255,0.78)' }} />)}
+          </View>
+        </View>
+
+        <View style={{ width: 218, height: 218, borderRadius: 109, borderWidth: 7, borderColor: '#36A9FF', backgroundColor: 'rgba(4,24,59,0.96)', alignItems: 'center', justifyContent: 'center', shadowColor: '#168CFF', shadowOpacity: 0.95, shadowRadius: 30, elevation: 18 }}>
+          <View style={{ position: 'absolute', width: 158, height: 158, borderRadius: 79, borderWidth: 3, borderColor: 'rgba(128,210,255,0.9)' }} />
+          <View style={[reelHole, { top: 26, left: 87 }]} />
+          <View style={[reelHole, { top: 89, right: 25 }]} />
+          <View style={[reelHole, { bottom: 26, left: 87 }]} />
+          <View style={[reelHole, { top: 89, left: 25 }]} />
+          <View style={{ width: 86, height: 86, borderRadius: 43, borderWidth: 3, borderColor: '#80D7FF', backgroundColor: 'rgba(3,17,43,0.95)', alignItems: 'center', justifyContent: 'center', shadowColor: '#21A7FF', shadowOpacity: 0.85, shadowRadius: 16 }}>
+            <Image source={require('./assets/neuroscene-brand.png')} resizeMode="contain" style={{ width: 68, height: 68 }} accessibilityLabel="Логотип НейроСцена" />
+          </View>
+        </View>
+      </View>
+
+      <Text style={{ color: '#FFFFFF', fontSize: 31, lineHeight: 39, fontWeight: '900', letterSpacing: 0.4, textAlign: 'center', marginTop: 2, textShadowColor: '#168CFF', textShadowRadius: 16 }}>НейроСцена</Text>
+      <Text style={{ color: '#75C7FF', fontSize: 11, fontWeight: '800', letterSpacing: 2.5, textAlign: 'center', marginTop: 9 }}>КИНО НАЧИНАЕТСЯ С ТЕБЯ</Text>
+      <View style={{ width: 184, height: 3, borderRadius: 2, backgroundColor: 'rgba(88,159,220,0.22)', marginTop: 44, overflow: 'hidden' }}>
+        <View style={{ width: '68%', height: '100%', borderRadius: 2, backgroundColor: '#3CB8FF', shadowColor: '#28A7FF', shadowOpacity: 0.9, shadowRadius: 8 }} />
+      </View>
+    </View>
+  );
+}
+
 function ScreenTransition({ children }: { children: any }) {
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(9)).current;
@@ -2075,12 +2125,7 @@ export default function App() {
 
       {showIntro && (
         <Animated.View pointerEvents="none" style={[styles.introOverlay, { opacity: introOpacity }]}>
-          <Image
-            source={require('./assets/neuroscene-splash.jpg')}
-            resizeMode="cover"
-            style={styles.introReferenceArt}
-            accessibilityLabel="Космическая заставка НейроСцена с киноплёнкой и логотипом"
-          />
+          <NeuroSceneIntroArt />
         </Animated.View>
       )}
 
