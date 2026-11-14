@@ -28,7 +28,7 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#020817",
-          "image": "./assets/neuroscene-splash.jpg",
+          "image": "./assets/neuroscene-brand.png",
           "imageWidth": 300,
           "resizeMode": "contain"
         }
