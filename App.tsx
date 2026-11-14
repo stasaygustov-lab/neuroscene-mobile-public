@@ -1729,12 +1729,16 @@ export default function App() {
           </View>
           <View style={styles.creditIllustration}>
             <View style={styles.creditCoinsWindow}>
-              <Image
-                source={require('./НейроСцена_ синяя галактика творчества-3.png')}
-                resizeMode="stretch"
-                style={styles.creditCoinsReferenceCrop}
-                accessibilityLabel="Золотые монеты из утверждённого макета"
-              />
+              <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
+                {[0, 1, 2].map((coin) => <View key={coin} style={styles.creditGoldCoin} />)}
+              </View>
+              <View style={[styles.creditCoinStack, styles.creditStackCenter, styles.creditCoinStackCenter]}>
+                {[0, 1, 2, 3].map((coin) => <View key={coin} style={styles.creditGoldCoin} />)}
+              </View>
+              <View style={[styles.creditCoinStack, styles.creditStackRight]}>
+                {[0, 1, 2].map((coin) => <View key={coin} style={styles.creditGoldCoin} />)}
+              </View>
+              <View style={styles.creditCoinSparkle}><Text style={styles.creditCoinSparkleText}>✦</Text></View>
             </View>
             <Text style={styles.creditBalanceValue}>
               {creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}
@@ -2085,12 +2089,21 @@ function CreateScreen({
   return (
     <View>
       <View style={styles.referenceHero}>
-        <Image
-          source={require('./НейроСцена_ синяя галактика творчества-3.png')}
-          resizeMode="stretch"
-          style={styles.referenceHeroImageCrop}
-          accessibilityLabel="Экран создания видео из утверждённого макета НейроСцены"
-        />
+        <View style={styles.heroSkyGlow} />
+        <View style={styles.heroSun} />
+        <View style={styles.heroMountainFar} />
+        <View style={styles.heroMountainMid} />
+        <View style={styles.heroMountainFront} />
+        <View style={styles.heroFigure}>
+          <View style={styles.heroFigureHead} />
+          <View style={styles.heroFigureBody} />
+          <View style={styles.heroFigurePack} />
+        </View>
+        <View style={styles.referenceHeroShade} />
+        <View style={styles.referenceHeroCopy}>
+          <Text style={styles.referenceHeroTitle}>Создать{"\n"}видео</Text>
+          <Text style={styles.referenceHeroDescription}>Из текста или{"\n"}изображения</Text>
+        </View>
       </View>
       <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
         <Text style={styles.referencePlay}>▶</Text>
@@ -3418,7 +3431,7 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   createFeatureCard: { width: '48.2%', minHeight: 104, borderRadius: 15, paddingVertical: 12, paddingHorizontal: 8, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,28,70,0.92)', borderWidth: 1, borderColor: 'rgba(0,139,255,0.62)', shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 10, elevation: 4 },
   createFeatureIcon: { color: '#25C4FF', fontSize: 30, lineHeight: 36, marginBottom: 5, textShadowColor: '#087BFF', textShadowRadius: 12 },
   createFeatureText: { color: '#E8F4FF', fontSize: 13, lineHeight: 17, fontWeight: '700', textAlign: 'center' },
-  referenceHeroCopy: { marginBottom: 14, maxWidth: '88%' },
+  referenceHeroCopy: { position: 'absolute', left: 14, top: 56, marginBottom: 0, maxWidth: '52%', zIndex: 3 },
   videoFrame: { height: 126, borderRadius: 9 },
   videoPlayer: { height: 126 },
   galleryActions: { flexDirection: 'column', gap: 5 },
@@ -3426,14 +3439,24 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   languageCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderColor: '#1765B2', borderRadius: 17 },
   version: { color: '#668BB7' },
   // Reference-parity pass: use the approved artwork and preserve live account data.
-  referenceHero: { height: 205, minHeight: 190, marginTop: 2, marginBottom: 14, borderRadius: 17, padding: 0, borderColor: 'rgba(48,160,255,0.82)', shadowOpacity: 0.42, shadowRadius: 24, overflow: 'hidden' },
+  referenceHero: { height: 205, minHeight: 190, marginTop: 2, marginBottom: 14, borderRadius: 17, padding: 0, borderWidth: 1, borderColor: 'rgba(48,160,255,0.82)', backgroundColor: '#17345C', shadowColor: '#168BFF', shadowOpacity: 0.42, shadowRadius: 24, elevation: 8, overflow: 'hidden' },
+  heroSkyGlow: { position: 'absolute', top: -45, right: -22, width: 210, height: 150, borderRadius: 105, backgroundColor: '#F3A96B', opacity: 0.45 },
+  heroSun: { position: 'absolute', top: 28, right: '24%', width: 42, height: 42, borderRadius: 21, backgroundColor: '#FFD49A', opacity: 0.88, shadowColor: '#FFC27A', shadowOpacity: 0.9, shadowRadius: 24, elevation: 10 },
+  heroMountainFar: { position: 'absolute', right: -22, bottom: 24, width: 0, height: 0, borderLeftWidth: 120, borderRightWidth: 120, borderBottomWidth: 138, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#557BA0', opacity: 0.82 },
+  heroMountainMid: { position: 'absolute', left: '27%', bottom: 20, width: 0, height: 0, borderLeftWidth: 118, borderRightWidth: 118, borderBottomWidth: 146, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#294E79', opacity: 0.94 },
+  heroMountainFront: { position: 'absolute', left: -54, bottom: -18, width: 0, height: 0, borderLeftWidth: 150, borderRightWidth: 150, borderBottomWidth: 130, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#142E52', opacity: 0.98 },
+  heroFigure: { position: 'absolute', right: '21%', bottom: 28, width: 25, height: 76, alignItems: 'center', zIndex: 2 },
+  heroFigureHead: { width: 13, height: 13, borderRadius: 7, backgroundColor: '#101D31', borderWidth: 1, borderColor: '#A6C5E6' },
+  heroFigureBody: { width: 20, height: 43, marginTop: 2, borderRadius: 8, backgroundColor: '#101D31', borderWidth: 1, borderColor: '#7898BA' },
+  heroFigurePack: { position: 'absolute', top: 17, left: 0, width: 8, height: 22, borderRadius: 3, backgroundColor: '#243E5D', borderWidth: 1, borderColor: '#91B7DB' },
+  referenceHeroShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(3,12,28,0.18)' },
   referenceHeroImageCrop: { position: 'absolute', width: '582%', height: '606%', left: '-133%', top: '-156%' },
   referenceHeroTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 29, fontWeight: '900', textShadowColor: 'rgba(0,0,0,0.85)', textShadowRadius: 12 },
   referenceHeroDescription: { color: '#E0EDFF', fontSize: 13, lineHeight: 18, marginTop: 3, textShadowColor: 'rgba(0,0,0,0.8)', textShadowRadius: 8 },
   referenceCreateButton: { height: 54, borderRadius: 16, backgroundColor: '#087BFF', borderColor: '#54C9FF' },
   referenceCreateButtonText: { fontSize: 16, letterSpacing: 0.2 },
   galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 8 },
-  galleryCard: { width: '48.2%', padding: 4, marginTop: 8, marginBottom: 4, borderRadius: 11, backgroundColor: 'rgba(4,20,48,0.72)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
+  galleryCard: { width: '48.2%', padding: 5, marginTop: 8, marginBottom: 5, borderRadius: 13, backgroundColor: 'rgba(4,20,48,0.88)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.62)' },
   notificationCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
   contentPanelCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
 
@@ -3444,8 +3467,16 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   creditsHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 9, marginBottom: 12 },
   creditsHeaderIcon: { color: '#DCEBFF', fontSize: 23, lineHeight: 27 },
   creditsTitle: { color: '#FFFFFF', fontSize: 18, lineHeight: 23, fontWeight: '800' },
-  creditIllustration: { height: 180, marginTop: 0, marginBottom: 12, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(37,139,255,0.72)', backgroundColor: 'rgba(5,24,57,0.88)', shadowColor: '#087BFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 6, overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 7 },
-  creditCoinsWindow: { position: 'absolute', top: 0, left: 0, right: 0, height: 112, overflow: 'hidden' },
+  creditIllustration: { height: 180, marginTop: 0, marginBottom: 12, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(37,139,255,0.72)', backgroundColor: '#071B3B', shadowColor: '#087BFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 6, overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 7 },
+  creditCoinsWindow: { position: 'absolute', top: 0, left: 0, right: 0, height: 112, overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end' },
+  creditGoldCoin: { width: 38, height: 12, marginTop: -3, borderRadius: 20, backgroundColor: '#F6B83F', borderWidth: 1.5, borderColor: '#FFE59A', shadowColor: '#FFBF45', shadowOpacity: 0.9, shadowRadius: 8, elevation: 5 },
+  creditCoinSparkle: { position: 'absolute', right: '23%', top: 24, width: 22, height: 22, borderRadius: 11, backgroundColor: 'rgba(255,207,104,0.18)', alignItems: 'center', justifyContent: 'center' },
+  creditCoinSparkleText: { color: '#FFE59A', fontSize: 16, textShadowColor: '#FFB52E', textShadowRadius: 8 },
+  creditCoinStack: { position: 'absolute', bottom: 16, alignItems: 'center', justifyContent: 'flex-end' },
+  creditStackLeft: { left: '28%' },
+  creditStackCenter: { left: '43%', bottom: 20 },
+  creditStackRight: { right: '25%' },
+  creditCoinStackCenter: { transform: [{ scale: 1.1 }] },
   creditCoinsReferenceCrop: { position: 'absolute', width: '624%', height: '694%', left: '-396%', top: '-178%' },
   creditBalanceValue: { fontSize: 32, lineHeight: 36, color: '#FFE08A', fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 12, marginTop: 0 },
   creditBalanceCaption: { color: '#FFFFFF', fontSize: 13, lineHeight: 17, fontWeight: '700' },
@@ -3458,19 +3489,19 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   profileAboutVersion: { color: '#B6CBE4', fontSize: 10, lineHeight: 14, marginTop: 1 },
   profileAboutTagline: { color: '#69BFFF', fontSize: 10, lineHeight: 14, marginTop: 4 },
 
-  packageCard: { minHeight: 56, paddingVertical: 8, paddingHorizontal: 12, marginTop: 8, borderRadius: 12, backgroundColor: 'rgba(10,28,58,0.98)', borderColor: 'rgba(40,125,218,0.65)' },
+  packageCard: { minHeight: 56, paddingVertical: 8, paddingHorizontal: 12, marginTop: 8, borderRadius: 12, backgroundColor: 'rgba(10,28,58,0.98)', borderWidth: 1, borderColor: 'rgba(40,125,218,0.65)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   packageCardFeatured: { borderWidth: 1.5, borderColor: '#16AFFF', backgroundColor: 'rgba(4,58,124,0.94)', shadowColor: '#008CFF', shadowOpacity: 0.78, shadowRadius: 16, elevation: 9 },
   packageAmount: { color: '#F5F9FF', fontSize: 15, fontWeight: '800' },
   popularBadge: { backgroundColor: '#087BFF', borderColor: '#7BD7FF', borderWidth: 1, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 4 },
-  profileIdentity: { alignItems: 'center', paddingTop: 4, paddingBottom: 5, marginBottom: 2, borderRadius: 18, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
+  profileIdentity: { alignItems: 'center', paddingTop: 7, paddingBottom: 8, marginBottom: 2, borderRadius: 18, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
   profileGuestAvatar: { width: 76, height: 76, borderRadius: 38, borderColor: '#00AFFF', borderWidth: 1.5, backgroundColor: 'transparent', shadowColor: '#00A8FF', shadowOpacity: 0.72, shadowRadius: 16, elevation: 7 },
   profileGuestHead: { backgroundColor: 'transparent', borderWidth: 2, borderColor: '#35BFFF' },
   profileGuestBody: { backgroundColor: 'transparent', borderWidth: 2, borderColor: '#35BFFF' },
   profileGuestName: { color: '#FFFFFF', fontSize: 18, fontWeight: '800' },
   profileGuestStatus: { color: '#83BFFF', fontSize: 12, marginTop: 4 },
   profileCard: { backgroundColor: 'rgba(5,24,56,0.92)', borderColor: 'rgba(35,127,222,0.7)', borderRadius: 14 },
-  profileMenuCard: { backgroundColor: 'transparent', borderColor: 'transparent', borderWidth: 0, borderRadius: 0, paddingHorizontal: 2 },
-  menuItem: { borderBottomColor: 'rgba(59,119,190,0.24)', minHeight: 46, borderBottomWidth: 0 },
+  profileMenuCard: { backgroundColor: 'rgba(4,18,43,0.88)', borderColor: 'rgba(38,112,194,0.48)', borderWidth: 1, borderRadius: 15, paddingHorizontal: 13, paddingVertical: 2, marginTop: 10, overflow: 'hidden' },
+  menuItem: { borderBottomColor: 'rgba(74,132,202,0.25)', minHeight: 47, paddingVertical: 10, borderBottomWidth: 1 },
   introOverlay: { ...StyleSheet.absoluteFill, zIndex: 100, elevation: 100, backgroundColor: '#01091D', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   introReferenceArt: { position: 'absolute', width: '518%', height: '155%', left: '-5.4%', top: '-25%' },
   introCosmicGlow: { position: 'absolute', width: 520, height: 520, borderRadius: 260, top: -130, left: -110, backgroundColor: '#075BFF', opacity: 0.28, shadowColor: '#168FFF', shadowOpacity: 1, shadowRadius: 90, elevation: 25 },
@@ -3689,7 +3720,7 @@ const styles = StyleSheet.create(Object.assign({
   progressSegment: { flex: 1, height: 6, borderRadius: 4, backgroundColor: '#263147' },
   progressSegmentActive: { backgroundColor: BLUE },
   galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 0, marginBottom: 0 },
-  galleryTabs: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', borderBottomWidth: 1, borderBottomColor: 'rgba(55,119,202,0.38)', marginTop: -8, marginBottom: 12 },
+  galleryTabs: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', borderBottomWidth: 1, borderBottomColor: 'rgba(55,119,202,0.38)', marginTop: 2, marginBottom: 12 },
   galleryTab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
   galleryTabActive: { borderBottomColor: '#00AFFF' },
   galleryTabText: { color: '#A9B8D0', fontSize: 13, fontWeight: '600' },
