@@ -27,8 +27,8 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#030817",
-          "image": "./НейроСцена_ синяя галактика творчества-3.png",
+          "backgroundColor": "#020817",
+          "image": "./assets/neuroscene-splash.jpg",
           "imageWidth": 300,
           "resizeMode": "contain"
         }
