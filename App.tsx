@@ -2005,19 +2005,12 @@ export default function App() {
 
       {showIntro && (
         <Animated.View pointerEvents="none" style={[styles.introOverlay, { opacity: introOpacity }]}>
-          <View style={styles.introCosmicGlow} />
-          <View style={styles.introReelHalo} />
-          <View style={styles.introBrandLockup}>
-            <Text style={styles.introMonogram}>Н+С</Text>
-            <Text style={styles.introTitle}>Нейро{'\n'}Сцена</Text>
-          </View>
-          <View style={styles.introFilmStrip}>
-            <Text style={styles.introFilmGlyph}>◉</Text>
-            <View style={styles.introFilmLine} />
-            <Text style={styles.introFilmGlyph}>▶</Text>
-          </View>
-          <Text style={styles.introTagline}>Ваши идеи —{'\n'}на экране</Text>
-          <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
+          <Image
+            source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+            resizeMode="stretch"
+            style={styles.introReferenceArt}
+            accessibilityLabel="Космическая заставка НейроСцена с киноплёнкой и логотипом"
+          /></View>
         </Animated.View>
       )}
 
@@ -3479,6 +3472,7 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   profileMenuCard: { backgroundColor: 'transparent', borderColor: 'transparent', borderWidth: 0, borderRadius: 0, paddingHorizontal: 2 },
   menuItem: { borderBottomColor: 'rgba(59,119,190,0.24)', minHeight: 46, borderBottomWidth: 0 },
   introOverlay: { ...StyleSheet.absoluteFill, zIndex: 100, elevation: 100, backgroundColor: '#01091D', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  introReferenceArt: { position: 'absolute', width: '518%', height: '155%', left: '-5.4%', top: '-25%' },
   introCosmicGlow: { position: 'absolute', width: 520, height: 520, borderRadius: 260, top: -130, left: -110, backgroundColor: '#075BFF', opacity: 0.28, shadowColor: '#168FFF', shadowOpacity: 1, shadowRadius: 90, elevation: 25 },
   introReelHalo: { position: 'absolute', width: 300, height: 300, borderRadius: 150, borderWidth: 2, borderColor: 'rgba(44,174,255,0.55)', bottom: '24%', shadowColor: '#008CFF', shadowOpacity: 1, shadowRadius: 35, elevation: 15 },
   introBrandLockup: { alignItems: 'center', justifyContent: 'center', marginTop: -40 },
