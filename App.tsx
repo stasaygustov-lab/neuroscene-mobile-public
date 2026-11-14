@@ -1900,6 +1900,11 @@ export default function App() {
           </TouchableOpacity>
         ))}
         </View>
+        <View style={styles.profileAboutCard}>
+          <Text style={styles.profileAboutTitle}>НейроСцена</Text>
+          <Text style={styles.profileAboutVersion}>Версия 1.0.0</Text>
+          <Text style={styles.profileAboutTagline}>Создавай. Вдохновляй. Делись.</Text>
+        </View>
         {authToken && (
           <View style={styles.profileAccountActions}>
             <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={deleteAccount} disabled={authBusy}>
