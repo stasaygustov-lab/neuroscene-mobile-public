@@ -3518,7 +3518,18 @@ const COSMIC_OVERRIDES: Record<string, any> = {
 
 };
 
-const styles = StyleSheet.create(Object.assign({
+function mergeStyleSheets(baseStyles: Record<string, any>, overrides: Record<string, any>) {
+  const merged = { ...baseStyles };
+  Object.entries(overrides).forEach(([key, override]) => {
+    const baseStyle = merged[key];
+    merged[key] = baseStyle && typeof baseStyle === 'object'
+      ? { ...baseStyle, ...override }
+      : override;
+  });
+  return merged;
+}
+
+const styles = StyleSheet.create(mergeStyleSheets({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
   ambientGlowTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: 20, right: -240, backgroundColor: '#075CEB', opacity: 0.26 },
