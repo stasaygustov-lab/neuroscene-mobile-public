@@ -196,6 +196,7 @@ export default function App() {
         const next = Math.max(0, Math.min(order.length - 1, current + (gesture.dx < 0 ? 1 : -1)));
         if (next === current) return currentTab;
         setShowSupport(false);
+        setShowSettings(false);
         setShowNotifications(false);
         setShowFaq(false);
         setShowAdminPanel(false);
@@ -235,6 +236,7 @@ export default function App() {
   const [creditHistory, setCreditHistory] = useState<any[]>([]);
   const [creditsLoading, setCreditsLoading] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [adminUsers, setAdminUsers] = useState<any[]>([]);
@@ -1670,6 +1672,18 @@ export default function App() {
         />
       );
     }
+    if (showSettings) {
+      return (
+        <SettingsScreen
+          language={language}
+          duration={duration}
+          setDuration={setDuration}
+          ratio={ratio}
+          setRatio={setRatio}
+          onBack={() => setShowSettings(false)}
+        />
+      );
+    }
     if (tab === 'Create') {
       return (
         <CreateScreen
@@ -1811,7 +1825,7 @@ export default function App() {
       <View style={styles.screen}>
         <View style={styles.profileHeader}>
           <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
-          <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')}>
+          <TouchableOpacity style={styles.profileSettingsButton} onPress={() => setShowSettings(true)}>
             <Text style={styles.profileSettingsIcon}>⚙</Text>
           </TouchableOpacity>
         </View>
@@ -1896,9 +1910,9 @@ export default function App() {
               if (item === 'Покупки и кредиты') {
                 setTab('Credits');
               } else if (item === 'Настройки') {
-                Alert.alert('Настройки', 'Настройки профиля');
+                setShowSettings(true);
               } else if (item === 'О приложении') {
-                Alert.alert('НейроСцена', 'Твоя творческая студия на компьютере.');
+                Alert.alert('НейроСцена', 'Версия 1.0.0. Генерация видео выполняется на вашем компьютере.');
               } else if (item === 'Поддержка') {
                 setSelectedSupportTicket(null);
                 setShowNotifications(false);
@@ -1939,16 +1953,12 @@ export default function App() {
             <Text style={styles.menuArrow}>›</Text>
           </TouchableOpacity>
         )}
-        <View style={styles.profileAboutCard}>
-          <Text style={styles.profileAboutTitle}>НейроСцена</Text>
-          <Text style={styles.profileAboutVersion}>Версия 1.0.0</Text>
-          <Text style={styles.profileAboutTagline}>Создавай. Вдохновляй. Делись.</Text>
-        </View>
+
       </View>
     );
   };
 
-  const activeScreenKey = showAdminPanel ? 'admin' : showNotifications ? 'notifications' : showFaq ? 'faq' : showSupport ? 'support' : tab;
+  const activeScreenKey = showAdminPanel ? 'admin' : showNotifications ? 'notifications' : showFaq ? 'faq' : showSupport ? 'support' : showSettings ? 'settings' : tab;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -2002,6 +2012,11 @@ export default function App() {
         showsVerticalScrollIndicator={false}
         {...swipeResponder.panHandlers}
       >
+        {authReady && !API_BASE_URL && (
+          <View style={{ marginHorizontal: 16, marginTop: 10, marginBottom: 6, padding: 11, borderRadius: 12, backgroundColor: 'rgba(255,174,66,0.12)', borderWidth: 1, borderColor: 'rgba(255,174,66,0.45)' }}>
+            <Text style={{ color: '#FFD28A', fontSize: 12, lineHeight: 17, fontWeight: '700' }}>Сервер не подключён. Интерфейс доступен, но вход, синхронизация, кредиты и генерация не будут работать, пока не настроен публичный HTTPS-адрес API.</Text>
+          </View>
+        )}
         {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
@@ -2015,7 +2030,7 @@ export default function App() {
           <TouchableOpacity activeOpacity={0.86}
             key={item.id}
             style={[styles.navItem, tab === item.id && styles.navItemActive]}
-            onPress={() => { setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
+            onPress={() => { setShowSupport(false); setShowSettings(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
             {item.id === 'Profile' ? (
               <View style={styles.navPerson} accessibilityLabel="Профиль">
@@ -2398,6 +2413,66 @@ function CreateScreen({
           </View>
         </View>
       </Modal>
+    </View>
+  );
+}
+
+type SettingsScreenProps = {
+  language: Language;
+  duration: number;
+  setDuration: (value: number) => void;
+  ratio: string;
+  setRatio: (value: string) => void;
+  onBack: () => void;
+};
+
+function SettingsScreen({ language, duration, setDuration, ratio, setRatio, onBack }: SettingsScreenProps) {
+  const ru = language === 'ru';
+  const choiceStyle = (active: boolean) => [
+    styles.smallAction,
+    active && { borderColor: '#20B8FF', backgroundColor: 'rgba(0,136,255,0.20)' },
+  ];
+  return (
+    <View style={styles.screen}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+        <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
+          <Text style={styles.smallActionText}>‹ {ru ? 'Назад' : 'Back'}</Text>
+        </TouchableOpacity>
+        <Text style={styles.screenTitle}>{ru ? 'Настройки' : 'Settings'}</Text>
+      </View>
+
+      <View style={[styles.packageCard, { flexDirection: 'column', alignItems: 'stretch', gap: 12, paddingVertical: 14 }]}>
+        <Text style={styles.packageAmount}>{ru ? 'Длительность видео по умолчанию' : 'Default video duration'}</Text>
+        <View style={{ flexDirection: 'row', gap: 9 }}>
+          {[5, 10].map((value) => (
+            <TouchableOpacity key={value} activeOpacity={0.86} style={choiceStyle(duration === value)} onPress={() => setDuration(value)}>
+              <Text style={styles.smallActionText}>{value} {ru ? 'секунд' : 'seconds'}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
+      <View style={[styles.packageCard, { flexDirection: 'column', alignItems: 'stretch', gap: 12, paddingVertical: 14 }]}>
+        <Text style={styles.packageAmount}>{ru ? 'Формат кадра по умолчанию' : 'Default aspect ratio'}</Text>
+        <View style={{ flexDirection: 'row', gap: 9 }}>
+          {['16:9', '9:16'].map((value) => (
+            <TouchableOpacity key={value} activeOpacity={0.86} style={choiceStyle(ratio === value)} onPress={() => setRatio(value)}>
+              <Text style={styles.smallActionText}>{value}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.profileAboutCard}>
+        <Text style={styles.profileAboutTitle}>НейроСцена</Text>
+        <Text style={styles.profileAboutVersion}>{ru ? 'Версия 1.0.0' : 'Version 1.0.0'}</Text>
+        <Text style={styles.profileAboutTagline}>{ru ? 'Создавай. Вдохновляй. Делись.' : 'Create. Inspire. Share.'}</Text>
+      </View>
+      <Text style={styles.note}>
+        {ru
+          ? 'Параметры применяются к следующим генерациям. Видеогенерация выполняется на вашем компьютере.'
+          : 'These preferences apply to future generations. Video generation runs on your computer.'}
+      </Text>
     </View>
   );
 }
