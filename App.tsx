@@ -2008,8 +2008,8 @@ export default function App() {
           <View style={styles.introCosmicGlow} />
           <View style={styles.introReelHalo} />
           <View style={styles.introBrandLockup}>
-            <Image source={require('./assets/Футуристический серебряно-синий монограмный логотип HC-1.png')} style={styles.introLogoImage} resizeMode="contain" />
-            <Text style={styles.introTitle}>Нейро{ '\\n' }Сцена</Text>
+            <Text style={styles.introMonogram}>Н+С</Text>
+            <Text style={styles.introTitle}>Нейро{'\n'}Сцена</Text>
           </View>
           <View style={styles.introFilmStrip}>
             <Text style={styles.introFilmGlyph}>◉</Text>
@@ -3482,7 +3482,7 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   introCosmicGlow: { position: 'absolute', width: 520, height: 520, borderRadius: 260, top: -130, left: -110, backgroundColor: '#075BFF', opacity: 0.28, shadowColor: '#168FFF', shadowOpacity: 1, shadowRadius: 90, elevation: 25 },
   introReelHalo: { position: 'absolute', width: 300, height: 300, borderRadius: 150, borderWidth: 2, borderColor: 'rgba(44,174,255,0.55)', bottom: '24%', shadowColor: '#008CFF', shadowOpacity: 1, shadowRadius: 35, elevation: 15 },
   introBrandLockup: { alignItems: 'center', justifyContent: 'center', marginTop: -40 },
-  introLogoImage: { width: 180, height: 135, shadowColor: '#0A9BFF', shadowOpacity: 1, shadowRadius: 24, elevation: 18 },
+  introMonogram: { color: '#54D9FF', fontSize: 78, lineHeight: 92, fontWeight: '900', letterSpacing: -4, textShadowColor: '#008CFF', textShadowRadius: 28, elevation: 18 },
   introFilmStrip: { position: 'absolute', bottom: '31%', width: '78%', height: 58, borderWidth: 2, borderRadius: 14, borderColor: '#22A9FF', backgroundColor: 'rgba(2,22,58,0.68)', shadowColor: '#087BFF', shadowOpacity: 0.9, shadowRadius: 26, elevation: 18, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' },
   introFilmGlyph: { color: '#70DFFF', fontSize: 25, textShadowColor: '#008CFF', textShadowRadius: 14 },
   introFilmLine: { width: '42%', height: 2, backgroundColor: '#39BFFF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9 },
