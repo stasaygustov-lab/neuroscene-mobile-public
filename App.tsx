@@ -2039,8 +2039,8 @@ export default function App() {
       {showIntro && (
         <Animated.View pointerEvents="none" style={[styles.introOverlay, { opacity: introOpacity }]}>
           <Image
-            source={require('./НейроСцена_ синяя галактика творчества-3.png')}
-            resizeMode="stretch"
+            source={require('./assets/neuroscene-splash.jpg')}
+            resizeMode="cover"
             style={styles.introReferenceArt}
             accessibilityLabel="Космическая заставка НейроСцена с киноплёнкой и логотипом"
           />
@@ -3528,8 +3528,8 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   profileCard: { backgroundColor: 'rgba(5,24,56,0.92)', borderColor: 'rgba(35,127,222,0.7)', borderRadius: 14 },
   profileMenuCard: { backgroundColor: 'rgba(4,18,43,0.88)', borderColor: 'rgba(38,112,194,0.48)', borderWidth: 1, borderRadius: 15, paddingHorizontal: 13, paddingVertical: 2, marginTop: 10, overflow: 'hidden' },
   menuItem: { borderBottomColor: 'rgba(74,132,202,0.25)', minHeight: 47, paddingVertical: 10, paddingHorizontal: 5, borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  introOverlay: { ...StyleSheet.absoluteFill, zIndex: 100, elevation: 100, backgroundColor: '#01091D', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
-  introReferenceArt: { position: 'absolute', width: '518%', height: '155%', left: '-5.4%', top: '-25%' },
+  introOverlay: { ...StyleSheet.absoluteFill, top: 0, right: 0, bottom: 0, left: 0, zIndex: 100, elevation: 100, backgroundColor: '#01091D', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  introReferenceArt: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
   introCosmicGlow: { position: 'absolute', width: 520, height: 520, borderRadius: 260, top: -130, left: -110, backgroundColor: '#075BFF', opacity: 0.28, shadowColor: '#168FFF', shadowOpacity: 1, shadowRadius: 90, elevation: 25 },
   introReelHalo: { position: 'absolute', width: 300, height: 300, borderRadius: 150, borderWidth: 2, borderColor: 'rgba(44,174,255,0.55)', bottom: '24%', shadowColor: '#008CFF', shadowOpacity: 1, shadowRadius: 35, elevation: 15 },
   introBrandLockup: { alignItems: 'center', justifyContent: 'center', marginTop: -40 },
