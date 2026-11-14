@@ -2672,9 +2672,20 @@ function GalleryScreen({
       {!!error && <Text style={styles.errorText}>{error}</Text>}
       {!loading && visibleItems.length === 0 && (
         <View style={styles.emptyScreen}>
-          <Text style={styles.emptyIcon}>▤</Text>
-          <Text style={styles.description}>{galleryFilter === 'favorites' ? 'В избранном пока нет видео' : uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
-          <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}>
+          <Text style={styles.emptyIcon}>{error ? '!' : '▤'}</Text>
+          <Text style={styles.description}>
+            {error
+              ? 'Не удалось загрузить список видео. Проверьте соединение и повторите попытку.'
+              : galleryFilter === 'favorites'
+                ? 'В избранном пока нет видео'
+                : uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}
+          </Text>
+          {!!error && (
+            <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onRefresh}>
+              <Text style={styles.secondaryButtonText}>Повторить загрузку</Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity activeOpacity={0.86} style={[styles.secondaryButton, !!error && { marginTop: 10 }]} onPress={onCreate}>
             <Text style={styles.secondaryButtonText}>{galleryFilter === 'favorites' ? 'Перейти к созданию видео' : uiText(language, 'Create your first video', 'Создать видео')}</Text>
           </TouchableOpacity>
         </View>
