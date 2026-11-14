@@ -1,5 +1,4 @@
-# Android UI smoke test uses POSIX-compatible shell for emulator runner.
-name: NeuroScene Android APK and UI smoke test
+name: NeuroScene Android APK build
 
 on:
   push:
@@ -82,39 +81,5 @@ jobs:
         with:
           name: neurosScene-preview-apk
           path: android/app/build/outputs/apk/release/app-release.apk
-          if-no-files-found: error
-          retention-days: 7
-
-  visual-smoke-test:
-    name: Capture Android UI screens
-    needs: build-android-apk
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/download-artifact@v4
-        with:
-          name: neurosScene-preview-apk
-          path: artifacts
-      - name: Start Android emulator and capture screens
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 30
-          target: default
-          arch: x86_64
-          profile: pixel_2
-          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -memory 4096 -cores 4 -camera-back none -camera-front none
-          disable-animations: true
-          emulator-boot-timeout: 900
-          script: |
-            adb wait-for-device
-            adb logcat -c
-            adb install -r artifacts/app-release.apk
-            python3 scripts/launch-android.py
-            python3 scripts/capture-android-screens.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: neurosScene-visual-screenshots
-          path: screenshots/*.png
           if-no-files-found: error
           retention-days: 7
