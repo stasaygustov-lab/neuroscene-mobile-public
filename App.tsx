@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+﻿import { Component, useEffect, useRef, useState } from 'react';
 import { Animated, Modal, PanResponder } from 'react-native';
 import { useEvent } from 'expo';
 import {
@@ -213,6 +213,47 @@ function ScreenTransition({ children }: { children: any }) {
 }
 
 export default function App() {
+  return (
+    <AppErrorBoundary>
+      <AppShell />
+    </AppErrorBoundary>
+  );
+}
+
+class AppErrorBoundary extends Component<{ children: any }, { failed: boolean }> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error: Error) {
+    console.error('NeuroScene screen render failed:', error);
+  }
+
+  render() {
+    if (this.state.failed) {
+      return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#030817', justifyContent: 'center', padding: 24 }}>
+          <Text style={{ color: '#FFFFFF', fontSize: 25, fontWeight: '900', textAlign: 'center' }}>НейроСцена</Text>
+          <Text style={{ color: '#C5D8F2', fontSize: 15, lineHeight: 23, textAlign: 'center', marginTop: 14 }}>
+            Не удалось отобразить этот экран. Вернитесь на главный экран и попробуйте ещё раз.
+          </Text>
+          <TouchableOpacity
+            activeOpacity={0.86}
+            onPress={() => this.setState({ failed: false })}
+            style={{ marginTop: 24, minHeight: 50, borderRadius: 14, backgroundColor: '#176BDB', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <Text style={{ color: '#FFFFFF', fontSize: 15, fontWeight: '800' }}>Повторить</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function AppShell() {
   const [tab, setTab] = useState<Tab>('Create');
   const [showIntro, setShowIntro] = useState(true);
   const introOpacity = useRef(new Animated.Value(1)).current;
@@ -1885,6 +1926,15 @@ export default function App() {
               </View>
             </View>
           ))}
+          {!authToken && (
+            <View style={[styles.packageCard, { flexDirection: 'column', alignItems: 'stretch', gap: 10, marginTop: 18 }]}>
+              <Text style={styles.packageAmount}>Войдите, чтобы увидеть баланс</Text>
+              <Text style={styles.mutedText}>Кредиты и история операций появятся здесь после входа в аккаунт. Покупка кредитов пока не подключена.</Text>
+              <TouchableOpacity activeOpacity={0.86} style={styles.authAction} onPress={() => setTab('Profile')}>
+                <Text style={styles.createButtonText}>Войти в аккаунт</Text>
+              </TouchableOpacity>
+            </View>
+          )}
           <View style={styles.creditBenefits}>
             <Text style={styles.creditBenefit}>✓  Кредиты не сгорают</Text>
             <Text style={styles.creditBenefit}>✓  Без подписок</Text>
@@ -2099,7 +2149,7 @@ export default function App() {
 
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent]}
+        contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent, { flexGrow: 1 }]} 
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         {...swipeResponder.panHandlers}
@@ -2624,7 +2674,9 @@ function GalleryScreen({
         <View style={styles.emptyScreen}>
           <Text style={styles.emptyIcon}>▤</Text>
           <Text style={styles.description}>{galleryFilter === 'favorites' ? 'В избранном пока нет видео' : uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
-          {galleryFilter === 'videos' && <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}><Text style={styles.secondaryButtonText}>{uiText(language, 'Create your first video', 'Создать видео')}</Text></TouchableOpacity>}
+          <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}>
+            <Text style={styles.secondaryButtonText}>{galleryFilter === 'favorites' ? 'Перейти к созданию видео' : uiText(language, 'Create your first video', 'Создать видео')}</Text>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -3813,7 +3865,7 @@ const styles = StyleSheet.create(mergeStyleSheets({
   headerBalanceLabel: { color: MUTED, fontSize: 14, letterSpacing: 1.5, fontWeight: '700' },
   headerBalanceValue: { color: WHITE, fontSize: 17, fontWeight: '900', marginTop: 4 },
   scroll: { flex: 1 },
-  content: { paddingHorizontal: 20, paddingTop: 30, paddingBottom: 42 },
+  content: { flexGrow: 1, paddingHorizontal: 20, paddingTop: 30, paddingBottom: 42 },
   hero: { position: 'relative', marginTop: 4, marginBottom: 18, padding: 24, minHeight: 116, justifyContent: 'center', borderRadius: 25, backgroundColor: 'rgba(8,28,64,0.92)', borderWidth: 1, borderColor: '#2878D7', overflow: 'hidden', shadowColor: '#126BFF', shadowOpacity: 0.42, shadowRadius: 30, shadowOffset: { width: 0, height: 8 }, elevation: 12 },
   heroGlow: { position: 'absolute', width: 250, height: 250, borderRadius: 125, top: -145, right: -65, backgroundColor: '#1C5FC0', opacity: 0.24 },
   heroOrbit: { position: 'absolute', width: 190, height: 190, borderRadius: 95, top: -112, right: -32, borderWidth: 1, borderColor: 'rgba(103,174,255,0.22)' },
