@@ -68,7 +68,7 @@ def capture(name):
                     stdout=output,
                     stderr=subprocess.PIPE,
                 )
-            if target.stat().st_size < 1000 or target.read_bytes()[:8] != b"\\x89PNG\\r\\n\\x1a\\n":
+            if target.stat().st_size < 1000 or target.read_bytes()[:8] != b"\x89PNG\r\n\x1a\n":
                 raise RuntimeError(f"Invalid PNG data captured for {name}")
             print(f"Captured {name} ({target.stat().st_size} bytes)", flush=True)
             return
