@@ -281,6 +281,8 @@ export default function App() {
   const [submitting, setSubmitting] = useState(false);
   const [pollError, setPollError] = useState('');
   const [galleryItems, setGalleryItems] = useState<any[]>([]);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [favoritesReady, setFavoritesReady] = useState(false);
   const [galleryLoading, setGalleryLoading] = useState(false);
   const [galleryError, setGalleryError] = useState('');
   const [creditsBalance, setCreditsBalance] = useState<number | null>(null);
@@ -316,6 +318,28 @@ export default function App() {
   const [faqItems, setFaqItems] = useState<any[]>([]);
   const [faqLoading, setFaqLoading] = useState(false);
   const [faqError, setFaqError] = useState('');
+  useEffect(() => {
+    let mounted = true;
+    SecureStore.getItemAsync('neuroscene.gallery.favorites')
+      .then((raw) => {
+        if (!mounted || !raw) return;
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) setFavoriteIds(parsed.filter((value) => typeof value === 'string'));
+        } catch { /* Ignore malformed local favorites and start with an empty list. */ }
+      })
+      .catch(() => { /* Favorites remain usable in memory if secure storage is unavailable. */ })
+      .finally(() => { if (mounted) setFavoritesReady(true); });
+    return () => { mounted = false; };
+  }, []);
+
+  useEffect(() => {
+    if (!favoritesReady) return;
+    SecureStore.setItemAsync('neuroscene.gallery.favorites', JSON.stringify(favoriteIds)).catch(() => {
+      /* Keep the gallery usable for this session if persistence fails. */
+    });
+  }, [favoriteIds, favoritesReady]);
+
   useEffect(() => {
     if (!API_BASE_URL) {
       setApiConnectionStatus('not_configured');
@@ -1788,6 +1812,8 @@ export default function App() {
       return (
         <GalleryScreen
           items={galleryItems}
+          favoriteIds={favoriteIds}
+          onToggleFavorite={(jobId: string) => setFavoriteIds((current) => current.includes(jobId) ? current.filter((id) => id !== jobId) : [...current, jobId])}
           language={language}
           loading={galleryLoading}
           error={galleryError}
@@ -2546,6 +2572,8 @@ function SettingsScreen({ language, duration, setDuration, ratio, setRatio, onBa
 
 function GalleryScreen({
   items,
+  favoriteIds,
+  onToggleFavorite,
   language,
   loading,
   error,
@@ -2557,6 +2585,8 @@ function GalleryScreen({
   onCreate,
 }: {
   items: any[];
+  favoriteIds: string[];
+  onToggleFavorite: (jobId: string) => void;
   language: Language;
   loading: boolean;
   error: string;
@@ -2569,7 +2599,6 @@ function GalleryScreen({
 }) {
   const ru = language === 'ru';
   const [galleryFilter, setGalleryFilter] = useState<'videos' | 'favorites'>('videos');
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const visibleItems = galleryFilter === 'favorites'
     ? items.filter((item) => favoriteIds.includes(String(item.job_id)))
     : items;
@@ -2615,7 +2644,7 @@ function GalleryScreen({
             <View style={styles.galleryPreview}>
               <GalleryVideoPlayer uri={url} />
               {!!durationLabel && <Text style={styles.galleryDuration}>{durationLabel}</Text>}
-              <TouchableOpacity style={styles.galleryFavorite} onPress={() => setFavoriteIds((current) => current.includes(String(item.job_id)) ? current.filter((id) => id !== String(item.job_id)) : [...current, String(item.job_id)])}>
+              <TouchableOpacity style={styles.galleryFavorite} onPress={() => onToggleFavorite(String(item.job_id))}>
                 <Text style={styles.galleryFavoriteText}>{favoriteIds.includes(String(item.job_id)) ? '★' : '☆'}</Text>
               </TouchableOpacity>
             </View>
