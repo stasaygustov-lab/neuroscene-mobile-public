@@ -262,14 +262,16 @@ function AppShell() {
     let mounted = true;
     const hideTimer = setTimeout(() => {
       if (mounted) {
-        Animated.timing(introOpacity, { toValue: 0, duration: 420, useNativeDriver: true }).start();
+        Animated.timing(introOpacity, { toValue: 0, duration: 360, useNativeDriver: true }).start(({ finished }) => {
+          if (finished && mounted) setShowIntro(false);
+        });
       }
-    }, 3100);
+    }, 2700);
     // Independent fallback: the app UI must never remain covered if the native
     // animation callback is interrupted by Android lifecycle changes.
     const fallbackTimer = setTimeout(() => {
       if (mounted) setShowIntro(false);
-    }, 3900);
+    }, 3400);
     return () => {
       mounted = false;
       clearTimeout(hideTimer);
