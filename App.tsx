@@ -157,6 +157,17 @@ function ScreenTransition({ children }: { children: any }) {
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('Create');
+  const [showIntro, setShowIntro] = useState(true);
+  const introOpacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      Animated.timing(introOpacity, { toValue: 0, duration: 420, useNativeDriver: true }).start(({ finished }) => {
+        if (finished) setShowIntro(false);
+      });
+    }, 3100);
+    return () => clearTimeout(timer);
+  }, [introOpacity]);
   const swipeResponder = useRef(PanResponder.create({
     onMoveShouldSetPanResponder: (_event, gesture) =>
       Math.abs(gesture.dx) > 48 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.25,
@@ -1732,7 +1743,7 @@ export default function App() {
           </View>
           <Text style={styles.creditPackagesHeading}>Пакеты кредитов</Text>
           {[500, 1500, 5000].map((amount) => (
-            <View style={styles.packageCard} key={amount}>
+            <View style={[styles.packageCard, amount === 1500 && styles.packageCardFeatured]} key={amount}>
               <View style={styles.packageIconWrap}>
                 <Text style={styles.packageIcon}>🪙</Text>
               </View>
@@ -1991,6 +2002,24 @@ export default function App() {
           </TouchableOpacity>
         ))}
       </View>
+
+      {showIntro && (
+        <Animated.View pointerEvents="none" style={[styles.introOverlay, { opacity: introOpacity }]}>
+          <View style={styles.introCosmicGlow} />
+          <View style={styles.introReelHalo} />
+          <View style={styles.introBrandLockup}>
+            <Image source={require('./assets/Футуристический серебряно-синий монограмный логотип HC-1.png')} style={styles.introLogoImage} resizeMode="contain" />
+            <Text style={styles.introTitle}>Нейро{ '\\n' }Сцена</Text>
+          </View>
+          <View style={styles.introFilmStrip}>
+            <Text style={styles.introFilmGlyph}>◉</Text>
+            <View style={styles.introFilmLine} />
+            <Text style={styles.introFilmGlyph}>▶</Text>
+          </View>
+          <Text style={styles.introTagline}>Ваши идеи —{ '\\n' }на экране</Text>
+          <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
+        </Animated.View>
+      )}
 
     </SafeAreaView>
   );
@@ -2383,7 +2412,7 @@ function GalleryScreen({
           <Text style={[styles.galleryTabText, galleryFilter === 'favorites' && styles.galleryTabTextActive]}>Избранное</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.galleryLimit}>{uiText(language, 'Storage available {count}/2', `Доступно для хранения: ${items.length}/2`).replace('{count}', String(items.length))}</Text>
+      <Text style={styles.galleryLimit}>{`Доступно для хранения: ${Math.min(items.length, 2)} / 2`}</Text>
       <View style={styles.storageTrack}><View style={[styles.storageProgress, { width: `${Math.min(items.length / 2 * 100, 100)}%` }]} /></View>
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
       {!!error && <Text style={styles.errorText}>{error}</Text>}
@@ -3411,7 +3440,7 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   referenceCreateButton: { height: 54, borderRadius: 16, backgroundColor: '#087BFF', borderColor: '#54C9FF' },
   referenceCreateButtonText: { fontSize: 16, letterSpacing: 0.2 },
   galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 8 },
-  galleryCard: { width: '48.2%', padding: 0, marginTop: 8, marginBottom: 4, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
+  galleryCard: { width: '48.2%', padding: 4, marginTop: 8, marginBottom: 4, borderRadius: 11, backgroundColor: 'rgba(4,20,48,0.72)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
   notificationCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
   contentPanelCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
 
@@ -3437,6 +3466,7 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   profileAboutTagline: { color: '#69BFFF', fontSize: 10, lineHeight: 14, marginTop: 4 },
 
   packageCard: { minHeight: 56, paddingVertical: 8, paddingHorizontal: 12, marginTop: 8, borderRadius: 12, backgroundColor: 'rgba(10,28,58,0.98)', borderColor: 'rgba(40,125,218,0.65)' },
+  packageCardFeatured: { borderWidth: 1.5, borderColor: '#16AFFF', backgroundColor: 'rgba(4,58,124,0.94)', shadowColor: '#008CFF', shadowOpacity: 0.78, shadowRadius: 16, elevation: 9 },
   packageAmount: { color: '#F5F9FF', fontSize: 15, fontWeight: '800' },
   popularBadge: { backgroundColor: '#087BFF', borderColor: '#7BD7FF', borderWidth: 1, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 4 },
   profileIdentity: { alignItems: 'center', paddingTop: 4, paddingBottom: 5, marginBottom: 2, borderRadius: 18, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
@@ -3448,12 +3478,18 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   profileCard: { backgroundColor: 'rgba(5,24,56,0.92)', borderColor: 'rgba(35,127,222,0.7)', borderRadius: 14 },
   profileMenuCard: { backgroundColor: 'transparent', borderColor: 'transparent', borderWidth: 0, borderRadius: 0, paddingHorizontal: 2 },
   menuItem: { borderBottomColor: 'rgba(59,119,190,0.24)', minHeight: 46, borderBottomWidth: 0 },
-  introOverlay: { backgroundColor: '#01091D' },
-  introReelWrap: { top: '8%', width: 330, height: 350 },
-  introFilmStrip: { width: 360, height: 84, borderColor: '#22A9FF', shadowRadius: 26 },
-  introReelOuter: { borderColor: '#5CCBFF', shadowColor: '#087BFF', shadowOpacity: 1, shadowRadius: 25, elevation: 18 },
-  introTitle: { bottom: '23%', fontSize: 48, lineHeight: 52, letterSpacing: 0.2 },
-  introTagline: { bottom: '11%', fontSize: 17, lineHeight: 24 },
+  introOverlay: { ...StyleSheet.absoluteFillObject, zIndex: 100, elevation: 100, backgroundColor: '#01091D', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  introCosmicGlow: { position: 'absolute', width: 520, height: 520, borderRadius: 260, top: -130, left: -110, backgroundColor: '#075BFF', opacity: 0.28, shadowColor: '#168FFF', shadowOpacity: 1, shadowRadius: 90, elevation: 25 },
+  introReelHalo: { position: 'absolute', width: 300, height: 300, borderRadius: 150, borderWidth: 2, borderColor: 'rgba(44,174,255,0.55)', bottom: '24%', shadowColor: '#008CFF', shadowOpacity: 1, shadowRadius: 35, elevation: 15 },
+  introBrandLockup: { alignItems: 'center', justifyContent: 'center', marginTop: -40 },
+  introLogoImage: { width: 180, height: 135, shadowColor: '#0A9BFF', shadowOpacity: 1, shadowRadius: 24, elevation: 18 },
+  introFilmStrip: { position: 'absolute', bottom: '31%', width: '78%', height: 58, borderWidth: 2, borderRadius: 14, borderColor: '#22A9FF', backgroundColor: 'rgba(2,22,58,0.68)', shadowColor: '#087BFF', shadowOpacity: 0.9, shadowRadius: 26, elevation: 18, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' },
+  introFilmGlyph: { color: '#70DFFF', fontSize: 25, textShadowColor: '#008CFF', textShadowRadius: 14 },
+  introFilmLine: { width: '42%', height: 2, backgroundColor: '#39BFFF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9 },
+  introTitle: { color: '#FFFFFF', fontSize: 42, lineHeight: 46, fontWeight: '900', textAlign: 'center', letterSpacing: 0.2, textShadowColor: '#087BFF', textShadowRadius: 22 },
+  introTagline: { position: 'absolute', bottom: '13%', color: '#A8D7FF', fontSize: 17, lineHeight: 24, textAlign: 'center', textShadowColor: '#087BFF', textShadowRadius: 12 },
+  introProgressTrack: { position: 'absolute', bottom: '7%', width: '78%', height: 4, borderRadius: 3, backgroundColor: 'rgba(79,139,198,0.28)', overflow: 'hidden' },
+  introProgressFill: { width: '42%', height: 4, borderRadius: 3, backgroundColor: '#5CD9FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 4 },
 
 };
 
