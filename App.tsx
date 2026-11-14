@@ -1997,6 +1997,10 @@ export default function App() {
                 <View style={styles.navPersonHead} />
                 <View style={styles.navPersonBody} />
               </View>
+            ) : item.id === 'Credits' ? (
+              <View style={styles.navCoin} accessibilityLabel="Кредиты">
+                <View style={styles.navCoinInner}><Text style={styles.navCoinMark}>✦</Text></View>
+              </View>
             ) : (
               <Text style={[styles.navIcon, tab === item.id && styles.navIconActive]}>{item.icon}</Text>
             )}
@@ -2418,8 +2422,6 @@ function GalleryScreen({
           <Text style={[styles.galleryTabText, galleryFilter === 'favorites' && styles.galleryTabTextActive]}>Избранное</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.galleryLimit}>{`Доступно для хранения: ${Math.min(items.length, 2)} / 2`}</Text>
-      <View style={styles.storageTrack}><View style={[styles.storageProgress, { width: `${Math.min(items.length / 2 * 100, 100)}%` }]} /></View>
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
       {!!error && <Text style={styles.errorText}>{error}</Text>}
       {!loading && visibleItems.length === 0 && (
@@ -2510,6 +2512,8 @@ function GalleryScreen({
         );
       })}
       </View>
+      <Text style={styles.galleryLimit}>{`Доступно для хранения: ${Math.min(items.length, 2)} / 2`}</Text>
+      <View style={styles.storageTrack}><View style={[styles.storageProgress, { width: `${Math.min(items.length / 2 * 100, 100)}%` }]} /></View>
     </View>
   );
 }
