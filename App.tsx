@@ -2010,7 +2010,7 @@ export default function App() {
             resizeMode="stretch"
             style={styles.introReferenceArt}
             accessibilityLabel="Космическая заставка НейроСцена с киноплёнкой и логотипом"
-          /></View>
+          />
         </Animated.View>
       )}
 
