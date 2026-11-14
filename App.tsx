@@ -168,12 +168,22 @@ export default function App() {
   const introOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      Animated.timing(introOpacity, { toValue: 0, duration: 420, useNativeDriver: true }).start(({ finished }) => {
-        if (finished) setShowIntro(false);
-      });
+    let mounted = true;
+    const hideTimer = setTimeout(() => {
+      if (mounted) {
+        Animated.timing(introOpacity, { toValue: 0, duration: 420, useNativeDriver: true }).start();
+      }
     }, 3100);
-    return () => clearTimeout(timer);
+    // Independent fallback: the app UI must never remain covered if the native
+    // animation callback is interrupted by Android lifecycle changes.
+    const fallbackTimer = setTimeout(() => {
+      if (mounted) setShowIntro(false);
+    }, 3900);
+    return () => {
+      mounted = false;
+      clearTimeout(hideTimer);
+      clearTimeout(fallbackTimer);
+    };
   }, [introOpacity]);
   const swipeResponder = useRef(PanResponder.create({
     onMoveShouldSetPanResponder: (_event, gesture) =>
@@ -3559,7 +3569,7 @@ const styles = StyleSheet.create(mergeStyleSheets({
   ambientStarTwo: { position: 'absolute', top: '43%', right: '13%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#70C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
   ambientStarThree: { position: 'absolute', bottom: '19%', left: '28%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#A7E7FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
   introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#030817', alignItems: 'center', justifyContent: 'center' },
-  introReferenceImage: { position: 'absolute', width: '507%', height: '151%', left: '-5%', top: '-24%' },
+  introReferenceArt: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
   introGlowTop: { position: 'absolute', width: 420, height: 420, borderRadius: 210, top: '3%', alignSelf: 'center', backgroundColor: '#064AC4', opacity: 0.24, shadowColor: '#087CFF', shadowOpacity: 1, shadowRadius: 90, elevation: 24 },
   introGlowCore: { position: 'absolute', width: 290, height: 290, borderRadius: 145, top: '29%', alignSelf: 'center', backgroundColor: '#0B3B8B', opacity: 0.2, shadowColor: '#22AFFF', shadowOpacity: 0.9, shadowRadius: 55, elevation: 20 },
   introGlowBottom: { position: 'absolute', width: 520, height: 260, borderRadius: 260, bottom: '-2%', alignSelf: 'center', backgroundColor: '#005F91', opacity: 0.18, shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 75, elevation: 18 },
