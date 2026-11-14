@@ -2016,7 +2016,7 @@ export default function App() {
             <View style={styles.introFilmLine} />
             <Text style={styles.introFilmGlyph}>▶</Text>
           </View>
-          <Text style={styles.introTagline}>Ваши идеи —{ '\\n' }на экране</Text>
+          <Text style={styles.introTagline}>Ваши идеи —{'\n'}на экране</Text>
           <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
         </Animated.View>
       )}
