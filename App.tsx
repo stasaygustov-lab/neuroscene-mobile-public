@@ -2165,7 +2165,7 @@ function AppShell() {
             </Text>
           </View>
         )}
-        {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
+        <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition>
       </ScrollView>
 
       <View style={styles.bottomNav}>
