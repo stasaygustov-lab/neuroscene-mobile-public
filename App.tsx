@@ -168,6 +168,21 @@ export default function App() {
   const introOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    if (!API_BASE_URL) {
+      setApiConnectionStatus('not_configured');
+      return;
+    }
+    let mounted = true;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    fetch(`${API_BASE_URL}/health`, { method: 'GET', signal: controller.signal })
+      .then((response) => { if (mounted) setApiConnectionStatus(response.ok ? 'online' : 'offline'); })
+      .catch(() => { if (mounted) setApiConnectionStatus('offline'); })
+      .finally(() => clearTimeout(timeout));
+    return () => { mounted = false; clearTimeout(timeout); controller.abort(); };
+  }, []);
+
+  useEffect(() => {
     let mounted = true;
     const hideTimer = setTimeout(() => {
       if (mounted) {
@@ -215,6 +230,7 @@ export default function App() {
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [authUser, setAuthUser] = useState<any | null>(null);
   const [authReady, setAuthReady] = useState(false);
+  const [apiConnectionStatus, setApiConnectionStatus] = useState<'not_configured' | 'checking' | 'online' | 'offline'>(API_BASE_URL ? 'checking' : 'not_configured');
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
@@ -2012,9 +2028,15 @@ export default function App() {
         showsVerticalScrollIndicator={false}
         {...swipeResponder.panHandlers}
       >
-        {authReady && !API_BASE_URL && (
+        {authReady && apiConnectionStatus !== 'online' && (
           <View style={{ marginHorizontal: 16, marginTop: 10, marginBottom: 6, padding: 11, borderRadius: 12, backgroundColor: 'rgba(255,174,66,0.12)', borderWidth: 1, borderColor: 'rgba(255,174,66,0.45)' }}>
-            <Text style={{ color: '#FFD28A', fontSize: 12, lineHeight: 17, fontWeight: '700' }}>Сервер не подключён. Интерфейс доступен, но вход, синхронизация, кредиты и генерация не будут работать, пока не настроен публичный HTTPS-адрес API.</Text>
+            <Text style={{ color: '#FFD28A', fontSize: 12, lineHeight: 17, fontWeight: '700' }}>
+              {apiConnectionStatus === 'checking'
+                ? 'Проверяем соединение с сервером…'
+                : apiConnectionStatus === 'offline'
+                  ? 'Сервер недоступен. Проверьте публичный HTTPS-адрес API и работу локального компьютера.'
+                  : 'Сервер не подключён. Интерфейс доступен, но вход, синхронизация, кредиты и генерация не будут работать, пока не настроен публичный HTTPS-адрес API.'}
+            </Text>
           </View>
         )}
         {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
