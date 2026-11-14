@@ -29,7 +29,7 @@
         {
           "backgroundColor": "#020817",
           "image": "./assets/neuroscene-brand.png",
-          "imageWidth": 300,
+          "imageWidth": 180,
           "resizeMode": "contain"
         }
       ]
