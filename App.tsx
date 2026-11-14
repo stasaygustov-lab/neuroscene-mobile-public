@@ -1,5 +1,6 @@
-﻿import { useEffect, useRef, useState } from 'react';
+﻿import { Component, useEffect, useRef, useState } from 'react';
 import { Animated, Modal, PanResponder } from 'react-native';
+import { ImageBackground } from 'react-native';
 import { useEvent } from 'expo';
 import {
   SafeAreaView,
@@ -12,7 +13,6 @@ import {
   Alert,
   ActivityIndicator,
   Image,
-  ImageBackground,
   Linking,
 } from 'react-native';
 import { VideoView, useVideoPlayer } from 'expo-video';
@@ -31,6 +31,13 @@ const VK_REDIRECT_URI = VK_CLIENT_ID ? `vk${VK_CLIENT_ID}://vk.ru/blank.html` : 
 const SESSION_STORAGE_KEY = 'neuroscene.session';
 const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || '').replace(/\/+$/, '');
 
+async function apiFetch(input: string, init?: RequestInit): Promise<Response> {
+  if (!API_BASE_URL) {
+    throw new Error('Сервер НейроСцены ещё не настроен. Попробуйте позже.');
+  }
+  return fetch(input, init);
+}
+
 const StyledText = Text as typeof Text & { defaultProps?: any };
 StyledText.defaultProps = {
   ...(StyledText.defaultProps || {}),
@@ -42,6 +49,9 @@ const BG = '#080B14';
 const PANEL = '#111827';
 const MUTED = '#8994A8';
 const WHITE = '#FFFFFF';
+
+const REFERENCE_HERO_SOURCE = { uri: 'data:image/jpeg;base64,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' };
+
 
 const RECOMMENDED_PROMPTS = [
   'A lone astronaut walks through a vast abandoned cathedral on an alien planet, soft shafts of blue light cut through drifting dust, slow cinematic dolly-in, photorealistic, atmospheric science-fiction film.',
@@ -131,6 +141,56 @@ async function readResponse(response: Response): Promise<any> {
   }
 }
 
+function NeuroSceneIntroArt() {
+  const reelHole = {
+    position: 'absolute' as const,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#06152F',
+    borderWidth: 2,
+    borderColor: 'rgba(112,202,255,0.92)',
+    shadowColor: '#2AA7FF',
+    shadowOpacity: 0.7,
+    shadowRadius: 8,
+  };
+  return (
+    <View style={{ flex: 1, width: '100%', backgroundColor: '#01091D', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', paddingHorizontal: 22 }}>
+      <View style={{ position: 'absolute', width: 380, height: 380, borderRadius: 190, top: 60, left: -170, backgroundColor: '#0649B4', opacity: 0.20 }} />
+      <View style={{ position: 'absolute', width: 340, height: 340, borderRadius: 170, bottom: 80, right: -150, backgroundColor: '#087DD6', opacity: 0.16 }} />
+      <View style={{ position: 'absolute', width: 230, height: 230, borderRadius: 115, top: '22%', left: '22%', backgroundColor: '#0B4E9A', opacity: 0.10 }} />
+
+      <View style={{ width: '100%', height: 300, alignItems: 'center', justifyContent: 'center', marginTop: -30 }}>
+        <View style={{ position: 'absolute', width: 360, height: 118, borderRadius: 20, borderWidth: 3, borderColor: 'rgba(43,151,255,0.78)', backgroundColor: 'rgba(5,28,66,0.72)', transform: [{ rotate: '-19deg' }], shadowColor: '#087BFF', shadowOpacity: 0.55, shadowRadius: 22, elevation: 8, justifyContent: 'space-between', paddingVertical: 9, paddingHorizontal: 12 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            {Array.from({ length: 8 }).map((_, i) => <View key={i} style={{ width: 15, height: 8, borderRadius: 2, backgroundColor: 'rgba(106,194,255,0.78)' }} />)}
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            {Array.from({ length: 8 }).map((_, i) => <View key={i} style={{ width: 15, height: 8, borderRadius: 2, backgroundColor: 'rgba(106,194,255,0.78)' }} />)}
+          </View>
+        </View>
+
+        <View style={{ width: 218, height: 218, borderRadius: 109, borderWidth: 7, borderColor: '#36A9FF', backgroundColor: 'rgba(4,24,59,0.96)', alignItems: 'center', justifyContent: 'center', shadowColor: '#168CFF', shadowOpacity: 0.95, shadowRadius: 30, elevation: 18 }}>
+          <View style={{ position: 'absolute', width: 158, height: 158, borderRadius: 79, borderWidth: 3, borderColor: 'rgba(128,210,255,0.9)' }} />
+          <View style={[reelHole, { top: 26, left: 87 }]} />
+          <View style={[reelHole, { top: 89, right: 25 }]} />
+          <View style={[reelHole, { bottom: 26, left: 87 }]} />
+          <View style={[reelHole, { top: 89, left: 25 }]} />
+          <View style={{ width: 86, height: 86, borderRadius: 43, borderWidth: 3, borderColor: '#80D7FF', backgroundColor: 'rgba(3,17,43,0.95)', alignItems: 'center', justifyContent: 'center', shadowColor: '#21A7FF', shadowOpacity: 0.85, shadowRadius: 16 }}>
+            <Image source={require('./assets/neuroscene-brand.png')} resizeMode="contain" style={{ width: 68, height: 68 }} accessibilityLabel="Логотип НейроСцена" />
+          </View>
+        </View>
+      </View>
+
+      <Text style={{ color: '#FFFFFF', fontSize: 31, lineHeight: 39, fontWeight: '900', letterSpacing: 0.4, textAlign: 'center', marginTop: 2, textShadowColor: '#168CFF', textShadowRadius: 16 }}>НейроСцена</Text>
+      <Text style={{ color: '#75C7FF', fontSize: 11, fontWeight: '800', letterSpacing: 2.5, textAlign: 'center', marginTop: 9 }}>КИНО НАЧИНАЕТСЯ С ТЕБЯ</Text>
+      <View style={{ width: 184, height: 3, borderRadius: 2, backgroundColor: 'rgba(88,159,220,0.22)', marginTop: 44, overflow: 'hidden' }}>
+        <View style={{ width: '68%', height: '100%', borderRadius: 2, backgroundColor: '#3CB8FF', shadowColor: '#28A7FF', shadowOpacity: 0.9, shadowRadius: 8 }} />
+      </View>
+    </View>
+  );
+}
+
 function ScreenTransition({ children }: { children: any }) {
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(9)).current;
@@ -156,7 +216,71 @@ function ScreenTransition({ children }: { children: any }) {
 }
 
 export default function App() {
+  return (
+    <AppErrorBoundary>
+      <AppShell />
+    </AppErrorBoundary>
+  );
+}
+
+class AppErrorBoundary extends Component<{ children: any }, { failed: boolean }> {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  componentDidCatch(error: Error) {
+    console.error('NeuroScene screen render failed:', error);
+  }
+
+  render() {
+    if (this.state.failed) {
+      return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#030817', justifyContent: 'center', padding: 24 }}>
+          <Text style={{ color: '#FFFFFF', fontSize: 25, fontWeight: '900', textAlign: 'center' }}>НейроСцена</Text>
+          <Text style={{ color: '#C5D8F2', fontSize: 15, lineHeight: 23, textAlign: 'center', marginTop: 14 }}>
+            Не удалось отобразить этот экран. Вернитесь на главный экран и попробуйте ещё раз.
+          </Text>
+          <TouchableOpacity
+            activeOpacity={0.86}
+            onPress={() => this.setState({ failed: false })}
+            style={{ marginTop: 24, minHeight: 50, borderRadius: 14, backgroundColor: '#176BDB', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <Text style={{ color: '#FFFFFF', fontSize: 15, fontWeight: '800' }}>Повторить</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function AppShell() {
   const [tab, setTab] = useState<Tab>('Create');
+  const [showIntro, setShowIntro] = useState(true);
+  const introOpacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    let mounted = true;
+    const hideTimer = setTimeout(() => {
+      if (mounted) {
+        Animated.timing(introOpacity, { toValue: 0, duration: 360, useNativeDriver: true }).start(({ finished }) => {
+          if (finished && mounted) setShowIntro(false);
+        });
+      }
+    }, 2700);
+    // Independent fallback: the app UI must never remain covered if the native
+    // animation callback is interrupted by Android lifecycle changes.
+    const fallbackTimer = setTimeout(() => {
+      if (mounted) setShowIntro(false);
+    }, 3400);
+    return () => {
+      mounted = false;
+      clearTimeout(hideTimer);
+      clearTimeout(fallbackTimer);
+    };
+  }, [introOpacity]);
   const swipeResponder = useRef(PanResponder.create({
     onMoveShouldSetPanResponder: (_event, gesture) =>
       Math.abs(gesture.dx) > 48 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.25,
@@ -168,6 +292,7 @@ export default function App() {
         const next = Math.max(0, Math.min(order.length - 1, current + (gesture.dx < 0 ? 1 : -1)));
         if (next === current) return currentTab;
         setShowSupport(false);
+        setShowSettings(false);
         setShowNotifications(false);
         setShowFaq(false);
         setShowAdminPanel(false);
@@ -186,6 +311,7 @@ export default function App() {
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [authUser, setAuthUser] = useState<any | null>(null);
   const [authReady, setAuthReady] = useState(false);
+  const [apiConnectionStatus, setApiConnectionStatus] = useState<'not_configured' | 'checking' | 'online' | 'offline'>(API_BASE_URL ? 'checking' : 'not_configured');
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
@@ -201,12 +327,15 @@ export default function App() {
   const [submitting, setSubmitting] = useState(false);
   const [pollError, setPollError] = useState('');
   const [galleryItems, setGalleryItems] = useState<any[]>([]);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [favoritesReady, setFavoritesReady] = useState(false);
   const [galleryLoading, setGalleryLoading] = useState(false);
   const [galleryError, setGalleryError] = useState('');
   const [creditsBalance, setCreditsBalance] = useState<number | null>(null);
   const [creditHistory, setCreditHistory] = useState<any[]>([]);
   const [creditsLoading, setCreditsLoading] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [adminUsers, setAdminUsers] = useState<any[]>([]);
@@ -235,38 +364,42 @@ export default function App() {
   const [faqItems, setFaqItems] = useState<any[]>([]);
   const [faqLoading, setFaqLoading] = useState(false);
   const [faqError, setFaqError] = useState('');
-  const [showIntro, setShowIntro] = useState(true);
-  const introOpacity = useRef(new Animated.Value(0)).current;
-  const introScale = useRef(new Animated.Value(0.72)).current;
-  const introRotation = useRef(new Animated.Value(0)).current;
-  const introPulse = useRef(new Animated.Value(0)).current;
-  const introRotateZ = introRotation.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] });
-  const introRotateReverse = introRotation.interpolate({ inputRange: [0, 1], outputRange: ['360deg', '0deg'] });
-  const introPulseScale = introPulse.interpolate({ inputRange: [0, 1], outputRange: [0.96, 1.045] });
+  useEffect(() => {
+    let mounted = true;
+    SecureStore.getItemAsync('neuroscene.gallery.favorites')
+      .then((raw) => {
+        if (!mounted || !raw) return;
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) setFavoriteIds(parsed.filter((value) => typeof value === 'string'));
+        } catch { /* Ignore malformed local favorites and start with an empty list. */ }
+      })
+      .catch(() => { /* Favorites remain usable in memory if secure storage is unavailable. */ })
+      .finally(() => { if (mounted) setFavoritesReady(true); });
+    return () => { mounted = false; };
+  }, []);
 
   useEffect(() => {
-    const orbit = Animated.loop(Animated.timing(introRotation, {
-      toValue: 1, duration: 11500, useNativeDriver: true,
-    }));
-    const pulse = Animated.loop(Animated.sequence([
-      Animated.timing(introPulse, { toValue: 1, duration: 1750, useNativeDriver: true }),
-      Animated.timing(introPulse, { toValue: 0, duration: 1750, useNativeDriver: true }),
-    ]));
-    orbit.start();
-    pulse.start();
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(introOpacity, { toValue: 1, duration: 650, useNativeDriver: true }),
-        Animated.spring(introScale, { toValue: 1, speed: 7, bounciness: 5, useNativeDriver: true }),
-      ]),
-      Animated.delay(2200),
-      Animated.timing(introOpacity, { toValue: 0, duration: 550, useNativeDriver: true }),
-    ]).start(({ finished }) => {
-      if (finished) setShowIntro(false);
+    if (!favoritesReady) return;
+    SecureStore.setItemAsync('neuroscene.gallery.favorites', JSON.stringify(favoriteIds)).catch(() => {
+      /* Keep the gallery usable for this session if persistence fails. */
     });
-    return () => { orbit.stop(); pulse.stop(); };
-  }, [introOpacity, introScale, introRotation, introPulse]);
+  }, [favoriteIds, favoritesReady]);
 
+  useEffect(() => {
+    if (!API_BASE_URL) {
+      setApiConnectionStatus('not_configured');
+      return;
+    }
+    let mounted = true;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    fetch(`${API_BASE_URL}/health`, { method: 'GET', signal: controller.signal })
+      .then((response) => { if (mounted) setApiConnectionStatus(response.ok ? 'online' : 'offline'); })
+      .catch(() => { if (mounted) setApiConnectionStatus('offline'); })
+      .finally(() => clearTimeout(timeout));
+    return () => { mounted = false; clearTimeout(timeout); controller.abort(); };
+  }, []);
 
   const saveAuthenticatedSession = async (data: any) => {
     if (!data?.access_token || !data?.user) {
@@ -292,7 +425,7 @@ export default function App() {
       if (!token) return;
       setAuthBusy(true);
       const endpoint = isLogin ? 'login-link/consume' : 'verify-email';
-      const response = await fetch(`${API_BASE_URL}/api/auth/${endpoint}`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/auth/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ token }),
@@ -315,11 +448,16 @@ export default function App() {
 
   useEffect(() => {
     let mounted = true;
+    // Never leave the first screen blocked if secure storage or the API stalls.
+    const startupFallback = setTimeout(() => {
+      if (mounted) setAuthReady(true);
+    }, 5000);
     const restoreSession = async () => {
       try {
         const savedToken = await SecureStore.getItemAsync(SESSION_STORAGE_KEY);
         if (!savedToken) return;
-        const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+        if (!API_BASE_URL) return;
+        const response = await apiFetch(`${API_BASE_URL}/api/auth/me`, {
           headers: { Authorization: `Bearer ${savedToken}`, Accept: 'application/json' },
         });
         const data = await readResponse(response);
@@ -335,6 +473,7 @@ export default function App() {
       } catch {
         await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY).catch(() => undefined);
       } finally {
+        clearTimeout(startupFallback);
         if (mounted) setAuthReady(true);
       }
     };
@@ -347,6 +486,7 @@ export default function App() {
     }).catch(() => undefined);
     return () => {
       mounted = false;
+      clearTimeout(startupFallback);
       subscription.remove();
     };
   }, []);
@@ -364,7 +504,7 @@ export default function App() {
     setAuthBusy(true);
     setAuthNotice('');
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/${authMode === 'register' ? 'register' : 'login'}`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/auth/${authMode === 'register' ? 'register' : 'login'}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ email, password: authPassword }),
@@ -397,7 +537,7 @@ export default function App() {
     setAuthBusy(true);
     setAuthNotice('');
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login-link`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/auth/login-link`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ email }),
@@ -418,7 +558,7 @@ export default function App() {
     if (!email) return;
     setAuthBusy(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/resend-verification`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/auth/resend-verification`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -440,7 +580,7 @@ export default function App() {
       if (!VK_CLIENT_ID || !VK_REDIRECT_URI) {
         throw new Error('Вход через VK ID пока не настроен в конфигурации приложения.');
       }
-      const startResponse = await fetch(`${API_BASE_URL}/api/auth/vk/start`);
+      const startResponse = await apiFetch(`${API_BASE_URL}/api/auth/vk/start`);
       const startData = await readResponse(startResponse);
       if (!startResponse.ok) throw new Error(startData.detail || 'VK ID пока не настроен');
       if (startData.redirect_uri !== VK_REDIRECT_URI) throw new Error('Адрес возврата VK ID не совпадает с настройкой приложения.');
@@ -461,7 +601,7 @@ export default function App() {
           throw new Error('VK ID вернул некорректный ответ.');
         }
       }
-      const completeResponse = await fetch(`${API_BASE_URL}/api/auth/vk/complete`, {
+      const completeResponse = await apiFetch(`${API_BASE_URL}/api/auth/vk/complete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ code, state, device_id: deviceId }),
@@ -480,7 +620,7 @@ export default function App() {
     let revoked = false;
     try {
       if (authToken) {
-        const response = await fetch(`${API_BASE_URL}/api/auth/logout-all`, {
+        const response = await apiFetch(`${API_BASE_URL}/api/auth/logout-all`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${authToken}` },
         });
@@ -533,7 +673,7 @@ export default function App() {
           onPress: async () => {
             setAuthBusy(true);
             try {
-              const response = await fetch(`${API_BASE_URL}/api/auth/account`, {
+              const response = await apiFetch(`${API_BASE_URL}/api/auth/account`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${authToken}` },
               });
@@ -592,7 +732,7 @@ export default function App() {
     }
     setCreditsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/credits`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/credits`, {
         headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
       });
       const data = await readResponse(response);
@@ -615,7 +755,7 @@ export default function App() {
     setFaqError('');
     try {
       const isAdmin = !!authToken && ['owner', 'admin'].includes(authUser?.role);
-      const response = await fetch(API_BASE_URL + (isAdmin ? '/api/admin/faq' : '/api/faq'), {
+      const response = await apiFetch(API_BASE_URL + (isAdmin ? '/api/admin/faq' : '/api/faq'), {
         headers: authToken ? { Authorization: 'Bearer ' + authToken, Accept: 'application/json' } : { Accept: 'application/json' },
       });
       const data = await readResponse(response);
@@ -633,7 +773,7 @@ export default function App() {
     setFaqLoading(true);
     setFaqError('');
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         API_BASE_URL + (faqId ? '/api/admin/faq/' + encodeURIComponent(faqId) : '/api/admin/faq'),
         {
           method: faqId ? 'PUT' : 'POST',
@@ -667,7 +807,7 @@ export default function App() {
       const endpoint = staffMode
         ? `${API_BASE_URL}/api/support/staff/tickets?status=${supportFilter}`
         : `${API_BASE_URL}/api/support/tickets`;
-      const response = await fetch(endpoint, {
+      const response = await apiFetch(endpoint, {
         headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
       });
       const data = await readResponse(response);
@@ -687,7 +827,7 @@ export default function App() {
     try {
       const staffMode = ['owner', 'admin', 'support'].includes(authUser?.role);
       const route = staffMode ? 'staff/tickets/' : 'tickets/';
-      const response = await fetch(`${API_BASE_URL}/api/support/${route}${encodeURIComponent(ticketId)}`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/support/${route}${encodeURIComponent(ticketId)}`, {
         headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
       });
       const data = await readResponse(response);
@@ -713,7 +853,7 @@ export default function App() {
     setSupportBusy(true);
     setSupportError('');
     try {
-      const response = await fetch(`${API_BASE_URL}/api/support/tickets`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/support/tickets`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
         body: JSON.stringify({ category: supportCategory, description: supportDescription.trim() }),
@@ -732,7 +872,7 @@ export default function App() {
           const file = new ExpoFile(asset.uri);
           form.append('files', file, asset.fileName || `support-attachment-${index + 1}.${extension}`);
         });
-        const attachmentResponse = await fetch(`${API_BASE_URL}/api/support/tickets/${encodeURIComponent(data.ticket_id)}/messages/attachments`, {
+        const attachmentResponse = await apiFetch(`${API_BASE_URL}/api/support/tickets/${encodeURIComponent(data.ticket_id)}/messages/attachments`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
           body: form,
@@ -756,7 +896,7 @@ export default function App() {
     setSupportBusy(true);
     setSupportError('');
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         API_BASE_URL + '/api/support/staff/tickets/' + encodeURIComponent(selectedSupportTicket.ticket_id) + '/status',
         {
           method: 'PATCH',
@@ -872,13 +1012,13 @@ export default function App() {
           const file = new ExpoFile(asset.uri);
           form.append('files', file, asset.fileName || `support-attachment-${index + 1}.${extension}`);
         });
-        response = await fetch(`${API_BASE_URL}/api/support/${attachmentRoute}`, {
+        response = await apiFetch(`${API_BASE_URL}/api/support/${attachmentRoute}`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
           body: form,
         });
       } else {
-        response = await fetch(`${API_BASE_URL}/api/support/${standardRoute}`, {
+        response = await apiFetch(`${API_BASE_URL}/api/support/${standardRoute}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
           body: JSON.stringify({ message: supportMessage.trim() }),
@@ -907,7 +1047,7 @@ export default function App() {
     notificationRefreshBusyRef.current = true;
     if (!silent) setNotificationsLoading(true);
     try {
-      const response = await fetch(API_BASE_URL + '/api/notifications', {
+      const response = await apiFetch(API_BASE_URL + '/api/notifications', {
         headers: { Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
       });
       const data = await readResponse(response);
@@ -946,7 +1086,7 @@ export default function App() {
   const markNotificationRead = async (notificationId: string) => {
     if (!authToken) return;
     try {
-      const response = await fetch(API_BASE_URL + '/api/notifications/' + encodeURIComponent(notificationId) + '/read', {
+      const response = await apiFetch(API_BASE_URL + '/api/notifications/' + encodeURIComponent(notificationId) + '/read', {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + authToken },
       });
@@ -962,7 +1102,7 @@ export default function App() {
   const markAllNotificationsRead = async () => {
     if (!authToken) return;
     try {
-      const response = await fetch(API_BASE_URL + '/api/notifications/read-all', {
+      const response = await apiFetch(API_BASE_URL + '/api/notifications/read-all', {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + authToken },
       });
@@ -982,11 +1122,11 @@ export default function App() {
     try {
       const headers = { Authorization: 'Bearer ' + authToken, Accept: 'application/json' };
       const [usersResponse, auditResponse, generationsResponse, workersResponse, analyticsResponse] = await Promise.all([
-        fetch(API_BASE_URL + '/api/admin/users?limit=100&offset=0', { headers }),
-        fetch(API_BASE_URL + '/api/admin/audit?limit=100', { headers }),
-        fetch(API_BASE_URL + '/api/admin/generations?limit=100&offset=0', { headers }),
-        fetch(API_BASE_URL + '/api/admin/workers', { headers }),
-        fetch(API_BASE_URL + '/api/admin/analytics', { headers }),
+        apiFetch(API_BASE_URL + '/api/admin/users?limit=100&offset=0', { headers }),
+        apiFetch(API_BASE_URL + '/api/admin/audit?limit=100', { headers }),
+        apiFetch(API_BASE_URL + '/api/admin/generations?limit=100&offset=0', { headers }),
+        apiFetch(API_BASE_URL + '/api/admin/workers', { headers }),
+        apiFetch(API_BASE_URL + '/api/admin/analytics', { headers }),
       ]);
       const usersData = await readResponse(usersResponse);
       const auditData = await readResponse(auditResponse);
@@ -1014,7 +1154,7 @@ export default function App() {
     if (!authToken || !Number.isInteger(priority) || priority < -100 || priority > 100) return;
     setAdminLoading(true);
     try {
-      const response = await fetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/priority', {
+      const response = await apiFetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/priority', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
         body: JSON.stringify({ priority }),
@@ -1043,7 +1183,7 @@ export default function App() {
           onPress: async () => {
             setAdminLoading(true);
             try {
-              const response = await fetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/cancel', {
+              const response = await apiFetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/cancel', {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
               });
@@ -1074,7 +1214,7 @@ export default function App() {
           onPress: async () => {
             setAdminLoading(true);
             try {
-              const response = await fetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/retry', {
+              const response = await apiFetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/retry', {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
               });
@@ -1105,7 +1245,7 @@ export default function App() {
           onPress: async () => {
             setAdminLoading(true);
             try {
-              const response = await fetch(API_BASE_URL + '/api/admin/users/' + encodeURIComponent(targetUserId) + '/credits', {
+              const response = await apiFetch(API_BASE_URL + '/api/admin/users/' + encodeURIComponent(targetUserId) + '/credits', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
                 body: JSON.stringify({
@@ -1140,7 +1280,7 @@ export default function App() {
           onPress: async () => {
             setAdminLoading(true);
             try {
-              const response = await fetch(API_BASE_URL + '/api/admin/users/' + encodeURIComponent(targetUserId) + '/role', {
+              const response = await apiFetch(API_BASE_URL + '/api/admin/users/' + encodeURIComponent(targetUserId) + '/role', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
                 body: JSON.stringify({
@@ -1169,7 +1309,7 @@ export default function App() {
 
     try {
       if (!authToken) { setGalleryItems([]); return; }
-      const response = await fetch(`${API_BASE_URL}/api/generations?limit=50&offset=0`, { headers: { Authorization: `Bearer ${authToken}` } });
+      const response = await apiFetch(`${API_BASE_URL}/api/generations?limit=50&offset=0`, { headers: { Authorization: `Bearer ${authToken}` } });
       const data = await readResponse(response);
       if (!response.ok) {
         throw new Error(data.detail || `HTTP ${response.status}`);
@@ -1222,7 +1362,7 @@ export default function App() {
 
     const poll = async () => {
       try {
-        const response = await fetch(
+        const response = await apiFetch(
           `${API_BASE_URL}/api/generations/${encodeURIComponent(jobId)}`,
           { headers: authToken ? { Authorization: `Bearer ${authToken}` } : {} }
         );
@@ -1361,7 +1501,7 @@ export default function App() {
     setPromptEnhancing(true);
     setEnhancedPrompt('');
     try {
-      const startResponse = await fetch(`${API_BASE_URL}/api/prompts/enhance`, {
+      const startResponse = await apiFetch(`${API_BASE_URL}/api/prompts/enhance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1376,7 +1516,7 @@ export default function App() {
       const deadline = Date.now() + 300000;
       while (Date.now() < deadline) {
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        const statusResponse = await fetch(`${API_BASE_URL}/api/prompts/enhance/${encodeURIComponent(startData.task_id)}`, {
+        const statusResponse = await apiFetch(`${API_BASE_URL}/api/prompts/enhance/${encodeURIComponent(startData.task_id)}`, {
           headers: { Accept: 'application/json', Authorization: `Bearer ${authToken}` },
         });
         const statusData = await readResponse(statusResponse);
@@ -1464,13 +1604,13 @@ export default function App() {
           imageFile,
           sourceImage.fileName || `neuroscene-source.${extension}`
         );
-        response = await fetch(`${API_BASE_URL}/api/generations/i2v`, {
+        response = await apiFetch(`${API_BASE_URL}/api/generations/i2v`, {
           method: 'POST',
           headers: { Accept: 'application/json', Authorization: `Bearer ${authToken}` },
           body: form,
         });
       } else {
-        response = await fetch(`${API_BASE_URL}/api/generations`, {
+        response = await apiFetch(`${API_BASE_URL}/api/generations`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -1668,6 +1808,18 @@ export default function App() {
         />
       );
     }
+    if (showSettings) {
+      return (
+        <SettingsScreen
+          language={language}
+          duration={duration}
+          setDuration={setDuration}
+          ratio={ratio}
+          setRatio={setRatio}
+          onBack={() => setShowSettings(false)}
+        />
+      );
+    }
     if (tab === 'Create') {
       return (
         <CreateScreen
@@ -1706,6 +1858,8 @@ export default function App() {
       return (
         <GalleryScreen
           items={galleryItems}
+          favoriteIds={favoriteIds}
+          onToggleFavorite={(jobId: string) => setFavoriteIds((current) => current.includes(jobId) ? current.filter((id) => id !== jobId) : [...current, jobId])}
           language={language}
           loading={galleryLoading}
           error={galleryError}
@@ -1715,7 +1869,7 @@ export default function App() {
           onExport={exportGalleryVideo}
           onDelete={async (jobId: string) => {
             try {
-              const response = await fetch(
+              const response = await apiFetch(
                 `${API_BASE_URL}/api/generations/${encodeURIComponent(jobId)}`,
                 { method: 'DELETE', headers: authToken ? { Authorization: `Bearer ${authToken}` } : {} }
               );
@@ -1740,52 +1894,63 @@ export default function App() {
       return (
         <View style={[styles.screen, styles.creditsScreen]}>
           <View style={styles.creditsHeader}>
-            <TouchableOpacity style={styles.creditsBackButton} onPress={() => setTab('Create')} accessibilityLabel="Назад">
-              <Text style={styles.creditsBackText}>‹</Text>
-            </TouchableOpacity>
+            <Text style={styles.creditsHeaderIcon}>▤</Text>
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
           </View>
           <View style={styles.creditIllustration}>
-            <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
+            <View style={styles.creditCoinsWindow}>
+              <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
+                {[0, 1, 2].map((coin) => <View key={coin} style={styles.creditGoldCoin} />)}
+              </View>
+              <View style={[styles.creditCoinStack, styles.creditStackCenter, styles.creditCoinStackCenter]}>
+                {[0, 1, 2, 3].map((coin) => <View key={coin} style={styles.creditGoldCoin} />)}
+              </View>
+              <View style={[styles.creditCoinStack, styles.creditStackRight]}>
+                {[0, 1, 2].map((coin) => <View key={coin} style={styles.creditGoldCoin} />)}
+              </View>
+              <View style={styles.creditCoinSparkle}><Text style={styles.creditCoinSparkleText}>✦</Text></View>
             </View>
-            <View style={[styles.creditCoinStack, styles.creditStackCenter]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-            </View>
-            <View style={[styles.creditCoinStack, styles.creditStackRight]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-            </View>
-            <View style={styles.creditStarBadge}>✦</View>
+            <Text style={styles.creditBalanceValue}>
+              {creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}
+            </Text>
+            <Text style={styles.creditBalanceCaption}>Кредитов</Text>
           </View>
           <Text style={styles.creditIntro}>Кредиты — это ваша энергия для создания видео</Text>
-          <View style={styles.creditBalanceLine}>
-            <Text style={styles.creditBalanceLabel}>ВАШ БАЛАНС</Text>
-            <Text style={styles.creditBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
-          </View>
+          <Text style={styles.creditPackagesHeading}>Пакеты кредитов</Text>
           {[500, 1500, 5000].map((amount) => (
-            <View style={styles.packageCard} key={amount}>
+            <View style={[styles.packageCard, amount === 1500 && styles.packageCardFeatured]} key={amount}>
               <View style={styles.packageIconWrap}>
-                <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
+                <Text style={[styles.packageIcon, amount === 1500 && styles.packageCrown, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '✦' : amount === 1500 ? '♛' : '◆'}</Text>
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
-                <Text style={styles.packagePrice}>{amount === 500 ? '₽149' : amount === 1500 ? '₽399' : '₽999'}</Text>
+                <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')} кредитов</Text>
               </View>
               <View style={styles.packageRight}>
-                {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
-                <Text style={styles.packagePriceHint}>Разовая покупка</Text>
+                {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярный</Text></View>}
+                <Text style={styles.packagePrice}>{'Цена уточняется'}</Text>
               </View>
             </View>
           ))}
-          <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
+          {!authToken && (
+            <View style={[styles.packageCard, { flexDirection: 'column', alignItems: 'stretch', gap: 10, marginTop: 18 }]}>
+              <Text style={styles.packageAmount}>Войдите, чтобы увидеть баланс</Text>
+              <Text style={styles.mutedText}>Кредиты и история операций появятся здесь после входа в аккаунт. Покупка кредитов пока не подключена.</Text>
+              <TouchableOpacity activeOpacity={0.86} style={styles.authAction} onPress={() => setTab('Profile')}>
+                <Text style={styles.createButtonText}>Войти в аккаунт</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          <View style={styles.creditBenefits}>
+            <Text style={styles.creditBenefit}>✓  Кредиты не сгорают</Text>
+            <Text style={styles.creditBenefit}>✓  Без подписок</Text>
+            <Text style={styles.creditBenefit}>✓  Без рекламы</Text>
+          </View>
+          <TouchableOpacity
+            activeOpacity={0.82}
+            style={styles.buyCreditsButton}
+            onPress={() => Alert.alert('Покупка кредитов', 'Покупка пока не подключена. Подтверждённые цены появятся после настройки оплаты.')}
+          >
             <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
-            <Text style={styles.buyCreditsHint}>Покупка скоро станет доступна</Text>
           </TouchableOpacity>
           {creditHistory.length > 0 && (
             <View style={{ marginTop: 22 }}>
@@ -1803,7 +1968,6 @@ export default function App() {
               ))}
             </View>
           )}
-          <Text style={styles.creditNeverExpire}>∞  Кредиты не сгорают</Text>
         </View>
       );
     }
@@ -1812,7 +1976,7 @@ export default function App() {
       <View style={styles.screen}>
         <View style={styles.profileHeader}>
           <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
-          <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')}>
+          <TouchableOpacity style={styles.profileSettingsButton} onPress={() => setShowSettings(true)}>
             <Text style={styles.profileSettingsIcon}>⚙</Text>
           </TouchableOpacity>
         </View>
@@ -1820,22 +1984,13 @@ export default function App() {
           <>
             <View style={styles.profileIdentity}>
               <View style={styles.profileGuestAvatar}><View style={styles.profileGuestHead} /><View style={styles.profileGuestBody} /></View>
-              <Text style={styles.profileGuestName}>{authUser.email || 'Пользователь'}</Text>
-              <Text style={styles.profileGuestStatus}>В сети</Text>
+              <Text style={styles.profileGuestName}>{authUser.display_name || authUser.name || authUser.email || 'Пользователь'}</Text>
+              <Text style={styles.profileGuestStatus}>{authUser.email || ''}</Text>
             </View>
-            <View style={styles.profileCard}>
-              <View style={styles.avatar}><Text style={styles.avatarText}>Н+С</Text></View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.profileName}>{uiText(language, 'YOUR ACCOUNT', 'ВАШ АККАУНТ')}</Text>
-                <Text style={styles.mutedText}>{authUser.email}</Text>
-              </View>
-            </View>
-            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={logoutAllDevices} disabled={authBusy}>
-              <Text style={styles.authSecondaryText}>{uiText(language, 'Sign out all devices', 'Выйти со всех устройств')}</Text>
+            <TouchableOpacity activeOpacity={0.86} style={styles.profileSignOutButton} onPress={logoutAllDevices} disabled={authBusy}>
+              <Text style={styles.profileSignOutText}>Выйти</Text>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={deleteAccount} disabled={authBusy}>
-              <Text style={[styles.authSecondaryText, { color: '#FF7777' }]}>{uiText(language, 'Delete account and personal data', 'Удалить аккаунт и личные данные')}</Text>
-            </TouchableOpacity>
+
           </>
         ) : (
           <>
@@ -1898,50 +2053,48 @@ export default function App() {
           </>
         )}
         <View style={styles.profileMenuCard}>
-        {['My videos', 'Notifications', 'About', 'Support', 'Sign out'].map((key, menuIndex) => uiText(language, key, ({
-          'My videos': 'Мои видео',
-          'Notifications': 'Уведомления',
-          'About': 'О приложении',
-          'Support': 'Поддержка',
-          'Sign out': 'Выход',
-        } as Record<string, string>)[key] || key)).map((item, menuIndex) => (
+        {['Уведомления', 'Покупки и кредиты', 'Настройки', 'О приложении', 'Поддержка'].map((item, menuIndex) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item}
             style={[styles.menuItem, menuIndex === 4 && styles.menuItemLast]}
             onPress={() => {
-              if (item === 'Мои видео') {
-                setTab('Gallery');
+              if (item === 'Покупки и кредиты') {
+                setTab('Credits');
+              } else if (item === 'Настройки') {
+                setShowSettings(true);
               } else if (item === 'О приложении') {
-                Alert.alert('НейроСцена', 'Твоя творческая студия на компьютере.');
-              } else if (item === 'Выход' || item === 'Sign out') {
-                if (authToken) logoutAllDevices();
-                else Alert.alert('НейроСцена', 'Вы уже используете приложение как гость.');
-              } else if (item === (uiText(language, 'Help / FAQ', 'Помощь / FAQ'))) {
-                setShowSupport(false);
-                setShowNotifications(false);
-                setShowFaq(true);
-                void loadFaq();
-              } else if (item === (uiText(language, 'Support', 'Поддержка'))) {
+                Alert.alert('НейроСцена', 'Версия 1.0.0. Генерация видео выполняется на вашем компьютере.');
+              } else if (item === 'Поддержка') {
                 setSelectedSupportTicket(null);
                 setShowNotifications(false);
                 setShowSupport(true);
                 void loadSupportTickets();
-              } else if (item === (uiText(language, 'Notifications', 'Уведомления'))) {
+              } else if (item === 'Уведомления') {
                 setShowSupport(false);
                 setShowNotifications(true);
                 void loadNotifications();
-              } else {
-                Alert.alert(item, uiText(language, 'This section will be connected in a later stage.', 'Этот раздел будет подключён на следующем этапе.'));
               }
             }}
           >
-            <Text style={styles.menuIcon}>{item === 'Мои видео' ? '▣' : item === 'Уведомления' ? '♧' : item === 'О приложении' ? 'ⓘ' : item === 'Поддержка' ? '?' : '⇥'}</Text>
+            <Text style={styles.menuIcon}>{item === 'Уведомления' ? '♧' : item === 'Покупки и кредиты' ? '▤' : item === 'Настройки' ? '⚙' : item === 'О приложении' ? 'ⓘ' : '♙'}</Text>
             <Text style={styles.menuText}>{item}</Text>
             {item === 'Уведомления' && unreadNotifications > 0 && <View style={styles.menuNotificationBadge}><Text style={styles.menuNotificationText}>{Math.min(unreadNotifications, 9)}</Text></View>}
             <Text style={styles.menuArrow}>›</Text>
           </TouchableOpacity>
         ))}
         </View>
+        <View style={styles.profileAboutCard}>
+          <Text style={styles.profileAboutTitle}>НейроСцена</Text>
+          <Text style={styles.profileAboutVersion}>Версия 1.0.0</Text>
+          <Text style={styles.profileAboutTagline}>Создавай. Вдохновляй. Делись.</Text>
+        </View>
+        {authToken && (
+          <View style={styles.profileAccountActions}>
+            <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={deleteAccount} disabled={authBusy}>
+              <Text style={[styles.authLinkText, { color: '#FF8A93' }]}>Удалить аккаунт и личные данные</Text>
+            </TouchableOpacity>
+          </View>
+        )}
         {authToken && ['owner', 'admin'].includes(authUser?.role) && (
           <TouchableOpacity activeOpacity={0.86}
             style={[styles.menuItem, { marginTop: 12, borderBottomColor: BLUE }]}
@@ -1951,12 +2104,12 @@ export default function App() {
             <Text style={styles.menuArrow}>›</Text>
           </TouchableOpacity>
         )}
-        <Text style={styles.version}>НЕЙРОСЦЕНА · {uiText(language, 'VERSION 1.0', 'ВЕРСИЯ 1.0')}</Text>
+
       </View>
     );
   };
 
-  const activeScreenKey = showAdminPanel ? 'admin' : showNotifications ? 'notifications' : showFaq ? 'faq' : showSupport ? 'support' : tab;
+  const activeScreenKey = showAdminPanel ? 'admin' : showNotifications ? 'notifications' : showFaq ? 'faq' : showSupport ? 'support' : showSettings ? 'settings' : tab;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -1971,10 +2124,11 @@ export default function App() {
         <View style={styles.ambientStarTwo} />
         <View style={styles.ambientStarThree} />
       </View>
-      <StatusBar style="light" hidden={showIntro} />
+      <StatusBar style="light" />
 
       {tab === 'Create' && <View style={styles.header}>
         <View style={styles.brandRow}>
+          <Image source={require('./assets/Футуристический серебряно-синий монограмный логотип HC-1.png')} style={styles.brandLogoImage} resizeMode="contain" />
           <View style={styles.brandWordmark}>
             <Text style={styles.logo}>Нейро</Text>
             <Text style={styles.logoSecond}>Сцена</Text>
@@ -2004,78 +2158,62 @@ export default function App() {
 
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent]}
+        contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent, { flexGrow: 1 }]} 
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
         {...swipeResponder.panHandlers}
       >
-        {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
+        {authReady && apiConnectionStatus !== 'online' && (
+          <View style={{ marginHorizontal: 16, marginTop: 10, marginBottom: 6, padding: 11, borderRadius: 12, backgroundColor: 'rgba(255,174,66,0.12)', borderWidth: 1, borderColor: 'rgba(255,174,66,0.45)' }}>
+            <Text style={{ color: '#FFD28A', fontSize: 12, lineHeight: 17, fontWeight: '700' }}>
+              {apiConnectionStatus === 'checking'
+                ? 'Проверяем соединение с сервером…'
+                : apiConnectionStatus === 'offline'
+                  ? 'Сервер недоступен. Проверьте публичный HTTPS-адрес API и работу локального компьютера.'
+                  : 'Сервер не подключён. Интерфейс доступен, но вход, синхронизация, кредиты и генерация не будут работать, пока не настроен публичный HTTPS-адрес API.'}
+            </Text>
+          </View>
+        )}
+        <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition>
       </ScrollView>
 
-      {tab !== 'Credits' && <View style={styles.bottomNav}>
+      <View style={styles.bottomNav}>
         {([
-          { id: 'Create', icon: '✧', label: 'Создать' },
-          { id: 'Gallery', icon: '▧', label: 'Галерея' },
-          { id: 'Credits', icon: '✦', label: 'Кредиты' },
+          { id: 'Create', icon: '▶', label: 'Создать' },
+          { id: 'Gallery', icon: '▦', label: 'Галерея' },
+          { id: 'Credits', icon: '▤', label: 'Кредиты' },
           { id: 'Profile', icon: '◉', label: 'Профиль' },
         ] as const).map((item) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item.id}
             style={[styles.navItem, tab === item.id && styles.navItemActive]}
-            onPress={() => { setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
+            onPress={() => { setShowSupport(false); setShowSettings(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
-            {item.id === 'Credits' ? (
-              <View style={styles.navCoin} accessibilityLabel="Монета">
-                <View style={styles.navCoinInner}>
-                  <Text style={styles.navCoinMark}>₽</Text>
-                </View>
-              </View>
-            ) : item.id === 'Profile' ? (
-              <View style={styles.navPerson} accessibilityLabel="Человечек">
+            {item.id === 'Profile' ? (
+              <View style={styles.navPerson} accessibilityLabel="Профиль">
                 <View style={styles.navPersonHead} />
                 <View style={styles.navPersonBody} />
               </View>
+            ) : item.id === 'Credits' ? (
+              <View style={styles.navCoin} accessibilityLabel="Кредиты">
+                <View style={styles.navCoinInner}><Text style={styles.navCoinMark}>✦</Text></View>
+              </View>
             ) : (
-              <Text style={styles.navIcon}>{item.icon}</Text>
+              <Text style={[styles.navIcon, tab === item.id && styles.navIconActive]}>{item.icon}</Text>
             )}
             <Text style={[styles.navLabel, tab === item.id && styles.navLabelActive]}>
               {item.label}
             </Text>
           </TouchableOpacity>
         ))}
-      </View>}
+      </View>
 
       {showIntro && (
-        <Animated.View style={[styles.introOverlay, { opacity: introOpacity }]}>
-          <View style={styles.introStarField} pointerEvents="none">
-            {Array.from({ length: 34 }, (_, index) => (
-              <View key={index} style={[styles.introStar, { top: `${(index * 29 + 7) % 68}%`, left: `${(index * 43 + 11) % 96}%`, opacity: 0.28 + ((index * 7) % 7) / 10 }]} />
-            ))}
-          </View>
-          <View style={styles.introNebulaTop} />
-          <View style={styles.introNebulaBottom} />
-          <View style={styles.introHorizon} />
-          <View style={styles.introWaterGlow} />
-          <Animated.View style={[styles.introOrbitOuter, { transform: [{ perspective: 900 }, { rotateX: '68deg' }, { rotateZ: introRotateZ }] }]} />
-          <Animated.View style={[styles.introOrbitInner, { transform: [{ perspective: 900 }, { rotateY: '64deg' }, { rotateZ: introRotateReverse }] }]} />
-          <Animated.View style={[styles.introLogoHalo, { transform: [{ scale: introPulseScale }] }]} />
-          <Animated.View style={[styles.introReelWrap, { transform: [{ scale: introScale }, { rotateY: introRotateZ }] }]}>
-            <View style={styles.introFilmStrip}>
-              <View style={styles.introFilmRailTop}>{Array.from({ length: 13 }, (_, index) => <View key={index} style={styles.introFilmPerforation} />)}</View>
-              <View style={styles.introFilmRailBottom}>{Array.from({ length: 13 }, (_, index) => <View key={index} style={styles.introFilmPerforation} />)}</View>
-            </View>
-            <View style={styles.introReelOuter}>
-              <View style={styles.introReelHoleTop} /><View style={styles.introReelHoleLeft} /><View style={styles.introReelHoleRight} />
-              <View style={styles.introReelHoleBottomLeft} /><View style={styles.introReelHoleBottomRight} />
-              <View style={styles.introReelHub}><Text style={styles.introReelPlay}>▶</Text></View>
-            </View>
-          </Animated.View>
-          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{'\n'}Сцена</Animated.Text>
-          <View style={styles.introAccentLine} />
-          <Text style={styles.introTagline}>Ваши идеи —{'\n'}на экране</Text>
-          <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
+        <Animated.View pointerEvents="none" style={[styles.introOverlay, { opacity: introOpacity }]}>
+          <NeuroSceneIntroArt />
         </Animated.View>
       )}
+
     </SafeAreaView>
   );
 }
@@ -2146,29 +2284,30 @@ function CreateScreen({
 
   return (
     <View>
-      <View style={styles.headerBalance}>
-        <Text style={styles.headerBalanceLabel}>ВАШ БАЛАНС</Text>
-        <Text style={styles.headerBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
-      </View>
-      <View style={styles.referenceHero}>
-        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-          <View style={styles.referenceSkyGlow} />
-          <View style={styles.referenceMoon} />
-          <View style={styles.referenceMoonShade} />
-          <View style={styles.referenceMountainBack} />
-          <View style={styles.referenceMountainFront} />
-          <View style={styles.referenceRidgeLight} />
-          <View style={styles.referencePerson}>
-            <View style={styles.referencePersonHead} />
-            <View style={styles.referencePersonBody} />
-            <View style={styles.referencePersonLegLeft} />
-            <View style={styles.referencePersonLegRight} />
-          </View>
-          <View style={styles.referenceHeroShade} />
-        </View>
-        <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
-          <Text style={styles.referencePlay}>▶</Text>
-          <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+      <ImageBackground
+        source={REFERENCE_HERO_SOURCE}
+        resizeMode="cover"
+        style={[styles.referenceHero, { width: '86%', height: 300, minHeight: 280, alignSelf: 'center' }]}
+        imageStyle={{ borderRadius: 17 }}
+        accessibilityLabel="Кинематографичная сцена: путешественник на вершине горы перед огромной луной"
+      />
+      <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
+        <Text style={styles.referencePlay}>▶</Text>
+        <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+      </TouchableOpacity>
+      <View style={styles.createFeatureHeading}><Text style={styles.sectionTitle}>ВОЗМОЖНОСТИ</Text></View>
+      <View style={styles.createFeatureGrid}>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => { setGenerationType('t2v'); setShowComposer(true); }}>
+          <Text style={styles.createFeatureIcon}>▧</Text><Text style={styles.createFeatureText}>Текст в видео</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => { setGenerationType('i2v'); setShowComposer(true); }}>
+          <Text style={styles.createFeatureIcon}>▣</Text><Text style={styles.createFeatureText}>Изображение в видео</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => Alert.alert('Добавить звук', 'Звуковое сопровождение подключается отдельным этапом и не меняет параметры видеогенерации.')}>
+          <Text style={styles.createFeatureIcon}>♫</Text><Text style={styles.createFeatureText}>Добавить звук</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => setShowComposer(true)}>
+          <Text style={styles.createFeatureIcon}>✧</Text><Text style={styles.createFeatureText}>Улучшить промпт</Text>
         </TouchableOpacity>
       </View>
 
@@ -2420,8 +2559,70 @@ function CreateScreen({
   );
 }
 
+type SettingsScreenProps = {
+  language: Language;
+  duration: number;
+  setDuration: (value: number) => void;
+  ratio: string;
+  setRatio: (value: string) => void;
+  onBack: () => void;
+};
+
+function SettingsScreen({ language, duration, setDuration, ratio, setRatio, onBack }: SettingsScreenProps) {
+  const ru = language === 'ru';
+  const choiceStyle = (active: boolean) => [
+    styles.smallAction,
+    active && { borderColor: '#20B8FF', backgroundColor: 'rgba(0,136,255,0.20)' },
+  ];
+  return (
+    <View style={styles.screen}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+        <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
+          <Text style={styles.smallActionText}>‹ {ru ? 'Назад' : 'Back'}</Text>
+        </TouchableOpacity>
+        <Text style={styles.screenTitle}>{ru ? 'Настройки' : 'Settings'}</Text>
+      </View>
+
+      <View style={[styles.packageCard, { flexDirection: 'column', alignItems: 'stretch', gap: 12, paddingVertical: 14 }]}>
+        <Text style={styles.packageAmount}>{ru ? 'Длительность видео по умолчанию' : 'Default video duration'}</Text>
+        <View style={{ flexDirection: 'row', gap: 9 }}>
+          {[5, 10].map((value) => (
+            <TouchableOpacity key={value} activeOpacity={0.86} style={choiceStyle(duration === value)} onPress={() => setDuration(value)}>
+              <Text style={styles.smallActionText}>{value} {ru ? 'секунд' : 'seconds'}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
+      <View style={[styles.packageCard, { flexDirection: 'column', alignItems: 'stretch', gap: 12, paddingVertical: 14 }]}>
+        <Text style={styles.packageAmount}>{ru ? 'Формат кадра по умолчанию' : 'Default aspect ratio'}</Text>
+        <View style={{ flexDirection: 'row', gap: 9 }}>
+          {['16:9', '9:16'].map((value) => (
+            <TouchableOpacity key={value} activeOpacity={0.86} style={choiceStyle(ratio === value)} onPress={() => setRatio(value)}>
+              <Text style={styles.smallActionText}>{value}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.profileAboutCard}>
+        <Text style={styles.profileAboutTitle}>НейроСцена</Text>
+        <Text style={styles.profileAboutVersion}>{ru ? 'Версия 1.0.0' : 'Version 1.0.0'}</Text>
+        <Text style={styles.profileAboutTagline}>{ru ? 'Создавай. Вдохновляй. Делись.' : 'Create. Inspire. Share.'}</Text>
+      </View>
+      <Text style={styles.note}>
+        {ru
+          ? 'Параметры применяются к следующим генерациям. Видеогенерация выполняется на вашем компьютере.'
+          : 'These preferences apply to future generations. Video generation runs on your computer.'}
+      </Text>
+    </View>
+  );
+}
+
 function GalleryScreen({
   items,
+  favoriteIds,
+  onToggleFavorite,
   language,
   loading,
   error,
@@ -2433,6 +2634,8 @@ function GalleryScreen({
   onCreate,
 }: {
   items: any[];
+  favoriteIds: string[];
+  onToggleFavorite: (jobId: string) => void;
   language: Language;
   loading: boolean;
   error: string;
@@ -2445,7 +2648,6 @@ function GalleryScreen({
 }) {
   const ru = language === 'ru';
   const [galleryFilter, setGalleryFilter] = useState<'videos' | 'favorites'>('videos');
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const visibleItems = galleryFilter === 'favorites'
     ? items.filter((item) => favoriteIds.includes(String(item.job_id)))
     : items;
@@ -2465,15 +2667,26 @@ function GalleryScreen({
           <Text style={[styles.galleryTabText, galleryFilter === 'favorites' && styles.galleryTabTextActive]}>Избранное</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.galleryLimit}>{uiText(language, 'Storage available {count}/2', `Доступно для хранения: ${items.length}/2`).replace('{count}', String(items.length))}</Text>
-      <View style={styles.storageTrack}><View style={[styles.storageProgress, { width: `${Math.min(items.length / 2 * 100, 100)}%` }]} /></View>
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
       {!!error && <Text style={styles.errorText}>{error}</Text>}
       {!loading && visibleItems.length === 0 && (
         <View style={styles.emptyScreen}>
-          <Text style={styles.emptyIcon}>▤</Text>
-          <Text style={styles.description}>{galleryFilter === 'favorites' ? 'В избранном пока нет видео' : uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
-          {galleryFilter === 'videos' && <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}><Text style={styles.secondaryButtonText}>{uiText(language, 'Create your first video', 'Создать видео')}</Text></TouchableOpacity>}
+          <Text style={styles.emptyIcon}>{error ? '!' : '▤'}</Text>
+          <Text style={styles.description}>
+            {error
+              ? 'Не удалось загрузить список видео. Проверьте соединение и повторите попытку.'
+              : galleryFilter === 'favorites'
+                ? 'В избранном пока нет видео'
+                : uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}
+          </Text>
+          {!!error && (
+            <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onRefresh}>
+              <Text style={styles.secondaryButtonText}>Повторить загрузку</Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity activeOpacity={0.86} style={[styles.secondaryButton, !!error && { marginTop: 10 }]} onPress={onCreate}>
+            <Text style={styles.secondaryButtonText}>{galleryFilter === 'favorites' ? 'Перейти к созданию видео' : uiText(language, 'Create your first video', 'Создать видео')}</Text>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -2493,7 +2706,7 @@ function GalleryScreen({
             <View style={styles.galleryPreview}>
               <GalleryVideoPlayer uri={url} />
               {!!durationLabel && <Text style={styles.galleryDuration}>{durationLabel}</Text>}
-              <TouchableOpacity style={styles.galleryFavorite} onPress={() => setFavoriteIds((current) => current.includes(String(item.job_id)) ? current.filter((id) => id !== String(item.job_id)) : [...current, String(item.job_id)])}>
+              <TouchableOpacity style={styles.galleryFavorite} onPress={() => onToggleFavorite(String(item.job_id))}>
                 <Text style={styles.galleryFavoriteText}>{favoriteIds.includes(String(item.job_id)) ? '★' : '☆'}</Text>
               </TouchableOpacity>
             </View>
@@ -2557,6 +2770,8 @@ function GalleryScreen({
         );
       })}
       </View>
+      <Text style={styles.galleryLimit}>{`Доступно для хранения: ${Math.min(items.length, 2)} / 2`}</Text>
+      <View style={styles.storageTrack}><View style={[styles.storageProgress, { width: `${Math.min(items.length / 2 * 100, 100)}%` }]} /></View>
     </View>
   );
 }
@@ -2611,7 +2826,7 @@ function NotificationScreen({
       {items.map((item) => (
         <TouchableOpacity activeOpacity={0.86}
           key={item.notification_id}
-          style={[styles.galleryCard, { marginTop: 9, borderColor: item.read_at ? '#253147' : BLUE }]}
+          style={[styles.notificationCard, { borderColor: item.read_at ? 'rgba(52,104,163,0.55)' : BLUE }]}
           onPress={() => !item.read_at && onRead(item.notification_id)}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -2986,7 +3201,7 @@ function FAQScreen({
       {loading && <ActivityIndicator color={BLUE} style={{ marginVertical: 12 }} />}
       {!loading && visibleItems.length === 0 && <Text style={styles.note}>{uiText(language, 'No matching questions found.', 'По этому запросу ничего не найдено.')}</Text>}
       {visibleItems.map((item) => (
-        <View key={item.faq_id} style={styles.galleryCard}>
+        <View key={item.faq_id} style={styles.contentPanelCard}>
           <Text style={styles.eyebrow}>{categoryName(item.category)}{!item.is_active ? ' · ' + (uiText(language, 'HIDDEN', 'СКРЫТО')) : ''}</Text>
           <Text style={styles.packageAmount}>{faqText(language, item, 'question')}</Text>
           <Text style={styles.description}>{faqText(language, item, 'answer')}</Text>
@@ -3134,7 +3349,7 @@ function SupportScreen({
             </TouchableOpacity>
           )}
           {(selectedTicket.messages || []).map((item: any) => (
-            <View key={item.message_id} style={[styles.galleryCard, { marginTop: 9 }]}>
+            <View key={item.message_id} style={[styles.contentPanelCard, { marginTop: 9 }]}>
               <Text style={styles.eyebrow}>
                 {item.sender_role === 'user' ? (uiText(language, 'YOU', 'ВЫ')) : (uiText(language, 'SUPPORT', 'ПОДДЕРЖКА'))}
               </Text>
@@ -3331,7 +3546,7 @@ function GalleryVideoPlayer({ uri }: { uri: string }) {
 }
 
 
-const COSMIC_OVERRIDES = {
+const COSMIC_OVERRIDES: Record<string, any> = {
   container: { backgroundColor: '#020817' },
   ambientBackdrop: { backgroundColor: '#020817' },
   ambientGlowTop: { width: 520, height: 520, borderRadius: 260, top: -90, right: -250, backgroundColor: '#006BFF', opacity: 0.34 },
@@ -3339,10 +3554,10 @@ const COSMIC_OVERRIDES = {
   ambientGlowCenter: { width: 380, height: 380, borderRadius: 190, top: '32%', left: '18%', backgroundColor: '#0648A5', opacity: 0.18 },
   ambientRing: { width: 520, height: 520, borderRadius: 260, borderColor: 'rgba(36,137,255,0.22)', top: 150, right: -365 },
   ambientRingFar: { width: 640, height: 640, borderRadius: 320, borderColor: 'rgba(16,108,255,0.17)', top: '27%', left: -410 },
-  header: { paddingHorizontal: 18, paddingTop: 7, paddingBottom: 12, backgroundColor: 'rgba(2,8,23,0.94)', borderBottomColor: 'rgba(29,130,255,0.32)' },
+  header: { paddingHorizontal: 18, paddingTop: 7, paddingBottom: 12, backgroundColor: 'rgba(2,8,23,0.94)', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(29,130,255,0.32)' },
   brandRow: { marginTop: 2, gap: 9 },
   brandLogoImage: { width: 45, height: 40 },
-  headerActions: { marginTop: 2 },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 2 },
   headerMenuButton: { width: 42, height: 42, borderRadius: 12, borderWidth: 1, borderColor: '#263B5D', backgroundColor: '#101B30', alignItems: 'center', justifyContent: 'center' },
   headerMenuIcon: { color: '#D7E9FF', fontSize: 24, lineHeight: 27 },
   headerBalance: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'rgba(7,25,55,0.94)', borderColor: '#1267C8', borderWidth: 1, borderRadius: 15, paddingHorizontal: 15, paddingVertical: 10, marginTop: 0, marginBottom: 14, shadowColor: '#087BFF', shadowOpacity: 0.22, shadowRadius: 12, elevation: 4 },
@@ -3350,9 +3565,8 @@ const COSMIC_OVERRIDES = {
   headerBalanceValue: { color: '#FFFFFF', fontSize: 16 },
   content: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 28 },
   creditsContent: { paddingBottom: 38 },
-  referenceHero: { height: 500, minHeight: 455, marginTop: 0, marginBottom: 18, borderRadius: 23, overflow: 'hidden', backgroundColor: '#020A1B', borderWidth: 1, borderColor: 'rgba(63,157,255,0.65)', justifyContent: 'flex-end', padding: 20, shadowColor: '#087BFF', shadowOpacity: 0.36, shadowRadius: 26, elevation: 10 },
   referenceHeroImage: { borderRadius: 23 },
-  referenceHeroShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,8,22,0.10)' },
+  referenceHeroShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,8,22,0.10)' },
   referenceSkyGlow: { position: 'absolute', width: 390, height: 390, borderRadius: 195, top: 18, left: -18, backgroundColor: '#0755B8', opacity: 0.42, shadowColor: '#159DFF', shadowOpacity: 1, shadowRadius: 70, elevation: 20 },
   referenceMoon: { position: 'absolute', width: 230, height: 230, borderRadius: 115, top: 88, alignSelf: 'center', backgroundColor: '#D9E8FF', shadowColor: '#70BFFF', shadowOpacity: 1, shadowRadius: 40, elevation: 22 },
   referenceMoonShade: { position: 'absolute', width: 235, height: 235, borderRadius: 118, top: 74, left: '43%', backgroundColor: '#3B68A2', opacity: 0.23 },
@@ -3364,11 +3578,8 @@ const COSMIC_OVERRIDES = {
   referencePersonBody: { width: 30, height: 43, marginTop: 2, borderRadius: 10, backgroundColor: '#071326', borderWidth: 1, borderColor: '#315A86' },
   referencePersonLegLeft: { position: 'absolute', top: 57, left: 8, width: 10, height: 44, borderRadius: 5, backgroundColor: '#050D1D', transform: [{ rotate: '7deg' }] },
   referencePersonLegRight: { position: 'absolute', top: 57, right: 8, width: 10, height: 44, borderRadius: 5, backgroundColor: '#050D1D', transform: [{ rotate: '-7deg' }] },
-  referenceHeroTitle: { color: '#FFFFFF', fontSize: 32, lineHeight: 35, fontWeight: '900', fontFamily: 'sans-serif-rounded', textShadowColor: '#168BFF', textShadowRadius: 15, marginBottom: 7 },
   referenceHeroCaption: { color: '#D7E9FF', fontSize: 14, lineHeight: 19, maxWidth: 245, marginBottom: 17 },
-  referenceCreateButton: { height: 62, borderRadius: 32, borderWidth: 1.5, borderColor: '#75D9FF', backgroundColor: '#006AFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.95, shadowRadius: 23, elevation: 15 },
   referencePlay: { color: '#FFFFFF', fontSize: 23, marginRight: 12 },
-  referenceCreateButtonText: { color: '#FFFFFF', fontSize: 17, fontWeight: '800' },
   composerBack: { alignSelf: 'flex-start', paddingVertical: 9, paddingHorizontal: 12, borderRadius: 12, backgroundColor: 'rgba(4,24,58,0.95)', borderWidth: 1, borderColor: '#1765B2', marginBottom: 12 },
   composerBackText: { color: '#9FD4FF', fontSize: 14, fontWeight: '700' },
   hero: { minHeight: 128, marginTop: 0, marginBottom: 15, paddingHorizontal: 22, borderRadius: 24, backgroundColor: 'rgba(4,27,68,0.96)', borderColor: '#168BFF', shadowColor: '#007BFF', shadowOpacity: 0.62, shadowRadius: 32, elevation: 16 },
@@ -3400,66 +3611,45 @@ const COSMIC_OVERRIDES = {
   generationModalMark: { backgroundColor: '#063B82', borderColor: '#40C7FF' },
   generationModalMarkText: { color: '#C8F5FF' },
   screen: { paddingTop: 12 },
-  screenTitle: { color: '#FFFFFF', fontSize: 30, lineHeight: 37, fontWeight: '900', fontFamily: 'sans-serif-rounded', marginTop: 8, marginBottom: 18, textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 13 },
-  galleryHeader: { marginBottom: 2 },
-  galleryLimit: { color: '#A5C8EF', fontSize: 14, marginTop: 0, marginBottom: 12 },
+  screenTitle: { color: '#FFFFFF', fontSize: 20, lineHeight: 25, fontWeight: '800', fontFamily: 'sans-serif-rounded', marginTop: 7, marginBottom: 15, textShadowColor: 'rgba(16,116,255,0.38)', textShadowRadius: 9 },
+  galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 0, marginBottom: 2 },
   storageTrack: { height: 5, borderRadius: 3, overflow: 'hidden', backgroundColor: 'rgba(47,93,149,0.55)', marginTop: -6, marginBottom: 8 },
   storageProgress: { height: 5, borderRadius: 3, backgroundColor: '#079BFF', shadowColor: '#18B9FF', shadowOpacity: 0.9, shadowRadius: 8 },
   galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.72)', paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6, fontSize: 11, fontWeight: '700' },
-  galleryCard: { width: '48.5%', backgroundColor: 'rgba(4,18,42,0.97)', borderRadius: 18, padding: 11, marginTop: 10, borderColor: '#1765B2', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 14, elevation: 5 },
-  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start' },
-  galleryTabs: { flexDirection: 'row', padding: 4, borderRadius: 14, backgroundColor: 'rgba(5,18,43,0.96)', borderWidth: 1, borderColor: '#173D72', marginBottom: 12 },
-  galleryTab: { flex: 1, paddingVertical: 10, alignItems: 'center', borderRadius: 11 },
-  galleryTabActive: { backgroundColor: '#0877FF', shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 12, elevation: 6 },
-  galleryTabText: { color: '#A7BBD8', fontSize: 14, fontWeight: '700' },
-  galleryTabTextActive: { color: '#FFFFFF' },
-  galleryPreview: { position: 'relative' },
+  galleryTabs: { flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(55,119,202,0.38)', marginTop: -8, marginBottom: 12, backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0, padding: 0 },
+  galleryTab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent', borderRadius: 0, paddingVertical: 0 },
+  galleryTabActive: { backgroundColor: 'transparent', borderBottomColor: '#00AFFF', shadowColor: '#168BFF', shadowOpacity: 0.45, shadowRadius: 9, elevation: 0 },
+  galleryTabText: { color: '#A9B8D0', fontSize: 13, fontWeight: '600' },
+  galleryTabTextActive: { color: '#EAF6FF', fontWeight: '800' },
   galleryFavorite: { position: 'absolute', top: 7, right: 7, width: 32, height: 32, borderRadius: 16, backgroundColor: 'rgba(1,8,22,0.82)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(104,194,255,0.7)' },
   galleryFavoriteText: { color: '#73CFFF', fontSize: 23, lineHeight: 27 },
-  creditBalanceLine: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 17, paddingVertical: 12, marginBottom: 16, borderRadius: 13, backgroundColor: 'rgba(4,24,58,0.76)', borderWidth: 1, borderColor: 'rgba(38,112,191,0.6)' },
   creditBalanceLabel: { color: '#A9C8EA', fontSize: 13, fontWeight: '700', letterSpacing: 1 },
-  creditBalanceValue: { color: '#FFFFFF', fontSize: 20, fontWeight: '800', textShadowColor: '#168BFF', textShadowRadius: 10 },
   packagePrice: { color: '#B7D7FF', fontSize: 14, marginTop: 3 },
   packagePriceHint: { color: '#7598C3', fontSize: 11, textAlign: 'right' },
-  buyCreditsButton: { minHeight: 54, marginTop: 8, marginBottom: 12, borderRadius: 17, backgroundColor: '#086EFF', borderWidth: 1, borderColor: '#70D9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.65, shadowRadius: 18, elevation: 9, opacity: 0.72 },
+  buyCreditsButton: { minHeight: 44, marginTop: 8, marginBottom: 12, borderRadius: 13, backgroundColor: '#086EFF', borderWidth: 1, borderColor: '#70D9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.65, shadowRadius: 18, elevation: 9, opacity: 1 },
   buyCreditsButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
   buyCreditsHint: { color: '#C5E5FF', fontSize: 10, marginTop: 2 },
   creditNeverExpire: { textAlign: 'center', color: '#A9C8EA', fontSize: 13, marginTop: 8, marginBottom: 12 },
   profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
-  profileSettingsButton: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#1E5A99', backgroundColor: 'rgba(5,22,51,0.92)' },
-  profileSettingsIcon: { color: '#C5E5FF', fontSize: 22 },
+  profileSignOutButton: { alignSelf: 'center', minWidth: 116, minHeight: 36, paddingHorizontal: 18, paddingVertical: 7, borderRadius: 11, borderWidth: 1, borderColor: '#00AFFF', backgroundColor: 'rgba(2,18,43,0.9)', alignItems: 'center', justifyContent: 'center', marginTop: -4, marginBottom: 12 },
+  profileSignOutText: { color: '#42D8FF', fontSize: 13, fontWeight: '700' },
+  profileSettingsButton: { width: 34, height: 34, borderRadius: 0, alignItems: 'center', justifyContent: 'center', borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
+  profileSettingsIcon: { color: '#F0F6FF', fontSize: 23 },
 
-  galleryFilterButton: { width: 42, height: 42, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.96)', borderWidth: 1, borderColor: '#2467A8' },
-  galleryFilterIcon: { color: '#C8E8FF', fontSize: 23, lineHeight: 26 },
-  videoFrame: { height: 128, borderRadius: 12, backgroundColor: '#020817' },
-  videoPlayer: { height: 128, borderRadius: 12 },
+  galleryFilterButton: { width: 34, height: 34, borderRadius: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
+  galleryFilterIcon: { color: '#EAF6FF', fontSize: 25, lineHeight: 27, fontWeight: '500' },
   galleryVideoTitle: { color: '#E7F3FF', fontSize: 14, marginTop: 10 },
-  galleryDate: { color: '#82A9D2', fontSize: 14 },
-  galleryPrompt: { color: '#C8DDF5', fontSize: 14, lineHeight: 19 },
+  galleryDate: { color: '#9BB8D9', fontSize: 9, marginTop: 5 },
+  galleryPrompt: { color: '#D5E6FA', fontSize: 10, lineHeight: 13, marginTop: 5 },
   galleryActionButton: { backgroundColor: 'rgba(0,101,226,0.22)', borderColor: 'rgba(45,161,255,0.62)', borderRadius: 12, paddingVertical: 10, paddingHorizontal: 12 },
   galleryActionText: { color: '#B9DEFF', fontSize: 14 },
   deleteVideoButton: { backgroundColor: 'rgba(103,25,55,0.34)', borderRadius: 11 },
   emptyScreen: { minHeight: 360, padding: 22, borderRadius: 22, backgroundColor: 'rgba(4,18,42,0.86)', borderWidth: 1, borderColor: '#15599D' },
-  creditsScreen: { paddingTop: 20 },
-  creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
   creditsBackButton: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.92)', borderWidth: 1, borderColor: '#2467A8', marginRight: 10 },
   creditsBackText: { color: '#D7EBFF', fontSize: 32, lineHeight: 34, marginTop: -3 },
-  creditsTitle: { color: '#FFFFFF', fontSize: 28, fontWeight: '800', textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 12 },
-  creditIllustration: { height: 184, width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 4, position: 'relative' },
-  creditCoinStack: { position: 'absolute', bottom: 22, alignItems: 'center', justifyContent: 'flex-end' },
-  creditStackLeft: { left: '22%' },
-  creditStackCenter: { left: '42%', bottom: 26 },
-  creditStackRight: { right: '18%' },
   creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#008DFF', borderWidth: 2, borderColor: '#62DFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.95, shadowRadius: 12, elevation: 8 },
   creditCoinInner: { width: 43, height: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(190,245,255,0.75)', color: '#B8F4FF', textAlign: 'center', fontSize: 9, lineHeight: 9, overflow: 'hidden' },
   creditStarBadge: { position: 'absolute', right: '24%', bottom: 8, width: 46, height: 46, borderRadius: 23, backgroundColor: '#006BFF', borderWidth: 2, borderColor: '#62DFFF', color: '#A7F2FF', textAlign: 'center', textAlignVertical: 'center', fontSize: 26, overflow: 'hidden', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
-  creditIntro: { color: '#E2F1FF', fontSize: 15, lineHeight: 22, textAlign: 'center', marginHorizontal: 24, marginBottom: 20 },
-  profileIdentity: { alignItems: 'center', paddingTop: 4, paddingBottom: 17 },
-  profileGuestAvatar: { width: 88, height: 88, borderRadius: 44, borderWidth: 2, borderColor: '#7898C9', backgroundColor: 'rgba(45,77,125,0.36)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 10 },
-  profileGuestHead: { width: 25, height: 25, borderRadius: 13, backgroundColor: '#8FAAD0', marginTop: 5 },
-  profileGuestBody: { width: 56, height: 31, borderTopLeftRadius: 29, borderTopRightRadius: 29, backgroundColor: '#8FAAD0', marginTop: 4 },
-  profileGuestName: { color: '#F3F7FF', fontSize: 18, fontWeight: '800', marginTop: 0 },
-  profileGuestStatus: { color: '#A9BAD4', fontSize: 14, marginTop: 3 },
   profileVkButton: { height: 52, borderRadius: 15, backgroundColor: '#0877FF', borderWidth: 1, borderColor: '#62CFFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 18, shadowColor: '#008CFF', shadowOpacity: 0.45, shadowRadius: 14, elevation: 8 },
   profileVkMark: { color: '#0877FF', backgroundColor: '#FFFFFF', borderRadius: 5, width: 22, height: 22, textAlign: 'center', textAlignVertical: 'center', fontWeight: '900', fontSize: 12, marginRight: 10, overflow: 'hidden' },
   profileVkText: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
@@ -3468,42 +3658,137 @@ const COSMIC_OVERRIDES = {
   balanceCard: { backgroundColor: 'rgba(4,24,58,0.98)', borderRadius: 23, borderColor: '#168BFF', padding: 24, marginTop: 4, marginBottom: 22, shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 24, elevation: 10 },
   balanceLabel: { color: '#9BCBFF' },
   bigBalance: { fontSize: 42, textShadowColor: '#147DFF', textShadowRadius: 17 },
-  packageCard: { backgroundColor: 'rgba(5,20,46,0.98)', borderRadius: 17, borderColor: '#1765B2', padding: 16, minHeight: 74, shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 12, elevation: 3 },
-  packageIconWrap: { width: 42, height: 42, borderRadius: 13, alignItems: 'center', justifyContent: 'center', marginRight: 12, backgroundColor: 'rgba(0,111,255,0.18)', borderWidth: 1, borderColor: 'rgba(68,176,255,0.55)' },
-  packageIcon: { color: '#FFD45E', fontSize: 28, textShadowColor: '#FFB52E', textShadowRadius: 9 },
-  packageDiamond: { color: '#53C9FF', textShadowColor: '#168BFF' },
+  packageIconWrap: { width: 34, height: 34, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginRight: 10, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
+  packageIcon: { color: '#FFD45E', fontSize: 22, textShadowColor: '#FFB52E', textShadowRadius: 9 },
   packageRight: { alignItems: 'flex-end', justifyContent: 'center', gap: 5 },
-  popularBadge: { backgroundColor: '#075DE2', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4, borderWidth: 1, borderColor: '#4CB9FF' },
   popularBadgeText: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
-  packageAmount: { color: '#F3F8FF', fontSize: 17 },
   smallAction: { backgroundColor: 'rgba(5,43,91,0.96)', borderColor: '#168BFF', borderRadius: 13, minHeight: 42 },
   smallActionText: { color: '#EAF5FF' },
   note: { color: '#9CB9D8', lineHeight: 21 },
-  profileCard: { backgroundColor: 'rgba(4,24,58,0.98)', borderRadius: 21, borderColor: '#168BFF', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.25, shadowRadius: 16, elevation: 6 },
   avatar: { width: 54, height: 54, borderRadius: 27, backgroundColor: '#0756B8', borderWidth: 1, borderColor: '#55C9FF', shadowColor: '#168BFF', shadowOpacity: 0.6, shadowRadius: 13, elevation: 6 },
-  profileMenuCard: { marginTop: 4, borderRadius: 17, overflow: 'hidden', borderWidth: 1, borderColor: '#164E87', backgroundColor: 'rgba(4,18,42,0.94)' },
-  menuItem: { minHeight: 54, paddingHorizontal: 15, paddingVertical: 13, marginTop: 0, borderRadius: 0, borderWidth: 0, borderBottomWidth: 1, borderBottomColor: 'rgba(38,103,165,0.42)', backgroundColor: 'transparent' },
   menuItemLast: { borderBottomWidth: 0 },
   menuIcon: { width: 28, color: '#82C9FF', fontSize: 19, textAlign: 'center', marginRight: 10 },
   menuNotificationBadge: { minWidth: 20, height: 20, paddingHorizontal: 5, borderRadius: 10, backgroundColor: '#F02F4F', alignItems: 'center', justifyContent: 'center', marginLeft: 'auto', marginRight: 8 },
   menuNotificationText: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
-  menuText: { color: '#E5F2FF', fontSize: 15 },
+  menuText: { color: '#E5F2FF', fontSize: 15, flex: 1, fontWeight: '600' },
   menuArrow: { color: '#54BFFF', fontSize: 25 },
   authMonogram: { width: 100, height: 76, alignSelf: 'center', marginTop: 2 },
   authBrandTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 27, fontWeight: '900', textAlign: 'center', fontFamily: 'sans-serif-rounded', marginBottom: 18, textShadowColor: '#168BFF', textShadowRadius: 12 },
   authCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderRadius: 21, borderColor: '#1765B2', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 18, elevation: 6 },
-  bottomNav: { backgroundColor: 'rgba(1,7,19,0.99)', borderTopColor: '#1768B5', borderTopWidth: 1.5, paddingTop: 8, paddingBottom: 14, minHeight: 82, shadowColor: '#006DFF', shadowOpacity: 0.22, shadowRadius: 16, elevation: 14 },
-  navItem: { minHeight: 60, borderRadius: 15 },
-  navItemActive: { backgroundColor: 'rgba(0,104,255,0.20)', borderColor: 'rgba(48,169,255,0.66)', shadowColor: '#008CFF', shadowOpacity: 0.45, shadowRadius: 12, elevation: 5 },
-  navIcon: { color: '#4CAEFF', fontSize: 26 },
-  navLabel: { color: '#8CA8C9', fontSize: 14 },
-  navLabelActive: { color: '#43B8FF', textShadowColor: '#087BFF', textShadowRadius: 9 },
-  notificationButton: { backgroundColor: 'rgba(4,28,63,0.98)', borderColor: '#1765B2' },
+  bottomNav: { backgroundColor: 'rgba(1,7,19,0.99)', borderTopColor: '#1768B5', borderTopWidth: 1, paddingHorizontal: 6, paddingTop: 5, paddingBottom: 8, minHeight: 70, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 12, elevation: 10 },
+  navItem: { flex: 1, minWidth: 0, minHeight: 58, paddingHorizontal: 3, paddingTop: 3, borderRadius: 13, backgroundColor: 'transparent', borderWidth: 1, borderColor: 'transparent', alignItems: 'center', justifyContent: 'center', gap: 3 },
+  navItemActive: { backgroundColor: 'transparent', borderColor: 'transparent', shadowColor: '#008CFF', shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
+  navIcon: { color: '#4CAEFF', fontSize: 25, lineHeight: 30 },
+  navIconActive: { color: '#00BFFF', textShadowColor: '#008CFF', textShadowRadius: 10 },
+
+  navLabel: { color: '#8CA8C9', fontSize: 10, lineHeight: 12, textAlign: 'center', fontWeight: '700' },
+  navLabelActive: { color: '#43B8FF', textShadowColor: '#087BFF', textShadowRadius: 9, fontWeight: '900' },
+  createFeatureHeading: { marginTop: 4, marginBottom: 8 },
+  createFeatureGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 10, marginBottom: 18 },
+  createFeatureCard: { width: '48.2%', minHeight: 104, borderRadius: 15, paddingVertical: 12, paddingHorizontal: 8, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,28,70,0.92)', borderWidth: 1, borderColor: 'rgba(0,139,255,0.62)', shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 10, elevation: 4 },
+  createFeatureIcon: { color: '#25C4FF', fontSize: 30, lineHeight: 36, marginBottom: 5, textShadowColor: '#087BFF', textShadowRadius: 12 },
+  createFeatureText: { color: '#E8F4FF', fontSize: 13, lineHeight: 17, fontWeight: '700', textAlign: 'center' },
+  referenceHeroCopy: { position: 'absolute', left: 14, top: 56, marginBottom: 0, maxWidth: '52%', zIndex: 3 },
+  videoFrame: { height: 126, borderRadius: 9 },
+  videoPlayer: { height: 126 },
+  galleryActions: { flexDirection: 'column', gap: 5 },
+  notificationButton: { width: 42, height: 42, borderRadius: 13, borderWidth: 1, borderColor: '#1765B2', backgroundColor: 'rgba(4,28,63,0.98)', alignItems: 'center', justifyContent: 'center', position: 'relative' },
   languageCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderColor: '#1765B2', borderRadius: 17 },
   version: { color: '#668BB7' },
+  // Reference-parity pass: use the approved artwork and preserve live account data.
+  referenceHero: { height: 205, minHeight: 190, marginTop: 2, marginBottom: 14, borderRadius: 17, padding: 0, borderWidth: 1, borderColor: 'rgba(48,160,255,0.82)', backgroundColor: '#17345C', shadowColor: '#168BFF', shadowOpacity: 0.42, shadowRadius: 24, elevation: 8, overflow: 'hidden' },
+  heroSkyGlow: { position: 'absolute', top: -45, right: -22, width: 210, height: 150, borderRadius: 105, backgroundColor: '#F3A96B', opacity: 0.45 },
+  heroSun: { position: 'absolute', top: 28, right: '24%', width: 42, height: 42, borderRadius: 21, backgroundColor: '#FFD49A', opacity: 0.88, shadowColor: '#FFC27A', shadowOpacity: 0.9, shadowRadius: 24, elevation: 10 },
+  heroMountainFar: { position: 'absolute', right: -22, bottom: 24, width: 0, height: 0, borderLeftWidth: 120, borderRightWidth: 120, borderBottomWidth: 138, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#557BA0', opacity: 0.82 },
+  heroMountainMid: { position: 'absolute', left: '27%', bottom: 20, width: 0, height: 0, borderLeftWidth: 118, borderRightWidth: 118, borderBottomWidth: 146, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#294E79', opacity: 0.94 },
+  heroMountainFront: { position: 'absolute', left: -54, bottom: -18, width: 0, height: 0, borderLeftWidth: 150, borderRightWidth: 150, borderBottomWidth: 130, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#142E52', opacity: 0.98 },
+  heroFigure: { position: 'absolute', right: '21%', bottom: 28, width: 25, height: 76, alignItems: 'center', zIndex: 2 },
+  heroFigureHead: { width: 13, height: 13, borderRadius: 7, backgroundColor: '#101D31', borderWidth: 1, borderColor: '#A6C5E6' },
+  heroFigureBody: { width: 20, height: 43, marginTop: 2, borderRadius: 8, backgroundColor: '#101D31', borderWidth: 1, borderColor: '#7898BA' },
+  heroFigurePack: { position: 'absolute', top: 17, left: 0, width: 8, height: 22, borderRadius: 3, backgroundColor: '#243E5D', borderWidth: 1, borderColor: '#91B7DB' },
+  referenceHeroImageCrop: { position: 'absolute', width: '582%', height: '606%', left: '-133%', top: '-156%' },
+  referenceHeroTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 29, fontWeight: '900', textShadowColor: 'rgba(0,0,0,0.85)', textShadowRadius: 12 },
+  referenceHeroDescription: { color: '#E0EDFF', fontSize: 13, lineHeight: 18, marginTop: 3, textShadowColor: 'rgba(0,0,0,0.8)', textShadowRadius: 8 },
+  referenceCreateButton: { height: 54, borderRadius: 16, backgroundColor: '#087BFF', borderColor: '#54C9FF', borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, shadowColor: '#087BFF', shadowOpacity: 0.5, shadowRadius: 16, shadowOffset: { width: 0, height: 5 }, elevation: 8 },
+  referenceCreateButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '900', letterSpacing: 0.2 },
+  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 8 },
+  galleryCard: { width: '48.2%', padding: 5, marginTop: 8, marginBottom: 5, borderRadius: 13, backgroundColor: 'rgba(4,20,48,0.88)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.62)' },
+  notificationCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
+  contentPanelCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
+
+
+  galleryPreview: { borderRadius: 10, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(67,157,255,0.4)' },
+  galleryLimit: { textAlign: 'center', color: '#B5D8FF', marginTop: 12, marginBottom: 5, fontSize: 12 },
+  creditsScreen: { paddingTop: 14 },
+  creditsHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 9, marginBottom: 12 },
+  creditsHeaderIcon: { color: '#DCEBFF', fontSize: 23, lineHeight: 27 },
+  creditsTitle: { color: '#FFFFFF', fontSize: 18, lineHeight: 23, fontWeight: '800' },
+  creditIllustration: { height: 180, marginTop: 0, marginBottom: 12, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(37,139,255,0.72)', backgroundColor: '#071B3B', shadowColor: '#087BFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 6, overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 7 },
+  creditCoinsWindow: { position: 'absolute', top: 0, left: 0, right: 0, height: 112, overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end' },
+  creditGoldCoin: { width: 38, height: 12, marginTop: -3, borderRadius: 20, backgroundColor: '#F6B83F', borderWidth: 1.5, borderColor: '#FFE59A', shadowColor: '#FFBF45', shadowOpacity: 0.9, shadowRadius: 8, elevation: 5 },
+  creditCoinSparkle: { position: 'absolute', right: '23%', top: 24, width: 22, height: 22, borderRadius: 11, backgroundColor: 'rgba(255,207,104,0.18)', alignItems: 'center', justifyContent: 'center' },
+  creditCoinSparkleText: { color: '#FFE59A', fontSize: 16, textShadowColor: '#FFB52E', textShadowRadius: 8 },
+  creditCoinStack: { position: 'absolute', bottom: 16, alignItems: 'center', justifyContent: 'flex-end' },
+  creditStackLeft: { left: '28%' },
+  creditStackCenter: { left: '43%', bottom: 20 },
+  creditStackRight: { right: '25%' },
+  creditCoinStackCenter: { transform: [{ scale: 1.1 }] },
+  creditCoinsReferenceCrop: { position: 'absolute', width: '624%', height: '694%', left: '-396%', top: '-178%' },
+  creditBalanceValue: { fontSize: 32, lineHeight: 36, color: '#FFE08A', fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 12, marginTop: 0 },
+  creditBalanceCaption: { color: '#FFFFFF', fontSize: 13, lineHeight: 17, fontWeight: '700' },
+  creditIntro: { color: '#AFC7E8', fontSize: 12, lineHeight: 17, textAlign: 'center', marginTop: -5, marginBottom: 8, paddingHorizontal: 18 },
+  packageCrown: { color: '#FFD66B', textShadowColor: '#FFB52E', textShadowRadius: 10 },
+  packageDiamond: { color: '#69D8FF', textShadowColor: '#29AFFF', textShadowRadius: 10 },
+  creditPackagesHeading: { color: '#FFFFFF', fontSize: 13, fontWeight: '800', marginTop: 3, marginBottom: 1 },
+  creditBenefits: { marginTop: 12, marginBottom: 7, paddingHorizontal: 4, gap: 5 },
+  creditBenefit: { color: '#00E5B0', fontSize: 12, lineHeight: 16, fontWeight: '700' },
+  profileAccountActions: { marginTop: 10 },
+  profileAboutCard: { minHeight: 76, marginTop: 10, marginBottom: 6, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 13, backgroundColor: 'rgba(4,20,48,0.9)', borderWidth: 1, borderColor: 'rgba(23,89,158,0.36)', alignItems: 'center', justifyContent: 'center' },
+  profileAboutTitle: { color: '#EAF4FF', fontSize: 13, lineHeight: 17, fontWeight: '800' },
+  profileAboutVersion: { color: '#B6CBE4', fontSize: 10, lineHeight: 14, marginTop: 1 },
+  profileAboutTagline: { color: '#69BFFF', fontSize: 10, lineHeight: 14, marginTop: 4 },
+
+  packageCard: { minHeight: 56, paddingVertical: 8, paddingHorizontal: 12, marginTop: 8, borderRadius: 12, backgroundColor: 'rgba(10,28,58,0.98)', borderWidth: 1, borderColor: 'rgba(40,125,218,0.65)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  packageCardFeatured: { borderWidth: 1.5, borderColor: '#16AFFF', backgroundColor: 'rgba(4,58,124,0.94)', shadowColor: '#008CFF', shadowOpacity: 0.78, shadowRadius: 16, elevation: 9 },
+  packageAmount: { color: '#F5F9FF', fontSize: 15, fontWeight: '800' },
+  popularBadge: { backgroundColor: '#087BFF', borderColor: '#7BD7FF', borderWidth: 1, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 4 },
+  profileIdentity: { alignItems: 'center', paddingTop: 7, paddingBottom: 8, marginBottom: 2, borderRadius: 18, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
+  profileGuestAvatar: { width: 76, height: 76, borderRadius: 38, borderColor: '#00AFFF', borderWidth: 1.5, backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', shadowColor: '#00A8FF', shadowOpacity: 0.72, shadowRadius: 16, elevation: 7 },
+  profileGuestHead: { width: 23, height: 23, borderRadius: 12, backgroundColor: 'transparent', borderWidth: 2, borderColor: '#35BFFF', marginBottom: 4 },
+  profileGuestBody: { width: 42, height: 22, borderTopLeftRadius: 22, borderTopRightRadius: 22, borderBottomLeftRadius: 8, borderBottomRightRadius: 8, backgroundColor: 'transparent', borderWidth: 2, borderBottomWidth: 0, borderColor: '#35BFFF' },
+  profileGuestName: { color: '#FFFFFF', fontSize: 18, fontWeight: '800' },
+  profileGuestStatus: { color: '#83BFFF', fontSize: 12, marginTop: 4 },
+  profileCard: { backgroundColor: 'rgba(5,24,56,0.92)', borderColor: 'rgba(35,127,222,0.7)', borderRadius: 14 },
+  profileMenuCard: { backgroundColor: 'rgba(4,18,43,0.88)', borderColor: 'rgba(38,112,194,0.48)', borderWidth: 1, borderRadius: 15, paddingHorizontal: 13, paddingVertical: 2, marginTop: 10, overflow: 'hidden' },
+  menuItem: { borderBottomColor: 'rgba(74,132,202,0.25)', minHeight: 47, paddingVertical: 10, paddingHorizontal: 5, borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  introOverlay: { ...StyleSheet.absoluteFill, top: 0, right: 0, bottom: 0, left: 0, zIndex: 100, elevation: 100, backgroundColor: '#01091D', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  introReferenceArt: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
+  introCosmicGlow: { position: 'absolute', width: 520, height: 520, borderRadius: 260, top: -130, left: -110, backgroundColor: '#075BFF', opacity: 0.28, shadowColor: '#168FFF', shadowOpacity: 1, shadowRadius: 90, elevation: 25 },
+  introReelHalo: { position: 'absolute', width: 300, height: 300, borderRadius: 150, borderWidth: 2, borderColor: 'rgba(44,174,255,0.55)', bottom: '24%', shadowColor: '#008CFF', shadowOpacity: 1, shadowRadius: 35, elevation: 15 },
+  introBrandLockup: { alignItems: 'center', justifyContent: 'center', marginTop: -40 },
+  introMonogram: { color: '#54D9FF', fontSize: 78, lineHeight: 92, fontWeight: '900', letterSpacing: -4, textShadowColor: '#008CFF', textShadowRadius: 28, elevation: 18 },
+  introFilmStrip: { position: 'absolute', bottom: '31%', width: '78%', height: 58, borderWidth: 2, borderRadius: 14, borderColor: '#22A9FF', backgroundColor: 'rgba(2,22,58,0.68)', shadowColor: '#087BFF', shadowOpacity: 0.9, shadowRadius: 26, elevation: 18, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' },
+  introFilmGlyph: { color: '#70DFFF', fontSize: 25, textShadowColor: '#008CFF', textShadowRadius: 14 },
+  introFilmLine: { width: '42%', height: 2, backgroundColor: '#39BFFF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9 },
+  introTitle: { color: '#FFFFFF', fontSize: 42, lineHeight: 46, fontWeight: '900', textAlign: 'center', letterSpacing: 0.2, textShadowColor: '#087BFF', textShadowRadius: 22 },
+  introTagline: { position: 'absolute', bottom: '13%', color: '#A8D7FF', fontSize: 17, lineHeight: 24, textAlign: 'center', textShadowColor: '#087BFF', textShadowRadius: 12 },
+  introProgressTrack: { position: 'absolute', bottom: '7%', width: '78%', height: 4, borderRadius: 3, backgroundColor: 'rgba(79,139,198,0.28)', overflow: 'hidden' },
+  introProgressFill: { width: '42%', height: 4, borderRadius: 3, backgroundColor: '#5CD9FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 4 },
+
 };
 
-const styles = StyleSheet.create({
+function mergeStyleSheets(baseStyles: Record<string, any>, overrides: Record<string, any>) {
+  const merged = { ...baseStyles };
+  Object.entries(overrides).forEach(([key, override]) => {
+    const baseStyle = merged[key];
+    merged[key] = baseStyle && typeof baseStyle === 'object'
+      ? { ...baseStyle, ...override }
+      : override;
+  });
+  return merged;
+}
+
+const styles = StyleSheet.create(mergeStyleSheets({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
   ambientGlowTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: 20, right: -240, backgroundColor: '#075CEB', opacity: 0.26 },
@@ -3515,41 +3800,46 @@ const styles = StyleSheet.create({
   ambientStarOne: { position: 'absolute', top: '18%', left: '17%', width: 4, height: 4, borderRadius: 2, backgroundColor: '#9BEAFF', shadowColor: '#39AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
   ambientStarTwo: { position: 'absolute', top: '43%', right: '13%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#70C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
   ambientStarThree: { position: 'absolute', bottom: '19%', left: '28%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#A7E7FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
-  introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010714', alignItems: 'center', justifyContent: 'center' },
-  introStarField: { ...StyleSheet.absoluteFillObject },
-  introStar: { position: 'absolute', width: 2, height: 2, borderRadius: 1, backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 0.95, shadowRadius: 5 },
-  introWaterGlow: { position: 'absolute', left: '-22%', right: '-22%', bottom: '1%', height: '27%', borderTopWidth: 1, borderTopColor: 'rgba(71,183,255,0.32)', borderRadius: 260, backgroundColor: 'rgba(0,67,125,0.16)', transform: [{ scaleX: 1.15 }] },
-  introNebulaTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: '7%', backgroundColor: '#064AC4', opacity: 0.28, shadowColor: '#078CFF', shadowOpacity: 1, shadowRadius: 80, elevation: 30 },
-  introNebulaBottom: { position: 'absolute', width: 500, height: 260, borderRadius: 250, bottom: '4%', backgroundColor: '#006A9E', opacity: 0.19, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 75, elevation: 25 },
-  introOrbitOuter: { position: 'absolute', width: 330, height: 330, borderRadius: 165, borderWidth: 2, borderColor: 'rgba(70,177,255,0.62)', shadowColor: '#168CFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 16 },
-  introOrbitInner: { position: 'absolute', width: 265, height: 265, borderRadius: 132, borderWidth: 1.5, borderColor: 'rgba(129,218,255,0.42)' },
-  introLogoHalo: { position: 'absolute', width: 255, height: 205, borderRadius: 105, backgroundColor: '#0756C5', opacity: 0.28, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 55, elevation: 30 },
-  introLogoImage: { width: 270, height: 205 },
-  introReelWrap: { position: 'absolute', top: '10%', width: 310, height: 330, alignItems: 'center', justifyContent: 'center' },
-  introFilmStrip: { position: 'absolute', top: 35, left: -15, width: 340, height: 78, borderWidth: 8, borderColor: '#168CFF', borderRadius: 12, backgroundColor: 'rgba(3,22,58,0.88)', transform: [{ rotate: '-25deg' }], shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 22, elevation: 14, overflow: 'hidden' },
-  introFilmRailTop: { position: 'absolute', top: 1, left: 7, right: 7, height: 9, flexDirection: 'row', justifyContent: 'space-between' },
-  introFilmRailBottom: { position: 'absolute', bottom: 1, left: 7, right: 7, height: 9, flexDirection: 'row', justifyContent: 'space-between' },
-  introFilmPerforation: { width: 12, height: 7, borderRadius: 2, backgroundColor: '#8BDFFF', opacity: 0.9 },
-  introReelOuter: { width: 248, height: 248, borderRadius: 124, borderWidth: 13, borderColor: '#56C9FF', backgroundColor: '#061B43', alignItems: 'center', justifyContent: 'center', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 28, elevation: 22 },
-  introReelHoleTop: { position: 'absolute', top: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
-  introReelHoleLeft: { position: 'absolute', left: 19, top: 73, width: 75, height: 58, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
-  introReelHoleRight: { position: 'absolute', right: 19, top: 73, width: 75, height: 58, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
-  introReelHoleBottomLeft: { position: 'absolute', left: 45, bottom: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8', transform: [{ rotate: '42deg' }] },
-  introReelHoleBottomRight: { position: 'absolute', right: 45, bottom: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8', transform: [{ rotate: '-42deg' }] },
-  introReelHub: { width: 82, height: 82, borderRadius: 41, backgroundColor: '#06265A', borderWidth: 4, borderColor: '#65DFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#00B8FF', shadowOpacity: 1, shadowRadius: 18, elevation: 14 },
-  introReelPlay: { color: '#9CEBFF', fontSize: 34, marginLeft: 5, textShadowColor: '#00B8FF', textShadowRadius: 12 },
-  introAccentLine: { position: 'absolute', bottom: '21%', width: 116, height: 3, borderRadius: 2, backgroundColor: '#48C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 14, elevation: 10 },
-  introGlowLarge: { position: 'absolute', width: 430, height: 430, borderRadius: 215, backgroundColor: '#123A83', opacity: 0.42, top: '18%', alignSelf: 'center', transform: [{ scaleX: 1.12 }] },
-  introGlowSmall: { position: 'absolute', width: 260, height: 260, borderRadius: 130, backgroundColor: '#1765C8', opacity: 0.24, top: '31%', alignSelf: 'center' },
-  introGlowLower: { position: 'absolute', width: 460, height: 210, borderRadius: 230, backgroundColor: '#07558B', opacity: 0.19, bottom: '10%', alignSelf: 'center' },
-  introTopLine: { position: 'absolute', top: '12%', width: 64, height: 3, borderRadius: 2, backgroundColor: '#54B8FF', opacity: 0.95, shadowColor: '#168CFF', shadowOpacity: 0.9, shadowRadius: 12, elevation: 8 },
-  introBeamLeft: { position: 'absolute', top: '18%', left: '-20%', width: '78%', height: 1, backgroundColor: 'rgba(76,159,255,0.36)', transform: [{ rotate: '24deg' }] },
-  introBeamRight: { position: 'absolute', top: '24%', right: '-18%', width: '72%', height: 1, backgroundColor: 'rgba(80,196,255,0.25)', transform: [{ rotate: '-27deg' }] },
-  introHorizon: { position: 'absolute', left: 0, right: 0, top: '72%', height: 1, backgroundColor: 'rgba(69,145,255,0.18)' },
-  introTitle: { position: 'absolute', bottom: '25%', color: WHITE, fontSize: 43, lineHeight: 48, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.6, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 25, elevation: 12 },
-  introTagline: { position: 'absolute', bottom: '12%', color: '#B8D9FF', fontSize: 18, lineHeight: 26, textAlign: 'center', fontWeight: '500', textShadowColor: '#168BFF', textShadowRadius: 12 },
-  introProgressTrack: { position: 'absolute', bottom: '5%', width: '86%', maxWidth: 300, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
-  introProgressFill: { width: '40%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
+  introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#030817', alignItems: 'center', justifyContent: 'center' },
+  introReferenceArt: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
+  introGlowTop: { position: 'absolute', width: 420, height: 420, borderRadius: 210, top: '3%', alignSelf: 'center', backgroundColor: '#064AC4', opacity: 0.24, shadowColor: '#087CFF', shadowOpacity: 1, shadowRadius: 90, elevation: 24 },
+  introGlowCore: { position: 'absolute', width: 290, height: 290, borderRadius: 145, top: '29%', alignSelf: 'center', backgroundColor: '#0B3B8B', opacity: 0.2, shadowColor: '#22AFFF', shadowOpacity: 0.9, shadowRadius: 55, elevation: 20 },
+  introGlowBottom: { position: 'absolute', width: 520, height: 260, borderRadius: 260, bottom: '-2%', alignSelf: 'center', backgroundColor: '#005F91', opacity: 0.18, shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 75, elevation: 18 },
+  introGrid: { position: 'absolute', left: '-30%', right: '-30%', bottom: '15%', height: 170, borderTopWidth: 1, borderColor: 'rgba(91,176,255,0.13)', transform: [{ perspective: 500 }, { rotateX: '68deg' }] },
+  introHorizon: { position: 'absolute', left: 0, right: 0, top: '71%', height: 1, backgroundColor: 'rgba(76,166,255,0.16)' },
+  introStar: { position: 'absolute', width: 2, height: 2, borderRadius: 1, backgroundColor: '#C7F0FF', shadowColor: '#43BFFF', shadowOpacity: 0.9, shadowRadius: 7 },
+  introEyebrow: { position: 'absolute', top: '12%', flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 13, paddingVertical: 7, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(92,178,255,0.22)', backgroundColor: 'rgba(5,27,62,0.52)' },
+  introEyebrowDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#5DE0FF', shadowColor: '#39BFFF', shadowOpacity: 1, shadowRadius: 8 },
+  introEyebrowText: { color: '#9CCEFF', fontSize: 10, fontWeight: '800', letterSpacing: 2.8 },
+  introArtwork: { position: 'absolute', top: '22%', width: 330, height: 330, alignItems: 'center', justifyContent: 'center' },
+  introLogoImage: { width: 260, height: 260 },
+  introHalo: { position: 'absolute', width: 236, height: 236, borderRadius: 118, backgroundColor: '#0756C5', opacity: 0.22, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 65, elevation: 26 },
+  introOrbit: { position: 'absolute', width: 300, height: 300, borderRadius: 150, borderWidth: 1, borderColor: 'rgba(100,196,255,0.34)', borderStyle: 'dashed' },
+  introFilmStrip: { position: 'absolute', width: 330, height: 82, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(91,197,255,0.9)', backgroundColor: 'rgba(4,27,64,0.94)', transform: [{ rotate: '-24deg' }], shadowColor: '#078BFF', shadowOpacity: 0.9, shadowRadius: 22, elevation: 16, overflow: 'hidden', justifyContent: 'center' },
+  introFilmPerforations: { position: 'absolute', top: 5, left: 9, right: 9, height: 7, flexDirection: 'row', justifyContent: 'space-between' },
+  introFilmPerforationsBottom: { top: undefined, bottom: 5 },
+  introFilmPerforation: { width: 13, height: 5, borderRadius: 2, backgroundColor: '#72D9FF', opacity: 0.92 },
+  introFilmWindow: { height: 42, marginHorizontal: 8, borderRadius: 5, borderWidth: 1, borderColor: 'rgba(68,163,255,0.35)', backgroundColor: 'rgba(7,66,128,0.35)' },
+  introReel: { width: 204, height: 204, borderRadius: 102, padding: 12, backgroundColor: '#071D42', borderWidth: 2, borderColor: '#70D9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#0B9BFF', shadowOpacity: 1, shadowRadius: 28, elevation: 22 },
+  introReelInner: { width: '100%', height: '100%', borderRadius: 90, backgroundColor: '#0A3470', borderWidth: 1, borderColor: 'rgba(151,224,255,0.72)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  introReelCutoutTop: { position: 'absolute', top: 10, width: 43, height: 53, borderRadius: 24, backgroundColor: '#03132E', borderWidth: 1, borderColor: '#2A8FE0' },
+  introReelCutoutLeft: { position: 'absolute', left: 11, top: 59, width: 53, height: 43, borderRadius: 24, backgroundColor: '#03132E', borderWidth: 1, borderColor: '#2A8FE0' },
+  introReelCutoutRight: { position: 'absolute', right: 11, top: 59, width: 53, height: 43, borderRadius: 24, backgroundColor: '#03132E', borderWidth: 1, borderColor: '#2A8FE0' },
+  introReelCutoutBottomLeft: { position: 'absolute', left: 32, bottom: 10, width: 43, height: 53, borderRadius: 24, backgroundColor: '#03132E', borderWidth: 1, borderColor: '#2A8FE0', transform: [{ rotate: '42deg' }] },
+  introReelCutoutBottomRight: { position: 'absolute', right: 32, bottom: 10, width: 43, height: 53, borderRadius: 24, backgroundColor: '#03132E', borderWidth: 1, borderColor: '#2A8FE0', transform: [{ rotate: '-42deg' }] },
+  introReelCore: { width: 62, height: 62, borderRadius: 31, backgroundColor: '#061C43', borderWidth: 2, borderColor: '#86E6FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#00B8FF', shadowOpacity: 0.9, shadowRadius: 16, elevation: 12 },
+  introReelMark: { color: '#C7F4FF', fontSize: 23, marginLeft: 3, textShadowColor: '#00B8FF', textShadowRadius: 10 },
+  introSparkOne: { position: 'absolute', top: 36, right: 37, width: 7, height: 7, borderRadius: 4, backgroundColor: '#C8F4FF', shadowColor: '#32BFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
+  introSparkTwo: { position: 'absolute', bottom: 35, left: 31, width: 4, height: 4, borderRadius: 2, backgroundColor: '#A3E6FF', shadowColor: '#32BFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 7 },
+  introBrand: { position: 'absolute', bottom: '16%', alignItems: 'center', width: '100%', paddingHorizontal: 20 },
+  introTitle: { color: '#FFFFFF', fontSize: 43, lineHeight: 51, fontWeight: '900', letterSpacing: -0.8, textAlign: 'center', textShadowColor: 'rgba(53,126,255,0.7)', textShadowRadius: 22, elevation: 10 },
+  introTitleAccent: { color: '#8ADFFF' },
+  introAccentLine: { width: 54, height: 3, borderRadius: 2, marginTop: 12, marginBottom: 11, backgroundColor: '#48C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
+  introTagline: { color: '#D4E8FF', fontSize: 16, lineHeight: 22, fontWeight: '600', textAlign: 'center', letterSpacing: 0.2 },
+  introSubline: { color: '#6597C9', fontSize: 9, fontWeight: '800', letterSpacing: 2.1, marginTop: 10 },
+  introLoading: { position: 'absolute', bottom: '6%', width: '72%', maxWidth: 250, alignItems: 'center' },
+  introProgressTrack: { width: '100%', height: 3, borderRadius: 2, backgroundColor: 'rgba(79,139,198,0.25)', overflow: 'hidden' },
+  introProgressFill: { width: '42%', height: 3, borderRadius: 2, backgroundColor: '#5CD9FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
   header: {
     paddingHorizontal: 20,
     paddingVertical: 17,
@@ -3585,7 +3875,7 @@ const styles = StyleSheet.create({
   headerBalanceLabel: { color: MUTED, fontSize: 14, letterSpacing: 1.5, fontWeight: '700' },
   headerBalanceValue: { color: WHITE, fontSize: 17, fontWeight: '900', marginTop: 4 },
   scroll: { flex: 1 },
-  content: { paddingHorizontal: 20, paddingTop: 30, paddingBottom: 42 },
+  content: { flexGrow: 1, paddingHorizontal: 20, paddingTop: 30, paddingBottom: 42 },
   hero: { position: 'relative', marginTop: 4, marginBottom: 18, padding: 24, minHeight: 116, justifyContent: 'center', borderRadius: 25, backgroundColor: 'rgba(8,28,64,0.92)', borderWidth: 1, borderColor: '#2878D7', overflow: 'hidden', shadowColor: '#126BFF', shadowOpacity: 0.42, shadowRadius: 30, shadowOffset: { width: 0, height: 8 }, elevation: 12 },
   heroGlow: { position: 'absolute', width: 250, height: 250, borderRadius: 125, top: -145, right: -65, backgroundColor: '#1C5FC0', opacity: 0.24 },
   heroOrbit: { position: 'absolute', width: 190, height: 190, borderRadius: 95, top: -112, right: -32, borderWidth: 1, borderColor: 'rgba(103,174,255,0.22)' },
@@ -3696,10 +3986,26 @@ const styles = StyleSheet.create({
   statusTitle: { color: MUTED, fontSize: 14, fontWeight: '800', letterSpacing: 1.4 },
   statusValue: { color: WHITE, fontSize: 18, fontWeight: '800', marginTop: 12 },
   statusSuccess: { color: '#42D992' },
-  statusDescription: { color: MUTED, fontSize: 14, lineHeight: 18, marginTop: 6 },progressSegment: { flex: 1, height: 6, borderRadius: 4, backgroundColor: '#263147' },
-  progressSegmentActive: { backgroundColor: BLUE },galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  galleryLimit: { color: MUTED, fontSize: 14, marginTop: -12, marginBottom: 15 },
-  galleryCard: { backgroundColor: PANEL, borderRadius: 14, padding: 12, marginTop: 14, borderWidth: 1, borderColor: '#253147' },
+  statusDescription: { color: MUTED, fontSize: 14, lineHeight: 18, marginTop: 6 },
+  progressSegment: { flex: 1, height: 6, borderRadius: 4, backgroundColor: '#263147' },
+  progressSegmentActive: { backgroundColor: BLUE },
+  galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 0, marginBottom: 0 },
+  galleryTabs: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', borderBottomWidth: 1, borderBottomColor: 'rgba(55,119,202,0.38)', marginTop: 2, marginBottom: 12 },
+  galleryTab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  galleryTabActive: { borderBottomColor: '#00AFFF' },
+  galleryTabText: { color: '#A9B8D0', fontSize: 13, fontWeight: '600' },
+  galleryTabTextActive: { color: '#EAF6FF', fontWeight: '800', textShadowColor: '#168CFF', textShadowRadius: 9 },
+  galleryFilterButton: { width: 34, height: 34, borderRadius: 10, borderWidth: 1, borderColor: 'rgba(55,153,255,0.55)', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,28,67,0.75)' },
+  galleryFilterIcon: { color: '#C5E9FF', fontSize: 19 },
+  galleryLimit: { color: '#D1E7FF', fontSize: 11, textAlign: 'center', marginTop: 9, marginBottom: 5 },
+  storageTrack: { height: 3, backgroundColor: 'rgba(59,112,173,0.28)', borderRadius: 2, marginHorizontal: 16, marginBottom: 6, overflow: 'hidden' },
+  storageProgress: { height: 3, borderRadius: 2, backgroundColor: '#00B8FF' },
+  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 4 },
+  galleryCard: { width: '48.2%', padding: 5, marginTop: 8, marginBottom: 3, borderRadius: 12, backgroundColor: 'rgba(4,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.72)' },
+  galleryPreview: { width: '100%', aspectRatio: 1.02, borderRadius: 9, overflow: 'hidden', backgroundColor: '#06152D', position: 'relative' },
+  galleryDuration: { position: 'absolute', right: 5, bottom: 5, color: '#FFFFFF', fontSize: 10, fontWeight: '800', paddingHorizontal: 5, paddingVertical: 2, borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.78)' },
+  galleryFavorite: { position: 'absolute', top: 4, right: 4, width: 24, height: 24, alignItems: 'center', justifyContent: 'center', borderRadius: 12, backgroundColor: 'rgba(0,0,0,0.5)' },
+  galleryFavoriteText: { color: '#FFFFFF', fontSize: 16 },
   videoFrame: { width: '100%', height: 220, backgroundColor: '#000000', borderRadius: 10, overflow: 'hidden', justifyContent: 'center' },
   videoPlayer: { width: '100%', height: 220, backgroundColor: '#000000' },
   videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
@@ -3716,7 +4022,6 @@ const styles = StyleSheet.create({
   jobId: { color: '#687D9F', fontSize: 14, marginTop: 10 },
   errorText: { color: '#FF8A93', fontSize: 14, marginTop: 10 },
   secondaryButton: {
-    minHeight: 52,
     backgroundColor: '#142344',
     borderColor: '#4A91FF',
     borderWidth: 1,
@@ -3811,6 +4116,5 @@ const styles = StyleSheet.create({
   authDivider: { alignItems: 'center', marginTop: 4, marginBottom: 4 },
   authNotice: { color: '#83B7FF', fontSize: 14, lineHeight: 17, marginTop: 12 },
   version: { color: '#566176', fontSize: 14, letterSpacing: 1.3, textAlign: 'center', marginTop: 35 },
-  ...COSMIC_OVERRIDES,
-});
+}, COSMIC_OVERRIDES) as any);
 
