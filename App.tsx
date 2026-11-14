@@ -168,21 +168,6 @@ export default function App() {
   const introOpacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    if (!API_BASE_URL) {
-      setApiConnectionStatus('not_configured');
-      return;
-    }
-    let mounted = true;
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 6000);
-    fetch(`${API_BASE_URL}/health`, { method: 'GET', signal: controller.signal })
-      .then((response) => { if (mounted) setApiConnectionStatus(response.ok ? 'online' : 'offline'); })
-      .catch(() => { if (mounted) setApiConnectionStatus('offline'); })
-      .finally(() => clearTimeout(timeout));
-    return () => { mounted = false; clearTimeout(timeout); controller.abort(); };
-  }, []);
-
-  useEffect(() => {
     let mounted = true;
     const hideTimer = setTimeout(() => {
       if (mounted) {
@@ -281,6 +266,21 @@ export default function App() {
   const [faqItems, setFaqItems] = useState<any[]>([]);
   const [faqLoading, setFaqLoading] = useState(false);
   const [faqError, setFaqError] = useState('');
+  useEffect(() => {
+    if (!API_BASE_URL) {
+      setApiConnectionStatus('not_configured');
+      return;
+    }
+    let mounted = true;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    fetch(`${API_BASE_URL}/health`, { method: 'GET', signal: controller.signal })
+      .then((response) => { if (mounted) setApiConnectionStatus(response.ok ? 'online' : 'offline'); })
+      .catch(() => { if (mounted) setApiConnectionStatus('offline'); })
+      .finally(() => clearTimeout(timeout));
+    return () => { mounted = false; clearTimeout(timeout); controller.abort(); };
+  }, []);
+
   const saveAuthenticatedSession = async (data: any) => {
     if (!data?.access_token || !data?.user) {
       throw new Error('Сервер вернул неполные данные авторизации');
