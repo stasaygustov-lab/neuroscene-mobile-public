@@ -1926,7 +1926,7 @@ function AppShell() {
               </View>
               <View style={styles.packageRight}>
                 {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярный</Text></View>}
-                <Text style={styles.packagePrice}>Покупка скоро станет доступна</Text>
+                <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
               </View>
             </View>
           ))}
@@ -1944,7 +1944,11 @@ function AppShell() {
             <Text style={styles.creditBenefit}>✓  Без подписок</Text>
             <Text style={styles.creditBenefit}>✓  Без рекламы</Text>
           </View>
-          <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
+          <TouchableOpacity
+            activeOpacity={0.82}
+            style={styles.buyCreditsButton}
+            onPress={() => Alert.alert('Покупка кредитов', 'Пакеты и цены показаны по утверждённому референсу. Подключение оплаты ещё не завершено, поэтому списание средств сейчас недоступно.')}
+          >
             <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
           </TouchableOpacity>
           {creditHistory.length > 0 && (
