@@ -3427,7 +3427,6 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   bigBalance: { fontSize: 42, textShadowColor: '#147DFF', textShadowRadius: 17 },
   packageIconWrap: { width: 34, height: 34, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginRight: 10, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
   packageIcon: { color: '#FFD45E', fontSize: 22, textShadowColor: '#FFB52E', textShadowRadius: 9 },
-  packageDiamond: { color: '#53C9FF', textShadowColor: '#168BFF' },
   packageRight: { alignItems: 'flex-end', justifyContent: 'center', gap: 5 },
   popularBadgeText: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
   smallAction: { backgroundColor: 'rgba(5,43,91,0.96)', borderColor: '#168BFF', borderRadius: 13, minHeight: 42 },
