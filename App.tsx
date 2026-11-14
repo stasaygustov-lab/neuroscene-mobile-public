@@ -12,7 +12,6 @@ import {
   Alert,
   ActivityIndicator,
   Image,
-  ImageBackground,
   Linking,
 } from 'react-native';
 import { VideoView, useVideoPlayer } from 'expo-video';
@@ -1946,7 +1945,7 @@ function AppShell() {
           <TouchableOpacity
             activeOpacity={0.82}
             style={styles.buyCreditsButton}
-            onPress={() => Alert.alert('Покупка кредитов', 'Пакеты и цены показаны по утверждённому референсу. Подключение оплаты ещё не завершено, поэтому списание средств сейчас недоступно.')}
+            onPress={() => Alert.alert('Покупка кредитов', 'Покупка пока не подключена. Подтверждённые цены появятся после настройки оплаты.')}
           >
             <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
           </TouchableOpacity>
