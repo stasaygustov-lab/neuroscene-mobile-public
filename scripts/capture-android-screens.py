@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Capture NeuroScene Android smoke-test screenshots using adb."""
+"""Launch verification and semantic UI smoke test for NeuroScene on Android."""
 from pathlib import Path
 import re
 import hashlib
@@ -9,23 +9,13 @@ import xml.etree.ElementTree as ET
 
 OUT = Path("screenshots")
 REMOTE = "/data/local/tmp"
+PACKAGE = "com.neuroscene.app"
 OUT.mkdir(parents=True, exist_ok=True)
+
 
 def run(args, timeout=45, **kwargs):
     return subprocess.run(args, check=True, timeout=timeout, **kwargs)
 
-def capture(name):
-    remote = f"{REMOTE}/{name}"
-    run(["adb", "shell", "screencap", "-p", remote], timeout=45)
-    run(["adb", "pull", remote, str(OUT / name)], timeout=45)
-    print(f"Captured {name}", flush=True)
-
-def screen_size():
-    value = subprocess.check_output(["adb", "shell", "wm", "size"], text=True, timeout=15)
-    match = re.search(r"(\d+)x(\d+)", value)
-    if not match:
-        raise RuntimeError(f"Cannot read emulator screen size: {value}")
-    return int(match.group(1)), int(match.group(2))
 
 def hierarchy():
     run(
@@ -41,6 +31,43 @@ def hierarchy():
     )
     return ET.fromstring(raw)
 
+
+def visible_text():
+    root = hierarchy()
+    return {
+        value
+        for node in root.iter("node")
+        for value in (node.attrib.get("text", ""), node.attrib.get("content-desc", ""))
+        if value
+    }
+
+
+def assert_visible(*expected):
+    actual = visible_text()
+    missing = [label for label in expected if label not in actual]
+    if missing:
+        raise RuntimeError(
+            f"Expected UI text not visible: {missing}. "
+            f"Visible text: {sorted(actual)}"
+        )
+    print(f"Verified visible UI text: {', '.join(expected)}", flush=True)
+
+
+def capture(name):
+    remote = f"{REMOTE}/{name}"
+    run(["adb", "shell", "screencap", "-p", remote], timeout=45)
+    run(["adb", "pull", remote, str(OUT / name)], timeout=45)
+    print(f"Captured {name}", flush=True)
+
+
+def screen_size():
+    value = subprocess.check_output(["adb", "shell", "wm", "size"], text=True, timeout=15)
+    match = re.search(r"(\d+)x(\d+)", value)
+    if not match:
+        raise RuntimeError(f"Cannot read emulator screen size: {value}")
+    return int(match.group(1)), int(match.group(2))
+
+
 def tap_text(label, fallback_x, fallback_y):
     try:
         root = hierarchy()
@@ -50,8 +77,7 @@ def tap_text(label, fallback_x, fallback_y):
             or node.attrib.get("content-desc") == label
         ]
         if candidates:
-            # Tab labels also appear as screen headings. Select the lowest
-            # matching text node so duplicate labels resolve to the bottom nav.
+            # Duplicate tab labels can occur in both the heading and bottom nav.
             def bottom_edge(node):
                 bounds = list(map(
                     int,
@@ -63,36 +89,63 @@ def tap_text(label, fallback_x, fallback_y):
             x = (bounds[0] + bounds[2]) // 2
             y = (bounds[1] + bounds[3]) // 2
             run(["adb", "shell", "input", "tap", str(x), str(y)], timeout=15)
-            print(
-                f"Tapped {label!r} using lowest accessibility match "
-                f"({len(candidates)} matching node(s))",
-                flush=True,
-            )
+            print(f"Tapped {label!r} through accessibility tree", flush=True)
             return
     except Exception as exc:
-        print(f"Accessibility lookup for {label!r} unavailable; using coordinate fallback: {exc}", flush=True)
+        print(f"Accessibility lookup for {label!r} failed; using coordinate fallback: {exc}", flush=True)
     run(["adb", "shell", "input", "tap", str(fallback_x), str(fallback_y)], timeout=15)
 
-# The app splash animation is intentionally left enabled.
+
+# Confirm the package process survived the initial launch and inspect fatal errors.
+pid = subprocess.run(
+    ["adb", "shell", "pidof", PACKAGE],
+    text=True,
+    capture_output=True,
+    timeout=15,
+)
+if pid.returncode != 0 or not pid.stdout.strip():
+    logcat = subprocess.run(
+        ["adb", "logcat", "-d"],
+        text=True,
+        capture_output=True,
+        timeout=30,
+    ).stdout
+    print(logcat[-20000:], flush=True)
+    raise RuntimeError("NeuroScene process is not running after launch")
+
+runtime_log = subprocess.run(
+    ["adb", "logcat", "-d", "-s", "AndroidRuntime:E"],
+    text=True,
+    capture_output=True,
+    timeout=30,
+).stdout
+if "FATAL EXCEPTION" in runtime_log or f"Process: {PACKAGE}" in runtime_log:
+    raise RuntimeError(f"Fatal Android runtime exception detected:\n{runtime_log[-12000:]}")
+print(f"Android process is alive: {pid.stdout.strip()}", flush=True)
+
+# Splash is captured before waiting for the restored startup screen.
 time.sleep(1)
 capture("00-splash.png")
 time.sleep(5)
+assert_visible("Создать видео")
 capture("01-create.png")
 
 width, height = screen_size()
 nav_y = height - 180
-for label, index, filename in [
-    ("Галерея", 1, "02-gallery.png"),
-    ("Кредиты", 2, "03-credits.png"),
-    ("Профиль", 3, "04-profile.png"),
+for label, index, filename, expected in [
+    ("Галерея", 1, "02-gallery.png", ("Галерея", "Мои видео")),
+    ("Кредиты", 2, "03-credits.png", ("Кредиты", "Пакеты кредитов")),
+    ("Профиль", 3, "04-profile.png", ("Профиль", "Гость", "Войти по email")),
 ]:
     x = width * (2 * index + 1) // 8
     tap_text(label, x, nav_y)
     time.sleep(3)
+    assert_visible(*expected)
     capture(filename)
     if label == "Профиль":
         tap_text("Войти по email", width // 2, int(height * 0.70))
         time.sleep(2)
+        assert_visible("Электронная почта", "ВХОД ПО EMAIL")
         capture("05-email-login.png")
 
 required = [
@@ -118,4 +171,4 @@ duplicates = [names for names in duplicates.values() if len(names) > 1]
 if duplicates:
     raise SystemExit(f"Some screen captures are identical; navigation may have failed: {duplicates}")
 
-print(f"Successfully captured {len(required)} distinct screenshots", flush=True)
+print(f"Successfully captured {len(required)} distinct screenshots with semantic UI checks", flush=True)
