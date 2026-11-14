@@ -157,6 +157,17 @@ function ScreenTransition({ children }: { children: any }) {
 
 export default function App() {
   const [tab, setTab] = useState<Tab>('Create');
+  const [showIntro, setShowIntro] = useState(true);
+  const introOpacity = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      Animated.timing(introOpacity, { toValue: 0, duration: 420, useNativeDriver: true }).start(({ finished }) => {
+        if (finished) setShowIntro(false);
+      });
+    }, 3100);
+    return () => clearTimeout(timer);
+  }, [introOpacity]);
   const swipeResponder = useRef(PanResponder.create({
     onMoveShouldSetPanResponder: (_event, gesture) =>
       Math.abs(gesture.dx) > 48 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.25,
@@ -235,39 +246,6 @@ export default function App() {
   const [faqItems, setFaqItems] = useState<any[]>([]);
   const [faqLoading, setFaqLoading] = useState(false);
   const [faqError, setFaqError] = useState('');
-  const [showIntro, setShowIntro] = useState(true);
-  const introOpacity = useRef(new Animated.Value(0)).current;
-  const introScale = useRef(new Animated.Value(0.72)).current;
-  const introRotation = useRef(new Animated.Value(0)).current;
-  const introPulse = useRef(new Animated.Value(0)).current;
-  const introRotateZ = introRotation.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] });
-  const introRotateReverse = introRotation.interpolate({ inputRange: [0, 1], outputRange: ['360deg', '0deg'] });
-  const introPulseScale = introPulse.interpolate({ inputRange: [0, 1], outputRange: [0.96, 1.045] });
-
-  useEffect(() => {
-    const orbit = Animated.loop(Animated.timing(introRotation, {
-      toValue: 1, duration: 11500, useNativeDriver: true,
-    }));
-    const pulse = Animated.loop(Animated.sequence([
-      Animated.timing(introPulse, { toValue: 1, duration: 1750, useNativeDriver: true }),
-      Animated.timing(introPulse, { toValue: 0, duration: 1750, useNativeDriver: true }),
-    ]));
-    orbit.start();
-    pulse.start();
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(introOpacity, { toValue: 1, duration: 650, useNativeDriver: true }),
-        Animated.spring(introScale, { toValue: 1, speed: 7, bounciness: 5, useNativeDriver: true }),
-      ]),
-      Animated.delay(2200),
-      Animated.timing(introOpacity, { toValue: 0, duration: 550, useNativeDriver: true }),
-    ]).start(({ finished }) => {
-      if (finished) setShowIntro(false);
-    });
-    return () => { orbit.stop(); pulse.stop(); };
-  }, [introOpacity, introScale, introRotation, introPulse]);
-
-
   const saveAuthenticatedSession = async (data: any) => {
     if (!data?.access_token || !data?.user) {
       throw new Error('Сервер вернул неполные данные авторизации');
@@ -315,6 +293,10 @@ export default function App() {
 
   useEffect(() => {
     let mounted = true;
+    // Never leave the first screen blocked if secure storage or the API stalls.
+    const startupFallback = setTimeout(() => {
+      if (mounted) setAuthReady(true);
+    }, 5000);
     const restoreSession = async () => {
       try {
         const savedToken = await SecureStore.getItemAsync(SESSION_STORAGE_KEY);
@@ -335,6 +317,7 @@ export default function App() {
       } catch {
         await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY).catch(() => undefined);
       } finally {
+        clearTimeout(startupFallback);
         if (mounted) setAuthReady(true);
       }
     };
@@ -347,6 +330,7 @@ export default function App() {
     }).catch(() => undefined);
     return () => {
       mounted = false;
+      clearTimeout(startupFallback);
       subscription.remove();
     };
   }, []);
@@ -1740,52 +1724,50 @@ export default function App() {
       return (
         <View style={[styles.screen, styles.creditsScreen]}>
           <View style={styles.creditsHeader}>
-            <TouchableOpacity style={styles.creditsBackButton} onPress={() => setTab('Create')} accessibilityLabel="Назад">
-              <Text style={styles.creditsBackText}>‹</Text>
-            </TouchableOpacity>
+            <Text style={styles.creditsHeaderIcon}>▤</Text>
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
           </View>
           <View style={styles.creditIllustration}>
-            <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
+            <View style={styles.creditCoinsWindow}>
+              <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
+                {[0, 1, 2].map((coin) => <View key={coin} style={styles.creditGoldCoin} />)}
+              </View>
+              <View style={[styles.creditCoinStack, styles.creditStackCenter, styles.creditCoinStackCenter]}>
+                {[0, 1, 2, 3].map((coin) => <View key={coin} style={styles.creditGoldCoin} />)}
+              </View>
+              <View style={[styles.creditCoinStack, styles.creditStackRight]}>
+                {[0, 1, 2].map((coin) => <View key={coin} style={styles.creditGoldCoin} />)}
+              </View>
+              <View style={styles.creditCoinSparkle}><Text style={styles.creditCoinSparkleText}>✦</Text></View>
             </View>
-            <View style={[styles.creditCoinStack, styles.creditStackCenter]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-            </View>
-            <View style={[styles.creditCoinStack, styles.creditStackRight]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-            </View>
-            <View style={styles.creditStarBadge}>✦</View>
+            <Text style={styles.creditBalanceValue}>
+              {creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}
+            </Text>
+            <Text style={styles.creditBalanceCaption}>Кредитов</Text>
           </View>
           <Text style={styles.creditIntro}>Кредиты — это ваша энергия для создания видео</Text>
-          <View style={styles.creditBalanceLine}>
-            <Text style={styles.creditBalanceLabel}>ВАШ БАЛАНС</Text>
-            <Text style={styles.creditBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
-          </View>
+          <Text style={styles.creditPackagesHeading}>Пакеты кредитов</Text>
           {[500, 1500, 5000].map((amount) => (
-            <View style={styles.packageCard} key={amount}>
+            <View style={[styles.packageCard, amount === 1500 && styles.packageCardFeatured]} key={amount}>
               <View style={styles.packageIconWrap}>
-                <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
+                <Text style={[styles.packageIcon, amount === 1500 && styles.packageCrown, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '✦' : amount === 1500 ? '♛' : '◆'}</Text>
               </View>
               <View style={{ flex: 1 }}>
-                <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
-                <Text style={styles.packagePrice}>{amount === 500 ? '₽149' : amount === 1500 ? '₽399' : '₽999'}</Text>
+                <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')} кредитов</Text>
               </View>
               <View style={styles.packageRight}>
-                {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
-                <Text style={styles.packagePriceHint}>Разовая покупка</Text>
+                {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярный</Text></View>}
+                <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
               </View>
             </View>
           ))}
+          <View style={styles.creditBenefits}>
+            <Text style={styles.creditBenefit}>✓  Кредиты не сгорают</Text>
+            <Text style={styles.creditBenefit}>✓  Без подписок</Text>
+            <Text style={styles.creditBenefit}>✓  Без рекламы</Text>
+          </View>
           <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
             <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
-            <Text style={styles.buyCreditsHint}>Покупка скоро станет доступна</Text>
           </TouchableOpacity>
           {creditHistory.length > 0 && (
             <View style={{ marginTop: 22 }}>
@@ -1803,7 +1785,6 @@ export default function App() {
               ))}
             </View>
           )}
-          <Text style={styles.creditNeverExpire}>∞  Кредиты не сгорают</Text>
         </View>
       );
     }
@@ -1820,22 +1801,13 @@ export default function App() {
           <>
             <View style={styles.profileIdentity}>
               <View style={styles.profileGuestAvatar}><View style={styles.profileGuestHead} /><View style={styles.profileGuestBody} /></View>
-              <Text style={styles.profileGuestName}>{authUser.email || 'Пользователь'}</Text>
-              <Text style={styles.profileGuestStatus}>В сети</Text>
+              <Text style={styles.profileGuestName}>{authUser.display_name || authUser.name || authUser.email || 'Пользователь'}</Text>
+              <Text style={styles.profileGuestStatus}>{authUser.email || ''}</Text>
             </View>
-            <View style={styles.profileCard}>
-              <View style={styles.avatar}><Text style={styles.avatarText}>Н+С</Text></View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.profileName}>{uiText(language, 'YOUR ACCOUNT', 'ВАШ АККАУНТ')}</Text>
-                <Text style={styles.mutedText}>{authUser.email}</Text>
-              </View>
-            </View>
-            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={logoutAllDevices} disabled={authBusy}>
-              <Text style={styles.authSecondaryText}>{uiText(language, 'Sign out all devices', 'Выйти со всех устройств')}</Text>
+            <TouchableOpacity activeOpacity={0.86} style={styles.profileSignOutButton} onPress={logoutAllDevices} disabled={authBusy}>
+              <Text style={styles.profileSignOutText}>Выйти</Text>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={deleteAccount} disabled={authBusy}>
-              <Text style={[styles.authSecondaryText, { color: '#FF7777' }]}>{uiText(language, 'Delete account and personal data', 'Удалить аккаунт и личные данные')}</Text>
-            </TouchableOpacity>
+
           </>
         ) : (
           <>
@@ -1898,50 +1870,48 @@ export default function App() {
           </>
         )}
         <View style={styles.profileMenuCard}>
-        {['My videos', 'Notifications', 'About', 'Support', 'Sign out'].map((key, menuIndex) => uiText(language, key, ({
-          'My videos': 'Мои видео',
-          'Notifications': 'Уведомления',
-          'About': 'О приложении',
-          'Support': 'Поддержка',
-          'Sign out': 'Выход',
-        } as Record<string, string>)[key] || key)).map((item, menuIndex) => (
+        {['Уведомления', 'Покупки и кредиты', 'Настройки', 'О приложении', 'Поддержка'].map((item, menuIndex) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item}
             style={[styles.menuItem, menuIndex === 4 && styles.menuItemLast]}
             onPress={() => {
-              if (item === 'Мои видео') {
-                setTab('Gallery');
+              if (item === 'Покупки и кредиты') {
+                setTab('Credits');
+              } else if (item === 'Настройки') {
+                Alert.alert('Настройки', 'Настройки профиля');
               } else if (item === 'О приложении') {
                 Alert.alert('НейроСцена', 'Твоя творческая студия на компьютере.');
-              } else if (item === 'Выход' || item === 'Sign out') {
-                if (authToken) logoutAllDevices();
-                else Alert.alert('НейроСцена', 'Вы уже используете приложение как гость.');
-              } else if (item === (uiText(language, 'Help / FAQ', 'Помощь / FAQ'))) {
-                setShowSupport(false);
-                setShowNotifications(false);
-                setShowFaq(true);
-                void loadFaq();
-              } else if (item === (uiText(language, 'Support', 'Поддержка'))) {
+              } else if (item === 'Поддержка') {
                 setSelectedSupportTicket(null);
                 setShowNotifications(false);
                 setShowSupport(true);
                 void loadSupportTickets();
-              } else if (item === (uiText(language, 'Notifications', 'Уведомления'))) {
+              } else if (item === 'Уведомления') {
                 setShowSupport(false);
                 setShowNotifications(true);
                 void loadNotifications();
-              } else {
-                Alert.alert(item, uiText(language, 'This section will be connected in a later stage.', 'Этот раздел будет подключён на следующем этапе.'));
               }
             }}
           >
-            <Text style={styles.menuIcon}>{item === 'Мои видео' ? '▣' : item === 'Уведомления' ? '♧' : item === 'О приложении' ? 'ⓘ' : item === 'Поддержка' ? '?' : '⇥'}</Text>
+            <Text style={styles.menuIcon}>{item === 'Уведомления' ? '♧' : item === 'Покупки и кредиты' ? '▤' : item === 'Настройки' ? '⚙' : item === 'О приложении' ? 'ⓘ' : '♙'}</Text>
             <Text style={styles.menuText}>{item}</Text>
             {item === 'Уведомления' && unreadNotifications > 0 && <View style={styles.menuNotificationBadge}><Text style={styles.menuNotificationText}>{Math.min(unreadNotifications, 9)}</Text></View>}
             <Text style={styles.menuArrow}>›</Text>
           </TouchableOpacity>
         ))}
         </View>
+        <View style={styles.profileAboutCard}>
+          <Text style={styles.profileAboutTitle}>НейроСцена</Text>
+          <Text style={styles.profileAboutVersion}>Версия 1.0.0</Text>
+          <Text style={styles.profileAboutTagline}>Создавай. Вдохновляй. Делись.</Text>
+        </View>
+        {authToken && (
+          <View style={styles.profileAccountActions}>
+            <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={deleteAccount} disabled={authBusy}>
+              <Text style={[styles.authLinkText, { color: '#FF8A93' }]}>Удалить аккаунт и личные данные</Text>
+            </TouchableOpacity>
+          </View>
+        )}
         {authToken && ['owner', 'admin'].includes(authUser?.role) && (
           <TouchableOpacity activeOpacity={0.86}
             style={[styles.menuItem, { marginTop: 12, borderBottomColor: BLUE }]}
@@ -1951,7 +1921,11 @@ export default function App() {
             <Text style={styles.menuArrow}>›</Text>
           </TouchableOpacity>
         )}
-        <Text style={styles.version}>НЕЙРОСЦЕНА · {uiText(language, 'VERSION 1.0', 'ВЕРСИЯ 1.0')}</Text>
+        <View style={styles.profileAboutCard}>
+          <Text style={styles.profileAboutTitle}>НейроСцена</Text>
+          <Text style={styles.profileAboutVersion}>Версия 1.0.0</Text>
+          <Text style={styles.profileAboutTagline}>Создавай. Вдохновляй. Делись.</Text>
+        </View>
       </View>
     );
   };
@@ -1971,10 +1945,11 @@ export default function App() {
         <View style={styles.ambientStarTwo} />
         <View style={styles.ambientStarThree} />
       </View>
-      <StatusBar style="light" hidden={showIntro} />
+      <StatusBar style="light" />
 
       {tab === 'Create' && <View style={styles.header}>
         <View style={styles.brandRow}>
+          <Image source={require('./assets/Футуристический серебряно-синий монограмный логотип HC-1.png')} style={styles.brandLogoImage} resizeMode="contain" />
           <View style={styles.brandWordmark}>
             <Text style={styles.logo}>Нейро</Text>
             <Text style={styles.logoSecond}>Сцена</Text>
@@ -2012,11 +1987,11 @@ export default function App() {
         {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
-      {tab !== 'Credits' && <View style={styles.bottomNav}>
+      <View style={styles.bottomNav}>
         {([
-          { id: 'Create', icon: '✧', label: 'Создать' },
-          { id: 'Gallery', icon: '▧', label: 'Галерея' },
-          { id: 'Credits', icon: '✦', label: 'Кредиты' },
+          { id: 'Create', icon: '▶', label: 'Создать' },
+          { id: 'Gallery', icon: '▦', label: 'Галерея' },
+          { id: 'Credits', icon: '▤', label: 'Кредиты' },
           { id: 'Profile', icon: '◉', label: 'Профиль' },
         ] as const).map((item) => (
           <TouchableOpacity activeOpacity={0.86}
@@ -2024,58 +1999,36 @@ export default function App() {
             style={[styles.navItem, tab === item.id && styles.navItemActive]}
             onPress={() => { setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
-            {item.id === 'Credits' ? (
-              <View style={styles.navCoin} accessibilityLabel="Монета">
-                <View style={styles.navCoinInner}>
-                  <Text style={styles.navCoinMark}>₽</Text>
-                </View>
-              </View>
-            ) : item.id === 'Profile' ? (
-              <View style={styles.navPerson} accessibilityLabel="Человечек">
+            {item.id === 'Profile' ? (
+              <View style={styles.navPerson} accessibilityLabel="Профиль">
                 <View style={styles.navPersonHead} />
                 <View style={styles.navPersonBody} />
               </View>
+            ) : item.id === 'Credits' ? (
+              <View style={styles.navCoin} accessibilityLabel="Кредиты">
+                <View style={styles.navCoinInner}><Text style={styles.navCoinMark}>✦</Text></View>
+              </View>
             ) : (
-              <Text style={styles.navIcon}>{item.icon}</Text>
+              <Text style={[styles.navIcon, tab === item.id && styles.navIconActive]}>{item.icon}</Text>
             )}
             <Text style={[styles.navLabel, tab === item.id && styles.navLabelActive]}>
               {item.label}
             </Text>
           </TouchableOpacity>
         ))}
-      </View>}
+      </View>
 
       {showIntro && (
-        <Animated.View style={[styles.introOverlay, { opacity: introOpacity }]}>
-          <View style={styles.introStarField} pointerEvents="none">
-            {Array.from({ length: 34 }, (_, index) => (
-              <View key={index} style={[styles.introStar, { top: `${(index * 29 + 7) % 68}%`, left: `${(index * 43 + 11) % 96}%`, opacity: 0.28 + ((index * 7) % 7) / 10 }]} />
-            ))}
-          </View>
-          <View style={styles.introNebulaTop} />
-          <View style={styles.introNebulaBottom} />
-          <View style={styles.introHorizon} />
-          <View style={styles.introWaterGlow} />
-          <Animated.View style={[styles.introOrbitOuter, { transform: [{ perspective: 900 }, { rotateX: '68deg' }, { rotateZ: introRotateZ }] }]} />
-          <Animated.View style={[styles.introOrbitInner, { transform: [{ perspective: 900 }, { rotateY: '64deg' }, { rotateZ: introRotateReverse }] }]} />
-          <Animated.View style={[styles.introLogoHalo, { transform: [{ scale: introPulseScale }] }]} />
-          <Animated.View style={[styles.introReelWrap, { transform: [{ scale: introScale }, { rotateY: introRotateZ }] }]}>
-            <View style={styles.introFilmStrip}>
-              <View style={styles.introFilmRailTop}>{Array.from({ length: 13 }, (_, index) => <View key={index} style={styles.introFilmPerforation} />)}</View>
-              <View style={styles.introFilmRailBottom}>{Array.from({ length: 13 }, (_, index) => <View key={index} style={styles.introFilmPerforation} />)}</View>
-            </View>
-            <View style={styles.introReelOuter}>
-              <View style={styles.introReelHoleTop} /><View style={styles.introReelHoleLeft} /><View style={styles.introReelHoleRight} />
-              <View style={styles.introReelHoleBottomLeft} /><View style={styles.introReelHoleBottomRight} />
-              <View style={styles.introReelHub}><Text style={styles.introReelPlay}>▶</Text></View>
-            </View>
-          </Animated.View>
-          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{'\n'}Сцена</Animated.Text>
-          <View style={styles.introAccentLine} />
-          <Text style={styles.introTagline}>Ваши идеи —{'\n'}на экране</Text>
-          <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
+        <Animated.View pointerEvents="none" style={[styles.introOverlay, { opacity: introOpacity }]}>
+          <Image
+            source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+            resizeMode="stretch"
+            style={styles.introReferenceArt}
+            accessibilityLabel="Космическая заставка НейроСцена с киноплёнкой и логотипом"
+          />
         </Animated.View>
       )}
+
     </SafeAreaView>
   );
 }
@@ -2146,29 +2099,40 @@ function CreateScreen({
 
   return (
     <View>
-      <View style={styles.headerBalance}>
-        <Text style={styles.headerBalanceLabel}>ВАШ БАЛАНС</Text>
-        <Text style={styles.headerBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
-      </View>
       <View style={styles.referenceHero}>
-        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-          <View style={styles.referenceSkyGlow} />
-          <View style={styles.referenceMoon} />
-          <View style={styles.referenceMoonShade} />
-          <View style={styles.referenceMountainBack} />
-          <View style={styles.referenceMountainFront} />
-          <View style={styles.referenceRidgeLight} />
-          <View style={styles.referencePerson}>
-            <View style={styles.referencePersonHead} />
-            <View style={styles.referencePersonBody} />
-            <View style={styles.referencePersonLegLeft} />
-            <View style={styles.referencePersonLegRight} />
-          </View>
-          <View style={styles.referenceHeroShade} />
+        <View style={styles.heroSkyGlow} />
+        <View style={styles.heroSun} />
+        <View style={styles.heroMountainFar} />
+        <View style={styles.heroMountainMid} />
+        <View style={styles.heroMountainFront} />
+        <View style={styles.heroFigure}>
+          <View style={styles.heroFigureHead} />
+          <View style={styles.heroFigureBody} />
+          <View style={styles.heroFigurePack} />
         </View>
-        <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
-          <Text style={styles.referencePlay}>▶</Text>
-          <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+        <View style={styles.referenceHeroShade} />
+        <View style={styles.referenceHeroCopy}>
+          <Text style={styles.referenceHeroTitle}>Создать{"\n"}видео</Text>
+          <Text style={styles.referenceHeroDescription}>Из текста или{"\n"}изображения</Text>
+        </View>
+      </View>
+      <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
+        <Text style={styles.referencePlay}>▶</Text>
+        <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+      </TouchableOpacity>
+      <View style={styles.createFeatureHeading}><Text style={styles.sectionTitle}>ВОЗМОЖНОСТИ</Text></View>
+      <View style={styles.createFeatureGrid}>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => { setGenerationType('t2v'); setShowComposer(true); }}>
+          <Text style={styles.createFeatureIcon}>▧</Text><Text style={styles.createFeatureText}>Текст в видео</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => { setGenerationType('i2v'); setShowComposer(true); }}>
+          <Text style={styles.createFeatureIcon}>▣</Text><Text style={styles.createFeatureText}>Изображение в видео</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => Alert.alert('Добавить звук', 'Звуковое сопровождение подключается отдельным этапом и не меняет параметры видеогенерации.')}>
+          <Text style={styles.createFeatureIcon}>♫</Text><Text style={styles.createFeatureText}>Добавить звук</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.86} style={styles.createFeatureCard} onPress={() => setShowComposer(true)}>
+          <Text style={styles.createFeatureIcon}>✧</Text><Text style={styles.createFeatureText}>Улучшить промпт</Text>
         </TouchableOpacity>
       </View>
 
@@ -2465,8 +2429,6 @@ function GalleryScreen({
           <Text style={[styles.galleryTabText, galleryFilter === 'favorites' && styles.galleryTabTextActive]}>Избранное</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.galleryLimit}>{uiText(language, 'Storage available {count}/2', `Доступно для хранения: ${items.length}/2`).replace('{count}', String(items.length))}</Text>
-      <View style={styles.storageTrack}><View style={[styles.storageProgress, { width: `${Math.min(items.length / 2 * 100, 100)}%` }]} /></View>
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
       {!!error && <Text style={styles.errorText}>{error}</Text>}
       {!loading && visibleItems.length === 0 && (
@@ -2557,6 +2519,8 @@ function GalleryScreen({
         );
       })}
       </View>
+      <Text style={styles.galleryLimit}>{`Доступно для хранения: ${Math.min(items.length, 2)} / 2`}</Text>
+      <View style={styles.storageTrack}><View style={[styles.storageProgress, { width: `${Math.min(items.length / 2 * 100, 100)}%` }]} /></View>
     </View>
   );
 }
@@ -2611,7 +2575,7 @@ function NotificationScreen({
       {items.map((item) => (
         <TouchableOpacity activeOpacity={0.86}
           key={item.notification_id}
-          style={[styles.galleryCard, { marginTop: 9, borderColor: item.read_at ? '#253147' : BLUE }]}
+          style={[styles.notificationCard, { borderColor: item.read_at ? 'rgba(52,104,163,0.55)' : BLUE }]}
           onPress={() => !item.read_at && onRead(item.notification_id)}
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -2986,7 +2950,7 @@ function FAQScreen({
       {loading && <ActivityIndicator color={BLUE} style={{ marginVertical: 12 }} />}
       {!loading && visibleItems.length === 0 && <Text style={styles.note}>{uiText(language, 'No matching questions found.', 'По этому запросу ничего не найдено.')}</Text>}
       {visibleItems.map((item) => (
-        <View key={item.faq_id} style={styles.galleryCard}>
+        <View key={item.faq_id} style={styles.contentPanelCard}>
           <Text style={styles.eyebrow}>{categoryName(item.category)}{!item.is_active ? ' · ' + (uiText(language, 'HIDDEN', 'СКРЫТО')) : ''}</Text>
           <Text style={styles.packageAmount}>{faqText(language, item, 'question')}</Text>
           <Text style={styles.description}>{faqText(language, item, 'answer')}</Text>
@@ -3134,7 +3098,7 @@ function SupportScreen({
             </TouchableOpacity>
           )}
           {(selectedTicket.messages || []).map((item: any) => (
-            <View key={item.message_id} style={[styles.galleryCard, { marginTop: 9 }]}>
+            <View key={item.message_id} style={[styles.contentPanelCard, { marginTop: 9 }]}>
               <Text style={styles.eyebrow}>
                 {item.sender_role === 'user' ? (uiText(language, 'YOU', 'ВЫ')) : (uiText(language, 'SUPPORT', 'ПОДДЕРЖКА'))}
               </Text>
@@ -3331,7 +3295,7 @@ function GalleryVideoPlayer({ uri }: { uri: string }) {
 }
 
 
-const COSMIC_OVERRIDES = {
+const COSMIC_OVERRIDES: Record<string, any> = {
   container: { backgroundColor: '#020817' },
   ambientBackdrop: { backgroundColor: '#020817' },
   ambientGlowTop: { width: 520, height: 520, borderRadius: 260, top: -90, right: -250, backgroundColor: '#006BFF', opacity: 0.34 },
@@ -3339,10 +3303,10 @@ const COSMIC_OVERRIDES = {
   ambientGlowCenter: { width: 380, height: 380, borderRadius: 190, top: '32%', left: '18%', backgroundColor: '#0648A5', opacity: 0.18 },
   ambientRing: { width: 520, height: 520, borderRadius: 260, borderColor: 'rgba(36,137,255,0.22)', top: 150, right: -365 },
   ambientRingFar: { width: 640, height: 640, borderRadius: 320, borderColor: 'rgba(16,108,255,0.17)', top: '27%', left: -410 },
-  header: { paddingHorizontal: 18, paddingTop: 7, paddingBottom: 12, backgroundColor: 'rgba(2,8,23,0.94)', borderBottomColor: 'rgba(29,130,255,0.32)' },
+  header: { paddingHorizontal: 18, paddingTop: 7, paddingBottom: 12, backgroundColor: 'rgba(2,8,23,0.94)', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(29,130,255,0.32)' },
   brandRow: { marginTop: 2, gap: 9 },
   brandLogoImage: { width: 45, height: 40 },
-  headerActions: { marginTop: 2 },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 2 },
   headerMenuButton: { width: 42, height: 42, borderRadius: 12, borderWidth: 1, borderColor: '#263B5D', backgroundColor: '#101B30', alignItems: 'center', justifyContent: 'center' },
   headerMenuIcon: { color: '#D7E9FF', fontSize: 24, lineHeight: 27 },
   headerBalance: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'rgba(7,25,55,0.94)', borderColor: '#1267C8', borderWidth: 1, borderRadius: 15, paddingHorizontal: 15, paddingVertical: 10, marginTop: 0, marginBottom: 14, shadowColor: '#087BFF', shadowOpacity: 0.22, shadowRadius: 12, elevation: 4 },
@@ -3350,9 +3314,8 @@ const COSMIC_OVERRIDES = {
   headerBalanceValue: { color: '#FFFFFF', fontSize: 16 },
   content: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 28 },
   creditsContent: { paddingBottom: 38 },
-  referenceHero: { height: 500, minHeight: 455, marginTop: 0, marginBottom: 18, borderRadius: 23, overflow: 'hidden', backgroundColor: '#020A1B', borderWidth: 1, borderColor: 'rgba(63,157,255,0.65)', justifyContent: 'flex-end', padding: 20, shadowColor: '#087BFF', shadowOpacity: 0.36, shadowRadius: 26, elevation: 10 },
   referenceHeroImage: { borderRadius: 23 },
-  referenceHeroShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,8,22,0.10)' },
+  referenceHeroShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,8,22,0.10)' },
   referenceSkyGlow: { position: 'absolute', width: 390, height: 390, borderRadius: 195, top: 18, left: -18, backgroundColor: '#0755B8', opacity: 0.42, shadowColor: '#159DFF', shadowOpacity: 1, shadowRadius: 70, elevation: 20 },
   referenceMoon: { position: 'absolute', width: 230, height: 230, borderRadius: 115, top: 88, alignSelf: 'center', backgroundColor: '#D9E8FF', shadowColor: '#70BFFF', shadowOpacity: 1, shadowRadius: 40, elevation: 22 },
   referenceMoonShade: { position: 'absolute', width: 235, height: 235, borderRadius: 118, top: 74, left: '43%', backgroundColor: '#3B68A2', opacity: 0.23 },
@@ -3364,11 +3327,8 @@ const COSMIC_OVERRIDES = {
   referencePersonBody: { width: 30, height: 43, marginTop: 2, borderRadius: 10, backgroundColor: '#071326', borderWidth: 1, borderColor: '#315A86' },
   referencePersonLegLeft: { position: 'absolute', top: 57, left: 8, width: 10, height: 44, borderRadius: 5, backgroundColor: '#050D1D', transform: [{ rotate: '7deg' }] },
   referencePersonLegRight: { position: 'absolute', top: 57, right: 8, width: 10, height: 44, borderRadius: 5, backgroundColor: '#050D1D', transform: [{ rotate: '-7deg' }] },
-  referenceHeroTitle: { color: '#FFFFFF', fontSize: 32, lineHeight: 35, fontWeight: '900', fontFamily: 'sans-serif-rounded', textShadowColor: '#168BFF', textShadowRadius: 15, marginBottom: 7 },
   referenceHeroCaption: { color: '#D7E9FF', fontSize: 14, lineHeight: 19, maxWidth: 245, marginBottom: 17 },
-  referenceCreateButton: { height: 62, borderRadius: 32, borderWidth: 1.5, borderColor: '#75D9FF', backgroundColor: '#006AFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.95, shadowRadius: 23, elevation: 15 },
   referencePlay: { color: '#FFFFFF', fontSize: 23, marginRight: 12 },
-  referenceCreateButtonText: { color: '#FFFFFF', fontSize: 17, fontWeight: '800' },
   composerBack: { alignSelf: 'flex-start', paddingVertical: 9, paddingHorizontal: 12, borderRadius: 12, backgroundColor: 'rgba(4,24,58,0.95)', borderWidth: 1, borderColor: '#1765B2', marginBottom: 12 },
   composerBackText: { color: '#9FD4FF', fontSize: 14, fontWeight: '700' },
   hero: { minHeight: 128, marginTop: 0, marginBottom: 15, paddingHorizontal: 22, borderRadius: 24, backgroundColor: 'rgba(4,27,68,0.96)', borderColor: '#168BFF', shadowColor: '#007BFF', shadowOpacity: 0.62, shadowRadius: 32, elevation: 16 },
@@ -3400,66 +3360,45 @@ const COSMIC_OVERRIDES = {
   generationModalMark: { backgroundColor: '#063B82', borderColor: '#40C7FF' },
   generationModalMarkText: { color: '#C8F5FF' },
   screen: { paddingTop: 12 },
-  screenTitle: { color: '#FFFFFF', fontSize: 30, lineHeight: 37, fontWeight: '900', fontFamily: 'sans-serif-rounded', marginTop: 8, marginBottom: 18, textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 13 },
-  galleryHeader: { marginBottom: 2 },
-  galleryLimit: { color: '#A5C8EF', fontSize: 14, marginTop: 0, marginBottom: 12 },
+  screenTitle: { color: '#FFFFFF', fontSize: 20, lineHeight: 25, fontWeight: '800', fontFamily: 'sans-serif-rounded', marginTop: 7, marginBottom: 15, textShadowColor: 'rgba(16,116,255,0.38)', textShadowRadius: 9 },
+  galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 0, marginBottom: 2 },
   storageTrack: { height: 5, borderRadius: 3, overflow: 'hidden', backgroundColor: 'rgba(47,93,149,0.55)', marginTop: -6, marginBottom: 8 },
   storageProgress: { height: 5, borderRadius: 3, backgroundColor: '#079BFF', shadowColor: '#18B9FF', shadowOpacity: 0.9, shadowRadius: 8 },
   galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.72)', paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6, fontSize: 11, fontWeight: '700' },
-  galleryCard: { width: '48.5%', backgroundColor: 'rgba(4,18,42,0.97)', borderRadius: 18, padding: 11, marginTop: 10, borderColor: '#1765B2', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 14, elevation: 5 },
-  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start' },
-  galleryTabs: { flexDirection: 'row', padding: 4, borderRadius: 14, backgroundColor: 'rgba(5,18,43,0.96)', borderWidth: 1, borderColor: '#173D72', marginBottom: 12 },
-  galleryTab: { flex: 1, paddingVertical: 10, alignItems: 'center', borderRadius: 11 },
-  galleryTabActive: { backgroundColor: '#0877FF', shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 12, elevation: 6 },
-  galleryTabText: { color: '#A7BBD8', fontSize: 14, fontWeight: '700' },
-  galleryTabTextActive: { color: '#FFFFFF' },
-  galleryPreview: { position: 'relative' },
+  galleryTabs: { flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(55,119,202,0.38)', marginTop: -8, marginBottom: 12, backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0, padding: 0 },
+  galleryTab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent', borderRadius: 0, paddingVertical: 0 },
+  galleryTabActive: { backgroundColor: 'transparent', borderBottomColor: '#00AFFF', shadowColor: '#168BFF', shadowOpacity: 0.45, shadowRadius: 9, elevation: 0 },
+  galleryTabText: { color: '#A9B8D0', fontSize: 13, fontWeight: '600' },
+  galleryTabTextActive: { color: '#EAF6FF', fontWeight: '800' },
   galleryFavorite: { position: 'absolute', top: 7, right: 7, width: 32, height: 32, borderRadius: 16, backgroundColor: 'rgba(1,8,22,0.82)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(104,194,255,0.7)' },
   galleryFavoriteText: { color: '#73CFFF', fontSize: 23, lineHeight: 27 },
-  creditBalanceLine: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 17, paddingVertical: 12, marginBottom: 16, borderRadius: 13, backgroundColor: 'rgba(4,24,58,0.76)', borderWidth: 1, borderColor: 'rgba(38,112,191,0.6)' },
   creditBalanceLabel: { color: '#A9C8EA', fontSize: 13, fontWeight: '700', letterSpacing: 1 },
-  creditBalanceValue: { color: '#FFFFFF', fontSize: 20, fontWeight: '800', textShadowColor: '#168BFF', textShadowRadius: 10 },
   packagePrice: { color: '#B7D7FF', fontSize: 14, marginTop: 3 },
   packagePriceHint: { color: '#7598C3', fontSize: 11, textAlign: 'right' },
-  buyCreditsButton: { minHeight: 54, marginTop: 8, marginBottom: 12, borderRadius: 17, backgroundColor: '#086EFF', borderWidth: 1, borderColor: '#70D9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.65, shadowRadius: 18, elevation: 9, opacity: 0.72 },
+  buyCreditsButton: { minHeight: 44, marginTop: 8, marginBottom: 12, borderRadius: 13, backgroundColor: '#086EFF', borderWidth: 1, borderColor: '#70D9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.65, shadowRadius: 18, elevation: 9, opacity: 1 },
   buyCreditsButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
   buyCreditsHint: { color: '#C5E5FF', fontSize: 10, marginTop: 2 },
   creditNeverExpire: { textAlign: 'center', color: '#A9C8EA', fontSize: 13, marginTop: 8, marginBottom: 12 },
   profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
-  profileSettingsButton: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#1E5A99', backgroundColor: 'rgba(5,22,51,0.92)' },
-  profileSettingsIcon: { color: '#C5E5FF', fontSize: 22 },
+  profileSignOutButton: { alignSelf: 'center', minWidth: 116, minHeight: 36, paddingHorizontal: 18, paddingVertical: 7, borderRadius: 11, borderWidth: 1, borderColor: '#00AFFF', backgroundColor: 'rgba(2,18,43,0.9)', alignItems: 'center', justifyContent: 'center', marginTop: -4, marginBottom: 12 },
+  profileSignOutText: { color: '#42D8FF', fontSize: 13, fontWeight: '700' },
+  profileSettingsButton: { width: 34, height: 34, borderRadius: 0, alignItems: 'center', justifyContent: 'center', borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
+  profileSettingsIcon: { color: '#F0F6FF', fontSize: 23 },
 
-  galleryFilterButton: { width: 42, height: 42, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.96)', borderWidth: 1, borderColor: '#2467A8' },
-  galleryFilterIcon: { color: '#C8E8FF', fontSize: 23, lineHeight: 26 },
-  videoFrame: { height: 128, borderRadius: 12, backgroundColor: '#020817' },
-  videoPlayer: { height: 128, borderRadius: 12 },
+  galleryFilterButton: { width: 34, height: 34, borderRadius: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
+  galleryFilterIcon: { color: '#EAF6FF', fontSize: 25, lineHeight: 27, fontWeight: '500' },
   galleryVideoTitle: { color: '#E7F3FF', fontSize: 14, marginTop: 10 },
-  galleryDate: { color: '#82A9D2', fontSize: 14 },
-  galleryPrompt: { color: '#C8DDF5', fontSize: 14, lineHeight: 19 },
+  galleryDate: { color: '#9BB8D9', fontSize: 9, marginTop: 5 },
+  galleryPrompt: { color: '#D5E6FA', fontSize: 10, lineHeight: 13, marginTop: 5 },
   galleryActionButton: { backgroundColor: 'rgba(0,101,226,0.22)', borderColor: 'rgba(45,161,255,0.62)', borderRadius: 12, paddingVertical: 10, paddingHorizontal: 12 },
   galleryActionText: { color: '#B9DEFF', fontSize: 14 },
   deleteVideoButton: { backgroundColor: 'rgba(103,25,55,0.34)', borderRadius: 11 },
   emptyScreen: { minHeight: 360, padding: 22, borderRadius: 22, backgroundColor: 'rgba(4,18,42,0.86)', borderWidth: 1, borderColor: '#15599D' },
-  creditsScreen: { paddingTop: 20 },
-  creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
   creditsBackButton: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.92)', borderWidth: 1, borderColor: '#2467A8', marginRight: 10 },
   creditsBackText: { color: '#D7EBFF', fontSize: 32, lineHeight: 34, marginTop: -3 },
-  creditsTitle: { color: '#FFFFFF', fontSize: 28, fontWeight: '800', textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 12 },
-  creditIllustration: { height: 184, width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 4, position: 'relative' },
-  creditCoinStack: { position: 'absolute', bottom: 22, alignItems: 'center', justifyContent: 'flex-end' },
-  creditStackLeft: { left: '22%' },
-  creditStackCenter: { left: '42%', bottom: 26 },
-  creditStackRight: { right: '18%' },
   creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#008DFF', borderWidth: 2, borderColor: '#62DFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.95, shadowRadius: 12, elevation: 8 },
   creditCoinInner: { width: 43, height: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(190,245,255,0.75)', color: '#B8F4FF', textAlign: 'center', fontSize: 9, lineHeight: 9, overflow: 'hidden' },
   creditStarBadge: { position: 'absolute', right: '24%', bottom: 8, width: 46, height: 46, borderRadius: 23, backgroundColor: '#006BFF', borderWidth: 2, borderColor: '#62DFFF', color: '#A7F2FF', textAlign: 'center', textAlignVertical: 'center', fontSize: 26, overflow: 'hidden', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
-  creditIntro: { color: '#E2F1FF', fontSize: 15, lineHeight: 22, textAlign: 'center', marginHorizontal: 24, marginBottom: 20 },
-  profileIdentity: { alignItems: 'center', paddingTop: 4, paddingBottom: 17 },
-  profileGuestAvatar: { width: 88, height: 88, borderRadius: 44, borderWidth: 2, borderColor: '#7898C9', backgroundColor: 'rgba(45,77,125,0.36)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 10 },
-  profileGuestHead: { width: 25, height: 25, borderRadius: 13, backgroundColor: '#8FAAD0', marginTop: 5 },
-  profileGuestBody: { width: 56, height: 31, borderTopLeftRadius: 29, borderTopRightRadius: 29, backgroundColor: '#8FAAD0', marginTop: 4 },
-  profileGuestName: { color: '#F3F7FF', fontSize: 18, fontWeight: '800', marginTop: 0 },
-  profileGuestStatus: { color: '#A9BAD4', fontSize: 14, marginTop: 3 },
   profileVkButton: { height: 52, borderRadius: 15, backgroundColor: '#0877FF', borderWidth: 1, borderColor: '#62CFFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 18, shadowColor: '#008CFF', shadowOpacity: 0.45, shadowRadius: 14, elevation: 8 },
   profileVkMark: { color: '#0877FF', backgroundColor: '#FFFFFF', borderRadius: 5, width: 22, height: 22, textAlign: 'center', textAlignVertical: 'center', fontWeight: '900', fontSize: 12, marginRight: 10, overflow: 'hidden' },
   profileVkText: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
@@ -3468,42 +3407,138 @@ const COSMIC_OVERRIDES = {
   balanceCard: { backgroundColor: 'rgba(4,24,58,0.98)', borderRadius: 23, borderColor: '#168BFF', padding: 24, marginTop: 4, marginBottom: 22, shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 24, elevation: 10 },
   balanceLabel: { color: '#9BCBFF' },
   bigBalance: { fontSize: 42, textShadowColor: '#147DFF', textShadowRadius: 17 },
-  packageCard: { backgroundColor: 'rgba(5,20,46,0.98)', borderRadius: 17, borderColor: '#1765B2', padding: 16, minHeight: 74, shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 12, elevation: 3 },
-  packageIconWrap: { width: 42, height: 42, borderRadius: 13, alignItems: 'center', justifyContent: 'center', marginRight: 12, backgroundColor: 'rgba(0,111,255,0.18)', borderWidth: 1, borderColor: 'rgba(68,176,255,0.55)' },
-  packageIcon: { color: '#FFD45E', fontSize: 28, textShadowColor: '#FFB52E', textShadowRadius: 9 },
+  packageIconWrap: { width: 34, height: 34, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginRight: 10, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
+  packageIcon: { color: '#FFD45E', fontSize: 22, textShadowColor: '#FFB52E', textShadowRadius: 9 },
   packageDiamond: { color: '#53C9FF', textShadowColor: '#168BFF' },
   packageRight: { alignItems: 'flex-end', justifyContent: 'center', gap: 5 },
-  popularBadge: { backgroundColor: '#075DE2', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4, borderWidth: 1, borderColor: '#4CB9FF' },
   popularBadgeText: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
-  packageAmount: { color: '#F3F8FF', fontSize: 17 },
   smallAction: { backgroundColor: 'rgba(5,43,91,0.96)', borderColor: '#168BFF', borderRadius: 13, minHeight: 42 },
   smallActionText: { color: '#EAF5FF' },
   note: { color: '#9CB9D8', lineHeight: 21 },
-  profileCard: { backgroundColor: 'rgba(4,24,58,0.98)', borderRadius: 21, borderColor: '#168BFF', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.25, shadowRadius: 16, elevation: 6 },
   avatar: { width: 54, height: 54, borderRadius: 27, backgroundColor: '#0756B8', borderWidth: 1, borderColor: '#55C9FF', shadowColor: '#168BFF', shadowOpacity: 0.6, shadowRadius: 13, elevation: 6 },
-  profileMenuCard: { marginTop: 4, borderRadius: 17, overflow: 'hidden', borderWidth: 1, borderColor: '#164E87', backgroundColor: 'rgba(4,18,42,0.94)' },
-  menuItem: { minHeight: 54, paddingHorizontal: 15, paddingVertical: 13, marginTop: 0, borderRadius: 0, borderWidth: 0, borderBottomWidth: 1, borderBottomColor: 'rgba(38,103,165,0.42)', backgroundColor: 'transparent' },
   menuItemLast: { borderBottomWidth: 0 },
   menuIcon: { width: 28, color: '#82C9FF', fontSize: 19, textAlign: 'center', marginRight: 10 },
   menuNotificationBadge: { minWidth: 20, height: 20, paddingHorizontal: 5, borderRadius: 10, backgroundColor: '#F02F4F', alignItems: 'center', justifyContent: 'center', marginLeft: 'auto', marginRight: 8 },
   menuNotificationText: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
-  menuText: { color: '#E5F2FF', fontSize: 15 },
+  menuText: { color: '#E5F2FF', fontSize: 15, flex: 1, fontWeight: '600' },
   menuArrow: { color: '#54BFFF', fontSize: 25 },
   authMonogram: { width: 100, height: 76, alignSelf: 'center', marginTop: 2 },
   authBrandTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 27, fontWeight: '900', textAlign: 'center', fontFamily: 'sans-serif-rounded', marginBottom: 18, textShadowColor: '#168BFF', textShadowRadius: 12 },
   authCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderRadius: 21, borderColor: '#1765B2', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 18, elevation: 6 },
-  bottomNav: { backgroundColor: 'rgba(1,7,19,0.99)', borderTopColor: '#1768B5', borderTopWidth: 1.5, paddingTop: 8, paddingBottom: 14, minHeight: 82, shadowColor: '#006DFF', shadowOpacity: 0.22, shadowRadius: 16, elevation: 14 },
-  navItem: { minHeight: 60, borderRadius: 15 },
-  navItemActive: { backgroundColor: 'rgba(0,104,255,0.20)', borderColor: 'rgba(48,169,255,0.66)', shadowColor: '#008CFF', shadowOpacity: 0.45, shadowRadius: 12, elevation: 5 },
-  navIcon: { color: '#4CAEFF', fontSize: 26 },
-  navLabel: { color: '#8CA8C9', fontSize: 14 },
-  navLabelActive: { color: '#43B8FF', textShadowColor: '#087BFF', textShadowRadius: 9 },
-  notificationButton: { backgroundColor: 'rgba(4,28,63,0.98)', borderColor: '#1765B2' },
+  bottomNav: { backgroundColor: 'rgba(1,7,19,0.99)', borderTopColor: '#1768B5', borderTopWidth: 1, paddingHorizontal: 6, paddingTop: 5, paddingBottom: 8, minHeight: 70, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 12, elevation: 10 },
+  navItem: { flex: 1, minWidth: 0, minHeight: 58, paddingHorizontal: 3, paddingTop: 3, borderRadius: 13, backgroundColor: 'transparent', borderWidth: 1, borderColor: 'transparent', alignItems: 'center', justifyContent: 'center', gap: 3 },
+  navItemActive: { backgroundColor: 'transparent', borderColor: 'transparent', shadowColor: '#008CFF', shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
+  navIcon: { color: '#4CAEFF', fontSize: 25, lineHeight: 30 },
+  navIconActive: { color: '#00BFFF', textShadowColor: '#008CFF', textShadowRadius: 10 },
+
+  navLabel: { color: '#8CA8C9', fontSize: 10, lineHeight: 12, textAlign: 'center', fontWeight: '700' },
+  navLabelActive: { color: '#43B8FF', textShadowColor: '#087BFF', textShadowRadius: 9, fontWeight: '900' },
+  createFeatureHeading: { marginTop: 4, marginBottom: 8 },
+  createFeatureGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 10, marginBottom: 18 },
+  createFeatureCard: { width: '48.2%', minHeight: 104, borderRadius: 15, paddingVertical: 12, paddingHorizontal: 8, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,28,70,0.92)', borderWidth: 1, borderColor: 'rgba(0,139,255,0.62)', shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 10, elevation: 4 },
+  createFeatureIcon: { color: '#25C4FF', fontSize: 30, lineHeight: 36, marginBottom: 5, textShadowColor: '#087BFF', textShadowRadius: 12 },
+  createFeatureText: { color: '#E8F4FF', fontSize: 13, lineHeight: 17, fontWeight: '700', textAlign: 'center' },
+  referenceHeroCopy: { position: 'absolute', left: 14, top: 56, marginBottom: 0, maxWidth: '52%', zIndex: 3 },
+  videoFrame: { height: 126, borderRadius: 9 },
+  videoPlayer: { height: 126 },
+  galleryActions: { flexDirection: 'column', gap: 5 },
+  notificationButton: { width: 42, height: 42, borderRadius: 13, borderWidth: 1, borderColor: '#1765B2', backgroundColor: 'rgba(4,28,63,0.98)', alignItems: 'center', justifyContent: 'center', position: 'relative' },
   languageCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderColor: '#1765B2', borderRadius: 17 },
   version: { color: '#668BB7' },
+  // Reference-parity pass: use the approved artwork and preserve live account data.
+  referenceHero: { height: 205, minHeight: 190, marginTop: 2, marginBottom: 14, borderRadius: 17, padding: 0, borderWidth: 1, borderColor: 'rgba(48,160,255,0.82)', backgroundColor: '#17345C', shadowColor: '#168BFF', shadowOpacity: 0.42, shadowRadius: 24, elevation: 8, overflow: 'hidden' },
+  heroSkyGlow: { position: 'absolute', top: -45, right: -22, width: 210, height: 150, borderRadius: 105, backgroundColor: '#F3A96B', opacity: 0.45 },
+  heroSun: { position: 'absolute', top: 28, right: '24%', width: 42, height: 42, borderRadius: 21, backgroundColor: '#FFD49A', opacity: 0.88, shadowColor: '#FFC27A', shadowOpacity: 0.9, shadowRadius: 24, elevation: 10 },
+  heroMountainFar: { position: 'absolute', right: -22, bottom: 24, width: 0, height: 0, borderLeftWidth: 120, borderRightWidth: 120, borderBottomWidth: 138, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#557BA0', opacity: 0.82 },
+  heroMountainMid: { position: 'absolute', left: '27%', bottom: 20, width: 0, height: 0, borderLeftWidth: 118, borderRightWidth: 118, borderBottomWidth: 146, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#294E79', opacity: 0.94 },
+  heroMountainFront: { position: 'absolute', left: -54, bottom: -18, width: 0, height: 0, borderLeftWidth: 150, borderRightWidth: 150, borderBottomWidth: 130, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#142E52', opacity: 0.98 },
+  heroFigure: { position: 'absolute', right: '21%', bottom: 28, width: 25, height: 76, alignItems: 'center', zIndex: 2 },
+  heroFigureHead: { width: 13, height: 13, borderRadius: 7, backgroundColor: '#101D31', borderWidth: 1, borderColor: '#A6C5E6' },
+  heroFigureBody: { width: 20, height: 43, marginTop: 2, borderRadius: 8, backgroundColor: '#101D31', borderWidth: 1, borderColor: '#7898BA' },
+  heroFigurePack: { position: 'absolute', top: 17, left: 0, width: 8, height: 22, borderRadius: 3, backgroundColor: '#243E5D', borderWidth: 1, borderColor: '#91B7DB' },
+  referenceHeroImageCrop: { position: 'absolute', width: '582%', height: '606%', left: '-133%', top: '-156%' },
+  referenceHeroTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 29, fontWeight: '900', textShadowColor: 'rgba(0,0,0,0.85)', textShadowRadius: 12 },
+  referenceHeroDescription: { color: '#E0EDFF', fontSize: 13, lineHeight: 18, marginTop: 3, textShadowColor: 'rgba(0,0,0,0.8)', textShadowRadius: 8 },
+  referenceCreateButton: { height: 54, borderRadius: 16, backgroundColor: '#087BFF', borderColor: '#54C9FF', borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, shadowColor: '#087BFF', shadowOpacity: 0.5, shadowRadius: 16, shadowOffset: { width: 0, height: 5 }, elevation: 8 },
+  referenceCreateButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '900', letterSpacing: 0.2 },
+  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 8 },
+  galleryCard: { width: '48.2%', padding: 5, marginTop: 8, marginBottom: 5, borderRadius: 13, backgroundColor: 'rgba(4,20,48,0.88)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.62)' },
+  notificationCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
+  contentPanelCard: { width: '100%', marginTop: 9, padding: 14, borderRadius: 14, backgroundColor: 'rgba(5,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.55)' },
+
+
+  galleryPreview: { borderRadius: 10, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(67,157,255,0.4)' },
+  galleryLimit: { textAlign: 'center', color: '#B5D8FF', marginTop: 12, marginBottom: 5, fontSize: 12 },
+  creditsScreen: { paddingTop: 14 },
+  creditsHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 9, marginBottom: 12 },
+  creditsHeaderIcon: { color: '#DCEBFF', fontSize: 23, lineHeight: 27 },
+  creditsTitle: { color: '#FFFFFF', fontSize: 18, lineHeight: 23, fontWeight: '800' },
+  creditIllustration: { height: 180, marginTop: 0, marginBottom: 12, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(37,139,255,0.72)', backgroundColor: '#071B3B', shadowColor: '#087BFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 6, overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 7 },
+  creditCoinsWindow: { position: 'absolute', top: 0, left: 0, right: 0, height: 112, overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end' },
+  creditGoldCoin: { width: 38, height: 12, marginTop: -3, borderRadius: 20, backgroundColor: '#F6B83F', borderWidth: 1.5, borderColor: '#FFE59A', shadowColor: '#FFBF45', shadowOpacity: 0.9, shadowRadius: 8, elevation: 5 },
+  creditCoinSparkle: { position: 'absolute', right: '23%', top: 24, width: 22, height: 22, borderRadius: 11, backgroundColor: 'rgba(255,207,104,0.18)', alignItems: 'center', justifyContent: 'center' },
+  creditCoinSparkleText: { color: '#FFE59A', fontSize: 16, textShadowColor: '#FFB52E', textShadowRadius: 8 },
+  creditCoinStack: { position: 'absolute', bottom: 16, alignItems: 'center', justifyContent: 'flex-end' },
+  creditStackLeft: { left: '28%' },
+  creditStackCenter: { left: '43%', bottom: 20 },
+  creditStackRight: { right: '25%' },
+  creditCoinStackCenter: { transform: [{ scale: 1.1 }] },
+  creditCoinsReferenceCrop: { position: 'absolute', width: '624%', height: '694%', left: '-396%', top: '-178%' },
+  creditBalanceValue: { fontSize: 32, lineHeight: 36, color: '#FFE08A', fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 12, marginTop: 0 },
+  creditBalanceCaption: { color: '#FFFFFF', fontSize: 13, lineHeight: 17, fontWeight: '700' },
+  creditIntro: { color: '#AFC7E8', fontSize: 12, lineHeight: 17, textAlign: 'center', marginTop: -5, marginBottom: 8, paddingHorizontal: 18 },
+  packageCrown: { color: '#FFD66B', textShadowColor: '#FFB52E', textShadowRadius: 10 },
+  packageDiamond: { color: '#69D8FF', textShadowColor: '#29AFFF', textShadowRadius: 10 },
+  creditPackagesHeading: { color: '#FFFFFF', fontSize: 13, fontWeight: '800', marginTop: 3, marginBottom: 1 },
+  creditBenefits: { marginTop: 12, marginBottom: 7, paddingHorizontal: 4, gap: 5 },
+  creditBenefit: { color: '#00E5B0', fontSize: 12, lineHeight: 16, fontWeight: '700' },
+  profileAccountActions: { marginTop: 10 },
+  profileAboutCard: { minHeight: 76, marginTop: 10, marginBottom: 6, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 13, backgroundColor: 'rgba(4,20,48,0.9)', borderWidth: 1, borderColor: 'rgba(23,89,158,0.36)', alignItems: 'center', justifyContent: 'center' },
+  profileAboutTitle: { color: '#EAF4FF', fontSize: 13, lineHeight: 17, fontWeight: '800' },
+  profileAboutVersion: { color: '#B6CBE4', fontSize: 10, lineHeight: 14, marginTop: 1 },
+  profileAboutTagline: { color: '#69BFFF', fontSize: 10, lineHeight: 14, marginTop: 4 },
+
+  packageCard: { minHeight: 56, paddingVertical: 8, paddingHorizontal: 12, marginTop: 8, borderRadius: 12, backgroundColor: 'rgba(10,28,58,0.98)', borderWidth: 1, borderColor: 'rgba(40,125,218,0.65)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  packageCardFeatured: { borderWidth: 1.5, borderColor: '#16AFFF', backgroundColor: 'rgba(4,58,124,0.94)', shadowColor: '#008CFF', shadowOpacity: 0.78, shadowRadius: 16, elevation: 9 },
+  packageAmount: { color: '#F5F9FF', fontSize: 15, fontWeight: '800' },
+  popularBadge: { backgroundColor: '#087BFF', borderColor: '#7BD7FF', borderWidth: 1, borderRadius: 10, paddingHorizontal: 9, paddingVertical: 4 },
+  profileIdentity: { alignItems: 'center', paddingTop: 7, paddingBottom: 8, marginBottom: 2, borderRadius: 18, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
+  profileGuestAvatar: { width: 76, height: 76, borderRadius: 38, borderColor: '#00AFFF', borderWidth: 1.5, backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', shadowColor: '#00A8FF', shadowOpacity: 0.72, shadowRadius: 16, elevation: 7 },
+  profileGuestHead: { width: 23, height: 23, borderRadius: 12, backgroundColor: 'transparent', borderWidth: 2, borderColor: '#35BFFF', marginBottom: 4 },
+  profileGuestBody: { width: 42, height: 22, borderTopLeftRadius: 22, borderTopRightRadius: 22, borderBottomLeftRadius: 8, borderBottomRightRadius: 8, backgroundColor: 'transparent', borderWidth: 2, borderBottomWidth: 0, borderColor: '#35BFFF' },
+  profileGuestName: { color: '#FFFFFF', fontSize: 18, fontWeight: '800' },
+  profileGuestStatus: { color: '#83BFFF', fontSize: 12, marginTop: 4 },
+  profileCard: { backgroundColor: 'rgba(5,24,56,0.92)', borderColor: 'rgba(35,127,222,0.7)', borderRadius: 14 },
+  profileMenuCard: { backgroundColor: 'rgba(4,18,43,0.88)', borderColor: 'rgba(38,112,194,0.48)', borderWidth: 1, borderRadius: 15, paddingHorizontal: 13, paddingVertical: 2, marginTop: 10, overflow: 'hidden' },
+  menuItem: { borderBottomColor: 'rgba(74,132,202,0.25)', minHeight: 47, paddingVertical: 10, paddingHorizontal: 5, borderBottomWidth: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  introOverlay: { ...StyleSheet.absoluteFill, zIndex: 100, elevation: 100, backgroundColor: '#01091D', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  introReferenceArt: { position: 'absolute', width: '518%', height: '155%', left: '-5.4%', top: '-25%' },
+  introCosmicGlow: { position: 'absolute', width: 520, height: 520, borderRadius: 260, top: -130, left: -110, backgroundColor: '#075BFF', opacity: 0.28, shadowColor: '#168FFF', shadowOpacity: 1, shadowRadius: 90, elevation: 25 },
+  introReelHalo: { position: 'absolute', width: 300, height: 300, borderRadius: 150, borderWidth: 2, borderColor: 'rgba(44,174,255,0.55)', bottom: '24%', shadowColor: '#008CFF', shadowOpacity: 1, shadowRadius: 35, elevation: 15 },
+  introBrandLockup: { alignItems: 'center', justifyContent: 'center', marginTop: -40 },
+  introMonogram: { color: '#54D9FF', fontSize: 78, lineHeight: 92, fontWeight: '900', letterSpacing: -4, textShadowColor: '#008CFF', textShadowRadius: 28, elevation: 18 },
+  introFilmStrip: { position: 'absolute', bottom: '31%', width: '78%', height: 58, borderWidth: 2, borderRadius: 14, borderColor: '#22A9FF', backgroundColor: 'rgba(2,22,58,0.68)', shadowColor: '#087BFF', shadowOpacity: 0.9, shadowRadius: 26, elevation: 18, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' },
+  introFilmGlyph: { color: '#70DFFF', fontSize: 25, textShadowColor: '#008CFF', textShadowRadius: 14 },
+  introFilmLine: { width: '42%', height: 2, backgroundColor: '#39BFFF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9 },
+  introTitle: { color: '#FFFFFF', fontSize: 42, lineHeight: 46, fontWeight: '900', textAlign: 'center', letterSpacing: 0.2, textShadowColor: '#087BFF', textShadowRadius: 22 },
+  introTagline: { position: 'absolute', bottom: '13%', color: '#A8D7FF', fontSize: 17, lineHeight: 24, textAlign: 'center', textShadowColor: '#087BFF', textShadowRadius: 12 },
+  introProgressTrack: { position: 'absolute', bottom: '7%', width: '78%', height: 4, borderRadius: 3, backgroundColor: 'rgba(79,139,198,0.28)', overflow: 'hidden' },
+  introProgressFill: { width: '42%', height: 4, borderRadius: 3, backgroundColor: '#5CD9FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 4 },
+
 };
 
-const styles = StyleSheet.create({
+function mergeStyleSheets(baseStyles: Record<string, any>, overrides: Record<string, any>) {
+  const merged = { ...baseStyles };
+  Object.entries(overrides).forEach(([key, override]) => {
+    const baseStyle = merged[key];
+    merged[key] = baseStyle && typeof baseStyle === 'object'
+      ? { ...baseStyle, ...override }
+      : override;
+  });
+  return merged;
+}
+
+const styles = StyleSheet.create(mergeStyleSheets({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
   ambientGlowTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: 20, right: -240, backgroundColor: '#075CEB', opacity: 0.26 },
@@ -3515,41 +3550,46 @@ const styles = StyleSheet.create({
   ambientStarOne: { position: 'absolute', top: '18%', left: '17%', width: 4, height: 4, borderRadius: 2, backgroundColor: '#9BEAFF', shadowColor: '#39AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
   ambientStarTwo: { position: 'absolute', top: '43%', right: '13%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#70C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
   ambientStarThree: { position: 'absolute', bottom: '19%', left: '28%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#A7E7FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
-  introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010714', alignItems: 'center', justifyContent: 'center' },
-  introStarField: { ...StyleSheet.absoluteFillObject },
-  introStar: { position: 'absolute', width: 2, height: 2, borderRadius: 1, backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 0.95, shadowRadius: 5 },
-  introWaterGlow: { position: 'absolute', left: '-22%', right: '-22%', bottom: '1%', height: '27%', borderTopWidth: 1, borderTopColor: 'rgba(71,183,255,0.32)', borderRadius: 260, backgroundColor: 'rgba(0,67,125,0.16)', transform: [{ scaleX: 1.15 }] },
-  introNebulaTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: '7%', backgroundColor: '#064AC4', opacity: 0.28, shadowColor: '#078CFF', shadowOpacity: 1, shadowRadius: 80, elevation: 30 },
-  introNebulaBottom: { position: 'absolute', width: 500, height: 260, borderRadius: 250, bottom: '4%', backgroundColor: '#006A9E', opacity: 0.19, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 75, elevation: 25 },
-  introOrbitOuter: { position: 'absolute', width: 330, height: 330, borderRadius: 165, borderWidth: 2, borderColor: 'rgba(70,177,255,0.62)', shadowColor: '#168CFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 16 },
-  introOrbitInner: { position: 'absolute', width: 265, height: 265, borderRadius: 132, borderWidth: 1.5, borderColor: 'rgba(129,218,255,0.42)' },
-  introLogoHalo: { position: 'absolute', width: 255, height: 205, borderRadius: 105, backgroundColor: '#0756C5', opacity: 0.28, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 55, elevation: 30 },
-  introLogoImage: { width: 270, height: 205 },
-  introReelWrap: { position: 'absolute', top: '10%', width: 310, height: 330, alignItems: 'center', justifyContent: 'center' },
-  introFilmStrip: { position: 'absolute', top: 35, left: -15, width: 340, height: 78, borderWidth: 8, borderColor: '#168CFF', borderRadius: 12, backgroundColor: 'rgba(3,22,58,0.88)', transform: [{ rotate: '-25deg' }], shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 22, elevation: 14, overflow: 'hidden' },
-  introFilmRailTop: { position: 'absolute', top: 1, left: 7, right: 7, height: 9, flexDirection: 'row', justifyContent: 'space-between' },
-  introFilmRailBottom: { position: 'absolute', bottom: 1, left: 7, right: 7, height: 9, flexDirection: 'row', justifyContent: 'space-between' },
-  introFilmPerforation: { width: 12, height: 7, borderRadius: 2, backgroundColor: '#8BDFFF', opacity: 0.9 },
-  introReelOuter: { width: 248, height: 248, borderRadius: 124, borderWidth: 13, borderColor: '#56C9FF', backgroundColor: '#061B43', alignItems: 'center', justifyContent: 'center', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 28, elevation: 22 },
-  introReelHoleTop: { position: 'absolute', top: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
-  introReelHoleLeft: { position: 'absolute', left: 19, top: 73, width: 75, height: 58, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
-  introReelHoleRight: { position: 'absolute', right: 19, top: 73, width: 75, height: 58, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8' },
-  introReelHoleBottomLeft: { position: 'absolute', left: 45, bottom: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8', transform: [{ rotate: '42deg' }] },
-  introReelHoleBottomRight: { position: 'absolute', right: 45, bottom: 20, width: 58, height: 76, borderRadius: 32, backgroundColor: '#020B20', borderWidth: 2, borderColor: '#1B83E8', transform: [{ rotate: '-42deg' }] },
-  introReelHub: { width: 82, height: 82, borderRadius: 41, backgroundColor: '#06265A', borderWidth: 4, borderColor: '#65DFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#00B8FF', shadowOpacity: 1, shadowRadius: 18, elevation: 14 },
-  introReelPlay: { color: '#9CEBFF', fontSize: 34, marginLeft: 5, textShadowColor: '#00B8FF', textShadowRadius: 12 },
-  introAccentLine: { position: 'absolute', bottom: '21%', width: 116, height: 3, borderRadius: 2, backgroundColor: '#48C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 14, elevation: 10 },
-  introGlowLarge: { position: 'absolute', width: 430, height: 430, borderRadius: 215, backgroundColor: '#123A83', opacity: 0.42, top: '18%', alignSelf: 'center', transform: [{ scaleX: 1.12 }] },
-  introGlowSmall: { position: 'absolute', width: 260, height: 260, borderRadius: 130, backgroundColor: '#1765C8', opacity: 0.24, top: '31%', alignSelf: 'center' },
-  introGlowLower: { position: 'absolute', width: 460, height: 210, borderRadius: 230, backgroundColor: '#07558B', opacity: 0.19, bottom: '10%', alignSelf: 'center' },
-  introTopLine: { position: 'absolute', top: '12%', width: 64, height: 3, borderRadius: 2, backgroundColor: '#54B8FF', opacity: 0.95, shadowColor: '#168CFF', shadowOpacity: 0.9, shadowRadius: 12, elevation: 8 },
-  introBeamLeft: { position: 'absolute', top: '18%', left: '-20%', width: '78%', height: 1, backgroundColor: 'rgba(76,159,255,0.36)', transform: [{ rotate: '24deg' }] },
-  introBeamRight: { position: 'absolute', top: '24%', right: '-18%', width: '72%', height: 1, backgroundColor: 'rgba(80,196,255,0.25)', transform: [{ rotate: '-27deg' }] },
-  introHorizon: { position: 'absolute', left: 0, right: 0, top: '72%', height: 1, backgroundColor: 'rgba(69,145,255,0.18)' },
-  introTitle: { position: 'absolute', bottom: '25%', color: WHITE, fontSize: 43, lineHeight: 48, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.6, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 25, elevation: 12 },
-  introTagline: { position: 'absolute', bottom: '12%', color: '#B8D9FF', fontSize: 18, lineHeight: 26, textAlign: 'center', fontWeight: '500', textShadowColor: '#168BFF', textShadowRadius: 12 },
-  introProgressTrack: { position: 'absolute', bottom: '5%', width: '86%', maxWidth: 300, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
-  introProgressFill: { width: '40%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
+  introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#030817', alignItems: 'center', justifyContent: 'center' },
+  introReferenceImage: { position: 'absolute', width: '507%', height: '151%', left: '-5%', top: '-24%' },
+  introGlowTop: { position: 'absolute', width: 420, height: 420, borderRadius: 210, top: '3%', alignSelf: 'center', backgroundColor: '#064AC4', opacity: 0.24, shadowColor: '#087CFF', shadowOpacity: 1, shadowRadius: 90, elevation: 24 },
+  introGlowCore: { position: 'absolute', width: 290, height: 290, borderRadius: 145, top: '29%', alignSelf: 'center', backgroundColor: '#0B3B8B', opacity: 0.2, shadowColor: '#22AFFF', shadowOpacity: 0.9, shadowRadius: 55, elevation: 20 },
+  introGlowBottom: { position: 'absolute', width: 520, height: 260, borderRadius: 260, bottom: '-2%', alignSelf: 'center', backgroundColor: '#005F91', opacity: 0.18, shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 75, elevation: 18 },
+  introGrid: { position: 'absolute', left: '-30%', right: '-30%', bottom: '15%', height: 170, borderTopWidth: 1, borderColor: 'rgba(91,176,255,0.13)', transform: [{ perspective: 500 }, { rotateX: '68deg' }] },
+  introHorizon: { position: 'absolute', left: 0, right: 0, top: '71%', height: 1, backgroundColor: 'rgba(76,166,255,0.16)' },
+  introStar: { position: 'absolute', width: 2, height: 2, borderRadius: 1, backgroundColor: '#C7F0FF', shadowColor: '#43BFFF', shadowOpacity: 0.9, shadowRadius: 7 },
+  introEyebrow: { position: 'absolute', top: '12%', flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 13, paddingVertical: 7, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(92,178,255,0.22)', backgroundColor: 'rgba(5,27,62,0.52)' },
+  introEyebrowDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#5DE0FF', shadowColor: '#39BFFF', shadowOpacity: 1, shadowRadius: 8 },
+  introEyebrowText: { color: '#9CCEFF', fontSize: 10, fontWeight: '800', letterSpacing: 2.8 },
+  introArtwork: { position: 'absolute', top: '22%', width: 330, height: 330, alignItems: 'center', justifyContent: 'center' },
+  introLogoImage: { width: 260, height: 260 },
+  introHalo: { position: 'absolute', width: 236, height: 236, borderRadius: 118, backgroundColor: '#0756C5', opacity: 0.22, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 65, elevation: 26 },
+  introOrbit: { position: 'absolute', width: 300, height: 300, borderRadius: 150, borderWidth: 1, borderColor: 'rgba(100,196,255,0.34)', borderStyle: 'dashed' },
+  introFilmStrip: { position: 'absolute', width: 330, height: 82, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(91,197,255,0.9)', backgroundColor: 'rgba(4,27,64,0.94)', transform: [{ rotate: '-24deg' }], shadowColor: '#078BFF', shadowOpacity: 0.9, shadowRadius: 22, elevation: 16, overflow: 'hidden', justifyContent: 'center' },
+  introFilmPerforations: { position: 'absolute', top: 5, left: 9, right: 9, height: 7, flexDirection: 'row', justifyContent: 'space-between' },
+  introFilmPerforationsBottom: { top: undefined, bottom: 5 },
+  introFilmPerforation: { width: 13, height: 5, borderRadius: 2, backgroundColor: '#72D9FF', opacity: 0.92 },
+  introFilmWindow: { height: 42, marginHorizontal: 8, borderRadius: 5, borderWidth: 1, borderColor: 'rgba(68,163,255,0.35)', backgroundColor: 'rgba(7,66,128,0.35)' },
+  introReel: { width: 204, height: 204, borderRadius: 102, padding: 12, backgroundColor: '#071D42', borderWidth: 2, borderColor: '#70D9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#0B9BFF', shadowOpacity: 1, shadowRadius: 28, elevation: 22 },
+  introReelInner: { width: '100%', height: '100%', borderRadius: 90, backgroundColor: '#0A3470', borderWidth: 1, borderColor: 'rgba(151,224,255,0.72)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  introReelCutoutTop: { position: 'absolute', top: 10, width: 43, height: 53, borderRadius: 24, backgroundColor: '#03132E', borderWidth: 1, borderColor: '#2A8FE0' },
+  introReelCutoutLeft: { position: 'absolute', left: 11, top: 59, width: 53, height: 43, borderRadius: 24, backgroundColor: '#03132E', borderWidth: 1, borderColor: '#2A8FE0' },
+  introReelCutoutRight: { position: 'absolute', right: 11, top: 59, width: 53, height: 43, borderRadius: 24, backgroundColor: '#03132E', borderWidth: 1, borderColor: '#2A8FE0' },
+  introReelCutoutBottomLeft: { position: 'absolute', left: 32, bottom: 10, width: 43, height: 53, borderRadius: 24, backgroundColor: '#03132E', borderWidth: 1, borderColor: '#2A8FE0', transform: [{ rotate: '42deg' }] },
+  introReelCutoutBottomRight: { position: 'absolute', right: 32, bottom: 10, width: 43, height: 53, borderRadius: 24, backgroundColor: '#03132E', borderWidth: 1, borderColor: '#2A8FE0', transform: [{ rotate: '-42deg' }] },
+  introReelCore: { width: 62, height: 62, borderRadius: 31, backgroundColor: '#061C43', borderWidth: 2, borderColor: '#86E6FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#00B8FF', shadowOpacity: 0.9, shadowRadius: 16, elevation: 12 },
+  introReelMark: { color: '#C7F4FF', fontSize: 23, marginLeft: 3, textShadowColor: '#00B8FF', textShadowRadius: 10 },
+  introSparkOne: { position: 'absolute', top: 36, right: 37, width: 7, height: 7, borderRadius: 4, backgroundColor: '#C8F4FF', shadowColor: '#32BFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
+  introSparkTwo: { position: 'absolute', bottom: 35, left: 31, width: 4, height: 4, borderRadius: 2, backgroundColor: '#A3E6FF', shadowColor: '#32BFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 7 },
+  introBrand: { position: 'absolute', bottom: '16%', alignItems: 'center', width: '100%', paddingHorizontal: 20 },
+  introTitle: { color: '#FFFFFF', fontSize: 43, lineHeight: 51, fontWeight: '900', letterSpacing: -0.8, textAlign: 'center', textShadowColor: 'rgba(53,126,255,0.7)', textShadowRadius: 22, elevation: 10 },
+  introTitleAccent: { color: '#8ADFFF' },
+  introAccentLine: { width: 54, height: 3, borderRadius: 2, marginTop: 12, marginBottom: 11, backgroundColor: '#48C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
+  introTagline: { color: '#D4E8FF', fontSize: 16, lineHeight: 22, fontWeight: '600', textAlign: 'center', letterSpacing: 0.2 },
+  introSubline: { color: '#6597C9', fontSize: 9, fontWeight: '800', letterSpacing: 2.1, marginTop: 10 },
+  introLoading: { position: 'absolute', bottom: '6%', width: '72%', maxWidth: 250, alignItems: 'center' },
+  introProgressTrack: { width: '100%', height: 3, borderRadius: 2, backgroundColor: 'rgba(79,139,198,0.25)', overflow: 'hidden' },
+  introProgressFill: { width: '42%', height: 3, borderRadius: 2, backgroundColor: '#5CD9FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
   header: {
     paddingHorizontal: 20,
     paddingVertical: 17,
@@ -3696,10 +3736,26 @@ const styles = StyleSheet.create({
   statusTitle: { color: MUTED, fontSize: 14, fontWeight: '800', letterSpacing: 1.4 },
   statusValue: { color: WHITE, fontSize: 18, fontWeight: '800', marginTop: 12 },
   statusSuccess: { color: '#42D992' },
-  statusDescription: { color: MUTED, fontSize: 14, lineHeight: 18, marginTop: 6 },progressSegment: { flex: 1, height: 6, borderRadius: 4, backgroundColor: '#263147' },
-  progressSegmentActive: { backgroundColor: BLUE },galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  galleryLimit: { color: MUTED, fontSize: 14, marginTop: -12, marginBottom: 15 },
-  galleryCard: { backgroundColor: PANEL, borderRadius: 14, padding: 12, marginTop: 14, borderWidth: 1, borderColor: '#253147' },
+  statusDescription: { color: MUTED, fontSize: 14, lineHeight: 18, marginTop: 6 },
+  progressSegment: { flex: 1, height: 6, borderRadius: 4, backgroundColor: '#263147' },
+  progressSegmentActive: { backgroundColor: BLUE },
+  galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 0, marginBottom: 0 },
+  galleryTabs: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', borderBottomWidth: 1, borderBottomColor: 'rgba(55,119,202,0.38)', marginTop: 2, marginBottom: 12 },
+  galleryTab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  galleryTabActive: { borderBottomColor: '#00AFFF' },
+  galleryTabText: { color: '#A9B8D0', fontSize: 13, fontWeight: '600' },
+  galleryTabTextActive: { color: '#EAF6FF', fontWeight: '800', textShadowColor: '#168CFF', textShadowRadius: 9 },
+  galleryFilterButton: { width: 34, height: 34, borderRadius: 10, borderWidth: 1, borderColor: 'rgba(55,153,255,0.55)', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,28,67,0.75)' },
+  galleryFilterIcon: { color: '#C5E9FF', fontSize: 19 },
+  galleryLimit: { color: '#D1E7FF', fontSize: 11, textAlign: 'center', marginTop: 9, marginBottom: 5 },
+  storageTrack: { height: 3, backgroundColor: 'rgba(59,112,173,0.28)', borderRadius: 2, marginHorizontal: 16, marginBottom: 6, overflow: 'hidden' },
+  storageProgress: { height: 3, borderRadius: 2, backgroundColor: '#00B8FF' },
+  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: 4 },
+  galleryCard: { width: '48.2%', padding: 5, marginTop: 8, marginBottom: 3, borderRadius: 12, backgroundColor: 'rgba(4,20,48,0.94)', borderWidth: 1, borderColor: 'rgba(40,119,208,0.72)' },
+  galleryPreview: { width: '100%', aspectRatio: 1.02, borderRadius: 9, overflow: 'hidden', backgroundColor: '#06152D', position: 'relative' },
+  galleryDuration: { position: 'absolute', right: 5, bottom: 5, color: '#FFFFFF', fontSize: 10, fontWeight: '800', paddingHorizontal: 5, paddingVertical: 2, borderRadius: 5, backgroundColor: 'rgba(0,0,0,0.78)' },
+  galleryFavorite: { position: 'absolute', top: 4, right: 4, width: 24, height: 24, alignItems: 'center', justifyContent: 'center', borderRadius: 12, backgroundColor: 'rgba(0,0,0,0.5)' },
+  galleryFavoriteText: { color: '#FFFFFF', fontSize: 16 },
   videoFrame: { width: '100%', height: 220, backgroundColor: '#000000', borderRadius: 10, overflow: 'hidden', justifyContent: 'center' },
   videoPlayer: { width: '100%', height: 220, backgroundColor: '#000000' },
   videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
@@ -3716,7 +3772,6 @@ const styles = StyleSheet.create({
   jobId: { color: '#687D9F', fontSize: 14, marginTop: 10 },
   errorText: { color: '#FF8A93', fontSize: 14, marginTop: 10 },
   secondaryButton: {
-    minHeight: 52,
     backgroundColor: '#142344',
     borderColor: '#4A91FF',
     borderWidth: 1,
@@ -3811,6 +3866,5 @@ const styles = StyleSheet.create({
   authDivider: { alignItems: 'center', marginTop: 4, marginBottom: 4 },
   authNotice: { color: '#83B7FF', fontSize: 14, lineHeight: 17, marginTop: 12 },
   version: { color: '#566176', fontSize: 14, letterSpacing: 1.3, textAlign: 'center', marginTop: 35 },
-  ...COSMIC_OVERRIDES,
-});
+}, COSMIC_OVERRIDES) as any);
 

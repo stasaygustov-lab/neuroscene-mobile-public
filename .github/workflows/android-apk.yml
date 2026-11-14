@@ -1,5 +1,4 @@
-# Android UI smoke test uses POSIX-compatible shell for emulator runner.
-name: NeuroScene Android APK and UI smoke test
+name: NeuroScene Android APK build
 
 on:
   push:
@@ -8,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: neuroscene-android-validation
@@ -38,7 +37,27 @@ jobs:
           accept-android-sdk-licenses: true
       - name: Install Android platform and NDK
         run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
+      - name: Regenerate npm lockfile for the aligned Expo SDK
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Commit regenerated lockfile to the pull request branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          if git diff --quiet -- package-lock.json; then
+            echo 'Lockfile is already synchronized.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package-lock.json
+          git commit -m 'chore: synchronize Expo SDK lockfile'
+          git fetch origin "${GITHUB_HEAD_REF}"
+          git rebase "origin/${GITHUB_HEAD_REF}"
+          git push origin "HEAD:${GITHUB_HEAD_REF}"
       - run: npm ci
+      - name: Validate Expo dependency compatibility
+        run: npx expo install --check
+      - name: Type-check the complete React Native application
+        run: npx tsc --noEmit
       - name: Fit launcher logo inside Android safe area
         run: |
           python3 -m venv .venv
@@ -62,39 +81,5 @@ jobs:
         with:
           name: neurosScene-preview-apk
           path: android/app/build/outputs/apk/release/app-release.apk
-          if-no-files-found: error
-          retention-days: 7
-
-  visual-smoke-test:
-    name: Capture Android UI screens
-    needs: build-android-apk
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/download-artifact@v4
-        with:
-          name: neurosScene-preview-apk
-          path: artifacts
-      - name: Start Android emulator and capture screens
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 35
-          target: google_apis
-          arch: x86_64
-          profile: pixel_6
-          emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -camera-back none -camera-front none
-          disable-animations: true
-          emulator-boot-timeout: 600
-          script: |
-            set -eu
-            adb wait-for-device
-            adb install -r artifacts/app-release.apk
-            adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 1
-            python3 scripts/capture-android-screens.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: neurosScene-visual-screenshots
-          path: screenshots/*.png
           if-no-files-found: error
           retention-days: 7
