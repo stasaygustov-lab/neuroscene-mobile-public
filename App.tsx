@@ -1989,8 +1989,8 @@ export default function App() {
 
       <View style={styles.bottomNav}>
         {([
-          { id: 'Create', icon: '⌂', label: 'Создать' },
-          { id: 'Gallery', icon: '▧', label: 'Галерея' },
+          { id: 'Create', icon: '▶', label: 'Создать' },
+          { id: 'Gallery', icon: '▦', label: 'Галерея' },
           { id: 'Credits', icon: '▤', label: 'Кредиты' },
           { id: 'Profile', icon: '◉', label: 'Профиль' },
         ] as const).map((item) => (
@@ -2418,7 +2418,7 @@ function GalleryScreen({
       <View style={styles.galleryHeader}>
         <Text style={styles.screenTitle}>Галерея</Text>
         <TouchableOpacity activeOpacity={0.86} style={styles.galleryFilterButton} onPress={onRefresh} accessibilityLabel="Обновить галерею">
-          <Text style={styles.galleryFilterIcon}>▽</Text>
+          <Text style={styles.galleryFilterIcon}>☷</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.galleryTabs}>
