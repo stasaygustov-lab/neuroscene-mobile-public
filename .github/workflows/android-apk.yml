@@ -2,7 +2,7 @@ name: NeuroScene Android APK build
 
 on:
   push:
-    branches: [main]
+    branches: [main, feat/reference-screen-parity]
   pull_request:
   workflow_dispatch:
 
