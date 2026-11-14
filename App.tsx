@@ -1745,18 +1745,19 @@ export default function App() {
             </Text>
             <Text style={styles.creditBalanceCaption}>Кредитов</Text>
           </View>
+          <Text style={styles.creditIntro}>Кредиты — это ваша энергия для создания видео</Text>
           <Text style={styles.creditPackagesHeading}>Пакеты кредитов</Text>
           {[500, 1500, 5000].map((amount) => (
             <View style={[styles.packageCard, amount === 1500 && styles.packageCardFeatured]} key={amount}>
               <View style={styles.packageIconWrap}>
-                <Text style={styles.packageIcon}>🪙</Text>
+                <Text style={[styles.packageIcon, amount === 1500 && styles.packageCrown, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '✦' : amount === 1500 ? '♛' : '◆'}</Text>
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')} кредитов</Text>
               </View>
               <View style={styles.packageRight}>
                 {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярный</Text></View>}
-                <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
+                <Text style={styles.packagePrice}>{amount === 500 ? '₽149' : amount === 1500 ? '₽399' : '₽999'}</Text>
               </View>
             </View>
           ))}
@@ -3479,6 +3480,9 @@ const COSMIC_OVERRIDES: Record<string, any> = {
   creditCoinsReferenceCrop: { position: 'absolute', width: '624%', height: '694%', left: '-396%', top: '-178%' },
   creditBalanceValue: { fontSize: 32, lineHeight: 36, color: '#FFE08A', fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 12, marginTop: 0 },
   creditBalanceCaption: { color: '#FFFFFF', fontSize: 13, lineHeight: 17, fontWeight: '700' },
+  creditIntro: { color: '#AFC7E8', fontSize: 12, lineHeight: 17, textAlign: 'center', marginTop: -5, marginBottom: 8, paddingHorizontal: 18 },
+  packageCrown: { color: '#FFD66B', textShadowColor: '#FFB52E', textShadowRadius: 10 },
+  packageDiamond: { color: '#69D8FF', textShadowColor: '#29AFFF', textShadowRadius: 10 },
   creditPackagesHeading: { color: '#FFFFFF', fontSize: 13, fontWeight: '800', marginTop: 3, marginBottom: 1 },
   creditBenefits: { marginTop: 12, marginBottom: 7, paddingHorizontal: 4, gap: 5 },
   creditBenefit: { color: '#00E5B0', fontSize: 12, lineHeight: 16, fontWeight: '700' },
