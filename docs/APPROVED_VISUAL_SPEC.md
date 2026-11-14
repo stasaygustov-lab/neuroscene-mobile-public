@@ -3,7 +3,8 @@
 ## Reference assets
 
 - Primary five-screen reference: `docs/reference/neuroscene-ui-reference.jpg` (source: Library asset `НейроСцена_ синяя галактика творчества-3(1).png`, 2026-11-14).
-- Standalone splash artwork: `assets/neuroscene-splash.jpg` (source: `neuroscene_splash_reference(1).png`, 2026-11-13).
+- Native Android splash: `assets/neuroscene-brand.png` on `#020817`.
+- In-app splash: `NeuroSceneIntroArt` vector composition (film strip, blue reel, brand mark, title, tagline and progress line), based on the standalone splash reference in the Library.
 
 The five-screen reference is the current implementation baseline because it includes the agreed create screen with four feature tiles, the 2/2 gallery limit, the 500/1500/5000 credit packs, and the full profile menu. The prices visible in the concept image are obsolete and MUST NOT be copied into the app.
 
