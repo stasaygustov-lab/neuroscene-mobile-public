@@ -31,6 +31,13 @@ const VK_REDIRECT_URI = VK_CLIENT_ID ? `vk${VK_CLIENT_ID}://vk.ru/blank.html` : 
 const SESSION_STORAGE_KEY = 'neuroscene.session';
 const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || '').replace(/\/+$/, '');
 
+async function apiFetch(input: string, init?: RequestInit): Promise<Response> {
+  if (!API_BASE_URL) {
+    throw new Error('Сервер НейроСцены ещё не настроен. Попробуйте позже.');
+  }
+  return fetch(input, init);
+}
+
 const StyledText = Text as typeof Text & { defaultProps?: any };
 StyledText.defaultProps = {
   ...(StyledText.defaultProps || {}),
@@ -270,7 +277,7 @@ export default function App() {
       if (!token) return;
       setAuthBusy(true);
       const endpoint = isLogin ? 'login-link/consume' : 'verify-email';
-      const response = await fetch(`${API_BASE_URL}/api/auth/${endpoint}`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/auth/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ token }),
@@ -301,7 +308,8 @@ export default function App() {
       try {
         const savedToken = await SecureStore.getItemAsync(SESSION_STORAGE_KEY);
         if (!savedToken) return;
-        const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+        if (!API_BASE_URL) return;
+        const response = await apiFetch(`${API_BASE_URL}/api/auth/me`, {
           headers: { Authorization: `Bearer ${savedToken}`, Accept: 'application/json' },
         });
         const data = await readResponse(response);
@@ -348,7 +356,7 @@ export default function App() {
     setAuthBusy(true);
     setAuthNotice('');
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/${authMode === 'register' ? 'register' : 'login'}`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/auth/${authMode === 'register' ? 'register' : 'login'}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ email, password: authPassword }),
@@ -381,7 +389,7 @@ export default function App() {
     setAuthBusy(true);
     setAuthNotice('');
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login-link`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/auth/login-link`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ email }),
@@ -402,7 +410,7 @@ export default function App() {
     if (!email) return;
     setAuthBusy(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/resend-verification`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/auth/resend-verification`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -424,7 +432,7 @@ export default function App() {
       if (!VK_CLIENT_ID || !VK_REDIRECT_URI) {
         throw new Error('Вход через VK ID пока не настроен в конфигурации приложения.');
       }
-      const startResponse = await fetch(`${API_BASE_URL}/api/auth/vk/start`);
+      const startResponse = await apiFetch(`${API_BASE_URL}/api/auth/vk/start`);
       const startData = await readResponse(startResponse);
       if (!startResponse.ok) throw new Error(startData.detail || 'VK ID пока не настроен');
       if (startData.redirect_uri !== VK_REDIRECT_URI) throw new Error('Адрес возврата VK ID не совпадает с настройкой приложения.');
@@ -445,7 +453,7 @@ export default function App() {
           throw new Error('VK ID вернул некорректный ответ.');
         }
       }
-      const completeResponse = await fetch(`${API_BASE_URL}/api/auth/vk/complete`, {
+      const completeResponse = await apiFetch(`${API_BASE_URL}/api/auth/vk/complete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ code, state, device_id: deviceId }),
@@ -464,7 +472,7 @@ export default function App() {
     let revoked = false;
     try {
       if (authToken) {
-        const response = await fetch(`${API_BASE_URL}/api/auth/logout-all`, {
+        const response = await apiFetch(`${API_BASE_URL}/api/auth/logout-all`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${authToken}` },
         });
@@ -517,7 +525,7 @@ export default function App() {
           onPress: async () => {
             setAuthBusy(true);
             try {
-              const response = await fetch(`${API_BASE_URL}/api/auth/account`, {
+              const response = await apiFetch(`${API_BASE_URL}/api/auth/account`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${authToken}` },
               });
@@ -576,7 +584,7 @@ export default function App() {
     }
     setCreditsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/credits`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/credits`, {
         headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
       });
       const data = await readResponse(response);
@@ -599,7 +607,7 @@ export default function App() {
     setFaqError('');
     try {
       const isAdmin = !!authToken && ['owner', 'admin'].includes(authUser?.role);
-      const response = await fetch(API_BASE_URL + (isAdmin ? '/api/admin/faq' : '/api/faq'), {
+      const response = await apiFetch(API_BASE_URL + (isAdmin ? '/api/admin/faq' : '/api/faq'), {
         headers: authToken ? { Authorization: 'Bearer ' + authToken, Accept: 'application/json' } : { Accept: 'application/json' },
       });
       const data = await readResponse(response);
@@ -617,7 +625,7 @@ export default function App() {
     setFaqLoading(true);
     setFaqError('');
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         API_BASE_URL + (faqId ? '/api/admin/faq/' + encodeURIComponent(faqId) : '/api/admin/faq'),
         {
           method: faqId ? 'PUT' : 'POST',
@@ -651,7 +659,7 @@ export default function App() {
       const endpoint = staffMode
         ? `${API_BASE_URL}/api/support/staff/tickets?status=${supportFilter}`
         : `${API_BASE_URL}/api/support/tickets`;
-      const response = await fetch(endpoint, {
+      const response = await apiFetch(endpoint, {
         headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
       });
       const data = await readResponse(response);
@@ -671,7 +679,7 @@ export default function App() {
     try {
       const staffMode = ['owner', 'admin', 'support'].includes(authUser?.role);
       const route = staffMode ? 'staff/tickets/' : 'tickets/';
-      const response = await fetch(`${API_BASE_URL}/api/support/${route}${encodeURIComponent(ticketId)}`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/support/${route}${encodeURIComponent(ticketId)}`, {
         headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
       });
       const data = await readResponse(response);
@@ -697,7 +705,7 @@ export default function App() {
     setSupportBusy(true);
     setSupportError('');
     try {
-      const response = await fetch(`${API_BASE_URL}/api/support/tickets`, {
+      const response = await apiFetch(`${API_BASE_URL}/api/support/tickets`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
         body: JSON.stringify({ category: supportCategory, description: supportDescription.trim() }),
@@ -716,7 +724,7 @@ export default function App() {
           const file = new ExpoFile(asset.uri);
           form.append('files', file, asset.fileName || `support-attachment-${index + 1}.${extension}`);
         });
-        const attachmentResponse = await fetch(`${API_BASE_URL}/api/support/tickets/${encodeURIComponent(data.ticket_id)}/messages/attachments`, {
+        const attachmentResponse = await apiFetch(`${API_BASE_URL}/api/support/tickets/${encodeURIComponent(data.ticket_id)}/messages/attachments`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
           body: form,
@@ -740,7 +748,7 @@ export default function App() {
     setSupportBusy(true);
     setSupportError('');
     try {
-      const response = await fetch(
+      const response = await apiFetch(
         API_BASE_URL + '/api/support/staff/tickets/' + encodeURIComponent(selectedSupportTicket.ticket_id) + '/status',
         {
           method: 'PATCH',
@@ -856,13 +864,13 @@ export default function App() {
           const file = new ExpoFile(asset.uri);
           form.append('files', file, asset.fileName || `support-attachment-${index + 1}.${extension}`);
         });
-        response = await fetch(`${API_BASE_URL}/api/support/${attachmentRoute}`, {
+        response = await apiFetch(`${API_BASE_URL}/api/support/${attachmentRoute}`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
           body: form,
         });
       } else {
-        response = await fetch(`${API_BASE_URL}/api/support/${standardRoute}`, {
+        response = await apiFetch(`${API_BASE_URL}/api/support/${standardRoute}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
           body: JSON.stringify({ message: supportMessage.trim() }),
@@ -891,7 +899,7 @@ export default function App() {
     notificationRefreshBusyRef.current = true;
     if (!silent) setNotificationsLoading(true);
     try {
-      const response = await fetch(API_BASE_URL + '/api/notifications', {
+      const response = await apiFetch(API_BASE_URL + '/api/notifications', {
         headers: { Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
       });
       const data = await readResponse(response);
@@ -930,7 +938,7 @@ export default function App() {
   const markNotificationRead = async (notificationId: string) => {
     if (!authToken) return;
     try {
-      const response = await fetch(API_BASE_URL + '/api/notifications/' + encodeURIComponent(notificationId) + '/read', {
+      const response = await apiFetch(API_BASE_URL + '/api/notifications/' + encodeURIComponent(notificationId) + '/read', {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + authToken },
       });
@@ -946,7 +954,7 @@ export default function App() {
   const markAllNotificationsRead = async () => {
     if (!authToken) return;
     try {
-      const response = await fetch(API_BASE_URL + '/api/notifications/read-all', {
+      const response = await apiFetch(API_BASE_URL + '/api/notifications/read-all', {
         method: 'POST',
         headers: { Authorization: 'Bearer ' + authToken },
       });
@@ -966,11 +974,11 @@ export default function App() {
     try {
       const headers = { Authorization: 'Bearer ' + authToken, Accept: 'application/json' };
       const [usersResponse, auditResponse, generationsResponse, workersResponse, analyticsResponse] = await Promise.all([
-        fetch(API_BASE_URL + '/api/admin/users?limit=100&offset=0', { headers }),
-        fetch(API_BASE_URL + '/api/admin/audit?limit=100', { headers }),
-        fetch(API_BASE_URL + '/api/admin/generations?limit=100&offset=0', { headers }),
-        fetch(API_BASE_URL + '/api/admin/workers', { headers }),
-        fetch(API_BASE_URL + '/api/admin/analytics', { headers }),
+        apiFetch(API_BASE_URL + '/api/admin/users?limit=100&offset=0', { headers }),
+        apiFetch(API_BASE_URL + '/api/admin/audit?limit=100', { headers }),
+        apiFetch(API_BASE_URL + '/api/admin/generations?limit=100&offset=0', { headers }),
+        apiFetch(API_BASE_URL + '/api/admin/workers', { headers }),
+        apiFetch(API_BASE_URL + '/api/admin/analytics', { headers }),
       ]);
       const usersData = await readResponse(usersResponse);
       const auditData = await readResponse(auditResponse);
@@ -998,7 +1006,7 @@ export default function App() {
     if (!authToken || !Number.isInteger(priority) || priority < -100 || priority > 100) return;
     setAdminLoading(true);
     try {
-      const response = await fetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/priority', {
+      const response = await apiFetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/priority', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
         body: JSON.stringify({ priority }),
@@ -1027,7 +1035,7 @@ export default function App() {
           onPress: async () => {
             setAdminLoading(true);
             try {
-              const response = await fetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/cancel', {
+              const response = await apiFetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/cancel', {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
               });
@@ -1058,7 +1066,7 @@ export default function App() {
           onPress: async () => {
             setAdminLoading(true);
             try {
-              const response = await fetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/retry', {
+              const response = await apiFetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/retry', {
                 method: 'POST',
                 headers: { Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
               });
@@ -1089,7 +1097,7 @@ export default function App() {
           onPress: async () => {
             setAdminLoading(true);
             try {
-              const response = await fetch(API_BASE_URL + '/api/admin/users/' + encodeURIComponent(targetUserId) + '/credits', {
+              const response = await apiFetch(API_BASE_URL + '/api/admin/users/' + encodeURIComponent(targetUserId) + '/credits', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
                 body: JSON.stringify({
@@ -1124,7 +1132,7 @@ export default function App() {
           onPress: async () => {
             setAdminLoading(true);
             try {
-              const response = await fetch(API_BASE_URL + '/api/admin/users/' + encodeURIComponent(targetUserId) + '/role', {
+              const response = await apiFetch(API_BASE_URL + '/api/admin/users/' + encodeURIComponent(targetUserId) + '/role', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
                 body: JSON.stringify({
@@ -1153,7 +1161,7 @@ export default function App() {
 
     try {
       if (!authToken) { setGalleryItems([]); return; }
-      const response = await fetch(`${API_BASE_URL}/api/generations?limit=50&offset=0`, { headers: { Authorization: `Bearer ${authToken}` } });
+      const response = await apiFetch(`${API_BASE_URL}/api/generations?limit=50&offset=0`, { headers: { Authorization: `Bearer ${authToken}` } });
       const data = await readResponse(response);
       if (!response.ok) {
         throw new Error(data.detail || `HTTP ${response.status}`);
@@ -1206,7 +1214,7 @@ export default function App() {
 
     const poll = async () => {
       try {
-        const response = await fetch(
+        const response = await apiFetch(
           `${API_BASE_URL}/api/generations/${encodeURIComponent(jobId)}`,
           { headers: authToken ? { Authorization: `Bearer ${authToken}` } : {} }
         );
@@ -1345,7 +1353,7 @@ export default function App() {
     setPromptEnhancing(true);
     setEnhancedPrompt('');
     try {
-      const startResponse = await fetch(`${API_BASE_URL}/api/prompts/enhance`, {
+      const startResponse = await apiFetch(`${API_BASE_URL}/api/prompts/enhance`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1360,7 +1368,7 @@ export default function App() {
       const deadline = Date.now() + 300000;
       while (Date.now() < deadline) {
         await new Promise((resolve) => setTimeout(resolve, 1500));
-        const statusResponse = await fetch(`${API_BASE_URL}/api/prompts/enhance/${encodeURIComponent(startData.task_id)}`, {
+        const statusResponse = await apiFetch(`${API_BASE_URL}/api/prompts/enhance/${encodeURIComponent(startData.task_id)}`, {
           headers: { Accept: 'application/json', Authorization: `Bearer ${authToken}` },
         });
         const statusData = await readResponse(statusResponse);
@@ -1448,13 +1456,13 @@ export default function App() {
           imageFile,
           sourceImage.fileName || `neuroscene-source.${extension}`
         );
-        response = await fetch(`${API_BASE_URL}/api/generations/i2v`, {
+        response = await apiFetch(`${API_BASE_URL}/api/generations/i2v`, {
           method: 'POST',
           headers: { Accept: 'application/json', Authorization: `Bearer ${authToken}` },
           body: form,
         });
       } else {
-        response = await fetch(`${API_BASE_URL}/api/generations`, {
+        response = await apiFetch(`${API_BASE_URL}/api/generations`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -1699,7 +1707,7 @@ export default function App() {
           onExport={exportGalleryVideo}
           onDelete={async (jobId: string) => {
             try {
-              const response = await fetch(
+              const response = await apiFetch(
                 `${API_BASE_URL}/api/generations/${encodeURIComponent(jobId)}`,
                 { method: 'DELETE', headers: authToken ? { Authorization: `Bearer ${authToken}` } : {} }
               );
