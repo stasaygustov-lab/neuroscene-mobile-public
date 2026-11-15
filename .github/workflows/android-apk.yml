@@ -95,6 +95,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: neurosScene-visual-screenshots
-          path: screenshots/*.png
+          path: screenshots/*
           if-no-files-found: error
           retention-days: 7
