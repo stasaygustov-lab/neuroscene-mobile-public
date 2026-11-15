@@ -245,9 +245,6 @@ export default function App() {
   const introPulseScale = introPulse.interpolate({ inputRange: [0, 1], outputRange: [0.96, 1.045] });
 
   useEffect(() => {
-    // The intro is decorative only: it must never be able to block the app UI.
-    // Keep a JS-timer fallback in case a native-driven animation does not finish.
-    const introFallback = setTimeout(() => setShowIntro(false), 4500);
     const orbit = Animated.loop(Animated.timing(introRotation, {
       toValue: 1, duration: 11500, useNativeDriver: true,
     }));
@@ -265,16 +262,9 @@ export default function App() {
       Animated.delay(2200),
       Animated.timing(introOpacity, { toValue: 0, duration: 550, useNativeDriver: true }),
     ]).start(({ finished }) => {
-      if (finished) {
-        clearTimeout(introFallback);
-        setShowIntro(false);
-      }
+      if (finished) setShowIntro(false);
     });
-    return () => {
-      clearTimeout(introFallback);
-      orbit.stop();
-      pulse.stop();
-    };
+    return () => { orbit.stop(); pulse.stop(); };
   }, [introOpacity, introScale, introRotation, introPulse]);
 
 
@@ -326,8 +316,6 @@ export default function App() {
   useEffect(() => {
     let mounted = true;
     const restoreSession = async () => {
-      // Render the app immediately; session restoration must not gate the entire UI.
-      if (mounted) setAuthReady(true);
       try {
         const savedToken = await SecureStore.getItemAsync(SESSION_STORAGE_KEY);
         if (!savedToken) return;
