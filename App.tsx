@@ -1855,7 +1855,7 @@ export default function App() {
           <View style={styles.loginScreen}>
             <View style={styles.loginBrandLockup}>
               <View style={styles.loginMarkOuter}><View style={styles.loginMarkInner}><Text style={styles.authBrandMarkText}>Н+С</Text></View></View>
-              <Text style={styles.authBrandTitle}>Нейро{'\\n'}Сцена</Text>
+              <Text style={styles.authBrandTitle}>Нейро{'\n'}Сцена</Text>
             </View>
             <Text style={styles.loginTagline}>Магия ИИ в твоих руках</Text>
             <Text style={styles.loginPcLabel}>ТОЛЬКО НА ТВОЁМ ПК</Text>
@@ -2096,9 +2096,9 @@ export default function App() {
               <View style={styles.introLogoGlint} />
             </View>
           </Animated.View>
-          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{'\\n'}Сцена</Animated.Text>
+          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{'\n'}Сцена</Animated.Text>
           <View style={styles.introAccentLine} />
-          <Text style={styles.introTagline}>Магия ИИ{'\\n'}в твоих руках</Text>
+          <Text style={styles.introTagline}>Магия ИИ{'\n'}в твоих руках</Text>
           <Text style={styles.introPcTag}>Только на твоём ПК</Text>
           <View style={styles.introBenefits}>
             <Text style={styles.introBenefit}>Локальная генерация</Text>
