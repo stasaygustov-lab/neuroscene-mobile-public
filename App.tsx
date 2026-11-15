@@ -3488,7 +3488,7 @@ const COSMIC_OVERRIDES = {
   balanceCard: { backgroundColor: 'rgba(4,24,58,0.98)', borderRadius: 23, borderColor: '#168BFF', padding: 24, marginTop: 4, marginBottom: 22, shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 24, elevation: 10 },
   balanceLabel: { color: '#9BCBFF' },
   bigBalance: { fontSize: 42, textShadowColor: '#147DFF', textShadowRadius: 17 },
-  packageCard: { backgroundColor: 'rgba(5,20,46,0.98)', borderRadius: 15, borderColor: '#1765B2', paddingHorizontal: 13, paddingVertical: 12, minHeight: 66, marginBottom: 9, shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 12, elevation: 3 },
+  packageCard: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'rgba(5,20,46,0.98)', borderRadius: 15, borderWidth: 1, borderColor: '#1765B2', paddingHorizontal: 13, paddingVertical: 10, minHeight: 66, marginBottom: 9, shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 12, elevation: 3 },
   packageIconWrap: { width: 42, height: 42, borderRadius: 13, alignItems: 'center', justifyContent: 'center', marginRight: 12, backgroundColor: 'rgba(0,111,255,0.18)', borderWidth: 1, borderColor: 'rgba(68,176,255,0.55)' },
   packageIcon: { color: '#FFD45E', fontSize: 28, textShadowColor: '#FFB52E', textShadowRadius: 9 },
   packageDiamond: { color: '#53C9FF', textShadowColor: '#168BFF' },
