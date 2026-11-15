@@ -1787,22 +1787,34 @@ export default function App() {
             <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
             <Text style={styles.buyCreditsHint}>Покупка скоро станет доступна</Text>
           </TouchableOpacity>
-          {creditHistory.length > 0 && (
-            <View style={{ marginTop: 22 }}>
+          <View style={styles.creditHistorySection}>
+            <View style={styles.creditHistoryHeader}>
               <Text style={styles.sectionTitle}>{uiText(language, 'CREDIT ACTIVITY', 'ИСТОРИЯ ОПЕРАЦИЙ')}</Text>
-              {creditHistory.map((entry) => (
-                <View key={entry.entry_id} style={styles.packageCard}>
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.packageAmount}>{entry.reason}</Text>
+              <Text style={styles.creditHistoryCount}>{creditHistory.length}</Text>
+            </View>
+            {creditsLoading ? (
+              <View style={styles.creditHistoryEmpty}><ActivityIndicator color={BLUE} /><Text style={styles.mutedText}>Загружаем историю операций…</Text></View>
+            ) : creditHistory.length > 0 ? (
+              creditHistory.map((entry) => (
+                <View key={entry.entry_id} style={styles.creditHistoryRow}>
+                  <View style={styles.creditHistoryIcon}><Text style={styles.creditHistoryIconText}>✦</Text></View>
+                  <View style={{ flex: 1, minWidth: 0 }}>
+                    <Text style={styles.packageAmount} numberOfLines={2}>{entry.reason}</Text>
                     <Text style={styles.mutedText}>{entry.created_at ? new Date(entry.created_at).toLocaleString('ru-RU') : ''}</Text>
                   </View>
-                  <Text style={[styles.packageAmount, { color: entry.amount > 0 ? '#42D992' : '#FF9AA4' }]}>
+                  <Text style={[styles.creditHistoryAmount, { color: entry.amount > 0 ? '#65E6B0' : '#FF9AA4' }]}>
                     {entry.amount > 0 ? '+' : ''}{entry.amount} ✦
                   </Text>
                 </View>
-              ))}
-            </View>
-          )}
+              ))
+            ) : (
+              <View style={styles.creditHistoryEmpty}>
+                <Text style={styles.creditHistoryEmptyIcon}>◷</Text>
+                <Text style={styles.creditHistoryEmptyTitle}>Операций пока нет</Text>
+                <Text style={styles.mutedText}>Здесь будут отображаться начисления и списания кредитов</Text>
+              </View>
+            )}
+          </View>
           <Text style={styles.creditNeverExpire}>∞  Кредиты не сгорают</Text>
         </View>
       );
@@ -3677,6 +3689,131 @@ const REFERENCE_POLISH = {
   navIcon: { color: '#51BFFF' },
   navLabel: { color: '#A7C3E2' },
   navLabelActive: { color: '#63D8FF' },
+  // Generation composer, status states and modal
+  screen: { flex: 1, paddingTop: 12 },
+  screenTitle: { color: '#F5FAFF', fontSize: 29, lineHeight: 35, fontWeight: '900', marginTop: 8, marginBottom: 20, textShadowColor: 'rgba(25,132,255,0.34)', textShadowRadius: 12 },
+  sectionHeader: { marginTop: 18, marginBottom: 10 },
+  sectionTitle: { color: '#BBD8F5', fontSize: 12, fontWeight: '900', letterSpacing: 1.35 },
+  eyebrow: { color: '#59C8FF', fontSize: 11, fontWeight: '900', letterSpacing: 1.7 },
+  languageLabel: { color: '#61C9FF', fontSize: 11, fontWeight: '900', letterSpacing: 1.1 },
+  engineCard: { minHeight: 70, borderRadius: 18, padding: 15, backgroundColor: 'rgba(5,24,55,0.98)', borderColor: 'rgba(68,161,235,0.58)', marginBottom: 22, shadowColor: '#087BFF', shadowOpacity: 0.18, shadowRadius: 13, elevation: 4 },
+  engineDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#4EE2B0', marginRight: 12, shadowColor: '#4EE2B0', shadowOpacity: 0.8, shadowRadius: 8 },
+  engineName: { color: '#F5FAFF', fontSize: 16, fontWeight: '900' },
+  engineDescription: { color: '#91B7DE', fontSize: 10, letterSpacing: 0.9, marginTop: 5 },
+  engineStatus: { color: '#69D6FF', fontSize: 12, fontWeight: '900', letterSpacing: 0.8 },
+  optionRow: { flexDirection: 'row', gap: 10, marginBottom: 12 },
+  option: { flex: 1, minHeight: 82, justifyContent: 'center', backgroundColor: 'rgba(4,19,45,0.98)', borderRadius: 17, borderWidth: 1, borderColor: 'rgba(57,127,196,0.62)', paddingVertical: 14, paddingHorizontal: 9, alignItems: 'center' },
+  selectedOption: { backgroundColor: 'rgba(5,91,184,0.40)', borderColor: '#68D9FF', shadowColor: '#087BFF', shadowOpacity: 0.38, shadowRadius: 15, elevation: 6 },
+  optionMain: { color: '#F4FAFF', fontWeight: '900', fontSize: 19 },
+  optionSub: { color: '#9AB9D9', fontSize: 12, marginTop: 5, textAlign: 'center' },
+  activeText: { color: '#FFFFFF', textShadowColor: '#26AFFF', textShadowRadius: 10 },
+  characterCount: { color: '#83A8CE', fontSize: 12, textAlign: 'right', marginTop: 8, marginBottom: 14 },
+  costCard: { minHeight: 82, backgroundColor: 'rgba(5,24,56,0.98)', borderRadius: 18, padding: 17, marginTop: 14, marginBottom: 17, borderWidth: 1, borderColor: 'rgba(64,154,231,0.64)', shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 14, elevation: 4 },
+  costLabel: { color: '#8FB9E3', fontSize: 11, letterSpacing: 1.2, fontWeight: '900' },
+  costDescription: { color: '#F2F8FF', fontSize: 14, lineHeight: 20, marginTop: 7, fontWeight: '700' },
+  costIcon: { color: '#65D8FF', fontSize: 28, textShadowColor: '#168BFF', textShadowRadius: 12, marginLeft: 12 },
+  createButton: { minHeight: 62, borderRadius: 19, backgroundColor: '#0877F9', borderColor: '#8AE5FF', shadowColor: '#008CFF', shadowOpacity: 0.62, shadowRadius: 22, elevation: 11 },
+  disabledButton: { opacity: 0.48 },
+  generationModalBackdrop: { backgroundColor: 'rgba(0,5,17,0.93)', paddingHorizontal: 22 },
+  generationModalCard: { width: '100%', maxWidth: 350, borderRadius: 27, paddingHorizontal: 24, paddingVertical: 30, backgroundColor: 'rgba(4,20,48,0.99)', borderColor: '#42BFFF', shadowColor: '#087BFF', shadowOpacity: 0.55, shadowRadius: 32, elevation: 22 },
+  generationModalMark: { width: 70, height: 70, borderRadius: 22, backgroundColor: 'rgba(0,91,190,0.28)', borderColor: '#71DFFF', shadowColor: '#008CFF', shadowOpacity: 0.8, shadowRadius: 20, elevation: 10 },
+  generationModalMarkText: { color: '#C7F5FF', fontSize: 19, fontWeight: '900', textShadowColor: '#008CFF', textShadowRadius: 12 },
+  generationModalTitle: { color: '#FFFFFF', fontSize: 21, lineHeight: 28, marginTop: 19 },
+  generationModalDescription: { color: '#C0D9F2', fontSize: 14, lineHeight: 22, marginTop: 11 },
+  generationModalHint: { color: '#79B6E8', fontSize: 12, lineHeight: 18, marginTop: 16 },
+  statusCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderWidth: 1, borderColor: 'rgba(64,163,238,0.66)', borderRadius: 20, padding: 18, marginTop: 20, shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 15, elevation: 5 },
+  statusHeader: { paddingBottom: 11, borderBottomWidth: 1, borderBottomColor: 'rgba(67,143,207,0.25)' },
+  statusTitle: { color: '#8FB9E3', fontSize: 11, fontWeight: '900', letterSpacing: 1.3 },
+  statusValue: { color: '#F5FAFF', fontSize: 19, lineHeight: 26, fontWeight: '900', marginTop: 14 },
+  statusSuccess: { color: '#67E5B2' },
+  statusDescription: { color: '#B4CDE8', fontSize: 14, lineHeight: 21, marginTop: 8 },
+  errorText: { color: '#FF9BA9', fontSize: 13, lineHeight: 19, marginTop: 11, padding: 11, borderRadius: 12, backgroundColor: 'rgba(119,25,54,0.18)', borderWidth: 1, borderColor: 'rgba(255,103,133,0.36)' },
+  jobId: { color: '#739BC4', fontSize: 11, marginTop: 12 },
+  secondaryButton: { minHeight: 54, backgroundColor: 'rgba(5,55,105,0.98)', borderColor: '#63CCFF', borderWidth: 1, paddingHorizontal: 16, paddingVertical: 14, borderRadius: 16, marginTop: 15, shadowColor: '#168BFF', shadowOpacity: 0.24, shadowRadius: 12, elevation: 4 },
+  secondaryButtonText: { color: '#F1FAFF', fontWeight: '800', fontSize: 14 },
+  resetButton: { paddingVertical: 14, alignItems: 'center', marginTop: 9 },
+  resetButtonText: { color: '#73D8FF', fontWeight: '900', fontSize: 14 },
+  footerNote: { color: '#79A7D2', fontSize: 11, letterSpacing: 1.1, textAlign: 'center', marginTop: 24, marginBottom: 15 },
+  // Gallery cards and compact layouts
+  galleryTabs: { flexDirection: 'row', borderWidth: 1 },
+  galleryTabText: { color: '#A8C6E5', fontSize: 13, fontWeight: '800' },
+  galleryTabTextActive: { color: '#FFFFFF' },
+  galleryLimit: { color: '#9BBCE0', fontSize: 12, marginTop: 2, marginBottom: 9 },
+  storageTrack: { height: 6, borderRadius: 4, backgroundColor: 'rgba(54,103,158,0.34)', overflow: 'hidden', marginBottom: 15 },
+  storageProgress: { height: 6, borderRadius: 4, backgroundColor: '#55CEFF', shadowColor: '#168BFF', shadowOpacity: 0.8, shadowRadius: 8 },
+  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start' },
+  galleryCard: { width: '48%', minWidth: 0, padding: 8, marginTop: 12, borderRadius: 17, backgroundColor: 'rgba(4,17,40,0.98)', borderColor: 'rgba(57,143,220,0.66)', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 13, elevation: 5 },
+  galleryPreview: { borderRadius: 13, overflow: 'hidden', backgroundColor: '#020A18', borderWidth: 1, borderColor: 'rgba(65,152,224,0.38)' },
+  videoFrame: { height: 146, borderRadius: 12 },
+  videoPlayer: { height: 146, borderRadius: 12 },
+  galleryDuration: { color: '#FFFFFF', backgroundColor: 'rgba(0,8,22,0.82)', borderRadius: 7, overflow: 'hidden', paddingHorizontal: 7, paddingVertical: 4, fontSize: 10, fontWeight: '800' },
+  galleryFavorite: { backgroundColor: 'rgba(1,12,31,0.88)', borderColor: 'rgba(91,187,255,0.7)', borderWidth: 1, borderRadius: 12 },
+  galleryFavoriteText: { color: '#FFDA72', fontSize: 16 },
+  galleryVideoTitle: { color: '#F2F8FF', fontSize: 13, lineHeight: 18, fontWeight: '900', marginTop: 10 },
+  galleryDate: { color: '#83A9D0', fontSize: 11, marginTop: 5 },
+  galleryPrompt: { color: '#B7CEE7', fontSize: 12, lineHeight: 17, marginTop: 8 },
+  galleryActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 10, marginBottom: 5 },
+  galleryActionButton: { minHeight: 34, paddingVertical: 7, paddingHorizontal: 8, borderRadius: 9, backgroundColor: 'rgba(6,43,91,0.78)', borderColor: 'rgba(70,166,255,0.55)' },
+  galleryActionText: { fontSize: 11, color: '#C8E7FF', fontWeight: '800' },
+  galleryFilterButton: { width: 43, height: 43, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(5,30,66,0.96)', borderWidth: 1, borderColor: 'rgba(73,166,238,0.58)' },
+  galleryFilterIcon: { color: '#8EDCFF', fontSize: 20 },
+  emptyScreen: { minHeight: 270, padding: 22, borderRadius: 20, backgroundColor: 'rgba(4,18,42,0.88)', borderWidth: 1, borderColor: 'rgba(35,119,203,0.68)', justifyContent: 'center' },
+  emptyIcon: { color: '#56BFFF', fontSize: 48, marginBottom: 15 },
+  // Credits, including transaction history states
+  creditsContent: { paddingTop: 12, paddingHorizontal: 18, paddingBottom: 32 },
+  creditHistorySection: { marginTop: 24, paddingTop: 18, borderTopWidth: 1, borderTopColor: 'rgba(63,137,202,0.35)' },
+  creditHistoryHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
+  creditHistoryCount: { color: '#8BCFFF', fontSize: 12, fontWeight: '900', backgroundColor: 'rgba(14,93,169,0.30)', borderRadius: 10, overflow: 'hidden', paddingHorizontal: 9, paddingVertical: 4 },
+  creditHistoryRow: { flexDirection: 'row', alignItems: 'center', gap: 11, padding: 13, marginBottom: 8, borderRadius: 15, backgroundColor: 'rgba(5,22,49,0.96)', borderWidth: 1, borderColor: 'rgba(58,132,199,0.46)' },
+  creditHistoryIcon: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(5,100,180,0.25)', borderWidth: 1, borderColor: 'rgba(73,178,239,0.48)' },
+  creditHistoryIconText: { color: '#6BD8FF', fontSize: 16 },
+  creditHistoryAmount: { fontSize: 14, fontWeight: '900', marginLeft: 6 },
+  creditHistoryEmpty: { minHeight: 116, alignItems: 'center', justifyContent: 'center', padding: 18, borderRadius: 16, backgroundColor: 'rgba(4,18,42,0.72)', borderWidth: 1, borderColor: 'rgba(55,125,191,0.38)' },
+  creditHistoryEmptyIcon: { color: '#5BCBFF', fontSize: 28, marginBottom: 7 },
+  creditHistoryEmptyTitle: { color: '#E6F4FF', fontSize: 14, fontWeight: '800', marginBottom: 3 },
+  // Profile, notifications and all secondary screens
+  profileGuestAvatar: { width: 96, height: 96, borderRadius: 48, borderWidth: 2, borderColor: '#65D6FF', backgroundColor: 'rgba(0,91,180,0.18)', shadowColor: '#00AFFF', shadowOpacity: 0.7, shadowRadius: 24, elevation: 9 },
+  profileGuestName: { color: '#F5FAFF', fontSize: 18, fontWeight: '900', marginTop: 12, maxWidth: '92%', textAlign: 'center' },
+  profileGuestStatus: { color: '#7FE0BC', fontSize: 12, marginTop: 5, fontWeight: '800' },
+  profileSettingsButton: { width: 44, height: 44, borderRadius: 14, backgroundColor: 'rgba(4,25,57,0.96)', borderColor: 'rgba(71,165,231,0.62)' },
+  profileVkText: { color: '#FFFFFF', fontSize: 15, fontWeight: '900' },
+  profileEmailButtonText: { color: '#B8DEFF', fontSize: 14, fontWeight: '800' },
+  profileCard: { padding: 15, borderRadius: 18, backgroundColor: 'rgba(4,21,49,0.96)', borderColor: 'rgba(58,143,214,0.62)' },
+  profileMenuCard: { paddingHorizontal: 12, paddingVertical: 3, borderRadius: 18, backgroundColor: 'rgba(4,17,40,0.97)', borderWidth: 1, borderColor: 'rgba(52,131,204,0.54)' },
+  menuItem: { minHeight: 56, paddingHorizontal: 13, paddingVertical: 13, borderBottomColor: 'rgba(54,111,169,0.30)' },
+  menuText: { color: '#E2F0FF', fontSize: 14, fontWeight: '700' },
+  authCard: { borderRadius: 20, padding: 18, backgroundColor: 'rgba(4,19,44,0.99)', borderColor: 'rgba(65,148,221,0.62)' },
+  authInput: { minHeight: 54, borderRadius: 14, paddingHorizontal: 15, backgroundColor: 'rgba(1,11,28,0.99)', borderColor: 'rgba(69,156,225,0.70)', fontSize: 15, marginTop: 11 },
+  authAction: { minHeight: 56, borderRadius: 16, backgroundColor: '#0877F9', borderColor: '#83E4FF' },
+  authSecondary: { minHeight: 52, borderRadius: 15, backgroundColor: 'rgba(5,32,70,0.98)', borderColor: 'rgba(67,160,239,0.68)' },
+  authNotice: { color: '#A9DFFF', fontSize: 13, lineHeight: 19, marginTop: 12, padding: 11, borderRadius: 12, backgroundColor: 'rgba(0,105,210,0.14)', borderWidth: 1, borderColor: 'rgba(58,160,255,0.35)' },
+  smallAction: { backgroundColor: 'rgba(5,43,91,0.96)', borderColor: '#399FFF', borderWidth: 1, borderRadius: 13, minHeight: 43 },
+  note: { color: '#9CB9D8', fontSize: 13, lineHeight: 21, marginTop: 12 },
+  // Shared app chrome and splash
+  bottomNav: { flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', backgroundColor: 'rgba(1,8,23,0.98)', borderTopWidth: 1, borderTopColor: 'rgba(54,139,212,0.34)', paddingTop: 8, paddingBottom: 14, minHeight: 78, shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 16, elevation: 12 },
+  navItem: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4, minWidth: 0, minHeight: 58, paddingHorizontal: 2, paddingTop: 4, borderRadius: 13, borderWidth: 1, borderColor: 'transparent' },
+  navItemActive: { backgroundColor: 'rgba(5,66,135,0.46)', borderColor: 'rgba(74,177,255,0.55)' },
+  navIcon: { color: '#51BFFF', fontSize: 25, lineHeight: 29 },
+  navLabel: { color: '#A7C3E2', fontSize: 11, lineHeight: 14, fontWeight: '800' },
+  navLabelActive: { color: '#63D8FF', textShadowColor: '#087BFF', textShadowRadius: 8 },
+  header: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 10, backgroundColor: 'rgba(1,7,19,0.97)', borderBottomColor: 'rgba(48,145,255,0.25)' },
+  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 9 },
+  brandMarkLarge: { width: 43, height: 43, borderRadius: 14, borderWidth: 1.5, borderColor: '#58D4FF', backgroundColor: 'rgba(0,83,190,0.34)', shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 14, elevation: 8 },
+  brandMarkLargeText: { color: '#B8F1FF', fontSize: 17, fontWeight: '900' },
+  logo: { color: '#FFFFFF', fontSize: 17, lineHeight: 18, fontWeight: '900' },
+  logoSecond: { color: '#8ECFFF', fontSize: 17, lineHeight: 18, fontWeight: '900' },
+  notificationButton: { width: 42, height: 42, borderRadius: 14, backgroundColor: 'rgba(5,29,65,0.98)', borderColor: 'rgba(72,166,236,0.62)' },
+  headerMenuButton: { width: 42, height: 42, borderRadius: 14, backgroundColor: 'rgba(5,29,65,0.98)', borderWidth: 1, borderColor: 'rgba(72,166,236,0.62)', alignItems: 'center', justifyContent: 'center' },
+  headerMenuIcon: { color: '#A9DFFF', fontSize: 21 },
+  ambientBackdrop: { backgroundColor: '#010713' },
+  ambientGlowTop: { opacity: 0.22 },
+  ambientGlowBottom: { opacity: 0.19 },
+  ambientGlowCenter: { opacity: 0.10 },
+  introOverlay: { backgroundColor: '#010713' },
+  introTitle: { fontSize: 40, lineHeight: 44, textShadowColor: '#087BFF', textShadowRadius: 24 },
+  introTagline: { color: '#BBDFFF', fontSize: 16 },
+  introLogoPanel: { borderRadius: 28, borderWidth: 1, borderColor: 'rgba(90,202,255,0.66)', backgroundColor: 'rgba(4,24,58,0.58)' },
+  introReelPlay: { color: '#B7F0FF', fontSize: 62, letterSpacing: -3 },
 };
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
