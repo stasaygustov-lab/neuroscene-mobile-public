@@ -1898,16 +1898,17 @@ export default function App() {
           </>
         )}
         <View style={styles.profileMenuCard}>
-        {['My videos', 'Notifications', 'About', 'Support', 'Sign out'].map((key, menuIndex) => uiText(language, key, ({
+        {['My videos', 'Notifications', 'About', 'Help / FAQ', 'Support', 'Sign out'].map((key, menuIndex) => uiText(language, key, ({
           'My videos': 'Мои видео',
           'Notifications': 'Уведомления',
           'About': 'О приложении',
+          'Help / FAQ': 'Помощь / FAQ',
           'Support': 'Поддержка',
           'Sign out': 'Выход',
         } as Record<string, string>)[key] || key)).map((item, menuIndex) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item}
-            style={[styles.menuItem, menuIndex === 4 && styles.menuItemLast]}
+            style={[styles.menuItem, menuIndex === 5 && styles.menuItemLast]}
             onPress={() => {
               if (item === 'Мои видео') {
                 setTab('Gallery');
@@ -1935,7 +1936,7 @@ export default function App() {
               }
             }}
           >
-            <Text style={styles.menuIcon}>{item === 'Мои видео' ? '▣' : item === 'Уведомления' ? '♧' : item === 'О приложении' ? 'ⓘ' : item === 'Поддержка' ? '?' : '⇥'}</Text>
+            <Text style={styles.menuIcon}>{item === 'Мои видео' ? '▣' : item === 'Уведомления' ? '♧' : item === 'О приложении' ? 'ⓘ' : item === 'Помощь / FAQ' ? '?' : item === 'Поддержка' ? '◌' : '⇥'}</Text>
             <Text style={styles.menuText}>{item}</Text>
             {item === 'Уведомления' && unreadNotifications > 0 && <View style={styles.menuNotificationBadge}><Text style={styles.menuNotificationText}>{Math.min(unreadNotifications, 9)}</Text></View>}
             <Text style={styles.menuArrow}>›</Text>
