@@ -23,30 +23,25 @@ def capture(name):
     for attempt in range(1, 4):
         try:
             with destination.open("wb") as image_file:
-                result = run(
+                run(
                     ["adb", "exec-out", "screencap", "-p"],
                     timeout=75,
                     stdout=image_file,
                     stderr=subprocess.PIPE,
                 )
-            if destination.stat().st_size < 1000:
-                raise RuntimeError(
-                    f"Screenshot is unexpectedly small ({destination.stat().st_size} bytes)"
-                )
+            size = destination.stat().st_size
+            if size < 1000:
+                raise RuntimeError(f"Screenshot is unexpectedly small ({size} bytes)")
             with destination.open("rb") as image_file:
-                if image_file.read(8) != b"\\x89PNG\\r\\n\\x1a\\n":
+                if image_file.read(8) != b"\x89PNG\r\n\x1a\n":
                     raise RuntimeError("adb screencap did not return a valid PNG")
-            print(f"Captured {name} ({destination.stat().st_size} bytes)", flush=True)
+            print(f"Captured {name} ({size} bytes)", flush=True)
             return
         except (subprocess.SubprocessError, OSError, RuntimeError) as exc:
             last_error = exc
             destination.unlink(missing_ok=True)
-            print(
-                f"Screenshot {name}: attempt {attempt}/3 failed: {exc}",
-                flush=True,
-            )
+            print(f"Screenshot {name}: attempt {attempt}/3 failed: {exc}", flush=True)
             if attempt < 3:
-                # Give a resource-constrained emulator time to recover before retrying.
                 try:
                     run(["adb", "wait-for-device"], timeout=30)
                 except subprocess.SubprocessError:
@@ -60,7 +55,7 @@ def screen_size():
     value = subprocess.check_output(
         ["adb", "shell", "wm", "size"], text=True, timeout=20
     )
-    match = re.search(r"(\\d+)x(\\d+)", value)
+    match = re.search(r"(\d+)x(\d+)", value)
     if not match:
         raise RuntimeError(f"Cannot read emulator screen size: {value}")
     return int(match.group(1)), int(match.group(2))
