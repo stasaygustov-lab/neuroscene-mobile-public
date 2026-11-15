@@ -3528,6 +3528,30 @@ const COSMIC_OVERRIDES = {
   featureCard: { width: '48.5%', minHeight: 86, paddingVertical: 10, paddingHorizontal: 8, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,25,62,0.94)', borderWidth: 1, borderColor: 'rgba(35,130,226,0.55)', shadowColor: '#087BFF', shadowOpacity: 0.16, shadowRadius: 10, elevation: 3 },
   featureIcon: { color: '#19C5FF', fontSize: 26, lineHeight: 30, textShadowColor: '#008CFF', textShadowRadius: 10, marginBottom: 3 },
   featureText: { color: '#E5F2FF', fontSize: 13, lineHeight: 16, fontWeight: '700', textAlign: 'center' },
+
+  // Shared reference styling for secondary screens and utility flows.
+  smallAction: { backgroundColor: 'rgba(5,43,91,0.96)', borderColor: '#168BFF', borderWidth: 1, borderRadius: 13, minHeight: 44, shadowColor: '#087BFF', shadowOpacity: 0.18, shadowRadius: 10, elevation: 3 },
+  smallActionText: { color: '#EAF5FF', fontSize: 14, fontWeight: '700' },
+  eyebrow: { color: '#56BFFF', fontSize: 12, fontWeight: '900', letterSpacing: 1.5 },
+  description: { color: '#A9C8EA', fontSize: 14, lineHeight: 21 },
+  mutedText: { color: '#9CB9D8', fontSize: 14, lineHeight: 21 },
+  note: { color: '#9CB9D8', fontSize: 13, lineHeight: 21 },
+  errorText: { color: '#FF9BAA', fontSize: 13, lineHeight: 19, backgroundColor: 'rgba(91,20,43,0.22)', borderColor: 'rgba(255,105,135,0.38)', borderWidth: 1, borderRadius: 12, padding: 11 },
+  galleryCard: { backgroundColor: 'rgba(4,18,42,0.97)', borderRadius: 16, borderWidth: 1, borderColor: 'rgba(35,119,203,0.76)', padding: 14, marginTop: 10, shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 12, elevation: 4 },
+  galleryDate: { color: '#82A9D2', fontSize: 12, lineHeight: 18 },
+  packageCard: { backgroundColor: 'rgba(5,20,46,0.98)', borderRadius: 15, borderWidth: 1, borderColor: '#1765B2', padding: 14, marginTop: 10, shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 10, elevation: 3 },
+  packageAmount: { color: '#EAF5FF', fontSize: 15, fontWeight: '800' },
+  authCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderRadius: 20, borderWidth: 1, borderColor: '#1765B2', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.22, shadowRadius: 18, elevation: 6 },
+  authInput: { backgroundColor: 'rgba(2,12,29,0.98)', borderColor: '#1765B2', borderWidth: 1, borderRadius: 14, minHeight: 52, paddingHorizontal: 14, color: '#FFFFFF', fontSize: 15 },
+  authTextButton: { paddingVertical: 13, alignItems: 'center' },
+  authLinkText: { color: '#83C8FF', fontSize: 14, fontWeight: '700', textAlign: 'center' },
+  authNotice: { color: '#9DD7FF', fontSize: 13, lineHeight: 19, marginTop: 12, padding: 11, borderRadius: 12, backgroundColor: 'rgba(0,105,210,0.14)', borderWidth: 1, borderColor: 'rgba(58,160,255,0.35)' },
+  authSecondary: { backgroundColor: 'rgba(5,28,62,0.96)', borderColor: '#178DDF', borderWidth: 1, borderRadius: 15, minHeight: 50 },
+  authSecondaryText: { color: '#EAF5FF', fontSize: 14, fontWeight: '700' },
+  secondaryButton: { backgroundColor: 'rgba(5,43,91,0.96)', borderColor: '#168BFF', borderWidth: 1, borderRadius: 14, minHeight: 50, shadowColor: '#087BFF', shadowOpacity: 0.18, shadowRadius: 10, elevation: 3 },
+  secondaryButtonText: { color: '#EAF5FF', fontSize: 14, fontWeight: '700' },
+  deleteVideoText: { color: '#FF9EAD', fontSize: 13, fontWeight: '700' },
+  emptyScreen: { minHeight: 300, padding: 22, borderRadius: 20, backgroundColor: 'rgba(4,18,42,0.88)', borderWidth: 1, borderColor: 'rgba(35,119,203,0.68)' },
 };
 
 const styles = StyleSheet.create({
