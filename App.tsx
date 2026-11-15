@@ -1746,6 +1746,7 @@ export default function App() {
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
           </View>
           <View style={styles.creditIllustration}>
+            <View pointerEvents="none" style={styles.creditIllustrationGlow} />
             <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
               <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
               <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
@@ -1769,7 +1770,7 @@ export default function App() {
             <Text style={styles.creditBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
           </View>
           {[500, 1500, 5000].map((amount) => (
-            <View style={styles.packageCard} key={amount}>
+            <View style={[styles.packageCard, amount === 1500 && styles.packageCardPopular]} key={amount}>
               <View style={styles.packageIconWrap}>
                 <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
               </View>
@@ -1855,6 +1856,7 @@ export default function App() {
             <View style={styles.profileGuestAvatar}><View style={styles.profileGuestHead} /><View style={styles.profileGuestBody} /></View>
             <Text style={styles.profileGuestName}>Гость</Text>
             <Text style={styles.profileGuestStatus}>Не в сети</Text>
+            <Text style={styles.profileGuestStatusCaption}>Твоя творческая студия на компьютере</Text>
           </View>
           <TouchableOpacity activeOpacity={0.86} style={styles.profileVkButton} onPress={handleVkLogin} disabled={authBusy}>
             <Text style={styles.profileVkMark}>ᴠκ</Text>
@@ -1906,6 +1908,7 @@ export default function App() {
             )}
             {!!authNotice && <Text style={styles.authNotice}>{authNotice}</Text>}
             <Text style={styles.note}>{uiText(language, 'Email verification is required after registration.', 'После регистрации нужно подтвердить email по ссылке из письма.')}</Text>
+            <Text style={styles.authLegalText}>Продолжая, вы подтверждаете, что ознакомились с правилами использования приложения и политикой конфиденциальности.</Text>
           </View>}
           </>
         )}
@@ -3675,6 +3678,10 @@ const REFERENCE_POLISH = {
   creditIntro: { color: '#D9E9FF', fontSize: 12, lineHeight: 16, textAlign: 'center', marginHorizontal: 28, marginTop: 4, marginBottom: 10 },
   creditBalanceLine: { paddingVertical: 13, paddingHorizontal: 16, borderRadius: 15, backgroundColor: 'rgba(4,24,56,0.96)', borderWidth: 1, borderColor: 'rgba(58,146,222,0.56)', marginBottom: 10 },
   packageCard: { minHeight: 54, paddingVertical: 8, paddingHorizontal: 12, borderRadius: 12, backgroundColor: 'rgba(13,26,48,0.96)', borderColor: 'rgba(62,93,137,0.48)' },
+  packageCardPopular: { borderWidth: 1.5, borderColor: '#53C9FF', backgroundColor: 'rgba(5,53,105,0.98)', shadowColor: '#087BFF', shadowOpacity: 0.58, shadowRadius: 18, elevation: 9, transform: [{ scale: 1.015 }] },
+  creditIllustrationGlow: { position: 'absolute', width: 220, height: 120, borderRadius: 110, top: 8, backgroundColor: '#087BFF', opacity: 0.22, shadowColor: '#21B9FF', shadowOpacity: 1, shadowRadius: 50, elevation: 16 },
+  authLegalText: { color: '#91AAC8', fontSize: 10, lineHeight: 15, textAlign: 'center', marginTop: 13, marginHorizontal: 4 },
+  profileGuestStatusCaption: { color: '#6FA7DC', fontSize: 10, marginTop: 3, textAlign: 'center' },
   buyCreditsButton: { minHeight: 58, borderRadius: 17, borderColor: '#7BDFFF', backgroundColor: '#086FEA' },
   profileHeader: { marginBottom: 12 },
   profileIdentity: { paddingTop: 17, paddingBottom: 21, borderBottomColor: 'rgba(55,143,222,0.42)' },
