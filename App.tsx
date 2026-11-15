@@ -1823,12 +1823,12 @@ export default function App() {
 
     return (
       <View style={styles.screen}>
-        <View style={styles.profileHeader}>
+        {authUser && <View style={styles.profileHeader}>
           <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
           <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')}>
             <Text style={styles.profileSettingsIcon}>⚙</Text>
           </TouchableOpacity>
-        </View>
+        </View>}
         {authUser ? (
           <>
             <View style={styles.profileIdentity}>
@@ -1990,6 +1990,11 @@ export default function App() {
         <View style={styles.ambientStarOne} />
         <View style={styles.ambientStarTwo} />
         <View style={styles.ambientStarThree} />
+        <View style={styles.ambientStarFour} />
+        <View style={styles.ambientStarFive} />
+        <View style={styles.ambientStarSix} />
+        <View style={styles.ambientStarSeven} />
+        <View style={styles.ambientStarEight} />
       </View>
       <StatusBar style="light" hidden={false} />
 
@@ -3869,6 +3874,26 @@ const REFERENCE_POLISH = {
   profileMenuCard: { paddingHorizontal: 14, paddingVertical: 4, borderRadius: 18, backgroundColor: 'rgba(4,17,40,0.97)', borderColor: 'rgba(66,157,230,0.62)' },
   menuItem: { minHeight: 50, paddingHorizontal: 12, paddingVertical: 11, borderBottomColor: 'rgba(75,145,205,0.30)' },
   menuText: { color: '#E6F3FF', fontSize: 14, fontWeight: '700' },
+  ambientGlowTop: { width: 560, height: 560, borderRadius: 280, top: -150, right: -260, backgroundColor: '#075CEB', opacity: 0.30 },
+  ambientGlowBottom: { width: 520, height: 520, borderRadius: 260, bottom: -210, left: -250, backgroundColor: '#007DBA', opacity: 0.26 },
+  ambientGlowCenter: { width: 420, height: 420, borderRadius: 210, top: '29%', left: '12%', backgroundColor: '#103D9C', opacity: 0.16 },
+  ambientRing: { width: 560, height: 560, borderRadius: 280, borderWidth: 1.5, borderColor: 'rgba(54,145,255,0.20)', top: 120, right: -390 },
+  ambientRingFar: { width: 700, height: 700, borderRadius: 350, borderWidth: 1, borderColor: 'rgba(33,101,218,0.16)', top: '24%', left: -470 },
+  ambientStarFour: { position: 'absolute', top: '27%', right: '31%', width: 2, height: 2, borderRadius: 1, backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 1, shadowRadius: 8 },
+  ambientStarFive: { position: 'absolute', top: '61%', left: '11%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#8DDCFF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 9 },
+  ambientStarSix: { position: 'absolute', top: '78%', right: '23%', width: 2, height: 2, borderRadius: 1, backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 1, shadowRadius: 7 },
+  ambientStarSeven: { position: 'absolute', top: '12%', right: '52%', width: 2, height: 2, borderRadius: 1, backgroundColor: '#8DDCFF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 8 },
+  ambientStarEight: { position: 'absolute', bottom: '12%', left: '64%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#A7E7FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 9 },
+  bottomNav: { minHeight: 68, paddingTop: 6, paddingBottom: 8, backgroundColor: 'rgba(1,8,23,0.99)', borderTopColor: 'rgba(61,147,224,0.42)', shadowColor: '#006DFF', shadowOpacity: 0.24, shadowRadius: 20, elevation: 14 },
+  navItem: { minHeight: 60, paddingTop: 3, borderRadius: 15 },
+  navIcon: { color: '#65CFFF', fontSize: 25, lineHeight: 28, textShadowColor: '#087BFF', textShadowRadius: 8 },
+  navLabel: { color: '#A9C7E8', fontSize: 10, lineHeight: 13, fontWeight: '800' },
+  navLabelActive: { color: '#7DE6FF', textShadowColor: '#087BFF', textShadowRadius: 10 },
+  header: { paddingHorizontal: 18, paddingTop: 9, paddingBottom: 12, backgroundColor: 'rgba(1,7,19,0.94)', borderBottomColor: 'rgba(48,145,255,0.32)' },
+  brandMarkLarge: { width: 48, height: 46, borderRadius: 15, borderWidth: 1.7, borderColor: '#69DFFF', backgroundColor: 'rgba(0,83,190,0.40)', shadowColor: '#00AFFF', shadowOpacity: 0.95, shadowRadius: 19, elevation: 10 },
+  brandMarkLargeText: { color: '#D4F8FF', fontSize: 19, textShadowColor: '#008CFF', textShadowRadius: 13 },
+  logo: { fontSize: 19, lineHeight: 20, textShadowColor: '#247DFF', textShadowRadius: 13 },
+  logoSecond: { fontSize: 19, lineHeight: 20, textShadowColor: '#247DFF', textShadowRadius: 13 },
   profileGuestAvatar: { width: 82, height: 82, borderRadius: 41, borderWidth: 2, borderColor: '#6688B6', backgroundColor: 'rgba(80,119,177,0.16)', shadowColor: '#00AFFF', shadowOpacity: 0.25, shadowRadius: 12, elevation: 4 },
   profileGuestName: { color: '#F5FAFF', fontSize: 18, fontWeight: '900', marginTop: 12, maxWidth: '92%', textAlign: 'center' },
   profileGuestStatus: { color: '#7FE0BC', fontSize: 12, marginTop: 5, fontWeight: '800' },
