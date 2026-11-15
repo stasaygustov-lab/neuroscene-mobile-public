@@ -2162,29 +2162,20 @@ function CreateScreen({
         </View>
         <View style={styles.referenceHeroCopy}>
           <Text style={styles.referenceHeroTitle}>Создать видео</Text>
-          <Text style={styles.referenceHeroCaption}>Из текста или изображения</Text>
+          <Text style={styles.referenceHeroCaption}>С помощью искусственного интеллекта</Text>
+        </View>
+        <View style={styles.referenceLocalBadge}>
+          <Text style={styles.referenceLocalBadgeIcon}>✦</Text>
+          <View style={styles.referenceLocalBadgeCopy}>
+            <Text style={styles.referenceLocalBadgeTitle}>Только на твоём ПК</Text>
+            <Text style={styles.referenceLocalBadgeText}>Без облачных сервисов</Text>
+          </View>
         </View>
       </View>
       <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
         <Text style={styles.referencePlay}>▶</Text>
         <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
       </TouchableOpacity>
-      <View style={styles.featureSectionHeader}>
-        <Text style={styles.featureSectionTitle}>Возможности</Text>
-      </View>
-      <View style={styles.featureGrid}>
-        {[
-          { icon: '▣', label: 'Текст\nв видео' },
-          { icon: '▧', label: 'Изображение\nв видео' },
-          { icon: '♫', label: 'Добавить звук' },
-          { icon: '✧', label: 'Улучшить\nпромпт' },
-        ].map((item) => (
-          <View key={item.label} style={styles.featureCard}>
-            <Text style={styles.featureIcon}>{item.icon}</Text>
-            <Text style={styles.featureText}>{item.label}</Text>
-          </View>
-        ))}
-      </View>
 
       {showComposer && (
       <>
@@ -3619,6 +3610,74 @@ const COSMIC_OVERRIDES = {
   version: { color: '#668BB7', fontSize: 12, letterSpacing: 1.3, textAlign: 'center', marginTop: 25 },
 };
 
+const REFERENCE_POLISH = {
+  container: { backgroundColor: '#010713' },
+  content: { paddingHorizontal: 18, paddingTop: 18, paddingBottom: 28 },
+  header: { paddingHorizontal: 18, paddingTop: 9, paddingBottom: 12, backgroundColor: 'rgba(1,7,19,0.96)', borderBottomColor: 'rgba(48,145,255,0.22)' },
+  referenceHero: { height: 310, minHeight: 310, marginTop: 2, marginBottom: 16, padding: 20, borderRadius: 27, borderColor: 'rgba(77,178,255,0.76)', backgroundColor: '#03132B', shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 30, elevation: 13 },
+  referenceHeroCopy: { width: '76%', marginTop: 15 },
+  referenceHeroTitle: { color: '#FFFFFF', fontSize: 27, lineHeight: 32, fontWeight: '900', textShadowColor: '#087BFF', textShadowRadius: 16 },
+  referenceHeroCaption: { color: '#C5E1FF', fontSize: 15, lineHeight: 21, marginTop: 7, fontWeight: '600' },
+  referenceSkyGlow: { width: 330, height: 330, borderRadius: 165, top: -10, right: -48, backgroundColor: '#075ACB', opacity: 0.48, shadowRadius: 68 },
+  referenceMoon: { width: 174, height: 174, borderRadius: 87, top: 60, right: 27, backgroundColor: '#DCEBFF', shadowRadius: 38 },
+  referenceMoonShade: { width: 180, height: 180, borderRadius: 90, top: 53, right: 7, opacity: 0.25 },
+  referencePerson: { top: 137, right: 113, transform: [{ scale: 1.12 }] },
+  referenceMountainBack: { bottom: 8, left: -58, width: 420, height: 138, backgroundColor: '#16345F' },
+  referenceMountainFront: { bottom: -5, right: -92, width: 390, height: 132, backgroundColor: '#06142C' },
+  referenceRidgeLight: { bottom: 104, left: 0, width: 230, backgroundColor: '#9BE6FF' },
+  referenceLocalBadge: { position: 'absolute', right: 12, bottom: 13, minHeight: 52, maxWidth: '76%', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(56,181,255,0.82)', backgroundColor: 'rgba(1,12,31,0.88)', shadowColor: '#008CFF', shadowOpacity: 0.5, shadowRadius: 15, elevation: 7 },
+  referenceLocalBadgeIcon: { color: '#69DBFF', fontSize: 25, marginRight: 9, textShadowColor: '#00AFFF', textShadowRadius: 12 },
+  referenceLocalBadgeCopy: { flexShrink: 1 },
+  referenceLocalBadgeTitle: { color: '#FFFFFF', fontSize: 12, fontWeight: '900' },
+  referenceLocalBadgeText: { color: '#B7D5F4', fontSize: 11, marginTop: 2 },
+  referenceCreateButton: { height: 64, marginTop: 0, marginBottom: 23, borderRadius: 21, borderColor: '#9AE8FF', backgroundColor: '#0878FF', shadowColor: '#008CFF', shadowOpacity: 0.78, shadowRadius: 25, elevation: 13 },
+  referenceCreateButtonText: { fontSize: 18, letterSpacing: 0.2 },
+  composerBack: { marginBottom: 18, borderRadius: 15, backgroundColor: 'rgba(4,23,54,0.98)', borderColor: 'rgba(66,158,255,0.72)' },
+  modeSelector: { backgroundColor: 'rgba(3,15,36,0.98)', borderColor: 'rgba(57,132,210,0.62)', borderRadius: 16, padding: 5 },
+  modeOption: { minHeight: 48, borderRadius: 12 },
+  modeOptionActive: { backgroundColor: '#086FEA', borderColor: '#7BDFFF', shadowColor: '#168BFF', shadowOpacity: 0.34, shadowRadius: 12, elevation: 5 },
+  engineCard: { borderRadius: 17, padding: 16, backgroundColor: 'rgba(5,23,52,0.98)', borderColor: 'rgba(55,143,225,0.62)' },
+  prompt: { minHeight: 158, padding: 17, borderRadius: 17, backgroundColor: 'rgba(3,14,34,0.98)', borderColor: 'rgba(65,147,218,0.68)', fontSize: 15, lineHeight: 23 },
+  imageUploadCard: { borderRadius: 18, padding: 16, backgroundColor: 'rgba(5,23,52,0.98)', borderColor: 'rgba(55,143,225,0.55)' },
+  chooseImageButton: { minHeight: 136, borderRadius: 16, backgroundColor: 'rgba(3,15,37,0.98)', borderColor: '#42BFFF' },
+  option: { borderRadius: 15, paddingVertical: 15, backgroundColor: 'rgba(5,22,49,0.98)', borderColor: 'rgba(56,132,207,0.56)' },
+  selectedOption: { backgroundColor: 'rgba(8,91,190,0.44)', borderColor: '#67D7FF' },
+  createButton: { minHeight: 64, borderRadius: 18, backgroundColor: '#0877F9', borderColor: '#91E7FF', shadowOpacity: 0.58, shadowRadius: 22, elevation: 11 },
+  galleryHeader: { marginBottom: 13 },
+  galleryTabs: { borderRadius: 16, backgroundColor: 'rgba(3,15,37,0.98)', borderColor: 'rgba(49,129,205,0.62)', padding: 4 },
+  galleryTab: { minHeight: 46, borderRadius: 12 },
+  galleryTabActive: { backgroundColor: '#0877F9', shadowColor: '#168BFF', shadowOpacity: 0.52, shadowRadius: 14, elevation: 6 },
+  galleryCard: { width: '48.5%', padding: 8, marginTop: 13, borderRadius: 17, backgroundColor: 'rgba(4,17,40,0.98)', borderColor: 'rgba(57,143,220,0.66)', shadowColor: '#006DFF', shadowOpacity: 0.22, shadowRadius: 16, elevation: 6 },
+  videoFrame: { height: 164, borderRadius: 12 },
+  videoPlayer: { height: 164, borderRadius: 12 },
+  galleryActions: { gap: 6 },
+  galleryActionButton: { paddingVertical: 8, paddingHorizontal: 9, borderRadius: 10, backgroundColor: 'rgba(6,43,91,0.78)', borderColor: 'rgba(70,166,255,0.55)' },
+  galleryActionText: { fontSize: 12, color: '#C8E7FF' },
+  creditsScreen: { paddingTop: 10 },
+  creditsHeader: { marginBottom: 10 },
+  creditIllustration: { height: 160, marginTop: 0, marginBottom: 4 },
+  creditIntro: { color: '#D9E9FF', fontSize: 15, lineHeight: 22, textAlign: 'center', marginHorizontal: 18, marginBottom: 16 },
+  creditBalanceLine: { paddingVertical: 13, paddingHorizontal: 16, borderRadius: 15, backgroundColor: 'rgba(4,24,56,0.96)', borderWidth: 1, borderColor: 'rgba(58,146,222,0.56)', marginBottom: 10 },
+  packageCard: { minHeight: 76, paddingVertical: 14, paddingHorizontal: 15, borderRadius: 16, backgroundColor: 'rgba(5,22,50,0.98)', borderColor: 'rgba(58,140,215,0.60)' },
+  buyCreditsButton: { minHeight: 58, borderRadius: 17, borderColor: '#7BDFFF', backgroundColor: '#086FEA' },
+  profileHeader: { marginBottom: 12 },
+  profileIdentity: { paddingTop: 17, paddingBottom: 21, borderBottomColor: 'rgba(55,143,222,0.42)' },
+  profileGuestAvatar: { width: 98, height: 98, borderColor: '#66D8FF', shadowRadius: 25 },
+  profileVkButton: { minHeight: 60, borderRadius: 18, backgroundColor: '#0877F9', borderColor: '#83E4FF' },
+  profileEmailButton: { minHeight: 54, borderRadius: 16, backgroundColor: 'rgba(3,18,43,0.98)', borderColor: 'rgba(77,174,255,0.76)' },
+  profileMenuCard: { paddingHorizontal: 14, paddingVertical: 4, borderRadius: 18, backgroundColor: 'rgba(4,17,40,0.96)', borderWidth: 1, borderColor: 'rgba(52,131,204,0.54)' },
+  menuItem: { minHeight: 58, borderBottomColor: 'rgba(54,111,169,0.30)' },
+  authCard: { borderRadius: 18, padding: 18, backgroundColor: 'rgba(4,19,44,0.98)', borderColor: 'rgba(65,148,221,0.62)' },
+  authInput: { minHeight: 54, borderRadius: 14, paddingHorizontal: 16, backgroundColor: 'rgba(1,11,28,0.98)', borderColor: 'rgba(69,156,225,0.70)', fontSize: 15 },
+  authAction: { minHeight: 56, borderRadius: 16, backgroundColor: '#0877F9', borderColor: '#83E4FF' },
+  authSecondary: { minHeight: 54, borderRadius: 15, backgroundColor: 'rgba(5,32,70,0.98)', borderColor: 'rgba(67,160,239,0.68)' },
+  menuText: { color: '#E2F0FF', fontSize: 15 },
+  navItem: { minHeight: 64 },
+  navItemActive: { backgroundColor: 'rgba(5,66,135,0.46)', borderColor: 'rgba(74,177,255,0.55)' },
+  navIcon: { color: '#51BFFF' },
+  navLabel: { color: '#A7C3E2' },
+  navLabelActive: { color: '#63D8FF' },
+};
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -3929,5 +3988,6 @@ const styles = StyleSheet.create({
   authNotice: { color: '#83B7FF', fontSize: 14, lineHeight: 17, marginTop: 12 },
   version: { color: '#566176', fontSize: 14, letterSpacing: 1.3, textAlign: 'center', marginTop: 35 },
   ...COSMIC_OVERRIDES,
+  ...REFERENCE_POLISH,
 });
 
