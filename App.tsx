@@ -1975,6 +1975,11 @@ export default function App() {
 
       {tab === 'Create' && <View style={styles.header}>
         <View style={styles.brandRow}>
+          <Image
+            source={require('./assets/Футуристический серебряно-синий монограмный логотип HC-1.png')}
+            style={styles.brandLogoImage}
+            resizeMode="contain"
+          />
           <View style={styles.brandWordmark}>
             <Text style={styles.logo}>Нейро</Text>
             <Text style={styles.logoSecond}>Сцена</Text>
@@ -2012,7 +2017,7 @@ export default function App() {
         {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
-      {tab !== 'Credits' && <View style={styles.bottomNav}>
+      <View style={styles.bottomNav}>
         {([
           { id: 'Create', icon: '✧', label: 'Создать' },
           { id: 'Gallery', icon: '▧', label: 'Галерея' },
@@ -2043,7 +2048,7 @@ export default function App() {
             </Text>
           </TouchableOpacity>
         ))}
-      </View>}
+      </View>
 
       {showIntro && (
         <Animated.View style={[styles.introOverlay, { opacity: introOpacity }]}>
@@ -2146,10 +2151,6 @@ function CreateScreen({
 
   return (
     <View>
-      <View style={styles.headerBalance}>
-        <Text style={styles.headerBalanceLabel}>ВАШ БАЛАНС</Text>
-        <Text style={styles.headerBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
-      </View>
       <View style={styles.referenceHero}>
         <View pointerEvents="none" style={StyleSheet.absoluteFill}>
           <View style={styles.referenceSkyGlow} />
@@ -2166,10 +2167,30 @@ function CreateScreen({
           </View>
           <View style={styles.referenceHeroShade} />
         </View>
-        <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
-          <Text style={styles.referencePlay}>▶</Text>
-          <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
-        </TouchableOpacity>
+        <View style={styles.referenceHeroCopy}>
+          <Text style={styles.referenceHeroTitle}>Создать видео</Text>
+          <Text style={styles.referenceHeroCaption}>Из текста или изображения</Text>
+        </View>
+      </View>
+      <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
+        <Text style={styles.referencePlay}>▶</Text>
+        <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+      </TouchableOpacity>
+      <View style={styles.featureSectionHeader}>
+        <Text style={styles.featureSectionTitle}>Возможности</Text>
+      </View>
+      <View style={styles.featureGrid}>
+        {[
+          { icon: '▣', label: 'Текст\nв видео' },
+          { icon: '▧', label: 'Изображение\nв видео' },
+          { icon: '♫', label: 'Добавить звук' },
+          { icon: '✧', label: 'Улучшить\nпромпт' },
+        ].map((item) => (
+          <View key={item.label} style={styles.featureCard}>
+            <Text style={styles.featureIcon}>{item.icon}</Text>
+            <Text style={styles.featureText}>{item.label}</Text>
+          </View>
+        ))}
       </View>
 
       {showComposer && (
@@ -3348,25 +3369,26 @@ const COSMIC_OVERRIDES = {
   headerBalance: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'rgba(7,25,55,0.94)', borderColor: '#1267C8', borderWidth: 1, borderRadius: 15, paddingHorizontal: 15, paddingVertical: 10, marginTop: 0, marginBottom: 14, shadowColor: '#087BFF', shadowOpacity: 0.22, shadowRadius: 12, elevation: 4 },
   headerBalanceLabel: { color: '#70B8FF', fontSize: 14, letterSpacing: 1.1 },
   headerBalanceValue: { color: '#FFFFFF', fontSize: 16 },
-  content: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 28 },
+  content: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 22 },
   creditsContent: { paddingBottom: 38 },
-  referenceHero: { height: 500, minHeight: 455, marginTop: 0, marginBottom: 18, borderRadius: 23, overflow: 'hidden', backgroundColor: '#020A1B', borderWidth: 1, borderColor: 'rgba(63,157,255,0.65)', justifyContent: 'flex-end', padding: 20, shadowColor: '#087BFF', shadowOpacity: 0.36, shadowRadius: 26, elevation: 10 },
+  referenceHero: { height: 176, minHeight: 176, marginTop: 2, marginBottom: 12, borderRadius: 18, overflow: 'hidden', backgroundColor: '#020A1B', borderWidth: 1, borderColor: 'rgba(63,157,255,0.72)', justifyContent: 'flex-start', padding: 15, shadowColor: '#087BFF', shadowOpacity: 0.34, shadowRadius: 20, elevation: 8 },
+  referenceHeroCopy: { width: '64%', marginTop: 8, zIndex: 2 },
   referenceHeroImage: { borderRadius: 23 },
   referenceHeroShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,8,22,0.10)' },
-  referenceSkyGlow: { position: 'absolute', width: 390, height: 390, borderRadius: 195, top: 18, left: -18, backgroundColor: '#0755B8', opacity: 0.42, shadowColor: '#159DFF', shadowOpacity: 1, shadowRadius: 70, elevation: 20 },
-  referenceMoon: { position: 'absolute', width: 230, height: 230, borderRadius: 115, top: 88, alignSelf: 'center', backgroundColor: '#D9E8FF', shadowColor: '#70BFFF', shadowOpacity: 1, shadowRadius: 40, elevation: 22 },
-  referenceMoonShade: { position: 'absolute', width: 235, height: 235, borderRadius: 118, top: 74, left: '43%', backgroundColor: '#3B68A2', opacity: 0.23 },
-  referenceMountainBack: { position: 'absolute', bottom: 95, left: -70, width: 440, height: 245, backgroundColor: '#142D55', borderTopLeftRadius: 210, borderTopRightRadius: 230, transform: [{ rotate: '-12deg' }] },
-  referenceMountainFront: { position: 'absolute', bottom: 66, right: -115, width: 470, height: 230, backgroundColor: '#07162E', borderTopLeftRadius: 230, borderTopRightRadius: 220, transform: [{ rotate: '13deg' }] },
-  referenceRidgeLight: { position: 'absolute', bottom: 182, left: 14, width: 280, height: 2, backgroundColor: '#8CD9FF', opacity: 0.62, transform: [{ rotate: '-18deg' }], shadowColor: '#44B8FF', shadowOpacity: 1, shadowRadius: 9 },
-  referencePerson: { position: 'absolute', top: 235, alignSelf: 'center', width: 46, height: 105, alignItems: 'center' },
+  referenceSkyGlow: { position: 'absolute', width: 245, height: 245, borderRadius: 123, top: -34, right: -22, backgroundColor: '#0755B8', opacity: 0.42, shadowColor: '#159DFF', shadowOpacity: 1, shadowRadius: 55, elevation: 16 },
+  referenceMoon: { position: 'absolute', width: 112, height: 112, borderRadius: 56, top: 22, right: 31, backgroundColor: '#D9E8FF', shadowColor: '#70BFFF', shadowOpacity: 1, shadowRadius: 30, elevation: 14 },
+  referenceMoonShade: { position: 'absolute', width: 118, height: 118, borderRadius: 59, top: 17, right: 10, backgroundColor: '#3B68A2', opacity: 0.23 },
+  referenceMountainBack: { position: 'absolute', bottom: 8, left: -70, width: 300, height: 100, backgroundColor: '#142D55', borderTopLeftRadius: 130, borderTopRightRadius: 150, transform: [{ rotate: '-12deg' }] },
+  referenceMountainFront: { position: 'absolute', bottom: -4, right: -80, width: 300, height: 95, backgroundColor: '#07162E', borderTopLeftRadius: 150, borderTopRightRadius: 160, transform: [{ rotate: '13deg' }] },
+  referenceRidgeLight: { position: 'absolute', bottom: 76, left: 5, width: 180, height: 2, backgroundColor: '#8CD9FF', opacity: 0.62, transform: [{ rotate: '-18deg' }], shadowColor: '#44B8FF', shadowOpacity: 1, shadowRadius: 9 },
+  referencePerson: { position: 'absolute', top: 65, right: 72, width: 30, height: 68, alignItems: 'center' },
   referencePersonHead: { width: 15, height: 17, borderRadius: 8, backgroundColor: '#071326', borderWidth: 1, borderColor: '#6A9FCB' },
   referencePersonBody: { width: 30, height: 43, marginTop: 2, borderRadius: 10, backgroundColor: '#071326', borderWidth: 1, borderColor: '#315A86' },
   referencePersonLegLeft: { position: 'absolute', top: 57, left: 8, width: 10, height: 44, borderRadius: 5, backgroundColor: '#050D1D', transform: [{ rotate: '7deg' }] },
   referencePersonLegRight: { position: 'absolute', top: 57, right: 8, width: 10, height: 44, borderRadius: 5, backgroundColor: '#050D1D', transform: [{ rotate: '-7deg' }] },
-  referenceHeroTitle: { color: '#FFFFFF', fontSize: 32, lineHeight: 35, fontWeight: '900', fontFamily: 'sans-serif-rounded', textShadowColor: '#168BFF', textShadowRadius: 15, marginBottom: 7 },
-  referenceHeroCaption: { color: '#D7E9FF', fontSize: 14, lineHeight: 19, maxWidth: 245, marginBottom: 17 },
-  referenceCreateButton: { height: 62, borderRadius: 32, borderWidth: 1.5, borderColor: '#75D9FF', backgroundColor: '#006AFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.95, shadowRadius: 23, elevation: 15 },
+  referenceHeroTitle: { color: '#FFFFFF', fontSize: 22, lineHeight: 25, fontWeight: '900', fontFamily: 'sans-serif-rounded', textShadowColor: '#168BFF', textShadowRadius: 13, marginBottom: 5 },
+  referenceHeroCaption: { color: '#D7E9FF', fontSize: 12, lineHeight: 16, maxWidth: 190 },
+  referenceCreateButton: { height: 50, width: '100%', marginBottom: 17, borderRadius: 16, borderWidth: 1.5, borderColor: '#75D9FF', backgroundColor: '#006AFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.82, shadowRadius: 18, elevation: 10 },
   referencePlay: { color: '#FFFFFF', fontSize: 23, marginRight: 12 },
   referenceCreateButtonText: { color: '#FFFFFF', fontSize: 17, fontWeight: '800' },
   composerBack: { alignSelf: 'flex-start', paddingVertical: 9, paddingHorizontal: 12, borderRadius: 12, backgroundColor: 'rgba(4,24,58,0.95)', borderWidth: 1, borderColor: '#1765B2', marginBottom: 12 },
@@ -3399,8 +3421,8 @@ const COSMIC_OVERRIDES = {
   generationModalCard: { backgroundColor: '#04142D', borderColor: '#168BFF', borderRadius: 26, shadowColor: '#008CFF', shadowOpacity: 0.65, shadowRadius: 30, elevation: 20 },
   generationModalMark: { backgroundColor: '#063B82', borderColor: '#40C7FF' },
   generationModalMarkText: { color: '#C8F5FF' },
-  screen: { paddingTop: 12 },
-  screenTitle: { color: '#FFFFFF', fontSize: 30, lineHeight: 37, fontWeight: '900', fontFamily: 'sans-serif-rounded', marginTop: 8, marginBottom: 18, textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 13 },
+  screen: { paddingTop: 8 },
+  screenTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 31, fontWeight: '900', fontFamily: 'sans-serif-rounded', marginTop: 7, marginBottom: 15, textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 12 },
   galleryHeader: { marginBottom: 2 },
   galleryLimit: { color: '#A5C8EF', fontSize: 14, marginTop: 0, marginBottom: 12 },
   storageTrack: { height: 5, borderRadius: 3, overflow: 'hidden', backgroundColor: 'rgba(47,93,149,0.55)', marginTop: -6, marginBottom: 8 },
@@ -3450,14 +3472,14 @@ const COSMIC_OVERRIDES = {
   creditStackLeft: { left: '22%' },
   creditStackCenter: { left: '42%', bottom: 26 },
   creditStackRight: { right: '18%' },
-  creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#008DFF', borderWidth: 2, borderColor: '#62DFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.95, shadowRadius: 12, elevation: 8 },
-  creditCoinInner: { width: 43, height: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(190,245,255,0.75)', color: '#B8F4FF', textAlign: 'center', fontSize: 9, lineHeight: 9, overflow: 'hidden' },
-  creditStarBadge: { position: 'absolute', right: '24%', bottom: 8, width: 46, height: 46, borderRadius: 23, backgroundColor: '#006BFF', borderWidth: 2, borderColor: '#62DFFF', color: '#A7F2FF', textAlign: 'center', textAlignVertical: 'center', fontSize: 26, overflow: 'hidden', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
+  creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#F5A623', borderWidth: 2, borderColor: '#FFE08A', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB52E', shadowOpacity: 0.95, shadowRadius: 12, elevation: 8 },
+  creditCoinInner: { width: 43, height: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,241,190,0.85)', color: '#FFF0B0', textAlign: 'center', fontSize: 9, lineHeight: 9, overflow: 'hidden' },
+  creditStarBadge: { position: 'absolute', right: '24%', bottom: 8, width: 46, height: 46, borderRadius: 23, backgroundColor: '#D98B16', borderWidth: 2, borderColor: '#FFE08A', color: '#FFF0B0', textAlign: 'center', textAlignVertical: 'center', fontSize: 26, overflow: 'hidden', shadowColor: '#FFB52E', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
   creditIntro: { color: '#E2F1FF', fontSize: 15, lineHeight: 22, textAlign: 'center', marginHorizontal: 24, marginBottom: 20 },
   profileIdentity: { alignItems: 'center', paddingTop: 4, paddingBottom: 17 },
-  profileGuestAvatar: { width: 88, height: 88, borderRadius: 44, borderWidth: 2, borderColor: '#7898C9', backgroundColor: 'rgba(45,77,125,0.36)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 10 },
-  profileGuestHead: { width: 25, height: 25, borderRadius: 13, backgroundColor: '#8FAAD0', marginTop: 5 },
-  profileGuestBody: { width: 56, height: 31, borderTopLeftRadius: 29, borderTopRightRadius: 29, backgroundColor: '#8FAAD0', marginTop: 4 },
+  profileGuestAvatar: { width: 88, height: 88, borderRadius: 44, borderWidth: 2, borderColor: '#00B8FF', backgroundColor: 'rgba(0,91,180,0.20)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 10, shadowColor: '#00AFFF', shadowOpacity: 0.72, shadowRadius: 18, elevation: 8 },
+  profileGuestHead: { width: 25, height: 25, borderRadius: 13, backgroundColor: 'transparent', borderWidth: 2, borderColor: '#23BFFF', marginTop: 5 },
+  profileGuestBody: { width: 56, height: 31, borderTopLeftRadius: 29, borderTopRightRadius: 29, backgroundColor: 'transparent', borderWidth: 2, borderBottomWidth: 0, borderColor: '#23BFFF', marginTop: 4 },
   profileGuestName: { color: '#F3F7FF', fontSize: 18, fontWeight: '800', marginTop: 0 },
   profileGuestStatus: { color: '#A9BAD4', fontSize: 14, marginTop: 3 },
   profileVkButton: { height: 52, borderRadius: 15, backgroundColor: '#0877FF', borderWidth: 1, borderColor: '#62CFFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 18, shadowColor: '#008CFF', shadowOpacity: 0.45, shadowRadius: 14, elevation: 8 },
@@ -3501,6 +3523,12 @@ const COSMIC_OVERRIDES = {
   notificationButton: { backgroundColor: 'rgba(4,28,63,0.98)', borderColor: '#1765B2' },
   languageCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderColor: '#1765B2', borderRadius: 17 },
   version: { color: '#668BB7' },
+  featureSectionHeader: { marginTop: 2, marginBottom: 9 },
+  featureSectionTitle: { color: '#E5F2FF', fontSize: 17, fontWeight: '800' },
+  featureGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 10, marginBottom: 10 },
+  featureCard: { width: '48.5%', minHeight: 86, paddingVertical: 10, paddingHorizontal: 8, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,25,62,0.94)', borderWidth: 1, borderColor: 'rgba(35,130,226,0.55)', shadowColor: '#087BFF', shadowOpacity: 0.16, shadowRadius: 10, elevation: 3 },
+  featureIcon: { color: '#19C5FF', fontSize: 26, lineHeight: 30, textShadowColor: '#008CFF', textShadowRadius: 10, marginBottom: 3 },
+  featureText: { color: '#E5F2FF', fontSize: 13, lineHeight: 16, fontWeight: '700', textAlign: 'center' },
 };
 
 const styles = StyleSheet.create({
@@ -3551,8 +3579,8 @@ const styles = StyleSheet.create({
   introProgressTrack: { position: 'absolute', bottom: '5%', width: '86%', maxWidth: 300, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
   introProgressFill: { width: '40%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
   header: {
-    paddingHorizontal: 20,
-    paddingVertical: 17,
+    paddingHorizontal: 18,
+    paddingVertical: 11,
     backgroundColor: 'rgba(8,11,20,0.72)',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -3560,15 +3588,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#1B2434',
   },
-  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 15 },
-  brandLogoImage: { width: 48, height: 40 },
+  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 0 },
+  brandLogoImage: { width: 43, height: 42 },
   brandWordmark: { justifyContent: 'center' },
   brandMark: { width: 36, height: 36, borderRadius: 11, backgroundColor: '#102B5D', borderWidth: 1, borderColor: '#28B9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#087CFF', shadowOpacity: 0.8, shadowRadius: 9, elevation: 6 },
   brandMarkText: { color: '#7BE8FF', fontSize: 14, fontWeight: '900' },
-  logo: { color: WHITE, fontSize: 20, lineHeight: 21, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
-  logoSecond: { color: '#8DBBFF', fontSize: 20, lineHeight: 21, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
+  logo: { color: WHITE, fontSize: 18, lineHeight: 19, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
+  logoSecond: { color: '#8DBBFF', fontSize: 18, lineHeight: 19, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
   logoBlue: { color: BLUE },
-  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 15 },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 0 },
   notificationButton: { width: 42, height: 42, borderRadius: 13, borderWidth: 1, borderColor: '#263B5D', backgroundColor: '#101B30', alignItems: 'center', justifyContent: 'center', position: 'relative' },
   notificationIcon: { color: '#9CCBFF', fontSize: 23, fontWeight: '800' },
   notificationBadge: { position: 'absolute', top: -4, right: -4, minWidth: 17, height: 17, borderRadius: 9, backgroundColor: BLUE, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3 },
