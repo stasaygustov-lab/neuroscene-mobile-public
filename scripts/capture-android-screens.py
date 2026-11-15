@@ -15,8 +15,29 @@ def run(args, timeout=45, **kwargs):
     return subprocess.run(args, check=True, timeout=timeout, **kwargs)
 
 
+def assert_no_system_anr(screen_name):
+    """Fail fast instead of accepting Android's system ANR dialog as an app screen."""
+    root = hierarchy()
+    visible_text = " ".join(
+        (node.attrib.get("text", "") + " " + node.attrib.get("content-desc", "")).strip()
+        for node in root.iter("node")
+    ).lower()
+    markers = (
+        "system ui isn't responding",
+        "system ui is not responding",
+        "system ui не отвечает",
+        "системный интерфейс не отвечает",
+    )
+    if any(marker in visible_text for marker in markers):
+        raise RuntimeError(
+            f"Android System UI ANR dialog detected before {screen_name}; "
+            "this screenshot is not a valid app screen"
+        )
+
+
 def capture(name):
-    """Capture PNG directly from adb; avoid a second remote-file/pull round trip."""
+    """Capture PNG directly from adb; reject system ANR overlays first."""
+    assert_no_system_anr(name)
     destination = OUT / name
     last_error = None
 
@@ -120,9 +141,9 @@ def tap_text(label, fallback_x, fallback_y):
 
 
 # Let Android finish booting and the app complete its initial splash transition.
-time.sleep(8)
+time.sleep(15)
 capture("00-splash.png")
-time.sleep(5)
+time.sleep(8)
 capture("01-create.png")
 
 width, height = screen_size()
