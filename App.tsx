@@ -37,10 +37,10 @@ StyledText.defaultProps = {
   style: [{ fontFamily: 'sans-serif' }, StyledText.defaultProps?.style],
 };
 
-const BLUE = '#3978FF';
-const BG = '#080B14';
-const PANEL = '#111827';
-const MUTED = '#8994A8';
+const BLUE = '#168BFF';
+const BG = '#020713';
+const PANEL = '#071A34';
+const MUTED = '#9CB9D8';
 const WHITE = '#FFFFFF';
 
 const RECOMMENDED_PROMPTS = [
@@ -3627,6 +3627,16 @@ const COSMIC_OVERRIDES = {
   menuNotificationText: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
   menuText: { color: '#E5F2FF', fontSize: 14 },
   menuArrow: { color: '#54BFFF', fontSize: 25 },
+  ambientHorizon: { position: 'absolute', top: 112, left: 22, right: 22, height: 1, backgroundColor: 'rgba(73,158,255,0.12)' },
+  ambientStarOne: { position: 'absolute', top: '18%', left: '17%', width: 4, height: 4, borderRadius: 2, backgroundColor: '#9BEAFF', shadowColor: '#39AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
+  ambientStarTwo: { position: 'absolute', top: '43%', right: '13%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#70C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
+  ambientStarThree: { position: 'absolute', bottom: '19%', left: '28%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#A7E7FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
+  brandWordmark: { justifyContent: 'center', gap: 1 },
+  notificationBadgeText: { color: '#FFFFFF', fontSize: 10, fontWeight: '900' },
+  avatarText: { color: '#EAF5FF', fontSize: 15, fontWeight: '900' },
+  profileName: { color: '#FFFFFF', fontSize: 13, fontWeight: '800', letterSpacing: 1 },
+  purchaseDisabled: { opacity: 0.5, borderWidth: 1, borderColor: '#28527D' },
+  authDivider: { alignItems: 'center', marginTop: 8, marginBottom: 8 },
   version: { color: '#668BB7', fontSize: 11, letterSpacing: 1.3, textAlign: 'center', marginTop: 25 },
 };
 
