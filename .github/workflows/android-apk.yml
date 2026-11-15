@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     env:
-      EXPO_PUBLIC_API_URL: ${{ vars.EXPO_PUBLIC_API_URL }}
-      EXPO_PUBLIC_VK_CLIENT_ID: ${{ vars.EXPO_PUBLIC_VK_CLIENT_ID }}
+      EXPO_PUBLIC_API_URL: \${{ vars.EXPO_PUBLIC_API_URL }}
+      EXPO_PUBLIC_VK_CLIENT_ID: \${{ vars.EXPO_PUBLIC_VK_CLIENT_ID }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6
@@ -80,10 +80,10 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
-          target: google_apis
+          target: default
           arch: x86_64
-          profile: pixel_6
-          emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -camera-back none -camera-front none
+          profile: pixel_2
+          emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -camera-back none -camera-front none -memory 3072 -cores 2
           disable-animations: true
           emulator-boot-timeout: 600
           script: |
