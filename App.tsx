@@ -2183,6 +2183,10 @@ function CreateScreen({
       <View style={styles.referenceHero}>
         <View pointerEvents="none" style={StyleSheet.absoluteFill}>
           <View style={styles.referenceSkyGlow} />
+          <View style={styles.referenceMoonOrbit} />
+          <View style={styles.referenceStarA} />
+          <View style={styles.referenceStarB} />
+          <View style={styles.referenceStarC} />
           <View style={styles.referenceMoon} />
           <View style={styles.referenceMoonShade} />
           <View style={styles.referenceMountainBack} />
@@ -3894,6 +3898,18 @@ const REFERENCE_POLISH = {
   brandMarkLargeText: { color: '#D4F8FF', fontSize: 19, textShadowColor: '#008CFF', textShadowRadius: 13 },
   logo: { fontSize: 19, lineHeight: 20, textShadowColor: '#247DFF', textShadowRadius: 13 },
   logoSecond: { fontSize: 19, lineHeight: 20, textShadowColor: '#247DFF', textShadowRadius: 13 },
+  introTitle: { bottom: '27%' },
+  introTagline: { bottom: '13%' },
+  introPcTag: { bottom: '8%' },
+  introBenefits: { bottom: '3.2%' },
+  introProgressTrack: { bottom: '0.8%' },
+  referenceMoonOrbit: { position: 'absolute', width: 294, height: 294, borderRadius: 147, top: 38, right: -16, borderWidth: 1.2, borderColor: 'rgba(153,218,255,0.34)', transform: [{ rotate: '-18deg' }] },
+  referenceStarA: { position: 'absolute', top: 52, left: '54%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#C6EDFF', shadowColor: '#49BFFF', shadowOpacity: 1, shadowRadius: 10 },
+  referenceStarB: { position: 'absolute', top: 136, left: '18%', width: 2, height: 2, borderRadius: 1, backgroundColor: '#A7E7FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 8 },
+  referenceStarC: { position: 'absolute', top: 92, right: '9%', width: 2, height: 2, borderRadius: 1, backgroundColor: '#D7F4FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 9 },
+  referenceHero: { width: '100%', maxWidth: 520, alignSelf: 'center' },
+  creditIllustration: { width: '100%', maxWidth: 420, alignSelf: 'center' },
+  packageCard: { width: '100%', maxWidth: 520, alignSelf: 'center' },
   profileGuestAvatar: { width: 82, height: 82, borderRadius: 41, borderWidth: 2, borderColor: '#6688B6', backgroundColor: 'rgba(80,119,177,0.16)', shadowColor: '#00AFFF', shadowOpacity: 0.25, shadowRadius: 12, elevation: 4 },
   profileGuestName: { color: '#F5FAFF', fontSize: 18, fontWeight: '900', marginTop: 12, maxWidth: '92%', textAlign: 'center' },
   profileGuestStatus: { color: '#7FE0BC', fontSize: 12, marginTop: 5, fontWeight: '800' },
