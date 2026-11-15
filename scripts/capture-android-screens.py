@@ -35,9 +35,28 @@ def assert_no_system_anr(screen_name):
         )
 
 
+def assert_app_foreground(screen_name):
+    """Reject launcher/system windows even when no ANR dialog is present."""
+    state = subprocess.check_output(
+        ["adb", "shell", "dumpsys", "activity", "activities"],
+        text=True,
+        timeout=30,
+    )
+    resumed_lines = [
+        line for line in state.splitlines()
+        if "mResumedActivity" in line or "topResumedActivity" in line
+    ]
+    if not any("com.neuroscene.app" in line for line in resumed_lines):
+        raise RuntimeError(
+            f"NeuroScene is not the resumed Android activity before {screen_name}; "
+            f"resumed activity: {' | '.join(resumed_lines) or 'not found'}"
+        )
+
+
 def capture(name):
-    """Capture PNG directly from adb; reject system ANR overlays first."""
+    """Capture PNG directly from adb; reject system ANR and non-app screens."""
     assert_no_system_anr(name)
+    assert_app_foreground(name)
     destination = OUT / name
     last_error = None
 
