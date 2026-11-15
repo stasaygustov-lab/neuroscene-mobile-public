@@ -64,37 +64,3 @@ jobs:
           path: android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 7
-
-  visual-smoke-test:
-    name: Capture Android UI screens
-    needs: build-android-apk
-    runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/download-artifact@v4
-        with:
-          name: neurosScene-preview-apk
-          path: artifacts
-      - name: Start Android emulator and capture screens
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 35
-          target: google_apis
-          arch: x86_64
-          profile: pixel_6
-          emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -camera-back none -camera-front none
-          disable-animations: true
-          emulator-boot-timeout: 600
-          script: |
-            set -eu
-            adb wait-for-device
-            adb install -r artifacts/app-release.apk
-            adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 1
-            python3 scripts/capture-android-screens.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: neurosScene-visual-screenshots
-          path: screenshots/*.png
-          if-no-files-found: error
-          retention-days: 7
