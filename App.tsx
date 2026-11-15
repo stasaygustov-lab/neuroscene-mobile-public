@@ -2518,23 +2518,23 @@ function GalleryScreen({
                 <Text style={styles.galleryFavoriteText}>{favoriteIds.includes(String(item.job_id)) ? '★' : '☆'}</Text>
               </TouchableOpacity>
             </View>
-            <Text style={styles.galleryDate}>
+            <Text style={[styles.galleryDate, { display: 'none' }]}>
               {item.created_at
                 ? new Date(item.created_at).toLocaleString('ru-RU')
                 : (uiText(language, 'Date unavailable', 'Дата не указана'))}
             </Text>
             {!!item.expires_at && (
-              <Text style={[styles.galleryDate, item.expires_soon && { color: '#FFB36B' }]}>
+              <Text style={[styles.galleryDate, { display: 'none' }, item.expires_soon && { color: '#FFB36B' }]}>
                 {item.expires_soon
                   ? (uiText(language, 'Scheduled for deletion: ', 'Скоро удалится: '))
                   : (uiText(language, 'Auto-delete date: ', 'Удаление через 30 дней: '))}
                 {new Date(item.expires_at).toLocaleDateString('ru-RU')}
               </Text>
             )}
-            <Text style={styles.galleryPrompt} numberOfLines={3}>
+            <Text style={[styles.galleryPrompt, { display: 'none' }]} numberOfLines={3}>
               {item.prompt || (uiText(language, 'No prompt', 'Без описания'))}
             </Text>
-            <View style={styles.galleryActions}>
+            <View style={[styles.galleryActions, { display: 'none' }]}>
               <TouchableOpacity activeOpacity={0.86}
                 style={styles.galleryActionButton}
                 disabled={!item.prompt}
