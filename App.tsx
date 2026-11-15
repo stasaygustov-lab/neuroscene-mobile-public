@@ -1852,16 +1852,13 @@ export default function App() {
           </>
         ) : (
           <>
-          <View style={styles.profileIdentity}>
-            <View style={styles.profileGuestAvatar}><View style={styles.profileGuestHead} /><View style={styles.profileGuestBody} /></View>
-            <Text style={styles.profileGuestName}>Гость</Text>
-            <Text style={styles.profileGuestStatus}>Не в сети</Text>
-            <Text style={styles.profileGuestStatusCaption}>Твоя творческая студия на компьютере</Text>
-          </View>
-          <View style={styles.loginBrandLockup}>
-            <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
-            <Text style={styles.authBrandTitle}>Нейро{ '\n' }Сцена</Text>
-          </View>
+          <View style={styles.loginScreen}>
+            <View style={styles.loginBrandLockup}>
+              <View style={styles.loginMarkOuter}><View style={styles.loginMarkInner}><Text style={styles.authBrandMarkText}>Н+С</Text></View></View>
+              <Text style={styles.authBrandTitle}>Нейро{'\\n'}Сцена</Text>
+            </View>
+            <Text style={styles.loginTagline}>Магия ИИ в твоих руках</Text>
+            <Text style={styles.loginPcLabel}>ТОЛЬКО НА ТВОЁМ ПК</Text>
           <TouchableOpacity activeOpacity={0.86} style={styles.profileVkButton} onPress={handleVkLogin} disabled={authBusy}>
             <Text style={styles.profileVkMark}>ᴠκ</Text>
             <Text style={styles.profileVkText}>Войти через VK ID</Text>
@@ -1871,6 +1868,7 @@ export default function App() {
           </TouchableOpacity>
           <Text style={styles.loginLegalText}>Продолжая, вы подтверждаете ознакомление с условиями использования и политикой конфиденциальности.</Text>
           <View pointerEvents="none" style={styles.loginBottomWave}><View style={styles.loginBottomWaveLine} /></View>
+          </View>
           {profileEmailOpen && <View style={styles.authCard}>
             <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
             <Text style={styles.authBrandTitle}>Нейро{ '\n' }Сцена</Text>
@@ -2084,14 +2082,26 @@ export default function App() {
           <Animated.View style={[styles.introOrbitOuter, { transform: [{ perspective: 900 }, { rotateX: '68deg' }, { rotateZ: introRotateZ }] }]} />
           <Animated.View style={[styles.introOrbitInner, { transform: [{ perspective: 900 }, { rotateY: '64deg' }, { rotateZ: introRotateReverse }] }]} />
           <Animated.View style={[styles.introLogoHalo, { transform: [{ scale: introPulseScale }] }]} />
+          <Animated.View style={[styles.introEnergyRing, styles.introEnergyRingOuter, { transform: [{ rotate: introRotateReverse }] }]} />
+          <Animated.View style={[styles.introEnergyRing, styles.introEnergyRingInner, { transform: [{ rotate: introRotateZ }] }]} />
           <Animated.View style={[styles.introReelWrap, { transform: [{ scale: introScale }] }]}>
             <View style={styles.introLogoPanel}>
+              <View style={styles.introLogoExtrusion}><Text style={styles.introLogoExtrusionText}>Н+С</Text></View>
               <Text style={styles.introReelPlay}>Н+С</Text>
+              <View style={styles.introLogoGlint} />
             </View>
           </Animated.View>
-          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{'\n'}Сцена</Animated.Text>
+          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{'\\n'}Сцена</Animated.Text>
           <View style={styles.introAccentLine} />
-          <Text style={styles.introTagline}>Магия ИИ{'\n'}в твоих руках</Text>
+          <Text style={styles.introTagline}>Магия ИИ{'\\n'}в твоих руках</Text>
+          <Text style={styles.introPcTag}>Только на твоём ПК</Text>
+          <View style={styles.introBenefits}>
+            <Text style={styles.introBenefit}>Локальная генерация</Text>
+            <View style={styles.introBenefitDivider} />
+            <Text style={styles.introBenefit}>Твоё творчество</Text>
+            <View style={styles.introBenefitDivider} />
+            <Text style={styles.introBenefit}>Полный контроль</Text>
+          </View>
           <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
         </Animated.View>
       )}
@@ -3796,6 +3806,69 @@ const REFERENCE_POLISH = {
   creditHistoryEmptyIcon: { color: '#5BCBFF', fontSize: 28, marginBottom: 7 },
   creditHistoryEmptyTitle: { color: '#E6F4FF', fontSize: 14, fontWeight: '800', marginBottom: 3 },
   // Profile, notifications and all secondary screens
+  // Reference-matched cinematic composition refinements
+  introOverlay: { backgroundColor: '#01091D' },
+  introOrbitOuter: { width: 354, height: 354, borderRadius: 177, borderWidth: 2.5, borderColor: 'rgba(70,177,255,0.82)', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 34, elevation: 20 },
+  introOrbitInner: { width: 286, height: 286, borderRadius: 143, borderWidth: 2, borderColor: 'rgba(153,225,255,0.64)' },
+  introEnergyRing: { position: 'absolute', borderRadius: 200, borderWidth: 1, borderColor: 'rgba(78,190,255,0.44)', shadowColor: '#28AFFF', shadowOpacity: 0.9, shadowRadius: 18, elevation: 10 },
+  introEnergyRingOuter: { width: 390, height: 260, borderRadius: 200 },
+  introEnergyRingInner: { width: 320, height: 220, borderRadius: 170, borderColor: 'rgba(138,220,255,0.30)' },
+  introLogoHalo: { width: 310, height: 270, borderRadius: 150, backgroundColor: '#0756C5', opacity: 0.42, shadowRadius: 78 },
+  introReelWrap: { top: '24%', width: 260, height: 205 },
+  introLogoPanel: { width: 224, height: 172, borderRadius: 36, borderWidth: 2, borderColor: '#A6E9FF', backgroundColor: 'rgba(4,35,84,0.88)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 34, elevation: 24, overflow: 'hidden' },
+  introLogoExtrusion: { position: 'absolute', top: 8, left: 0, right: 0, alignItems: 'center' },
+  introLogoExtrusionText: { color: '#0756B7', fontSize: 66, lineHeight: 78, fontWeight: '900', letterSpacing: -4, textShadowColor: '#001B50', textShadowRadius: 5 },
+  introLogoGlint: { position: 'absolute', top: 12, left: 22, right: 22, height: 2, backgroundColor: 'rgba(226,250,255,0.82)', shadowColor: '#FFFFFF', shadowOpacity: 1, shadowRadius: 10 },
+  introReelPlay: { color: '#D9F8FF', fontSize: 68, lineHeight: 82, fontWeight: '900', letterSpacing: -4, textShadowColor: '#00AFFF', textShadowRadius: 22, elevation: 12 },
+  introTitle: { bottom: '23%', fontSize: 43, lineHeight: 47, letterSpacing: 0.8 },
+  introTagline: { bottom: '12%', fontSize: 16, lineHeight: 22 },
+  introPcTag: { position: 'absolute', bottom: '8.2%', color: '#73D8FF', fontSize: 11, letterSpacing: 2, fontWeight: '900', textShadowColor: '#087BFF', textShadowRadius: 10 },
+  introBenefits: { position: 'absolute', bottom: '2.2%', width: '92%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
+  introBenefit: { color: '#91BCEB', fontSize: 9, fontWeight: '700', letterSpacing: 0.2 },
+  introBenefitDivider: { width: 3, height: 3, borderRadius: 2, backgroundColor: '#4FCBFF' },
+  introProgressTrack: { bottom: '0.7%', height: 3, width: '72%' },
+  introProgressFill: { height: 3, width: '48%' },
+  loginScreen: { flex: 1, minHeight: 520, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 22, paddingTop: 22, paddingBottom: 34, overflow: 'hidden' },
+  loginBrandLockup: { alignItems: 'center', justifyContent: 'center', marginTop: 8, marginBottom: 12 },
+  loginMarkOuter: { width: 112, height: 112, borderRadius: 56, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: 'rgba(93,207,255,0.88)', backgroundColor: 'rgba(3,36,91,0.58)', shadowColor: '#008CFF', shadowOpacity: 0.95, shadowRadius: 32, elevation: 18 },
+  loginMarkInner: { width: 88, height: 88, borderRadius: 44, alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderColor: '#B0EDFF', backgroundColor: 'rgba(8,75,158,0.86)' },
+  authBrandMarkText: { color: '#E3FAFF', fontSize: 26, fontWeight: '900', textShadowColor: '#00AFFF', textShadowRadius: 18 },
+  authBrandTitle: { color: '#FFFFFF', fontSize: 35, lineHeight: 37, fontWeight: '900', textAlign: 'center', letterSpacing: 0.6, textShadowColor: '#087BFF', textShadowRadius: 20, marginTop: 14 },
+  loginTagline: { color: '#C5E3FF', fontSize: 15, fontWeight: '600', letterSpacing: 0.3, marginBottom: 7, textAlign: 'center' },
+  loginPcLabel: { color: '#65CFFF', fontSize: 10, fontWeight: '900', letterSpacing: 2.1, marginBottom: 27 },
+  profileVkButton: { width: '100%', maxWidth: 350, height: 62, borderRadius: 18, marginBottom: 13 },
+  profileEmailButton: { width: '100%', maxWidth: 350, minHeight: 56, borderRadius: 17, marginBottom: 13 },
+  loginLegalText: { maxWidth: 330, textAlign: 'center', color: '#8EACD0', fontSize: 10, lineHeight: 15, marginTop: 4, marginBottom: 24 },
+  loginBottomWave: { left: -32, right: -32, bottom: -12, height: 92, borderTopLeftRadius: 180, borderTopRightRadius: 180, backgroundColor: 'rgba(0,91,190,0.12)', borderTopColor: 'rgba(74,190,255,0.52)' },
+  loginBottomWaveLine: { top: 0, left: 32, right: 32, height: 2, backgroundColor: '#38BFFF', shadowColor: '#008CFF', shadowOpacity: 1, shadowRadius: 18 },
+  referenceHero: { height: 350, minHeight: 350, marginTop: 0, marginBottom: 12, overflow: 'hidden', backgroundColor: '#020B1D' },
+  referenceSkyGlow: { width: 365, height: 365, borderRadius: 183, top: 42, right: -46, opacity: 0.72, shadowOpacity: 1, shadowRadius: 72 },
+  referenceMoon: { width: 258, height: 258, borderRadius: 129, top: 55, right: 2, backgroundColor: '#E7F1FF', shadowOpacity: 1, shadowRadius: 42, elevation: 20 },
+  referenceMoonShade: { width: 266, height: 266, borderRadius: 133, top: 48, right: -10, opacity: 0.24 },
+  referencePerson: { top: 180, right: 112, transform: [{ scale: 1.28 }] },
+  referenceMountainBack: { bottom: 0, left: -52, width: 450, height: 150 },
+  referenceMountainFront: { bottom: -10, right: -84, width: 390, height: 132 },
+  referenceRidgeLight: { bottom: 108, left: 0, width: 245, height: 2 },
+  galleryTabs: { minHeight: 38, padding: 3, marginBottom: 10, borderRadius: 14, backgroundColor: 'rgba(5,23,54,0.92)', borderWidth: 1, borderColor: 'rgba(65,145,220,0.42)' },
+  galleryTab: { minHeight: 32, paddingVertical: 6, borderRadius: 10 },
+  galleryCard: { width: '48.5%', padding: 3, marginTop: 5, borderRadius: 12, backgroundColor: 'rgba(5,20,46,0.72)', borderWidth: 1, borderColor: 'rgba(54,130,205,0.42)' },
+  videoFrame: { height: 112, borderRadius: 9 },
+  videoPlayer: { height: 112, borderRadius: 9 },
+  galleryDuration: { position: 'absolute', right: 6, bottom: 6, color: '#FFFFFF', backgroundColor: 'rgba(0,8,22,0.78)', paddingHorizontal: 6, paddingVertical: 3, borderRadius: 5, fontSize: 10, fontWeight: '800' },
+  galleryLimit: { color: '#BBD9FA', fontSize: 12, textAlign: 'center', marginTop: 2, marginBottom: 12 },
+  creditIllustration: { height: 156, marginBottom: 3 },
+  creditCoin: { width: 72, height: 22, marginTop: -4, backgroundColor: '#168EFF', borderColor: '#B0F0FF', shadowOpacity: 1, shadowRadius: 17, elevation: 12 },
+  creditCoinInner: { width: 48, height: 13, lineHeight: 12, fontSize: 11, borderColor: '#E4FAFF' },
+  creditStackLeft: { left: '18%' },
+  creditStackCenter: { left: '41%', bottom: 30 },
+  creditStackRight: { right: '15%' },
+  packageCard: { minHeight: 58, paddingVertical: 9, paddingHorizontal: 14, borderRadius: 15, backgroundColor: 'rgba(6,24,54,0.96)', borderColor: 'rgba(70,139,205,0.56)' },
+  packageCardPopular: { borderWidth: 2, borderColor: '#6BE0FF', backgroundColor: 'rgba(5,59,119,0.98)', shadowColor: '#008CFF', shadowOpacity: 0.72, shadowRadius: 20, elevation: 12, transform: [{ scale: 1.018 }] },
+  creditsTitle: { fontSize: 28, letterSpacing: 0.3 },
+  profileGuestAvatar: { width: 88, height: 88, borderRadius: 44, borderColor: '#6AD7FF', backgroundColor: 'rgba(0,91,180,0.22)', shadowOpacity: 0.72, shadowRadius: 24 },
+  profileMenuCard: { paddingHorizontal: 14, paddingVertical: 4, borderRadius: 18, backgroundColor: 'rgba(4,17,40,0.97)', borderColor: 'rgba(66,157,230,0.62)' },
+  menuItem: { minHeight: 50, paddingHorizontal: 12, paddingVertical: 11, borderBottomColor: 'rgba(75,145,205,0.30)' },
+  menuText: { color: '#E6F3FF', fontSize: 14, fontWeight: '700' },
   profileGuestAvatar: { width: 82, height: 82, borderRadius: 41, borderWidth: 2, borderColor: '#6688B6', backgroundColor: 'rgba(80,119,177,0.16)', shadowColor: '#00AFFF', shadowOpacity: 0.25, shadowRadius: 12, elevation: 4 },
   profileGuestName: { color: '#F5FAFF', fontSize: 18, fontWeight: '900', marginTop: 12, maxWidth: '92%', textAlign: 'center' },
   profileGuestStatus: { color: '#7FE0BC', fontSize: 12, marginTop: 5, fontWeight: '800' },
