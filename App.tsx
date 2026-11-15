@@ -2343,11 +2343,15 @@ function CreateScreen({
       </View>
 
       <View style={styles.costCard}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={styles.costLabel}>{uiText(language, 'GENERATION COST', 'СТОИМОСТЬ ГЕНЕРАЦИИ')}</Text>
           <Text style={styles.costDescription}>
             {uiText(language, 'Generation pricing is not configured yet', 'Расчёт стоимости ещё не подключён')}
           </Text>
+        </View>
+        <View style={styles.costBalance}>
+          <Text style={styles.costBalanceLabel}>БАЛАНС</Text>
+          <Text style={styles.costBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
         </View>
         <Text style={styles.costIcon}>✦</Text>
       </View>
@@ -2427,7 +2431,7 @@ function CreateScreen({
           <View style={styles.generationModalCard}>
             <View style={styles.generationModalMark}><Text style={styles.generationModalMarkText}>Н+С</Text></View>
             <ActivityIndicator color={BLUE} size="large" style={{ marginTop: 22 }} />
-            <Text style={styles.generationModalTitle}>Идёт генерация видео</Text>
+            <Text style={styles.generationModalTitle}>НейроСцена создаёт видео</Text>
             <Text style={styles.generationModalDescription}>{jobMessage || 'Подготавливаем генерацию. Пожалуйста, подождите.'}</Text>
             <Text style={styles.generationModalHint}>Не закрывайте приложение во время генерации</Text>
           </View>
@@ -3712,6 +3716,9 @@ const REFERENCE_POLISH = {
   costLabel: { color: '#8FB9E3', fontSize: 11, letterSpacing: 1.2, fontWeight: '900' },
   costDescription: { color: '#F2F8FF', fontSize: 14, lineHeight: 20, marginTop: 7, fontWeight: '700' },
   costIcon: { color: '#65D8FF', fontSize: 28, textShadowColor: '#168BFF', textShadowRadius: 12, marginLeft: 12 },
+  costBalance: { minWidth: 70, alignItems: 'flex-end', justifyContent: 'center', paddingLeft: 9, marginLeft: 8, borderLeftWidth: 1, borderLeftColor: 'rgba(70,145,211,0.36)' },
+  costBalanceLabel: { color: '#85B7E5', fontSize: 9, fontWeight: '900', letterSpacing: 1 },
+  costBalanceValue: { color: '#F4FAFF', fontSize: 16, fontWeight: '900', marginTop: 4 },
   createButton: { minHeight: 62, borderRadius: 19, backgroundColor: '#0877F9', borderColor: '#8AE5FF', shadowColor: '#008CFF', shadowOpacity: 0.62, shadowRadius: 22, elevation: 11 },
   disabledButton: { opacity: 0.48 },
   generationModalBackdrop: { backgroundColor: 'rgba(0,5,17,0.93)', paddingHorizontal: 22 },
