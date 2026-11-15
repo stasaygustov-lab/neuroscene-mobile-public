@@ -1971,7 +1971,7 @@ export default function App() {
         <View style={styles.ambientStarTwo} />
         <View style={styles.ambientStarThree} />
       </View>
-      <StatusBar style="light" hidden={showIntro} />
+      <StatusBar style="light" hidden={false} />
 
       {tab === 'Create' && <View style={styles.header}>
         <View style={styles.brandRow}>
