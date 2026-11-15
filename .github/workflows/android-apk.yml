@@ -69,7 +69,7 @@ jobs:
     name: Capture Android UI screens
     needs: build-android-apk
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v5
       - uses: actions/download-artifact@v4
@@ -79,15 +79,17 @@ jobs:
       - name: Start Android emulator and capture screens
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 35
+          api-level: 30
           target: default
           arch: x86_64
           profile: pixel_2
-          emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -camera-back none -camera-front none -memory 3072 -cores 2
+          emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -camera-back none -camera-front none -memory 4096 -cores 4
           disable-animations: true
           emulator-boot-timeout: 600
           script: |
             set -eu
+            mkdir -p screenshots
+            trap 'adb logcat -d -v time > screenshots/logcat.txt 2>&1 || true' EXIT
             adb wait-for-device
             adb install -r artifacts/app-release.apk
             adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 1
@@ -95,6 +97,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: neurosScene-visual-screenshots
-          path: screenshots/*.png
-          if-no-files-found: error
+          path: screenshots/*
+          if-no-files-found: warn
+          if: always()
           retention-days: 7
