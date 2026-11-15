@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""Capture NeuroScene Android smoke-test screenshots using adb."""
+"""Android UI smoke test: assert real app content, preserve diagnostics."""
 from pathlib import Path
-import re
 import hashlib
 import subprocess
 import time
@@ -14,108 +13,90 @@ OUT.mkdir(parents=True, exist_ok=True)
 def run(args, timeout=45, **kwargs):
     return subprocess.run(args, check=True, timeout=timeout, **kwargs)
 
+def adb(*args, timeout=30):
+    return subprocess.check_output(["adb", *args], text=True, timeout=timeout, stderr=subprocess.STDOUT)
+
+def dump_hierarchy():
+    run(["adb", "shell", "uiautomator", "dump", f"{REMOTE}/window.xml"], timeout=60,
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    raw = adb("shell", "cat", f"{REMOTE}/window.xml")
+    (OUT / "window.xml").write_text(raw, encoding="utf-8")
+    root = ET.fromstring(raw)
+    return root, " ".join(
+        " ".join((n.attrib.get("text", ""), n.attrib.get("content-desc", ""))).strip()
+        for n in root.iter("node")
+    )
+
+def save_diagnostics(tag):
+    try:
+        log = adb("logcat", "-d", "-v", "threadtime", "-t", "5000", timeout=60)
+        (OUT / f"logcat-{tag}.txt").write_text(log, encoding="utf-8")
+    except Exception as exc:
+        (OUT / f"logcat-{tag}.txt").write_text(f"logcat collection failed: {exc}", encoding="utf-8")
+
+def wait_for_text(expected, timeout=35):
+    deadline = time.time() + timeout
+    last = ""
+    while time.time() < deadline:
+        try:
+            _, last = dump_hierarchy()
+            if expected in last:
+                return last
+            if "isn't responding" in last or "не отвечает" in last.lower():
+                raise RuntimeError(f"Android ANR dialog detected: {last[:1200]}")
+        except RuntimeError:
+            raise
+        except Exception:
+            pass
+        time.sleep(2)
+    save_diagnostics("failure")
+    raise RuntimeError(f"Expected visible UI text {expected!r} not found within {timeout}s. Last hierarchy: {last[:2000]}")
+
 def capture(name):
     remote = f"{REMOTE}/{name}"
-    run(["adb", "shell", "screencap", "-p", remote], timeout=45)
-    run(["adb", "pull", remote, str(OUT / name)], timeout=45)
+    run(["adb", "shell", "screencap", "-p", remote])
+    run(["adb", "pull", remote, str(OUT / name)])
     print(f"Captured {name}", flush=True)
 
-def screen_size():
-    value = subprocess.check_output(["adb", "shell", "wm", "size"], text=True, timeout=15)
-    match = re.search(r"(\d+)x(\d+)", value)
-    if not match:
-        raise RuntimeError(f"Cannot read emulator screen size: {value}")
-    return int(match.group(1)), int(match.group(2))
+def tap_text(label):
+    root, _ = dump_hierarchy()
+    matches = []
+    for node in root.iter("node"):
+        if node.attrib.get("text") == label or node.attrib.get("content-desc") == label:
+            bounds = [int(x) for x in node.attrib["bounds"].replace("][", ",").strip("[]").split(",")]
+            matches.append((bounds[3], bounds))
+    if not matches:
+        raise RuntimeError(f"Navigation control {label!r} not found in accessibility hierarchy")
+    _, b = max(matches, key=lambda x: x[0])
+    run(["adb", "shell", "input", "tap", str((b[0]+b[2])//2), str((b[1]+b[3])//2)])
 
-def hierarchy():
-    run(
-        ["adb", "shell", "uiautomator", "dump", f"{REMOTE}/window.xml"],
-        timeout=50,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-    )
-    raw = subprocess.check_output(
-        ["adb", "shell", "cat", f"{REMOTE}/window.xml"],
-        text=True,
-        timeout=15,
-    )
-    return ET.fromstring(raw)
-
-def tap_text(label, fallback_x, fallback_y):
-    try:
-        root = hierarchy()
-        candidates = [
-            node for node in root.iter("node")
-            if node.attrib.get("text") == label
-            or node.attrib.get("content-desc") == label
-        ]
-        if candidates:
-            # Tab labels also appear as screen headings. Select the lowest
-            # matching text node so duplicate labels resolve to the bottom nav.
-            def bottom_edge(node):
-                bounds = list(map(
-                    int,
-                    node.attrib["bounds"].replace("][", ",").strip("[]").split(","),
-                ))
-                return bounds[3], bounds
-
-            _, bounds = max((bottom_edge(node) for node in candidates), key=lambda item: item[0])
-            x = (bounds[0] + bounds[2]) // 2
-            y = (bounds[1] + bounds[3]) // 2
-            run(["adb", "shell", "input", "tap", str(x), str(y)], timeout=15)
-            print(
-                f"Tapped {label!r} using lowest accessibility match "
-                f"({len(candidates)} matching node(s))",
-                flush=True,
-            )
-            return
-    except Exception as exc:
-        print(f"Accessibility lookup for {label!r} unavailable; using coordinate fallback: {exc}", flush=True)
-    run(["adb", "shell", "input", "tap", str(fallback_x), str(fallback_y)], timeout=15)
-
-# The app splash animation is intentionally left enabled.
-time.sleep(1)
+# Launch and wait for actual splash, not just an arbitrary screenshot.
+wait_for_text("Нейро", timeout=45)
 capture("00-splash.png")
-time.sleep(5)
+wait_for_text("Создать видео", timeout=45)
 capture("01-create.png")
 
-width, height = screen_size()
-nav_y = height - 180
-for label, index, filename in [
-    ("Галерея", 1, "02-gallery.png"),
-    ("Кредиты", 2, "03-credits.png"),
-    ("Профиль", 3, "04-profile.png"),
+for label, expected, filename in [
+    ("Галерея", "Галерея", "02-gallery.png"),
+    ("Кредиты", "Кредиты", "03-credits.png"),
+    ("Профиль", "Профиль", "04-profile.png"),
 ]:
-    x = width * (2 * index + 1) // 8
-    tap_text(label, x, nav_y)
-    time.sleep(3)
+    tap_text(label)
+    wait_for_text(expected, timeout=25)
     capture(filename)
     if label == "Профиль":
-        tap_text("Войти по email", width // 2, int(height * 0.70))
-        time.sleep(2)
+        wait_for_text("Войти по email", timeout=15)
+        tap_text("Войти по email")
+        wait_for_text("ВОЙТИ ПО EMAIL", timeout=20)
         capture("05-email-login.png")
 
-required = [
-    "00-splash.png",
-    "01-create.png",
-    "02-gallery.png",
-    "03-credits.png",
-    "04-profile.png",
-    "05-email-login.png",
-]
-missing = [name for name in required if not (OUT / name).is_file() or (OUT / name).stat().st_size < 1000]
-if missing:
-    raise SystemExit(f"Missing or invalid screenshots: {missing}")
-
-hashes = {
-    name: hashlib.sha256((OUT / name).read_bytes()).hexdigest()
-    for name in required
-}
-duplicates = {}
-for name, digest in hashes.items():
-    duplicates.setdefault(digest, []).append(name)
-duplicates = [names for names in duplicates.values() if len(names) > 1]
-if duplicates:
-    raise SystemExit(f"Some screen captures are identical; navigation may have failed: {duplicates}")
-
-print(f"Successfully captured {len(required)} distinct screenshots", flush=True)
+save_diagnostics("success")
+required = ["00-splash.png", "01-create.png", "02-gallery.png", "03-credits.png", "04-profile.png", "05-email-login.png"]
+for name in required:
+    path = OUT / name
+    if not path.is_file() or path.stat().st_size < 1000:
+        raise RuntimeError(f"Missing/invalid screenshot: {name}")
+hashes = {name: hashlib.sha256((OUT/name).read_bytes()).hexdigest() for name in required}
+if len(set(hashes.values())) != len(required):
+    raise RuntimeError(f"Duplicate screen captures: {hashes}")
+print("PASS: all six screens contain their expected visible text; diagnostics saved.", flush=True)
