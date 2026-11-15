@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Animated, Modal, PanResponder } from 'react-native';
 import { useEvent } from 'expo';
 import {
@@ -132,27 +132,7 @@ async function readResponse(response: Response): Promise<any> {
 }
 
 function ScreenTransition({ children }: { children: any }) {
-  const opacity = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(9)).current;
-
-  useEffect(() => {
-    const animation = Animated.parallel([
-      Animated.timing(opacity, { toValue: 1, duration: 240, useNativeDriver: true }),
-      Animated.timing(translateY, { toValue: 0, duration: 260, useNativeDriver: true }),
-    ]);
-    animation.start();
-    return () => {
-      animation.stop();
-      opacity.stopAnimation();
-      translateY.stopAnimation();
-    };
-  }, [opacity, translateY]);
-
-  return (
-    <Animated.View style={{ flex: 1, opacity, transform: [{ translateY }] }}>
-      {children}
-    </Animated.View>
-  );
+  return <View style={{ flex: 1 }}>{children}</View>;
 }
 
 export default function App() {
@@ -234,37 +214,7 @@ export default function App() {
   const [faqItems, setFaqItems] = useState<any[]>([]);
   const [faqLoading, setFaqLoading] = useState(false);
   const [faqError, setFaqError] = useState('');
-  const [showIntro, setShowIntro] = useState(true);
-  const introOpacity = useRef(new Animated.Value(0)).current;
-  const introScale = useRef(new Animated.Value(0.72)).current;
-  const introRotation = useRef(new Animated.Value(0)).current;
-  const introPulse = useRef(new Animated.Value(0)).current;
-  const introRotateZ = introRotation.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] });
-  const introRotateReverse = introRotation.interpolate({ inputRange: [0, 1], outputRange: ['360deg', '0deg'] });
-  const introPulseScale = introPulse.interpolate({ inputRange: [0, 1], outputRange: [0.96, 1.045] });
 
-  useEffect(() => {
-    const orbit = Animated.loop(Animated.timing(introRotation, {
-      toValue: 1, duration: 11500, useNativeDriver: true,
-    }));
-    const pulse = Animated.loop(Animated.sequence([
-      Animated.timing(introPulse, { toValue: 1, duration: 1750, useNativeDriver: true }),
-      Animated.timing(introPulse, { toValue: 0, duration: 1750, useNativeDriver: true }),
-    ]));
-    orbit.start();
-    pulse.start();
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(introOpacity, { toValue: 1, duration: 650, useNativeDriver: true }),
-        Animated.spring(introScale, { toValue: 1, speed: 7, bounciness: 5, useNativeDriver: true }),
-      ]),
-      Animated.delay(2200),
-      Animated.timing(introOpacity, { toValue: 0, duration: 550, useNativeDriver: true }),
-    ]).start(({ finished }) => {
-      if (finished) setShowIntro(false);
-    });
-    return () => { orbit.stop(); pulse.stop(); };
-  }, [introOpacity, introScale, introRotation, introPulse]);
 
 
   const saveAuthenticatedSession = async (data: any) => {
@@ -2070,43 +2020,7 @@ export default function App() {
         ))}
       </View>
 
-      {showIntro && (
-        <Animated.View style={[styles.introOverlay, { opacity: introOpacity }]}>
-          <View style={styles.introStarField} pointerEvents="none">
-            {Array.from({ length: 34 }, (_, index) => (
-              <View key={index} style={[styles.introStar, { top: `${(index * 29 + 7) % 68}%`, left: `${(index * 43 + 11) % 96}%`, opacity: 0.28 + ((index * 7) % 7) / 10 }]} />
-            ))}
-          </View>
-          <View style={styles.introNebulaTop} />
-          <View style={styles.introNebulaBottom} />
-          <View style={styles.introHorizon} />
-          <View style={styles.introWaterGlow} />
-          <Animated.View style={[styles.introOrbitOuter, { transform: [{ perspective: 900 }, { rotateX: '68deg' }, { rotateZ: introRotateZ }] }]} />
-          <Animated.View style={[styles.introOrbitInner, { transform: [{ perspective: 900 }, { rotateY: '64deg' }, { rotateZ: introRotateReverse }] }]} />
-          <Animated.View style={[styles.introLogoHalo, { transform: [{ scale: introPulseScale }] }]} />
-          <Animated.View style={[styles.introEnergyRing, styles.introEnergyRingOuter, { transform: [{ rotate: introRotateReverse }] }]} />
-          <Animated.View style={[styles.introEnergyRing, styles.introEnergyRingInner, { transform: [{ rotate: introRotateZ }] }]} />
-          <Animated.View style={[styles.introReelWrap, { transform: [{ scale: introScale }] }]}>
-            <View style={styles.introLogoPanel}>
-              <View style={styles.introLogoExtrusion}><Text style={styles.introLogoExtrusionText}>Н+С</Text></View>
-              <Text style={styles.introReelPlay}>Н+С</Text>
-              <View style={styles.introLogoGlint} />
-            </View>
-          </Animated.View>
-          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{'\n'}Сцена</Animated.Text>
-          <View style={styles.introAccentLine} />
-          <Text style={styles.introTagline}>Магия ИИ{'\n'}в твоих руках</Text>
-          <Text style={styles.introPcTag}>Только на твоём ПК</Text>
-          <View style={styles.introBenefits}>
-            <Text style={styles.introBenefit}>Локальная генерация</Text>
-            <View style={styles.introBenefitDivider} />
-            <Text style={styles.introBenefit}>Твоё творчество</Text>
-            <View style={styles.introBenefitDivider} />
-            <Text style={styles.introBenefit}>Полный контроль</Text>
-          </View>
-          <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
-        </Animated.View>
-      )}
+}
     </SafeAreaView>
   );
 }
