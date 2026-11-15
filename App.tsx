@@ -37,10 +37,10 @@ StyledText.defaultProps = {
   style: [{ fontFamily: 'sans-serif' }, StyledText.defaultProps?.style],
 };
 
-const BLUE = '#3978FF';
-const BG = '#080B14';
-const PANEL = '#111827';
-const MUTED = '#8994A8';
+const BLUE = '#168BFF';
+const BG = '#020713';
+const PANEL = '#071A34';
+const MUTED = '#9CB9D8';
 const WHITE = '#FFFFFF';
 
 const RECOMMENDED_PROMPTS = [
@@ -1852,7 +1852,7 @@ export default function App() {
             <Text style={styles.profileEmailButtonText}>{profileEmailOpen ? 'Скрыть вход по email' : 'Войти по email'}</Text>
           </TouchableOpacity>
           {profileEmailOpen && <View style={styles.authCard}>
-            <Image source={require('./assets/Футуристический серебряно-синий монограмный логотип HC-1.png')} style={styles.authMonogram} resizeMode="contain" />
+            <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
             <Text style={styles.authBrandTitle}>Нейро{ '\n' }Сцена</Text>
             <Text style={styles.sectionTitle}>{uiText(language, 'SIGN IN OR REGISTER', 'ВХОД ПО EMAIL')}</Text>
             <TextInput
@@ -1971,10 +1971,13 @@ export default function App() {
         <View style={styles.ambientStarTwo} />
         <View style={styles.ambientStarThree} />
       </View>
-      <StatusBar style="light" hidden={showIntro} />
+      <StatusBar style="light" hidden={false} />
 
       {tab === 'Create' && <View style={styles.header}>
         <View style={styles.brandRow}>
+          <View style={styles.brandMarkLarge}>
+            <Text style={styles.brandMarkLargeText}>Н+С</Text>
+          </View>
           <View style={styles.brandWordmark}>
             <Text style={styles.logo}>Нейро</Text>
             <Text style={styles.logoSecond}>Сцена</Text>
@@ -2012,7 +2015,7 @@ export default function App() {
         {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
-      {tab !== 'Credits' && <View style={styles.bottomNav}>
+      <View style={styles.bottomNav}>
         {([
           { id: 'Create', icon: '✧', label: 'Создать' },
           { id: 'Gallery', icon: '▧', label: 'Галерея' },
@@ -2043,7 +2046,7 @@ export default function App() {
             </Text>
           </TouchableOpacity>
         ))}
-      </View>}
+      </View>
 
       {showIntro && (
         <Animated.View style={[styles.introOverlay, { opacity: introOpacity }]}>
@@ -2059,20 +2062,14 @@ export default function App() {
           <Animated.View style={[styles.introOrbitOuter, { transform: [{ perspective: 900 }, { rotateX: '68deg' }, { rotateZ: introRotateZ }] }]} />
           <Animated.View style={[styles.introOrbitInner, { transform: [{ perspective: 900 }, { rotateY: '64deg' }, { rotateZ: introRotateReverse }] }]} />
           <Animated.View style={[styles.introLogoHalo, { transform: [{ scale: introPulseScale }] }]} />
-          <Animated.View style={[styles.introReelWrap, { transform: [{ scale: introScale }, { rotateY: introRotateZ }] }]}>
-            <View style={styles.introFilmStrip}>
-              <View style={styles.introFilmRailTop}>{Array.from({ length: 13 }, (_, index) => <View key={index} style={styles.introFilmPerforation} />)}</View>
-              <View style={styles.introFilmRailBottom}>{Array.from({ length: 13 }, (_, index) => <View key={index} style={styles.introFilmPerforation} />)}</View>
-            </View>
-            <View style={styles.introReelOuter}>
-              <View style={styles.introReelHoleTop} /><View style={styles.introReelHoleLeft} /><View style={styles.introReelHoleRight} />
-              <View style={styles.introReelHoleBottomLeft} /><View style={styles.introReelHoleBottomRight} />
-              <View style={styles.introReelHub}><Text style={styles.introReelPlay}>▶</Text></View>
+          <Animated.View style={[styles.introReelWrap, { transform: [{ scale: introScale }] }]}>
+            <View style={styles.introLogoPanel}>
+              <Text style={styles.introReelPlay}>Н+С</Text>
             </View>
           </Animated.View>
           <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{'\n'}Сцена</Animated.Text>
           <View style={styles.introAccentLine} />
-          <Text style={styles.introTagline}>Ваши идеи —{'\n'}на экране</Text>
+          <Text style={styles.introTagline}>Магия ИИ{'\n'}в твоих руках</Text>
           <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
         </Animated.View>
       )}
@@ -2146,10 +2143,6 @@ function CreateScreen({
 
   return (
     <View>
-      <View style={styles.headerBalance}>
-        <Text style={styles.headerBalanceLabel}>ВАШ БАЛАНС</Text>
-        <Text style={styles.headerBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
-      </View>
       <View style={styles.referenceHero}>
         <View pointerEvents="none" style={StyleSheet.absoluteFill}>
           <View style={styles.referenceSkyGlow} />
@@ -2166,10 +2159,30 @@ function CreateScreen({
           </View>
           <View style={styles.referenceHeroShade} />
         </View>
-        <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
-          <Text style={styles.referencePlay}>▶</Text>
-          <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
-        </TouchableOpacity>
+        <View style={styles.referenceHeroCopy}>
+          <Text style={styles.referenceHeroTitle}>Создать видео</Text>
+          <Text style={styles.referenceHeroCaption}>Из текста или изображения</Text>
+        </View>
+      </View>
+      <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
+        <Text style={styles.referencePlay}>▶</Text>
+        <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+      </TouchableOpacity>
+      <View style={styles.featureSectionHeader}>
+        <Text style={styles.featureSectionTitle}>Возможности</Text>
+      </View>
+      <View style={styles.featureGrid}>
+        {[
+          { icon: '▣', label: 'Текст\nв видео' },
+          { icon: '▧', label: 'Изображение\nв видео' },
+          { icon: '♫', label: 'Добавить звук' },
+          { icon: '✧', label: 'Улучшить\nпромпт' },
+        ].map((item) => (
+          <View key={item.label} style={styles.featureCard}>
+            <Text style={styles.featureIcon}>{item.icon}</Text>
+            <Text style={styles.featureText}>{item.label}</Text>
+          </View>
+        ))}
       </View>
 
       {showComposer && (
@@ -3332,175 +3345,277 @@ function GalleryVideoPlayer({ uri }: { uri: string }) {
 
 
 const COSMIC_OVERRIDES = {
-  container: { backgroundColor: '#020817' },
-  ambientBackdrop: { backgroundColor: '#020817' },
-  ambientGlowTop: { width: 520, height: 520, borderRadius: 260, top: -90, right: -250, backgroundColor: '#006BFF', opacity: 0.34 },
-  ambientGlowBottom: { width: 500, height: 500, borderRadius: 250, bottom: -170, left: -245, backgroundColor: '#0059D6', opacity: 0.30 },
-  ambientGlowCenter: { width: 380, height: 380, borderRadius: 190, top: '32%', left: '18%', backgroundColor: '#0648A5', opacity: 0.18 },
-  ambientRing: { width: 520, height: 520, borderRadius: 260, borderColor: 'rgba(36,137,255,0.22)', top: 150, right: -365 },
-  ambientRingFar: { width: 640, height: 640, borderRadius: 320, borderColor: 'rgba(16,108,255,0.17)', top: '27%', left: -410 },
-  header: { paddingHorizontal: 18, paddingTop: 7, paddingBottom: 12, backgroundColor: 'rgba(2,8,23,0.94)', borderBottomColor: 'rgba(29,130,255,0.32)' },
-  brandRow: { marginTop: 2, gap: 9 },
-  brandLogoImage: { width: 45, height: 40 },
-  headerActions: { marginTop: 2 },
-  headerMenuButton: { width: 42, height: 42, borderRadius: 12, borderWidth: 1, borderColor: '#263B5D', backgroundColor: '#101B30', alignItems: 'center', justifyContent: 'center' },
+  container: { backgroundColor: '#020713' },
+  ambientBackdrop: { backgroundColor: '#020713' },
+  ambientGlowTop: { width: 520, height: 520, borderRadius: 260, top: -125, right: -270, backgroundColor: '#006BFF', opacity: 0.30 },
+  ambientGlowBottom: { width: 500, height: 500, borderRadius: 250, bottom: -190, left: -255, backgroundColor: '#0059D6', opacity: 0.28 },
+  ambientGlowCenter: { width: 390, height: 390, borderRadius: 195, top: '31%', left: '15%', backgroundColor: '#0648A5', opacity: 0.16 },
+  ambientRing: { width: 520, height: 520, borderRadius: 260, borderColor: 'rgba(36,137,255,0.18)', top: 145, right: -365 },
+  ambientRingFar: { width: 640, height: 640, borderRadius: 320, borderColor: 'rgba(16,108,255,0.14)', top: '26%', left: -420 },
+  header: { paddingHorizontal: 18, paddingTop: 8, paddingBottom: 12, backgroundColor: 'rgba(2,8,23,0.96)', borderBottomColor: 'rgba(29,130,255,0.25)' },
+  brandRow: { marginTop: 2, gap: 10 },
+  brandMarkLarge: { width: 46, height: 44, borderRadius: 13, borderWidth: 1.5, borderColor: '#48C7FF', backgroundColor: 'rgba(0,83,190,0.30)', shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 16, elevation: 8 },
+  brandMarkLargeText: { color: '#B5F0FF', fontSize: 18, fontWeight: '900', textShadowColor: '#008CFF', textShadowRadius: 10 },
+  logo: { color: '#FFFFFF', fontSize: 19, lineHeight: 20, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 10 },
+  logoSecond: { color: '#69BFFF', fontSize: 19, lineHeight: 20, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 10 },
+  headerActions: { marginTop: 0, gap: 9 },
+  notificationButton: { width: 42, height: 42, borderRadius: 14, borderColor: '#1E6AB5', backgroundColor: 'rgba(4,28,63,0.98)' },
+  notificationIcon: { color: '#B5E5FF', fontSize: 23, fontWeight: '800' },
+  notificationBadge: { backgroundColor: '#F02F4F' },
+  headerMenuButton: { width: 42, height: 42, borderRadius: 14, borderWidth: 1, borderColor: '#1E6AB5', backgroundColor: 'rgba(4,28,63,0.98)' },
   headerMenuIcon: { color: '#D7E9FF', fontSize: 24, lineHeight: 27 },
-  headerBalance: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'rgba(7,25,55,0.94)', borderColor: '#1267C8', borderWidth: 1, borderRadius: 15, paddingHorizontal: 15, paddingVertical: 10, marginTop: 0, marginBottom: 14, shadowColor: '#087BFF', shadowOpacity: 0.22, shadowRadius: 12, elevation: 4 },
-  headerBalanceLabel: { color: '#70B8FF', fontSize: 14, letterSpacing: 1.1 },
-  headerBalanceValue: { color: '#FFFFFF', fontSize: 16 },
-  content: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 28 },
+  scroll: { flex: 1 },
+  content: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 24 },
   creditsContent: { paddingBottom: 38 },
-  referenceHero: { height: 500, minHeight: 455, marginTop: 0, marginBottom: 18, borderRadius: 23, overflow: 'hidden', backgroundColor: '#020A1B', borderWidth: 1, borderColor: 'rgba(63,157,255,0.65)', justifyContent: 'flex-end', padding: 20, shadowColor: '#087BFF', shadowOpacity: 0.36, shadowRadius: 26, elevation: 10 },
-  referenceHeroImage: { borderRadius: 23 },
-  referenceHeroShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,8,22,0.10)' },
-  referenceSkyGlow: { position: 'absolute', width: 390, height: 390, borderRadius: 195, top: 18, left: -18, backgroundColor: '#0755B8', opacity: 0.42, shadowColor: '#159DFF', shadowOpacity: 1, shadowRadius: 70, elevation: 20 },
-  referenceMoon: { position: 'absolute', width: 230, height: 230, borderRadius: 115, top: 88, alignSelf: 'center', backgroundColor: '#D9E8FF', shadowColor: '#70BFFF', shadowOpacity: 1, shadowRadius: 40, elevation: 22 },
-  referenceMoonShade: { position: 'absolute', width: 235, height: 235, borderRadius: 118, top: 74, left: '43%', backgroundColor: '#3B68A2', opacity: 0.23 },
-  referenceMountainBack: { position: 'absolute', bottom: 95, left: -70, width: 440, height: 245, backgroundColor: '#142D55', borderTopLeftRadius: 210, borderTopRightRadius: 230, transform: [{ rotate: '-12deg' }] },
-  referenceMountainFront: { position: 'absolute', bottom: 66, right: -115, width: 470, height: 230, backgroundColor: '#07162E', borderTopLeftRadius: 230, borderTopRightRadius: 220, transform: [{ rotate: '13deg' }] },
-  referenceRidgeLight: { position: 'absolute', bottom: 182, left: 14, width: 280, height: 2, backgroundColor: '#8CD9FF', opacity: 0.62, transform: [{ rotate: '-18deg' }], shadowColor: '#44B8FF', shadowOpacity: 1, shadowRadius: 9 },
-  referencePerson: { position: 'absolute', top: 235, alignSelf: 'center', width: 46, height: 105, alignItems: 'center' },
-  referencePersonHead: { width: 15, height: 17, borderRadius: 8, backgroundColor: '#071326', borderWidth: 1, borderColor: '#6A9FCB' },
-  referencePersonBody: { width: 30, height: 43, marginTop: 2, borderRadius: 10, backgroundColor: '#071326', borderWidth: 1, borderColor: '#315A86' },
-  referencePersonLegLeft: { position: 'absolute', top: 57, left: 8, width: 10, height: 44, borderRadius: 5, backgroundColor: '#050D1D', transform: [{ rotate: '7deg' }] },
-  referencePersonLegRight: { position: 'absolute', top: 57, right: 8, width: 10, height: 44, borderRadius: 5, backgroundColor: '#050D1D', transform: [{ rotate: '-7deg' }] },
-  referenceHeroTitle: { color: '#FFFFFF', fontSize: 32, lineHeight: 35, fontWeight: '900', fontFamily: 'sans-serif-rounded', textShadowColor: '#168BFF', textShadowRadius: 15, marginBottom: 7 },
-  referenceHeroCaption: { color: '#D7E9FF', fontSize: 14, lineHeight: 19, maxWidth: 245, marginBottom: 17 },
-  referenceCreateButton: { height: 62, borderRadius: 32, borderWidth: 1.5, borderColor: '#75D9FF', backgroundColor: '#006AFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.95, shadowRadius: 23, elevation: 15 },
+  referenceHero: { height: 220, minHeight: 220, marginTop: 3, marginBottom: 14, borderRadius: 23, overflow: 'hidden', backgroundColor: '#020A1B', borderWidth: 1, borderColor: 'rgba(63,157,255,0.74)', justifyContent: 'flex-start', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.36, shadowRadius: 22, elevation: 9 },
+  referenceHeroCopy: { width: '65%', marginTop: 12, zIndex: 2 },
+  referenceHeroShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,8,22,0.08)' },
+  referenceSkyGlow: { width: 285, height: 285, borderRadius: 143, top: -36, right: -35, backgroundColor: '#0755B8', opacity: 0.45, shadowColor: '#159DFF', shadowOpacity: 1, shadowRadius: 58, elevation: 18 },
+  referenceMoon: { width: 142, height: 142, borderRadius: 71, top: 24, right: 34, backgroundColor: '#D9E8FF', shadowColor: '#70BFFF', shadowOpacity: 1, shadowRadius: 32, elevation: 16 },
+  referenceMoonShade: { width: 148, height: 148, borderRadius: 74, top: 18, right: 12, backgroundColor: '#3B68A2', opacity: 0.22 },
+  referenceMountainBack: { bottom: 8, left: -70, width: 360, height: 116, backgroundColor: '#142D55' },
+  referenceMountainFront: { bottom: -4, right: -80, width: 340, height: 110, backgroundColor: '#07162E' },
+  referenceRidgeLight: { bottom: 86, left: 5, width: 205, height: 2, backgroundColor: '#8CD9FF', opacity: 0.62, shadowColor: '#44B8FF', shadowOpacity: 1, shadowRadius: 9 },
+  referencePerson: { top: 78, right: 92, width: 34, height: 82 },
+  referencePersonHead: { width: 17, height: 19, borderRadius: 9, backgroundColor: '#071326', borderWidth: 1, borderColor: '#6A9FCB' },
+  referencePersonBody: { width: 32, height: 49, marginTop: 2, borderRadius: 10, backgroundColor: '#071326', borderWidth: 1, borderColor: '#315A86' },
+  referencePersonLegLeft: { top: 66, left: 8, width: 11, height: 47, backgroundColor: '#050D1D' },
+  referencePersonLegRight: { top: 66, right: 8, width: 11, height: 47, backgroundColor: '#050D1D' },
+  referenceHeroTitle: { color: '#FFFFFF', fontSize: 24, lineHeight: 28, fontWeight: '900', fontFamily: 'sans-serif-rounded', textShadowColor: '#168BFF', textShadowRadius: 14, marginBottom: 7 },
+  referenceHeroCaption: { color: '#D7E9FF', fontSize: 13, lineHeight: 18, maxWidth: 190 },
+  referenceCreateButton: { height: 58, width: '100%', marginBottom: 19, borderRadius: 19, borderWidth: 1.5, borderColor: '#75D9FF', backgroundColor: '#006AFF', shadowColor: '#008CFF', shadowOpacity: 0.82, shadowRadius: 20, elevation: 11 },
   referencePlay: { color: '#FFFFFF', fontSize: 23, marginRight: 12 },
   referenceCreateButtonText: { color: '#FFFFFF', fontSize: 17, fontWeight: '800' },
-  composerBack: { alignSelf: 'flex-start', paddingVertical: 9, paddingHorizontal: 12, borderRadius: 12, backgroundColor: 'rgba(4,24,58,0.95)', borderWidth: 1, borderColor: '#1765B2', marginBottom: 12 },
+  featureSectionHeader: { marginTop: 3, marginBottom: 11 },
+  featureSectionTitle: { color: '#E5F2FF', fontSize: 18, fontWeight: '800' },
+  featureGrid: { rowGap: 11, marginBottom: 14 },
+  featureCard: { width: '48.5%', minHeight: 92, paddingVertical: 12, paddingHorizontal: 9, borderRadius: 17, backgroundColor: 'rgba(4,25,62,0.94)', borderWidth: 1, borderColor: 'rgba(35,130,226,0.62)', shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 12, elevation: 4 },
+  featureIcon: { color: '#19C5FF', fontSize: 27, lineHeight: 31, textShadowColor: '#008CFF', textShadowRadius: 11 },
+  featureText: { color: '#E5F2FF', fontSize: 13, lineHeight: 17, fontWeight: '700', textAlign: 'center' },
+  composerBack: { alignSelf: 'flex-start', paddingVertical: 10, paddingHorizontal: 14, borderRadius: 13, backgroundColor: 'rgba(4,24,58,0.95)', borderWidth: 1, borderColor: '#1765B2', marginBottom: 14 },
   composerBackText: { color: '#9FD4FF', fontSize: 14, fontWeight: '700' },
-  hero: { minHeight: 128, marginTop: 0, marginBottom: 15, paddingHorizontal: 22, borderRadius: 24, backgroundColor: 'rgba(4,27,68,0.96)', borderColor: '#168BFF', shadowColor: '#007BFF', shadowOpacity: 0.62, shadowRadius: 32, elevation: 16 },
+  hero: { minHeight: 140, marginTop: 0, marginBottom: 17, paddingHorizontal: 22, borderRadius: 24, backgroundColor: 'rgba(4,27,68,0.96)', borderColor: '#168BFF', shadowColor: '#007BFF', shadowOpacity: 0.56, shadowRadius: 30, elevation: 15 },
   heroGlow: { width: 310, height: 310, borderRadius: 155, top: -175, right: -60, backgroundColor: '#087BFF', opacity: 0.34 },
   heroOrbit: { width: 230, height: 230, borderRadius: 115, top: -130, right: -35, borderColor: 'rgba(92,190,255,0.4)' },
   heroAccent: { left: 22, width: 82, height: 3, backgroundColor: '#5CCBFF' },
+  eyebrow: { color: '#67C8FF', fontSize: 12, fontWeight: '900', letterSpacing: 1.5 },
   heading: { fontSize: 31, lineHeight: 38, textShadowColor: '#148BFF', textShadowRadius: 22 },
-  modeSelector: { backgroundColor: 'rgba(4,15,36,0.96)', borderColor: '#174D8A', borderRadius: 17, padding: 5, marginBottom: 16 },
-  modeOption: { minHeight: 46, justifyContent: 'center', borderRadius: 13 },
-  modeOptionActive: { backgroundColor: '#075DE2', borderColor: '#59C6FF', shadowColor: '#168BFF', shadowOpacity: 0.7, shadowRadius: 14, elevation: 7 },
-  engineCard: { backgroundColor: 'rgba(5,22,50,0.96)', borderColor: '#1765B2', borderRadius: 18, padding: 16, marginBottom: 22, shadowColor: '#087BFF', shadowOpacity: 0.18, shadowRadius: 15, elevation: 5 },
+  description: { color: '#B5CAE5', fontSize: 14, lineHeight: 22, marginTop: 8 },
+  engineCard: { backgroundColor: 'rgba(5,22,50,0.96)', borderColor: '#1765B2', borderWidth: 1, borderRadius: 18, padding: 15, marginBottom: 19, shadowColor: '#087BFF', shadowOpacity: 0.18, shadowRadius: 15, elevation: 5 },
   engineDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#3DCBFF', shadowColor: '#28AFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 },
+  engineName: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
+  engineDescription: { color: '#9CB9D8', fontSize: 11, letterSpacing: 0.8, marginTop: 4 },
+  engineStatus: { color: '#56C7FF', fontSize: 12, fontWeight: '900', letterSpacing: 1 },
   sectionHeader: { marginTop: 12, marginBottom: 10 },
-  sectionTitle: { color: '#D7E9FF', fontSize: 14, letterSpacing: 1.1 },
-  prompt: { backgroundColor: 'rgba(3,13,31,0.98)', borderColor: '#1765B2', borderRadius: 17, padding: 16, minHeight: 152, fontSize: 15, lineHeight: 22 },
-  characterCount: { color: '#79A9D9', marginTop: 8 },
-  option: { backgroundColor: 'rgba(5,20,46,0.96)', borderColor: '#174F8D', borderRadius: 16, padding: 15 },
-  selectedOption: { borderColor: '#43B8FF', backgroundColor: 'rgba(8,75,169,0.52)', shadowColor: '#168BFF', shadowOpacity: 0.35, shadowRadius: 12, elevation: 5 },
-  costCard: { backgroundColor: 'rgba(5,21,48,0.96)', borderColor: '#1765B2', borderRadius: 17, padding: 16 },
+  sectionTitle: { color: '#D7E9FF', fontSize: 13, letterSpacing: 1.1, fontWeight: '800' },
+  languageLabel: { color: '#56BFFF', fontSize: 11, fontWeight: '800', letterSpacing: 1.1 },
+  prompt: { backgroundColor: 'rgba(3,13,31,0.98)', borderColor: '#1765B2', borderRadius: 17, padding: 16, minHeight: 152, fontSize: 15, lineHeight: 22, color: '#F4F8FF' },
+  characterCount: { color: '#79A9D9', marginTop: 8, fontSize: 12 },
+  optionRow: { flexDirection: 'row', gap: 11, marginBottom: 16 },
+  option: { flex: 1, backgroundColor: 'rgba(5,20,46,0.96)', borderColor: '#174F8D', borderWidth: 1, borderRadius: 16, padding: 15, alignItems: 'center' },
+  selectedOption: { borderColor: '#43B8FF', backgroundColor: 'rgba(8,75,169,0.52)', shadowColor: '#168BFF', shadowOpacity: 0.36, shadowRadius: 13, elevation: 6 },
+  optionMain: { color: '#FFFFFF', fontSize: 17, fontWeight: '800' },
+  optionSub: { color: '#A9C8EA', fontSize: 12, marginTop: 5 },
+  activeText: { color: '#FFFFFF' },
+  costCard: { backgroundColor: 'rgba(5,21,48,0.96)', borderColor: '#1765B2', borderWidth: 1, borderRadius: 17, padding: 16 },
+  costLabel: { color: '#78BFFF', fontSize: 12, letterSpacing: 1.1, fontWeight: '800' },
+  costDescription: { color: '#FFFFFF', fontSize: 14, marginTop: 7 },
+  costIcon: { color: '#51C9FF', fontSize: 24 },
   createButton: { backgroundColor: '#0877FF', borderColor: '#70D6FF', borderRadius: 20, minHeight: 64, shadowColor: '#008CFF', shadowOpacity: 0.72, shadowRadius: 24, elevation: 13 },
-  createButtonText: { fontSize: 16, letterSpacing: 0.5 },
-  authAction: { backgroundColor: '#0877FF', borderColor: '#70D6FF', borderRadius: 17, minHeight: 56, shadowColor: '#008CFF', shadowOpacity: 0.5, shadowRadius: 18, elevation: 9 },
-  authSecondary: { backgroundColor: 'rgba(5,28,62,0.96)', borderColor: '#178DDF', borderRadius: 16, minHeight: 52 },
-  authInput: { backgroundColor: 'rgba(2,12,29,0.98)', borderColor: '#1765B2', borderRadius: 14, minHeight: 52, fontSize: 15 },
-  imageUploadCard: { backgroundColor: 'rgba(5,21,48,0.96)', borderColor: '#1765B2', borderRadius: 18, padding: 16 },
-  chooseImageButton: { backgroundColor: 'rgba(3,17,41,0.96)', borderColor: '#299CFF', borderRadius: 16, minHeight: 132 },
-  statusCard: { backgroundColor: 'rgba(5,22,50,0.98)', borderColor: '#1D76C8', borderRadius: 19, padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 15, elevation: 5 },
+  createButtonText: { color: '#FFFFFF', fontSize: 16, letterSpacing: 0.5, fontWeight: '900' },
+  disabledButton: { opacity: 0.55 },
+  generationModalBackdrop: { flex: 1, backgroundColor: 'rgba(2,7,19,0.90)', alignItems: 'center', justifyContent: 'center', padding: 24 },
   generationModalCard: { backgroundColor: '#04142D', borderColor: '#168BFF', borderRadius: 26, shadowColor: '#008CFF', shadowOpacity: 0.65, shadowRadius: 30, elevation: 20 },
   generationModalMark: { backgroundColor: '#063B82', borderColor: '#40C7FF' },
   generationModalMarkText: { color: '#C8F5FF' },
-  screen: { paddingTop: 12 },
-  screenTitle: { color: '#FFFFFF', fontSize: 30, lineHeight: 37, fontWeight: '900', fontFamily: 'sans-serif-rounded', marginTop: 8, marginBottom: 18, textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 13 },
-  galleryHeader: { marginBottom: 2 },
-  galleryLimit: { color: '#A5C8EF', fontSize: 14, marginTop: 0, marginBottom: 12 },
-  storageTrack: { height: 5, borderRadius: 3, overflow: 'hidden', backgroundColor: 'rgba(47,93,149,0.55)', marginTop: -6, marginBottom: 8 },
+  generationModalTitle: { color: '#FFFFFF', fontSize: 20, lineHeight: 27, fontWeight: '900', textAlign: 'center', marginTop: 20 },
+  generationModalDescription: { color: '#B5CAE5', fontSize: 14, lineHeight: 21, textAlign: 'center', marginTop: 10 },
+  generationModalHint: { color: '#78A5D2', fontSize: 12, textAlign: 'center', marginTop: 15 },
+  statusCard: { backgroundColor: 'rgba(5,22,50,0.98)', borderColor: '#1D76C8', borderRadius: 19, padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 15, elevation: 5 },
+  statusHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  statusTitle: { color: '#83BFFF', fontSize: 12, fontWeight: '800', letterSpacing: 1.2 },
+  statusValue: { color: '#FFFFFF', fontSize: 18, fontWeight: '800', marginTop: 12 },
+  statusSuccess: { color: '#42D992' },
+  statusDescription: { color: '#B5CAE5', fontSize: 14, lineHeight: 20, marginTop: 6 },
+  progressSegment: { flex: 1, height: 6, borderRadius: 4, backgroundColor: '#263147' },
+  progressSegmentActive: { backgroundColor: '#159BFF' },
+  galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 },
+  screen: { flex: 1, paddingTop: 8 },
+  screenTitle: { color: '#FFFFFF', fontSize: 27, lineHeight: 33, fontWeight: '900', fontFamily: 'sans-serif-rounded', marginTop: 7, marginBottom: 14, textShadowColor: 'rgba(16,116,255,0.45)', textShadowRadius: 12 },
+  galleryFilterButton: { width: 42, height: 42, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.96)', borderWidth: 1, borderColor: '#2467A8' },
+  galleryFilterIcon: { color: '#C8E8FF', fontSize: 23, lineHeight: 26 },
+  galleryLimit: { color: '#A5C8EF', fontSize: 12, textAlign: 'center', marginTop: 0, marginBottom: 8 },
+  storageTrack: { height: 5, borderRadius: 3, overflow: 'hidden', backgroundColor: 'rgba(47,93,149,0.55)', marginTop: -2, marginBottom: 8 },
   storageProgress: { height: 5, borderRadius: 3, backgroundColor: '#079BFF', shadowColor: '#18B9FF', shadowOpacity: 0.9, shadowRadius: 8 },
-  galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.72)', paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6, fontSize: 11, fontWeight: '700' },
-  galleryCard: { width: '48.5%', backgroundColor: 'rgba(4,18,42,0.97)', borderRadius: 18, padding: 11, marginTop: 10, borderColor: '#1765B2', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 14, elevation: 5 },
-  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start' },
-  galleryTabs: { flexDirection: 'row', padding: 4, borderRadius: 14, backgroundColor: 'rgba(5,18,43,0.96)', borderWidth: 1, borderColor: '#173D72', marginBottom: 12 },
+  galleryTabs: { flexDirection: 'row', padding: 4, borderRadius: 14, backgroundColor: 'rgba(5,18,43,0.96)', borderWidth: 1, borderColor: '#173D72', marginBottom: 8 },
   galleryTab: { flex: 1, paddingVertical: 10, alignItems: 'center', borderRadius: 11 },
   galleryTabActive: { backgroundColor: '#0877FF', shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 12, elevation: 6 },
-  galleryTabText: { color: '#A7BBD8', fontSize: 14, fontWeight: '700' },
+  galleryTabText: { color: '#A7BBD8', fontSize: 13, fontWeight: '700' },
   galleryTabTextActive: { color: '#FFFFFF' },
+  galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start' },
+  galleryCard: { width: '48.5%', backgroundColor: 'rgba(4,18,42,0.97)', borderRadius: 16, padding: 8, marginTop: 9, borderWidth: 1, borderColor: 'rgba(35,119,203,0.76)', shadowColor: '#006DFF', shadowOpacity: 0.22, shadowRadius: 14, elevation: 5 },
   galleryPreview: { position: 'relative' },
+  galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.72)', paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6, fontSize: 11, fontWeight: '700' },
   galleryFavorite: { position: 'absolute', top: 7, right: 7, width: 32, height: 32, borderRadius: 16, backgroundColor: 'rgba(1,8,22,0.82)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(104,194,255,0.7)' },
   galleryFavoriteText: { color: '#73CFFF', fontSize: 23, lineHeight: 27 },
-  creditBalanceLine: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 17, paddingVertical: 12, marginBottom: 16, borderRadius: 13, backgroundColor: 'rgba(4,24,58,0.76)', borderWidth: 1, borderColor: 'rgba(38,112,191,0.6)' },
-  creditBalanceLabel: { color: '#A9C8EA', fontSize: 13, fontWeight: '700', letterSpacing: 1 },
-  creditBalanceValue: { color: '#FFFFFF', fontSize: 20, fontWeight: '800', textShadowColor: '#168BFF', textShadowRadius: 10 },
-  packagePrice: { color: '#B7D7FF', fontSize: 14, marginTop: 3 },
-  packagePriceHint: { color: '#7598C3', fontSize: 11, textAlign: 'right' },
-  buyCreditsButton: { minHeight: 54, marginTop: 8, marginBottom: 12, borderRadius: 17, backgroundColor: '#086EFF', borderWidth: 1, borderColor: '#70D9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.65, shadowRadius: 18, elevation: 9, opacity: 0.72 },
-  buyCreditsButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
-  buyCreditsHint: { color: '#C5E5FF', fontSize: 10, marginTop: 2 },
-  creditNeverExpire: { textAlign: 'center', color: '#A9C8EA', fontSize: 13, marginTop: 8, marginBottom: 12 },
-  profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
-  profileSettingsButton: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#1E5A99', backgroundColor: 'rgba(5,22,51,0.92)' },
-  profileSettingsIcon: { color: '#C5E5FF', fontSize: 22 },
-
-  galleryFilterButton: { width: 42, height: 42, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.96)', borderWidth: 1, borderColor: '#2467A8' },
-  galleryFilterIcon: { color: '#C8E8FF', fontSize: 23, lineHeight: 26 },
-  videoFrame: { height: 128, borderRadius: 12, backgroundColor: '#020817' },
+  videoFrame: { height: 128, borderRadius: 12, backgroundColor: '#020817', overflow: 'hidden' },
   videoPlayer: { height: 128, borderRadius: 12 },
-  galleryVideoTitle: { color: '#E7F3FF', fontSize: 14, marginTop: 10 },
-  galleryDate: { color: '#82A9D2', fontSize: 14 },
-  galleryPrompt: { color: '#C8DDF5', fontSize: 14, lineHeight: 19 },
-  galleryActionButton: { backgroundColor: 'rgba(0,101,226,0.22)', borderColor: 'rgba(45,161,255,0.62)', borderRadius: 12, paddingVertical: 10, paddingHorizontal: 12 },
-  galleryActionText: { color: '#B9DEFF', fontSize: 14 },
-  deleteVideoButton: { backgroundColor: 'rgba(103,25,55,0.34)', borderRadius: 11 },
-  emptyScreen: { minHeight: 360, padding: 22, borderRadius: 22, backgroundColor: 'rgba(4,18,42,0.86)', borderWidth: 1, borderColor: '#15599D' },
-  creditsScreen: { paddingTop: 20 },
-  creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
-  creditsBackButton: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.92)', borderWidth: 1, borderColor: '#2467A8', marginRight: 10 },
-  creditsBackText: { color: '#D7EBFF', fontSize: 32, lineHeight: 34, marginTop: -3 },
-  creditsTitle: { color: '#FFFFFF', fontSize: 28, fontWeight: '800', textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 12 },
-  creditIllustration: { height: 184, width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 4, position: 'relative' },
-  creditCoinStack: { position: 'absolute', bottom: 22, alignItems: 'center', justifyContent: 'flex-end' },
-  creditStackLeft: { left: '22%' },
-  creditStackCenter: { left: '42%', bottom: 26 },
-  creditStackRight: { right: '18%' },
-  creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#008DFF', borderWidth: 2, borderColor: '#62DFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.95, shadowRadius: 12, elevation: 8 },
-  creditCoinInner: { width: 43, height: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(190,245,255,0.75)', color: '#B8F4FF', textAlign: 'center', fontSize: 9, lineHeight: 9, overflow: 'hidden' },
-  creditStarBadge: { position: 'absolute', right: '24%', bottom: 8, width: 46, height: 46, borderRadius: 23, backgroundColor: '#006BFF', borderWidth: 2, borderColor: '#62DFFF', color: '#A7F2FF', textAlign: 'center', textAlignVertical: 'center', fontSize: 26, overflow: 'hidden', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
-  creditIntro: { color: '#E2F1FF', fontSize: 15, lineHeight: 22, textAlign: 'center', marginHorizontal: 24, marginBottom: 20 },
-  profileIdentity: { alignItems: 'center', paddingTop: 4, paddingBottom: 17 },
-  profileGuestAvatar: { width: 88, height: 88, borderRadius: 44, borderWidth: 2, borderColor: '#7898C9', backgroundColor: 'rgba(45,77,125,0.36)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 10 },
-  profileGuestHead: { width: 25, height: 25, borderRadius: 13, backgroundColor: '#8FAAD0', marginTop: 5 },
-  profileGuestBody: { width: 56, height: 31, borderTopLeftRadius: 29, borderTopRightRadius: 29, backgroundColor: '#8FAAD0', marginTop: 4 },
-  profileGuestName: { color: '#F3F7FF', fontSize: 18, fontWeight: '800', marginTop: 0 },
-  profileGuestStatus: { color: '#A9BAD4', fontSize: 14, marginTop: 3 },
-  profileVkButton: { height: 52, borderRadius: 15, backgroundColor: '#0877FF', borderWidth: 1, borderColor: '#62CFFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginBottom: 18, shadowColor: '#008CFF', shadowOpacity: 0.45, shadowRadius: 14, elevation: 8 },
-  profileVkMark: { color: '#0877FF', backgroundColor: '#FFFFFF', borderRadius: 5, width: 22, height: 22, textAlign: 'center', textAlignVertical: 'center', fontWeight: '900', fontSize: 12, marginRight: 10, overflow: 'hidden' },
-  profileVkText: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
-  profileEmailButton: { minHeight: 42, marginTop: -8, marginBottom: 14, borderRadius: 13, borderWidth: 1, borderColor: 'rgba(66,173,255,0.75)', backgroundColor: 'rgba(3,24,56,0.86)', alignItems: 'center', justifyContent: 'center' },
-  profileEmailButtonText: { color: '#A9D8FF', fontSize: 13, fontWeight: '700' },
-  balanceCard: { backgroundColor: 'rgba(4,24,58,0.98)', borderRadius: 23, borderColor: '#168BFF', padding: 24, marginTop: 4, marginBottom: 22, shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 24, elevation: 10 },
+  videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
+  videoControlButton: { width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(17,24,39,0.88)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#3978FF' },
+  videoControlText: { color: '#FFFFFF', fontSize: 15, fontWeight: '900' },
+  galleryVideoTitle: { color: '#E7F3FF', fontSize: 13, marginTop: 9, fontWeight: '800' },
+  galleryDate: { color: '#82A9D2', fontSize: 11, lineHeight: 17 },
+  galleryPrompt: { color: '#C8DDF5', fontSize: 12, lineHeight: 18 },
+  galleryActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginTop: 10, marginBottom: 6 },
+  galleryActionButton: { backgroundColor: 'rgba(0,101,226,0.22)', borderColor: 'rgba(45,161,255,0.62)', borderWidth: 1, borderRadius: 11, paddingVertical: 9, paddingHorizontal: 10 },
+  galleryActionText: { color: '#B9DEFF', fontSize: 12, fontWeight: '700' },
+  deleteVideoButton: { backgroundColor: 'rgba(103,25,55,0.34)', borderRadius: 11, borderWidth: 1, borderColor: 'rgba(255,112,143,0.35)' },
+  deleteVideoText: { color: '#FF9EAD', fontSize: 12, fontWeight: '700' },
+  jobId: { color: '#7795B9', fontSize: 11, marginTop: 10 },
+  errorText: { color: '#FF9BAA', fontSize: 13, lineHeight: 19, backgroundColor: 'rgba(91,20,43,0.22)', borderColor: 'rgba(255,105,135,0.38)', borderWidth: 1, borderRadius: 12, padding: 11 },
+  secondaryButton: { backgroundColor: 'rgba(5,43,91,0.96)', borderColor: '#168BFF', borderWidth: 1, borderRadius: 15, minHeight: 50, shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 10, elevation: 3 },
+  secondaryButtonText: { color: '#EAF5FF', fontSize: 14, fontWeight: '700' },
+  resetButton: { paddingVertical: 13, alignItems: 'center', marginTop: 8 },
+  resetButtonText: { color: '#56BFFF', fontWeight: '800', fontSize: 14 },
+  footerNote: { color: '#7FA2C9', fontSize: 11, textAlign: 'center', marginTop: 20, marginBottom: 12, letterSpacing: 1.2 },
+  bottomNav: { backgroundColor: 'rgba(1,7,19,0.99)', borderTopColor: '#1768B5', borderTopWidth: 1, paddingTop: 7, paddingBottom: 12, minHeight: 78, shadowColor: '#006DFF', shadowOpacity: 0.22, shadowRadius: 16, elevation: 14 },
+  navItem: { minHeight: 58, borderRadius: 13, gap: 3 },
+  navItemActive: { backgroundColor: 'rgba(0,104,255,0.15)', borderColor: 'rgba(48,169,255,0.45)', shadowColor: '#008CFF', shadowOpacity: 0.35, shadowRadius: 10, elevation: 4 },
+  navIcon: { color: '#4CAEFF', fontSize: 25, lineHeight: 30 },
+  navCoin: { width: 27, height: 27, borderRadius: 14, borderWidth: 2, borderColor: '#4CAEFF', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', padding: 3 },
+  navCoinInner: { width: '100%', height: '100%', borderRadius: 10, borderWidth: 1, borderColor: '#4CAEFF', alignItems: 'center', justifyContent: 'center' },
+  navCoinMark: { color: '#4CAEFF', fontSize: 14, lineHeight: 16, fontWeight: '900' },
+  navPerson: { width: 29, height: 31, alignItems: 'center', justifyContent: 'flex-end' },
+  navPersonHead: { width: 10, height: 10, borderRadius: 5, borderWidth: 2, borderColor: '#4CAEFF', backgroundColor: 'transparent', marginBottom: 3 },
+  navPersonBody: { width: 23, height: 14, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 2, borderBottomWidth: 0, borderColor: '#4CAEFF', backgroundColor: 'transparent' },
+  navLabel: { color: '#8CA8C9', fontSize: 11, lineHeight: 14, fontWeight: '700' },
+  navLabelActive: { color: '#43B8FF', textShadowColor: '#087BFF', textShadowRadius: 9 },
+  modeSelector: { backgroundColor: 'rgba(4,15,36,0.96)', borderColor: '#174D8A', borderRadius: 17, padding: 5, marginBottom: 16 },
+  modeOption: { minHeight: 46, justifyContent: 'center', borderRadius: 13 },
+  modeOptionActive: { backgroundColor: '#075DE2', borderColor: '#59C6FF', shadowColor: '#168BFF', shadowOpacity: 0.65, shadowRadius: 14, elevation: 7 },
+  modeOptionText: { color: '#A9C8EA', fontSize: 13, fontWeight: '700', textAlign: 'center' },
+  modeOptionTextActive: { color: '#FFFFFF' },
+  imageUploadCard: { backgroundColor: 'rgba(5,21,48,0.96)', borderColor: '#1765B2', borderWidth: 1, borderRadius: 18, padding: 16, marginTop: 6, marginBottom: 15 },
+  chooseImageButton: { backgroundColor: 'rgba(3,17,41,0.96)', borderColor: '#299CFF', borderWidth: 1, borderStyle: 'dashed', borderRadius: 16, minHeight: 132 },
+  chooseImageIcon: { color: '#67CFFF', fontSize: 30, fontWeight: '300' },
+  chooseImageText: { color: '#FFFFFF', fontSize: 14, fontWeight: '800', marginTop: 5 },
+  imageHint: { color: '#9CB9D8', fontSize: 12, marginTop: 5 },
+  imagePreview: { width: '100%', height: 180, borderRadius: 13, marginTop: 12, backgroundColor: '#05080E' },
+  imagePreviewPlaceholder: { height: 100, marginTop: 12, borderRadius: 10, backgroundColor: '#142B4A' },
+  imageFileName: { color: '#9CB9D8', fontSize: 12, marginTop: 8 },
+  removeImageButton: { alignSelf: 'flex-start', paddingVertical: 8, marginTop: 4 },
+  removeImageText: { color: '#FF9EAD', fontSize: 12, fontWeight: '700' },
+  languageCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderColor: '#1765B2', borderWidth: 1, borderRadius: 17, padding: 14, marginBottom: 14 },
+  languageOptions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 },
+  languageOption: { flexGrow: 1, flexBasis: '28%', alignItems: 'center', paddingVertical: 10, borderRadius: 11, backgroundColor: '#0B1220', borderWidth: 1, borderColor: '#253147' },
+  languageOptionActive: { borderColor: '#43B8FF', backgroundColor: '#142344' },
+  languageOptionText: { color: '#A9C8EA', fontSize: 12, fontWeight: '700' },
+  languageOptionTextActive: { color: '#FFFFFF' },
+  emptyScreen: { minHeight: 300, padding: 22, borderRadius: 20, backgroundColor: 'rgba(4,18,42,0.88)', borderWidth: 1, borderColor: 'rgba(35,119,203,0.68)' },
+  emptyIcon: { color: '#56BFFF', fontSize: 48, marginBottom: 15 },
+  balanceCard: { backgroundColor: 'rgba(4,24,58,0.98)', borderRadius: 23, borderColor: '#168BFF', borderWidth: 1, padding: 24, marginTop: 4, marginBottom: 22, shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 24, elevation: 10 },
   balanceLabel: { color: '#9BCBFF' },
-  bigBalance: { fontSize: 42, textShadowColor: '#147DFF', textShadowRadius: 17 },
-  packageCard: { backgroundColor: 'rgba(5,20,46,0.98)', borderRadius: 17, borderColor: '#1765B2', padding: 16, minHeight: 74, shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 12, elevation: 3 },
-  packageIconWrap: { width: 42, height: 42, borderRadius: 13, alignItems: 'center', justifyContent: 'center', marginRight: 12, backgroundColor: 'rgba(0,111,255,0.18)', borderWidth: 1, borderColor: 'rgba(68,176,255,0.55)' },
-  packageIcon: { color: '#FFD45E', fontSize: 28, textShadowColor: '#FFB52E', textShadowRadius: 9 },
+  bigBalance: { color: '#FFFFFF', fontSize: 42, textShadowColor: '#147DFF', textShadowRadius: 17 },
+  creditSymbol: { color: '#51C9FF', fontSize: 27 },
+  mutedText: { color: '#9CB9D8', fontSize: 13, lineHeight: 20 },
+  packageCard: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'rgba(5,20,46,0.98)', borderRadius: 16, borderWidth: 1, borderColor: '#1765B2', paddingHorizontal: 13, paddingVertical: 12, minHeight: 68, marginBottom: 9, shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 11, elevation: 3 },
+  packageIconWrap: { width: 43, height: 43, borderRadius: 14, alignItems: 'center', justifyContent: 'center', marginRight: 12, backgroundColor: 'rgba(0,111,255,0.18)', borderWidth: 1, borderColor: 'rgba(68,176,255,0.55)' },
+  packageIcon: { color: '#FFD45E', fontSize: 27, textShadowColor: '#FFB52E', textShadowRadius: 9 },
   packageDiamond: { color: '#53C9FF', textShadowColor: '#168BFF' },
   packageRight: { alignItems: 'flex-end', justifyContent: 'center', gap: 5 },
   popularBadge: { backgroundColor: '#075DE2', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4, borderWidth: 1, borderColor: '#4CB9FF' },
   popularBadgeText: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
-  packageAmount: { color: '#F3F8FF', fontSize: 17 },
-  smallAction: { backgroundColor: 'rgba(5,43,91,0.96)', borderColor: '#168BFF', borderRadius: 13, minHeight: 42 },
-  smallActionText: { color: '#EAF5FF' },
-  note: { color: '#9CB9D8', lineHeight: 21 },
-  profileCard: { backgroundColor: 'rgba(4,24,58,0.98)', borderRadius: 21, borderColor: '#168BFF', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.25, shadowRadius: 16, elevation: 6 },
-  avatar: { width: 54, height: 54, borderRadius: 27, backgroundColor: '#0756B8', borderWidth: 1, borderColor: '#55C9FF', shadowColor: '#168BFF', shadowOpacity: 0.6, shadowRadius: 13, elevation: 6 },
-  profileMenuCard: { marginTop: 4, borderRadius: 17, overflow: 'hidden', borderWidth: 1, borderColor: '#164E87', backgroundColor: 'rgba(4,18,42,0.94)' },
-  menuItem: { minHeight: 54, paddingHorizontal: 15, paddingVertical: 13, marginTop: 0, borderRadius: 0, borderWidth: 0, borderBottomWidth: 1, borderBottomColor: 'rgba(38,103,165,0.42)', backgroundColor: 'transparent' },
+  packageAmount: { color: '#F3F8FF', fontSize: 17, fontWeight: '800' },
+  packagePrice: { color: '#B7D7FF', fontSize: 14, marginTop: 3 },
+  packagePriceHint: { color: '#7598C3', fontSize: 11, textAlign: 'right' },
+  creditBalanceLine: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 17, paddingVertical: 12, marginBottom: 12, borderRadius: 14, backgroundColor: 'rgba(4,24,58,0.94)', borderWidth: 1, borderColor: 'rgba(38,112,191,0.72)', shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 12, elevation: 4 },
+  creditBalanceLabel: { color: '#A9C8EA', fontSize: 12, fontWeight: '700', letterSpacing: 1 },
+  creditBalanceValue: { color: '#FFFFFF', fontSize: 20, fontWeight: '800', textShadowColor: '#168BFF', textShadowRadius: 10 },
+  creditIllustration: { height: 140, width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: -2, marginBottom: 7, position: 'relative', borderRadius: 19, backgroundColor: 'rgba(3,20,49,0.82)', borderWidth: 1, borderColor: 'rgba(21,135,255,0.72)', overflow: 'hidden' },
+  creditCoinStack: { position: 'absolute', bottom: 25, alignItems: 'center', justifyContent: 'flex-end' },
+  creditStackLeft: { left: '22%' },
+  creditStackCenter: { left: '42%', bottom: 29 },
+  creditStackRight: { right: '18%' },
+  creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#159BFF', borderWidth: 2, borderColor: '#83E2FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.95, shadowRadius: 13, elevation: 8 },
+  creditCoinInner: { width: 43, height: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(210,244,255,0.85)', color: '#EAFBFF', textAlign: 'center', fontSize: 9, lineHeight: 9, overflow: 'hidden' },
+  creditStarBadge: { position: 'absolute', right: '24%', bottom: 8, width: 46, height: 46, borderRadius: 23, backgroundColor: '#075DE2', borderWidth: 2, borderColor: '#83E2FF', color: '#EAFBFF', textAlign: 'center', textAlignVertical: 'center', fontSize: 26, overflow: 'hidden', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
+  creditIntro: { color: '#E2F1FF', fontSize: 13, lineHeight: 19, textAlign: 'center', marginHorizontal: 16, marginTop: 8, marginBottom: 12 },
+  buyCreditsButton: { minHeight: 56, marginTop: 8, marginBottom: 12, borderRadius: 17, backgroundColor: '#086EFF', borderWidth: 1, borderColor: '#70D9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.65, shadowRadius: 18, elevation: 9, opacity: 0.72 },
+  buyCreditsButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
+  buyCreditsHint: { color: '#C5E5FF', fontSize: 10, marginTop: 2 },
+  creditNeverExpire: { textAlign: 'center', color: '#A9C8EA', fontSize: 13, marginTop: 8, marginBottom: 12 },
+  creditsScreen: { paddingTop: 8 },
+  creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
+  creditsBackButton: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.92)', borderWidth: 1, borderColor: '#2467A8', marginRight: 10 },
+  creditsBackText: { color: '#D7EBFF', fontSize: 32, lineHeight: 34, marginTop: -3 },
+  creditsTitle: { color: '#FFFFFF', fontSize: 28, fontWeight: '800', textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 12 },
+  profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
+  profileSettingsButton: { width: 40, height: 40, borderRadius: 13, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#1E5A99', backgroundColor: 'rgba(5,22,51,0.92)' },
+  profileSettingsIcon: { color: '#C5E5FF', fontSize: 22 },
+  profileIdentity: { alignItems: 'center', paddingTop: 7, paddingBottom: 16, marginBottom: 12, borderBottomWidth: 1, borderBottomColor: 'rgba(31,105,175,0.30)' },
+  profileGuestAvatar: { width: 82, height: 82, borderRadius: 41, borderWidth: 2, borderColor: '#2CBFFF', backgroundColor: 'rgba(0,91,180,0.14)', shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 20, elevation: 9 },
+  profileGuestHead: { width: 26, height: 26, borderRadius: 13, borderColor: '#A6D8FF' },
+  profileGuestBody: { width: 58, height: 33, borderColor: '#A6D8FF' },
+  profileGuestName: { color: '#F3F7FF', fontSize: 18, fontWeight: '800' },
+  profileGuestStatus: { color: '#A9BAD4', fontSize: 12, marginTop: 3 },
+  profileVkButton: { height: 54, borderRadius: 16, backgroundColor: '#0877FF', borderWidth: 1, borderColor: '#62CFFF', marginBottom: 17, shadowColor: '#008CFF', shadowOpacity: 0.45, shadowRadius: 15, elevation: 8 },
+  profileVkMark: { color: '#0877FF', backgroundColor: '#FFFFFF', borderRadius: 5, width: 23, height: 23, textAlign: 'center', textAlignVertical: 'center', fontWeight: '900', fontSize: 12, marginRight: 10, overflow: 'hidden' },
+  profileVkText: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
+  profileEmailButton: { minHeight: 44, marginTop: -7, marginBottom: 14, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(66,173,255,0.75)', backgroundColor: 'rgba(3,24,56,0.86)' },
+  profileEmailButtonText: { color: '#A9D8FF', fontSize: 13, fontWeight: '700' },
+  profileCard: { backgroundColor: 'rgba(4,24,58,0.98)', borderRadius: 19, borderWidth: 1, borderColor: '#168BFF', padding: 17, flexDirection: 'row', alignItems: 'center', marginBottom: 15, shadowColor: '#087BFF', shadowOpacity: 0.24, shadowRadius: 16, elevation: 6 },
+  avatar: { width: 52, height: 52, borderRadius: 26, backgroundColor: '#0756B8', borderWidth: 1, borderColor: '#55C9FF', shadowColor: '#168BFF', shadowOpacity: 0.6, shadowRadius: 13, elevation: 6 },
+  profileMenuCard: { marginTop: 4, borderRadius: 18, overflow: 'hidden', borderWidth: 1, borderColor: '#164E87', backgroundColor: 'rgba(4,18,42,0.94)' },
+  menuItem: { minHeight: 55, paddingHorizontal: 15, paddingVertical: 13, marginTop: 0, borderRadius: 0, borderWidth: 0, borderBottomWidth: 1, borderBottomColor: 'rgba(38,103,165,0.42)', backgroundColor: 'transparent' },
   menuItemLast: { borderBottomWidth: 0 },
   menuIcon: { width: 28, color: '#82C9FF', fontSize: 19, textAlign: 'center', marginRight: 10 },
   menuNotificationBadge: { minWidth: 20, height: 20, paddingHorizontal: 5, borderRadius: 10, backgroundColor: '#F02F4F', alignItems: 'center', justifyContent: 'center', marginLeft: 'auto', marginRight: 8 },
   menuNotificationText: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
-  menuText: { color: '#E5F2FF', fontSize: 15 },
+  menuText: { color: '#E5F2FF', fontSize: 14 },
   menuArrow: { color: '#54BFFF', fontSize: 25 },
-  authMonogram: { width: 100, height: 76, alignSelf: 'center', marginTop: 2 },
+  authBrandMark: { width: 78, height: 68, alignSelf: 'center', marginTop: 2, marginBottom: 8, borderRadius: 19, borderWidth: 2, borderColor: '#2ABEFF', backgroundColor: 'rgba(0,83,190,0.28)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 24, elevation: 10 },
+  authBrandMarkText: { color: '#9BEAFF', fontSize: 29, fontWeight: '900', textShadowColor: '#008CFF', textShadowRadius: 13 },
   authBrandTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 27, fontWeight: '900', textAlign: 'center', fontFamily: 'sans-serif-rounded', marginBottom: 18, textShadowColor: '#168BFF', textShadowRadius: 12 },
-  authCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderRadius: 21, borderColor: '#1765B2', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 18, elevation: 6 },
-  bottomNav: { backgroundColor: 'rgba(1,7,19,0.99)', borderTopColor: '#1768B5', borderTopWidth: 1.5, paddingTop: 8, paddingBottom: 14, minHeight: 82, shadowColor: '#006DFF', shadowOpacity: 0.22, shadowRadius: 16, elevation: 14 },
-  navItem: { minHeight: 60, borderRadius: 15 },
-  navItemActive: { backgroundColor: 'rgba(0,104,255,0.20)', borderColor: 'rgba(48,169,255,0.66)', shadowColor: '#008CFF', shadowOpacity: 0.45, shadowRadius: 12, elevation: 5 },
-  navIcon: { color: '#4CAEFF', fontSize: 26 },
-  navLabel: { color: '#8CA8C9', fontSize: 14 },
-  navLabelActive: { color: '#43B8FF', textShadowColor: '#087BFF', textShadowRadius: 9 },
-  notificationButton: { backgroundColor: 'rgba(4,28,63,0.98)', borderColor: '#1765B2' },
-  languageCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderColor: '#1765B2', borderRadius: 17 },
-  version: { color: '#668BB7' },
+  authCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderRadius: 20, borderWidth: 1, borderColor: '#1765B2', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.22, shadowRadius: 18, elevation: 6 },
+  authInput: { backgroundColor: 'rgba(2,12,29,0.98)', borderColor: '#1765B2', borderWidth: 1, borderRadius: 14, minHeight: 52, paddingHorizontal: 14, color: '#FFFFFF', fontSize: 15 },
+  authAction: { backgroundColor: '#0877FF', borderColor: '#70D6FF', borderWidth: 1, borderRadius: 17, minHeight: 56, shadowColor: '#008CFF', shadowOpacity: 0.5, shadowRadius: 18, elevation: 9 },
+  authSecondary: { backgroundColor: 'rgba(5,28,62,0.96)', borderColor: '#178DDF', borderWidth: 1, borderRadius: 15, minHeight: 50 },
+  authSecondaryText: { color: '#EAF5FF', fontSize: 14, fontWeight: '700' },
+  authTextButton: { paddingVertical: 13, alignItems: 'center' },
+  authLinkText: { color: '#83C8FF', fontSize: 14, fontWeight: '700', textAlign: 'center' },
+  authNotice: { color: '#9DD7FF', fontSize: 13, lineHeight: 19, marginTop: 12, padding: 11, borderRadius: 12, backgroundColor: 'rgba(0,105,210,0.14)', borderWidth: 1, borderColor: 'rgba(58,160,255,0.35)' },
+  smallAction: { backgroundColor: 'rgba(5,43,91,0.96)', borderColor: '#168BFF', borderWidth: 1, borderRadius: 13, minHeight: 44, shadowColor: '#087BFF', shadowOpacity: 0.18, shadowRadius: 10, elevation: 3 },
+  smallActionText: { color: '#EAF5FF', fontSize: 14, fontWeight: '700' },
+  note: { color: '#9CB9D8', fontSize: 13, lineHeight: 21 },
+  introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010714', alignItems: 'center', justifyContent: 'center' },
+  introStarField: { ...StyleSheet.absoluteFillObject },
+  introStar: { backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 0.95, shadowRadius: 5 },
+  introWaterGlow: { left: '-22%', right: '-22%', bottom: '1%', height: '27%', borderTopWidth: 1, borderTopColor: 'rgba(71,183,255,0.32)', borderRadius: 260, backgroundColor: 'rgba(0,67,125,0.16)', transform: [{ scaleX: 1.15 }] },
+  introNebulaTop: { width: 430, height: 430, borderRadius: 215, top: '7%', backgroundColor: '#064AC4', opacity: 0.28, shadowColor: '#078CFF', shadowOpacity: 1, shadowRadius: 80, elevation: 30 },
+  introNebulaBottom: { width: 500, height: 260, borderRadius: 250, bottom: '4%', backgroundColor: '#006A9E', opacity: 0.19, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 75, elevation: 25 },
+  introOrbitOuter: { width: 330, height: 330, borderRadius: 165, borderWidth: 2, borderColor: 'rgba(70,177,255,0.62)', shadowColor: '#168CFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 16 },
+  introOrbitInner: { width: 265, height: 265, borderRadius: 132, borderWidth: 1.5, borderColor: 'rgba(129,218,255,0.42)' },
+  introLogoHalo: { width: 285, height: 235, borderRadius: 120, backgroundColor: '#0756C5', opacity: 0.34, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 65, elevation: 30 },
+  introReelWrap: { position: 'absolute', top: '22%', width: 240, height: 190, alignItems: 'center', justifyContent: 'center' },
+  introLogoPanel: { width: 224, height: 150, borderRadius: 0, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', shadowColor: '#168CFF', shadowOpacity: 0.9, shadowRadius: 42, elevation: 22, transform: [{ rotate: '-8deg' }] },
+  introReelPlay: { color: '#45C6FF', fontSize: 78, lineHeight: 88, fontWeight: '900', textShadowColor: '#006DFF', textShadowRadius: 30, letterSpacing: -5 },
+  introAccentLine: { position: 'absolute', bottom: '21%', width: 116, height: 3, borderRadius: 2, backgroundColor: '#48C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 14, elevation: 10 },
+  introHorizon: { position: 'absolute', left: 0, right: 0, top: '72%', height: 1, backgroundColor: 'rgba(69,145,255,0.18)' },
+  introTitle: { position: 'absolute', bottom: '24%', color: '#FFFFFF', fontSize: 42, lineHeight: 45, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.4, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 27, elevation: 12 },
+  introTagline: { position: 'absolute', bottom: '10%', color: '#B8D9FF', fontSize: 17, lineHeight: 24, textAlign: 'center', fontWeight: '600', textShadowColor: '#168BFF', textShadowRadius: 14 },
+  introProgressTrack: { position: 'absolute', bottom: '5%', width: '86%', maxWidth: 300, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
+  introProgressFill: { width: '40%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
+  ambientHorizon: { position: 'absolute', top: 112, left: 22, right: 22, height: 1, backgroundColor: 'rgba(73,158,255,0.12)' },
+  ambientStarOne: { position: 'absolute', top: '18%', left: '17%', width: 4, height: 4, borderRadius: 2, backgroundColor: '#9BEAFF', shadowColor: '#39AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
+  ambientStarTwo: { position: 'absolute', top: '43%', right: '13%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#70C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
+  ambientStarThree: { position: 'absolute', bottom: '19%', left: '28%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#A7E7FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
+  brandWordmark: { justifyContent: 'center', gap: 1 },
+  notificationBadgeText: { color: '#FFFFFF', fontSize: 10, fontWeight: '900' },
+  avatarText: { color: '#EAF5FF', fontSize: 15, fontWeight: '900' },
+  profileName: { color: '#FFFFFF', fontSize: 13, fontWeight: '800', letterSpacing: 1 },
+  purchaseDisabled: { opacity: 0.5, borderWidth: 1, borderColor: '#28527D' },
+  authDivider: { alignItems: 'center', marginTop: 8, marginBottom: 8 },
+  version: { color: '#668BB7', fontSize: 11, letterSpacing: 1.3, textAlign: 'center', marginTop: 25 },
 };
 
 const styles = StyleSheet.create({
@@ -3523,9 +3638,9 @@ const styles = StyleSheet.create({
   introNebulaBottom: { position: 'absolute', width: 500, height: 260, borderRadius: 250, bottom: '4%', backgroundColor: '#006A9E', opacity: 0.19, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 75, elevation: 25 },
   introOrbitOuter: { position: 'absolute', width: 330, height: 330, borderRadius: 165, borderWidth: 2, borderColor: 'rgba(70,177,255,0.62)', shadowColor: '#168CFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 16 },
   introOrbitInner: { position: 'absolute', width: 265, height: 265, borderRadius: 132, borderWidth: 1.5, borderColor: 'rgba(129,218,255,0.42)' },
-  introLogoHalo: { position: 'absolute', width: 255, height: 205, borderRadius: 105, backgroundColor: '#0756C5', opacity: 0.28, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 55, elevation: 30 },
+  introLogoHalo: { position: 'absolute', width: 285, height: 235, borderRadius: 120, backgroundColor: '#0756C5', opacity: 0.34, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 65, elevation: 30 },
   introLogoImage: { width: 270, height: 205 },
-  introReelWrap: { position: 'absolute', top: '10%', width: 310, height: 330, alignItems: 'center', justifyContent: 'center' },
+  introReelWrap: { position: 'absolute', top: '8%', width: 310, height: 330, alignItems: 'center', justifyContent: 'center' },
   introFilmStrip: { position: 'absolute', top: 35, left: -15, width: 340, height: 78, borderWidth: 8, borderColor: '#168CFF', borderRadius: 12, backgroundColor: 'rgba(3,22,58,0.88)', transform: [{ rotate: '-25deg' }], shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 22, elevation: 14, overflow: 'hidden' },
   introFilmRailTop: { position: 'absolute', top: 1, left: 7, right: 7, height: 9, flexDirection: 'row', justifyContent: 'space-between' },
   introFilmRailBottom: { position: 'absolute', bottom: 1, left: 7, right: 7, height: 9, flexDirection: 'row', justifyContent: 'space-between' },
@@ -3546,13 +3661,13 @@ const styles = StyleSheet.create({
   introBeamLeft: { position: 'absolute', top: '18%', left: '-20%', width: '78%', height: 1, backgroundColor: 'rgba(76,159,255,0.36)', transform: [{ rotate: '24deg' }] },
   introBeamRight: { position: 'absolute', top: '24%', right: '-18%', width: '72%', height: 1, backgroundColor: 'rgba(80,196,255,0.25)', transform: [{ rotate: '-27deg' }] },
   introHorizon: { position: 'absolute', left: 0, right: 0, top: '72%', height: 1, backgroundColor: 'rgba(69,145,255,0.18)' },
-  introTitle: { position: 'absolute', bottom: '25%', color: WHITE, fontSize: 43, lineHeight: 48, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.6, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 25, elevation: 12 },
-  introTagline: { position: 'absolute', bottom: '12%', color: '#B8D9FF', fontSize: 18, lineHeight: 26, textAlign: 'center', fontWeight: '500', textShadowColor: '#168BFF', textShadowRadius: 12 },
+  introTitle: { position: 'absolute', bottom: '24%', color: WHITE, fontSize: 42, lineHeight: 45, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.4, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 27, elevation: 12 },
+  introTagline: { position: 'absolute', bottom: '10%', color: '#B8D9FF', fontSize: 17, lineHeight: 24, textAlign: 'center', fontWeight: '600', textShadowColor: '#168BFF', textShadowRadius: 14 },
   introProgressTrack: { position: 'absolute', bottom: '5%', width: '86%', maxWidth: 300, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
   introProgressFill: { width: '40%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
   header: {
-    paddingHorizontal: 20,
-    paddingVertical: 17,
+    paddingHorizontal: 18,
+    paddingVertical: 11,
     backgroundColor: 'rgba(8,11,20,0.72)',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -3560,15 +3675,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#1B2434',
   },
-  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 15 },
-  brandLogoImage: { width: 48, height: 40 },
+  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 0 },
+  brandMarkLarge: { width: 45, height: 42, borderRadius: 11, borderWidth: 1.5, borderColor: '#2ABEFF', backgroundColor: 'rgba(0,83,190,0.34)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 15, elevation: 8 },
+  brandMarkLargeText: { color: '#9BEAFF', fontSize: 18, fontWeight: '900', textShadowColor: '#008CFF', textShadowRadius: 9 },
   brandWordmark: { justifyContent: 'center' },
   brandMark: { width: 36, height: 36, borderRadius: 11, backgroundColor: '#102B5D', borderWidth: 1, borderColor: '#28B9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#087CFF', shadowOpacity: 0.8, shadowRadius: 9, elevation: 6 },
   brandMarkText: { color: '#7BE8FF', fontSize: 14, fontWeight: '900' },
-  logo: { color: WHITE, fontSize: 20, lineHeight: 21, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
-  logoSecond: { color: '#8DBBFF', fontSize: 20, lineHeight: 21, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
+  logo: { color: WHITE, fontSize: 18, lineHeight: 19, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
+  logoSecond: { color: '#8DBBFF', fontSize: 18, lineHeight: 19, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
   logoBlue: { color: BLUE },
-  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 15 },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 0 },
   notificationButton: { width: 42, height: 42, borderRadius: 13, borderWidth: 1, borderColor: '#263B5D', backgroundColor: '#101B30', alignItems: 'center', justifyContent: 'center', position: 'relative' },
   notificationIcon: { color: '#9CCBFF', fontSize: 23, fontWeight: '800' },
   notificationBadge: { position: 'absolute', top: -4, right: -4, minWidth: 17, height: 17, borderRadius: 9, backgroundColor: BLUE, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3 },
