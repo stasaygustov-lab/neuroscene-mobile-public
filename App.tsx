@@ -1852,7 +1852,7 @@ export default function App() {
             <Text style={styles.profileEmailButtonText}>{profileEmailOpen ? 'Скрыть вход по email' : 'Войти по email'}</Text>
           </TouchableOpacity>
           {profileEmailOpen && <View style={styles.authCard}>
-            <Image source={require('./assets/Футуристический серебряно-синий монограмный логотип HC-1.png')} style={styles.authMonogram} resizeMode="contain" />
+            <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
             <Text style={styles.authBrandTitle}>Нейро{ '\n' }Сцена</Text>
             <Text style={styles.sectionTitle}>{uiText(language, 'SIGN IN OR REGISTER', 'ВХОД ПО EMAIL')}</Text>
             <TextInput
@@ -1975,11 +1975,9 @@ export default function App() {
 
       {tab === 'Create' && <View style={styles.header}>
         <View style={styles.brandRow}>
-          <Image
-            source={require('./assets/Футуристический серебряно-синий монограмный логотип HC-1.png')}
-            style={styles.brandLogoImage}
-            resizeMode="contain"
-          />
+          <View style={styles.brandMarkLarge}>
+            <Text style={styles.brandMarkLargeText}>Н+С</Text>
+          </View>
           <View style={styles.brandWordmark}>
             <Text style={styles.logo}>Нейро</Text>
             <Text style={styles.logoSecond}>Сцена</Text>
@@ -3424,13 +3422,13 @@ const COSMIC_OVERRIDES = {
   screen: { paddingTop: 8 },
   screenTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 31, fontWeight: '900', fontFamily: 'sans-serif-rounded', marginTop: 7, marginBottom: 15, textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 12 },
   galleryHeader: { marginBottom: 2 },
-  galleryLimit: { color: '#A5C8EF', fontSize: 14, marginTop: 0, marginBottom: 12 },
+  galleryLimit: { color: '#A5C8EF', fontSize: 12, textAlign: 'center', marginTop: 0, marginBottom: 8 },
   storageTrack: { height: 5, borderRadius: 3, overflow: 'hidden', backgroundColor: 'rgba(47,93,149,0.55)', marginTop: -6, marginBottom: 8 },
   storageProgress: { height: 5, borderRadius: 3, backgroundColor: '#079BFF', shadowColor: '#18B9FF', shadowOpacity: 0.9, shadowRadius: 8 },
   galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.72)', paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6, fontSize: 11, fontWeight: '700' },
-  galleryCard: { width: '48.5%', backgroundColor: 'rgba(4,18,42,0.97)', borderRadius: 18, padding: 11, marginTop: 10, borderColor: '#1765B2', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 14, elevation: 5 },
+  galleryCard: { width: '48.5%', backgroundColor: 'rgba(4,18,42,0.97)', borderRadius: 15, padding: 8, marginTop: 8, borderWidth: 1, borderColor: 'rgba(35,119,203,0.76)', shadowColor: '#006DFF', shadowOpacity: 0.24, shadowRadius: 14, elevation: 5 },
   galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start' },
-  galleryTabs: { flexDirection: 'row', padding: 4, borderRadius: 14, backgroundColor: 'rgba(5,18,43,0.96)', borderWidth: 1, borderColor: '#173D72', marginBottom: 12 },
+  galleryTabs: { flexDirection: 'row', padding: 4, borderRadius: 13, backgroundColor: 'rgba(5,18,43,0.96)', borderWidth: 1, borderColor: '#173D72', marginBottom: 8 },
   galleryTab: { flex: 1, paddingVertical: 10, alignItems: 'center', borderRadius: 11 },
   galleryTabActive: { backgroundColor: '#0877FF', shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 12, elevation: 6 },
   galleryTabText: { color: '#A7BBD8', fontSize: 14, fontWeight: '700' },
@@ -3438,7 +3436,7 @@ const COSMIC_OVERRIDES = {
   galleryPreview: { position: 'relative' },
   galleryFavorite: { position: 'absolute', top: 7, right: 7, width: 32, height: 32, borderRadius: 16, backgroundColor: 'rgba(1,8,22,0.82)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(104,194,255,0.7)' },
   galleryFavoriteText: { color: '#73CFFF', fontSize: 23, lineHeight: 27 },
-  creditBalanceLine: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 17, paddingVertical: 12, marginBottom: 16, borderRadius: 13, backgroundColor: 'rgba(4,24,58,0.76)', borderWidth: 1, borderColor: 'rgba(38,112,191,0.6)' },
+  creditBalanceLine: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 17, paddingVertical: 12, marginBottom: 12, borderRadius: 13, backgroundColor: 'rgba(4,24,58,0.94)', borderWidth: 1, borderColor: 'rgba(38,112,191,0.72)', shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 12, elevation: 4 },
   creditBalanceLabel: { color: '#A9C8EA', fontSize: 13, fontWeight: '700', letterSpacing: 1 },
   creditBalanceValue: { color: '#FFFFFF', fontSize: 20, fontWeight: '800', textShadowColor: '#168BFF', textShadowRadius: 10 },
   packagePrice: { color: '#B7D7FF', fontSize: 14, marginTop: 3 },
@@ -3462,12 +3460,12 @@ const COSMIC_OVERRIDES = {
   galleryActionText: { color: '#B9DEFF', fontSize: 14 },
   deleteVideoButton: { backgroundColor: 'rgba(103,25,55,0.34)', borderRadius: 11 },
   emptyScreen: { minHeight: 360, padding: 22, borderRadius: 22, backgroundColor: 'rgba(4,18,42,0.86)', borderWidth: 1, borderColor: '#15599D' },
-  creditsScreen: { paddingTop: 20 },
+  creditsScreen: { paddingTop: 8 },
   creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
   creditsBackButton: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.92)', borderWidth: 1, borderColor: '#2467A8', marginRight: 10 },
   creditsBackText: { color: '#D7EBFF', fontSize: 32, lineHeight: 34, marginTop: -3 },
   creditsTitle: { color: '#FFFFFF', fontSize: 28, fontWeight: '800', textShadowColor: 'rgba(16,116,255,0.52)', textShadowRadius: 12 },
-  creditIllustration: { height: 184, width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 4, position: 'relative' },
+  creditIllustration: { height: 126, width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: -2, marginBottom: 2, position: 'relative', borderRadius: 18, backgroundColor: 'rgba(3,20,49,0.82)', borderWidth: 1, borderColor: 'rgba(21,135,255,0.72)', overflow: 'hidden' },
   creditCoinStack: { position: 'absolute', bottom: 22, alignItems: 'center', justifyContent: 'flex-end' },
   creditStackLeft: { left: '22%' },
   creditStackCenter: { left: '42%', bottom: 26 },
@@ -3475,9 +3473,9 @@ const COSMIC_OVERRIDES = {
   creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#F5A623', borderWidth: 2, borderColor: '#FFE08A', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB52E', shadowOpacity: 0.95, shadowRadius: 12, elevation: 8 },
   creditCoinInner: { width: 43, height: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,241,190,0.85)', color: '#FFF0B0', textAlign: 'center', fontSize: 9, lineHeight: 9, overflow: 'hidden' },
   creditStarBadge: { position: 'absolute', right: '24%', bottom: 8, width: 46, height: 46, borderRadius: 23, backgroundColor: '#D98B16', borderWidth: 2, borderColor: '#FFE08A', color: '#FFF0B0', textAlign: 'center', textAlignVertical: 'center', fontSize: 26, overflow: 'hidden', shadowColor: '#FFB52E', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
-  creditIntro: { color: '#E2F1FF', fontSize: 15, lineHeight: 22, textAlign: 'center', marginHorizontal: 24, marginBottom: 20 },
-  profileIdentity: { alignItems: 'center', paddingTop: 4, paddingBottom: 17 },
-  profileGuestAvatar: { width: 88, height: 88, borderRadius: 44, borderWidth: 2, borderColor: '#00B8FF', backgroundColor: 'rgba(0,91,180,0.20)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 10, shadowColor: '#00AFFF', shadowOpacity: 0.72, shadowRadius: 18, elevation: 8 },
+  creditIntro: { color: '#E2F1FF', fontSize: 13, lineHeight: 18, textAlign: 'center', marginHorizontal: 16, marginTop: 8, marginBottom: 12 },
+  profileIdentity: { alignItems: 'center', paddingTop: 2, paddingBottom: 12, marginBottom: 5, borderBottomWidth: 1, borderBottomColor: 'rgba(31,105,175,0.30)' },
+  profileGuestAvatar: { width: 76, height: 76, borderRadius: 38, borderWidth: 2, borderColor: '#00B8FF', backgroundColor: 'rgba(0,91,180,0.14)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', marginBottom: 8, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 20, elevation: 9 },
   profileGuestHead: { width: 25, height: 25, borderRadius: 13, backgroundColor: 'transparent', borderWidth: 2, borderColor: '#23BFFF', marginTop: 5 },
   profileGuestBody: { width: 56, height: 31, borderTopLeftRadius: 29, borderTopRightRadius: 29, backgroundColor: 'transparent', borderWidth: 2, borderBottomWidth: 0, borderColor: '#23BFFF', marginTop: 4 },
   profileGuestName: { color: '#F3F7FF', fontSize: 18, fontWeight: '800', marginTop: 0 },
@@ -3490,7 +3488,7 @@ const COSMIC_OVERRIDES = {
   balanceCard: { backgroundColor: 'rgba(4,24,58,0.98)', borderRadius: 23, borderColor: '#168BFF', padding: 24, marginTop: 4, marginBottom: 22, shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 24, elevation: 10 },
   balanceLabel: { color: '#9BCBFF' },
   bigBalance: { fontSize: 42, textShadowColor: '#147DFF', textShadowRadius: 17 },
-  packageCard: { backgroundColor: 'rgba(5,20,46,0.98)', borderRadius: 17, borderColor: '#1765B2', padding: 16, minHeight: 74, shadowColor: '#006DFF', shadowOpacity: 0.16, shadowRadius: 12, elevation: 3 },
+  packageCard: { backgroundColor: 'rgba(5,20,46,0.98)', borderRadius: 15, borderColor: '#1765B2', paddingHorizontal: 13, paddingVertical: 12, minHeight: 66, marginBottom: 9, shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 12, elevation: 3 },
   packageIconWrap: { width: 42, height: 42, borderRadius: 13, alignItems: 'center', justifyContent: 'center', marginRight: 12, backgroundColor: 'rgba(0,111,255,0.18)', borderWidth: 1, borderColor: 'rgba(68,176,255,0.55)' },
   packageIcon: { color: '#FFD45E', fontSize: 28, textShadowColor: '#FFB52E', textShadowRadius: 9 },
   packageDiamond: { color: '#53C9FF', textShadowColor: '#168BFF' },
@@ -3511,7 +3509,8 @@ const COSMIC_OVERRIDES = {
   menuNotificationText: { color: '#FFFFFF', fontSize: 11, fontWeight: '800' },
   menuText: { color: '#E5F2FF', fontSize: 15 },
   menuArrow: { color: '#54BFFF', fontSize: 25 },
-  authMonogram: { width: 100, height: 76, alignSelf: 'center', marginTop: 2 },
+  authBrandMark: { width: 78, height: 68, alignSelf: 'center', marginTop: 2, marginBottom: 8, borderRadius: 19, borderWidth: 2, borderColor: '#2ABEFF', backgroundColor: 'rgba(0,83,190,0.28)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 10 },
+  authBrandMarkText: { color: '#9BEAFF', fontSize: 29, fontWeight: '900', textShadowColor: '#008CFF', textShadowRadius: 13 },
   authBrandTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 27, fontWeight: '900', textAlign: 'center', fontFamily: 'sans-serif-rounded', marginBottom: 18, textShadowColor: '#168BFF', textShadowRadius: 12 },
   authCard: { backgroundColor: 'rgba(4,20,47,0.98)', borderRadius: 21, borderColor: '#1765B2', padding: 18, shadowColor: '#087BFF', shadowOpacity: 0.2, shadowRadius: 18, elevation: 6 },
   bottomNav: { backgroundColor: 'rgba(1,7,19,0.99)', borderTopColor: '#1768B5', borderTopWidth: 1.5, paddingTop: 8, paddingBottom: 14, minHeight: 82, shadowColor: '#006DFF', shadowOpacity: 0.22, shadowRadius: 16, elevation: 14 },
@@ -3551,9 +3550,9 @@ const styles = StyleSheet.create({
   introNebulaBottom: { position: 'absolute', width: 500, height: 260, borderRadius: 250, bottom: '4%', backgroundColor: '#006A9E', opacity: 0.19, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 75, elevation: 25 },
   introOrbitOuter: { position: 'absolute', width: 330, height: 330, borderRadius: 165, borderWidth: 2, borderColor: 'rgba(70,177,255,0.62)', shadowColor: '#168CFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 16 },
   introOrbitInner: { position: 'absolute', width: 265, height: 265, borderRadius: 132, borderWidth: 1.5, borderColor: 'rgba(129,218,255,0.42)' },
-  introLogoHalo: { position: 'absolute', width: 255, height: 205, borderRadius: 105, backgroundColor: '#0756C5', opacity: 0.28, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 55, elevation: 30 },
+  introLogoHalo: { position: 'absolute', width: 285, height: 235, borderRadius: 120, backgroundColor: '#0756C5', opacity: 0.34, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 65, elevation: 30 },
   introLogoImage: { width: 270, height: 205 },
-  introReelWrap: { position: 'absolute', top: '10%', width: 310, height: 330, alignItems: 'center', justifyContent: 'center' },
+  introReelWrap: { position: 'absolute', top: '8%', width: 310, height: 330, alignItems: 'center', justifyContent: 'center' },
   introFilmStrip: { position: 'absolute', top: 35, left: -15, width: 340, height: 78, borderWidth: 8, borderColor: '#168CFF', borderRadius: 12, backgroundColor: 'rgba(3,22,58,0.88)', transform: [{ rotate: '-25deg' }], shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 22, elevation: 14, overflow: 'hidden' },
   introFilmRailTop: { position: 'absolute', top: 1, left: 7, right: 7, height: 9, flexDirection: 'row', justifyContent: 'space-between' },
   introFilmRailBottom: { position: 'absolute', bottom: 1, left: 7, right: 7, height: 9, flexDirection: 'row', justifyContent: 'space-between' },
@@ -3574,8 +3573,8 @@ const styles = StyleSheet.create({
   introBeamLeft: { position: 'absolute', top: '18%', left: '-20%', width: '78%', height: 1, backgroundColor: 'rgba(76,159,255,0.36)', transform: [{ rotate: '24deg' }] },
   introBeamRight: { position: 'absolute', top: '24%', right: '-18%', width: '72%', height: 1, backgroundColor: 'rgba(80,196,255,0.25)', transform: [{ rotate: '-27deg' }] },
   introHorizon: { position: 'absolute', left: 0, right: 0, top: '72%', height: 1, backgroundColor: 'rgba(69,145,255,0.18)' },
-  introTitle: { position: 'absolute', bottom: '25%', color: WHITE, fontSize: 43, lineHeight: 48, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.6, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 25, elevation: 12 },
-  introTagline: { position: 'absolute', bottom: '12%', color: '#B8D9FF', fontSize: 18, lineHeight: 26, textAlign: 'center', fontWeight: '500', textShadowColor: '#168BFF', textShadowRadius: 12 },
+  introTitle: { position: 'absolute', bottom: '24%', color: WHITE, fontSize: 42, lineHeight: 45, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.4, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 27, elevation: 12 },
+  introTagline: { position: 'absolute', bottom: '10%', color: '#B8D9FF', fontSize: 17, lineHeight: 24, textAlign: 'center', fontWeight: '600', textShadowColor: '#168BFF', textShadowRadius: 14 },
   introProgressTrack: { position: 'absolute', bottom: '5%', width: '86%', maxWidth: 300, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
   introProgressFill: { width: '40%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
   header: {
@@ -3589,7 +3588,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#1B2434',
   },
   brandRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 0 },
-  brandLogoImage: { width: 43, height: 42 },
+  brandMarkLarge: { width: 45, height: 42, borderRadius: 11, borderWidth: 1.5, borderColor: '#2ABEFF', backgroundColor: 'rgba(0,83,190,0.34)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 15, elevation: 8 },
+  brandMarkLargeText: { color: '#9BEAFF', fontSize: 18, fontWeight: '900', textShadowColor: '#008CFF', textShadowRadius: 9 },
   brandWordmark: { justifyContent: 'center' },
   brandMark: { width: 36, height: 36, borderRadius: 11, backgroundColor: '#102B5D', borderWidth: 1, borderColor: '#28B9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#087CFF', shadowOpacity: 0.8, shadowRadius: 9, elevation: 6 },
   brandMarkText: { color: '#7BE8FF', fontSize: 14, fontWeight: '900' },
