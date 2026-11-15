@@ -185,7 +185,6 @@ export default function App() {
   const [promptEnhancing, setPromptEnhancing] = useState(false);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [authUser, setAuthUser] = useState<any | null>(null);
-  const [authReady, setAuthReady] = useState(true);
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
@@ -335,7 +334,6 @@ export default function App() {
       } catch {
         await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY).catch(() => undefined);
       } finally {
-        if (mounted) setAuthReady(true);
       }
     };
     restoreSession();
@@ -2037,7 +2035,7 @@ export default function App() {
         showsVerticalScrollIndicator={false}
         {...swipeResponder.panHandlers}
       >
-        {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
+        <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition>
       </ScrollView>
 
       <View style={styles.bottomNav}>
