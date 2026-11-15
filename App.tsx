@@ -1858,6 +1858,10 @@ export default function App() {
             <Text style={styles.profileGuestStatus}>Не в сети</Text>
             <Text style={styles.profileGuestStatusCaption}>Твоя творческая студия на компьютере</Text>
           </View>
+          <View style={styles.loginBrandLockup}>
+            <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
+            <Text style={styles.authBrandTitle}>Нейро{ '\n' }Сцена</Text>
+          </View>
           <TouchableOpacity activeOpacity={0.86} style={styles.profileVkButton} onPress={handleVkLogin} disabled={authBusy}>
             <Text style={styles.profileVkMark}>ᴠκ</Text>
             <Text style={styles.profileVkText}>Войти через VK ID</Text>
@@ -1865,6 +1869,8 @@ export default function App() {
           <TouchableOpacity activeOpacity={0.86} style={styles.profileEmailButton} onPress={() => setProfileEmailOpen((value) => !value)}>
             <Text style={styles.profileEmailButtonText}>{profileEmailOpen ? 'Скрыть вход по email' : 'Войти по email'}</Text>
           </TouchableOpacity>
+          <Text style={styles.loginLegalText}>Продолжая, вы подтверждаете ознакомление с условиями использования и политикой конфиденциальности.</Text>
+          <View pointerEvents="none" style={styles.loginBottomWave}><View style={styles.loginBottomWaveLine} /></View>
           {profileEmailOpen && <View style={styles.authCard}>
             <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
             <Text style={styles.authBrandTitle}>Нейро{ '\n' }Сцена</Text>
@@ -3687,6 +3693,10 @@ const REFERENCE_POLISH = {
   profileIdentity: { paddingTop: 17, paddingBottom: 21, borderBottomColor: 'rgba(55,143,222,0.42)' },
   profileGuestAvatar: { width: 98, height: 98, borderColor: '#66D8FF', shadowRadius: 25 },
   profileVkButton: { height: 45, minHeight: 45, borderRadius: 12, marginBottom: 12, backgroundColor: '#0877F9', borderColor: '#83E4FF' },
+  loginBrandLockup: { alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 8 },
+  loginLegalText: { color: '#819DBE', fontSize: 10, lineHeight: 15, textAlign: 'center', marginHorizontal: 20, marginTop: 3, marginBottom: 9 },
+  loginBottomWave: { height: 38, marginHorizontal: -14, marginTop: 3, marginBottom: 8, overflow: 'hidden', alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 180, borderTopRightRadius: 180, backgroundColor: 'rgba(0,79,160,0.12)', borderTopWidth: 1, borderTopColor: 'rgba(70,179,255,0.35)' },
+  loginBottomWaveLine: { width: '82%', height: 1, backgroundColor: 'rgba(83,196,255,0.7)', shadowColor: '#008CFF', shadowOpacity: 1, shadowRadius: 15, elevation: 8 },
   profileEmailButton: { minHeight: 54, borderRadius: 16, backgroundColor: 'rgba(3,18,43,0.98)', borderColor: 'rgba(77,174,255,0.76)' },
   profileMenuCard: { paddingHorizontal: 14, paddingVertical: 4, borderRadius: 18, backgroundColor: 'rgba(4,17,40,0.96)', borderWidth: 1, borderColor: 'rgba(52,131,204,0.54)' },
   menuItem: { minHeight: 58, borderBottomColor: 'rgba(54,111,169,0.30)' },
