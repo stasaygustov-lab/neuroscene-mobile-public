@@ -333,7 +333,6 @@ export default function App() {
         }
       } catch {
         await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY).catch(() => undefined);
-      } finally {
       }
     };
     restoreSession();
