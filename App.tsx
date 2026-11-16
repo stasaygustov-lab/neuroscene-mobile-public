@@ -1760,18 +1760,18 @@ export default function App() {
       return (
         <View style={[styles.screen, styles.creditsScreen]}>
           <View style={styles.creditsHeader}>
-            <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text><View style={styles.creditsTitleGlow} />
+            <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
+            <View style={styles.creditsTitleGlow} />
           </View>
-          <View style={styles.creditTopRow}>
-            <View style={styles.creditIllustration} accessibilityLabel="Высокодетализированные золотые монеты из референса">
-              <View pointerEvents="none" style={styles.creditIllustrationGlow} />
+
+          <View style={styles.creditBalanceCard}>
+            <View pointerEvents="none" style={styles.creditIllustrationGlow} />
+            <View style={styles.creditHeroCoins}>
               <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
-                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
                 <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
                 <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
               </View>
               <View style={[styles.creditCoinStack, styles.creditStackCenter]}>
-                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
                 <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
                 <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
                 <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
@@ -1780,27 +1780,38 @@ export default function App() {
                 <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
                 <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
               </View>
-              <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
             </View>
-            <View style={styles.creditPackageColumn}>
-              <Text style={styles.creditPackagesTitle}>Пакеты кредитов</Text>
-              {[500, 1500, 5000].map((amount) => (
-                <View style={[styles.packageCard, amount === 1500 && styles.packageCardPopular]} key={amount}>
-                  <View style={styles.packageIconWrap}>
-                    <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
-                  </View>
-                  <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
-                    <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
-                  </View>
-                  <View style={styles.packageRight}>
-                    {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
-                    <Text style={styles.packageIncluded}>Без подписки</Text>
-                  </View>
-                </View>
-              ))}
-            </View>
+            <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '1 500' : creditsBalance.toLocaleString('ru-RU')}</Text>
+            <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
           </View>
+
+          <Text style={styles.creditPackagesTitle}>{uiText(language, 'Credit packages', 'Пакеты кредитов')}</Text>
+          <View style={styles.creditPackagesList}>
+            {[500, 1500, 5000].map((amount) => (
+              <View style={[styles.packageCard, amount === 1500 && styles.packageCardPopular]} key={amount}>
+                <View style={styles.packageIconWrap}>
+                  <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
+                </View>
+                <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')} кредитов</Text>
+                <View style={styles.packageRight}>
+                  {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
+                  <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+
+          <View style={styles.creditBenefits}>
+            <Text style={styles.creditBenefit}>✓  Кредиты не сгорают</Text>
+            <Text style={styles.creditBenefit}>✓  Без подписок</Text>
+            <Text style={styles.creditBenefit}>✓  Без рекламы</Text>
+          </View>
+
+          <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
+            <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
+          </TouchableOpacity>
+          <Text style={styles.creditNeverExpire}>∞  Кредиты не сгорают</Text>
+
           <View style={styles.welcomeBonusCard}>
             <View style={styles.welcomeBonusIcon}><Text style={styles.welcomeBonusGlyph}>✧</Text></View>
             <View style={{ flex: 1 }}>
@@ -1808,11 +1819,7 @@ export default function App() {
               <Text style={styles.welcomeBonusText}>Одна пробная генерация — начните создавать свой первый фильм</Text>
             </View>
           </View>
-          <View style={styles.creditBalancePanel}>
-            <Text style={styles.creditBalanceEyebrow}>ВАШ БАЛАНС</Text>
-            <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
-            <Text style={styles.creditBalanceHeroLabel}>{creditsBalance === null && !creditsLoading ? 'Войдите, чтобы увидеть баланс' : 'кредитов'}</Text>
-          </View>
+
           <View style={styles.creditHistorySection}>
             <View style={styles.creditHistoryHeader}>
               <Text style={styles.sectionTitle}>{uiText(language, 'CREDIT ACTIVITY', 'ИСТОРИЯ ОПЕРАЦИЙ')}</Text>
@@ -1841,11 +1848,6 @@ export default function App() {
               </View>
             )}
           </View>
-          <Text style={styles.creditNeverExpire}>∞  Кредиты не сгорают</Text>
-          <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
-            <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
-            <Text style={styles.buyCreditsHint}>Без подписки · Кредиты не сгорают</Text>
-          </TouchableOpacity>
         </View>
       );
     }
@@ -4948,6 +4950,64 @@ const FINAL_UI_FIXES_V17 = {
   profileIdentity: { marginTop: 4 },
 };
 
+
+const FINAL_UI_FIXES_V18 = {
+  // Clean header: no backing plate behind the brand or bell.
+  brandMarkSmall: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
+  brandWordmark: { backgroundColor: 'transparent' },
+  logo: { backgroundColor: 'transparent', padding: 0 },
+  notificationButton: { width: 42, height: 42, backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0, shadowOpacity: 0, elevation: 0, alignItems: 'center', justifyContent: 'center' },
+  notificationBell: { width: 26, height: 29, alignItems: 'center', justifyContent: 'center' },
+  notificationBellDome: { width: 18, height: 18, borderTopLeftRadius: 10, borderTopRightRadius: 10, borderBottomLeftRadius: 4, borderBottomRightRadius: 4, borderWidth: 2, borderBottomWidth: 0, borderColor: '#D7F2FF', backgroundColor: 'transparent' },
+  notificationBellBase: { width: 23, height: 2, marginTop: -1, borderRadius: 1, backgroundColor: '#D7F2FF' },
+  notificationBellClapper: { width: 4, height: 4, marginTop: 2, borderRadius: 2, backgroundColor: '#D7F2FF' },
+  createTitleWrap: { backgroundColor: 'transparent', borderWidth: 0, elevation: 0 },
+  createScreenTitle: { backgroundColor: 'transparent' },
+  featureSectionTitle: { backgroundColor: 'transparent' },
+  featureTitle: { backgroundColor: 'transparent' },
+  featureSubtitle: { backgroundColor: 'transparent' },
+  featureIconSquare: { backgroundColor: 'transparent', borderWidth: 0, elevation: 0 },
+  // Gallery art is lossless PNG; the image window itself stays completely transparent.
+  galleryTitleWrap: { width: '100%', alignItems: 'center', justifyContent: 'center' },
+  galleryTitle: { width: '100%', textAlign: 'center', alignSelf: 'center', backgroundColor: 'transparent' },
+  galleryEmptyArtwork: { width: 250, height: 205, backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0, shadowOpacity: 0, elevation: 0, overflow: 'hidden' },
+  galleryReferenceArtwork: { position: 'absolute', width: 1610, height: 1788, left: -1048, top: -232 },
+  // Credits layout follows the reference: large balance card, vertical package rows, benefits, CTA.
+  creditsScreen: { paddingTop: 2, paddingBottom: 22 },
+  creditsHeader: { alignItems: 'flex-start', marginBottom: 10 },
+  creditBalanceCard: { height: 164, minHeight: 164, width: '100%', marginBottom: 17, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(0,164,255,0.9)', backgroundColor: 'rgba(3,17,43,0.82)', overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 9, shadowColor: '#087BFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 6 },
+  creditHeroCoins: { position: 'absolute', top: 12, left: 0, right: 0, height: 65, alignItems: 'center', justifyContent: 'center' },
+  creditIllustrationGlow: { position: 'absolute', top: -40, left: '12%', width: '76%', height: 150, borderRadius: 90, backgroundColor: 'rgba(0,111,255,0.18)' },
+  creditStackLeft: { left: '35%', bottom: 0 },
+  creditStackCenter: { left: '46%', bottom: 5 },
+  creditStackRight: { right: '31%', bottom: 0 },
+  creditCoin: { width: 27, height: 9, marginTop: -2, borderRadius: 12, backgroundColor: '#F6B936', borderWidth: 1, borderColor: '#FFE7A0' },
+  creditCoinFace: { width: 17, height: 5, borderRadius: 5, borderWidth: 0.5, borderColor: '#FFF1BD', alignItems: 'center', justifyContent: 'center' },
+  creditCoinGlyph: { fontSize: 5, lineHeight: 6, color: '#FFF8DA' },
+  creditBalanceHeroValue: { fontFamily: 'Manrope', fontSize: 34, lineHeight: 39, fontWeight: '900', color: '#FFE08A', textShadowColor: '#FFB42E', textShadowRadius: 15 },
+  creditBalanceHeroLabel: { fontSize: 14, lineHeight: 19, color: '#FFF4D4', fontWeight: '800' },
+  creditPackagesTitle: { width: '100%', marginTop: 0, marginBottom: 7, color: '#F5F8FF', fontSize: 16, lineHeight: 21, fontWeight: '900', textShadowColor: 'rgba(35,145,255,0.4)', textShadowRadius: 8 },
+  creditPackagesList: { width: '100%', gap: 7 },
+  packageCard: { width: '100%', minHeight: 55, marginTop: 0, paddingVertical: 8, paddingHorizontal: 12, borderRadius: 13, borderWidth: 1, borderColor: 'rgba(80,150,220,0.35)', backgroundColor: 'rgba(8,28,58,0.88)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  packageCardPopular: { borderColor: '#00B7FF', backgroundColor: 'rgba(4,57,111,0.92)', shadowColor: '#00AFFF', shadowOpacity: 0.7, shadowRadius: 14, elevation: 7 },
+  packageIconWrap: { width: 30, height: 30, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0 },
+  packageAmount: { flex: 1, color: '#F4F8FF', fontSize: 14, lineHeight: 19, fontWeight: '800' },
+  packagePrice: { color: '#FFFFFF', fontSize: 16, lineHeight: 20, fontWeight: '900' },
+  packageRight: { minWidth: 58, maxWidth: '42%', alignItems: 'flex-end', justifyContent: 'center' },
+  popularBadge: { position: 'absolute', right: 0, top: -27, backgroundColor: '#078BFF', borderRadius: 10, paddingHorizontal: 9, paddingVertical: 3, zIndex: 2 },
+  popularBadgeText: { color: '#FFFFFF', fontSize: 10, fontWeight: '900' },
+  creditBenefits: { width: '100%', marginTop: 11, marginBottom: 9, gap: 3 },
+  creditBenefit: { color: '#E5F3FF', fontSize: 13, lineHeight: 19, fontWeight: '700' },
+  buyCreditsButton: { width: '100%', minHeight: 48, marginTop: 3, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  buyCreditsButtonText: { fontSize: 15, fontWeight: '900' },
+  creditNeverExpire: { width: '100%', marginTop: 8, marginBottom: 10, textAlign: 'center', color: '#D4E8FF', fontSize: 12, backgroundColor: 'transparent' },
+  welcomeBonusCard: { width: '100%', marginTop: 6 },
+  // Move profile header, gear and all following content down together.
+  profileScreen: { paddingTop: 34 },
+  profileHeader: { marginTop: 22, marginBottom: 18 },
+  profileSettingsButton: { top: 0 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5296,5 +5356,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V15,
   ...FINAL_UI_FIXES_V16,
   ...FINAL_UI_FIXES_V17,
+  ...FINAL_UI_FIXES_V18,
 });
 
