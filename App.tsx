@@ -2034,8 +2034,8 @@ export default function App() {
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
             <Image
-              source={require('./assets/Неоновая айдентика «НейроСцена».jpg')}
-              resizeMode="contain"
+              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+              resizeMode="stretch"
               style={styles.headerBrandArtwork}
               accessibilityLabel="Неоновая иконка НейроСцены"
             />
@@ -4652,7 +4652,7 @@ const FINAL_UI_FIXES_V13 = {
   galleryClapperPlay: { color: '#F2E9FF', fontSize: 29, lineHeight: 34, textShadowColor: '#A56BFF', textShadowRadius: 16 },
   creditsHeader: { position: 'relative', alignItems: 'center', justifyContent: 'center', marginBottom: 12, minHeight: 48 },
   creditsTitle: { fontFamily: 'sans-serif-condensed', color: '#FFF3D0', fontSize: 29, lineHeight: 36, fontWeight: '900', textAlign: 'center', textShadowColor: '#D88A20', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
-  creditIllustration: { width: '100%', height: 154, minHeight: 154, marginBottom: 12, borderRadius: 22, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 26, elevation: 13 },
+  creditIllustration: { width: '41%', height: 174, minHeight: 174, marginBottom: 0, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.62, shadowRadius: 22, elevation: 11, overflow: 'hidden' },
   creditCoin: { width: 60, height: 22, marginTop: -4, borderRadius: 30, backgroundColor: '#D99521', borderWidth: 2.5, borderColor: '#FFF0B0', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB72E', shadowOpacity: 1, shadowRadius: 16, elevation: 11 },
   creditCoinGlyph: { color: '#FFF7D7', fontSize: 13, lineHeight: 16, fontWeight: '900', textShadowColor: '#8B4A08', textShadowRadius: 5 },
   creditCoinFace: { width: 42, height: 14, borderRadius: 8, borderWidth: 1, borderColor: 'rgba(255,247,207,0.92)', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,220,125,0.16)' },
@@ -4777,7 +4777,7 @@ const FINAL_UI_FIXES_V15 = {
   brandRowCentered: { position: 'absolute', top: 62, left: 106, right: 10, width: undefined, maxWidth: undefined, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', zIndex: 2 },
   headerActions: { position: 'absolute', left: 14, right: undefined, top: 62, zIndex: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8 },
   brandMarkSmall: { width: 44, height: 44, borderRadius: 12, marginRight: 8, backgroundColor: 'rgba(2,14,39,0.92)', borderWidth: 1, borderColor: 'rgba(125,220,255,0.9)', shadowColor: '#38BFFF', shadowOpacity: 0.85, shadowRadius: 17, elevation: 9, overflow: 'hidden' },
-  headerBrandArtwork: { width: 44, height: 44, borderRadius: 10 },
+  headerBrandArtwork: { position: 'absolute', width: 805, height: 894, left: -177, top: -27 },
   brandWordmark: { width: 118, minWidth: 0, flexShrink: 1, justifyContent: 'center' },
   logo: { fontFamily: 'Manrope', fontSize: 13, lineHeight: 18, fontWeight: '900', letterSpacing: 0.05, includeFontPadding: false, color: '#F7FBFF', textShadowColor: '#37AFFF', textShadowRadius: 17, textShadowOffset: { width: 0, height: 2 } },
   notificationButton: { width: 38, height: 38, borderRadius: 12, backgroundColor: 'rgba(4,22,52,0.86)', borderColor: 'rgba(105,199,255,0.72)' },
@@ -4801,8 +4801,8 @@ const FINAL_UI_FIXES_V15 = {
   creditsScreen: { paddingTop: 8, paddingBottom: 10 },
   creditsTitle: { fontFamily: 'sans-serif-black', color: '#FFE7A8', fontSize: 29, lineHeight: 37, fontWeight: '900', textShadowColor: '#D88A20', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
   creditIllustration: { width: '100%', height: 154, minHeight: 154, marginBottom: 12, borderRadius: 22, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 26, elevation: 13, overflow: 'hidden' },
-  creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, width: 164, height: '100%', overflow: 'hidden' },
-  creditReferenceArtwork: { position: 'absolute', width: 947, height: 1052, left: -128, top: -636 },
+  creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', overflow: 'hidden' },
+  creditReferenceArtwork: { position: 'absolute', width: 1137, height: 1262, left: -154, top: -763 },
   creditIllustrationCaption: { position: 'absolute', top: 12, left: 164, right: 4, alignItems: 'center', zIndex: 4 },
   creditIllustrationTitle: { color: '#FFF0C5', fontFamily: 'sans-serif-black', fontSize: 12, lineHeight: 16, fontWeight: '900', letterSpacing: 0.65, textAlign: 'center', textShadowColor: '#D98A20', textShadowRadius: 13 },
   creditIllustrationSub: { color: '#F1D7A2', fontSize: 11, lineHeight: 15, fontWeight: '800' },
