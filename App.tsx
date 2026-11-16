@@ -2067,7 +2067,7 @@ export default function App() {
         {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
-      <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', alignSelf: 'stretch', flexShrink: 0, height: 78, minHeight: 78, maxHeight: 78, paddingTop: 6, paddingBottom: 6 }]}>
+      <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', alignSelf: 'stretch', flexShrink: 0, height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 20 }]}>
         {([
           { id: 'Create', icon: '✧', label: 'Создать' },
           { id: 'Gallery', icon: '▧', label: 'Галерея' },
@@ -2231,7 +2231,7 @@ function CreateScreen({
       </View>
       <View style={styles.referenceHero} accessibilityLabel="Кинематографическая иллюстрация: мольберт в рамке киноплёнки">
         <Image
-          source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+          source={require('./assets/neuroscene-create-hero.webp')}
           resizeMode="cover"
           style={styles.referenceHeroArtwork}
           accessibilityLabel="Неоновая галактика НейроСцены"
@@ -4291,6 +4291,69 @@ const FINAL_UI_FIXES_V6 = () => ({
   bottomNav: { minHeight: 76, paddingTop: 5, paddingBottom: 7, backgroundColor: 'rgba(2,10,27,0.97)', borderTopColor: 'rgba(73,166,255,0.42)' },
 } as const);
 
+const FINAL_UI_FIXES_V7 = () => ({
+  // Keep the create brand row clear of Android's status bar and screen edges.
+  header: { paddingTop: 32, paddingBottom: 8, paddingHorizontal: 18, minHeight: 88, width: '100%', flexShrink: 0, overflow: 'visible' },
+  brandRow: { flexShrink: 1, minWidth: 0, maxWidth: '68%', alignItems: 'center' },
+  brandMarkSmall: { width: 38, height: 38, marginRight: 8 },
+  logo: { fontSize: 16, lineHeight: 19 },
+  logoSecond: { fontSize: 16, lineHeight: 19 },
+  headerActions: { flexShrink: 0, gap: 7 },
+  notificationButton: { width: 38, height: 38 },
+  headerMenuButton: { width: 38, height: 38 },
+  referenceHero: { height: 154, minHeight: 154, marginTop: 2, marginBottom: 10, paddingHorizontal: 14, paddingVertical: 10 },
+  referenceHeroArtwork: { opacity: 0.82 },
+  referenceHeroArtworkShade: { backgroundColor: 'rgba(2,10,27,0.42)' },
+  referenceHeroCopy: { maxWidth: '88%', paddingHorizontal: 8 },
+  referenceHeroTitle: { fontSize: 20, lineHeight: 25 },
+  referenceHeroCaption: { fontSize: 15, lineHeight: 20, marginTop: 6 },
+  featureSectionTitle: { marginBottom: 8 },
+  featureGrid: { rowGap: 9 },
+  featureTile: { minHeight: 96, padding: 10 },
+  creditsScreen: { flex: 0, flexGrow: 0, flexShrink: 0, width: '100%', paddingTop: 8, paddingBottom: 12, justifyContent: 'flex-start', alignItems: 'stretch' },
+  creditsHeader: { minHeight: 42, marginBottom: 10 },
+  creditsTitle: { fontSize: 27, lineHeight: 34 },
+  creditIllustration: { width: '100%', height: 112, minHeight: 112, marginTop: 0, marginBottom: 10, position: 'relative', overflow: 'hidden', borderRadius: 17, borderWidth: 1, borderColor: 'rgba(37,148,255,0.75)', backgroundColor: 'rgba(4,19,47,0.78)' },
+  creditCoinStack: { position: 'absolute', bottom: 18, alignItems: 'center', justifyContent: 'flex-end' },
+  creditStackLeft: { left: '13%' },
+  creditStackCenter: { left: '42%', bottom: 24 },
+  creditStackRight: { right: '13%' },
+  creditCoin: { width: 58, height: 17, marginTop: -3 },
+  creditStarBadge: { right: '22%', bottom: 8, width: 38, height: 38, borderRadius: 19 },
+  creditBalancePanel: { width: '100%', minHeight: 84, marginTop: 0, marginBottom: 10, paddingVertical: 9, paddingHorizontal: 14, borderRadius: 15, borderWidth: 1, borderColor: 'rgba(37,148,255,0.52)', backgroundColor: 'rgba(4,22,54,0.92)', alignItems: 'center', justifyContent: 'center' },
+  creditBalanceEyebrow: { fontSize: 13, lineHeight: 18, marginBottom: 1 },
+  creditBalanceHeroValue: { fontSize: 27, lineHeight: 32 },
+  creditBalanceHeroLabel: { fontSize: 14, lineHeight: 18 },
+  creditPackagesTitle: { marginTop: 4, marginBottom: 5, textAlign: 'left' },
+  packageCard: { width: '100%', minHeight: 66, marginTop: 7, paddingVertical: 8, paddingHorizontal: 12, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(68,146,222,0.5)', backgroundColor: 'rgba(8,28,58,0.88)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  packageCardPopular: { borderWidth: 2, borderColor: '#6BE0FF', backgroundColor: 'rgba(5,59,119,0.98)' },
+  packageAmount: { fontSize: 18, lineHeight: 23, color: '#FFD66F', fontWeight: '900' },
+  packagePrice: { fontSize: 15, lineHeight: 19, color: '#FFF0C2', fontWeight: '800' },
+  packageRight: { minWidth: 100, maxWidth: '40%', flexShrink: 0, alignItems: 'flex-end', justifyContent: 'center' },
+  packageIncluded: { fontSize: 13, lineHeight: 18, textAlign: 'right' },
+  popularBadge: { paddingHorizontal: 7, paddingVertical: 2, marginBottom: 3 },
+  popularBadgeText: { fontSize: 11, lineHeight: 14 },
+  profileIdentity: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 8, paddingVertical: 8, paddingHorizontal: 12 },
+  profileGuestAvatar: { width: 68, height: 68, borderRadius: 34 },
+  profileGuestName: { fontSize: 18, lineHeight: 23, marginTop: 6, textAlign: 'center' },
+  profileGuestStatus: { fontSize: 14, lineHeight: 19, marginTop: 3, textAlign: 'center' },
+  loginScreen: { width: '100%', flex: 0, flexGrow: 0, flexShrink: 0, minHeight: 0, paddingHorizontal: 8, paddingTop: 4, paddingBottom: 8, marginTop: 0, alignItems: 'stretch' },
+  loginTagline: { fontSize: 14, lineHeight: 19, textAlign: 'center', paddingHorizontal: 8, marginBottom: 8 },
+  profileVkButton: { width: '100%', minHeight: 46, height: 46, marginTop: 2, marginBottom: 6, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  profileEmailButton: { width: '100%', minHeight: 42, marginBottom: 6, alignItems: 'center', justifyContent: 'center' },
+  profilePrivacyCard: { width: '100%', marginTop: 5, marginBottom: 6, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 14 },
+  loginLegalText: { fontSize: 13, lineHeight: 18, textAlign: 'center', paddingHorizontal: 6 },
+  profileMenuCard: { width: '100%', marginTop: 8, marginBottom: 12, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 16 },
+  menuItem: { minHeight: 46, paddingVertical: 7, paddingHorizontal: 10 },
+  bottomNav: { minHeight: 92, paddingTop: 5, paddingBottom: 20, backgroundColor: 'rgba(2,10,27,0.98)', borderTopColor: 'rgba(73,166,255,0.42)' },
+  navItem: { minHeight: 58, paddingTop: 2, paddingBottom: 1, gap: 2 },
+  navLabel: { fontSize: 13, lineHeight: 17, fontWeight: '700', textAlign: 'center' },
+  navGalleryIcon: { width: 24, height: 24, gap: 2, padding: 2 },
+  navGalleryCell: { width: 8, height: 8, borderWidth: 1.5 },
+  navCreateIcon: { width: 24, height: 24 },
+  navPerson: { width: 25, height: 26 },
+} as const);
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -4630,5 +4693,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V4,
   ...FINAL_UI_FIXES_V5,
   ...FINAL_UI_FIXES_V6(),
+  ...FINAL_UI_FIXES_V7(),
 });
 
