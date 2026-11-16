@@ -1764,41 +1764,44 @@ export default function App() {
             <View style={styles.creditsTitleGlow} />
           </View>
 
-          <View style={styles.creditBalanceCard}>
-            <View pointerEvents="none" style={styles.creditIllustrationGlow} />
-            <View style={styles.creditHeroCoins}>
-              <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
-                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+          <View style={styles.creditTopRow}>
+            <View style={styles.creditBalanceCard}>
+              <View pointerEvents="none" style={styles.creditIllustrationGlow} />
+              <View style={styles.creditHeroCoins}>
+                <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
+                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                </View>
+                <View style={[styles.creditCoinStack, styles.creditStackCenter]}>
+                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                </View>
+                <View style={[styles.creditCoinStack, styles.creditStackRight]}>
+                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                </View>
               </View>
-              <View style={[styles.creditCoinStack, styles.creditStackCenter]}>
-                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-              </View>
-              <View style={[styles.creditCoinStack, styles.creditStackRight]}>
-                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+              <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
+              <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
+            </View>
+            <View style={styles.creditPackageColumn}>
+              <Text style={styles.creditPackagesTitle}>{uiText(language, 'Credit packages', 'Пакеты кредитов')}</Text>
+              <View style={styles.creditPackagesList}>
+                {[500, 1500, 5000].map((amount) => (
+                  <View style={[styles.packageCard, amount === 1500 && styles.packageCardPopular]} key={amount}>
+                    <View style={styles.packageIconWrap}>
+                      <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
+                    </View>
+                    <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')} кредитов</Text>
+                    <View style={styles.packageRight}>
+                      {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
+                      <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
+                    </View>
+                  </View>
+                ))}
               </View>
             </View>
-            <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
-            <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
-          </View>
-
-          <Text style={styles.creditPackagesTitle}>{uiText(language, 'Credit packages', 'Пакеты кредитов')}</Text>
-          <View style={styles.creditPackagesList}>
-            {[500, 1500, 5000].map((amount) => (
-              <View style={[styles.packageCard, amount === 1500 && styles.packageCardPopular]} key={amount}>
-                <View style={styles.packageIconWrap}>
-                  <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
-                </View>
-                <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')} кредитов</Text>
-                <View style={styles.packageRight}>
-                  {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
-                  <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
-                </View>
-              </View>
-            ))}
           </View>
 
           <View style={styles.creditBenefits}>
@@ -2257,8 +2260,8 @@ function CreateScreen({
       </View>
       <View style={styles.createHeroCard}>
         <Image
-          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-          resizeMode="contain"
+          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+          resizeMode="cover"
           style={styles.createHeroArtwork}
           accessibilityLabel="Кинематографическая иллюстрация НейроСцены"
         />
@@ -5072,6 +5075,89 @@ const FINAL_UI_FIXES_V19 = {
   profileSettingsIcon: { color: '#A8EFFF', fontSize: 31, lineHeight: 38, textShadowColor: '#168BFF', textShadowRadius: 10 },
 };
 
+const FINAL_UI_FIXES_V23 = {
+  // The supplied composite reference is cropped to its Create-screen hero artwork.
+  createHeroCard: { width: '100%', height: 154, minHeight: 154, marginTop: 2, marginBottom: 13, borderRadius: 18, overflow: 'hidden', backgroundColor: 'rgba(3,12,30,0.42)', borderWidth: 1, borderColor: 'rgba(79,177,255,0.52)', shadowColor: '#087BFF', shadowOpacity: 0.24, shadowRadius: 18, elevation: 5, position: 'relative' },
+  createHeroArtwork: { position: 'absolute', width: '280%', height: '660%', left: '-35%', top: '-80%' },
+  referenceCreateGlow: { width: '88%', alignSelf: 'center', marginTop: 0, marginBottom: 17, shadowOpacity: 0.62, shadowRadius: 18, elevation: 10 },
+  referenceCreateButton: { height: 56, minHeight: 56, borderRadius: 28, width: '100%', gap: 10 },
+  referenceCreateButtonText: { fontSize: 17, lineHeight: 22 },
+  referencePlayCircle: { width: 34, height: 34, borderRadius: 17 },
+  featureSection: { marginTop: 0, marginBottom: 12 },
+  featureSectionTitle: { fontSize: 17, lineHeight: 23, marginBottom: 8, textAlign: 'center' },
+  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'flex-start', columnGap: 4, rowGap: 0 },
+  featureTile: { width: '24%', minWidth: 0, height: 82, minHeight: 82, paddingHorizontal: 2, paddingVertical: 4, borderRadius: 0, borderWidth: 0, backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0, alignItems: 'center', justifyContent: 'flex-start' },
+  featureIconSquare: { width: 34, height: 34, marginBottom: 4, borderWidth: 0, backgroundColor: 'transparent' },
+  featureIcon: { fontSize: 22, lineHeight: 28, color: '#79DFFF', textShadowColor: '#168BFF', textShadowRadius: 12 },
+  featureTitle: { fontSize: 10, lineHeight: 13, textAlign: 'center', fontWeight: '800' },
+  featureSubtitle: { display: 'none' },
+  // Gallery empty state becomes a compact floating panel rather than a full-screen slab.
+  galleryEmptyReferenceState: { flex: 0, minHeight: 0, marginTop: 14, marginBottom: 12, paddingHorizontal: 18, paddingVertical: 18, gap: 8, borderRadius: 22, borderWidth: 1, borderColor: 'rgba(75,164,235,0.52)', backgroundColor: 'rgba(3,17,43,0.72)', alignItems: 'center', justifyContent: 'center' },
+  galleryReferenceImage: { width: '100%', height: 168, alignSelf: 'center', backgroundColor: 'transparent' },
+  secondaryButton: { minWidth: 184, minHeight: 48, paddingHorizontal: 22, paddingVertical: 11, borderRadius: 15, marginTop: 8 },
+  secondaryButtonText: { fontSize: 16, lineHeight: 22 },
+  galleryLimit: { marginTop: 8, marginBottom: 4, fontSize: 14, lineHeight: 20 },
+  // Credits follow the reference's side-by-side coin illustration and compact package stack.
+  creditsContent: { flexGrow: 1, paddingTop: 30, paddingBottom: 116, paddingHorizontal: 18 },
+  creditsScreen: { paddingTop: 0, paddingBottom: 12 },
+  creditsHeader: { width: '100%', minHeight: 38, alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 12 },
+  creditsTitle: { fontSize: 27, lineHeight: 34, textAlign: 'center', color: '#F4F8FF', textShadowColor: '#168BFF', textShadowRadius: 18 },
+  creditsTitleGlow: { width: '76%', alignSelf: 'center', bottom: -2, backgroundColor: '#27BFFF', shadowColor: '#168BFF', shadowOpacity: 0.9, shadowRadius: 12 },
+  creditTopRow: { width: '100%', flexDirection: 'row', alignItems: 'stretch', gap: 9, marginBottom: 12 },
+  creditBalanceCard: { width: '36%', height: 198, minHeight: 198, marginBottom: 0, paddingHorizontal: 4, paddingTop: 10, paddingBottom: 16, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(80,176,255,0.7)', backgroundColor: 'rgba(3,17,43,0.72)', overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', shadowColor: '#087BFF', shadowOpacity: 0.28, shadowRadius: 16, elevation: 6 },
+  creditIllustrationGlow: { top: 2, left: '5%', width: '90%', height: 96, borderRadius: 48, backgroundColor: 'rgba(0,111,255,0.18)', shadowColor: '#168BFF', shadowOpacity: 0.8, shadowRadius: 24 },
+  creditHeroCoins: { top: 18, left: 0, right: 0, height: 82 },
+  creditStackLeft: { left: '12%', bottom: 0 },
+  creditStackCenter: { left: '40%', bottom: 8 },
+  creditStackRight: { right: '9%', bottom: 0 },
+  creditCoin: { width: 24, height: 8, marginTop: -2, borderRadius: 8, borderWidth: 1 },
+  creditCoinFace: { width: 15, height: 4, borderRadius: 4 },
+  creditCoinGlyph: { fontSize: 4, lineHeight: 5 },
+  creditBalanceHeroValue: { fontSize: 24, lineHeight: 29, textAlign: 'center' },
+  creditBalanceHeroLabel: { fontSize: 11, lineHeight: 15, letterSpacing: 0.2 },
+  creditPackageColumn: { flex: 1, width: undefined, minWidth: 0, justifyContent: 'center' },
+  creditPackagesTitle: { fontSize: 15, lineHeight: 19, marginTop: 0, marginBottom: 5, color: '#F5F8FF' },
+  creditPackagesList: { width: '100%', gap: 6 },
+  packageCard: { width: '100%', minWidth: 0, height: 49, minHeight: 49, marginTop: 0, paddingVertical: 5, paddingHorizontal: 7, borderRadius: 11, gap: 4, flexShrink: 0, borderColor: 'rgba(75,164,235,0.48)', backgroundColor: 'rgba(4,22,52,0.86)' },
+  packageIconWrap: { width: 19, height: 24, marginRight: 0, flexShrink: 0 },
+  packageIcon: { fontSize: 14 },
+  packageAmount: { flex: 1, minWidth: 0, fontSize: 11, lineHeight: 14, fontWeight: '800' },
+  packageRight: { minWidth: 44, maxWidth: 48, flexShrink: 0, alignItems: 'flex-end', justifyContent: 'center', gap: 2 },
+  packagePrice: { fontSize: 13, lineHeight: 16, marginTop: 0 },
+  popularBadge: { position: 'relative', top: 0, right: 0, minWidth: 0, alignSelf: 'flex-end', paddingHorizontal: 4, paddingVertical: 1, borderRadius: 5 },
+  popularBadgeText: { fontSize: 8, lineHeight: 10, textAlign: 'center' },
+  creditBenefits: { marginTop: 7, marginBottom: 7, gap: 3 },
+  creditBenefit: { fontSize: 13, lineHeight: 18, fontWeight: '700' },
+  buyCreditsButton: { width: '100%', minHeight: 48, marginTop: 3, marginBottom: 5, borderRadius: 14, backgroundColor: '#0877F4', borderWidth: 1, borderColor: '#52D3FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.5, shadowRadius: 14, elevation: 6 },
+  buyCreditsButtonText: { color: '#FFFFFF', fontSize: 16, lineHeight: 21, fontWeight: '900' },
+  creditNeverExpire: { fontSize: 12, lineHeight: 16, marginTop: 4, marginBottom: 6 },
+  creditHistorySection: { marginTop: 12, paddingTop: 10 },
+  // Compact profile header and guest sign-in stack, with the reference's electric-blue emphasis.
+  profileScreen: { paddingTop: 12, paddingBottom: 24 },
+  profileHeader: { marginTop: 0, marginBottom: 12 },
+  profileTitleGroup: { marginRight: 12 },
+  profileTitleUnderline: { marginTop: 5, height: 2 },
+  profileSettingsButton: { width: 40, height: 40 },
+  profileSettingsIcon: { fontSize: 26, lineHeight: 32 },
+  profileIdentity: { paddingTop: 4, paddingBottom: 12, marginBottom: 10, borderBottomWidth: 0 },
+  profileGuestAvatar: { width: 78, height: 78, borderRadius: 39, shadowRadius: 16 },
+  profileGuestHead: { width: 23, height: 23, borderRadius: 12 },
+  profileGuestBody: { width: 50, height: 29 },
+  profileGuestName: { fontSize: 18, marginTop: 4 },
+  profileGuestStatus: { fontSize: 13, lineHeight: 18, marginTop: 2, textAlign: 'center' },
+  loginScreen: { width: '100%', alignItems: 'center' },
+  loginTagline: { fontSize: 14, lineHeight: 19, marginBottom: 8, textAlign: 'center' },
+  profileVkButton: { width: '100%', maxWidth: 330, height: 52, marginBottom: 8 },
+  profileEmailButton: { width: '100%', maxWidth: 330, minHeight: 44, marginTop: 0, marginBottom: 8 },
+  profileEmailButtonText: { fontSize: 14 },
+  loginLegalText: { maxWidth: 330, fontSize: 12, lineHeight: 17, marginTop: 2, marginBottom: 12 },
+  profileMenuCard: { marginTop: 10, marginBottom: 16, borderRadius: 17 },
+  menuItem: { minHeight: 48, paddingVertical: 10, paddingHorizontal: 14 },
+  menuText: { fontSize: 14 },
+  menuArrow: { fontSize: 21 },
+  // Keep the hand-drawn bell clean; the unwanted detached clapper dot is removed.
+  notificationBellClapper: { display: 'none' },
+};
 const FINAL_UI_FIXES_V22 = {
   // Use the exact supplied NeuroScene logo artwork without a tile, border, or backing shape.
   brandMarkSmall: { width: 48, height: 48, marginRight: 0, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, shadowRadius: 0, elevation: 0, overflow: 'visible', alignItems: 'center', justifyContent: 'center' },
@@ -5576,5 +5662,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V20,
   ...FINAL_UI_FIXES_V21,
   ...FINAL_UI_FIXES_V22,
+  ...FINAL_UI_FIXES_V23,
 });
 
