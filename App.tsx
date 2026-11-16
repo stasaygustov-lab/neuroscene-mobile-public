@@ -15,6 +15,7 @@ import {
   ActivityIndicator,
   Image,
   Linking,
+  useWindowDimensions,
 } from 'react-native';
 import { VideoView, useVideoPlayer } from 'expo-video';
 import { StatusBar } from 'expo-status-bar';
@@ -135,17 +136,21 @@ async function readResponse(response: Response): Promise<any> {
 }
 
 function ScreenTransition({ children, direction = 1 }: { children: any; direction?: 1 | -1 }) {
+  const { width } = useWindowDimensions();
+  const entryOffset = Math.max(96, Math.min(width * 0.34, 156));
   const opacity = useRef(new Animated.Value(0)).current;
-  const translateX = useRef(new Animated.Value(direction * 76)).current;
+  const translateX = useRef(new Animated.Value(direction * entryOffset)).current;
+  const scale = useRef(new Animated.Value(0.985)).current;
   useEffect(() => {
     const animation = Animated.parallel([
-      Animated.timing(opacity, { toValue: 1, duration: 250, useNativeDriver: true }),
-      Animated.spring(translateX, { toValue: 0, speed: 20, bounciness: 3, useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: 1, duration: 230, useNativeDriver: true }),
+      Animated.spring(translateX, { toValue: 0, speed: 22, bounciness: 2, useNativeDriver: true }),
+      Animated.spring(scale, { toValue: 1, speed: 22, bounciness: 1, useNativeDriver: true }),
     ]);
     animation.start();
-    return () => { animation.stop(); opacity.stopAnimation(); translateX.stopAnimation(); };
-  }, [opacity, translateX]);
-  return <Animated.View style={{ flexGrow: 1, flexShrink: 0, opacity, transform: [{ translateX }] }}>{children}</Animated.View>;
+    return () => { animation.stop(); opacity.stopAnimation(); translateX.stopAnimation(); scale.stopAnimation(); };
+  }, [direction, entryOffset, opacity, scale, translateX]);
+  return <Animated.View style={{ flexGrow: 1, flexShrink: 0, opacity, transform: [{ translateX }, { scale }] }}>{children}</Animated.View>;
 }
 
 export default function App() {
@@ -1759,9 +1764,9 @@ export default function App() {
           </View>
           <View style={styles.creditIllustration} accessibilityLabel="Золотые монеты НейроСцены">
             <View pointerEvents="none" style={styles.creditIllustrationGlow} />
-            <View style={[styles.creditCoinStack, styles.creditStackLeft]}><View style={styles.creditCoin}><Text style={styles.creditCoinGlyph}>✦</Text></View><View style={styles.creditCoin}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-            <View style={[styles.creditCoinStack, styles.creditStackCenter]}><View style={styles.creditCoin}><Text style={styles.creditCoinGlyph}>✦</Text></View><View style={styles.creditCoin}><Text style={styles.creditCoinGlyph}>✦</Text></View><View style={styles.creditCoin}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-            <View style={[styles.creditCoinStack, styles.creditStackRight]}><View style={styles.creditCoin}><Text style={styles.creditCoinGlyph}>✦</Text></View><View style={styles.creditCoin}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+            <View style={[styles.creditCoinStack, styles.creditStackLeft]}><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View></View>
+            <View style={[styles.creditCoinStack, styles.creditStackCenter]}><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View></View>
+            <View style={[styles.creditCoinStack, styles.creditStackRight]}><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View></View>
             <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
             <View style={styles.creditIllustrationCaption}><Text style={styles.creditIllustrationTitle}>ВАШИ ИДЕИ — ВАШИ ФИЛЬМЫ</Text><Text style={styles.creditIllustrationSub}>Кредиты для творчества</Text></View>
           </View>
@@ -4492,6 +4497,7 @@ const FINAL_UI_FIXES_V12 = {
   creditIllustration: { width: '100%', height: 154, minHeight: 154, marginBottom: 12, borderRadius: 22, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 26, elevation: 13 },
   creditCoin: { width: 60, height: 22, marginTop: -4, borderRadius: 30, backgroundColor: '#D99521', borderWidth: 2.5, borderColor: '#FFF0B0', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB72E', shadowOpacity: 1, shadowRadius: 16, elevation: 11 },
   creditCoinGlyph: { color: '#FFF7D7', fontSize: 13, lineHeight: 16, fontWeight: '900', textShadowColor: '#8B4A08', textShadowRadius: 5 },
+  creditCoinFace: { width: 42, height: 14, borderRadius: 8, borderWidth: 1, borderColor: 'rgba(255,247,207,0.92)', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(255,220,125,0.16)' },
   creditIllustrationTitle: { color: '#FFF0C5', fontSize: 13, lineHeight: 17, fontWeight: '900', letterSpacing: 1.1, textShadowColor: '#D98A20', textShadowRadius: 12 },
   creditIllustrationSub: { color: '#F1D7A2', fontSize: 11, lineHeight: 15, fontWeight: '700' },
   creditBalancePanel: { borderColor: 'rgba(255,204,111,0.78)', backgroundColor: 'rgba(43,31,23,0.96)', shadowColor: '#D88A20', shadowOpacity: 0.34, shadowRadius: 16, elevation: 8 },
