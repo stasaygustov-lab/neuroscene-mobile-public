@@ -236,36 +236,11 @@ export default function App() {
   const [faqLoading, setFaqLoading] = useState(false);
   const [faqError, setFaqError] = useState('');
   const [showIntro, setShowIntro] = useState(true);
-  const introOpacity = useRef(new Animated.Value(0)).current;
-  const introScale = useRef(new Animated.Value(0.72)).current;
-  const introRotation = useRef(new Animated.Value(0)).current;
-  const introPulse = useRef(new Animated.Value(0)).current;
-  const introRotateZ = introRotation.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] });
-  const introRotateReverse = introRotation.interpolate({ inputRange: [0, 1], outputRange: ['360deg', '0deg'] });
-  const introPulseScale = introPulse.interpolate({ inputRange: [0, 1], outputRange: [0.96, 1.045] });
 
   useEffect(() => {
-    const orbit = Animated.loop(Animated.timing(introRotation, {
-      toValue: 1, duration: 11500, useNativeDriver: true,
-    }));
-    const pulse = Animated.loop(Animated.sequence([
-      Animated.timing(introPulse, { toValue: 1, duration: 1750, useNativeDriver: true }),
-      Animated.timing(introPulse, { toValue: 0, duration: 1750, useNativeDriver: true }),
-    ]));
-    orbit.start();
-    pulse.start();
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(introOpacity, { toValue: 1, duration: 650, useNativeDriver: true }),
-        Animated.spring(introScale, { toValue: 1, speed: 7, bounciness: 5, useNativeDriver: true }),
-      ]),
-      Animated.delay(2200),
-      Animated.timing(introOpacity, { toValue: 0, duration: 550, useNativeDriver: true }),
-    ]).start(({ finished }) => {
-      if (finished) setShowIntro(false);
-    });
-    return () => { orbit.stop(); pulse.stop(); };
-  }, [introOpacity, introScale, introRotation, introPulse]);
+    const splashTimer = setTimeout(() => setShowIntro(false), 3200);
+    return () => clearTimeout(splashTimer);
+  }, []);
 
 
   const saveAuthenticatedSession = async (data: any) => {
@@ -1740,9 +1715,7 @@ export default function App() {
       return (
         <View style={[styles.screen, styles.creditsScreen]}>
           <View style={styles.creditsHeader}>
-            <TouchableOpacity style={styles.creditsBackButton} onPress={() => setTab('Create')} accessibilityLabel="Назад">
-              <Text style={styles.creditsBackText}>‹</Text>
-            </TouchableOpacity>
+            <Text style={styles.creditsHeaderIcon}>✦</Text>
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
           </View>
           <View style={styles.creditIllustration}>
@@ -1763,12 +1736,12 @@ export default function App() {
               <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
             </View>
             <View style={styles.creditStarBadge}>✦</View>
+            <View style={styles.creditBalanceHero}>
+              <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
+              <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
+            </View>
           </View>
-          <Text style={styles.creditIntro}>Кредиты — это ваша энергия для создания видео</Text>
-          <View style={styles.creditBalanceLine}>
-            <Text style={styles.creditBalanceLabel}>ВАШ БАЛАНС</Text>
-            <Text style={styles.creditBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')} ✦</Text>
-          </View>
+          <Text style={styles.creditPackagesTitle}>Пакеты кредитов</Text>
           {[500, 1500, 5000].map((amount) => (
             <View style={[styles.packageCard, amount === 1500 && styles.packageCardPopular]} key={amount}>
               <View style={styles.packageIconWrap}>
@@ -1776,7 +1749,7 @@ export default function App() {
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
-                <Text style={styles.packagePrice}>{amount === 500 ? '₽149' : amount === 1500 ? '₽399' : '₽999'}</Text>
+                <Text style={styles.packagePrice}>Без срока действия</Text>
               </View>
               <View style={styles.packageRight}>
                 {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
@@ -1784,10 +1757,6 @@ export default function App() {
               </View>
             </View>
           ))}
-          <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
-            <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
-            <Text style={styles.buyCreditsHint}>Покупка скоро станет доступна</Text>
-          </TouchableOpacity>
           <View style={styles.creditHistorySection}>
             <View style={styles.creditHistoryHeader}>
               <Text style={styles.sectionTitle}>{uiText(language, 'CREDIT ACTIVITY', 'ИСТОРИЯ ОПЕРАЦИЙ')}</Text>
@@ -1817,25 +1786,33 @@ export default function App() {
             )}
           </View>
           <Text style={styles.creditNeverExpire}>∞  Кредиты не сгорают</Text>
+          <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
+            <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
+            <Text style={styles.buyCreditsHint}>Покупка скоро станет доступна</Text>
+          </TouchableOpacity>
         </View>
       );
     }
 
     return (
       <View style={styles.screen}>
-        {authUser && <View style={styles.profileHeader}>
+        <View style={styles.profileHeader}>
           <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
-          <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')}>
+          {authUser && <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')}>
             <Text style={styles.profileSettingsIcon}>⚙</Text>
-          </TouchableOpacity>
-        </View>}
+          </TouchableOpacity>}
+        </View>
+        <View style={styles.profileIdentity}>
+          <View style={styles.profileGuestAvatar}>
+            <View style={styles.profileAvatarHalo} />
+            <View style={styles.profileGuestHead} />
+            <View style={styles.profileGuestBody} />
+          </View>
+          <Text style={styles.profileGuestName}>{authUser?.email || 'Гость'}</Text>
+          <Text style={styles.profileGuestStatus}>{authUser ? 'В сети' : 'Войдите, чтобы открыть все возможности'}</Text>
+        </View>
         {authUser ? (
           <>
-            <View style={styles.profileIdentity}>
-              <View style={styles.profileGuestAvatar}><View style={styles.profileGuestHead} /><View style={styles.profileGuestBody} /></View>
-              <Text style={styles.profileGuestName}>{authUser.email || 'Пользователь'}</Text>
-              <Text style={styles.profileGuestStatus}>В сети</Text>
-            </View>
             <View style={styles.profileCard}>
               <View style={styles.avatar}><Text style={styles.avatarText}>Н+С</Text></View>
               <View style={{ flex: 1 }}>
@@ -1853,12 +1830,7 @@ export default function App() {
         ) : (
           <>
           <View style={styles.loginScreen}>
-            <View style={styles.loginBrandLockup}>
-              <View style={styles.loginMarkOuter}><View style={styles.loginMarkInner}><Text style={styles.authBrandMarkText}>Н+С</Text></View></View>
-              <Text style={styles.authBrandTitle}>Нейро{'\n'}Сцена</Text>
-            </View>
-            <Text style={styles.loginTagline}>Магия ИИ в твоих руках</Text>
-            <Text style={styles.loginPcLabel}>ТОЛЬКО НА ТВОЁМ ПК</Text>
+            <Text style={styles.loginTagline}>Войдите, чтобы сохранять видео и синхронизировать кредиты</Text>
           <TouchableOpacity activeOpacity={0.86} style={styles.profileVkButton} onPress={handleVkLogin} disabled={authBusy}>
             <Text style={styles.profileVkMark}>ᴠκ</Text>
             <Text style={styles.profileVkText}>Войти через VK ID</Text>
@@ -1984,6 +1956,10 @@ export default function App() {
         <View style={styles.ambientGlowTop} />
         <View style={styles.ambientGlowBottom} />
         <View style={styles.ambientGlowCenter} />
+        <View style={styles.ambientCloudOne} />
+        <View style={styles.ambientCloudTwo} />
+        <View style={styles.ambientCloudThree} />
+        <View style={styles.ambientCloudFour} />
         <View style={styles.ambientRing} />
         <View style={styles.ambientRingFar} />
         <View style={styles.ambientHorizon} />
@@ -2016,7 +1992,11 @@ export default function App() {
             style={styles.notificationButton}
             onPress={() => { setShowNotifications(true); void loadNotifications(); }}
           >
-            <Text style={styles.notificationIcon}>♧</Text>
+            <View style={styles.notificationBell}>
+              <View style={styles.notificationBellDome} />
+              <View style={styles.notificationBellBase} />
+              <View style={styles.notificationBellClapper} />
+            </View>
             {unreadNotifications > 0 && <View style={styles.notificationBadge}><Text style={styles.notificationBadgeText}>{unreadNotifications > 9 ? '9+' : unreadNotifications}</Text></View>}
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.86}
@@ -2052,19 +2032,24 @@ export default function App() {
             style={[styles.navItem, tab === item.id && styles.navItemActive]}
             onPress={() => { setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
-            {item.id === 'Credits' ? (
-              <View style={styles.navCoin} accessibilityLabel="Монета">
-                <View style={styles.navCoinInner}>
-                  <Text style={styles.navCoinMark}>₽</Text>
-                </View>
+            {item.id === 'Create' ? (
+              <View style={[styles.navCreateIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Создать">
+                <View style={styles.navCreateTriangle} />
               </View>
-            ) : item.id === 'Profile' ? (
+            ) : item.id === 'Gallery' ? (
+              <View style={[styles.navGalleryIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Галерея">
+                <View style={styles.navGalleryCell} /><View style={styles.navGalleryCell} />
+                <View style={styles.navGalleryCell} /><View style={styles.navGalleryCell} />
+              </View>
+            ) : item.id === 'Credits' ? (
+              <View style={[styles.navCoin, tab === item.id && styles.navCoinActive]} accessibilityLabel="Монета">
+                <View style={styles.navCoinInner}><Text style={styles.navCoinMark}>✦</Text></View>
+              </View>
+            ) : (
               <View style={styles.navPerson} accessibilityLabel="Человечек">
                 <View style={styles.navPersonHead} />
                 <View style={styles.navPersonBody} />
               </View>
-            ) : (
-              <Text style={styles.navIcon}>{item.icon}</Text>
             )}
             <Text style={[styles.navLabel, tab === item.id && styles.navLabelActive]}>
               {item.label}
@@ -2074,41 +2059,37 @@ export default function App() {
       </View>
 
       {showIntro && (
-        <Animated.View style={[styles.introOverlay, { opacity: introOpacity }]}>
-          <View style={styles.introStarField} pointerEvents="none">
-            {Array.from({ length: 34 }, (_, index) => (
-              <View key={index} style={[styles.introStar, { top: `${(index * 29 + 7) % 68}%`, left: `${(index * 43 + 11) % 96}%`, opacity: 0.28 + ((index * 7) % 7) / 10 }]} />
+        <View style={styles.introOverlay}>
+          <View pointerEvents="none" style={styles.introNebulaTop} />
+          <View pointerEvents="none" style={styles.introNebulaBottom} />
+          <View pointerEvents="none" style={styles.introCloudLeft} />
+          <View pointerEvents="none" style={styles.introCloudRight} />
+          <View pointerEvents="none" style={styles.introStarField}>
+            {Array.from({ length: 30 }, (_, index) => (
+              <View key={index} style={[styles.introStar, { top: `${(index * 29 + 7) % 88}%`, left: `${(index * 43 + 11) % 96}%`, opacity: 0.22 + ((index * 7) % 7) / 10 }]} />
             ))}
           </View>
-          <View style={styles.introNebulaTop} />
-          <View style={styles.introNebulaBottom} />
-          <View style={styles.introHorizon} />
-          <View style={styles.introWaterGlow} />
-          <Animated.View style={[styles.introOrbitOuter, { transform: [{ perspective: 900 }, { rotateX: '68deg' }, { rotateZ: introRotateZ }] }]} />
-          <Animated.View style={[styles.introOrbitInner, { transform: [{ perspective: 900 }, { rotateY: '64deg' }, { rotateZ: introRotateReverse }] }]} />
-          <Animated.View style={[styles.introLogoHalo, { transform: [{ scale: introPulseScale }] }]} />
-          <Animated.View style={[styles.introEnergyRing, styles.introEnergyRingOuter, { transform: [{ rotate: introRotateReverse }] }]} />
-          <Animated.View style={[styles.introEnergyRing, styles.introEnergyRingInner, { transform: [{ rotate: introRotateZ }] }]} />
-          <Animated.View style={[styles.introReelWrap, { transform: [{ scale: introScale }] }]}>
-            <View style={styles.introLogoPanel}>
-              <View style={styles.introLogoExtrusion}><Text style={styles.introLogoExtrusionText}>Н+С</Text></View>
-              <Text style={styles.introReelPlay}>Н+С</Text>
-              <View style={styles.introLogoGlint} />
+          <View style={styles.splashArtwork}>
+            <View style={styles.splashFilmStrip}>
+              <View style={styles.splashFilmPerforations}>
+                {Array.from({ length: 7 }, (_, index) => <View key={index} style={styles.splashPerforation} />)}
+              </View>
             </View>
-          </Animated.View>
-          <Animated.Text style={[styles.introTitle, { transform: [{ scale: introPulseScale }] }]}>Нейро{'\n'}Сцена</Animated.Text>
-          <View style={styles.introAccentLine} />
-          <Text style={styles.introTagline}>Магия ИИ{'\n'}в твоих руках</Text>
-          <Text style={styles.introPcTag}>Только на твоём ПК</Text>
-          <View style={styles.introBenefits}>
-            <Text style={styles.introBenefit}>Локальная генерация</Text>
-            <View style={styles.introBenefitDivider} />
-            <Text style={styles.introBenefit}>Твоё творчество</Text>
-            <View style={styles.introBenefitDivider} />
-            <Text style={styles.introBenefit}>Полный контроль</Text>
+            <View style={styles.splashReelOuter}>
+              <View style={styles.splashReelInner}>
+                <View style={styles.splashReelHoleOne} />
+                <View style={styles.splashReelHoleTwo} />
+                <View style={styles.splashReelHoleThree} />
+                <View style={styles.splashReelHoleFour} />
+                <View style={styles.splashReelHub}><View style={styles.splashPlayTriangle} /></View>
+              </View>
+            </View>
+            <View style={styles.splashFilmTail} />
           </View>
+          <Text style={styles.introTitle}>Нейро Сцена</Text>
+          <Text style={styles.splashTagline}>КИНО НАЧИНАЕТСЯ С ТЕБЯ</Text>
           <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
-        </Animated.View>
+        </View>
       )}
     </SafeAreaView>
   );
@@ -2175,6 +2156,7 @@ function CreateScreen({
 }: CreateScreenProps) {
   const ru = language === 'ru';
   const [showComposer, setShowComposer] = useState(false);
+  const [activeFeature, setActiveFeature] = useState<string | null>(null);
   const busy =
     submitting || promptEnhancing || ['queued', 'starting', 'generating', 'uploading'].includes(jobStatus);
 
@@ -2214,8 +2196,39 @@ function CreateScreen({
       </View>
       <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
         <Text style={styles.referencePlay}>▶</Text>
-        <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+        <Text style={styles.referenceCreateButtonText}>Создать</Text>
       </TouchableOpacity>
+
+      {!showComposer && (
+        <View style={styles.featureSection}>
+          <Text style={styles.featureSectionTitle}>Возможности</Text>
+          <View style={styles.featureGrid}>
+            {[
+              { id: 'text', icon: '▶', title: 'Текст в видео', subtitle: 'Создание по описанию' },
+              { id: 'image', icon: '▧', title: 'Изображение в видео', subtitle: 'Оживление изображения' },
+              { id: 'sound', icon: '♫', title: 'Добавить звук', subtitle: 'Звуковое оформление' },
+              { id: 'prompt', icon: '✧', title: 'Улучшить промпт', subtitle: 'Точнее описать сцену' },
+            ].map((feature) => (
+              <TouchableOpacity key={feature.id} activeOpacity={0.82}
+                onPress={() => {
+                  setActiveFeature(feature.id);
+                  if (feature.id === 'text' || feature.id === 'image' || feature.id === 'prompt') {
+                    setGenerationType(feature.id === 'image' ? 'i2v' : 't2v');
+                    setShowComposer(true);
+                  }
+                }}
+                style={[styles.featureTile, activeFeature === feature.id && styles.featureTileActive]}
+              >
+                <View style={[styles.featureIconSquare, activeFeature === feature.id && styles.featureIconSquareActive]}>
+                  <Text style={styles.featureIcon}>{feature.icon}</Text>
+                </View>
+                <Text style={styles.featureTitle}>{feature.title}</Text>
+                <Text style={styles.featureSubtitle}>{feature.subtitle}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+      )}
 
       {showComposer && (
       <>
@@ -3652,6 +3665,92 @@ const COSMIC_OVERRIDES = {
   purchaseDisabled: { opacity: 0.5, borderWidth: 1, borderColor: '#28527D' },
   authDivider: { alignItems: 'center', marginTop: 8, marginBottom: 8 },
   version: { color: '#668BB7', fontSize: 12, letterSpacing: 1.3, textAlign: 'center', marginTop: 25 },
+  ambientCloudOne: { position: 'absolute', width: 360, height: 190, borderRadius: 180, top: '14%', left: -180, backgroundColor: '#0756B8', opacity: 0.12, shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 75, elevation: 20 },
+  ambientCloudTwo: { position: 'absolute', width: 420, height: 230, borderRadius: 210, top: '39%', right: -235, backgroundColor: '#0077C8', opacity: 0.11, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 80, elevation: 22 },
+  ambientCloudThree: { position: 'absolute', width: 310, height: 180, borderRadius: 155, bottom: '13%', left: '8%', backgroundColor: '#153F9A', opacity: 0.13, shadowColor: '#176BFF', shadowOpacity: 1, shadowRadius: 65, elevation: 18 },
+  ambientCloudFour: { position: 'absolute', width: 260, height: 140, borderRadius: 130, top: '65%', right: '5%', backgroundColor: '#006B9E', opacity: 0.10, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 60, elevation: 16 },
+  introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010714', alignItems: 'center', justifyContent: 'center' },
+  introNebulaTop: { position: 'absolute', width: 460, height: 460, borderRadius: 230, top: '7%', alignSelf: 'center', backgroundColor: '#064AC4', opacity: 0.28, shadowColor: '#078CFF', shadowOpacity: 1, shadowRadius: 90, elevation: 28 },
+  introNebulaBottom: { position: 'absolute', width: 500, height: 280, borderRadius: 250, bottom: '1%', alignSelf: 'center', backgroundColor: '#006A9E', opacity: 0.20, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 85, elevation: 25 },
+  introCloudLeft: { position: 'absolute', width: 290, height: 170, borderRadius: 145, top: '34%', left: -150, backgroundColor: '#064A9E', opacity: 0.22, shadowColor: '#078CFF', shadowOpacity: 1, shadowRadius: 65 },
+  introCloudRight: { position: 'absolute', width: 320, height: 190, borderRadius: 160, top: '46%', right: -170, backgroundColor: '#006B9E', opacity: 0.18, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 65 },
+  introStarField: { ...StyleSheet.absoluteFillObject },
+  introStar: { position: 'absolute', width: 2, height: 2, borderRadius: 1, backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 0.95, shadowRadius: 5 },
+  splashArtwork: { width: 292, height: 300, alignItems: 'center', justifyContent: 'center', marginTop: -55 },
+  splashFilmStrip: { position: 'absolute', width: 275, height: 66, borderRadius: 13, borderWidth: 8, borderColor: '#153B68', backgroundColor: 'rgba(4,22,48,0.92)', transform: [{ rotate: '-28deg' }], shadowColor: '#087BFF', shadowOpacity: 0.9, shadowRadius: 30, elevation: 18 },
+  splashFilmPerforations: { flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingHorizontal: 3 },
+  splashPerforation: { width: 11, height: 35, borderRadius: 3, backgroundColor: '#020A19', borderWidth: 1, borderColor: 'rgba(91,173,255,0.38)' },
+  splashFilmTail: { position: 'absolute', width: 100, height: 38, right: 0, bottom: 27, borderRadius: 8, borderWidth: 7, borderColor: '#194A79', backgroundColor: 'rgba(4,22,48,0.88)', transform: [{ rotate: '28deg' }] },
+  splashReelOuter: { width: 224, height: 224, borderRadius: 112, borderWidth: 14, borderColor: '#68CFFF', backgroundColor: '#071B3B', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 36, elevation: 24 },
+  splashReelInner: { width: 176, height: 176, borderRadius: 88, borderWidth: 8, borderColor: '#1D69A7', backgroundColor: '#0A2D5A', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 24 },
+  splashReelHoleOne: { position: 'absolute', top: 13, width: 30, height: 30, borderRadius: 15, backgroundColor: '#020A1B', borderWidth: 2, borderColor: '#62C9FF' },
+  splashReelHoleTwo: { position: 'absolute', bottom: 13, width: 30, height: 30, borderRadius: 15, backgroundColor: '#020A1B', borderWidth: 2, borderColor: '#62C9FF' },
+  splashReelHoleThree: { position: 'absolute', left: 13, width: 30, height: 30, borderRadius: 15, backgroundColor: '#020A1B', borderWidth: 2, borderColor: '#62C9FF' },
+  splashReelHoleFour: { position: 'absolute', right: 13, width: 30, height: 30, borderRadius: 15, backgroundColor: '#020A1B', borderWidth: 2, borderColor: '#62C9FF' },
+  splashReelHub: { width: 92, height: 92, borderRadius: 46, borderWidth: 4, borderColor: '#B6EDFF', backgroundColor: '#04152D', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 22 },
+  splashPlayTriangle: { width: 0, height: 0, marginLeft: 8, borderTopWidth: 22, borderBottomWidth: 22, borderLeftWidth: 34, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#6AD9FF' },
+  introTitle: { color: '#FFFFFF', fontSize: 40, lineHeight: 48, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.3, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 28, marginTop: -2 },
+  splashTagline: { color: '#B8D9FF', fontSize: 13, lineHeight: 19, textAlign: 'center', fontWeight: '800', letterSpacing: 3, marginTop: 13, textShadowColor: '#168BFF', textShadowRadius: 14 },
+  introProgressTrack: { position: 'absolute', bottom: '6%', width: '84%', maxWidth: 320, height: 5, borderRadius: 3, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
+  introProgressFill: { width: '72%', height: 5, borderRadius: 3, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 },
+  featureSection: { marginTop: 4, marginBottom: 14 },
+  featureSectionTitle: { color: '#F3F8FF', fontSize: 20, fontWeight: '900', marginBottom: 12, textShadowColor: 'rgba(25,132,255,0.40)', textShadowRadius: 10 },
+  featureGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 11 },
+  featureTile: { width: '48.5%', minHeight: 124, padding: 13, borderRadius: 18, backgroundColor: 'rgba(5,22,51,0.86)', borderWidth: 1, borderColor: 'rgba(57,132,210,0.55)', shadowColor: '#087BFF', shadowOpacity: 0.14, shadowRadius: 10, elevation: 3 },
+  featureTileActive: { borderColor: '#72DFFF', backgroundColor: 'rgba(5,65,125,0.88)', shadowColor: '#00AFFF', shadowOpacity: 0.92, shadowRadius: 20, elevation: 10 },
+  featureIconSquare: { width: 42, height: 42, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(75,175,255,0.72)', backgroundColor: 'rgba(0,105,220,0.18)', alignItems: 'center', justifyContent: 'center', marginBottom: 9 },
+  featureIconSquareActive: { borderColor: '#B7F1FF', backgroundColor: 'rgba(0,139,255,0.36)', shadowColor: '#00B8FF', shadowOpacity: 1, shadowRadius: 15, elevation: 8 },
+  featureIcon: { color: '#82D9FF', fontSize: 22, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 9 },
+  featureTitle: { color: '#F4FAFF', fontSize: 13, fontWeight: '900', lineHeight: 17 },
+  featureSubtitle: { color: '#8FB5DC', fontSize: 10, lineHeight: 14, marginTop: 3 },
+  galleryCard: { backgroundColor: 'rgba(5,19,43,0.98)', borderRadius: 20, padding: 8, marginTop: 12, borderWidth: 1, borderColor: 'rgba(53,132,208,0.60)', width: '48.5%', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 15, elevation: 5 },
+  galleryPreview: { borderRadius: 16, overflow: 'hidden', backgroundColor: '#020A18', borderWidth: 1, borderColor: 'rgba(65,152,224,0.42)', aspectRatio: 1 },
+  videoFrame: { width: '100%', aspectRatio: 1, height: undefined, backgroundColor: '#020817', borderRadius: 16, overflow: 'hidden', justifyContent: 'center' },
+  videoPlayer: { width: '100%', aspectRatio: 1, height: undefined, backgroundColor: '#000000', borderRadius: 16 },
+  galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.76)', paddingHorizontal: 7, paddingVertical: 4, borderRadius: 7, fontSize: 12, fontWeight: '800' },
+  creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 15 },
+  creditsHeaderIcon: { color: '#FFD56B', fontSize: 25, marginRight: 11, textShadowColor: '#FFB52E', textShadowRadius: 13 },
+  creditsTitle: { color: '#FFFFFF', fontSize: 29, fontWeight: '900', fontFamily: 'sans-serif-rounded', textShadowColor: 'rgba(16,116,255,0.48)', textShadowRadius: 13 },
+  creditIllustration: { height: 245, marginBottom: 17, borderRadius: 23, backgroundColor: 'rgba(4,19,47,0.93)', borderWidth: 1, borderColor: 'rgba(255,197,81,0.42)', shadowColor: '#FFB52E', shadowOpacity: 0.17, shadowRadius: 22, elevation: 8 },
+  creditIllustrationGlow: { width: 245, height: 155, borderRadius: 123, top: 4, backgroundColor: '#B87918', opacity: 0.18, shadowColor: '#FFC64D', shadowOpacity: 1, shadowRadius: 55, elevation: 16 },
+  creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#B97A1B', borderWidth: 2, borderColor: '#FFE18A', shadowColor: '#FFC94F', shadowOpacity: 0.95, shadowRadius: 13, elevation: 8 },
+  creditCoinInner: { borderColor: 'rgba(255,241,185,0.95)', color: '#FFF4C7' },
+  creditStarBadge: { backgroundColor: '#8D5B12', borderColor: '#FFE18A', color: '#FFF4C7', shadowColor: '#FFC94F', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
+  creditStackLeft: { bottom: 112 }, creditStackCenter: { bottom: 116 }, creditStackRight: { bottom: 108 },
+  creditBalanceHero: { position: 'absolute', bottom: 15, left: 0, right: 0, alignItems: 'center', justifyContent: 'center' },
+  creditBalanceHeroValue: { color: '#FFD66F', fontSize: 37, lineHeight: 42, fontWeight: '900', textShadowColor: '#FF9E22', textShadowRadius: 18 },
+  creditBalanceHeroLabel: { color: '#FFE8AB', fontSize: 13, fontWeight: '800', letterSpacing: 1.5, marginTop: 1 },
+  creditPackagesTitle: { color: '#F5FAFF', fontSize: 19, fontWeight: '900', marginBottom: 7, marginTop: 1, textShadowColor: 'rgba(25,132,255,0.38)', textShadowRadius: 9 },
+  packageCard: { minHeight: 77, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(255,197,81,0.56)', backgroundColor: 'rgba(25,22,28,0.72)', shadowColor: '#FFB52E', shadowOpacity: 0.18, shadowRadius: 13, elevation: 4 },
+  packageCardPopular: { borderColor: '#FFE08A', backgroundColor: 'rgba(71,48,14,0.42)', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 19, elevation: 8 },
+  packageIconWrap: { backgroundColor: 'rgba(171,111,24,0.20)', borderColor: 'rgba(255,210,104,0.62)' },
+  packageIcon: { color: '#FFD66F', textShadowColor: '#FFB52E', textShadowRadius: 10 },
+  packagePrice: { color: '#D7BE88', fontSize: 11, marginTop: 3 },
+  popularBadge: { backgroundColor: '#8D5B12', borderColor: '#FFE08A' },
+  popularBadgeText: { color: '#FFF1C2' },
+  buyCreditsButton: { minHeight: 60, borderRadius: 18, borderColor: '#FFE08A', backgroundColor: '#8B5A12', shadowColor: '#FFB52E', shadowOpacity: 0.42, shadowRadius: 18, elevation: 9, opacity: 0.78 },
+  buyCreditsButtonText: { color: '#FFF7DD', fontSize: 16, fontWeight: '900' },
+  buyCreditsHint: { color: '#F3DCA9', fontSize: 11, marginTop: 3 },
+  profileIdentity: { alignItems: 'center', paddingTop: 8, paddingBottom: 19, marginBottom: 14, borderBottomWidth: 1, borderBottomColor: 'rgba(48,125,194,0.34)' },
+  profileGuestAvatar: { width: 100, height: 100, borderRadius: 50, borderWidth: 2, borderColor: '#62D7FF', backgroundColor: 'rgba(0,91,180,0.18)', shadowColor: '#00AFFF', shadowOpacity: 0.82, shadowRadius: 25, elevation: 12, alignItems: 'center', justifyContent: 'center', overflow: 'visible' },
+  profileAvatarHalo: { position: 'absolute', width: 118, height: 118, borderRadius: 59, borderWidth: 1, borderColor: 'rgba(70,190,255,0.38)', shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 23 },
+  profileGuestHead: { width: 26, height: 26, borderRadius: 13, borderWidth: 2, borderColor: '#BCEBFF', backgroundColor: 'rgba(188,235,255,0.10)', marginBottom: 7 },
+  profileGuestBody: { width: 58, height: 33, borderTopLeftRadius: 30, borderTopRightRadius: 30, borderWidth: 2, borderBottomWidth: 0, borderColor: '#BCEBFF', backgroundColor: 'rgba(188,235,255,0.08)' },
+  profileGuestName: { color: '#F3F7FF', fontSize: 18, fontWeight: '900', marginTop: 12, textAlign: 'center' },
+  profileGuestStatus: { color: '#A9BAD4', fontSize: 12, marginTop: 4, textAlign: 'center' },
+  profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 },
+  profileMenuCard: { marginTop: 9, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(48,125,194,0.62)', backgroundColor: 'rgba(5,19,43,0.97)' },
+  navCreateIcon: { width: 27, height: 27, borderRadius: 8, borderWidth: 2, borderColor: '#68BFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 5 },
+  navCreateTriangle: { width: 0, height: 0, marginLeft: 3, borderTopWidth: 7, borderBottomWidth: 7, borderLeftWidth: 10, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#68BFFF' },
+  navGalleryIcon: { width: 27, height: 27, flexDirection: 'row', flexWrap: 'wrap', gap: 3, padding: 2, alignItems: 'center', justifyContent: 'center' },
+  navGalleryCell: { width: 10, height: 10, borderRadius: 2, borderWidth: 1.8, borderColor: '#68BFFF', backgroundColor: 'rgba(22,139,255,0.10)' },
+  navGlyphActive: { borderColor: '#B9F0FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
+  navCoinActive: { borderColor: '#FFE08A', shadowColor: '#FFB52E', shadowOpacity: 0.95, shadowRadius: 14, elevation: 8 },
+  navCoinMark: { color: '#FFD66F', fontSize: 14, lineHeight: 16, fontWeight: '900' },
+  notificationBell: { width: 22, height: 24, alignItems: 'center', justifyContent: 'center' },
+  notificationBellDome: { width: 15, height: 15, borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomLeftRadius: 3, borderBottomRightRadius: 3, borderWidth: 1.8, borderColor: '#A9D9FF', borderBottomWidth: 0 },
+  notificationBellBase: { width: 19, height: 2, borderRadius: 1, backgroundColor: '#A9D9FF', marginTop: -1 },
+  notificationBellClapper: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#A9D9FF', marginTop: 1 },
 };
 
 const REFERENCE_POLISH = {
