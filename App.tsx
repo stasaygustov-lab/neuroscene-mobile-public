@@ -1975,7 +1975,7 @@ export default function App() {
         <View style={styles.ambientStarSeven} />
         <View style={styles.ambientStarEight} />
       </View>
-      <StatusBar style="light" hidden={false} />
+      <StatusBar style="light" hidden={showIntro} />
 
       {tab === 'Create' && <View style={styles.header}>
         <View style={styles.brandRow}>
@@ -4260,6 +4260,27 @@ const styles = StyleSheet.create({
   authLinkText: { color: '#83B7FF', fontSize: 14, fontWeight: '700', textAlign: 'center' },
   authDivider: { alignItems: 'center', marginTop: 4, marginBottom: 4 },
   authNotice: { color: '#83B7FF', fontSize: 14, lineHeight: 17, marginTop: 12 },
+  screenTitle: { color: '#F5F8FF', fontSize: 21, lineHeight: 26, fontWeight: '800', marginTop: 3, marginBottom: 12, textShadowColor: 'rgba(35,145,255,0.40)', textShadowRadius: 10 },
+  creditsTitle: { color: '#F5F8FF', fontSize: 21, lineHeight: 26, fontWeight: '800', textShadowColor: 'rgba(35,145,255,0.40)', textShadowRadius: 10 },
+  creditPackagesTitle: { color: '#F5F8FF', fontSize: 15, fontWeight: '800', marginTop: 3, marginBottom: 5 },
+  packageAmount: { color: '#F7FAFF', fontSize: 14, fontWeight: '800' },
+  packagePrice: { color: '#FFFFFF', fontSize: 15, fontWeight: '900' },
+  packagePriceHint: { color: '#FFFFFF', fontSize: 15, fontWeight: '900' },
+  packageCard: { minHeight: 58, paddingVertical: 9, paddingHorizontal: 12, borderRadius: 14, marginTop: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(68,146,222,0.45)', backgroundColor: 'rgba(8,28,58,0.92)', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 12, elevation: 4 },
+  packageCardPopular: { borderColor: '#20BFFF', backgroundColor: 'rgba(5,55,105,0.92)', shadowColor: '#00AFFF', shadowOpacity: 0.75, shadowRadius: 16, elevation: 8 },
+  creditIllustration: { height: 145, marginBottom: 14, borderRadius: 17, backgroundColor: 'rgba(4,19,47,0.93)', borderWidth: 1, borderColor: 'rgba(37,148,255,0.75)', shadowColor: '#087BFF', shadowOpacity: 0.25, shadowRadius: 20, elevation: 8 },
+  creditBalanceHero: { position: 'absolute', bottom: 7, left: 0, right: 0, alignItems: 'center', justifyContent: 'center' },
+  creditBalanceHeroValue: { color: '#FFD66F', fontSize: 31, lineHeight: 34, fontWeight: '900', textShadowColor: '#FF9E22', textShadowRadius: 15 },
+  creditBalanceHeroLabel: { color: '#FFF0C2', fontSize: 12, fontWeight: '800', letterSpacing: 0.7, marginTop: 0 },
+  buyCreditsButton: { minHeight: 52, marginTop: 10, borderRadius: 14, borderWidth: 1, borderColor: '#52D3FF', backgroundColor: '#0877F4', shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 18, elevation: 8, alignItems: 'center', justifyContent: 'center' },
+  featureSectionTitle: { color: '#F5F8FF', fontSize: 16, fontWeight: '800', marginBottom: 10 },
+  featureTile: { width: '48.5%', minHeight: 112, padding: 10, borderRadius: 15, backgroundColor: 'rgba(5,22,51,0.86)', borderWidth: 1, borderColor: 'rgba(57,132,210,0.55)', shadowColor: '#087BFF', shadowOpacity: 0.14, shadowRadius: 10, elevation: 3 },
+  featureTitle: { color: '#F4FAFF', fontSize: 12, fontWeight: '800', lineHeight: 15 },
+  featureSubtitle: { color: '#8FB5DC', fontSize: 9, lineHeight: 12, marginTop: 2 },
+  profileGuestAvatar: { width: 92, height: 92, borderRadius: 46, borderWidth: 2, borderColor: '#00BFFF', backgroundColor: 'rgba(0,91,180,0.18)', shadowColor: '#00AFFF', shadowOpacity: 0.92, shadowRadius: 24, elevation: 12, alignItems: 'center', justifyContent: 'center', overflow: 'visible' },
+  galleryTabText: { color: '#9DB8DA', fontSize: 12, fontWeight: '600' },
+  galleryTabTextActive: { color: '#FFFFFF', fontSize: 12, fontWeight: '800' },
+  galleryLimit: { color: '#B4CBE5', fontSize: 10, textAlign: 'center', marginTop: 10 },
   version: { color: '#566176', fontSize: 14, letterSpacing: 1.3, textAlign: 'center', marginTop: 35 },
   ...COSMIC_OVERRIDES,
   ...REFERENCE_POLISH,
