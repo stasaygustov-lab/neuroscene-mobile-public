@@ -1723,22 +1723,21 @@ export default function App() {
           </View>
           <View style={styles.creditIllustration}>
             <View pointerEvents="none" style={styles.creditIllustrationGlow} />
-            <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
+            <View style={styles.creditCoinReferenceCrop}>
+              <Image
+                source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+                resizeMode="stretch"
+                style={{
+                  position: 'absolute',
+                  width: 1536 * (112 / 105),
+                  height: 1024 * (112 / 105),
+                  left: -1035 * (112 / 105),
+                  top: -276 * (112 / 105),
+                }}
+              />
             </View>
-            <View style={[styles.creditCoinStack, styles.creditStackCenter]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-            </View>
-            <View style={[styles.creditCoinStack, styles.creditStackRight]}>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-              <View style={styles.creditCoin}><View style={styles.creditCoinInner}>✦</View></View>
-            </View>
-            <View style={styles.creditStarBadge}>✦</View>
+            <View style={[styles.creditCoinStack, { display: 'none' }]} />
+            <View style={[styles.creditStarBadge, { display: 'none' }]} />
             <View style={styles.creditBalanceHero}>
               <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
               <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
@@ -4268,6 +4267,7 @@ const styles = StyleSheet.create({
   packagePriceHint: { color: '#FFFFFF', fontSize: 15, fontWeight: '900' },
   packageCard: { minHeight: 58, paddingVertical: 9, paddingHorizontal: 12, borderRadius: 14, marginTop: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(68,146,222,0.45)', backgroundColor: 'rgba(8,28,58,0.92)', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 12, elevation: 4 },
   packageCardPopular: { borderColor: '#20BFFF', backgroundColor: 'rgba(5,55,105,0.92)', shadowColor: '#00AFFF', shadowOpacity: 0.75, shadowRadius: 16, elevation: 8 },
+  creditCoinReferenceCrop: { position: 'absolute', top: 3, left: 0, right: 0, width: 112, height: 67, alignSelf: 'center', overflow: 'hidden', borderRadius: 10 },
   creditIllustration: { height: 145, marginBottom: 14, borderRadius: 17, backgroundColor: 'rgba(4,19,47,0.93)', borderWidth: 1, borderColor: 'rgba(37,148,255,0.75)', shadowColor: '#087BFF', shadowOpacity: 0.25, shadowRadius: 20, elevation: 8 },
   creditBalanceHero: { position: 'absolute', bottom: 7, left: 0, right: 0, alignItems: 'center', justifyContent: 'center' },
   creditBalanceHeroValue: { color: '#FFD66F', fontSize: 31, lineHeight: 34, fontWeight: '900', textShadowColor: '#FF9E22', textShadowRadius: 15 },
