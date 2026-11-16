@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Modal, PanResponder } from 'react-native';
+import { Animated, Easing, Modal, PanResponder } from 'react-native';
 import { useEvent } from 'expo';
 import { useFonts } from 'expo-font';
 import {
@@ -137,15 +137,15 @@ async function readResponse(response: Response): Promise<any> {
 
 function ScreenTransition({ children, direction = 1 }: { children: any; direction?: 1 | -1 }) {
   const { width } = useWindowDimensions();
-  const entryOffset = Math.max(96, Math.min(width * 0.34, 156));
-  const opacity = useRef(new Animated.Value(0)).current;
+  const entryOffset = Math.max(84, Math.min(width * 0.28, 124));
+  const opacity = useRef(new Animated.Value(0.72)).current;
   const translateX = useRef(new Animated.Value(direction * entryOffset)).current;
-  const scale = useRef(new Animated.Value(0.985)).current;
+  const scale = useRef(new Animated.Value(0.992)).current;
   useEffect(() => {
     const animation = Animated.parallel([
-      Animated.timing(opacity, { toValue: 1, duration: 230, useNativeDriver: true }),
-      Animated.spring(translateX, { toValue: 0, speed: 22, bounciness: 2, useNativeDriver: true }),
-      Animated.spring(scale, { toValue: 1, speed: 22, bounciness: 1, useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: 1, duration: 210, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+      Animated.timing(translateX, { toValue: 0, duration: 270, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+      Animated.timing(scale, { toValue: 1, duration: 270, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
     ]);
     animation.start();
     return () => { animation.stop(); opacity.stopAnimation(); translateX.stopAnimation(); scale.stopAnimation(); };
@@ -1764,9 +1764,14 @@ export default function App() {
           </View>
           <View style={styles.creditIllustration} accessibilityLabel="Золотые монеты НейроСцены">
             <View pointerEvents="none" style={styles.creditIllustrationGlow} />
-            <View style={[styles.creditCoinStack, styles.creditStackLeft]}><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View></View>
-            <View style={[styles.creditCoinStack, styles.creditStackCenter]}><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View></View>
-            <View style={[styles.creditCoinStack, styles.creditStackRight]}><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View><View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View></View>
+            <View style={styles.creditReferenceArtworkCrop} pointerEvents="none">
+              <Image
+                source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+                resizeMode="stretch"
+                style={styles.creditReferenceArtwork}
+                accessibilityLabel="Высокодетализированные золотые монеты из референса"
+              />
+            </View>
             <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
             <View style={styles.creditIllustrationCaption}><Text style={styles.creditIllustrationTitle}>ВАШИ ИДЕИ — ВАШИ ФИЛЬМЫ</Text><Text style={styles.creditIllustrationSub}>Кредиты для творчества</Text></View>
           </View>
@@ -2025,7 +2030,7 @@ export default function App() {
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
             <Image
-              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
+              source={require('./assets/Неоновая айдентика «НейроСцена».jpg')}
               resizeMode="contain"
               style={styles.headerBrandArtwork}
               accessibilityLabel="Неоновая иконка НейроСцены"
@@ -2091,12 +2096,12 @@ export default function App() {
               </View>
             ) : item.id === 'Gallery' ? (
               <View style={[styles.navGalleryIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Галерея">
-                <View style={styles.navGalleryCell} /><View style={styles.navGalleryCell} />
-                <View style={styles.navGalleryCell} /><View style={styles.navGalleryCell} />
+                <View style={styles.navGalleryClapperTop}><View style={styles.navGalleryClapperStripe} /><View style={styles.navGalleryClapperStripe} /><View style={styles.navGalleryClapperStripe} /></View>
+                <View style={styles.navGalleryClapperBody}><View style={styles.navGalleryPlay} /></View>
               </View>
             ) : item.id === 'Credits' ? (
-              <View style={[styles.navCoin, tab === item.id && styles.navCoinActive]} accessibilityLabel="Монета">
-                <View style={styles.navCoinInner}><Text style={styles.navCoinMark}>✦</Text></View>
+              <View style={[styles.navCoinStack, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Стопка золотых монет">
+                <View style={styles.navCoinLayer} /><View style={styles.navCoinLayer} /><View style={styles.navCoinLayer} />
               </View>
             ) : (
               <View style={styles.navPerson} accessibilityLabel="Человечек">
@@ -2246,6 +2251,12 @@ function CreateScreen({
         <View style={styles.createTitleUnderline} />
       </View>
       <View style={styles.referenceHero} accessibilityLabel="Кинематографическая иллюстрация НейроСцены">
+        <Image
+          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+          resizeMode="stretch"
+          style={styles.referenceHeroArtwork}
+          accessibilityLabel="Кинематографическая сцена из референса НейроСцены"
+        />
         <View pointerEvents="none" style={styles.referenceHeroNebulaOne} />
         <View pointerEvents="none" style={styles.referenceHeroNebulaTwo} />
         <View pointerEvents="none" style={styles.referenceHeroOrbitOuter} />
@@ -2592,18 +2603,13 @@ function GalleryScreen({
       )}
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.emptyScreen}>
-          <View style={styles.galleryEmptyArtwork} accessibilityLabel="Неоновая кинематографическая хлопушка">
-            <View style={styles.galleryClapperTop}>
-              <View style={styles.galleryClapperStripe} />
-              <View style={styles.galleryClapperStripe} />
-              <View style={styles.galleryClapperStripe} />
-              <View style={styles.galleryClapperStripe} />
-            </View>
-            <View style={styles.galleryClapperBody}>
-              <Text style={styles.galleryClapperPlay}>▶</Text>
-              <Text style={styles.galleryClapperCaption}>NEUROSCENE</Text>
-            </View>
-            <View style={styles.galleryClapperBase} />
+          <View style={styles.galleryEmptyArtwork} accessibilityLabel="Неоновая хлопушка из референса НейроСцены">
+            <Image
+              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+              resizeMode="stretch"
+              style={styles.galleryReferenceArtwork}
+              accessibilityLabel="Неоновая кинематографическая хлопушка"
+            />
           </View>
           <Text style={styles.galleryEmptyTitle}>Ваша галерея ждёт первый фильм</Text>
           <Text style={styles.description}>{uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
@@ -4747,6 +4753,69 @@ const FINAL_UI_FIXES_V14 = {
   bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopColor: 'rgba(100,192,255,0.42)' },
 } as const;
 
+const FINAL_UI_FIXES_V15 = {
+  // Android-like horizontal page transition and balanced top chrome.
+  header: { minHeight: 136, height: 136, paddingTop: 0, paddingBottom: 8, paddingHorizontal: 14, justifyContent: 'flex-start', alignItems: 'center', overflow: 'visible' },
+  brandRowCentered: { position: 'absolute', top: 62, left: 106, right: 10, width: undefined, maxWidth: undefined, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', zIndex: 2 },
+  headerActions: { position: 'absolute', left: 14, right: undefined, top: 62, zIndex: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8 },
+  brandMarkSmall: { width: 44, height: 44, borderRadius: 12, marginRight: 8, backgroundColor: 'rgba(2,14,39,0.92)', borderWidth: 1, borderColor: 'rgba(125,220,255,0.9)', shadowColor: '#38BFFF', shadowOpacity: 0.85, shadowRadius: 17, elevation: 9, overflow: 'hidden' },
+  headerBrandArtwork: { width: 44, height: 44, borderRadius: 10 },
+  brandWordmark: { width: 118, minWidth: 0, flexShrink: 1, justifyContent: 'center' },
+  logo: { fontFamily: 'Manrope', fontSize: 13, lineHeight: 18, fontWeight: '900', letterSpacing: 0.05, includeFontPadding: false, color: '#F7FBFF', textShadowColor: '#37AFFF', textShadowRadius: 17, textShadowOffset: { width: 0, height: 2 } },
+  notificationButton: { width: 38, height: 38, borderRadius: 12, backgroundColor: 'rgba(4,22,52,0.86)', borderColor: 'rgba(105,199,255,0.72)' },
+  headerMenuButton: { width: 38, height: 38, borderRadius: 12, backgroundColor: 'rgba(4,22,52,0.86)', borderColor: 'rgba(105,199,255,0.72)' },
+  createTitleWrap: { marginTop: 7, marginBottom: 8, minHeight: 38 },
+  createScreenTitle: { fontFamily: 'sans-serif-black', fontSize: 27, lineHeight: 35, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 19, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.25 },
+  referenceHero: { height: 98, minHeight: 98, marginTop: 2, marginBottom: 12, borderRadius: 19, borderWidth: 1.2, borderColor: 'rgba(124,211,255,0.9)', shadowColor: '#168BFF', shadowOpacity: 0.5, shadowRadius: 22, elevation: 11, backgroundColor: 'rgba(3,16,42,0.96)', overflow: 'hidden' },
+  referenceHeroArtwork: { position: 'absolute', width: 945, height: 1050, left: -120, top: -151, opacity: 1 },
+  referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,27,0.14)' },
+  referenceHeroCopy: { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, width: '100%', paddingHorizontal: 12, paddingVertical: 7, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(2,10,27,0.26)' },
+  referenceHeroEyebrow: { fontFamily: 'sans-serif-black', fontSize: 18, lineHeight: 23, fontWeight: '900', letterSpacing: 0.2, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 2 } },
+  referenceHeroCaption: { fontFamily: 'Manrope', fontSize: 12, lineHeight: 16, fontWeight: '800', color: '#E1F3FF', textAlign: 'center', marginTop: 3, textShadowColor: '#087BFF', textShadowRadius: 12 },
+  featureSectionTitle: { fontFamily: 'sans-serif-black', fontSize: 20, lineHeight: 27, fontWeight: '900', color: '#F5FAFF', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
+  screenTitle: { fontFamily: 'sans-serif-black', fontSize: 27, lineHeight: 35, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.2 },
+  sectionTitle: { color: '#DDF1FF', fontFamily: 'sans-serif-black', fontSize: 17, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 13, textShadowOffset: { width: 0, height: 2 } },
+  galleryTitleWrap: { minHeight: 64, marginBottom: 16, paddingTop: 7 },
+  galleryTitle: { fontFamily: 'sans-serif-black', color: '#F5F8FF', fontSize: 28, lineHeight: 36, fontWeight: '900', textShadowColor: '#A77CFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.2 },
+  galleryTitleGlow: { bottom: 0, width: '74%', height: 2, backgroundColor: '#C6A7FF', shadowColor: '#A77CFF', shadowOpacity: 1, shadowRadius: 18, elevation: 10 },
+  galleryEmptyArtwork: { width: 110, height: 96, marginBottom: 14, overflow: 'hidden', borderRadius: 12, shadowColor: '#B78BFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 12 },
+  galleryReferenceArtwork: { position: 'absolute', width: 805, height: 894, left: -524, top: -116 },
+  creditsScreen: { paddingTop: 8, paddingBottom: 10 },
+  creditsTitle: { fontFamily: 'sans-serif-black', color: '#FFE7A8', fontSize: 29, lineHeight: 37, fontWeight: '900', textShadowColor: '#D88A20', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
+  creditIllustration: { width: '100%', height: 154, minHeight: 154, marginBottom: 12, borderRadius: 22, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 26, elevation: 13, overflow: 'hidden' },
+  creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, width: 164, height: '100%', overflow: 'hidden' },
+  creditReferenceArtwork: { position: 'absolute', width: 947, height: 1052, left: -128, top: -636 },
+  creditIllustrationCaption: { position: 'absolute', top: 12, left: 164, right: 4, alignItems: 'center', zIndex: 4 },
+  creditIllustrationTitle: { color: '#FFF0C5', fontFamily: 'sans-serif-black', fontSize: 12, lineHeight: 16, fontWeight: '900', letterSpacing: 0.65, textAlign: 'center', textShadowColor: '#D98A20', textShadowRadius: 13 },
+  creditIllustrationSub: { color: '#F1D7A2', fontSize: 11, lineHeight: 15, fontWeight: '800' },
+  ambientTintGallery: { backgroundColor: 'rgba(174,139,255,0.14)' },
+  ambientGlowTopGallery: { backgroundColor: '#A98BFF', opacity: 0.2 },
+  ambientGlowBottomGallery: { backgroundColor: '#B7A0FF', opacity: 0.16 },
+  ambientGlowCenterGallery: { backgroundColor: '#9670FF', opacity: 0.11 },
+  ambientTintCredits: { backgroundColor: 'rgba(255,133,190,0.13)' },
+  ambientGlowTopCredits: { backgroundColor: '#FF8FC7', opacity: 0.18 },
+  ambientGlowBottomCredits: { backgroundColor: '#FFB0D7', opacity: 0.15 },
+  ambientGlowCenterCredits: { backgroundColor: '#F17DBD', opacity: 0.1 },
+  ambientTintProfile: { backgroundColor: 'rgba(92,224,207,0.13)' },
+  ambientGlowTopProfile: { backgroundColor: '#58DCCB', opacity: 0.18 },
+  ambientGlowBottomProfile: { backgroundColor: '#79E8D7', opacity: 0.15 },
+  ambientGlowCenterProfile: { backgroundColor: '#48CDBB', opacity: 0.1 },
+  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopWidth: 1, borderTopColor: 'rgba(100,192,255,0.42)' },
+  navItem: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4, minWidth: 0, minHeight: 66, paddingHorizontal: 2, paddingTop: 2, borderRadius: 18, borderWidth: 1, borderColor: 'transparent', backgroundColor: 'transparent', overflow: 'hidden' },
+  navItemActive: { backgroundColor: 'rgba(0,126,255,0.11)', borderColor: 'rgba(77,195,255,0.48)', borderWidth: 1, borderRadius: 18, shadowColor: '#00AFFF', shadowOpacity: 0.35, shadowRadius: 13, elevation: 3 },
+  navLabel: { color: '#A5B2C8', fontSize: 14, lineHeight: 18, fontWeight: '800', width: '100%', textAlign: 'center', includeFontPadding: false, letterSpacing: 0 },
+  navLabelActive: { color: '#C8F5FF', fontWeight: '900', textShadowColor: '#00AFFF', textShadowRadius: 11 },
+  navCreateIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#37C8FF', shadowOpacity: 0.7, shadowRadius: 13, elevation: 6 },
+  navGalleryIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  navGalleryClapperTop: { position: 'absolute', top: 3, width: 23, height: 7, borderWidth: 1.2, borderColor: '#BDEBFF', borderRadius: 2, backgroundColor: 'rgba(0,149,255,0.38)', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
+  navGalleryClapperStripe: { width: 3, height: 5, backgroundColor: '#8CE6FF', transform: [{ skewX: '-24deg' }] },
+  navGalleryClapperBody: { position: 'absolute', top: 9, width: 22, height: 16, borderWidth: 1.4, borderColor: '#72D9FF', borderRadius: 3, backgroundColor: 'rgba(0,115,220,0.24)', alignItems: 'center', justifyContent: 'center' },
+  navGalleryPlay: { width: 0, height: 0, borderTopWidth: 4, borderBottomWidth: 4, borderLeftWidth: 6, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#C8F5FF', marginLeft: 2 },
+  navCoinStack: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', gap: 1 },
+  navCoinLayer: { width: 23, height: 7, borderRadius: 5, borderWidth: 1.3, borderColor: '#FFD77A', backgroundColor: '#B98225', shadowColor: '#FFC34D', shadowOpacity: 0.85, shadowRadius: 6, elevation: 4 },
+  navPerson: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center' },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5092,5 +5161,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V12,
   ...FINAL_UI_FIXES_V13,
   ...FINAL_UI_FIXES_V14,
+  ...FINAL_UI_FIXES_V15,
 });
 
