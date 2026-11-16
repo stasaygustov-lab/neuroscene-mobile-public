@@ -1752,17 +1752,17 @@ export default function App() {
           <View style={styles.creditsHeader}>
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text><View style={styles.creditsTitleGlow} />
           </View>
-          <View style={styles.creditIllustration}>
+          <View style={styles.creditIllustration} accessibilityLabel="Декоративная иллюстрация кредитов">
             <View pointerEvents="none" style={styles.creditIllustrationGlow} />
             <View style={[styles.creditCoinStack, styles.creditStackLeft]}><View style={styles.creditCoin} /><View style={styles.creditCoin} /></View>
             <View style={[styles.creditCoinStack, styles.creditStackCenter]}><View style={styles.creditCoin} /><View style={styles.creditCoin} /><View style={styles.creditCoin} /></View>
             <View style={[styles.creditCoinStack, styles.creditStackRight]}><View style={styles.creditCoin} /><View style={styles.creditCoin} /></View>
             <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
-            <View style={styles.creditBalanceHero}>
-              <Text style={styles.creditBalanceEyebrow}>ВАШ БАЛАНС</Text>
-              <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
-              <Text style={styles.creditBalanceHeroLabel}>кредитов</Text>
-            </View>
+          </View>
+          <View style={styles.creditBalancePanel}>
+            <Text style={styles.creditBalanceEyebrow}>ВАШ БАЛАНС</Text>
+            <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
+            <Text style={styles.creditBalanceHeroLabel}>кредитов</Text>
           </View>
           <Text style={styles.creditPackagesTitle}>Пакеты кредитов</Text>
           {[500, 1500, 5000].map((amount) => (
@@ -1780,7 +1780,7 @@ export default function App() {
               </View>
             </View>
           ))}
-          <View style={[styles.creditHistorySection, { display: 'none' } ]}>
+          <View style={styles.creditHistorySection}>
             <View style={styles.creditHistoryHeader}>
               <Text style={styles.sectionTitle}>{uiText(language, 'CREDIT ACTIVITY', 'ИСТОРИЯ ОПЕРАЦИЙ')}</Text>
               <Text style={styles.creditHistoryCount}>{creditHistory.length}</Text>
@@ -1822,9 +1822,9 @@ export default function App() {
         <View style={styles.profileHeader}>
           <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
           <View style={styles.profileTitleUnderline} />
-          {authUser && <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')}>
+          <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')} accessibilityRole="button" accessibilityLabel="Настройки профиля">
             <Text style={styles.profileSettingsIcon}>⚙</Text>
-          </TouchableOpacity>}
+          </TouchableOpacity>
         </View>
         <View style={styles.profileIdentity}>
           <View style={styles.profileGuestAvatar}>
@@ -4238,6 +4238,34 @@ const FINAL_UI_FIXES_V5 = {
   galleryErrorBox: { width: '100%', alignItems: 'center', padding: 14, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,112,112,0.42)', backgroundColor: 'rgba(55,16,30,0.72)', marginTop: 12, marginBottom: 8 },
   galleryRetryButton: { minHeight: 42, paddingHorizontal: 18, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: '#0877F4', borderWidth: 1, borderColor: '#52D3FF', marginTop: 10 },
   galleryRetryText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 16, fontWeight: '800' },
+ header: { paddingTop: 22, paddingBottom: 12, minHeight: 88, paddingHorizontal: 18, paddingLeft: 18, paddingRight: 18, overflow: 'visible' },
+ referenceHero: { height: 151, minHeight: 151, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 8, marginTop: 4, marginBottom: 12 },
+ filmFrame: { width: '42%', height: 116, flexGrow: 0, flexShrink: 0 },
+ referenceHeroCopy: { position: 'relative', top: 0, left: 0, width: 'auto', flex: 1, minWidth: 0, paddingLeft: 10, paddingRight: 4, justifyContent: 'center' },
+ referenceHeroTitle: { color: '#F4FAFF', fontSize: 17, lineHeight: 21, fontWeight: '900' },
+ referenceHeroCaption: { color: '#CDE7FF', fontSize: 15, lineHeight: 20, maxWidth: '100%', marginTop: 5 },
+ profileHeader: { position: 'relative', alignItems: 'center', justifyContent: 'center', minHeight: 50, marginBottom: 12, paddingHorizontal: 48 },
+ profileSettingsButton: { position: 'absolute', right: 0, top: 2, width: 42, height: 42, borderRadius: 13, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(69,157,225,0.66)', backgroundColor: 'rgba(5,26,59,0.96)' },
+ profileIdentity: { alignItems: 'center', paddingTop: 10, paddingBottom: 14, marginBottom: 10 },
+ creditIllustration: { height: 112, minHeight: 112, marginBottom: 10, borderRadius: 18, backgroundColor: 'rgba(4,19,47,0.94)', borderWidth: 1, borderColor: 'rgba(37,148,255,0.75)', overflow: 'hidden', position: 'relative' },
+ creditCoinStack: { bottom: 18 },
+ creditStackLeft: { left: '13%' },
+ creditStackCenter: { left: '42%', bottom: 25 },
+ creditStackRight: { right: '13%' },
+ creditStarBadge: { right: '22%', bottom: 8, width: 38, height: 38, borderRadius: 19 },
+ creditBalancePanel: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 14, marginBottom: 12, borderRadius: 15, borderWidth: 1, borderColor: 'rgba(37,148,255,0.52)', backgroundColor: 'rgba(4,22,54,0.94)' },
+ creditBalanceEyebrow: { color: '#B9D8F7', fontSize: 14, fontWeight: '900', letterSpacing: 1.1, marginBottom: 2 },
+ creditBalanceHeroValue: { color: '#FFD66F', fontSize: 29, lineHeight: 34, fontWeight: '900', textShadowColor: '#FF9E22', textShadowRadius: 12 },
+ creditBalanceHeroLabel: { color: '#FFF0C2', fontSize: 15, fontWeight: '800', letterSpacing: 0.6, marginTop: 0 },
+ creditPackagesTitle: { color: '#F5F8FF', fontSize: 16, fontWeight: '800', marginTop: 2, marginBottom: 6 },
+ packageCard: { minHeight: 64, paddingVertical: 9, paddingHorizontal: 12, borderRadius: 14, marginTop: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(68,146,222,0.45)', backgroundColor: 'rgba(8,28,58,0.92)', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 12, elevation: 4 },
+ packageRight: { minWidth: 104, maxWidth: '42%', alignItems: 'flex-end', justifyContent: 'center', flexShrink: 0 },
+ popularBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8, backgroundColor: '#075DE2', borderWidth: 1, borderColor: '#72D9FF' },
+ popularBadgeText: { color: '#FFFFFF', fontSize: 12, lineHeight: 16, fontWeight: '900' },
+ content: { flexGrow: 1, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 28 },
+ creditsContent: { flexGrow: 1, paddingTop: 10, paddingBottom: 28 },
+ screen: { flexGrow: 1, flexShrink: 1, minHeight: 0, paddingTop: 8, paddingBottom: 14 },
+
 } as const;
 
 const styles = StyleSheet.create({
