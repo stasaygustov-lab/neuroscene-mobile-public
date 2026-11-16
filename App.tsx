@@ -2046,18 +2046,12 @@ export default function App() {
 
       {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
-          <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
-            <Image
-              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
-              resizeMode="contain"
-              style={styles.brandLogoArtwork}
-              accessibilityLabel="Неоновый логотип НейроСцена"
-            />
-          </View>
-          <View style={styles.brandWordmark}>
-            <Text style={styles.logo}>Нейро</Text>
-            <Text style={styles.logo}>Сцена</Text>
-          </View>
+          <Image
+            source={require('./Футуристический серебряно-синий монограмный логотип HC-1.png')}
+            resizeMode="contain"
+            style={styles.brandLogoArtwork}
+            accessibilityLabel="Референсный монограммный логотип НейроСцена"
+          />
         </View>
 
         <View style={styles.headerActions}>
@@ -2143,12 +2137,12 @@ export default function App() {
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup}>
             <Image
-              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
+              source={require('./Футуристический серебряно-синий монограмный логотип HC-1.png')}
               resizeMode="contain"
               style={styles.splashBrandArtwork}
-              accessibilityLabel="Логотип НейроСцена"
+              accessibilityLabel="Референсный логотип НейроСцена"
             />
-            <Text style={styles.introBrandCaption}>СТУДИЯ ВИДЕОГЕНЕРАЦИИ</Text>
+            <Text style={styles.introBrandCaption}>НЕЙРОСЦЕНА</Text>
           </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
@@ -5340,6 +5334,65 @@ const FINAL_UI_FIXES_V25 = {
   galleryEmptyCard: { backgroundColor: 'rgba(4,20,48,0.62)' },
 };
 
+const FINAL_REFERENCE_REDESIGN_V26 = {
+  // Reference identity: centered standalone monogram, no duplicated or clipped wordmark.
+  referenceCenteredHeader: { width: '100%', minHeight: 116, marginTop: 4, marginBottom: 8, alignItems: 'center', justifyContent: 'center' },
+  brandRowCentered: { width: '100%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginLeft: 0, marginRight: 0 },
+  brandLogoArtwork: { width: 196, height: 104, alignSelf: 'center', margin: 0, padding: 0, backgroundColor: 'transparent' },
+  brandMarkSmall: { display: 'none' },
+  brandWordmark: { display: 'none' },
+  logo: { display: 'none' },
+  headerActions: { position: 'absolute', right: 18, top: 8 },
+  notificationButton: { width: 42, height: 42, borderWidth: 0, borderRadius: 21, backgroundColor: 'transparent' },
+  // Splash uses the same supplied reference mark and a concise, correctly cased title.
+  introBrandLockup: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24 },
+  splashBrandArtwork: { width: 250, height: 190, alignSelf: 'center', marginBottom: 14 },
+  introBrandCaption: { color: '#D9F4FF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 24, fontWeight: '800', letterSpacing: 3, textAlign: 'center', textShadowColor: 'rgba(45,177,255,0.8)', textShadowRadius: 16 },
+  // Create screen: Manrope typography, clean transparent inner content and centered identity.
+  content: { paddingHorizontal: 20, paddingTop: 18, paddingBottom: 116 },
+  featureSectionTitle: { color: '#DDF5FF', fontFamily: 'Manrope', fontSize: 19, lineHeight: 26, fontWeight: '800', letterSpacing: 0.2, marginBottom: 12 },
+  featureTile: { backgroundColor: 'rgba(4,18,43,0.48)', borderColor: 'rgba(78,190,255,0.72)', borderWidth: 1.2, borderRadius: 22, minHeight: 142, padding: 16, shadowColor: '#16B9FF', shadowOpacity: 0.24, shadowRadius: 16, elevation: 4 },
+  featureTitle: { color: '#F1FAFF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 23, fontWeight: '800', backgroundColor: 'transparent', padding: 0 },
+  featureSubtitle: { color: '#B5D9F2', fontFamily: 'Manrope', fontSize: 15, lineHeight: 21, fontWeight: '500', backgroundColor: 'transparent', padding: 0 },
+  featureIconSquare: { backgroundColor: 'transparent', borderWidth: 0, elevation: 0, shadowOpacity: 0, marginBottom: 8 },
+  // Gallery empty state is deliberately borderless: only the illustration, action and storage counter remain.
+  galleryEmptyReferenceState: { width: '100%', alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center', padding: 0, marginTop: 8, marginBottom: 0, borderWidth: 0, borderColor: 'transparent', borderRadius: 0, backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0 },
+  galleryReferenceImage: { width: '100%', height: 330, maxWidth: 360, alignSelf: 'center', margin: 0, backgroundColor: 'transparent' },
+  secondaryButton: { width: '78%', minHeight: 58, marginTop: 18, borderRadius: 18, backgroundColor: '#087CF4', borderColor: '#64DFFF', borderWidth: 1.5, shadowColor: '#16B9FF', shadowOpacity: 0.36, shadowRadius: 18, elevation: 7 },
+  secondaryButtonText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 18, fontWeight: '800' },
+  galleryLimit: { color: '#D4E9FF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 24, fontWeight: '700', textAlign: 'center', marginTop: 18 },
+  galleryGrid: { backgroundColor: 'transparent', borderWidth: 0, padding: 0 },
+  // Credits: restore a coherent dark-blue / electric-blue / gold hierarchy and readable spacing.
+  creditsContent: { paddingTop: 28, paddingBottom: 144, paddingHorizontal: 18 },
+  creditsScreen: { paddingTop: 8, paddingBottom: 144 },
+  creditsHeader: { minHeight: 54, marginTop: 0, marginBottom: 18, paddingBottom: 10, borderBottomWidth: 2, borderBottomColor: '#19BFFF', justifyContent: 'center' },
+  creditsTitle: { color: '#FFE19A', fontFamily: 'Manrope', fontSize: 30, lineHeight: 38, fontWeight: '900', textAlign: 'left', textShadowColor: 'rgba(255,184,65,0.65)', textShadowRadius: 14 },
+  creditBalanceCard: { backgroundColor: 'rgba(5,27,67,0.88)', borderColor: '#16BFFF', borderWidth: 1.5, borderRadius: 24, minHeight: 190, paddingVertical: 22, overflow: 'hidden' },
+  creditPackagesTitle: { color: '#F2F8FF', fontFamily: 'Manrope', fontSize: 20, lineHeight: 27, fontWeight: '900', marginTop: 14, marginBottom: 10 },
+  packageCard: { minHeight: 72, paddingVertical: 14, paddingHorizontal: 16, borderRadius: 18, backgroundColor: 'rgba(5,24,55,0.86)', borderColor: 'rgba(59,160,230,0.62)', marginTop: 10 },
+  packageCardPopular: { backgroundColor: 'rgba(5,65,120,0.94)', borderColor: '#21C8FF' },
+  packageAmount: { color: '#F5F9FF', fontFamily: 'Manrope', fontSize: 17, fontWeight: '800' },
+  packagePrice: { color: '#FFE19A', fontFamily: 'Manrope', fontSize: 19, fontWeight: '900' },
+  popularBadge: { backgroundColor: '#087CF4', borderRadius: 9, paddingHorizontal: 8, paddingVertical: 4 },
+  popularBadgeText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 13, fontWeight: '900', textAlign: 'center' },
+  creditBenefit: { color: '#D8E9FB', fontFamily: 'Manrope', fontSize: 16, lineHeight: 25, fontWeight: '700' },
+  buyCreditsButton: { minHeight: 58, borderRadius: 18, backgroundColor: '#087CF4', borderColor: '#64DFFF', marginTop: 18 },
+  buyCreditsButtonText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 18, fontWeight: '900' },
+  creditHistorySection: { marginTop: 22, paddingTop: 18, borderTopWidth: 1, borderTopColor: 'rgba(79,178,235,0.3)' },
+  creditHistoryTitle: { color: '#EAF6FF', fontFamily: 'Manrope', fontSize: 18, fontWeight: '900' },
+  // Profile: align all sections to the same content grid and keep the menu clear of bottom navigation.
+  profileScreen: { paddingTop: 18, paddingBottom: 150 },
+  profileHeader: { minHeight: 62, marginBottom: 18, paddingBottom: 12, borderBottomWidth: 2, borderBottomColor: '#19BFFF' },
+  profileTitleGroup: { justifyContent: 'center' },
+  screenTitle: { color: '#EAF6FF', fontFamily: 'Manrope', fontSize: 30, lineHeight: 38, fontWeight: '900', marginTop: 0, marginBottom: 4 },
+  profileIdentity: { alignItems: 'center', marginTop: 12, marginBottom: 22 },
+  profileGuestName: { color: '#F2F8FF', fontFamily: 'Manrope', fontSize: 23, lineHeight: 30, fontWeight: '900', marginTop: 16 },
+  profileGuestStatus: { color: '#B9D5EE', fontFamily: 'Manrope', fontSize: 16, lineHeight: 23, textAlign: 'center', marginTop: 6, paddingHorizontal: 10 },
+  profileMenuCard: { marginTop: 12, marginBottom: 22, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(84,179,237,0.38)', backgroundColor: 'rgba(3,18,42,0.42)' },
+  menuItem: { minHeight: 62, paddingVertical: 16, borderBottomColor: 'rgba(112,183,226,0.22)' },
+  menuText: { color: '#E2F2FF', fontFamily: 'Manrope', fontSize: 17, fontWeight: '700' },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5696,5 +5749,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V23,
   ...FINAL_UI_FIXES_V24,
   ...FINAL_UI_FIXES_V25,
+  ...FINAL_REFERENCE_REDESIGN_V26,
 });
 
