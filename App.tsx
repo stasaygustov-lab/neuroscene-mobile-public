@@ -4785,7 +4785,7 @@ const FINAL_UI_FIXES_V15 = {
   createTitleWrap: { marginTop: 7, marginBottom: 8, minHeight: 38 },
   createScreenTitle: { fontFamily: 'sans-serif-black', fontSize: 27, lineHeight: 35, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 19, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.25 },
   referenceHero: { height: 98, minHeight: 98, marginTop: 2, marginBottom: 12, borderRadius: 19, borderWidth: 1.2, borderColor: 'rgba(124,211,255,0.9)', shadowColor: '#168BFF', shadowOpacity: 0.5, shadowRadius: 22, elevation: 11, backgroundColor: 'rgba(3,16,42,0.96)', overflow: 'hidden' },
-  referenceHeroArtwork: { position: 'absolute', width: 945, height: 1050, left: -120, top: -151, opacity: 1 },
+  referenceHeroArtwork: { position: 'absolute', width: '296%', height: '1075%', left: '-37.5%', top: '-155%', opacity: 1 },
   referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,27,0.14)' },
   referenceHeroCopy: { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, width: '100%', paddingHorizontal: 12, paddingVertical: 7, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(2,10,27,0.26)' },
   referenceHeroEyebrow: { fontFamily: 'sans-serif-black', fontSize: 18, lineHeight: 23, fontWeight: '900', letterSpacing: 0.2, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 2 } },
