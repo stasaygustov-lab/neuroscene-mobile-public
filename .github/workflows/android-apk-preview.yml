@@ -1,0 +1,68 @@
+name: NeuroScene Android APK preview (no emulator)
+
+on:
+  push:
+    branches:
+      - ui/fix-root-layout-overrides
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neuroscene-android-apk-preview
+  cancel-in-progress: true
+
+jobs:
+  build-android-apk:
+    name: Build standalone Android APK
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      EXPO_PUBLIC_API_URL: ${{ vars.EXPO_PUBLIC_API_URL }}
+      EXPO_PUBLIC_VK_CLIENT_ID: ${{ vars.EXPO_PUBLIC_VK_CLIENT_ID }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ui/fix-root-layout-overrides
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools'
+          accept-android-sdk-licenses: true
+      - name: Install Android platform and NDK
+        run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
+      - name: Install dependencies
+        run: npm ci
+      - name: Fit launcher logo inside Android safe area
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install Pillow
+          .venv/bin/python scripts/fit-android-icon.py
+      - name: Generate native Android project
+        run: npx expo prebuild --platform android --no-install --clean
+      - name: Build standalone installable APK
+        run: |
+          cd android
+          chmod +x ./gradlew
+          ./gradlew --no-daemon assembleRelease
+      - name: Verify APK and embedded JavaScript
+        run: |
+          APK="android/app/build/outputs/apk/release/app-release.apk"
+          test -s "$APK"
+          unzip -l "$APK" | grep -E 'assets/index.android.bundle'
+          ls -lh "$APK"
+          file "$APK"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: neurosScene-preview-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+          retention-days: 7
