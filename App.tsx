@@ -5097,7 +5097,7 @@ const FINAL_UI_FIXES_V22 = {
   packageCard: { backgroundColor: 'rgba(4,21,49,0.82)', borderColor: 'rgba(76,157,230,0.42)' },
   profileMenuCard: { backgroundColor: 'rgba(4,18,42,0.70)', borderColor: 'rgba(76,157,230,0.36)' },
   authCard: { backgroundColor: 'rgba(4,18,42,0.78)', borderColor: 'rgba(76,157,230,0.42)' },
-  notificationButton: { backgroundColor: 'transparent', borderWidth: 0', borderRadius: 0, shadowOpacity: 0, elevation: 0 },
+  notificationButton: { backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0, shadowOpacity: 0, elevation: 0 },
 };
 const FINAL_UI_FIXES_V21 = {
   // Use the already-approved local cinematic artwork on the Create screen; keep the shared storm-sea background unchanged.
