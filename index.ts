@@ -2,6 +2,8 @@ import * as React from 'react';
 import { registerRootComponent } from 'expo';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
+declare const require: (moduleName: string) => { default: React.ComponentType<any> };
+
 type StartupBoundaryState = {
   error: unknown | null;
 };
