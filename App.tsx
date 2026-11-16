@@ -1987,11 +1987,11 @@ export default function App() {
       </ImageBackground>
       <StatusBar style="light" hidden={showIntro} />
 
-      {tab === 'Create' && <View style={styles.header}>
+      {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }]}>
         <View style={styles.brandRow}>
           <View style={styles.brandWordmark}>
-            <Text style={styles.logo}>Нейро</Text>
-            <Text style={styles.logoSecond}>Сцена</Text>
+            <Text style={[styles.logo, { color: '#F3F8FF', textShadowColor: '#168CFF', textShadowRadius: 12 }]}>Нейро</Text>
+            <Text style={[styles.logoSecond, { color: '#8DCAFF', textShadowColor: '#168CFF', textShadowRadius: 12 }]}>Сцена</Text>
           </View>
         </View>
 
@@ -2030,7 +2030,7 @@ export default function App() {
         {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
-      <View style={styles.bottomNav}>
+      <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', alignSelf: 'stretch', flexShrink: 0, height: 78, minHeight: 78, maxHeight: 78, paddingTop: 6, paddingBottom: 6 }]}>
         {([
           { id: 'Create', icon: '✧', label: 'Создать' },
           { id: 'Gallery', icon: '▧', label: 'Галерея' },
@@ -2039,7 +2039,7 @@ export default function App() {
         ] as const).map((item) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item.id}
-            style={[styles.navItem, tab === item.id && styles.navItemActive]}
+            style={[styles.navItem, { flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: 0, width: '25%', maxWidth: '25%', minWidth: 0, alignSelf: 'auto' }, tab === item.id && styles.navItemActive]}
             onPress={() => { setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
             {item.id === 'Create' ? (
