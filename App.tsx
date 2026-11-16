@@ -2575,6 +2575,10 @@ function GalleryScreen({
   const visibleItems = items.filter((item) => Boolean(readVideoUrl(item)));
   return (
     <View style={styles.screen}>
+      <View style={styles.galleryReferenceHeader}>
+        <Text style={styles.galleryReferenceTitle}>Мои видео</Text>
+        <View style={styles.galleryReferenceUnderline} />
+      </View>
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
       {!!error && (
         <View style={styles.galleryErrorBox}>
@@ -2588,7 +2592,7 @@ function GalleryScreen({
         <View style={styles.galleryEmptyReferenceState}>
           <Image
             source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-            resizeMode="contain"
+            resizeMode="cover"
             style={styles.galleryReferenceImage}
             accessibilityLabel="Неоновая кинематографическая хлопушка"
           />
@@ -5418,6 +5422,13 @@ const FINAL_UI_FIXES_V27 = {
   featureSubtitle: { fontFamily: 'Manrope', backgroundColor: 'transparent', padding: 0 },
   navLabel: { fontFamily: 'Manrope', color: '#BBD3EE', backgroundColor: 'transparent' },
   navLabelActive: { color: '#62CFFF', textShadowColor: '#087BFF', textShadowRadius: 9 },
+  // Gallery follows the reference: centered title, one clean cropped clapperboard image, action and storage count.
+  galleryReferenceHeader: { width: '100%', minHeight: 46, alignItems: 'center', justifyContent: 'center', marginTop: 2, marginBottom: 10, paddingBottom: 7 },
+  galleryReferenceTitle: { color: '#F3F8FF', fontFamily: 'Manrope', fontSize: 25, lineHeight: 32, fontWeight: '900', letterSpacing: 0.1, textAlign: 'center', textShadowColor: 'rgba(43,147,255,0.78)', textShadowRadius: 13, backgroundColor: 'transparent', padding: 0 },
+  galleryReferenceUnderline: { width: '66%', height: 2, borderRadius: 2, marginTop: 5, backgroundColor: '#20BFFF', shadowColor: '#168BFF', shadowOpacity: 0.95, shadowRadius: 10, elevation: 7 },
+  galleryEmptyReferenceState: { width: '100%', height: 410, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'flex-start', padding: 0, paddingTop: 0, marginTop: 0, marginBottom: 0, borderWidth: 0, borderColor: 'transparent', borderRadius: 0, backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0, position: 'relative', overflow: 'hidden' },
+  galleryReferenceImage: { position: 'absolute', width: '200%', height: '200%', maxWidth: 1000, left: '-100%', top: 0, alignSelf: 'auto', margin: 0, backgroundColor: 'transparent' },
+  secondaryButton: { width: '78%', minHeight: 58, marginTop: 330, borderRadius: 18, backgroundColor: '#087CF4', borderColor: '#64DFFF', borderWidth: 1.5, shadowColor: '#16B9FF', shadowOpacity: 0.36, shadowRadius: 18, elevation: 7 },
 };
 
 const styles = StyleSheet.create({
