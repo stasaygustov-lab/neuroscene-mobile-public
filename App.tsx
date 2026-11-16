@@ -28,7 +28,7 @@ import * as SecureStore from 'expo-secure-store';
 import * as WebBrowser from 'expo-web-browser';
 import { faqText, uiText } from './localization';
 
-const Text = (props: TextProps) => <NativeText {...props} style={[{ fontFamily: 'Manrope' }, props.style]} />;
+const Text = (props: TextProps) => { const flat = StyleSheet.flatten(props.style) || {}; const c = typeof flat.color === 'string' ? flat.color.toLowerCase() : ''; const dark = c === 'black' || c === '#000' || c === '#000000' || /^#[0-9a-f]{6}$/.test(c) && (() => { const v = [1,3,5].map(i => parseInt(c.slice(i,i+2),16)); return 0.2126*v[0]+0.7152*v[1]+0.0722*v[2] < 31; })(); return <NativeText {...props} style={[{ fontFamily: 'Manrope', color: '#EAF4FF' }, flat, dark ? { color: '#EAF4FF' } : null]} />; };
 
 const VK_CLIENT_ID = process.env.EXPO_PUBLIC_VK_CLIENT_ID || '';
 const VK_REDIRECT_URI = VK_CLIENT_ID ? `vk${VK_CLIENT_ID}://vk.ru/blank.html` : '';
@@ -248,11 +248,6 @@ export default function App() {
   useEffect(() => {
     splashProgress.setValue(0.06);
   }, [splashProgress]);
-
-  useEffect(() => {
-    const stage = fontsLoaded ? (authReady ? 0.78 : 0.42) : 0.06;
-    Animated.timing(splashProgress, { toValue: stage, duration: 360, useNativeDriver: false }).start();
-  }, [authReady, fontsLoaded, splashProgress]);
 
   useEffect(() => {
     const shimmer = Animated.loop(Animated.sequence([
@@ -1759,21 +1754,10 @@ export default function App() {
           </View>
           <View style={styles.creditIllustration}>
             <View pointerEvents="none" style={styles.creditIllustrationGlow} />
-            <View style={styles.creditCoinReferenceCrop}>
-              <Image
-                source={require('./assets/neuroscene-brand.png')}
-                resizeMode="stretch"
-                style={{
-                  position: 'absolute',
-                  width: 1536 * (112 / 105),
-                  height: 1024 * (112 / 105),
-                  left: -1035 * (112 / 105),
-                  top: -276 * (112 / 105),
-                }}
-              />
-            </View>
-            <View style={[styles.creditCoinStack, { display: 'none' }]} />
-            <View style={[styles.creditStarBadge, { display: 'none' }]} />
+            <View style={[styles.creditCoinStack, styles.creditStackLeft]}><View style={styles.creditCoin} /><View style={styles.creditCoin} /></View>
+            <View style={[styles.creditCoinStack, styles.creditStackCenter]}><View style={styles.creditCoin} /><View style={styles.creditCoin} /><View style={styles.creditCoin} /></View>
+            <View style={[styles.creditCoinStack, styles.creditStackRight]}><View style={styles.creditCoin} /><View style={styles.creditCoin} /></View>
+            <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
             <View style={styles.creditBalanceHero}>
               <Text style={styles.creditBalanceEyebrow}>ВАШ БАЛАНС</Text>
               <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
@@ -1991,7 +1975,7 @@ export default function App() {
         <Image
           source={require('./assets/Штормовое море под электрическим небом-1.png')}
           resizeMode="cover"
-          blurRadius={1}
+          blurRadius={8}
           style={{
             ...StyleSheet.absoluteFill,
             width: '100%',
@@ -4213,6 +4197,37 @@ const FINAL_UI_FIXES_V3 = {
   featureSubtitle: { fontSize: 16, lineHeight: 21 },
 };
 
+const FINAL_UI_FIXES_V5 = {
+ header: { paddingHorizontal: 18, paddingLeft: 18, paddingRight: 18, overflow: 'visible' },
+ brandRow: { flexShrink: 1, minWidth: 0, marginLeft: 0, marginRight: 8 }, brandWordmark: { flexShrink: 1, minWidth: 0 },
+ logo: { fontSize: 20, lineHeight: 24, includeFontPadding: false }, logoSecond: { fontSize: 20, lineHeight: 24, includeFontPadding: false },
+ content: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 112 }, creditsContent: { paddingTop: 10, paddingBottom: 112 },
+ screen: { flex: 1, paddingTop: 8, paddingBottom: 16 },
+ bottomNav: { minHeight: 76, paddingTop: 5, paddingBottom: 7, backgroundColor: 'rgba(2,10,27,0.96)', borderTopColor: 'rgba(73,166,255,0.38)' },
+ navItem: { minHeight: 58, paddingTop: 3, paddingBottom: 2, justifyContent: 'center', gap: 3 },
+ navLabel: { color: '#D7E9FF', fontSize: 13, lineHeight: 17, fontWeight: '700', textAlign: 'center', includeFontPadding: false }, navLabelActive: { color: '#78D9FF', fontWeight: '900' },
+ referenceHero: { height: 164, minHeight: 164, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 8, marginTop: 4, marginBottom: 12 },
+ filmFrame: { width: '43%', height: 126, flexGrow: 0, flexShrink: 0 },
+ referenceHeroCopy: { position: 'relative', top: 0, left: 0, width: '52%', flex: 1, minWidth: 0, paddingLeft: 10, paddingRight: 4, justifyContent: 'center' },
+ referenceHeroTitle: { color: '#F4FAFF', fontSize: 19, lineHeight: 23, fontWeight: '900' }, referenceHeroCaption: { color: '#CDE7FF', fontSize: 14, lineHeight: 18, maxWidth: '100%', marginTop: 5 },
+ referenceCreateGlow: { width: '100%', marginTop: 0, marginBottom: 12 }, referenceCreateButton: { minHeight: 56, marginBottom: 0 },
+ featureSection: { marginTop: 2, marginBottom: 14 }, featureGrid: { rowGap: 10, columnGap: 10 },
+ featureTile: { width: '48%', minHeight: 112, padding: 12, backgroundColor: 'rgba(4,20,46,0.94)', borderColor: 'rgba(72,157,232,0.72)' },
+ featureTitle: { color: '#F0F7FF', fontSize: 15, lineHeight: 20, fontWeight: '800' }, featureSubtitle: { color: '#B7D3F0', fontSize: 14, lineHeight: 19 },
+ description: { color: '#E3F0FF', fontSize: 16, lineHeight: 23, textAlign: 'center' },
+ popularBadge: { backgroundColor: '#075DE2', borderColor: '#72D9FF' }, popularBadgeText: { color: '#FFFFFF', fontSize: 14, fontWeight: '900' },
+ creditIllustration: { height: 152, marginBottom: 14, backgroundColor: 'rgba(4,19,47,0.94)', justifyContent: 'center' },
+ creditCoinStack: { position: 'absolute', bottom: 27, alignItems: 'center', justifyContent: 'flex-end' }, creditStackLeft: { left: '12%' }, creditStackCenter: { left: '34%', bottom: 34 }, creditStackRight: { right: '12%' },
+ creditCoin: { width: 58, height: 17, marginTop: -3, borderRadius: 30, backgroundColor: '#D9A63A', borderWidth: 2, borderColor: '#FFF0A8', shadowColor: '#FFCE59', shadowOpacity: 0.8, shadowRadius: 10, elevation: 7 },
+ creditStarBadge: { position: 'absolute', right: '17%', bottom: 12, width: 46, height: 46, borderRadius: 23, backgroundColor: '#8D5B12', borderWidth: 2, borderColor: '#FFE18A', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFC94F', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
+ creditStarGlyph: { color: '#FFF4C7', fontSize: 27, lineHeight: 31, fontWeight: '900' },
+ profileIdentity: { marginTop: 5, marginBottom: 12, paddingVertical: 14, paddingHorizontal: 15 },
+ loginScreen: { flex: 0, minHeight: 0, paddingHorizontal: 14, paddingTop: 12, paddingBottom: 14, marginTop: 4, overflow: 'visible' },
+ profileMenuCard: { marginTop: 12, marginBottom: 14, paddingHorizontal: 12, paddingVertical: 4 }, menuItem: { minHeight: 52, paddingVertical: 12 },
+ loginTagline: { color: '#D5E8FF', fontSize: 16, lineHeight: 22 }, loginLegalText: { color: '#B6CDE8', fontSize: 14, lineHeight: 20 },
+ introSparkleOne: { opacity: 0.95, shadowRadius: 16, elevation: 12 }, introSparkleTwo: { opacity: 0.95, shadowRadius: 14, elevation: 11 }, introSparkleThree: { opacity: 0.95, shadowRadius: 17, elevation: 12 },
+} as const;
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -4550,5 +4565,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V2,
   ...FINAL_UI_FIXES_V3,
   ...FINAL_UI_FIXES_V4,
+  ...FINAL_UI_FIXES_V5,
 });
 
