@@ -3,7 +3,7 @@ name: NeuroScene Android APK preview (no emulator)
 on:
   push:
     branches:
-      - ui/fix-root-layout-overrides
+      - ui/full-visual-redesign
   workflow_dispatch:
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ui/fix-root-layout-overrides
+          ref: ui/full-visual-redesign
       - uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -41,6 +41,8 @@ jobs:
         run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
       - name: Install dependencies
         run: npm ci
+      - name: TypeScript validation
+        run: npx tsc --noEmit
       - name: Fit launcher logo inside Android safe area
         run: |
           python3 -m venv .venv
