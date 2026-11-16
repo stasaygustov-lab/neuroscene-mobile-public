@@ -2118,7 +2118,12 @@ export default function App() {
                 <View style={styles.navPersonBody} />
               </View>
             )}
-            <Text style={[styles.navLabel, tab === item.id && styles.navLabelActive]}>
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.78}
+              style={[styles.navLabel, tab === item.id && styles.navLabelActive]}
+            >
               {item.label}
             </Text>
           </TouchableOpacity>
@@ -4429,6 +4434,21 @@ const FINAL_UI_FIXES_V8 = {
   profileMenuCard: { borderColor: 'rgba(73,166,255,0.56)', backgroundColor: 'rgba(4,18,43,0.94)' },
 } as const;
 
+const FINAL_UI_FIXES_V9 = {
+  // Align header actions explicitly to the right; keep the brand lockup centered.
+  header: { position: 'relative', minHeight: 88, paddingTop: 32, paddingBottom: 8, paddingHorizontal: 18, width: '100%', flexShrink: 0 },
+  headerActions: { position: 'absolute', right: 14, top: 26, zIndex: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 7 },
+  navLabel: { width: '100%', fontSize: 12, lineHeight: 16, textAlign: 'center', includeFontPadding: false, flexShrink: 1 },
+  navLabelActive: { fontSize: 12, lineHeight: 16 },
+  emptyScreen: { minHeight: 300, paddingHorizontal: 16, paddingVertical: 18, justifyContent: 'center' },
+  galleryEmptyArtwork: { width: 146, height: 112, marginBottom: 14 },
+  welcomeBonusCard: { borderColor: 'rgba(82,181,255,0.62)', backgroundColor: 'rgba(4,30,68,0.92)', shadowColor: '#168BFF', shadowOpacity: 0.32, shadowRadius: 13, elevation: 5 },
+  welcomeBonusIcon: { backgroundColor: 'rgba(0,142,255,0.20)', borderColor: 'rgba(103,212,255,0.72)' },
+  welcomeBonusGlyph: { color: '#C9F5FF', textShadowColor: '#168BFF', textShadowRadius: 9 },
+  welcomeBonusTitle: { color: '#EAF8FF' },
+  welcomeBonusText: { color: '#B8D8F4' },
+} as const;
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -4770,6 +4790,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V6(),
   ...FINAL_UI_FIXES_V7(),
   ...FINAL_UI_FIXES_V8,
+  ...FINAL_UI_FIXES_V9,
   // Unified storm-ocean glass/neon visual system across all four primary tabs.
   // Final reference-aligned pass: crisp artwork, centered brand and restrained navigation glow.
   container: { flex: 1, backgroundColor: '#020817' },
