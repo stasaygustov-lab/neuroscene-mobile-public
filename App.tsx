@@ -1,6 +1,7 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Animated, Modal, PanResponder } from 'react-native';
 import { useEvent } from 'expo';
+import { useFonts } from 'expo-font';
 import {
   SafeAreaView,
   ScrollView,
@@ -34,7 +35,7 @@ const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || '').replace(/\/+$/, '')
 const StyledText = Text as typeof Text & { defaultProps?: any };
 StyledText.defaultProps = {
   ...(StyledText.defaultProps || {}),
-  style: [{ fontFamily: 'sans-serif', fontSize: 16, includeFontPadding: false, letterSpacing: 0.05 }, StyledText.defaultProps?.style],
+  style: [{ fontFamily: 'Manrope', fontSize: 16, includeFontPadding: false, letterSpacing: 0.05 }, StyledText.defaultProps?.style],
 };
 
 const BLUE = '#168BFF';
@@ -156,6 +157,7 @@ function ScreenTransition({ children }: { children: any }) {
 }
 
 export default function App() {
+  const [fontsLoaded, fontError] = useFonts({ Manrope: require('./assets/Manrope[wght].ttf') });
   const [tab, setTab] = useState<Tab>('Create');
   const swipeResponder = useRef(PanResponder.create({
     onMoveShouldSetPanResponder: (_event, gesture) =>
@@ -254,7 +256,7 @@ export default function App() {
   }, [splashShimmer]);
 
   useEffect(() => {
-    if (!authReady) return;
+    if (!authReady || (!fontsLoaded && !fontError)) return;
     const remaining = Math.max(0, 3200 - (Date.now() - splashStartedAt));
     const splashTimer = setTimeout(() => {
       Animated.timing(splashProgress, {
@@ -266,7 +268,7 @@ export default function App() {
       });
     }, remaining);
     return () => clearTimeout(splashTimer);
-  }, [authReady, splashProgress, splashStartedAt]);
+  }, [authReady, fontsLoaded, fontError, splashProgress, splashStartedAt]);
 
 
   const saveAuthenticatedSession = async (data: any) => {
@@ -1978,6 +1980,20 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
+        <Image
+          source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+          resizeMode="stretch"
+          blurRadius={24}
+          style={{
+            position: 'absolute',
+            width: Dimensions.get('window').width * 5.55,
+            height: Dimensions.get('window').width * 3.70,
+            left: -Dimensions.get('window').width * 0.101,
+            top: (Dimensions.get('window').height - Dimensions.get('window').width * 3.70) / 2 - Dimensions.get('window').width * 0.632,
+            opacity: 0.44,
+          }}
+        />
+        <View style={[StyleSheet.absoluteFillObject, { backgroundColor: 'rgba(1,7,18,0.58)' }]} />
         <View style={styles.ambientBackdropTint} />
         <View style={styles.ambientGlowTop} />
         <View style={styles.ambientGlowBottom} />
@@ -3449,8 +3465,8 @@ const COSMIC_OVERRIDES = {
   brandRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 2 },
   brandMarkLarge: { width: 46, height: 44, borderRadius: 13, borderWidth: 1.5, borderColor: '#48C7FF', backgroundColor: 'rgba(0,83,190,0.30)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 16, elevation: 8 },
   brandMarkLargeText: { color: '#B5F0FF', fontSize: 18, fontWeight: '900', textShadowColor: '#008CFF', textShadowRadius: 10 },
-  logo: { color: '#FFFFFF', fontSize: 19, lineHeight: 20, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 10 },
-  logoSecond: { color: '#69BFFF', fontSize: 19, lineHeight: 20, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 10 },
+  logo: { color: '#FFFFFF', fontSize: 19, lineHeight: 20, fontWeight: '900', fontFamily: 'Manrope', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 10 },
+  logoSecond: { color: '#69BFFF', fontSize: 19, lineHeight: 20, fontWeight: '900', fontFamily: 'Manrope', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 10 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 9, marginTop: 0 },
   notificationButton: { width: 42, height: 42, borderRadius: 14, borderWidth: 1, borderColor: '#1E6AB5', backgroundColor: 'rgba(4,28,63,0.98)', alignItems: 'center', justifyContent: 'center', position: 'relative' },
   notificationIcon: { color: '#B5E5FF', fontSize: 23, fontWeight: '800' },
@@ -3474,7 +3490,7 @@ const COSMIC_OVERRIDES = {
   referencePersonBody: { width: 32, height: 49, marginTop: 2, borderRadius: 10, backgroundColor: '#071326', borderWidth: 1, borderColor: '#315A86' },
   referencePersonLegLeft: { position: 'absolute', top: 66, left: 8, width: 11, height: 47, backgroundColor: '#050D1D' },
   referencePersonLegRight: { position: 'absolute', top: 66, right: 8, width: 11, height: 47, backgroundColor: '#050D1D' },
-  referenceHeroTitle: { color: '#FFFFFF', fontSize: 27, lineHeight: 32, fontWeight: '900', fontFamily: 'sans-serif-rounded', textShadowColor: '#168BFF', textShadowRadius: 16, marginBottom: 9 },
+  referenceHeroTitle: { color: '#FFFFFF', fontSize: 27, lineHeight: 32, fontWeight: '900', fontFamily: 'Manrope', textShadowColor: '#168BFF', textShadowRadius: 16, marginBottom: 9 },
   referenceHeroCaption: { color: '#D4E8FF', fontSize: 16, lineHeight: 22, maxWidth: 205 },
   referenceCreateButton: { height: 62, width: '100%', marginBottom: 25, borderRadius: 20, borderWidth: 1.5, borderColor: '#80DFFF', backgroundColor: '#0877F9', shadowColor: '#008CFF', shadowOpacity: 0.68, shadowRadius: 22, elevation: 10 },
   referencePlay: { color: '#FFFFFF', fontSize: 23, marginRight: 12 },
@@ -3492,7 +3508,7 @@ const COSMIC_OVERRIDES = {
   heroOrbit: { position: 'absolute', width: 230, height: 230, borderRadius: 115, top: -130, right: -35, borderWidth: 1, borderColor: 'rgba(92,190,255,0.4)' },
   heroAccent: { position: 'absolute', top: 0, left: 22, width: 82, height: 3, borderRadius: 1, backgroundColor: '#5CCBFF', opacity: 0.9 },
   eyebrow: { color: '#67C8FF', fontSize: 16, fontWeight: '900', letterSpacing: 1.5 },
-  heading: { color: WHITE, fontSize: 31, fontWeight: '900', fontFamily: 'sans-serif-rounded', lineHeight: 38, marginTop: 0, letterSpacing: -0.4, textShadowColor: '#148BFF', textShadowRadius: 22 },
+  heading: { color: WHITE, fontSize: 31, fontWeight: '900', fontFamily: 'Manrope', lineHeight: 38, marginTop: 0, letterSpacing: -0.4, textShadowColor: '#148BFF', textShadowRadius: 22 },
   description: { color: '#B5CAE5', fontSize: 16, lineHeight: 22, marginTop: 8 },
   engineCard: { backgroundColor: 'rgba(6,24,53,0.98)', borderColor: 'rgba(55,135,218,0.55)', borderWidth: 1, borderRadius: 19, padding: 17, marginBottom: 23, shadowColor: '#087BFF', shadowOpacity: 0.15, shadowRadius: 16, elevation: 5 },
   engineDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#3DCBFF', marginRight: 12, shadowColor: '#28AFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 },
@@ -3515,7 +3531,7 @@ const COSMIC_OVERRIDES = {
   costDescription: { color: '#FFFFFF', fontSize: 16, marginTop: 7 },
   costIcon: { color: '#51C9FF', fontSize: 24 },
   createButton: { backgroundColor: '#0877F9', borderColor: '#80DFFF', borderRadius: 20, minHeight: 66, shadowColor: '#008CFF', shadowOpacity: 0.65, shadowRadius: 24, elevation: 13 },
-  createButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '900', fontFamily: 'sans-serif-medium', letterSpacing: 0.5 },
+  createButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '900', fontFamily: 'Manrope', letterSpacing: 0.5 },
   disabledButton: { opacity: 0.55 },
   generationModalBackdrop: { flex: 1, backgroundColor: 'rgba(2,7,19,0.90)', alignItems: 'center', justifyContent: 'center', padding: 24 },
   generationModalCard: { width: '100%', maxWidth: 360, borderRadius: 26, padding: 26, alignItems: 'center', backgroundColor: '#04142D', borderWidth: 1, borderColor: '#168BFF', shadowColor: '#008CFF', shadowOpacity: 0.65, shadowRadius: 30, elevation: 20 },
@@ -3534,7 +3550,7 @@ const COSMIC_OVERRIDES = {
   progressSegmentActive: { backgroundColor: '#159BFF', justifyContent: 'space-between', alignItems: 'center' },
   galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
   screen: { flex: 1, paddingTop: 12 },
-  screenTitle: { color: '#FFFFFF', fontSize: 30, fontWeight: '900', marginTop: 5, marginBottom: 18, lineHeight: 36, fontFamily: 'sans-serif-rounded', textShadowColor: 'rgba(16,116,255,0.42)', textShadowRadius: 13 },
+  screenTitle: { color: '#FFFFFF', fontSize: 30, fontWeight: '900', marginTop: 5, marginBottom: 18, lineHeight: 36, fontFamily: 'Manrope', textShadowColor: 'rgba(16,116,255,0.42)', textShadowRadius: 13 },
   galleryFilterButton: { width: 46, height: 46, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(5,25,57,0.98)', borderWidth: 1, borderColor: 'rgba(69,157,225,0.66)' },
   galleryFilterIcon: { color: '#C8E8FF', fontSize: 23, lineHeight: 26 },
   galleryLimit: { color: '#A5C8EF', fontSize: 16, marginTop: 0, marginBottom: 8, textAlign: 'center' },
@@ -3641,7 +3657,7 @@ const COSMIC_OVERRIDES = {
   creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 17 },
   creditsBackButton: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.92)', borderWidth: 1, borderColor: '#2467A8', marginRight: 10 },
   creditsBackText: { color: '#D7EBFF', fontSize: 32, lineHeight: 34, marginTop: -3 },
-  creditsTitle: { color: '#FFFFFF', fontSize: 30, fontWeight: '900', fontFamily: 'sans-serif-rounded', textShadowColor: 'rgba(16,116,255,0.48)', textShadowRadius: 13 },
+  creditsTitle: { color: '#FFFFFF', fontSize: 30, fontWeight: '900', fontFamily: 'Manrope', textShadowColor: 'rgba(16,116,255,0.48)', textShadowRadius: 13 },
   profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
   profileSettingsButton: { width: 46, height: 46, borderRadius: 15, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(69,157,225,0.66)', backgroundColor: 'rgba(5,26,59,0.96)' },
   profileSettingsIcon: { color: '#C5E5FF', fontSize: 22 },
@@ -3668,9 +3684,9 @@ const COSMIC_OVERRIDES = {
   menuArrow: { color: '#54BFFF', fontSize: 25 },
   authBrandMark: { width: 78, height: 68, alignSelf: 'center', marginTop: 2, marginBottom: 8, borderRadius: 19, borderWidth: 2, borderColor: '#2ABEFF', backgroundColor: 'rgba(0,83,190,0.28)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 24, elevation: 10 },
   authBrandMarkText: { color: '#9BEAFF', fontSize: 29, fontWeight: '900', textShadowColor: '#008CFF', textShadowRadius: 13 },
-  authBrandTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 27, fontWeight: '900', textAlign: 'center', fontFamily: 'sans-serif-rounded', marginBottom: 18, textShadowColor: '#168BFF', textShadowRadius: 12 },
+  authBrandTitle: { color: '#FFFFFF', fontSize: 25, lineHeight: 27, fontWeight: '900', textAlign: 'center', fontFamily: 'Manrope', marginBottom: 18, textShadowColor: '#168BFF', textShadowRadius: 12 },
   authCard: { backgroundColor: 'rgba(5,21,48,0.99)', borderRadius: 21, padding: 19, marginBottom: 18, borderWidth: 1, borderColor: 'rgba(55,133,208,0.66)', shadowColor: '#087BFF', shadowOpacity: 0.18, shadowRadius: 18, elevation: 6 },
-  authInput: { fontFamily: 'sans-serif', backgroundColor: 'rgba(2,12,29,0.99)', borderWidth: 1, borderColor: 'rgba(63,143,218,0.68)', borderRadius: 15, paddingHorizontal: 16, paddingVertical: 13, color: '#FFFFFF', fontSize: 16, marginTop: 12, minHeight: 56 },
+  authInput: { fontFamily: 'Manrope', backgroundColor: 'rgba(2,12,29,0.99)', borderWidth: 1, borderColor: 'rgba(63,143,218,0.68)', borderRadius: 15, paddingHorizontal: 16, paddingVertical: 13, color: '#FFFFFF', fontSize: 16, marginTop: 12, minHeight: 56 },
   authAction: { backgroundColor: '#0877FF', borderRadius: 17, paddingHorizontal: 15, paddingVertical: 15, minHeight: 56, borderWidth: 1, borderColor: '#70D6FF', alignItems: 'center', justifyContent: 'center', marginTop: 14, shadowColor: '#008CFF', shadowOpacity: 0.5, shadowRadius: 18, elevation: 9 },
   authSecondary: { backgroundColor: 'rgba(5,28,62,0.98)', borderColor: 'rgba(57,155,226,0.76)', borderWidth: 1, paddingHorizontal: 14, paddingVertical: 13, minHeight: 54, borderRadius: 16, alignItems: 'center', justifyContent: 'center', marginTop: 10 },
   authSecondaryText: { color: '#EAF5FF', fontWeight: '700', fontSize: 16 },
@@ -3695,7 +3711,7 @@ const COSMIC_OVERRIDES = {
   introReelPlay: { color: '#45C6FF', fontSize: 78, lineHeight: 88, fontWeight: '900', letterSpacing: -5, textShadowColor: '#006DFF', textShadowRadius: 30 },
   introAccentLine: { position: 'absolute', bottom: '21%', width: 116, height: 3, borderRadius: 2, backgroundColor: '#48C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 14, elevation: 10 },
   introHorizon: { position: 'absolute', left: 0, right: 0, top: '72%', height: 1, backgroundColor: 'rgba(69,145,255,0.18)' },
-  introTitle: { position: 'absolute', bottom: '24%', color: '#FFFFFF', fontSize: 42, lineHeight: 45, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.4, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 27, elevation: 12 },
+  introTitle: { position: 'absolute', bottom: '24%', color: '#FFFFFF', fontSize: 42, lineHeight: 45, fontWeight: '900', fontFamily: 'Manrope', textAlign: 'center', letterSpacing: 0.4, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 27, elevation: 12 },
   introTagline: { position: 'absolute', bottom: '10%', color: '#B8D9FF', fontSize: 17, lineHeight: 24, textAlign: 'center', fontWeight: '600', textShadowColor: '#168BFF', textShadowRadius: 14 },
   introProgressTrack: { position: 'absolute', bottom: '5%', width: '86%', maxWidth: 300, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
   introProgressFill: { width: '40%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
@@ -3734,7 +3750,7 @@ const COSMIC_OVERRIDES = {
   splashReelHoleFour: { position: 'absolute', right: 13, width: 30, height: 30, borderRadius: 15, backgroundColor: '#020A1B', borderWidth: 2, borderColor: '#62C9FF' },
   splashReelHub: { width: 92, height: 92, borderRadius: 46, borderWidth: 4, borderColor: '#B6EDFF', backgroundColor: '#04152D', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 22 },
   splashPlayTriangle: { width: 0, height: 0, marginLeft: 8, borderTopWidth: 22, borderBottomWidth: 22, borderLeftWidth: 34, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#6AD9FF' },
-  introTitle: { color: '#FFFFFF', fontSize: 40, lineHeight: 48, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.3, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 28, marginTop: -2 },
+  introTitle: { color: '#FFFFFF', fontSize: 40, lineHeight: 48, fontWeight: '900', fontFamily: 'Manrope', textAlign: 'center', letterSpacing: 0.3, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 28, marginTop: -2 },
   splashTagline: { color: '#B8D9FF', fontSize: 16, lineHeight: 21, textAlign: 'center', fontWeight: '800', letterSpacing: 3, marginTop: 13, textShadowColor: '#168BFF', textShadowRadius: 14 },
   introProgressTrack: { position: 'absolute', bottom: '6%', width: '84%', maxWidth: 320, height: 5, borderRadius: 3, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
   introProgressFill: { width: '72%', height: 5, borderRadius: 3, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 },
@@ -3755,7 +3771,7 @@ const COSMIC_OVERRIDES = {
   galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.76)', paddingHorizontal: 7, paddingVertical: 4, borderRadius: 7, fontSize: 16, fontWeight: '800' },
   creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 15 },
   creditsHeaderIcon: { color: '#FFD56B', fontSize: 25, marginRight: 11, textShadowColor: '#FFB52E', textShadowRadius: 13 },
-  creditsTitle: { color: '#FFFFFF', fontSize: 29, fontWeight: '900', fontFamily: 'sans-serif-rounded', textShadowColor: 'rgba(16,116,255,0.48)', textShadowRadius: 13 },
+  creditsTitle: { color: '#FFFFFF', fontSize: 29, fontWeight: '900', fontFamily: 'Manrope', textShadowColor: 'rgba(16,116,255,0.48)', textShadowRadius: 13 },
   creditIllustration: { height: 245, marginBottom: 17, borderRadius: 23, backgroundColor: 'rgba(4,19,47,0.93)', borderWidth: 1, borderColor: 'rgba(255,197,81,0.42)', shadowColor: '#FFB52E', shadowOpacity: 0.17, shadowRadius: 22, elevation: 8 },
   creditIllustrationGlow: { width: 245, height: 155, borderRadius: 123, top: 4, backgroundColor: '#B87918', opacity: 0.18, shadowColor: '#FFC64D', shadowOpacity: 1, shadowRadius: 55, elevation: 16 },
   creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#B97A1B', borderWidth: 2, borderColor: '#FFE18A', shadowColor: '#FFC94F', shadowOpacity: 0.95, shadowRadius: 13, elevation: 8 },
@@ -3816,7 +3832,7 @@ const REFERENCE_POLISH = {
   modeSelector: { flexDirection: 'row', backgroundColor: 'rgba(3,15,36,0.98)', borderRadius: 16, padding: 5, marginBottom: 18, borderWidth: 1, borderColor: 'rgba(57,132,210,0.62)' },
   modeOption: { flex: 1, paddingVertical: 12, paddingHorizontal: 6, borderRadius: 12, alignItems: 'center', justifyContent: 'center', minHeight: 48 },
   modeOptionActive: { backgroundColor: '#086FEA', borderWidth: 1, borderColor: '#7BDFFF', shadowColor: '#168BFF', shadowOpacity: 0.34, shadowRadius: 12, elevation: 5 },
-  prompt: { minHeight: 158, padding: 17, borderRadius: 17, backgroundColor: 'rgba(3,14,34,0.98)', borderColor: 'rgba(65,147,218,0.68)', borderWidth: 1, color: WHITE, fontFamily: 'sans-serif', fontSize: 16, lineHeight: 23 },
+  prompt: { minHeight: 158, padding: 17, borderRadius: 17, backgroundColor: 'rgba(3,14,34,0.98)', borderColor: 'rgba(65,147,218,0.68)', borderWidth: 1, color: WHITE, fontFamily: 'Manrope', fontSize: 16, lineHeight: 23 },
   imageUploadCard: { backgroundColor: 'rgba(5,23,52,0.98)', borderRadius: 18, padding: 16, marginTop: 5, marginBottom: 15, borderWidth: 1, borderColor: 'rgba(55,143,225,0.55)' },
   chooseImageButton: { borderWidth: 1, borderStyle: 'dashed', borderColor: '#42BFFF', borderRadius: 16, minHeight: 136, alignItems: 'center', justifyContent: 'center', marginTop: 12, backgroundColor: 'rgba(3,15,37,0.98)' },
   galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 13 },
@@ -3987,7 +4003,7 @@ const REFERENCE_POLISH = {
   menuItem: { minHeight: 44, paddingVertical: 9, borderBottomWidth: 1, borderBottomColor: 'rgba(54,111,169,0.22)', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 9 },
   menuText: { color: '#E2F0FF', fontSize: 16, fontWeight: '700' },
   authCard: { backgroundColor: 'rgba(4,19,44,0.99)', borderRadius: 20, padding: 18, marginBottom: 18, borderWidth: 1, borderColor: 'rgba(65,148,221,0.62)' },
-  authInput: { fontFamily: 'sans-serif', backgroundColor: 'rgba(1,11,28,0.99)', borderWidth: 1, borderColor: 'rgba(69,156,225,0.70)', borderRadius: 14, paddingHorizontal: 15, paddingVertical: 13, color: WHITE, fontSize: 16, marginTop: 11, minHeight: 54 },
+  authInput: { fontFamily: 'Manrope', backgroundColor: 'rgba(1,11,28,0.99)', borderWidth: 1, borderColor: 'rgba(69,156,225,0.70)', borderRadius: 14, paddingHorizontal: 15, paddingVertical: 13, color: WHITE, fontSize: 16, marginTop: 11, minHeight: 54 },
   authAction: { backgroundColor: '#0877F9', borderRadius: 16, paddingHorizontal: 15, paddingVertical: 15, minHeight: 56, borderWidth: 1, borderColor: '#83E4FF', alignItems: 'center', justifyContent: 'center', marginTop: 14, shadowColor: '#167AFF', shadowOpacity: 0.22, shadowRadius: 12, elevation: 4 },
   authSecondary: { backgroundColor: 'rgba(5,32,70,0.98)', borderColor: 'rgba(67,160,239,0.68)', borderWidth: 1, paddingHorizontal: 14, paddingVertical: 13, minHeight: 52, borderRadius: 15, alignItems: 'center', justifyContent: 'center', marginTop: 10 },
   authNotice: { color: '#A9DFFF', fontSize: 16, lineHeight: 21, marginTop: 12, padding: 11, borderRadius: 12, backgroundColor: 'rgba(0,105,210,0.14)', borderWidth: 1, borderColor: 'rgba(58,160,255,0.35)' },
@@ -4004,8 +4020,8 @@ const REFERENCE_POLISH = {
   brandRow: { flexDirection: 'row', alignItems: 'center', gap: 9, marginTop: 0 },
   brandMarkLarge: { width: 43, height: 43, borderRadius: 14, borderWidth: 1.5, borderColor: '#58D4FF', backgroundColor: 'rgba(0,83,190,0.34)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 14, elevation: 8 },
   brandMarkLargeText: { color: '#B8F1FF', fontSize: 17, fontWeight: '900', textShadowColor: '#008CFF', textShadowRadius: 9 },
-  logo: { color: '#FFFFFF', fontSize: 17, lineHeight: 21, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
-  logoSecond: { color: '#8ECFFF', fontSize: 17, lineHeight: 21, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
+  logo: { color: '#FFFFFF', fontSize: 17, lineHeight: 21, fontWeight: '900', fontFamily: 'Manrope', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
+  logoSecond: { color: '#8ECFFF', fontSize: 17, lineHeight: 21, fontWeight: '900', fontFamily: 'Manrope', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
   notificationButton: { width: 42, height: 42, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(72,166,236,0.62)', backgroundColor: 'rgba(5,29,65,0.98)', alignItems: 'center', justifyContent: 'center', position: 'relative' },
   headerMenuButton: { width: 42, height: 42, borderRadius: 14, backgroundColor: 'rgba(5,29,65,0.98)', borderWidth: 1, borderColor: 'rgba(72,166,236,0.62)', alignItems: 'center', justifyContent: 'center' },
   headerMenuIcon: { color: '#A9DFFF', fontSize: 21 },
@@ -4014,7 +4030,7 @@ const REFERENCE_POLISH = {
   ambientGlowBottom: { position: 'absolute', width: 390, height: 390, borderRadius: 195, bottom: 20, left: -230, backgroundColor: '#007DBA', opacity: 0.19 },
   ambientGlowCenter: { position: 'absolute', width: 300, height: 300, borderRadius: 150, top: '34%', left: '24%', backgroundColor: '#103D9C', opacity: 0.10 },
   introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010713', alignItems: 'center', justifyContent: 'center' },
-  introTitle: { position: 'absolute', bottom: '24%', color: WHITE, fontSize: 40, lineHeight: 44, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.4, textShadowColor: '#087BFF', textShadowRadius: 24, elevation: 12 },
+  introTitle: { position: 'absolute', bottom: '24%', color: WHITE, fontSize: 40, lineHeight: 44, fontWeight: '900', fontFamily: 'Manrope', textAlign: 'center', letterSpacing: 0.4, textShadowColor: '#087BFF', textShadowRadius: 24, elevation: 12 },
   introTagline: { position: 'absolute', bottom: '10%', color: '#BBDFFF', fontSize: 16, lineHeight: 24, textAlign: 'center', fontWeight: '600', textShadowColor: '#168BFF', textShadowRadius: 14 },
   introLogoPanel: { width: 224, height: 150, alignItems: 'center', justifyContent: 'center', borderRadius: 28, borderWidth: 1, borderColor: 'rgba(90,202,255,0.66)', backgroundColor: 'rgba(4,24,58,0.58)' },
   introReelPlay: { color: '#B7F0FF', fontSize: 62, lineHeight: 90, fontWeight: '900', letterSpacing: -3, textShadowColor: '#006DFF', textShadowRadius: 34 },
@@ -4221,7 +4237,7 @@ const styles = StyleSheet.create({
   introBeamLeft: { position: 'absolute', top: '18%', left: '-20%', width: '78%', height: 1, backgroundColor: 'rgba(76,159,255,0.36)', transform: [{ rotate: '24deg' }] },
   introBeamRight: { position: 'absolute', top: '24%', right: '-18%', width: '72%', height: 1, backgroundColor: 'rgba(80,196,255,0.25)', transform: [{ rotate: '-27deg' }] },
   introHorizon: { position: 'absolute', left: 0, right: 0, top: '72%', height: 1, backgroundColor: 'rgba(69,145,255,0.18)' },
-  introTitle: { position: 'absolute', bottom: '24%', color: WHITE, fontSize: 42, lineHeight: 45, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.4, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 27, elevation: 12 },
+  introTitle: { position: 'absolute', bottom: '24%', color: WHITE, fontSize: 42, lineHeight: 45, fontWeight: '900', fontFamily: 'Manrope', textAlign: 'center', letterSpacing: 0.4, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 27, elevation: 12 },
   introTagline: { position: 'absolute', bottom: '10%', color: '#B8D9FF', fontSize: 17, lineHeight: 24, textAlign: 'center', fontWeight: '600', textShadowColor: '#168BFF', textShadowRadius: 14 },
   introProgressTrack: { position: 'absolute', bottom: '5%', width: '86%', maxWidth: 300, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
   introProgressFill: { width: '40%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
@@ -4241,8 +4257,8 @@ const styles = StyleSheet.create({
   brandWordmark: { justifyContent: 'center' },
   brandMark: { width: 36, height: 36, borderRadius: 11, backgroundColor: '#102B5D', borderWidth: 1, borderColor: '#28B9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#087CFF', shadowOpacity: 0.8, shadowRadius: 9, elevation: 6 },
   brandMarkText: { color: '#7BE8FF', fontSize: 16, fontWeight: '900' },
-  logo: { color: WHITE, fontSize: 18, lineHeight: 21, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
-  logoSecond: { color: '#8DBBFF', fontSize: 18, lineHeight: 21, fontWeight: '900', fontFamily: 'sans-serif-rounded', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
+  logo: { color: WHITE, fontSize: 18, lineHeight: 21, fontWeight: '900', fontFamily: 'Manrope', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
+  logoSecond: { color: '#8DBBFF', fontSize: 18, lineHeight: 21, fontWeight: '900', fontFamily: 'Manrope', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
   logoBlue: { color: BLUE },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 0 },
   notificationButton: { width: 42, height: 42, borderRadius: 13, borderWidth: 1, borderColor: '#263B5D', backgroundColor: '#101B30', alignItems: 'center', justifyContent: 'center', position: 'relative' },
@@ -4267,7 +4283,7 @@ const styles = StyleSheet.create({
   heroOrbit: { position: 'absolute', width: 190, height: 190, borderRadius: 95, top: -112, right: -32, borderWidth: 1, borderColor: 'rgba(103,174,255,0.22)' },
   heroAccent: { position: 'absolute', top: 0, left: 20, width: 58, height: 2, borderRadius: 1, backgroundColor: '#53B8FF', opacity: 0.9 },
   eyebrow: { color: BLUE, fontSize: 16, fontWeight: '900', letterSpacing: 2 },
-  heading: { color: WHITE, fontSize: 34, fontWeight: '900', fontFamily: 'sans-serif-rounded', lineHeight: 42, marginTop: 0, letterSpacing: -0.4, textShadowColor: '#3A9DFF', textShadowRadius: 18 },
+  heading: { color: WHITE, fontSize: 34, fontWeight: '900', fontFamily: 'Manrope', lineHeight: 42, marginTop: 0, letterSpacing: -0.4, textShadowColor: '#3A9DFF', textShadowRadius: 18 },
   description: { color: MUTED, fontSize: 16, lineHeight: 23, marginTop: 13 },
   engineCard: {
     flexDirection: 'row',
@@ -4293,7 +4309,7 @@ const styles = StyleSheet.create({
   sectionTitle: { color: '#C9D2E2', fontSize: 16, fontWeight: '800', letterSpacing: 1.25 },
   languageLabel: { color: BLUE, fontSize: 16, fontWeight: '800', letterSpacing: 1.2 },
   prompt: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'Manrope',
     minHeight: 145,
     backgroundColor: PANEL,
     borderWidth: 1,
@@ -4352,7 +4368,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   disabledButton: { opacity: 0.55 },
-  createButtonText: { color: WHITE, fontSize: 16, fontWeight: '900', fontFamily: 'sans-serif-medium', letterSpacing: 0.4 },
+  createButtonText: { color: WHITE, fontSize: 16, fontWeight: '900', fontFamily: 'Manrope', letterSpacing: 0.4 },
   generationModalBackdrop: { flex: 1, backgroundColor: 'rgba(2,7,19,0.88)', alignItems: 'center', justifyContent: 'center', padding: 24 },
   generationModalCard: { width: '100%', maxWidth: 360, borderRadius: 24, padding: 26, alignItems: 'center', backgroundColor: '#0D1930', borderWidth: 1, borderColor: '#2B5A96', shadowColor: '#168EFF', shadowOpacity: 0.35, shadowRadius: 28, elevation: 18 },
   generationModalMark: { width: 58, height: 58, borderRadius: 18, backgroundColor: '#102B5D', borderWidth: 1, borderColor: '#28B9FF', alignItems: 'center', justifyContent: 'center' },
@@ -4478,7 +4494,7 @@ const styles = StyleSheet.create({
   menuText: { color: '#DCE4F2', fontSize: 16, fontWeight: '600' },
   menuArrow: { color: MUTED, fontSize: 23 },
   authCard: { backgroundColor: PANEL, borderRadius: 14, padding: 16, marginBottom: 18, borderWidth: 1, borderColor: '#253147' },
-  authInput: { fontFamily: 'sans-serif', backgroundColor: '#0B1220', borderWidth: 1, borderColor: '#253147', borderRadius: 10, paddingHorizontal: 13, paddingVertical: 13, color: WHITE, fontSize: 16, marginTop: 12 },
+  authInput: { fontFamily: 'Manrope', backgroundColor: '#0B1220', borderWidth: 1, borderColor: '#253147', borderRadius: 10, paddingHorizontal: 13, paddingVertical: 13, color: WHITE, fontSize: 16, marginTop: 12 },
   authAction: { backgroundColor: '#2468F5', borderRadius: 13, paddingHorizontal: 15, paddingVertical: 15, minHeight: 50, borderWidth: 1, borderColor: '#78B5FF', alignItems: 'center', justifyContent: 'center', marginTop: 14, shadowColor: '#167AFF', shadowOpacity: 0.22, shadowRadius: 12, elevation: 4 },
   authSecondary: { backgroundColor: '#142344', borderColor: '#3978FF', borderWidth: 1, paddingHorizontal: 14, paddingVertical: 13, minHeight: 50, borderRadius: 12, alignItems: 'center', justifyContent: 'center', marginTop: 10 },
   authSecondaryText: { color: WHITE, fontWeight: '700', fontSize: 16 },
