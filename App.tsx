@@ -134,33 +134,24 @@ async function readResponse(response: Response): Promise<any> {
   }
 }
 
-function ScreenTransition({ children }: { children: any }) {
+function ScreenTransition({ children, direction = 1 }: { children: any; direction?: 1 | -1 }) {
   const opacity = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(9)).current;
-
+  const translateX = useRef(new Animated.Value(direction * 76)).current;
   useEffect(() => {
     const animation = Animated.parallel([
-      Animated.timing(opacity, { toValue: 1, duration: 240, useNativeDriver: true }),
-      Animated.timing(translateY, { toValue: 0, duration: 260, useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: 1, duration: 250, useNativeDriver: true }),
+      Animated.spring(translateX, { toValue: 0, speed: 20, bounciness: 3, useNativeDriver: true }),
     ]);
     animation.start();
-    return () => {
-      animation.stop();
-      opacity.stopAnimation();
-      translateY.stopAnimation();
-    };
-  }, [opacity, translateY]);
-
-  return (
-    <Animated.View style={{ flexGrow: 1, flexShrink: 0, opacity, transform: [{ translateY }] }}>
-      {children}
-    </Animated.View>
-  );
+    return () => { animation.stop(); opacity.stopAnimation(); translateX.stopAnimation(); };
+  }, [opacity, translateX]);
+  return <Animated.View style={{ flexGrow: 1, flexShrink: 0, opacity, transform: [{ translateX }] }}>{children}</Animated.View>;
 }
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({ Manrope: require('./assets/Manrope[wght].ttf') });
   const [tab, setTab] = useState<Tab>('Create');
+  const [transitionDirection, setTransitionDirection] = useState<1 | -1>(1);
   const swipeResponder = useRef(PanResponder.create({
     // Capture deliberate horizontal drags before ScrollView can interpret them as vertical scrolling.
     onMoveShouldSetPanResponderCapture: (_event, gesture) =>
@@ -175,6 +166,7 @@ export default function App() {
         const current = order.indexOf(currentTab);
         const next = Math.max(0, Math.min(order.length - 1, current + (gesture.dx < 0 ? 1 : -1)));
         if (next === current) return currentTab;
+        setTransitionDirection(next > current ? 1 : -1);
         setShowSupport(false);
         setShowNotifications(false);
         setShowFaq(false);
@@ -2004,10 +1996,10 @@ export default function App() {
           }}
         />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.48)' }]} />
-        <View style={styles.ambientBackdropTint} />
-        <View style={styles.ambientGlowTop} />
-        <View style={styles.ambientGlowBottom} />
-        <View style={styles.ambientGlowCenter} />
+        <View style={[styles.ambientBackdropTint, tab === 'Gallery' ? styles.ambientTintGallery : tab === 'Credits' ? styles.ambientTintCredits : tab === 'Profile' ? styles.ambientTintProfile : null]} />
+        <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
+        <View style={[styles.ambientGlowBottom, tab === 'Gallery' ? styles.ambientGlowBottomGallery : tab === 'Credits' ? styles.ambientGlowBottomCredits : tab === 'Profile' ? styles.ambientGlowBottomProfile : null]} />
+        <View style={[styles.ambientGlowCenter, tab === 'Gallery' ? styles.ambientGlowCenterGallery : tab === 'Credits' ? styles.ambientGlowCenterCredits : tab === 'Profile' ? styles.ambientGlowCenterProfile : null]} />
         <View style={styles.ambientCloudOne} />
         <View style={styles.ambientCloudTwo} />
         <View style={styles.ambientCloudThree} />
@@ -2020,30 +2012,22 @@ export default function App() {
         <View style={styles.ambientRing} />
         <View style={styles.ambientRingFar} />
         <View style={styles.ambientHorizon} />
-        <View style={styles.ambientStarOne} />
-        <View style={styles.ambientStarTwo} />
-        <View style={styles.ambientStarThree} />
-        <View style={styles.ambientStarFour} />
-        <View style={styles.ambientStarFive} />
-        <View style={styles.ambientStarSix} />
-        <View style={styles.ambientStarSeven} />
-        <View style={styles.ambientStarEight} />
+
       </View>
       <StatusBar style="light" hidden={showIntro} />
 
-      {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }]}>
+      {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
             <Image
-              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
+              source={require('./assets/Неоновая айдентика «НейроСцена».jpg')}
               resizeMode="contain"
               style={styles.headerBrandArtwork}
               accessibilityLabel="Неоновая иконка НейроСцены"
             />
           </View>
           <View style={styles.brandWordmark}>
-            <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.82} style={[styles.logo, { color: '#F3F8FF', textShadowColor: '#168CFF', textShadowRadius: 12 }]}>Нейро</Text>
-            <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.82} style={[styles.logoSecond, { color: '#8DCAFF', textShadowColor: '#168CFF', textShadowRadius: 12 }]}>Сцена</Text>
+            <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78} style={[styles.logo, { color: '#F3F8FF', textShadowColor: '#168CFF', textShadowRadius: 14 }]}>НейроСцена</Text>
           </View>
         </View>
 
@@ -2065,7 +2049,7 @@ export default function App() {
             accessibilityRole="button"
             accessibilityLabel="Профиль и меню"
             style={styles.headerMenuButton}
-            onPress={() => setTab('Profile')}
+            onPress={() => { setTransitionDirection(1); setTab('Profile'); }}
           >
             <Text style={styles.headerMenuIcon}>☰</Text>
           </TouchableOpacity>
@@ -2081,7 +2065,7 @@ export default function App() {
         showsVerticalScrollIndicator={false}
         {...swipeResponder.panHandlers}
       >
-        {authReady ? <ScreenTransition key={activeScreenKey}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
+        {authReady ? <ScreenTransition key={activeScreenKey} direction={transitionDirection}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
       <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', alignSelf: 'stretch', flexShrink: 0, height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 20 }]}>
@@ -2094,7 +2078,7 @@ export default function App() {
           <TouchableOpacity activeOpacity={0.86}
             key={item.id}
             style={[styles.navItem, { flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: 0, width: '25%', maxWidth: '25%', minWidth: 0, alignSelf: 'auto' }, tab === item.id && styles.navItemActive]}
-            onPress={() => { setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
+            onPress={() => { const order: Tab[] = ['Create', 'Gallery', 'Credits', 'Profile']; setTransitionDirection(order.indexOf(item.id) >= order.indexOf(tab) ? 1 : -1); setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
             {item.id === 'Create' ? (
               <View style={[styles.navCreateIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Создать">
@@ -4793,6 +4777,30 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V8,
   ...FINAL_UI_FIXES_V9,
   ...FINAL_UI_FIXES_V10,
+  ...FINAL_UI_FIXES_V11,
+const FINAL_UI_FIXES_V11 = {
+ header:{minHeight:112,height:112,paddingTop:43,paddingBottom:7,paddingHorizontal:14,justifyContent:'flex-start',alignItems:'center',overflow:'visible'},
+ brandRowCentered:{position:'absolute',top:42,left:96,right:10,width:undefined,maxWidth:undefined,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',zIndex:2},
+ brandMarkSmall:{width:46,height:46,borderRadius:12,marginRight:8,backgroundColor:'rgba(2,14,39,0.88)',borderWidth:1,borderColor:'rgba(125,220,255,0.82)',shadowColor:'#38BFFF',shadowOpacity:0.78,shadowRadius:15,elevation:8,overflow:'hidden'},
+ headerBrandArtwork:{width:46,height:46,borderRadius:10},brandWordmark:{width:128,minWidth:0,flexShrink:1,justifyContent:'center'},
+ logo:{fontSize:17,lineHeight:22,fontWeight:'900',letterSpacing:0.1,includeFontPadding:false,textShadowColor:'#37AFFF',textShadowRadius:15,textShadowOffset:{width:0,height:2}},
+ headerActions:{position:'absolute',left:14,right:undefined,top:43,zIndex:5,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',gap:8},
+ notificationButton:{width:38,height:38,borderRadius:12,backgroundColor:'rgba(4,22,52,0.82)',borderColor:'rgba(105,199,255,0.66)'},headerMenuButton:{width:38,height:38,borderRadius:12,backgroundColor:'rgba(4,22,52,0.82)',borderColor:'rgba(105,199,255,0.66)'},
+ createTitleWrap:{marginTop:1,marginBottom:9,minHeight:38},createScreenTitle:{fontSize:27,lineHeight:34,fontWeight:'900',color:'#F7FBFF',textShadowColor:'#38AFFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},
+ referenceHero:{height:146,minHeight:146,marginTop:2,marginBottom:12,borderRadius:21,borderWidth:1.2,borderColor:'rgba(124,211,255,0.8)',shadowColor:'#168BFF',shadowOpacity:0.44,shadowRadius:21,elevation:10,backgroundColor:'rgba(3,16,42,0.96)'},
+ referenceHeroNebulaOne:{width:190,height:190,borderRadius:95,right:-40,top:-82,backgroundColor:'rgba(0,125,255,0.42)',shadowColor:'#168BFF',shadowOpacity:1,shadowRadius:58},referenceHeroNebulaTwo:{width:155,height:155,borderRadius:78,left:-42,bottom:-92,backgroundColor:'rgba(0,203,255,0.24)',shadowColor:'#00CFFF',shadowOpacity:1,shadowRadius:48},
+ referenceHeroEyebrow:{fontSize:20,lineHeight:26,fontWeight:'900',letterSpacing:0.1,color:'#F8FCFF',textShadowColor:'#168BFF',textShadowRadius:17,textShadowOffset:{width:0,height:2}},referenceHeroCaption:{fontSize:14,lineHeight:19,fontWeight:'700',color:'#D7EEFF',textShadowColor:'#087BFF',textShadowRadius:9},
+ featureSectionTitle:{fontSize:20,lineHeight:27,fontWeight:'900',color:'#F5FAFF',textShadowColor:'#168BFF',textShadowRadius:16,textShadowOffset:{width:0,height:2}},screenTitle:{fontSize:27,lineHeight:34,fontWeight:'900',textShadowColor:'#168BFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},sectionTitle:{color:'#D6EDFF',fontSize:17,fontWeight:'900',textShadowColor:'#168BFF',textShadowRadius:10},
+ creditsTitle:{color:'#FFF3D0',fontSize:29,lineHeight:36,fontWeight:'900',textShadowColor:'#D88A20',textShadowRadius:17,textShadowOffset:{width:0,height:2}},galleryTitle:{color:'#F5F8FF',textShadowColor:'#A77CFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},
+ galleryEmptyArtwork:{width:98,height:88,marginBottom:14,shadowColor:'#B78BFF',shadowOpacity:0.95,shadowRadius:24,elevation:12},galleryClapperTop:{width:90,height:20,borderRadius:6,borderWidth:2,borderColor:'#D7C3FF',backgroundColor:'#513D8D',shadowColor:'#B78BFF',shadowOpacity:1,shadowRadius:14,elevation:9},galleryClapperStripe:{width:9,height:14,backgroundColor:'#F1E8FF'},galleryClapperBody:{width:84,height:56,marginTop:-1,borderRadius:9,borderWidth:2,borderColor:'#BDA0FF',backgroundColor:'rgba(30,19,67,0.98)',shadowColor:'#9B69FF',shadowOpacity:1,shadowRadius:17,elevation:9},galleryClapperPlay:{color:'#F2E9FF',fontSize:29,lineHeight:34,textShadowColor:'#A56BFF',textShadowRadius:16},galleryClapperCaption:{color:'#D7C3FF',fontSize:8,fontWeight:'900',letterSpacing:1.8},galleryClapperBase:{width:76,backgroundColor:'#9C78E8',shadowColor:'#B78BFF',shadowOpacity:1,shadowRadius:10},
+ creditIllustration:{height:144,minHeight:144,borderColor:'rgba(255,218,135,0.92)',backgroundColor:'rgba(33,24,18,0.96)',shadowColor:'#FFB52E',shadowOpacity:0.62,shadowRadius:24,elevation:12},creditIllustrationGlow:{backgroundColor:'rgba(255,174,48,0.24)',shadowColor:'#FFC34F',shadowOpacity:1,shadowRadius:42},creditCoin:{width:58,height:22,marginTop:-4,borderRadius:30,backgroundColor:'#D99521',borderWidth:2.5,borderColor:'#FFF0B0',shadowColor:'#FFB72E',shadowOpacity:1,shadowRadius:15,elevation:10},creditCoinGlyph:{color:'#FFF7D7',fontSize:12,lineHeight:15,fontWeight:'900',textShadowColor:'#8B4A08',textShadowRadius:5},creditStarBadge:{backgroundColor:'#D99A2C',borderColor:'#FFF0BA',shadowColor:'#FFC24D',shadowOpacity:1,shadowRadius:17,elevation:12},creditIllustrationTitle:{color:'#FFF0C5',fontSize:13,lineHeight:17,fontWeight:'900',letterSpacing:1.1,textShadowColor:'#D98A20',textShadowRadius:11},creditIllustrationSub:{color:'#F1D7A2',fontSize:11,lineHeight:15,fontWeight:'700'},
+ creditBalancePanel:{borderColor:'rgba(255,204,111,0.72)',backgroundColor:'rgba(43,31,23,0.94)',shadowColor:'#D88A20',shadowOpacity:0.3,shadowRadius:15,elevation:7},creditBalanceHeroValue:{color:'#FFE09A',textShadowColor:'#FF9F24',textShadowRadius:17},creditBalanceHeroLabel:{color:'#FFE9B8'},creditBalanceEyebrow:{color:'#EACB8B'},
+ welcomeBonusCard:{borderColor:'rgba(255,210,125,0.72)',backgroundColor:'rgba(54,37,20,0.94)',shadowColor:'#E8A33B',shadowOpacity:0.3},welcomeBonusIcon:{backgroundColor:'rgba(255,185,61,0.2)',borderColor:'rgba(255,222,155,0.78)'},welcomeBonusGlyph:{color:'#FFE8AC',textShadowColor:'#FFB52E',textShadowRadius:10},welcomeBonusTitle:{color:'#FFF0C8'},welcomeBonusText:{color:'#E9D5B0'},
+ packageCard:{borderColor:'rgba(255,203,116,0.48)',backgroundColor:'rgba(36,29,25,0.94)'},packageCardPopular:{borderColor:'#FFE19A',backgroundColor:'rgba(72,48,20,0.96)',shadowColor:'#FFB72E',shadowOpacity:0.72,shadowRadius:19,elevation:10},packageAmount:{color:'#FFE09A',textShadowColor:'#D98A20',textShadowRadius:8},packagePrice:{color:'#FFF0CB'},packageIconWrap:{backgroundColor:'rgba(214,145,38,0.2)',borderColor:'rgba(255,214,131,0.72)'},packageIcon:{color:'#FFE4A0',textShadowColor:'#D98A20',textShadowRadius:8},popularBadge:{backgroundColor:'rgba(219,151,43,0.25)',borderColor:'rgba(255,220,151,0.72)'},popularBadgeText:{color:'#FFE9B7'},creditNeverExpire:{color:'#FFE5AE',textShadowColor:'#B56D17',textShadowRadius:7},buyCreditsButton:{borderColor:'#FFE2A0',backgroundColor:'#986016',shadowColor:'#FFB52E',shadowOpacity:0.65,shadowRadius:18,elevation:9},buyCreditsButtonText:{color:'#FFF5D9'},
+ bottomNav:{minHeight:92,height:92,maxHeight:92,paddingTop:5,paddingBottom:19,backgroundColor:'rgba(2,10,27,0.98)',borderTopColor:'rgba(100,192,255,0.42)'},navItem:{minHeight:64,paddingTop:3,paddingBottom:2,gap:3,borderRadius:12,borderWidth:1,borderColor:'transparent',backgroundColor:'transparent',alignItems:'center',justifyContent:'center'},navItemActive:{backgroundColor:'transparent',borderColor:'rgba(103,214,255,0.7)',shadowColor:'#00BFFF',shadowOpacity:0.28,shadowRadius:11,elevation:3},navLabel:{width:'100%',color:'#A9C5E2',fontSize:14,lineHeight:18,fontWeight:'800',textAlign:'center',includeFontPadding:false,flexShrink:1},navLabelActive:{color:'#E7F9FF',fontWeight:'900',textShadowColor:'#00BFFF',textShadowRadius:9},navCreateIcon:{width:26,height:26,minHeight:26,marginBottom:0},navGalleryIcon:{width:26,height:26,minHeight:26,marginBottom:0},navCoin:{width:26,height:26,marginBottom:0},navPerson:{width:26,height:26,minHeight:26,alignItems:'center',justifyContent:'center',marginBottom:0},navPersonHead:{marginBottom:1},
+ ambientTintGallery:{backgroundColor:'rgba(28,8,58,0.24)'},ambientTintCredits:{backgroundColor:'rgba(48,17,12,0.20)'},ambientTintProfile:{backgroundColor:'rgba(5,48,48,0.22)'},ambientGlowTopGallery:{backgroundColor:'#7753B8',opacity:0.19,shadowColor:'#A77CFF'},ambientGlowBottomGallery:{backgroundColor:'#9B78D8',opacity:0.17,shadowColor:'#B58BFF'},ambientGlowCenterGallery:{backgroundColor:'#573A9A',opacity:0.11},ambientGlowTopCredits:{backgroundColor:'#D89B48',opacity:0.14,shadowColor:'#E4B45F'},ambientGlowBottomCredits:{backgroundColor:'#A76C37',opacity:0.12,shadowColor:'#D89B48'},ambientGlowCenterCredits:{backgroundColor:'#8C5529',opacity:0.08},ambientGlowTopProfile:{backgroundColor:'#4BAFA5',opacity:0.17,shadowColor:'#5AD6C6'},ambientGlowBottomProfile:{backgroundColor:'#378F8B',opacity:0.15,shadowColor:'#5AD6C6'},ambientGlowCenterProfile:{backgroundColor:'#287C78',opacity:0.1}
+} as const;
+
   // Unified storm-ocean glass/neon visual system across all four primary tabs.
   // Final reference-aligned pass: crisp artwork, centered brand and restrained navigation glow.
   container: { flex: 1, backgroundColor: '#020817' },
