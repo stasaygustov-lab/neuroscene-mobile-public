@@ -1,9 +1,6 @@
 name: NeuroScene Android APK preview (no emulator)
 
 on:
-  push:
-    branches:
-      - ui/full-visual-redesign
   workflow_dispatch:
 
 permissions:
@@ -71,9 +68,3 @@ jobs:
           path: android/app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
           retention-days: 7
-
-# UI branch validation includes TypeScript and standalone APK packaging.
-
-# Build and package the current UI branch revision.
-
-# Final corrected UI revision.
