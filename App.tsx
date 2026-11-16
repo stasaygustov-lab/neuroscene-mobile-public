@@ -1888,8 +1888,7 @@ export default function App() {
           <TouchableOpacity activeOpacity={0.86} style={styles.profileEmailButton} onPress={() => setProfileEmailOpen((value) => !value)}>
             <Text style={styles.profileEmailButtonText}>{profileEmailOpen ? 'Скрыть вход по email' : 'Войти по email'}</Text>
           </TouchableOpacity>
-          <View style={styles.profilePrivacyCard}><Text style={styles.profilePrivacyIcon}>◇</Text><View style={{ flex: 1 }}><Text style={styles.profilePrivacyTitle}>Ваши данные в безопасности</Text><Text style={styles.profilePrivacyText}>Мы не передаём их третьим лицам</Text></View></View>
-          <Text style={styles.loginLegalText}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
+                    <Text style={styles.loginLegalText}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
           </View>
           {profileEmailOpen && <View style={styles.authCard}>
             <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
@@ -2037,11 +2036,12 @@ export default function App() {
               source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
               resizeMode="stretch"
               style={styles.headerBrandArtwork}
-              accessibilityLabel="Неоновая иконка НейроСцены"
+              accessibilityLabel="Неоновый знак НейроСцены"
             />
           </View>
           <View style={styles.brandWordmark}>
-            <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78} style={[styles.logo, { color: '#F3F8FF', textShadowColor: '#168CFF', textShadowRadius: 14 }]}>НейроСцена</Text>
+            <Text style={styles.logo}>Нейро</Text>
+            <Text style={styles.logo}>Сцена</Text>
           </View>
         </View>
 
@@ -2058,14 +2058,6 @@ export default function App() {
               <View style={styles.notificationBellClapper} />
             </View>
             {unreadNotifications > 0 && <View style={styles.notificationBadge}><Text style={styles.notificationBadgeText}>{unreadNotifications > 9 ? '9+' : unreadNotifications}</Text></View>}
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.86}
-            accessibilityRole="button"
-            accessibilityLabel="Профиль и меню"
-            style={styles.headerMenuButton}
-            onPress={() => { setTransitionDirection(1); setTab('Profile'); }}
-          >
-            <Text style={styles.headerMenuIcon}>☰</Text>
           </TouchableOpacity>
         </View>
       </View>}
@@ -2253,25 +2245,6 @@ function CreateScreen({
       <View style={styles.createTitleWrap}>
         <Text style={styles.createScreenTitle}>Создать</Text>
         <View style={styles.createTitleUnderline} />
-      </View>
-      <View style={styles.referenceHero} accessibilityLabel="Кинематографическая иллюстрация НейроСцены">
-        <Image
-          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
-          resizeMode="stretch"
-          style={styles.referenceHeroArtwork}
-          accessibilityLabel="Кинематографическая сцена из референса НейроСцены"
-        />
-        <View pointerEvents="none" style={styles.referenceHeroNebulaOne} />
-        <View pointerEvents="none" style={styles.referenceHeroNebulaTwo} />
-        <View pointerEvents="none" style={styles.referenceHeroOrbitOuter} />
-        <View pointerEvents="none" style={styles.referenceHeroOrbitInner} />
-        <View pointerEvents="none" style={styles.referenceHeroHorizon} />
-        <View pointerEvents="none" style={styles.referenceHeroLightBeam} />
-        <View pointerEvents="none" style={styles.referenceHeroArtworkShade} />
-        <View style={styles.referenceHeroCopy}>
-          <Text style={styles.referenceHeroEyebrow}>ТВОЯ ИДЕЯ — ТВОЙ ФИЛЬМ</Text>
-          <Text style={styles.referenceHeroCaption}>Создавай видео по тексту или изображению</Text>
-        </View>
       </View>
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
@@ -2591,9 +2564,7 @@ function GalleryScreen({
       <View style={styles.galleryTitleWrap}>
         <Text style={styles.galleryTitle}>Мои видео</Text>
         <View style={styles.galleryTitleGlow} />
-        <TouchableOpacity activeOpacity={0.86} style={styles.galleryRefreshButton} onPress={onRefresh} accessibilityLabel="Обновить галерею">
-          <Text style={styles.galleryFilterIcon}>↻</Text>
-        </TouchableOpacity>
+        
       </View>
 
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
@@ -4460,12 +4431,12 @@ const FINAL_UI_FIXES_V11 = {
  logo:{fontSize:15,lineHeight:20,fontWeight:'900',letterSpacing:0.1,includeFontPadding:false,textShadowColor:'#37AFFF',textShadowRadius:15,textShadowOffset:{width:0,height:2}},
  headerActions:{position:'absolute',left:14,right:undefined,top:49,zIndex:5,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',gap:8},
  notificationButton:{width:38,height:38,borderRadius:12,backgroundColor:'rgba(4,22,52,0.82)',borderColor:'rgba(105,199,255,0.66)'},headerMenuButton:{width:38,height:38,borderRadius:12,backgroundColor:'rgba(4,22,52,0.82)',borderColor:'rgba(105,199,255,0.66)'},
- createTitleWrap:{marginTop:1,marginBottom:9,minHeight:38},createScreenTitle:{fontFamily:'sans-serif-condensed',fontSize:27,lineHeight:34,fontWeight:'900',color:'#F7FBFF',textShadowColor:'#38AFFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},
+ createTitleWrap:{marginTop:1,marginBottom:9,minHeight:38},createScreenTitle:{fontFamily:'Manrope',fontSize:27,lineHeight:34,fontWeight:'900',color:'#F7FBFF',textShadowColor:'#38AFFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},
  referenceHero:{height:146,minHeight:146,marginTop:2,marginBottom:12,borderRadius:21,borderWidth:1.2,borderColor:'rgba(124,211,255,0.8)',shadowColor:'#168BFF',shadowOpacity:0.44,shadowRadius:21,elevation:10,backgroundColor:'rgba(3,16,42,0.96)'},
  referenceHeroNebulaOne:{width:190,height:190,borderRadius:95,right:-40,top:-82,backgroundColor:'rgba(0,125,255,0.42)',shadowColor:'#168BFF',shadowOpacity:1,shadowRadius:58},referenceHeroNebulaTwo:{width:155,height:155,borderRadius:78,left:-42,bottom:-92,backgroundColor:'rgba(0,203,255,0.24)',shadowColor:'#00CFFF',shadowOpacity:1,shadowRadius:48},
- referenceHeroEyebrow:{fontFamily:'sans-serif-condensed',fontSize:20,lineHeight:26,fontWeight:'900',letterSpacing:0.1,color:'#F8FCFF',textShadowColor:'#168BFF',textShadowRadius:17,textShadowOffset:{width:0,height:2}},referenceHeroCaption:{fontSize:14,lineHeight:19,fontWeight:'700',color:'#D7EEFF',textShadowColor:'#087BFF',textShadowRadius:9},
- featureSectionTitle:{fontFamily:'sans-serif-condensed',fontSize:20,lineHeight:27,fontWeight:'900',color:'#F5FAFF',textShadowColor:'#168BFF',textShadowRadius:16,textShadowOffset:{width:0,height:2}},screenTitle:{fontFamily:'sans-serif-condensed',fontSize:27,lineHeight:34,fontWeight:'900',textShadowColor:'#168BFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},sectionTitle:{color:'#D6EDFF',fontSize:17,fontWeight:'900',textShadowColor:'#168BFF',textShadowRadius:10},
- creditsTitle:{fontFamily:'sans-serif-condensed',color:'#FFF3D0',fontSize:29,lineHeight:36,fontWeight:'900',textShadowColor:'#D88A20',textShadowRadius:17,textShadowOffset:{width:0,height:2}},galleryTitle:{fontFamily:'sans-serif-condensed',color:'#F5F8FF',textShadowColor:'#A77CFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},
+ referenceHeroEyebrow:{fontFamily:'Manrope',fontSize:20,lineHeight:26,fontWeight:'900',letterSpacing:0.1,color:'#F8FCFF',textShadowColor:'#168BFF',textShadowRadius:17,textShadowOffset:{width:0,height:2}},referenceHeroCaption:{fontSize:14,lineHeight:19,fontWeight:'700',color:'#D7EEFF',textShadowColor:'#087BFF',textShadowRadius:9},
+ featureSectionTitle:{fontFamily:'Manrope',fontSize:20,lineHeight:27,fontWeight:'900',color:'#F5FAFF',textShadowColor:'#168BFF',textShadowRadius:16,textShadowOffset:{width:0,height:2}},screenTitle:{fontFamily:'Manrope',fontSize:27,lineHeight:34,fontWeight:'900',textShadowColor:'#168BFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},sectionTitle:{color:'#D6EDFF',fontSize:17,fontWeight:'900',textShadowColor:'#168BFF',textShadowRadius:10},
+ creditsTitle:{fontFamily:'Manrope',color:'#FFF3D0',fontSize:29,lineHeight:36,fontWeight:'900',textShadowColor:'#D88A20',textShadowRadius:17,textShadowOffset:{width:0,height:2}},galleryTitle:{fontFamily:'Manrope',color:'#F5F8FF',textShadowColor:'#A77CFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},
  galleryEmptyArtwork:{width:98,height:88,marginBottom:14,shadowColor:'#B78BFF',shadowOpacity:0.95,shadowRadius:24,elevation:12},galleryClapperTop:{width:90,height:20,borderRadius:6,borderWidth:2,borderColor:'#D7C3FF',backgroundColor:'#513D8D',shadowColor:'#B78BFF',shadowOpacity:1,shadowRadius:14,elevation:9},galleryClapperStripe:{width:9,height:14,backgroundColor:'#F1E8FF'},galleryClapperBody:{width:84,height:56,marginTop:-1,borderRadius:9,borderWidth:2,borderColor:'#BDA0FF',backgroundColor:'rgba(30,19,67,0.98)',shadowColor:'#9B69FF',shadowOpacity:1,shadowRadius:17,elevation:9},galleryClapperPlay:{color:'#F2E9FF',fontSize:29,lineHeight:34,textShadowColor:'#A56BFF',textShadowRadius:16},galleryClapperCaption:{color:'#D7C3FF',fontSize:8,fontWeight:'900',letterSpacing:1.8},galleryClapperBase:{width:76,backgroundColor:'#9C78E8',shadowColor:'#B78BFF',shadowOpacity:1,shadowRadius:10},
  creditIllustration:{height:144,minHeight:144,borderColor:'rgba(255,218,135,0.92)',backgroundColor:'rgba(33,24,18,0.96)',shadowColor:'#FFB52E',shadowOpacity:0.62,shadowRadius:24,elevation:12},creditIllustrationGlow:{backgroundColor:'rgba(255,174,48,0.24)',shadowColor:'#FFC34F',shadowOpacity:1,shadowRadius:42},creditCoin:{width:58,height:22,marginTop:-4,borderRadius:30,backgroundColor:'#D99521',borderWidth:2.5,borderColor:'#FFF0B0',shadowColor:'#FFB72E',shadowOpacity:1,shadowRadius:15,elevation:10},creditCoinGlyph:{color:'#FFF7D7',fontSize:12,lineHeight:15,fontWeight:'900',textShadowColor:'#8B4A08',textShadowRadius:5},creditStarBadge:{backgroundColor:'#D99A2C',borderColor:'#FFF0BA',shadowColor:'#FFC24D',shadowOpacity:1,shadowRadius:17,elevation:12},creditIllustrationTitle:{color:'#FFF0C5',fontSize:13,lineHeight:17,fontWeight:'900',letterSpacing:1.1,textShadowColor:'#D98A20',textShadowRadius:11},creditIllustrationSub:{color:'#F1D7A2',fontSize:11,lineHeight:15,fontWeight:'700'},
  creditBalancePanel:{borderColor:'rgba(255,204,111,0.72)',backgroundColor:'rgba(43,31,23,0.94)',shadowColor:'#D88A20',shadowOpacity:0.3,shadowRadius:15,elevation:7},creditBalanceHeroValue:{color:'#FFE09A',textShadowColor:'#FF9F24',textShadowRadius:17},creditBalanceHeroLabel:{color:'#FFE9B8'},creditBalanceEyebrow:{color:'#EACB8B'},
@@ -4628,30 +4599,30 @@ const FINAL_UI_FIXES_V13 = {
   brandMarkSmall: { width: 46, height: 46, borderRadius: 12, marginRight: 8, backgroundColor: 'rgba(2,14,39,0.92)', borderWidth: 1, borderColor: 'rgba(125,220,255,0.9)', shadowColor: '#38BFFF', shadowOpacity: 0.8, shadowRadius: 16, elevation: 9, overflow: 'hidden' },
   headerBrandArtwork: { width: 46, height: 46, borderRadius: 10 },
   brandWordmark: { width: 126, minWidth: 0, flexShrink: 1, justifyContent: 'center' },
-  logo: { fontFamily: 'sans-serif-condensed', fontSize: 15, lineHeight: 20, fontWeight: '900', letterSpacing: 0.15, includeFontPadding: false, color: '#F7FBFF', textShadowColor: '#37AFFF', textShadowRadius: 16, textShadowOffset: { width: 0, height: 2 } },
+  logo: { fontFamily: 'Manrope', fontSize: 15, lineHeight: 20, fontWeight: '900', letterSpacing: 0.15, includeFontPadding: false, color: '#F7FBFF', textShadowColor: '#37AFFF', textShadowRadius: 16, textShadowOffset: { width: 0, height: 2 } },
   notificationButton: { width: 38, height: 38, borderRadius: 12, backgroundColor: 'rgba(4,22,52,0.86)', borderColor: 'rgba(105,199,255,0.72)' },
   headerMenuButton: { width: 38, height: 38, borderRadius: 12, backgroundColor: 'rgba(4,22,52,0.86)', borderColor: 'rgba(105,199,255,0.72)' },
   createTitleWrap: { marginTop: 1, marginBottom: 9, minHeight: 38 },
-  createScreenTitle: { fontFamily: 'sans-serif-condensed', fontSize: 27, lineHeight: 34, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
+  createScreenTitle: { fontFamily: 'Manrope', fontSize: 27, lineHeight: 34, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
   referenceHero: { height: 146, minHeight: 146, marginTop: 2, marginBottom: 12, borderRadius: 21, borderWidth: 1.2, borderColor: 'rgba(124,211,255,0.86)', shadowColor: '#168BFF', shadowOpacity: 0.48, shadowRadius: 22, elevation: 11, backgroundColor: 'rgba(3,16,42,0.96)' },
   referenceHeroArtwork: { position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, width: '100%', height: '100%', opacity: 0.82 },
   referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,27,0.30)' },
   referenceHeroNebulaOne: { width: 190, height: 190, borderRadius: 95, right: -40, top: -82, backgroundColor: 'rgba(0,125,255,0.25)', shadowColor: '#168BFF', shadowOpacity: 0.9, shadowRadius: 52 },
   referenceHeroNebulaTwo: { width: 155, height: 155, borderRadius: 78, left: -42, bottom: -92, backgroundColor: 'rgba(0,203,255,0.16)', shadowColor: '#00CFFF', shadowOpacity: 0.9, shadowRadius: 46 },
-  referenceHeroEyebrow: { fontFamily: 'sans-serif-condensed', fontSize: 20, lineHeight: 26, fontWeight: '900', letterSpacing: 0.1, color: '#F8FCFF', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
+  referenceHeroEyebrow: { fontFamily: 'Manrope', fontSize: 20, lineHeight: 26, fontWeight: '900', letterSpacing: 0.1, color: '#F8FCFF', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
   referenceHeroCaption: { fontSize: 14, lineHeight: 19, fontWeight: '700', color: '#D7EEFF', textShadowColor: '#087BFF', textShadowRadius: 10 },
-  featureSectionTitle: { fontFamily: 'sans-serif-condensed', fontSize: 20, lineHeight: 27, fontWeight: '900', color: '#F5FAFF', textShadowColor: '#168BFF', textShadowRadius: 17, textShadowOffset: { width: 0, height: 2 } },
-  screenTitle: { fontFamily: 'sans-serif-condensed', fontSize: 27, lineHeight: 34, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
+  featureSectionTitle: { fontFamily: 'Manrope', fontSize: 20, lineHeight: 27, fontWeight: '900', color: '#F5FAFF', textShadowColor: '#168BFF', textShadowRadius: 17, textShadowOffset: { width: 0, height: 2 } },
+  screenTitle: { fontFamily: 'Manrope', fontSize: 27, lineHeight: 34, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
   sectionTitle: { color: '#D6EDFF', fontSize: 17, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 11 },
   galleryTitleWrap: { minHeight: 64, marginBottom: 16, paddingTop: 5 },
-  galleryTitle: { fontFamily: 'sans-serif-condensed', color: '#F5F8FF', fontSize: 27, lineHeight: 34, fontWeight: '900', textShadowColor: '#A77CFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
+  galleryTitle: { fontFamily: 'Manrope', color: '#F5F8FF', fontSize: 27, lineHeight: 34, fontWeight: '900', textShadowColor: '#A77CFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
   galleryTitleGlow: { bottom: 0, width: '74%', height: 2, backgroundColor: '#C6A7FF', shadowColor: '#A77CFF', shadowOpacity: 1, shadowRadius: 16, elevation: 10 },
   galleryEmptyArtwork: { width: 98, height: 88, marginBottom: 14, shadowColor: '#B78BFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 12 },
   galleryClapperTop: { width: 90, height: 20, borderRadius: 6, borderWidth: 2, borderColor: '#E3D4FF', backgroundColor: '#513D8D', shadowColor: '#B78BFF', shadowOpacity: 1, shadowRadius: 14, elevation: 9 },
   galleryClapperBody: { width: 84, height: 56, marginTop: -1, borderRadius: 9, borderWidth: 2, borderColor: '#C9B0FF', backgroundColor: 'rgba(30,19,67,0.98)', shadowColor: '#9B69FF', shadowOpacity: 1, shadowRadius: 18, elevation: 10 },
   galleryClapperPlay: { color: '#F2E9FF', fontSize: 29, lineHeight: 34, textShadowColor: '#A56BFF', textShadowRadius: 16 },
   creditsHeader: { position: 'relative', alignItems: 'center', justifyContent: 'center', marginBottom: 12, minHeight: 48 },
-  creditsTitle: { fontFamily: 'sans-serif-condensed', color: '#FFF3D0', fontSize: 29, lineHeight: 36, fontWeight: '900', textAlign: 'center', textShadowColor: '#D88A20', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
+  creditsTitle: { fontFamily: 'Manrope', color: '#FFF3D0', fontSize: 29, lineHeight: 36, fontWeight: '900', textAlign: 'center', textShadowColor: '#D88A20', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
   creditIllustration: { width: '41%', height: 174, minHeight: 174, marginBottom: 0, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.62, shadowRadius: 22, elevation: 11, overflow: 'hidden' },
   creditCoin: { width: 60, height: 22, marginTop: -4, borderRadius: 30, backgroundColor: '#D99521', borderWidth: 2.5, borderColor: '#FFF0B0', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB72E', shadowOpacity: 1, shadowRadius: 16, elevation: 11 },
   creditCoinGlyph: { color: '#FFF7D7', fontSize: 13, lineHeight: 16, fontWeight: '900', textShadowColor: '#8B4A08', textShadowRadius: 5 },
@@ -4705,7 +4676,7 @@ const FINAL_UI_FIXES_V14 = {
   referenceHeroHorizon: { position: 'absolute', left: 0, right: 0, bottom: 23, height: 1, backgroundColor: 'rgba(92,190,255,0.46)', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 10 },
   referenceHeroLightBeam: { position: 'absolute', width: 2, height: 112, right: '24%', top: 10, backgroundColor: 'rgba(134,224,255,0.48)', shadowColor: '#4FCBFF', shadowOpacity: 1, shadowRadius: 18, transform: [{ rotate: '28deg' }] },
   referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,8,25,0.16)' },
-  referenceHeroEyebrow: { fontFamily: 'sans-serif-condensed', fontSize: 20, lineHeight: 26, fontWeight: '900', letterSpacing: 0.25, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
+  referenceHeroEyebrow: { fontFamily: 'Manrope', fontSize: 20, lineHeight: 26, fontWeight: '900', letterSpacing: 0.25, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
   referenceHeroCaption: { fontSize: 14, lineHeight: 19, fontWeight: '700', color: '#D7EEFF', textAlign: 'center', marginTop: 5, textShadowColor: '#087BFF', textShadowRadius: 10 },
 
   // Keep the coin artwork gold, while returning the surrounding credits UI to the dark-blue brand palette.
@@ -4763,7 +4734,7 @@ const FINAL_UI_FIXES_V15 = {
   creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', overflow: 'hidden' },
   creditReferenceArtwork: { position: 'absolute', width: 1137, height: 1262, left: -154, top: -763 },
   creditPackageColumn: { flex: 1, minWidth: 0, justifyContent: 'center' },
-  creditPackagesTitle: { color: '#FFF0C5', fontFamily: 'sans-serif-black', fontSize: 14, lineHeight: 18, fontWeight: '900', marginBottom: 2, textShadowColor: '#D98A20', textShadowRadius: 10 },
+  creditPackagesTitle: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900', marginBottom: 2, textShadowColor: '#D98A20', textShadowRadius: 10 },
   packageCard: { minHeight: 46, paddingVertical: 5, paddingHorizontal: 7, borderRadius: 11, marginTop: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(255,198,91,0.48)', backgroundColor: 'rgba(35,27,21,0.94)', shadowColor: '#FFB52E', shadowOpacity: 0.2, shadowRadius: 8, elevation: 3 },
   packageCardPopular: { borderColor: '#FFD77A', backgroundColor: 'rgba(91,59,20,0.94)', shadowColor: '#FFB52E', shadowOpacity: 0.48, shadowRadius: 11, elevation: 5 },
   packageAmount: { color: '#FFF3D0', fontSize: 14, fontWeight: '900' },
@@ -4783,28 +4754,28 @@ const FINAL_UI_FIXES_V15 = {
   notificationButton: { width: 38, height: 38, borderRadius: 12, backgroundColor: 'rgba(4,22,52,0.86)', borderColor: 'rgba(105,199,255,0.72)' },
   headerMenuButton: { width: 38, height: 38, borderRadius: 12, backgroundColor: 'rgba(4,22,52,0.86)', borderColor: 'rgba(105,199,255,0.72)' },
   createTitleWrap: { marginTop: 7, marginBottom: 8, minHeight: 38 },
-  createScreenTitle: { fontFamily: 'sans-serif-black', fontSize: 27, lineHeight: 35, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 19, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.25 },
+  createScreenTitle: { fontFamily: 'Manrope', fontSize: 27, lineHeight: 35, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 19, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.25 },
   referenceHero: { height: 98, minHeight: 98, marginTop: 2, marginBottom: 12, borderRadius: 19, borderWidth: 1.2, borderColor: 'rgba(124,211,255,0.9)', shadowColor: '#168BFF', shadowOpacity: 0.5, shadowRadius: 22, elevation: 11, backgroundColor: 'rgba(3,16,42,0.96)', overflow: 'hidden' },
   referenceHeroArtwork: { position: 'absolute', width: '296%', height: '1075%', left: '-37.5%', top: '-155%', opacity: 1 },
   referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,27,0.14)' },
   referenceHeroCopy: { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, width: '100%', paddingHorizontal: 12, paddingVertical: 7, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(2,10,27,0.26)' },
-  referenceHeroEyebrow: { fontFamily: 'sans-serif-black', fontSize: 18, lineHeight: 23, fontWeight: '900', letterSpacing: 0.2, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 2 } },
+  referenceHeroEyebrow: { fontFamily: 'Manrope', fontSize: 18, lineHeight: 23, fontWeight: '900', letterSpacing: 0.2, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 2 } },
   referenceHeroCaption: { fontFamily: 'Manrope', fontSize: 12, lineHeight: 16, fontWeight: '800', color: '#E1F3FF', textAlign: 'center', marginTop: 3, textShadowColor: '#087BFF', textShadowRadius: 12 },
-  featureSectionTitle: { fontFamily: 'sans-serif-black', fontSize: 20, lineHeight: 27, fontWeight: '900', color: '#F5FAFF', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
-  screenTitle: { fontFamily: 'sans-serif-black', fontSize: 27, lineHeight: 35, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.2 },
-  sectionTitle: { color: '#DDF1FF', fontFamily: 'sans-serif-black', fontSize: 17, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 13, textShadowOffset: { width: 0, height: 2 } },
+  featureSectionTitle: { fontFamily: 'Manrope', fontSize: 20, lineHeight: 27, fontWeight: '900', color: '#F5FAFF', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
+  screenTitle: { fontFamily: 'Manrope', fontSize: 27, lineHeight: 35, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.2 },
+  sectionTitle: { color: '#DDF1FF', fontFamily: 'Manrope', fontSize: 17, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 13, textShadowOffset: { width: 0, height: 2 } },
   galleryTitleWrap: { minHeight: 64, marginBottom: 16, paddingTop: 7 },
-  galleryTitle: { fontFamily: 'sans-serif-black', color: '#F5F8FF', fontSize: 28, lineHeight: 36, fontWeight: '900', textShadowColor: '#A77CFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.2 },
+  galleryTitle: { fontFamily: 'Manrope', color: '#F5F8FF', fontSize: 28, lineHeight: 36, fontWeight: '900', textShadowColor: '#A77CFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.2 },
   galleryTitleGlow: { bottom: 0, width: '74%', height: 2, backgroundColor: '#C6A7FF', shadowColor: '#A77CFF', shadowOpacity: 1, shadowRadius: 18, elevation: 10 },
   galleryEmptyArtwork: { width: 110, height: 96, marginBottom: 14, overflow: 'hidden', borderRadius: 12, shadowColor: '#B78BFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 12 },
   galleryReferenceArtwork: { position: 'absolute', width: 805, height: 894, left: -524, top: -116 },
   creditsScreen: { paddingTop: 8, paddingBottom: 10 },
-  creditsTitle: { fontFamily: 'sans-serif-black', color: '#FFE7A8', fontSize: 29, lineHeight: 37, fontWeight: '900', textShadowColor: '#D88A20', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
+  creditsTitle: { fontFamily: 'Manrope', color: '#FFE7A8', fontSize: 29, lineHeight: 37, fontWeight: '900', textShadowColor: '#D88A20', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
   creditIllustration: { width: '100%', height: 154, minHeight: 154, marginBottom: 12, borderRadius: 22, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 26, elevation: 13, overflow: 'hidden' },
   creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', overflow: 'hidden' },
   creditReferenceArtwork: { position: 'absolute', width: 1137, height: 1262, left: -154, top: -763 },
   creditIllustrationCaption: { position: 'absolute', top: 12, left: 164, right: 4, alignItems: 'center', zIndex: 4 },
-  creditIllustrationTitle: { color: '#FFF0C5', fontFamily: 'sans-serif-black', fontSize: 12, lineHeight: 16, fontWeight: '900', letterSpacing: 0.65, textAlign: 'center', textShadowColor: '#D98A20', textShadowRadius: 13 },
+  creditIllustrationTitle: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 12, lineHeight: 16, fontWeight: '900', letterSpacing: 0.65, textAlign: 'center', textShadowColor: '#D98A20', textShadowRadius: 13 },
   creditIllustrationSub: { color: '#F1D7A2', fontSize: 11, lineHeight: 15, fontWeight: '800' },
   ambientTintGallery: { backgroundColor: 'rgba(174,139,255,0.14)' },
   ambientGlowTopGallery: { backgroundColor: '#A98BFF', opacity: 0.2 },
@@ -4833,6 +4804,95 @@ const FINAL_UI_FIXES_V15 = {
   navCoinLayer: { width: 23, height: 7, borderRadius: 5, borderWidth: 1.3, borderColor: '#FFD77A', backgroundColor: '#B98225', shadowColor: '#FFC34D', shadowOpacity: 0.85, shadowRadius: 6, elevation: 4 },
   navPerson: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center' },
 };
+
+
+const FINAL_UI_FIXES_V16 = {
+  // Header: unframed triangular brand mark, stacked wordmark and notification control on the opposite edge.
+  header: { minHeight: 122, height: 122, paddingTop: 0, paddingBottom: 8, paddingHorizontal: 14, justifyContent: 'flex-start', alignItems: 'center', overflow: 'visible', backgroundColor: 'transparent', borderBottomWidth: 0 },
+  brandRowCentered: { position: 'absolute', top: 53, left: 14, right: 66, width: undefined, maxWidth: undefined, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', zIndex: 2, gap: 8 },
+  brandMarkSmall: { width: 54, height: 54, borderRadius: 0, marginRight: 0, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowColor: '#28BFFF', shadowOpacity: 0.8, shadowRadius: 18, elevation: 8, overflow: 'hidden' },
+  headerBrandArtwork: { position: 'absolute', width: 805, height: 894, left: -177, top: -27 },
+  brandWordmark: { width: 108, minWidth: 0, flexShrink: 1, justifyContent: 'center', gap: 0 },
+  logo: { fontFamily: 'Manrope', fontSize: 19, lineHeight: 22, fontWeight: '900', letterSpacing: -0.35, includeFontPadding: false, color: '#F4FAFF', textShadowColor: '#35BFFF', textShadowRadius: 15, textShadowOffset: { width: 0, height: 1 } },
+  headerActions: { position: 'absolute', right: 14, left: undefined, top: 60, zIndex: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' },
+  notificationButton: { width: 42, height: 42, borderRadius: 21, backgroundColor: 'rgba(4,22,52,0.58)', borderWidth: 1, borderColor: 'rgba(105,199,255,0.48)', shadowColor: '#1AAFFF', shadowOpacity: 0.42, shadowRadius: 13, elevation: 5 },
+  notificationBell: { transform: [{ scale: 1.02 }] },
+  headerMenuButton: { display: 'none' },
+
+  // Display typography: consistent Manrope family, distinctive weight, spacing and restrained electric glow.
+  createTitleWrap: { marginTop: 0, marginBottom: 14, minHeight: 46, alignItems: 'center', justifyContent: 'center' },
+  createScreenTitle: { fontFamily: 'Manrope', fontSize: 32, lineHeight: 40, fontWeight: '900', color: '#F5FBFF', letterSpacing: 0.15, textAlign: 'center', textShadowColor: '#149CFF', textShadowRadius: 25, textShadowOffset: { width: 0, height: 2 }, elevation: 9 },
+  createTitleUnderline: { alignSelf: 'center', width: '72%', height: 2, borderRadius: 2, backgroundColor: '#37CFFF', shadowColor: '#00BFFF', shadowOpacity: 1, shadowRadius: 16, elevation: 9 },
+  referenceCreateGlow: { width: '100%', marginTop: 0, marginBottom: 24, borderRadius: 30, shadowColor: '#00BFFF', shadowOpacity: 0.92, shadowRadius: 28, elevation: 17 },
+  referenceCreateButton: { minHeight: 66, height: 66, width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 13, borderRadius: 33, backgroundColor: '#087BFF', borderWidth: 1.3, borderColor: '#A4F0FF', shadowColor: '#00BFFF', shadowOpacity: 0.92, shadowRadius: 23, elevation: 13 },
+  referenceCreateButtonText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 19, lineHeight: 25, fontWeight: '900', letterSpacing: 0.1, textAlign: 'center', textShadowColor: '#B9F4FF', textShadowRadius: 8 },
+  featureSection: { width: '100%', marginTop: 4, marginBottom: 16 },
+  featureSectionTitle: { fontFamily: 'Manrope', fontSize: 23, lineHeight: 30, fontWeight: '900', letterSpacing: 0.55, color: '#F5FAFF', textAlign: 'center', alignSelf: 'center', marginBottom: 16, textShadowColor: '#168BFF', textShadowRadius: 23, textShadowOffset: { width: 0, height: 2 }, elevation: 8 },
+  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12 },
+  featureTile: { width: '48.2%', minHeight: 138, height: 138, paddingHorizontal: 12, paddingVertical: 13, borderRadius: 18, backgroundColor: 'rgba(4,20,48,0.88)', borderWidth: 1, borderColor: 'rgba(77,166,235,0.66)', shadowColor: '#087BFF', shadowOpacity: 0.27, shadowRadius: 15, elevation: 6, alignItems: 'center', justifyContent: 'center' },
+  featureIconSquare: { width: 39, height: 39, borderRadius: 12, marginBottom: 9, alignItems: 'center', justifyContent: 'center', borderColor: 'rgba(87,202,255,0.72)', backgroundColor: 'rgba(0,115,210,0.18)' },
+  featureIcon: { color: '#9DEBFF', fontFamily: 'Manrope', fontSize: 22, lineHeight: 27, fontWeight: '800', textAlign: 'center' },
+  featureTitle: { width: '100%', color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 15, lineHeight: 20, fontWeight: '900', letterSpacing: 0.05, textAlign: 'center' },
+  featureSubtitle: { width: '100%', color: '#A9C8E8', fontFamily: 'Manrope', fontSize: 12, lineHeight: 17, fontWeight: '600', textAlign: 'center', marginTop: 4 },
+
+  // Gallery empty state: remove the top-right refresh action and enlarge the reference-style clapperboard crop.
+  galleryTitleWrap: { minHeight: 58, marginBottom: 16, paddingTop: 5 },
+  galleryTitle: { fontFamily: 'Manrope', color: '#F5F8FF', fontSize: 29, lineHeight: 38, fontWeight: '900', letterSpacing: 0.1, textShadowColor: '#A77CFF', textShadowRadius: 22, textShadowOffset: { width: 0, height: 2 } },
+  galleryTitleGlow: { bottom: 0, width: '78%', height: 2, backgroundColor: '#C6A7FF', shadowColor: '#A77CFF', shadowOpacity: 1, shadowRadius: 19, elevation: 11 },
+  galleryEmptyArtwork: { width: 220, height: 190, marginBottom: 17, borderRadius: 18, overflow: 'hidden', shadowColor: '#B78BFF', shadowOpacity: 1, shadowRadius: 28, elevation: 14 },
+  galleryReferenceArtwork: { position: 'absolute', width: 1610, height: 1788, left: -1048, top: -232 },
+  galleryEmptyTitle: { fontFamily: 'Manrope', color: '#F0F8FF', fontSize: 20, lineHeight: 27, fontWeight: '900', textAlign: 'center', marginBottom: 4, textShadowColor: '#168BFF', textShadowRadius: 13 },
+
+  // Credits: stack the artwork above the three package rows so nothing can be clipped horizontally on narrow phones.
+  creditsScreen: { flex: 1, paddingTop: 8, paddingBottom: 12 },
+  creditsHeader: { minHeight: 48, marginBottom: 10 },
+  creditsTitle: { fontFamily: 'Manrope', color: '#FFE7A8', fontSize: 30, lineHeight: 38, fontWeight: '900', letterSpacing: 0.1, textAlign: 'center', textShadowColor: '#D88A20', textShadowRadius: 21, textShadowOffset: { width: 0, height: 2 } },
+  creditTopRow: { width: '100%', flexDirection: 'column', alignItems: 'stretch', gap: 10, marginBottom: 10 },
+  creditIllustration: { width: '100%', height: 142, minHeight: 142, marginBottom: 0, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,218,135,0.88)', backgroundColor: 'rgba(3,17,43,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.42, shadowRadius: 21, elevation: 10, overflow: 'hidden' },
+  creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, width: '100%', height: '100%', overflow: 'hidden' },
+  creditReferenceArtwork: { position: 'absolute', width: 1137, height: 1262, left: -154, top: -763 },
+  creditPackageColumn: { width: '100%', flex: 0, minWidth: 0, justifyContent: 'center' },
+  creditPackagesTitle: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 15, lineHeight: 21, fontWeight: '900', marginTop: 2, marginBottom: 4, textShadowColor: '#D98A20', textShadowRadius: 10 },
+  packageCard: { width: '100%', minWidth: 0, minHeight: 62, marginTop: 6, paddingVertical: 8, paddingHorizontal: 12, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,198,91,0.48)', backgroundColor: 'rgba(35,27,21,0.94)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, shadowColor: '#FFB52E', shadowOpacity: 0.2, shadowRadius: 8, elevation: 3 },
+  packageRight: { minWidth: 0, maxWidth: '40%', alignItems: 'flex-end', justifyContent: 'center', flexShrink: 1 },
+  packageAmount: { color: '#FFF3D0', fontFamily: 'Manrope', fontSize: 17, lineHeight: 22, fontWeight: '900' },
+  packagePrice: { color: '#FFD77A', fontFamily: 'Manrope', fontSize: 15, lineHeight: 20, fontWeight: '900' },
+  packageIncluded: { color: '#F1D7A2', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '700', textAlign: 'right' },
+  popularBadge: { backgroundColor: 'rgba(255,198,91,0.22)', borderRadius: 7, paddingHorizontal: 7, paddingVertical: 3 },
+  popularBadgeText: { color: '#FFE4A5', fontFamily: 'Manrope', fontSize: 10, lineHeight: 13, fontWeight: '900' },
+  welcomeBonusCard: { minHeight: 70, paddingVertical: 10, paddingHorizontal: 12, marginBottom: 9, borderRadius: 15, borderColor: 'rgba(82,181,255,0.62)', backgroundColor: 'rgba(4,25,58,0.94)' },
+  creditBalancePanel: { minHeight: 76, paddingVertical: 8, paddingHorizontal: 14, marginBottom: 8, borderRadius: 15, borderColor: 'rgba(75,177,255,0.62)', backgroundColor: 'rgba(3,20,52,0.96)' },
+  creditHistorySection: { marginTop: 14, paddingTop: 12 },
+  creditNeverExpire: { color: '#BDEBFF', textAlign: 'center', marginTop: 8, marginBottom: 4, fontFamily: 'Manrope', fontSize: 14, lineHeight: 19, fontWeight: '800' },
+
+  // Profile: match the shared type system and keep the menu glass-like and almost transparent.
+  profileHeader: { justifyContent: 'center', marginBottom: 8 },
+  profileMenuCard: { width: '100%', marginTop: 12, borderRadius: 17, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(112,190,255,0.24)', backgroundColor: 'rgba(3,16,40,0.24)' },
+  menuItem: { minHeight: 48, paddingVertical: 9, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: 'rgba(112,190,255,0.14)', backgroundColor: 'rgba(4,18,42,0.12)' },
+  menuText: { color: '#EAF5FF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 19, fontWeight: '800' },
+  menuArrow: { color: '#69D8FF', fontFamily: 'Manrope', fontSize: 22, lineHeight: 26 },
+  profileVkText: { fontFamily: 'Manrope', fontSize: 18, lineHeight: 24, fontWeight: '900' },
+  loginTagline: { fontFamily: 'Manrope', fontSize: 16, lineHeight: 23, fontWeight: '600', textAlign: 'center' },
+  loginLegalText: { fontFamily: 'Manrope', fontSize: 13, lineHeight: 20, textAlign: 'center' },
+
+  // Active navigation is indicated by icon/label glow only; no animated rectangular plate or clipped overlay.
+  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopWidth: 1, borderTopColor: 'rgba(100,192,255,0.42)' },
+  navItem: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4, minWidth: 0, minHeight: 66, paddingHorizontal: 2, paddingTop: 2, borderRadius: 0, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', overflow: 'visible' },
+  navItemActive: { backgroundColor: 'transparent', borderColor: 'transparent', borderWidth: 0, borderRadius: 0, shadowColor: 'transparent', shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
+  navGlyphActive: { backgroundColor: 'transparent', borderColor: 'transparent', shadowColor: '#00BFFF', shadowOpacity: 0.95, shadowRadius: 16, elevation: 0 },
+  navLabel: { color: '#A5B2C8', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '800', width: '100%', textAlign: 'center', includeFontPadding: false, letterSpacing: 0 },
+  navLabelActive: { color: '#E7F9FF', fontFamily: 'Manrope', fontWeight: '900', textShadowColor: '#00BFFF', textShadowRadius: 13 },
+  navCreateIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#37C8FF', shadowOpacity: 0.85, shadowRadius: 14, elevation: 6 },
+  navCreateTriangle: { width: 0, height: 0, borderTopWidth: 7, borderBottomWidth: 7, borderLeftWidth: 11, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#8BE9FF', marginLeft: 3 },
+  navGalleryIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  navGalleryClapperTop: { position: 'absolute', top: 3, width: 23, height: 7, borderWidth: 1.2, borderColor: '#BDEBFF', borderRadius: 2, backgroundColor: 'rgba(0,149,255,0.38)', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
+  navGalleryClapperBody: { position: 'absolute', top: 9, width: 22, height: 16, borderWidth: 1.4, borderColor: '#72D9FF', borderRadius: 3, backgroundColor: 'rgba(0,115,220,0.24)', alignItems: 'center', justifyContent: 'center' },
+  navCoinStack: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', gap: 1 },
+  navCoinLayer: { width: 23, height: 7, borderRadius: 5, borderWidth: 1.3, borderColor: '#FFD77A', backgroundColor: '#B98225', shadowColor: '#FFC34D', shadowOpacity: 0.85, shadowRadius: 6, elevation: 4 },
+  navPerson: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center' },
+  navPersonHead: { width: 9, height: 9, borderWidth: 1.5, borderColor: '#75CFFF', borderRadius: 5, backgroundColor: 'rgba(100,210,255,0.24)' },
+  navPersonBody: { width: 17, height: 10, borderWidth: 1.5, borderColor: '#75CFFF', borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomWidth: 0, marginTop: 2 },
+} as const;
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
@@ -5179,6 +5239,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V12,
   ...FINAL_UI_FIXES_V13,
   ...FINAL_UI_FIXES_V14,
-  ...FINAL_UI_FIXES_V15,
+
+  ...FINAL_UI_FIXES_V16,
 });
 
