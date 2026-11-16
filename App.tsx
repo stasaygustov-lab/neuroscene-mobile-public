@@ -1972,6 +1972,11 @@ export default function App() {
         <View style={styles.ambientCloudTwo} />
         <View style={styles.ambientCloudThree} />
         <View style={styles.ambientCloudFour} />
+        <View style={styles.ambientLightningOne} />
+        <View style={styles.ambientLightningTwo} />
+        <View style={styles.ambientWaterReflection} />
+        <View style={styles.ambientWaterRippleOne} />
+        <View style={styles.ambientWaterRippleTwo} />
         <View style={styles.ambientRing} />
         <View style={styles.ambientRingFar} />
         <View style={styles.ambientHorizon} />
@@ -4004,6 +4009,11 @@ const FINAL_UI_FIXES = {
   galleryRefreshButton: { position: 'absolute', right: 2, top: 5, width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(80,174,255,0.55)', backgroundColor: 'rgba(4,27,61,0.86)' },
   galleryFilterIcon: { color: '#BDEBFF', fontSize: 22, fontWeight: '700' },
   introOverlay: { top: 0, bottom: 0 },
+  ambientLightningOne: { position: 'absolute', top: '12%', right: '13%', width: 2, height: 150, backgroundColor: 'rgba(86,188,255,0.28)', transform: [{ rotate: '27deg' }], shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 13, elevation: 5 },
+  ambientLightningTwo: { position: 'absolute', top: '46%', left: '11%', width: 2, height: 112, backgroundColor: 'rgba(86,188,255,0.18)', transform: [{ rotate: '-31deg' }], shadowColor: '#168BFF', shadowOpacity: 0.42, shadowRadius: 10, elevation: 4 },
+  ambientWaterReflection: { position: 'absolute', left: '8%', right: '8%', bottom: '3%', height: 74, borderTopWidth: 1, borderTopColor: 'rgba(63,173,255,0.16)', backgroundColor: 'rgba(0,88,155,0.045)', borderRadius: 90, shadowColor: '#008CFF', shadowOpacity: 0.22, shadowRadius: 24 },
+  ambientWaterRippleOne: { position: 'absolute', bottom: '7%', left: '22%', width: '58%', height: 1, backgroundColor: 'rgba(90,194,255,0.16)', transform: [{ rotate: '-2deg' }] },
+  ambientWaterRippleTwo: { position: 'absolute', bottom: '10%', left: '35%', width: '34%', height: 1, backgroundColor: 'rgba(90,194,255,0.12)', transform: [{ rotate: '2deg' }] },
   introProgressTrack: { position: 'absolute', bottom: '6%', width: '82%', maxWidth: 320, height: 5, borderRadius: 3, backgroundColor: 'rgba(62,122,190,0.35)', overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(104,190,255,0.28)' },
   introProgressFill: { height: 5, borderRadius: 3, backgroundColor: '#39D5FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 6 },
 };
