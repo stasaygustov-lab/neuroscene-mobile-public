@@ -12,7 +12,6 @@ import {
   Alert,
   ActivityIndicator,
   Image,
-  ImageBackground,
   Dimensions,
   Linking,
 } from 'react-native';
@@ -35,7 +34,7 @@ const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || '').replace(/\/+$/, '')
 const StyledText = Text as typeof Text & { defaultProps?: any };
 StyledText.defaultProps = {
   ...(StyledText.defaultProps || {}),
-  style: [{ fontFamily: 'sans-serif', fontSize: 15 }, StyledText.defaultProps?.style],
+  style: [{ fontFamily: 'sans-serif', fontSize: 16 }, StyledText.defaultProps?.style],
 };
 
 const BLUE = '#168BFF';
@@ -242,13 +241,7 @@ export default function App() {
   const splashStartedAt = useRef(Date.now()).current;
 
   useEffect(() => {
-    const progress = Animated.timing(splashProgress, {
-      toValue: 0.84,
-      duration: 2450,
-      useNativeDriver: false,
-    });
-    progress.start();
-    return () => progress.stop();
+    splashProgress.setValue(0.06);
   }, [splashProgress]);
 
   useEffect(() => {
@@ -325,12 +318,15 @@ export default function App() {
     let mounted = true;
     const restoreSession = async () => {
       try {
+        splashProgress.setValue(0.16);
         const savedToken = await SecureStore.getItemAsync(SESSION_STORAGE_KEY);
+        splashProgress.setValue(0.42);
         if (!savedToken) return;
         const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
           headers: { Authorization: `Bearer ${savedToken}`, Accept: 'application/json' },
         });
         const data = await readResponse(response);
+        splashProgress.setValue(0.72);
         if (!response.ok) {
           await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY);
           return;
@@ -343,6 +339,7 @@ export default function App() {
       } catch {
         await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY).catch(() => undefined);
       } finally {
+        splashProgress.setValue(0.90);
         if (mounted) setAuthReady(true);
       }
     };
@@ -1980,7 +1977,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground pointerEvents="none" source={require('./assets/neuroscene-cosmic-background.webp')} resizeMode="cover" style={styles.ambientBackdrop} imageStyle={styles.ambientBackdropImage}>
+      <View pointerEvents="none" style={styles.ambientBackdrop}>
         <View style={styles.ambientBackdropTint} />
         <View style={styles.ambientGlowTop} />
         <View style={styles.ambientGlowBottom} />
@@ -2005,7 +2002,7 @@ export default function App() {
         <View style={styles.ambientStarSix} />
         <View style={styles.ambientStarSeven} />
         <View style={styles.ambientStarEight} />
-      </ImageBackground>
+      </View>
       <StatusBar style="light" hidden={showIntro} />
 
       {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }]}>
@@ -2124,6 +2121,11 @@ export default function App() {
           <View style={styles.introSparkleOne} />
           <View style={styles.introSparkleTwo} />
           <View style={styles.introSparkleThree} />
+          <Animated.View style={[styles.introSparkleExtra, { top: '19%', left: '39%', opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.18, 1] }), transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.55, 1.65] }) }] }]} />
+          <Animated.View style={[styles.introSparkleExtra, { top: '31%', right: '34%', opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [1, 0.16] }), transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [1.5, 0.55] }) }] }]} />
+          <Animated.View style={[styles.introSparkleExtraLarge, { top: '48%', left: '17%', opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.12, 0.95] }), transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.45, 1.4] }) }] }]} />
+          <Animated.View style={[styles.introSparkleExtra, { top: '56%', right: '18%', opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.9, 0.12] }), transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [1.35, 0.5] }) }] }]} />
+          <Animated.View style={[styles.introSparkleExtraLarge, { bottom: '28%', right: '38%', opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.14, 1] }), transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.5, 1.6] }) }] }]} />
           <View style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
               width: splashProgress.interpolate({ inputRange: [0, 1], outputRange: ['2%', '100%'] }),
@@ -3305,7 +3307,7 @@ function SupportScreen({
                   backgroundColor: filter === value ? '#142344' : PANEL,
                 }}
               >
-                <Text style={{ color: WHITE, fontSize: 14, fontWeight: '700' }}>{statusLabels[value]}</Text>
+                <Text style={{ color: WHITE, fontSize: 16, fontWeight: '700' }}>{statusLabels[value]}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -3343,7 +3345,7 @@ function SupportScreen({
                   backgroundColor: category === value ? '#142344' : PANEL,
                 }}
               >
-                <Text style={{ color: WHITE, fontSize: 14, fontWeight: '700' }}>{categoryLabels[value]}</Text>
+                <Text style={{ color: WHITE, fontSize: 15, fontWeight: '700' }}>{categoryLabels[value]}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -3489,13 +3491,13 @@ const COSMIC_OVERRIDES = {
   heroGlow: { position: 'absolute', width: 310, height: 310, borderRadius: 155, top: -175, right: -60, backgroundColor: '#087BFF', opacity: 0.34 },
   heroOrbit: { position: 'absolute', width: 230, height: 230, borderRadius: 115, top: -130, right: -35, borderWidth: 1, borderColor: 'rgba(92,190,255,0.4)' },
   heroAccent: { position: 'absolute', top: 0, left: 22, width: 82, height: 3, borderRadius: 1, backgroundColor: '#5CCBFF', opacity: 0.9 },
-  eyebrow: { color: '#67C8FF', fontSize: 13, fontWeight: '900', letterSpacing: 1.5 },
+  eyebrow: { color: '#67C8FF', fontSize: 14, fontWeight: '900', letterSpacing: 1.5 },
   heading: { color: WHITE, fontSize: 31, fontWeight: '900', fontFamily: 'sans-serif-rounded', lineHeight: 38, marginTop: 0, letterSpacing: -0.4, textShadowColor: '#148BFF', textShadowRadius: 22 },
   description: { color: '#B5CAE5', fontSize: 14, lineHeight: 22, marginTop: 8 },
   engineCard: { backgroundColor: 'rgba(6,24,53,0.98)', borderColor: 'rgba(55,135,218,0.55)', borderWidth: 1, borderRadius: 19, padding: 17, marginBottom: 23, shadowColor: '#087BFF', shadowOpacity: 0.15, shadowRadius: 16, elevation: 5 },
   engineDot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#3DCBFF', marginRight: 12, shadowColor: '#28AFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 },
   engineName: { color: '#FFFFFF', fontSize: 15, fontWeight: '800' },
-  engineDescription: { color: '#9CB9D8', fontSize: 12, letterSpacing: 0.8, marginTop: 4 },
+  engineDescription: { color: '#9CB9D8', fontSize: 14, letterSpacing: 0.8, marginTop: 4 },
   engineStatus: { color: '#56C7FF', fontSize: 12, fontWeight: '900', letterSpacing: 1 },
   sectionHeader: { marginTop: 17, marginBottom: 12 },
   sectionTitle: { color: '#E1EEFF', fontSize: 13, fontWeight: '900', letterSpacing: 1.25 },
@@ -4168,6 +4170,8 @@ const FINAL_UI_FIXES_V3 = {
   introSparkleOne: { position: 'absolute', width: 4, height: 4, borderRadius: 2, backgroundColor: '#E8FAFF', top: '26%', left: '23%', shadowColor: '#38BFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
   introSparkleTwo: { position: 'absolute', width: 3, height: 3, borderRadius: 2, backgroundColor: '#FFFFFF', top: '37%', right: '21%', shadowColor: '#38BFFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
   introSparkleThree: { position: 'absolute', width: 5, height: 5, borderRadius: 3, backgroundColor: '#9BE7FF', bottom: '22%', left: '31%', shadowColor: '#38BFFF', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
+  introSparkleExtra: { position: 'absolute', width: 4, height: 4, borderRadius: 2, backgroundColor: '#F2FDFF', shadowColor: '#35BFFF', shadowOpacity: 1, shadowRadius: 15, elevation: 10 },
+  introSparkleExtraLarge: { position: 'absolute', width: 6, height: 6, borderRadius: 3, backgroundColor: '#B7F3FF', shadowColor: '#29AFFF', shadowOpacity: 1, shadowRadius: 20, elevation: 12 },
   description: { fontSize: 15, lineHeight: 22 },
   mutedText: { fontSize: 14, lineHeight: 20 },
   navLabel: { fontSize: 13, lineHeight: 17 },
