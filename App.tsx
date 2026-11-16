@@ -4794,7 +4794,6 @@ const styles = StyleSheet.create({
   introBrandName: { marginTop: 22, color: '#F4FAFF', fontSize: 32, lineHeight: 40, fontWeight: '900', letterSpacing: 0.5, textShadowColor: '#168BFF', textShadowRadius: 18 },
   introBrandCaption: { marginTop: 7, color: '#8DDCFF', fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 2.0, textAlign: 'center' },
   splashProgressTrack: { bottom: '8%' },
-  fontFamily: 'Manrope',
   text: { fontFamily: 'Manrope', letterSpacing: 0.12 },
 
   ambientBackdrop: { ...StyleSheet.absoluteFill, overflow: 'hidden', backgroundColor: '#020817' },
