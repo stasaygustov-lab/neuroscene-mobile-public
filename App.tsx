@@ -4401,6 +4401,34 @@ const FINAL_UI_FIXES_V7 = () => ({
   navPerson: { width: 25, height: 26 },
 } as const);
 
+const FINAL_UI_FIXES_V8 = {
+  // Keep the credits screen inside the same electric-blue galaxy palette.
+  creditIllustration: { borderColor: 'rgba(91,207,255,0.78)', backgroundColor: 'rgba(3,18,48,0.94)', shadowColor: '#168BFF', shadowOpacity: 0.48, shadowRadius: 20, elevation: 10 },
+  creditIllustrationGlow: { backgroundColor: 'rgba(0,143,255,0.22)', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 36 },
+  creditCoin: { backgroundColor: '#087BDF', borderColor: '#8BE7FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 13 },
+  creditCoinGlyph: { color: '#E5FAFF', textShadowColor: '#0757B5' },
+  creditStarBadge: { backgroundColor: '#087BFF', borderColor: '#B4F2FF', shadowColor: '#00BFFF', shadowOpacity: 1, shadowRadius: 15 },
+  creditIllustrationTitle: { color: '#F0FAFF', textShadowColor: '#168BFF', textShadowRadius: 9 },
+  creditIllustrationSub: { color: '#A9DFFF' },
+  creditBalancePanel: { borderColor: 'rgba(75,177,255,0.62)', backgroundColor: 'rgba(3,20,52,0.94)', shadowColor: '#087BFF', shadowOpacity: 0.34, shadowRadius: 16, elevation: 7 },
+  creditBalanceEyebrow: { color: '#A9DFFF' },
+  creditBalanceHeroValue: { color: '#E6F8FF', textShadowColor: '#168BFF', textShadowRadius: 13 },
+  creditBalanceHeroLabel: { color: '#BDEBFF' },
+  packageCard: { borderColor: 'rgba(75,164,235,0.58)', backgroundColor: 'rgba(4,22,52,0.92)' },
+  packageCardPopular: { borderColor: '#6BE0FF', backgroundColor: 'rgba(4,57,112,0.96)' },
+  packageAmount: { color: '#E4F7FF', textShadowColor: '#168BFF', textShadowRadius: 7 },
+  packagePrice: { color: '#B7E7FF' },
+  packageIncluded: { color: '#A9C9E8' },
+  popularBadge: { backgroundColor: 'rgba(0,150,255,0.24)', borderWidth: 1, borderColor: '#6BE0FF' },
+  popularBadgeText: { color: '#CFF7FF' },
+  creditNeverExpire: { color: '#BDEBFF' },
+  buyCreditsButton: { borderColor: '#78DFFF', backgroundColor: '#0877F4', shadowColor: '#168BFF' },
+  buyCreditsButtonText: { color: '#FFFFFF' },
+  buyCreditsHint: { color: '#D5F1FF' },
+  galleryCard: { borderColor: 'rgba(73,166,255,0.55)', backgroundColor: 'rgba(4,18,43,0.94)' },
+  profileMenuCard: { borderColor: 'rgba(73,166,255,0.56)', backgroundColor: 'rgba(4,18,43,0.94)' },
+} as const;
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -4741,6 +4769,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V5,
   ...FINAL_UI_FIXES_V6(),
   ...FINAL_UI_FIXES_V7(),
+  ...FINAL_UI_FIXES_V8,
   // Unified storm-ocean glass/neon visual system across all four primary tabs.
   // Final reference-aligned pass: crisp artwork, centered brand and restrained navigation glow.
   container: { flex: 1, backgroundColor: '#020817' },
