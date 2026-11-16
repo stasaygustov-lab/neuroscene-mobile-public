@@ -2020,7 +2020,7 @@ export default function App() {
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
             <Image
-              source={require('./assets/Неоновая айдентика «НейроСцена».jpg')}
+              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
               resizeMode="contain"
               style={styles.headerBrandArtwork}
               accessibilityLabel="Неоновая иконка НейроСцены"
@@ -2241,9 +2241,9 @@ function CreateScreen({
         <View style={styles.createTitleUnderline} />
       </View>
       <View style={styles.referenceHero} accessibilityLabel="Кинематографическая иллюстрация НейроСцены">
+        <Image source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')} resizeMode="cover" style={styles.referenceHeroArtwork} accessibilityLabel="Неоновая галактическая иллюстрация из референса без акцента на лицах" />
         <View pointerEvents="none" style={styles.referenceHeroNebulaOne} />
         <View pointerEvents="none" style={styles.referenceHeroNebulaTwo} />
-        <View pointerEvents="none" style={styles.referenceHeroStar} />
         <View pointerEvents="none" style={styles.referenceHeroArtworkShade} />
         <View style={styles.referenceHeroCopy}>
           <Text style={styles.referenceHeroEyebrow}>ТВОЯ ИДЕЯ — ТВОЙ ФИЛЬМ</Text>
@@ -4434,6 +4434,101 @@ const FINAL_UI_FIXES_V9 = {
   welcomeBonusText: { color: '#B8D8F4' },
 } as const;
 
+const FINAL_UI_FIXES_V11 = {
+ header:{minHeight:120,height:120,paddingTop:49,paddingBottom:7,paddingHorizontal:14,justifyContent:'flex-start',alignItems:'center',overflow:'visible'},
+ brandRowCentered:{position:'absolute',top:48,left:96,right:10,width:undefined,maxWidth:undefined,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',zIndex:2},
+ brandMarkSmall:{width:46,height:46,borderRadius:12,marginRight:8,backgroundColor:'rgba(2,14,39,0.88)',borderWidth:1,borderColor:'rgba(125,220,255,0.82)',shadowColor:'#38BFFF',shadowOpacity:0.78,shadowRadius:15,elevation:8,overflow:'hidden'},
+ headerBrandArtwork:{width:46,height:46,borderRadius:10},brandWordmark:{width:128,minWidth:0,flexShrink:1,justifyContent:'center'},
+ logo:{fontSize:15,lineHeight:20,fontWeight:'900',letterSpacing:0.1,includeFontPadding:false,textShadowColor:'#37AFFF',textShadowRadius:15,textShadowOffset:{width:0,height:2}},
+ headerActions:{position:'absolute',left:14,right:undefined,top:49,zIndex:5,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',gap:8},
+ notificationButton:{width:38,height:38,borderRadius:12,backgroundColor:'rgba(4,22,52,0.82)',borderColor:'rgba(105,199,255,0.66)'},headerMenuButton:{width:38,height:38,borderRadius:12,backgroundColor:'rgba(4,22,52,0.82)',borderColor:'rgba(105,199,255,0.66)'},
+ createTitleWrap:{marginTop:1,marginBottom:9,minHeight:38},createScreenTitle:{fontFamily:'sans-serif-condensed',fontSize:27,lineHeight:34,fontWeight:'900',color:'#F7FBFF',textShadowColor:'#38AFFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},
+ referenceHero:{height:146,minHeight:146,marginTop:2,marginBottom:12,borderRadius:21,borderWidth:1.2,borderColor:'rgba(124,211,255,0.8)',shadowColor:'#168BFF',shadowOpacity:0.44,shadowRadius:21,elevation:10,backgroundColor:'rgba(3,16,42,0.96)'},
+ referenceHeroNebulaOne:{width:190,height:190,borderRadius:95,right:-40,top:-82,backgroundColor:'rgba(0,125,255,0.42)',shadowColor:'#168BFF',shadowOpacity:1,shadowRadius:58},referenceHeroNebulaTwo:{width:155,height:155,borderRadius:78,left:-42,bottom:-92,backgroundColor:'rgba(0,203,255,0.24)',shadowColor:'#00CFFF',shadowOpacity:1,shadowRadius:48},
+ referenceHeroEyebrow:{fontFamily:'sans-serif-condensed',fontSize:20,lineHeight:26,fontWeight:'900',letterSpacing:0.1,color:'#F8FCFF',textShadowColor:'#168BFF',textShadowRadius:17,textShadowOffset:{width:0,height:2}},referenceHeroCaption:{fontSize:14,lineHeight:19,fontWeight:'700',color:'#D7EEFF',textShadowColor:'#087BFF',textShadowRadius:9},
+ featureSectionTitle:{fontFamily:'sans-serif-condensed',fontSize:20,lineHeight:27,fontWeight:'900',color:'#F5FAFF',textShadowColor:'#168BFF',textShadowRadius:16,textShadowOffset:{width:0,height:2}},screenTitle:{fontFamily:'sans-serif-condensed',fontSize:27,lineHeight:34,fontWeight:'900',textShadowColor:'#168BFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},sectionTitle:{color:'#D6EDFF',fontSize:17,fontWeight:'900',textShadowColor:'#168BFF',textShadowRadius:10},
+ creditsTitle:{fontFamily:'sans-serif-condensed',color:'#FFF3D0',fontSize:29,lineHeight:36,fontWeight:'900',textShadowColor:'#D88A20',textShadowRadius:17,textShadowOffset:{width:0,height:2}},galleryTitle:{fontFamily:'sans-serif-condensed',color:'#F5F8FF',textShadowColor:'#A77CFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},
+ galleryEmptyArtwork:{width:98,height:88,marginBottom:14,shadowColor:'#B78BFF',shadowOpacity:0.95,shadowRadius:24,elevation:12},galleryClapperTop:{width:90,height:20,borderRadius:6,borderWidth:2,borderColor:'#D7C3FF',backgroundColor:'#513D8D',shadowColor:'#B78BFF',shadowOpacity:1,shadowRadius:14,elevation:9},galleryClapperStripe:{width:9,height:14,backgroundColor:'#F1E8FF'},galleryClapperBody:{width:84,height:56,marginTop:-1,borderRadius:9,borderWidth:2,borderColor:'#BDA0FF',backgroundColor:'rgba(30,19,67,0.98)',shadowColor:'#9B69FF',shadowOpacity:1,shadowRadius:17,elevation:9},galleryClapperPlay:{color:'#F2E9FF',fontSize:29,lineHeight:34,textShadowColor:'#A56BFF',textShadowRadius:16},galleryClapperCaption:{color:'#D7C3FF',fontSize:8,fontWeight:'900',letterSpacing:1.8},galleryClapperBase:{width:76,backgroundColor:'#9C78E8',shadowColor:'#B78BFF',shadowOpacity:1,shadowRadius:10},
+ creditIllustration:{height:144,minHeight:144,borderColor:'rgba(255,218,135,0.92)',backgroundColor:'rgba(33,24,18,0.96)',shadowColor:'#FFB52E',shadowOpacity:0.62,shadowRadius:24,elevation:12},creditIllustrationGlow:{backgroundColor:'rgba(255,174,48,0.24)',shadowColor:'#FFC34F',shadowOpacity:1,shadowRadius:42},creditCoin:{width:58,height:22,marginTop:-4,borderRadius:30,backgroundColor:'#D99521',borderWidth:2.5,borderColor:'#FFF0B0',shadowColor:'#FFB72E',shadowOpacity:1,shadowRadius:15,elevation:10},creditCoinGlyph:{color:'#FFF7D7',fontSize:12,lineHeight:15,fontWeight:'900',textShadowColor:'#8B4A08',textShadowRadius:5},creditStarBadge:{backgroundColor:'#D99A2C',borderColor:'#FFF0BA',shadowColor:'#FFC24D',shadowOpacity:1,shadowRadius:17,elevation:12},creditIllustrationTitle:{color:'#FFF0C5',fontSize:13,lineHeight:17,fontWeight:'900',letterSpacing:1.1,textShadowColor:'#D98A20',textShadowRadius:11},creditIllustrationSub:{color:'#F1D7A2',fontSize:11,lineHeight:15,fontWeight:'700'},
+ creditBalancePanel:{borderColor:'rgba(255,204,111,0.72)',backgroundColor:'rgba(43,31,23,0.94)',shadowColor:'#D88A20',shadowOpacity:0.3,shadowRadius:15,elevation:7},creditBalanceHeroValue:{color:'#FFE09A',textShadowColor:'#FF9F24',textShadowRadius:17},creditBalanceHeroLabel:{color:'#FFE9B8'},creditBalanceEyebrow:{color:'#EACB8B'},
+ welcomeBonusCard:{borderColor:'rgba(255,210,125,0.72)',backgroundColor:'rgba(54,37,20,0.94)',shadowColor:'#E8A33B',shadowOpacity:0.3},welcomeBonusIcon:{backgroundColor:'rgba(255,185,61,0.2)',borderColor:'rgba(255,222,155,0.78)'},welcomeBonusGlyph:{color:'#FFE8AC',textShadowColor:'#FFB52E',textShadowRadius:10},welcomeBonusTitle:{color:'#FFF0C8'},welcomeBonusText:{color:'#E9D5B0'},
+ packageCard:{borderColor:'rgba(255,203,116,0.48)',backgroundColor:'rgba(36,29,25,0.94)'},packageCardPopular:{borderColor:'#FFE19A',backgroundColor:'rgba(72,48,20,0.96)',shadowColor:'#FFB72E',shadowOpacity:0.72,shadowRadius:19,elevation:10},packageAmount:{color:'#FFE09A',textShadowColor:'#D98A20',textShadowRadius:8},packagePrice:{color:'#FFF0CB'},packageIconWrap:{backgroundColor:'rgba(214,145,38,0.2)',borderColor:'rgba(255,214,131,0.72)'},packageIcon:{color:'#FFE4A0',textShadowColor:'#D98A20',textShadowRadius:8},popularBadge:{backgroundColor:'rgba(219,151,43,0.25)',borderColor:'rgba(255,220,151,0.72)'},popularBadgeText:{color:'#FFE9B7'},creditNeverExpire:{color:'#FFE5AE',textShadowColor:'#B56D17',textShadowRadius:7},buyCreditsButton:{borderColor:'#FFE2A0',backgroundColor:'#986016',shadowColor:'#FFB52E',shadowOpacity:0.65,shadowRadius:18,elevation:9},buyCreditsButtonText:{color:'#FFF5D9'},
+ bottomNav:{minHeight:92,height:92,maxHeight:92,paddingTop:5,paddingBottom:19,backgroundColor:'rgba(2,10,27,0.98)',borderTopColor:'rgba(100,192,255,0.42)'},navItem:{minHeight:64,paddingTop:3,paddingBottom:2,gap:3,borderRadius:12,borderWidth:1,borderColor:'transparent',backgroundColor:'transparent',alignItems:'center',justifyContent:'center'},navItemActive:{backgroundColor:'transparent',borderColor:'rgba(103,214,255,0.7)',shadowColor:'#00BFFF',shadowOpacity:0.28,shadowRadius:11,elevation:3},navLabel:{width:'100%',color:'#A9C5E2',fontSize:14,lineHeight:18,fontWeight:'800',textAlign:'center',includeFontPadding:false,flexShrink:1},navLabelActive:{color:'#E7F9FF',fontWeight:'900',textShadowColor:'#00BFFF',textShadowRadius:9},navCreateIcon:{width:26,height:26,minHeight:26,marginBottom:0},navGalleryIcon:{width:26,height:26,minHeight:26,marginBottom:0},navCoin:{width:26,height:26,marginBottom:0,borderColor:'#E9BD69',backgroundColor:'rgba(91,55,15,0.72)',shadowColor:'#FFCA62',shadowOpacity:0.48,shadowRadius:10,elevation:5},navCoinInner:{borderColor:'#FFE6A5'},navCoinMark:{color:'#FFE4A0',textShadowColor:'#C27B20',textShadowRadius:5},navCoinActive:{borderColor:'#FFF0BA',shadowColor:'#FFC34F',shadowOpacity:0.9,shadowRadius:13,elevation:8},navPerson:{width:26,height:26,minHeight:26,alignItems:'center',justifyContent:'center',marginBottom:0},navPersonHead:{marginBottom:1},
+ ambientTintGallery:{backgroundColor:'rgba(28,8,58,0.24)'},ambientTintCredits:{backgroundColor:'rgba(54,13,39,0.19)'},ambientTintProfile:{backgroundColor:'rgba(5,48,48,0.22)'},ambientGlowTopGallery:{backgroundColor:'#7753B8',opacity:0.19,shadowColor:'#A77CFF'},ambientGlowBottomGallery:{backgroundColor:'#9B78D8',opacity:0.17,shadowColor:'#B58BFF'},ambientGlowCenterGallery:{backgroundColor:'#573A9A',opacity:0.11},ambientGlowTopCredits:{backgroundColor:'#C56F9C',opacity:0.17,shadowColor:'#E5A3C7'},ambientGlowBottomCredits:{backgroundColor:'#A85B88',opacity:0.14,shadowColor:'#D68DB6'},ambientGlowCenterCredits:{backgroundColor:'#81456C',opacity:0.09},ambientGlowTopProfile:{backgroundColor:'#4BAFA5',opacity:0.17,shadowColor:'#5AD6C6'},ambientGlowBottomProfile:{backgroundColor:'#378F8B',opacity:0.15,shadowColor:'#5AD6C6'},ambientGlowCenterProfile:{backgroundColor:'#287C78',opacity:0.1}
+} as const;
+
+
+const FINAL_UI_FIXES_V12 = {
+  header: { minHeight: 120, height: 120, paddingTop: 49, paddingBottom: 7, paddingHorizontal: 14, justifyContent: 'flex-start', alignItems: 'center', overflow: 'visible' },
+  brandRowCentered: { position: 'absolute', top: 48, left: 96, right: 10, width: undefined, maxWidth: undefined, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', zIndex: 2 },
+  headerActions: { position: 'absolute', left: 14, right: undefined, top: 49, zIndex: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8 },
+  brandMarkSmall: { width: 46, height: 46, borderRadius: 12, marginRight: 8, backgroundColor: 'rgba(2,14,39,0.92)', borderWidth: 1, borderColor: 'rgba(125,220,255,0.9)', shadowColor: '#38BFFF', shadowOpacity: 0.8, shadowRadius: 16, elevation: 9, overflow: 'hidden' },
+  headerBrandArtwork: { width: 46, height: 46, borderRadius: 10 },
+  brandWordmark: { width: 126, minWidth: 0, flexShrink: 1, justifyContent: 'center' },
+  logo: { fontFamily: 'sans-serif-condensed', fontSize: 15, lineHeight: 20, fontWeight: '900', letterSpacing: 0.15, includeFontPadding: false, color: '#F7FBFF', textShadowColor: '#37AFFF', textShadowRadius: 16, textShadowOffset: { width: 0, height: 2 } },
+  notificationButton: { width: 38, height: 38, borderRadius: 12, backgroundColor: 'rgba(4,22,52,0.86)', borderColor: 'rgba(105,199,255,0.72)' },
+  headerMenuButton: { width: 38, height: 38, borderRadius: 12, backgroundColor: 'rgba(4,22,52,0.86)', borderColor: 'rgba(105,199,255,0.72)' },
+  createTitleWrap: { marginTop: 1, marginBottom: 9, minHeight: 38 },
+  createScreenTitle: { fontFamily: 'sans-serif-condensed', fontSize: 27, lineHeight: 34, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
+  referenceHero: { height: 146, minHeight: 146, marginTop: 2, marginBottom: 12, borderRadius: 21, borderWidth: 1.2, borderColor: 'rgba(124,211,255,0.86)', shadowColor: '#168BFF', shadowOpacity: 0.48, shadowRadius: 22, elevation: 11, backgroundColor: 'rgba(3,16,42,0.96)' },
+  referenceHeroArtwork: { position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, width: '100%', height: '100%', opacity: 0.82 },
+  referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,27,0.30)' },
+  referenceHeroNebulaOne: { width: 190, height: 190, borderRadius: 95, right: -40, top: -82, backgroundColor: 'rgba(0,125,255,0.25)', shadowColor: '#168BFF', shadowOpacity: 0.9, shadowRadius: 52 },
+  referenceHeroNebulaTwo: { width: 155, height: 155, borderRadius: 78, left: -42, bottom: -92, backgroundColor: 'rgba(0,203,255,0.16)', shadowColor: '#00CFFF', shadowOpacity: 0.9, shadowRadius: 46 },
+  referenceHeroEyebrow: { fontFamily: 'sans-serif-condensed', fontSize: 20, lineHeight: 26, fontWeight: '900', letterSpacing: 0.1, color: '#F8FCFF', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
+  referenceHeroCaption: { fontSize: 14, lineHeight: 19, fontWeight: '700', color: '#D7EEFF', textShadowColor: '#087BFF', textShadowRadius: 10 },
+  featureSectionTitle: { fontFamily: 'sans-serif-condensed', fontSize: 20, lineHeight: 27, fontWeight: '900', color: '#F5FAFF', textShadowColor: '#168BFF', textShadowRadius: 17, textShadowOffset: { width: 0, height: 2 } },
+  screenTitle: { fontFamily: 'sans-serif-condensed', fontSize: 27, lineHeight: 34, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
+  sectionTitle: { color: '#D6EDFF', fontSize: 17, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 11 },
+  galleryTitleWrap: { minHeight: 64, marginBottom: 16, paddingTop: 5 },
+  galleryTitle: { fontFamily: 'sans-serif-condensed', color: '#F5F8FF', fontSize: 27, lineHeight: 34, fontWeight: '900', textShadowColor: '#A77CFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
+  galleryTitleGlow: { bottom: 0, width: '74%', height: 2, backgroundColor: '#C6A7FF', shadowColor: '#A77CFF', shadowOpacity: 1, shadowRadius: 16, elevation: 10 },
+  galleryEmptyArtwork: { width: 98, height: 88, marginBottom: 14, shadowColor: '#B78BFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 12 },
+  galleryClapperTop: { width: 90, height: 20, borderRadius: 6, borderWidth: 2, borderColor: '#E3D4FF', backgroundColor: '#513D8D', shadowColor: '#B78BFF', shadowOpacity: 1, shadowRadius: 14, elevation: 9 },
+  galleryClapperBody: { width: 84, height: 56, marginTop: -1, borderRadius: 9, borderWidth: 2, borderColor: '#C9B0FF', backgroundColor: 'rgba(30,19,67,0.98)', shadowColor: '#9B69FF', shadowOpacity: 1, shadowRadius: 18, elevation: 10 },
+  galleryClapperPlay: { color: '#F2E9FF', fontSize: 29, lineHeight: 34, textShadowColor: '#A56BFF', textShadowRadius: 16 },
+  creditsHeader: { position: 'relative', alignItems: 'center', justifyContent: 'center', marginBottom: 12, minHeight: 48 },
+  creditsTitle: { fontFamily: 'sans-serif-condensed', color: '#FFF3D0', fontSize: 29, lineHeight: 36, fontWeight: '900', textAlign: 'center', textShadowColor: '#D88A20', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
+  creditIllustration: { width: '100%', height: 154, minHeight: 154, marginBottom: 12, borderRadius: 22, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 26, elevation: 13 },
+  creditCoin: { width: 60, height: 22, marginTop: -4, borderRadius: 30, backgroundColor: '#D99521', borderWidth: 2.5, borderColor: '#FFF0B0', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB72E', shadowOpacity: 1, shadowRadius: 16, elevation: 11 },
+  creditCoinGlyph: { color: '#FFF7D7', fontSize: 13, lineHeight: 16, fontWeight: '900', textShadowColor: '#8B4A08', textShadowRadius: 5 },
+  creditIllustrationTitle: { color: '#FFF0C5', fontSize: 13, lineHeight: 17, fontWeight: '900', letterSpacing: 1.1, textShadowColor: '#D98A20', textShadowRadius: 12 },
+  creditIllustrationSub: { color: '#F1D7A2', fontSize: 11, lineHeight: 15, fontWeight: '700' },
+  creditBalancePanel: { borderColor: 'rgba(255,204,111,0.78)', backgroundColor: 'rgba(43,31,23,0.96)', shadowColor: '#D88A20', shadowOpacity: 0.34, shadowRadius: 16, elevation: 8 },
+  creditBalanceHeroValue: { color: '#FFE09A', textShadowColor: '#FF9F24', textShadowRadius: 18 },
+  creditBalanceHeroLabel: { color: '#FFE9B8' },
+  creditBalanceEyebrow: { color: '#EACB8B' },
+  welcomeBonusCard: { borderColor: 'rgba(255,210,125,0.78)', backgroundColor: 'rgba(54,37,20,0.96)', shadowColor: '#E8A33B', shadowOpacity: 0.34 },
+  packageCard: { borderColor: 'rgba(255,203,116,0.62)', backgroundColor: 'rgba(36,29,25,0.96)' },
+  packageCardPopular: { borderColor: '#FFE19A', backgroundColor: 'rgba(72,48,20,0.98)', shadowColor: '#FFB72E', shadowOpacity: 0.76, shadowRadius: 20, elevation: 11 },
+  packageAmount: { color: '#FFE09A', textShadowColor: '#D98A20', textShadowRadius: 9 },
+  packagePrice: { color: '#FFF0CB' },
+  packageIconWrap: { backgroundColor: 'rgba(214,145,38,0.22)', borderColor: 'rgba(255,214,131,0.8)' },
+  packageIcon: { color: '#FFE4A0', textShadowColor: '#D98A20', textShadowRadius: 9 },
+  popularBadge: { backgroundColor: 'rgba(219,151,43,0.28)', borderColor: 'rgba(255,220,151,0.78)' },
+  popularBadgeText: { color: '#FFE9B7' },
+  creditNeverExpire: { color: '#FFE5AE', textShadowColor: '#B56D17', textShadowRadius: 8 },
+  buyCreditsButton: { borderColor: '#FFE2A0', backgroundColor: '#986016', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 19, elevation: 10 },
+  buyCreditsButtonText: { color: '#FFF5D9' },
+  bottomNav: { minHeight: 92, height: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopColor: 'rgba(100,192,255,0.42)' },
+  navItem: { minHeight: 66, paddingTop: 2, paddingBottom: 2, gap: 4, borderRadius: 12, borderWidth: 1, borderColor: 'transparent', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', overflow: 'visible' },
+  navItemActive: { backgroundColor: 'transparent', borderColor: 'rgba(103,214,255,0.74)', shadowColor: '#00BFFF', shadowOpacity: 0.32, shadowRadius: 12, elevation: 0 },
+  navLabel: { width: '100%', color: '#A9C5E2', fontSize: 15, lineHeight: 19, fontWeight: '800', textAlign: 'center', includeFontPadding: false, flexShrink: 1 },
+  navLabelActive: { color: '#E7F9FF', fontWeight: '900', textShadowColor: '#00BFFF', textShadowRadius: 10 },
+  navCreateIcon: { width: 27, height: 27, minHeight: 27, marginBottom: 0 },
+  navGalleryIcon: { width: 27, height: 27, minHeight: 27, marginBottom: 0 },
+  navCoin: { width: 29, height: 29, marginBottom: 0, borderColor: '#E9BD69', backgroundColor: 'rgba(91,55,15,0.72)', shadowColor: '#FFCA62', shadowOpacity: 0.58, shadowRadius: 11, elevation: 6 },
+  navCoinInner: { borderColor: '#FFE6A5' },
+  navCoinMark: { color: '#FFE4A0', textShadowColor: '#C27B20', textShadowRadius: 6 },
+  navCoinActive: { borderColor: '#FFF0BA', shadowColor: '#FFC34F', shadowOpacity: 0.92, shadowRadius: 14, elevation: 8 },
+  navPerson: { width: 27, height: 27, minHeight: 27, alignItems: 'center', justifyContent: 'center', marginBottom: 0 },
+  navPersonHead: { marginBottom: 1 },
+  ambientStarOne: { opacity: 0, width: 0, height: 0 },
+  ambientStarTwo: { opacity: 0, width: 0, height: 0 },
+  ambientStarThree: { opacity: 0, width: 0, height: 0 },
+} as const;
+
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -4778,28 +4873,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V9,
   ...FINAL_UI_FIXES_V10,
   ...FINAL_UI_FIXES_V11,
-const FINAL_UI_FIXES_V11 = {
- header:{minHeight:112,height:112,paddingTop:43,paddingBottom:7,paddingHorizontal:14,justifyContent:'flex-start',alignItems:'center',overflow:'visible'},
- brandRowCentered:{position:'absolute',top:42,left:96,right:10,width:undefined,maxWidth:undefined,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',zIndex:2},
- brandMarkSmall:{width:46,height:46,borderRadius:12,marginRight:8,backgroundColor:'rgba(2,14,39,0.88)',borderWidth:1,borderColor:'rgba(125,220,255,0.82)',shadowColor:'#38BFFF',shadowOpacity:0.78,shadowRadius:15,elevation:8,overflow:'hidden'},
- headerBrandArtwork:{width:46,height:46,borderRadius:10},brandWordmark:{width:128,minWidth:0,flexShrink:1,justifyContent:'center'},
- logo:{fontSize:17,lineHeight:22,fontWeight:'900',letterSpacing:0.1,includeFontPadding:false,textShadowColor:'#37AFFF',textShadowRadius:15,textShadowOffset:{width:0,height:2}},
- headerActions:{position:'absolute',left:14,right:undefined,top:43,zIndex:5,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',gap:8},
- notificationButton:{width:38,height:38,borderRadius:12,backgroundColor:'rgba(4,22,52,0.82)',borderColor:'rgba(105,199,255,0.66)'},headerMenuButton:{width:38,height:38,borderRadius:12,backgroundColor:'rgba(4,22,52,0.82)',borderColor:'rgba(105,199,255,0.66)'},
- createTitleWrap:{marginTop:1,marginBottom:9,minHeight:38},createScreenTitle:{fontFamily:'sans-serif-condensed',fontSize:27,lineHeight:34,fontWeight:'900',color:'#F7FBFF',textShadowColor:'#38AFFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},
- referenceHero:{height:146,minHeight:146,marginTop:2,marginBottom:12,borderRadius:21,borderWidth:1.2,borderColor:'rgba(124,211,255,0.8)',shadowColor:'#168BFF',shadowOpacity:0.44,shadowRadius:21,elevation:10,backgroundColor:'rgba(3,16,42,0.96)'},
- referenceHeroNebulaOne:{width:190,height:190,borderRadius:95,right:-40,top:-82,backgroundColor:'rgba(0,125,255,0.42)',shadowColor:'#168BFF',shadowOpacity:1,shadowRadius:58},referenceHeroNebulaTwo:{width:155,height:155,borderRadius:78,left:-42,bottom:-92,backgroundColor:'rgba(0,203,255,0.24)',shadowColor:'#00CFFF',shadowOpacity:1,shadowRadius:48},
- referenceHeroEyebrow:{fontFamily:'sans-serif-condensed',fontSize:20,lineHeight:26,fontWeight:'900',letterSpacing:0.1,color:'#F8FCFF',textShadowColor:'#168BFF',textShadowRadius:17,textShadowOffset:{width:0,height:2}},referenceHeroCaption:{fontSize:14,lineHeight:19,fontWeight:'700',color:'#D7EEFF',textShadowColor:'#087BFF',textShadowRadius:9},
- featureSectionTitle:{fontFamily:'sans-serif-condensed',fontSize:20,lineHeight:27,fontWeight:'900',color:'#F5FAFF',textShadowColor:'#168BFF',textShadowRadius:16,textShadowOffset:{width:0,height:2}},screenTitle:{fontFamily:'sans-serif-condensed',fontSize:27,lineHeight:34,fontWeight:'900',textShadowColor:'#168BFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},sectionTitle:{color:'#D6EDFF',fontSize:17,fontWeight:'900',textShadowColor:'#168BFF',textShadowRadius:10},
- creditsTitle:{fontFamily:'sans-serif-condensed',color:'#FFF3D0',fontSize:29,lineHeight:36,fontWeight:'900',textShadowColor:'#D88A20',textShadowRadius:17,textShadowOffset:{width:0,height:2}},galleryTitle:{fontFamily:'sans-serif-condensed',color:'#F5F8FF',textShadowColor:'#A77CFF',textShadowRadius:18,textShadowOffset:{width:0,height:2}},
- galleryEmptyArtwork:{width:98,height:88,marginBottom:14,shadowColor:'#B78BFF',shadowOpacity:0.95,shadowRadius:24,elevation:12},galleryClapperTop:{width:90,height:20,borderRadius:6,borderWidth:2,borderColor:'#D7C3FF',backgroundColor:'#513D8D',shadowColor:'#B78BFF',shadowOpacity:1,shadowRadius:14,elevation:9},galleryClapperStripe:{width:9,height:14,backgroundColor:'#F1E8FF'},galleryClapperBody:{width:84,height:56,marginTop:-1,borderRadius:9,borderWidth:2,borderColor:'#BDA0FF',backgroundColor:'rgba(30,19,67,0.98)',shadowColor:'#9B69FF',shadowOpacity:1,shadowRadius:17,elevation:9},galleryClapperPlay:{color:'#F2E9FF',fontSize:29,lineHeight:34,textShadowColor:'#A56BFF',textShadowRadius:16},galleryClapperCaption:{color:'#D7C3FF',fontSize:8,fontWeight:'900',letterSpacing:1.8},galleryClapperBase:{width:76,backgroundColor:'#9C78E8',shadowColor:'#B78BFF',shadowOpacity:1,shadowRadius:10},
- creditIllustration:{height:144,minHeight:144,borderColor:'rgba(255,218,135,0.92)',backgroundColor:'rgba(33,24,18,0.96)',shadowColor:'#FFB52E',shadowOpacity:0.62,shadowRadius:24,elevation:12},creditIllustrationGlow:{backgroundColor:'rgba(255,174,48,0.24)',shadowColor:'#FFC34F',shadowOpacity:1,shadowRadius:42},creditCoin:{width:58,height:22,marginTop:-4,borderRadius:30,backgroundColor:'#D99521',borderWidth:2.5,borderColor:'#FFF0B0',shadowColor:'#FFB72E',shadowOpacity:1,shadowRadius:15,elevation:10},creditCoinGlyph:{color:'#FFF7D7',fontSize:12,lineHeight:15,fontWeight:'900',textShadowColor:'#8B4A08',textShadowRadius:5},creditStarBadge:{backgroundColor:'#D99A2C',borderColor:'#FFF0BA',shadowColor:'#FFC24D',shadowOpacity:1,shadowRadius:17,elevation:12},creditIllustrationTitle:{color:'#FFF0C5',fontSize:13,lineHeight:17,fontWeight:'900',letterSpacing:1.1,textShadowColor:'#D98A20',textShadowRadius:11},creditIllustrationSub:{color:'#F1D7A2',fontSize:11,lineHeight:15,fontWeight:'700'},
- creditBalancePanel:{borderColor:'rgba(255,204,111,0.72)',backgroundColor:'rgba(43,31,23,0.94)',shadowColor:'#D88A20',shadowOpacity:0.3,shadowRadius:15,elevation:7},creditBalanceHeroValue:{color:'#FFE09A',textShadowColor:'#FF9F24',textShadowRadius:17},creditBalanceHeroLabel:{color:'#FFE9B8'},creditBalanceEyebrow:{color:'#EACB8B'},
- welcomeBonusCard:{borderColor:'rgba(255,210,125,0.72)',backgroundColor:'rgba(54,37,20,0.94)',shadowColor:'#E8A33B',shadowOpacity:0.3},welcomeBonusIcon:{backgroundColor:'rgba(255,185,61,0.2)',borderColor:'rgba(255,222,155,0.78)'},welcomeBonusGlyph:{color:'#FFE8AC',textShadowColor:'#FFB52E',textShadowRadius:10},welcomeBonusTitle:{color:'#FFF0C8'},welcomeBonusText:{color:'#E9D5B0'},
- packageCard:{borderColor:'rgba(255,203,116,0.48)',backgroundColor:'rgba(36,29,25,0.94)'},packageCardPopular:{borderColor:'#FFE19A',backgroundColor:'rgba(72,48,20,0.96)',shadowColor:'#FFB72E',shadowOpacity:0.72,shadowRadius:19,elevation:10},packageAmount:{color:'#FFE09A',textShadowColor:'#D98A20',textShadowRadius:8},packagePrice:{color:'#FFF0CB'},packageIconWrap:{backgroundColor:'rgba(214,145,38,0.2)',borderColor:'rgba(255,214,131,0.72)'},packageIcon:{color:'#FFE4A0',textShadowColor:'#D98A20',textShadowRadius:8},popularBadge:{backgroundColor:'rgba(219,151,43,0.25)',borderColor:'rgba(255,220,151,0.72)'},popularBadgeText:{color:'#FFE9B7'},creditNeverExpire:{color:'#FFE5AE',textShadowColor:'#B56D17',textShadowRadius:7},buyCreditsButton:{borderColor:'#FFE2A0',backgroundColor:'#986016',shadowColor:'#FFB52E',shadowOpacity:0.65,shadowRadius:18,elevation:9},buyCreditsButtonText:{color:'#FFF5D9'},
- bottomNav:{minHeight:92,height:92,maxHeight:92,paddingTop:5,paddingBottom:19,backgroundColor:'rgba(2,10,27,0.98)',borderTopColor:'rgba(100,192,255,0.42)'},navItem:{minHeight:64,paddingTop:3,paddingBottom:2,gap:3,borderRadius:12,borderWidth:1,borderColor:'transparent',backgroundColor:'transparent',alignItems:'center',justifyContent:'center'},navItemActive:{backgroundColor:'transparent',borderColor:'rgba(103,214,255,0.7)',shadowColor:'#00BFFF',shadowOpacity:0.28,shadowRadius:11,elevation:3},navLabel:{width:'100%',color:'#A9C5E2',fontSize:14,lineHeight:18,fontWeight:'800',textAlign:'center',includeFontPadding:false,flexShrink:1},navLabelActive:{color:'#E7F9FF',fontWeight:'900',textShadowColor:'#00BFFF',textShadowRadius:9},navCreateIcon:{width:26,height:26,minHeight:26,marginBottom:0},navGalleryIcon:{width:26,height:26,minHeight:26,marginBottom:0},navCoin:{width:26,height:26,marginBottom:0,borderColor:'#E9BD69',backgroundColor:'rgba(91,55,15,0.72)',shadowColor:'#FFCA62',shadowOpacity:0.48,shadowRadius:10,elevation:5},navCoinInner:{borderColor:'#FFE6A5'},navCoinMark:{color:'#FFE4A0',textShadowColor:'#C27B20',textShadowRadius:5},navCoinActive:{borderColor:'#FFF0BA',shadowColor:'#FFC34F',shadowOpacity:0.9,shadowRadius:13,elevation:8},navPerson:{width:26,height:26,minHeight:26,alignItems:'center',justifyContent:'center',marginBottom:0},navPersonHead:{marginBottom:1},
- ambientTintGallery:{backgroundColor:'rgba(28,8,58,0.24)'},ambientTintCredits:{backgroundColor:'rgba(54,13,39,0.19)'},ambientTintProfile:{backgroundColor:'rgba(5,48,48,0.22)'},ambientGlowTopGallery:{backgroundColor:'#7753B8',opacity:0.19,shadowColor:'#A77CFF'},ambientGlowBottomGallery:{backgroundColor:'#9B78D8',opacity:0.17,shadowColor:'#B58BFF'},ambientGlowCenterGallery:{backgroundColor:'#573A9A',opacity:0.11},ambientGlowTopCredits:{backgroundColor:'#C56F9C',opacity:0.17,shadowColor:'#E5A3C7'},ambientGlowBottomCredits:{backgroundColor:'#A85B88',opacity:0.14,shadowColor:'#D68DB6'},ambientGlowCenterCredits:{backgroundColor:'#81456C',opacity:0.09},ambientGlowTopProfile:{backgroundColor:'#4BAFA5',opacity:0.17,shadowColor:'#5AD6C6'},ambientGlowBottomProfile:{backgroundColor:'#378F8B',opacity:0.15,shadowColor:'#5AD6C6'},ambientGlowCenterProfile:{backgroundColor:'#287C78',opacity:0.1}
-} as const;
+
 
   // Unified storm-ocean glass/neon visual system across all four primary tabs.
   // Final reference-aligned pass: crisp artwork, centered brand and restrained navigation glow.
@@ -5013,5 +5087,6 @@ const FINAL_UI_FIXES_V11 = {
   navPersonBody: { width: 17, height: 10, borderWidth: 1.5, borderColor: '#75CFFF', borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomWidth: 0, marginTop: 2 },
 
   ...FINAL_UI_FIXES_V11,
+  ...FINAL_UI_FIXES_V12,
 });
 
