@@ -1989,7 +1989,7 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
         <Image
-          source={require('./assets/neuroscene-cosmic-background.webp')}
+          source={require('./assets/Штормовое море под электрическим небом-1.png')}
           resizeMode="cover"
           blurRadius={1}
           style={{
