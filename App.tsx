@@ -1762,18 +1762,37 @@ export default function App() {
           <View style={styles.creditsHeader}>
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text><View style={styles.creditsTitleGlow} />
           </View>
-          <View style={styles.creditIllustration} accessibilityLabel="Золотые монеты НейроСцены">
-            <View pointerEvents="none" style={styles.creditIllustrationGlow} />
-            <View style={styles.creditReferenceArtworkCrop} pointerEvents="none">
-              <Image
-                source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
-                resizeMode="stretch"
-                style={styles.creditReferenceArtwork}
-                accessibilityLabel="Высокодетализированные золотые монеты из референса"
-              />
+          <View style={styles.creditTopRow}>
+            <View style={styles.creditIllustration} accessibilityLabel="Высокодетализированные золотые монеты из референса">
+              <View pointerEvents="none" style={styles.creditIllustrationGlow} />
+              <View style={styles.creditReferenceArtworkCrop} pointerEvents="none">
+                <Image
+                  source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+                  resizeMode="stretch"
+                  style={styles.creditReferenceArtwork}
+                  accessibilityLabel="Золотые монеты"
+                />
+              </View>
+              <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
             </View>
-            <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
-            <View style={styles.creditIllustrationCaption}><Text style={styles.creditIllustrationTitle}>ВАШИ ИДЕИ — ВАШИ ФИЛЬМЫ</Text><Text style={styles.creditIllustrationSub}>Кредиты для творчества</Text></View>
+            <View style={styles.creditPackageColumn}>
+              <Text style={styles.creditPackagesTitle}>Пакеты кредитов</Text>
+              {[500, 1500, 5000].map((amount) => (
+                <View style={[styles.packageCard, amount === 1500 && styles.packageCardPopular]} key={amount}>
+                  <View style={styles.packageIconWrap}>
+                    <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
+                  </View>
+                  <View style={{ flex: 1, minWidth: 0 }}>
+                    <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
+                    <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
+                  </View>
+                  <View style={styles.packageRight}>
+                    {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
+                    <Text style={styles.packageIncluded}>Без подписки</Text>
+                  </View>
+                </View>
+              ))}
+            </View>
           </View>
           <View style={styles.welcomeBonusCard}>
             <View style={styles.welcomeBonusIcon}><Text style={styles.welcomeBonusGlyph}>✧</Text></View>
@@ -1787,22 +1806,6 @@ export default function App() {
             <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
             <Text style={styles.creditBalanceHeroLabel}>{creditsBalance === null && !creditsLoading ? 'Войдите, чтобы увидеть баланс' : 'кредитов'}</Text>
           </View>
-          <Text style={styles.creditPackagesTitle}>Пакеты кредитов</Text>
-          {[500, 1500, 5000].map((amount) => (
-            <View style={[styles.packageCard, amount === 1500 && styles.packageCardPopular]} key={amount}>
-              <View style={styles.packageIconWrap}>
-                <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
-                <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
-              </View>
-              <View style={styles.packageRight}>
-                {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
-                <Text style={styles.packageIncluded}>Без подписки</Text>
-              </View>
-            </View>
-          ))}
           <View style={styles.creditHistorySection}>
             <View style={styles.creditHistoryHeader}>
               <Text style={styles.sectionTitle}>{uiText(language, 'CREDIT ACTIVITY', 'ИСТОРИЯ ОПЕРАЦИЙ')}</Text>
@@ -1998,6 +2001,7 @@ export default function App() {
         <Image
           source={require('./assets/Штормовое море под электрическим небом-1.png')}
           resizeMode="cover"
+          blurRadius={1}
           style={{
             ...StyleSheet.absoluteFill,
             width: '100%',
@@ -4754,6 +4758,20 @@ const FINAL_UI_FIXES_V14 = {
 } as const;
 
 const FINAL_UI_FIXES_V15 = {
+  creditTopRow: { flexDirection: 'row', alignItems: 'stretch', gap: 9, marginBottom: 10 },
+  creditIllustration: { width: '41%', height: 174, minHeight: 174, marginBottom: 0, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.62, shadowRadius: 22, elevation: 11, overflow: 'hidden' },
+  creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', overflow: 'hidden' },
+  creditReferenceArtwork: { position: 'absolute', width: 1137, height: 1262, left: -154, top: -763 },
+  creditPackageColumn: { flex: 1, minWidth: 0, justifyContent: 'center' },
+  creditPackagesTitle: { color: '#FFF0C5', fontFamily: 'sans-serif-black', fontSize: 14, lineHeight: 18, fontWeight: '900', marginBottom: 2, textShadowColor: '#D98A20', textShadowRadius: 10 },
+  packageCard: { minHeight: 46, paddingVertical: 5, paddingHorizontal: 7, borderRadius: 11, marginTop: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(255,198,91,0.48)', backgroundColor: 'rgba(35,27,21,0.94)', shadowColor: '#FFB52E', shadowOpacity: 0.2, shadowRadius: 8, elevation: 3 },
+  packageCardPopular: { borderColor: '#FFD77A', backgroundColor: 'rgba(91,59,20,0.94)', shadowColor: '#FFB52E', shadowOpacity: 0.48, shadowRadius: 11, elevation: 5 },
+  packageAmount: { color: '#FFF3D0', fontSize: 14, fontWeight: '900' },
+  packagePrice: { color: '#FFD77A', fontSize: 13, fontWeight: '900' },
+  packageIncluded: { color: '#F1D7A2', fontSize: 9, fontWeight: '700' },
+  popularBadge: { backgroundColor: 'rgba(255,198,91,0.22)', borderRadius: 5, paddingHorizontal: 4, paddingVertical: 2 },
+  popularBadgeText: { color: '#FFE4A5', fontSize: 9, fontWeight: '900' },
+
   // Android-like horizontal page transition and balanced top chrome.
   header: { minHeight: 136, height: 136, paddingTop: 0, paddingBottom: 8, paddingHorizontal: 14, justifyContent: 'flex-start', alignItems: 'center', overflow: 'visible' },
   brandRowCentered: { position: 'absolute', top: 62, left: 106, right: 10, width: undefined, maxWidth: undefined, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', zIndex: 2 },
