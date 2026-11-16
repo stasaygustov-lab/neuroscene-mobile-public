@@ -1810,6 +1810,46 @@ export default function App() {
           <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
             <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
           </TouchableOpacity>
+
+          <View style={styles.creditHistorySection}>
+            <View style={styles.creditHistoryHeader}>
+              <Text style={styles.creditHistoryTitle}>История операций</Text>
+              <Text style={styles.creditHistoryCount}>{creditHistory.length}</Text>
+            </View>
+            {creditHistory.length > 0 ? creditHistory.map((entry, index) => {
+              const rawAmount = entry?.amount ?? entry?.delta ?? entry?.credits ?? entry?.change ?? 0;
+              const amount = Number(rawAmount);
+              const validAmount = Number.isFinite(amount);
+              const rawDate = entry?.created_at ?? entry?.createdAt ?? entry?.timestamp;
+              const parsedDate = rawDate
+                ? new Date(typeof rawDate === 'number' && rawDate < 1000000000000 ? rawDate * 1000 : rawDate)
+                : null;
+              const dateLabel = parsedDate && !Number.isNaN(parsedDate.getTime())
+                ? parsedDate.toLocaleString('ru-RU')
+                : '';
+              const title = String(entry?.description ?? entry?.reason ?? entry?.title ?? entry?.type ?? 'Операция');
+              return (
+                <View key={String(entry?.id ?? entry?.transaction_id ?? `${rawDate ?? 'operation'}-${index}`)} style={styles.creditHistoryRow}>
+                  <View style={styles.creditHistoryIcon}>
+                    <Text style={styles.creditHistoryIconText}>{validAmount && amount < 0 ? '−' : '+'}</Text>
+                  </View>
+                  <View style={styles.creditHistoryCopy}>
+                    <Text style={styles.creditHistoryItemTitle} numberOfLines={2}>{title}</Text>
+                    {!!dateLabel && <Text style={styles.creditHistoryDate}>{dateLabel}</Text>}
+                  </View>
+                  <Text style={[styles.creditHistoryAmount, { color: validAmount && amount < 0 ? '#FF9C9C' : '#8BE7BD' }]}>
+                    {validAmount ? `${amount > 0 ? '+' : ''}${amount.toLocaleString('ru-RU')}` : '—'}
+                  </Text>
+                </View>
+              );
+            }) : (
+              <View style={styles.creditHistoryEmpty}>
+                <Text style={styles.creditHistoryEmptyIcon}>↻</Text>
+                <Text style={styles.creditHistoryEmptyTitle}>Пока нет операций</Text>
+                <Text style={styles.creditHistoryEmptyText}>Здесь будут отображаться начисления и списания кредитов</Text>
+              </View>
+            )}
+          </View>
         </View>
       );
     }
@@ -2208,6 +2248,14 @@ function CreateScreen({
       <View style={styles.createTitleWrap}>
         <Text style={styles.createScreenTitle}>Создать</Text>
         <View style={styles.createTitleUnderline} />
+      </View>
+      <View style={styles.createHeroCard}>
+        <Image
+          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
+          resizeMode="contain"
+          style={styles.createHeroArtwork}
+          accessibilityLabel="Кинематографическая иллюстрация НейроСцены"
+        />
       </View>
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
@@ -2625,7 +2673,7 @@ function GalleryScreen({
         );
       })}
       </View>
-      <Text style={styles.galleryLimit}>{uiText(language, 'Storage available {count}/2', `Доступно для хранения: ${items.length}/2`).replace('{count}', String(items.length))}</Text>
+      <Text style={styles.galleryLimit}>{uiText(language, 'Storage available {count}/2', `Доступно для хранения: ${visibleItems.length}/2`).replace('{count}', String(visibleItems.length))}</Text>
     </View>
   );
 }
@@ -5018,6 +5066,69 @@ const FINAL_UI_FIXES_V19 = {
   profileSettingsIcon: { color: '#A8EFFF', fontSize: 31, lineHeight: 38, textShadowColor: '#168BFF', textShadowRadius: 10 },
 };
 
+const FINAL_UI_FIXES_V21 = {
+  // Use the already-approved local cinematic artwork on the Create screen; keep the shared storm-sea background unchanged.
+  createHeroCard: {
+    width: '100%',
+    height: 132,
+    minHeight: 132,
+    marginTop: 0,
+    marginBottom: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    backgroundColor: 'transparent',
+  },
+  createHeroArtwork: { width: '100%', height: '100%', alignSelf: 'center' },
+
+  // Separate the coin illustration from the balance label so the two never collide.
+  creditBalanceCard: {
+    height: 176,
+    minHeight: 176,
+    paddingBottom: 9,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  creditHeroCoins: { position: 'absolute', top: 8, left: 0, right: 0, height: 70, alignItems: 'center', justifyContent: 'center' },
+  creditCoinStack: { position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'flex-end', zIndex: 2 },
+  creditStackLeft: { left: '13%', bottom: 0 },
+  creditStackCenter: { left: '46%', bottom: 4 },
+  creditStackRight: { right: '13%', bottom: 0 },
+  creditBalanceHero: { position: 'absolute', bottom: 8, left: 0, right: 0, alignItems: 'center', justifyContent: 'center' },
+  creditBalanceHeroValue: { fontSize: 30, lineHeight: 34 },
+  creditBalanceHeroLabel: { fontSize: 14, lineHeight: 18, marginTop: 0 },
+
+  // Three consistent, non-clipping package rows; the popular label stays in normal flow above its price.
+  packageCard: { width: '100%', minWidth: 0, height: 64, minHeight: 64, paddingVertical: 7, paddingHorizontal: 11, marginTop: 7, gap: 6, flexShrink: 0 },
+  packageAmount: { flexShrink: 1, minWidth: 0, fontSize: 15, lineHeight: 20 },
+  packageRight: { minWidth: 70, maxWidth: '40%', flexShrink: 0, alignItems: 'flex-end', justifyContent: 'center', gap: 3 },
+  packagePrice: { fontSize: 15, lineHeight: 19, marginTop: 0 },
+  popularBadge: { position: 'relative', top: 0, right: 0, minWidth: 0, alignSelf: 'flex-end', borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2 },
+  popularBadgeText: { fontSize: 9, lineHeight: 12, textAlign: 'center' },
+
+  // The profile gear and menu remain visible without consuming excessive vertical space.
+  profileHeader: { marginTop: 4, marginBottom: 16 },
+  profileScreen: { paddingTop: 12, paddingBottom: 24 },
+  profileMenuCard: { marginTop: 8, marginBottom: 18 },
+  menuItem: { minHeight: 50, paddingVertical: 10 },
+
+  creditHistorySection: { width: '100%', marginTop: 18, paddingTop: 14, borderTopWidth: 1, borderTopColor: 'rgba(104,177,230,0.28)' },
+  creditHistoryHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
+  creditHistoryTitle: { color: '#EAF5FF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 24, fontWeight: '900' },
+  creditHistoryCount: { color: '#9ADFFF', fontFamily: 'Manrope', fontSize: 13, lineHeight: 18, fontWeight: '900', paddingHorizontal: 9, paddingVertical: 3, borderRadius: 9, overflow: 'hidden', backgroundColor: 'rgba(14,93,169,0.28)' },
+  creditHistoryRow: { minHeight: 58, flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 11, paddingVertical: 9, marginBottom: 7, borderRadius: 13, borderWidth: 1, borderColor: 'rgba(82,151,210,0.28)', backgroundColor: 'rgba(3,17,39,0.48)' },
+  creditHistoryIcon: { width: 31, height: 31, borderRadius: 10, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(73,178,239,0.4)', backgroundColor: 'rgba(5,100,180,0.18)' },
+  creditHistoryIconText: { color: '#8BDFFF', fontSize: 17, fontWeight: '900' },
+  creditHistoryCopy: { flex: 1, minWidth: 0 },
+  creditHistoryItemTitle: { color: '#EAF5FF', fontFamily: 'Manrope', fontSize: 13, lineHeight: 18, fontWeight: '800' },
+  creditHistoryDate: { color: '#91AAC8', fontFamily: 'Manrope', fontSize: 11, lineHeight: 15, marginTop: 2 },
+  creditHistoryAmount: { flexShrink: 0, fontFamily: 'Manrope', fontSize: 14, lineHeight: 19, fontWeight: '900' },
+  creditHistoryEmpty: { minHeight: 100, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16, paddingVertical: 14, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(55,125,191,0.3)', backgroundColor: 'rgba(4,18,42,0.48)' },
+  creditHistoryEmptyIcon: { color: '#72D7FF', fontSize: 24, marginBottom: 4 },
+  creditHistoryEmptyTitle: { color: '#E6F4FF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 19, fontWeight: '900' },
+  creditHistoryEmptyText: { color: '#A9C4E0', fontFamily: 'Manrope', fontSize: 12, lineHeight: 17, textAlign: 'center', marginTop: 3 },
+};
+
 const FINAL_UI_FIXES_V20 = {
   // Remove the rectangular active-tab plate; keep the selected icon readable through its own glow.
   navItemActive: {
@@ -5430,5 +5541,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V18,
   ...FINAL_UI_FIXES_V19,
   ...FINAL_UI_FIXES_V20,
+  ...FINAL_UI_FIXES_V21,
 });
 
