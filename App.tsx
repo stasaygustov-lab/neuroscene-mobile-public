@@ -153,7 +153,7 @@ function ScreenTransition({ children }: { children: any }) {
   }, [opacity, translateY]);
 
   return (
-    <Animated.View style={{ flex: 1, opacity, transform: [{ translateY }] }}>
+    <Animated.View style={{ flexGrow: 1, flexShrink: 0, opacity, transform: [{ translateY }] }}>
       {children}
     </Animated.View>
   );
@@ -2616,23 +2616,23 @@ function GalleryScreen({
               {!!durationLabel && <Text style={styles.galleryDuration}>{durationLabel}</Text>}
 
             </View>
-            <Text style={[styles.galleryDate, { display: 'none' }]}>
+            <Text style={styles.galleryDate}}>
               {item.created_at
                 ? new Date(item.created_at).toLocaleString('ru-RU')
                 : (uiText(language, 'Date unavailable', 'Дата не указана'))}
             </Text>
             {!!item.expires_at && (
-              <Text style={[styles.galleryDate, { display: 'none' }, item.expires_soon && { color: '#FFB36B' }]}>
+              <Text style={[styles.galleryDate, item.expires_soon && { color: '#FFB36B' }]}}>
                 {item.expires_soon
                   ? (uiText(language, 'Scheduled for deletion: ', 'Скоро удалится: '))
                   : (uiText(language, 'Auto-delete date: ', 'Удаление через 30 дней: '))}
                 {new Date(item.expires_at).toLocaleDateString('ru-RU')}
               </Text>
             )}
-            <Text style={[styles.galleryPrompt, { display: 'none' }]} numberOfLines={3}>
+            <Text style={styles.galleryPrompt}} numberOfLines={3}>
               {item.prompt || (uiText(language, 'No prompt', 'Без описания'))}
             </Text>
-            <View style={[styles.galleryActions, { display: 'none' }]}>
+            <View style={styles.galleryActions}}>
               <TouchableOpacity activeOpacity={0.86}
                 style={styles.galleryActionButton}
                 disabled={!item.prompt}
@@ -3763,10 +3763,10 @@ const COSMIC_OVERRIDES = {
   featureIcon: { color: '#82D9FF', fontSize: 22, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 9 },
   featureTitle: { color: '#F4FAFF', fontSize: 16, fontWeight: '900', lineHeight: 21 },
   featureSubtitle: { color: '#8FB5DC', fontSize: 16, lineHeight: 21, marginTop: 3 },
-  galleryCard: { backgroundColor: 'rgba(5,19,43,0.98)', borderRadius: 20, padding: 8, marginTop: 12, borderWidth: 1, borderColor: 'rgba(53,132,208,0.60)', width: '48.5%', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 15, elevation: 5 },
-  galleryPreview: { borderRadius: 16, overflow: 'hidden', backgroundColor: '#020A18', borderWidth: 1, borderColor: 'rgba(65,152,224,0.42)', aspectRatio: 1 },
-  videoFrame: { width: '100%', aspectRatio: 1, height: undefined, backgroundColor: '#020817', borderRadius: 16, overflow: 'hidden', justifyContent: 'center' },
-  videoPlayer: { width: '100%', aspectRatio: 1, height: undefined, backgroundColor: '#000000', borderRadius: 16 },
+  galleryCard: { backgroundColor: 'rgba(5,19,43,0.98)', borderRadius: 20, padding: 10, marginTop: 14, borderWidth: 1, borderColor: 'rgba(53,132,208,0.60)', width: '100%', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 15, elevation: 5 },
+  galleryPreview: { borderRadius: 16, overflow: 'hidden', backgroundColor: '#020A18', borderWidth: 1, borderColor: 'rgba(65,152,224,0.42)', aspectRatio: 16 / 9 },
+  videoFrame: { width: '100%', aspectRatio: 16 / 9, height: undefined, backgroundColor: '#020817', borderRadius: 16, overflow: 'hidden', justifyContent: 'center' },
+  videoPlayer: { width: '100%', aspectRatio: 16 / 9, height: undefined, backgroundColor: '#000000', borderRadius: 16 },
   galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.76)', paddingHorizontal: 7, paddingVertical: 4, borderRadius: 7, fontSize: 16, fontWeight: '800' },
   creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 15 },
   creditsHeaderIcon: { color: '#FFD56B', fontSize: 25, marginRight: 11, textShadowColor: '#FFB52E', textShadowRadius: 13 },
@@ -4211,7 +4211,7 @@ const FINAL_UI_FIXES_V5 = {
  brandRow: { flexShrink: 1, minWidth: 0, marginLeft: 0, marginRight: 8 }, brandWordmark: { flexShrink: 1, minWidth: 0 },
  logo: { fontSize: 20, lineHeight: 24, includeFontPadding: false }, logoSecond: { fontSize: 20, lineHeight: 24, includeFontPadding: false },
  content: { flexGrow: 1, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 18 }, creditsContent: { flexGrow: 1, paddingTop: 10, paddingBottom: 18 },
- screen: { flex: 1, minHeight: 0, paddingTop: 8, paddingBottom: 12 },
+ screen: { flexGrow: 1, flexShrink: 0, minHeight: 0, paddingTop: 8, paddingBottom: 12 },
  bottomNav: { minHeight: 76, paddingTop: 5, paddingBottom: 7, backgroundColor: 'rgba(2,10,27,0.96)', borderTopColor: 'rgba(73,166,255,0.38)' },
  navItem: { minHeight: 58, paddingTop: 3, paddingBottom: 2, justifyContent: 'center', gap: 3 },
  navLabel: { color: '#D7E9FF', fontSize: 15, lineHeight: 19, fontWeight: '700', textAlign: 'center', includeFontPadding: false }, navLabelActive: { color: '#78D9FF', fontWeight: '900' },
