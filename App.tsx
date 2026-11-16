@@ -1781,7 +1781,7 @@ export default function App() {
                 <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
               </View>
             </View>
-            <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '1 500' : creditsBalance.toLocaleString('ru-RU')}</Text>
+            <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
             <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
           </View>
 
@@ -1810,44 +1810,6 @@ export default function App() {
           <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
             <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
           </TouchableOpacity>
-          <Text style={styles.creditNeverExpire}>∞  Кредиты не сгорают</Text>
-
-          <View style={styles.welcomeBonusCard}>
-            <View style={styles.welcomeBonusIcon}><Text style={styles.welcomeBonusGlyph}>✧</Text></View>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.welcomeBonusTitle}>Приветственный бонус</Text>
-              <Text style={styles.welcomeBonusText}>Одна пробная генерация — начните создавать свой первый фильм</Text>
-            </View>
-          </View>
-
-          <View style={styles.creditHistorySection}>
-            <View style={styles.creditHistoryHeader}>
-              <Text style={styles.sectionTitle}>{uiText(language, 'CREDIT ACTIVITY', 'ИСТОРИЯ ОПЕРАЦИЙ')}</Text>
-              <Text style={styles.creditHistoryCount}>{creditHistory.length}</Text>
-            </View>
-            {creditsLoading ? (
-              <View style={styles.creditHistoryEmpty}><ActivityIndicator color={BLUE} /><Text style={styles.mutedText}>Загружаем историю операций…</Text></View>
-            ) : creditHistory.length > 0 ? (
-              creditHistory.map((entry) => (
-                <View key={entry.entry_id} style={styles.creditHistoryRow}>
-                  <View style={styles.creditHistoryIcon}><Text style={styles.creditHistoryIconText}>✦</Text></View>
-                  <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text style={styles.packageAmount} numberOfLines={2}>{entry.reason}</Text>
-                    <Text style={styles.mutedText}>{entry.created_at ? new Date(entry.created_at).toLocaleString('ru-RU') : ''}</Text>
-                  </View>
-                  <Text style={[styles.creditHistoryAmount, { color: entry.amount > 0 ? '#65E6B0' : '#FF9AA4' }]}>
-                    {entry.amount > 0 ? '+' : ''}{entry.amount} ✦
-                  </Text>
-                </View>
-              ))
-            ) : (
-              <View style={styles.creditHistoryEmpty}>
-                <Text style={styles.creditHistoryEmptyIcon}>◷</Text>
-                <Text style={styles.creditHistoryEmptyTitle}>Операций пока нет</Text>
-                <Text style={styles.mutedText}>Здесь будут отображаться начисления и списания кредитов</Text>
-              </View>
-            )}
-          </View>
         </View>
       );
     }
@@ -1855,8 +1817,10 @@ export default function App() {
     return (
       <View style={[styles.screen, styles.profileScreen]}>
         <View style={styles.profileHeader}>
-          <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
-          <View style={styles.profileTitleUnderline} />
+          <View style={styles.profileTitleGroup}>
+            <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
+            <View style={styles.profileTitleUnderline} />
+          </View>
           <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')} accessibilityRole="button" accessibilityLabel="Настройки профиля">
             <Text style={styles.profileSettingsIcon}>⚙</Text>
           </TouchableOpacity>
@@ -2037,7 +2001,7 @@ export default function App() {
       </View>
       <StatusBar style="light" hidden={showIntro} />
 
-      {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }]}>
+      {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
             <Text style={styles.headerMonogram} accessibilityLabel="Логотип НейроСцены">Н+С</Text>
@@ -2133,15 +2097,10 @@ export default function App() {
           <View style={styles.introBrandLockup}>
             <View style={styles.introBrandMonogramWrap}>
               <View style={styles.brandMarkHalo} />
-              <Image
-                source={require('./assets/Неоновая айдентика «НейроСцена».jpg')}
-                resizeMode="contain"
-                style={styles.splashIdentityArtwork}
-                accessibilityLabel="Неоновая айдентика НейроСцены"
-              />
+              <Text style={styles.splashReferenceMonogram}>Н+С</Text>
             </View>
             <Text style={styles.introBrandName}>НейроСцена</Text>
-            <Text style={styles.introBrandCaption}>СТУДИЯ СОЗДАНИЯ ВИДЕО</Text>
+            <Text style={styles.introBrandCaption}>СТУДИЯ ВИДЕОГЕНЕРАЦИИ</Text>
           </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
@@ -2565,12 +2524,6 @@ function GalleryScreen({
   const visibleItems = items.filter((item) => Boolean(readVideoUrl(item)));
   return (
     <View style={styles.screen}>
-      <View style={styles.galleryTitleWrap}>
-        <Text style={styles.galleryTitle}>Мои видео</Text>
-        <View style={styles.galleryTitleGlow} />
-        
-      </View>
-
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
       {!!error && (
         <View style={styles.galleryErrorBox}>
@@ -2581,18 +2534,16 @@ function GalleryScreen({
         </View>
       )}
       {!loading && !error && visibleItems.length === 0 && (
-        <View style={styles.emptyScreen}>
-          <View style={styles.galleryEmptyArtwork} accessibilityLabel="Неоновая хлопушка из референса НейроСцены">
-            <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-              resizeMode="stretch"
-              style={styles.galleryReferenceArtwork}
-              accessibilityLabel="Неоновая кинематографическая хлопушка"
-            />
-          </View>
-          <Text style={styles.galleryEmptyTitle}>Ваша галерея ждёт первый фильм</Text>
-          <Text style={styles.description}>{uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
-          <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}><Text style={styles.secondaryButtonText}>{uiText(language, 'Create your first video', 'Создать видео')}</Text></TouchableOpacity>
+        <View style={styles.galleryEmptyReferenceState}>
+          <Image
+            source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
+            resizeMode="contain"
+            style={styles.galleryReferenceImage}
+            accessibilityLabel="Неоновая кинематографическая хлопушка"
+          />
+          <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}>
+            <Text style={styles.secondaryButtonText}>Создать видео</Text>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -2675,7 +2626,6 @@ function GalleryScreen({
       })}
       </View>
       <Text style={styles.galleryLimit}>{uiText(language, 'Storage available {count}/2', `Доступно для хранения: ${items.length}/2`).replace('{count}', String(items.length))}</Text>
-      <View style={styles.storageTrack}><View style={[styles.storageProgress, { width: `${Math.min(items.length / 2 * 100, 100)}%` }]} /></View>
     </View>
   );
 }
@@ -5008,6 +4958,66 @@ const FINAL_UI_FIXES_V18 = {
   profileSettingsButton: { top: 0 },
 };
 
+
+const FINAL_UI_FIXES_V19 = {
+  // Reference brand lockup: centered Russian monogram and two-line wordmark.
+  referenceCenteredHeader: { position: 'relative', alignItems: 'center', justifyContent: 'center', minHeight: 72, marginBottom: 8 },
+  brandRowCentered: { alignSelf: 'center', alignItems: 'center', justifyContent: 'center', gap: 10 },
+  brandMarkSmall: { width: 58, height: 58, borderRadius: 15, backgroundColor: 'transparent', borderWidth: 0, alignItems: 'center', justifyContent: 'center' },
+  headerMonogram: { color: '#A9EFFF', fontSize: 26, lineHeight: 32, fontWeight: '900', letterSpacing: -1.2, textShadowColor: '#168BFF', textShadowRadius: 14 },
+  brandWordmark: { backgroundColor: 'transparent', alignItems: 'flex-start', justifyContent: 'center', padding: 0 },
+  logo: { color: '#F2FAFF', fontFamily: 'Manrope', fontSize: 20, lineHeight: 23, fontWeight: '900', letterSpacing: 0.15, textShadowColor: 'rgba(34,158,255,0.65)', textShadowRadius: 10 },
+  headerActions: { position: 'absolute', right: 0, top: 12, zIndex: 5, alignItems: 'center', justifyContent: 'center' },
+  notificationButton: { width: 42, height: 42, backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0, shadowOpacity: 0, elevation: 0, alignItems: 'center', justifyContent: 'center' },
+  notificationBell: { width: 27, height: 30, alignItems: 'center', justifyContent: 'center' },
+  notificationBellDome: { width: 19, height: 20, borderTopLeftRadius: 11, borderTopRightRadius: 11, borderBottomLeftRadius: 4, borderBottomRightRadius: 4, borderWidth: 2, borderBottomWidth: 0, borderColor: '#D7F2FF', backgroundColor: 'transparent' },
+  notificationBellBase: { width: 23, height: 2, marginTop: -1, borderRadius: 1, backgroundColor: '#D7F2FF' },
+  notificationBellClapper: { width: 4, height: 4, marginTop: 2, borderRadius: 2, backgroundColor: '#D7F2FF' },
+  introBrandLockup: { alignItems: 'center', justifyContent: 'center', gap: 10 },
+  introBrandMonogramWrap: { width: 154, height: 154, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0 },
+  splashReferenceMonogram: { color: '#B8F3FF', fontFamily: 'Manrope', fontSize: 66, lineHeight: 78, fontWeight: '900', letterSpacing: -4, textShadowColor: '#168BFF', textShadowRadius: 30 },
+  introBrandName: { color: '#F5FBFF', fontFamily: 'Manrope', fontSize: 32, lineHeight: 40, fontWeight: '900', letterSpacing: 0.3, textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 18 },
+  introBrandCaption: { color: '#A9DFFF', fontFamily: 'Manrope', fontSize: 12, lineHeight: 18, fontWeight: '800', letterSpacing: 2.2, textAlign: 'center' },
+  createTitleWrap: { backgroundColor: 'transparent', borderWidth: 0, alignItems: 'center', alignSelf: 'stretch', marginTop: 2, marginBottom: 12, padding: 0 },
+  createScreenTitle: { color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 29, lineHeight: 36, fontWeight: '900', letterSpacing: 0.1, textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 15 },
+  createTitleUnderline: { width: '82%', height: 2, marginTop: 7, borderRadius: 2, backgroundColor: '#18BFFF', shadowColor: '#168BFF', shadowOpacity: 0.85, shadowRadius: 9 },
+  featureSection: { marginTop: 22, backgroundColor: 'transparent', borderWidth: 0, padding: 0 },
+  featureSectionTitle: { color: '#EAF5FF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 24, fontWeight: '900', marginBottom: 12, backgroundColor: 'transparent' },
+  featureGrid: { gap: 12 },
+  featureTile: { minHeight: 128, padding: 15, borderRadius: 19, backgroundColor: 'rgba(4,18,43,0.64)', borderWidth: 1, borderColor: 'rgba(54,155,235,0.65)', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 14, elevation: 3 },
+  featureIconSquare: { width: 40, height: 40, marginBottom: 9, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, alignItems: 'center', justifyContent: 'center' },
+  featureIcon: { color: '#8DEBFF', fontSize: 29, lineHeight: 34, fontWeight: '700', textShadowColor: '#168BFF', textShadowRadius: 12 },
+  featureTitle: { color: '#F2F8FF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 23, fontWeight: '800', backgroundColor: 'transparent' },
+  featureSubtitle: { color: '#AFCBE7', fontFamily: 'Manrope', fontSize: 14, lineHeight: 20, marginTop: 3, backgroundColor: 'transparent' },
+  galleryTitleWrap: { display: 'none' },
+  galleryEmptyReferenceState: { flex: 1, minHeight: 450, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 0, backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0, gap: 22 },
+  galleryReferenceImage: { width: '100%', height: 300, alignSelf: 'center', backgroundColor: 'transparent' },
+  galleryEmptyArtwork: { backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0, shadowOpacity: 0, elevation: 0 },
+  secondaryButton: { minWidth: 210, minHeight: 58, paddingHorizontal: 28, paddingVertical: 15, borderRadius: 17, backgroundColor: 'rgba(5,67,119,0.78)', borderWidth: 1.5, borderColor: '#48C9FF', shadowColor: '#168BFF', shadowOpacity: 0.45, shadowRadius: 14, elevation: 6, alignItems: 'center', justifyContent: 'center' },
+  secondaryButtonText: { color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 20, lineHeight: 26, fontWeight: '900' },
+  galleryLimit: { color: '#C4E4FF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 24, textAlign: 'center', marginTop: 8, marginBottom: 10 },
+  creditsScreen: { paddingTop: 2, paddingBottom: 16 },
+  creditsHeader: { alignItems: 'flex-start', marginBottom: 12 },
+  creditBalanceCard: { height: 164, minHeight: 164, marginBottom: 18, borderRadius: 17, borderWidth: 1.5, borderColor: '#159EFF', backgroundColor: 'rgba(4,20,49,0.82)' },
+  creditPackagesTitle: { color: '#F4F8FF', fontFamily: 'Manrope', fontSize: 20, lineHeight: 26, fontWeight: '900', marginBottom: 10 },
+  packageCard: { minHeight: 62, paddingHorizontal: 16, borderRadius: 16, backgroundColor: 'rgba(5,23,51,0.84)', borderColor: 'rgba(62,142,216,0.55)' },
+  packageCardPopular: { borderColor: '#12BFFF', backgroundColor: 'rgba(5,62,119,0.94)' },
+  packageAmount: { color: '#F6FAFF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 22, fontWeight: '900' },
+  packagePrice: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 20, lineHeight: 25, fontWeight: '900' },
+  popularBadge: { position: 'absolute', right: 0, top: -28, minWidth: 92, alignItems: 'center', backgroundColor: '#078BFF', borderRadius: 10, paddingHorizontal: 8, paddingVertical: 4 },
+  popularBadgeText: { color: '#FFFFFF', fontSize: 11, lineHeight: 14, fontWeight: '900', textAlign: 'center' },
+  creditBenefits: { marginTop: 15, marginBottom: 13, gap: 7 },
+  creditBenefit: { color: '#EAF5FF', fontFamily: 'Manrope', fontSize: 16, lineHeight: 22, fontWeight: '800' },
+  buyCreditsButton: { minHeight: 56, marginTop: 6, borderRadius: 15, backgroundColor: '#0877F4', borderWidth: 1, borderColor: '#52D3FF', alignItems: 'center', justifyContent: 'center' },
+  buyCreditsButtonText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 24, fontWeight: '900' },
+  profileScreen: { paddingTop: 54 },
+  profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 0, marginBottom: 32 },
+  profileTitleGroup: { flex: 1, minWidth: 0, marginRight: 20 },
+  profileTitleUnderline: { width: '100%', height: 2, marginTop: 8, borderRadius: 2, backgroundColor: '#19BFFF', shadowColor: '#168BFF', shadowOpacity: 0.8, shadowRadius: 8 },
+  profileSettingsButton: { position: 'relative', top: 0, width: 46, height: 46, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0 },
+  profileSettingsIcon: { color: '#A8EFFF', fontSize: 31, lineHeight: 38, textShadowColor: '#168BFF', textShadowRadius: 10 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5357,5 +5367,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V16,
   ...FINAL_UI_FIXES_V17,
   ...FINAL_UI_FIXES_V18,
+  ...FINAL_UI_FIXES_V19,
 });
 
