@@ -3665,7 +3665,7 @@ const REFERENCE_POLISH = {
   referenceLocalBadgeCopy: { flexShrink: 1 },
   referenceLocalBadgeTitle: { color: '#FFFFFF', fontSize: 12, fontWeight: '900' },
   referenceLocalBadgeText: { color: '#B7D5F4', fontSize: 11, marginTop: 2 },
-  referenceCreateButton: { height: 58, width: '100%', marginTop: 0, marginBottom: 12, borderRadius: 30, borderWidth: 1.5, borderColor: '#64D7FF', backgroundColor: '#0877FF', shadowColor: '#008CFF', shadowOpacity: 0.9, shadowRadius: 22, elevation: 14 },
+  referenceCreateButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height: 58, width: '100%', marginTop: 0, marginBottom: 12, borderRadius: 30, borderWidth: 1.5, borderColor: '#64D7FF', backgroundColor: '#0877FF', shadowColor: '#008CFF', shadowOpacity: 0.9, shadowRadius: 22, elevation: 14 },
   referenceCreateButtonText: { color: '#FFFFFF', fontSize: 18, fontWeight: '800', letterSpacing: 0.2 },
   composerBack: { marginBottom: 18, borderRadius: 15, backgroundColor: 'rgba(4,23,54,0.98)', borderColor: 'rgba(66,158,255,0.72)' },
   modeSelector: { flexDirection: 'row', backgroundColor: 'rgba(3,15,36,0.98)', borderRadius: 16, padding: 5, marginBottom: 18, borderWidth: 1, borderColor: 'rgba(57,132,210,0.62)' },
