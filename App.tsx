@@ -2011,8 +2011,15 @@ export default function App() {
       {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }]}>
         <View style={styles.brandRow}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
-            <View style={styles.brandMarkAperture} />
+            <View style={styles.brandMarkHalo} />
+            <View style={styles.brandMarkApertureRing}>
+              <View style={styles.brandApertureBladeOne} />
+              <View style={styles.brandApertureBladeTwo} />
+              <View style={styles.brandApertureBladeThree} />
+              <View style={styles.brandApertureCore} />
+            </View>
             <View style={styles.brandMarkPlay} />
+            <View style={styles.brandMarkSpark} />
           </View>
           <View style={styles.brandWordmark}>
             <Text style={[styles.logo, { color: '#F3F8FF', textShadowColor: '#168CFF', textShadowRadius: 12 }]}>Нейро</Text>
@@ -2220,7 +2227,12 @@ function CreateScreen({
           <View style={styles.filmScene}>
             <View style={styles.filmSceneGlow} />
             <View style={styles.easelCanvas}>
-              <View style={styles.easelCanvasInner} />
+              <View style={styles.easelCanvasInner}>
+                <View style={styles.easelSun} />
+                <View style={styles.easelMountainBack} />
+                <View style={styles.easelMountainFront} />
+                <View style={styles.easelHorizon} />
+              </View>
               <View style={styles.easelPlay}><Text style={styles.easelPlayText}>▶</Text></View>
             </View>
             <View style={styles.easelLegLeft} />
@@ -4090,19 +4102,31 @@ const FINAL_UI_FIXES_V2 = {
 
 const FINAL_UI_FIXES_V3 = {
   ambientBackdropImage: { opacity: 0 },
-  ambientBackdropTint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,7,18,0.10)' },
-  ambientCloudOne: { opacity: 0.23, shadowOpacity: 1, shadowRadius: 82 },
-  ambientCloudTwo: { opacity: 0.22, shadowOpacity: 1, shadowRadius: 88 },
-  ambientCloudThree: { opacity: 0.24, shadowOpacity: 1, shadowRadius: 78 },
-  ambientCloudFour: { opacity: 0.18, shadowOpacity: 1, shadowRadius: 72 },
+  ambientBackdropTint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,7,18,0.04)' },
+  ambientGlowTop: { backgroundColor: '#075CEB', opacity: 0.34, shadowColor: '#087BFF', shadowOpacity: 1, shadowRadius: 96 },
+  ambientGlowBottom: { backgroundColor: '#007DBA', opacity: 0.30, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 90 },
+  ambientGlowCenter: { backgroundColor: '#103D9C', opacity: 0.18, shadowColor: '#176BFF', shadowOpacity: 1, shadowRadius: 76 },
+  ambientCloudOne: { opacity: 0.28, shadowOpacity: 1, shadowRadius: 92 },
+  ambientCloudTwo: { opacity: 0.27, shadowOpacity: 1, shadowRadius: 96 },
+  ambientCloudThree: { opacity: 0.28, shadowOpacity: 1, shadowRadius: 88 },
+  ambientCloudFour: { opacity: 0.22, shadowOpacity: 1, shadowRadius: 82 },
+  ambientRing: { borderColor: 'rgba(65,169,255,0.24)' },
+  ambientRingFar: { borderColor: 'rgba(33,128,255,0.18)' },
+  ambientHorizon: { backgroundColor: 'rgba(92,191,255,0.23)' },
   ambientLightningOne: { opacity: 0.48 },
   ambientLightningTwo: { opacity: 0.32 },
   ambientWaterReflection: { opacity: 0.32 },
   ambientWaterRippleOne: { opacity: 0.55 },
   ambientWaterRippleTwo: { opacity: 0.42 },
-  brandMarkSmall: { width: 40, height: 40, borderRadius: 13, borderWidth: 1.5, borderColor: '#56D7FF', backgroundColor: 'rgba(4,52,105,0.88)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00B8FF', shadowOpacity: 0.82, shadowRadius: 13, elevation: 8, marginRight: 9, overflow: 'hidden' },
-  brandMarkAperture: { width: 23, height: 23, borderRadius: 7, borderWidth: 2, borderColor: '#D7F7FF', transform: [{ rotate: '45deg' }], backgroundColor: 'rgba(15,143,255,0.22)' },
-  brandMarkPlay: { position: 'absolute', width: 0, height: 0, borderTopWidth: 6, borderBottomWidth: 6, borderLeftWidth: 9, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#FFFFFF', left: 17, top: 14 },
+  brandMarkSmall: { width: 42, height: 42, borderRadius: 14, borderWidth: 1.3, borderColor: 'rgba(133,224,255,0.92)', backgroundColor: '#041A38', alignItems: 'center', justifyContent: 'center', shadowColor: '#00B8FF', shadowOpacity: 0.9, shadowRadius: 16, elevation: 9, marginRight: 9, overflow: 'hidden' },
+  brandMarkHalo: { position: 'absolute', width: 34, height: 34, borderRadius: 17, backgroundColor: '#087BDE', opacity: 0.34, shadowColor: '#25C9FF', shadowOpacity: 1, shadowRadius: 15 },
+  brandMarkApertureRing: { width: 27, height: 27, borderRadius: 14, borderWidth: 1.8, borderColor: '#BCEEFF', backgroundColor: '#082A55', alignItems: 'center', justifyContent: 'center', shadowColor: '#42C9FF', shadowOpacity: 0.8, shadowRadius: 7 },
+  brandApertureBladeOne: { position: 'absolute', width: 7, height: 18, borderRadius: 4, backgroundColor: '#5ACBFF', opacity: 0.95, transform: [{ rotate: '0deg' }] },
+  brandApertureBladeTwo: { position: 'absolute', width: 7, height: 18, borderRadius: 4, backgroundColor: '#8DE5FF', opacity: 0.88, transform: [{ rotate: '60deg' }] },
+  brandApertureBladeThree: { position: 'absolute', width: 7, height: 18, borderRadius: 4, backgroundColor: '#2D91F4', opacity: 0.95, transform: [{ rotate: '120deg' }] },
+  brandApertureCore: { width: 8, height: 8, borderRadius: 4, backgroundColor: '#04152E', borderWidth: 1.3, borderColor: '#E1FAFF', zIndex: 2 },
+  brandMarkPlay: { position: 'absolute', width: 0, height: 0, borderTopWidth: 5, borderBottomWidth: 5, borderLeftWidth: 8, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#FFFFFF', left: 18, top: 16, zIndex: 4, shadowColor: '#FFFFFF', shadowOpacity: 0.8, shadowRadius: 4 },
+  brandMarkSpark: { position: 'absolute', width: 4, height: 4, borderRadius: 2, backgroundColor: '#FFFFFF', top: 5, right: 6, shadowColor: '#8DEBFF', shadowOpacity: 1, shadowRadius: 6 },
   createTitleWrap: { alignItems: 'center', justifyContent: 'center', marginTop: 3, marginBottom: 12, minHeight: 43 },
   createScreenTitle: { color: '#F5F8FF', fontSize: 27, lineHeight: 33, fontWeight: '900', letterSpacing: 0.2, textShadowColor: 'rgba(35,145,255,0.65)', textShadowRadius: 13 },
   createTitleUnderline: { width: '72%', height: 2, borderRadius: 2, marginTop: 5, backgroundColor: '#21BFFF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 11, elevation: 7 },
@@ -4113,7 +4137,11 @@ const FINAL_UI_FIXES_V3 = {
   filmScene: { flex: 1, height: '90%', marginHorizontal: 5, borderRadius: 8, backgroundColor: '#0B2D59', borderWidth: 1, borderColor: 'rgba(80,181,255,0.62)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   filmSceneGlow: { position: 'absolute', width: 120, height: 90, borderRadius: 60, backgroundColor: '#087BFF', opacity: 0.3, top: 4 },
   easelCanvas: { width: 43, height: 37, borderRadius: 4, backgroundColor: '#D8F3FF', borderWidth: 2, borderColor: '#79CFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#44CFFF', shadowOpacity: 0.8, shadowRadius: 9, elevation: 5, zIndex: 2, marginTop: -13 },
-  easelCanvasInner: { position: 'absolute', top: 4, left: 4, right: 4, bottom: 4, borderRadius: 2, backgroundColor: '#123E70' },
+  easelCanvasInner: { position: 'absolute', top: 4, left: 4, right: 4, bottom: 4, borderRadius: 2, backgroundColor: '#0A2850', overflow: 'hidden' },
+  easelSun: { position: 'absolute', width: 11, height: 11, borderRadius: 6, top: 4, right: 5, backgroundColor: '#B9F2FF', shadowColor: '#69D9FF', shadowOpacity: 1, shadowRadius: 8 },
+  easelMountainBack: { position: 'absolute', left: -3, bottom: 8, width: 34, height: 21, backgroundColor: '#287DC5', borderTopLeftRadius: 20, borderTopRightRadius: 18, transform: [{ rotate: '-18deg' }] },
+  easelMountainFront: { position: 'absolute', right: -5, bottom: 5, width: 38, height: 25, backgroundColor: '#164F91', borderTopLeftRadius: 22, borderTopRightRadius: 18, transform: [{ rotate: '16deg' }] },
+  easelHorizon: { position: 'absolute', left: 0, right: 0, bottom: 4, height: 3, backgroundColor: '#70D6FF', opacity: 0.78 },
   easelPlay: { width: 21, height: 21, borderRadius: 11, backgroundColor: 'rgba(19,153,255,0.94)', alignItems: 'center', justifyContent: 'center', zIndex: 3, borderWidth: 1, borderColor: '#C7F2FF' },
   easelPlayText: { color: '#FFFFFF', fontSize: 9, marginLeft: 2, fontWeight: '900' },
   easelLegLeft: { position: 'absolute', width: 3, height: 52, backgroundColor: '#B5E7FF', top: 50, left: '43%', transform: [{ rotate: '13deg' }], borderRadius: 2 },
