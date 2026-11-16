@@ -1765,13 +1765,20 @@ export default function App() {
           <View style={styles.creditTopRow}>
             <View style={styles.creditIllustration} accessibilityLabel="Высокодетализированные золотые монеты из референса">
               <View pointerEvents="none" style={styles.creditIllustrationGlow} />
-              <View style={styles.creditReferenceArtworkCrop} pointerEvents="none">
-                <Image
-                  source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-                  resizeMode="stretch"
-                  style={styles.creditReferenceArtwork}
-                  accessibilityLabel="Золотые монеты"
-                />
+              <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
+                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+              </View>
+              <View style={[styles.creditCoinStack, styles.creditStackCenter]}>
+                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+              </View>
+              <View style={[styles.creditCoinStack, styles.creditStackRight]}>
+                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
+                <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
               </View>
               <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
             </View>
@@ -4919,8 +4926,14 @@ const FINAL_UI_FIXES_V17 = {
   galleryEmptyArtwork: { width: 220, height: 190, marginBottom: 17, borderRadius: 0, overflow: 'visible', backgroundColor: 'transparent', borderWidth: 0, shadowColor: '#B78BFF', shadowOpacity: 0.9, shadowRadius: 24, elevation: 0 },
   galleryReferenceArtwork: { position: 'absolute', width: 1610, height: 1788, left: -1048, top: -232 },
   creditTopRow: { width: '100%', flexDirection: 'row', alignItems: 'stretch', gap: 9, marginBottom: 10 },
-  creditIllustration: { width: '38%', height: 174, minHeight: 174, marginBottom: 0, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0.22, elevation: 0, overflow: 'hidden' },
-  creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, width: '100%', height: '100%', overflow: 'hidden', backgroundColor: 'transparent' },
+  creditIllustration: { width: '38%', height: 174, minHeight: 174, marginBottom: 0, borderRadius: 17, backgroundColor: 'rgba(30,22,14,0.58)', borderWidth: 1, borderColor: 'rgba(255,218,135,0.7)', shadowColor: '#FFB52E', shadowOpacity: 0.42, shadowRadius: 17, elevation: 7, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
+  creditCoinStack: { position: 'absolute', bottom: 17, alignItems: 'center', justifyContent: 'flex-end', zIndex: 2 },
+  creditStackLeft: { left: '7%' },
+  creditStackCenter: { left: '34%', bottom: 25 },
+  creditStackRight: { right: '7%' },
+  creditCoin: { width: 37, height: 13, marginTop: -2, borderRadius: 20, backgroundColor: '#D99521', borderWidth: 1.6, borderColor: '#FFF0B0', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB72E', shadowOpacity: 0.9, shadowRadius: 8, elevation: 5 },
+  creditCoinFace: { width: 24, height: 7, borderRadius: 5, borderWidth: 0.7, borderColor: 'rgba(255,247,207,0.92)', alignItems: 'center', justifyContent: 'center' },
+  creditCoinGlyph: { color: '#FFF7D7', fontSize: 7, lineHeight: 8, fontWeight: '900' },
   creditPackageColumn: { flex: 1, width: undefined, minWidth: 0, justifyContent: 'center' },
   creditPackagesTitle: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 13, lineHeight: 17, fontWeight: '900', marginTop: 0, marginBottom: 2, textShadowColor: '#D98A20', textShadowRadius: 9 },
   packageCard: { width: '100%', minWidth: 0, minHeight: 45, marginTop: 4, paddingVertical: 4, paddingHorizontal: 7, borderRadius: 10, borderWidth: 1, borderColor: 'rgba(255,198,91,0.48)', backgroundColor: 'rgba(35,27,21,0.82)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5, shadowColor: '#FFB52E', shadowOpacity: 0.18, shadowRadius: 6, elevation: 2 },
