@@ -2230,30 +2230,13 @@ function CreateScreen({
         <View style={styles.createTitleUnderline} />
       </View>
       <View style={styles.referenceHero} accessibilityLabel="Кинематографическая иллюстрация: мольберт в рамке киноплёнки">
-        <View style={styles.filmFrame}>
-          <View style={styles.filmPerforations}>
-            {Array.from({ length: 5 }, (_, index) => <View key={index} style={styles.filmPerforation} />)}
-          </View>
-          <View style={styles.filmScene}>
-            <View style={styles.filmSceneGlow} />
-            <View style={styles.easelCanvas}>
-              <View style={styles.easelCanvasInner}>
-                <View style={styles.easelSun} />
-                <View style={styles.easelMountainBack} />
-                <View style={styles.easelMountainFront} />
-                <View style={styles.easelHorizon} />
-              </View>
-              <View style={styles.easelPlay}><Text style={styles.easelPlayText}>▶</Text></View>
-            </View>
-            <View style={styles.easelLegLeft} />
-            <View style={styles.easelLegRight} />
-            <View style={styles.easelCrossbar} />
-            <View style={styles.easelBase} />
-          </View>
-          <View style={styles.filmPerforations}>
-            {Array.from({ length: 5 }, (_, index) => <View key={index} style={styles.filmPerforation} />)}
-          </View>
-        </View>
+        <Image
+          source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+          resizeMode="cover"
+          style={styles.referenceHeroArtwork}
+          accessibilityLabel="Неоновая галактика НейроСцены"
+        />
+        <View pointerEvents="none" style={styles.referenceHeroArtworkShade} />
         <View style={styles.referenceHeroCopy}>
           <Text style={styles.referenceHeroTitle}>Твоя идея — твой фильм</Text>
           <Text style={styles.referenceHeroCaption}>Создавай видео по тексту или изображению</Text>
@@ -4268,6 +4251,46 @@ const FINAL_UI_FIXES_V5 = {
 
 } as const;
 
+
+const FINAL_UI_FIXES_V6 = {
+  header: { paddingTop: 22, paddingBottom: 12, minHeight: 84, flexShrink: 0 },
+  content: { flexGrow: 1, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 22 },
+  creditsContent: { flexGrow: 1, paddingTop: 12, paddingBottom: 24 },
+  screen: { width: '100%', flexGrow: 1, flexShrink: 0, minHeight: 0, paddingTop: 6, paddingBottom: 12 },
+  createTitleWrap: { marginTop: 0, marginBottom: 10, minHeight: 42 },
+  createScreenTitle: { fontSize: 28, lineHeight: 34, fontWeight: '900' },
+  referenceHero: { position: 'relative', width: '100%', height: 158, minHeight: 158, marginTop: 2, marginBottom: 12, paddingHorizontal: 12, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', overflow: 'hidden' },
+  referenceHeroArtwork: { position: 'absolute', left: 0, top: 0, bottom: 0, width: '58%', height: '100%', opacity: 0.96 },
+  referenceHeroArtworkShade: { position: 'absolute', left: '37%', top: 0, bottom: 0, width: '24%', backgroundColor: 'rgba(3,12,30,0.54)' },
+  referenceHeroCopy: { position: 'relative', top: 0, left: 0, width: '53%', flex: 1, minWidth: 0, marginLeft: '45%', paddingLeft: 10, paddingRight: 3, justifyContent: 'center' },
+  referenceHeroTitle: { color: '#FFFFFF', fontSize: 18, lineHeight: 22, fontWeight: '900', textShadowColor: '#087BFF', textShadowRadius: 12 },
+  referenceHeroCaption: { color: '#D6EBFF', fontSize: 14, lineHeight: 19, maxWidth: '100%', marginTop: 5 },
+  featureGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 10, columnGap: 0 },
+  featureTile: { width: '48.5%', minHeight: 104, padding: 11, borderRadius: 17, backgroundColor: 'rgba(4,20,46,0.90)', borderColor: 'rgba(72,157,232,0.62)' },
+  creditIllustration: { width: '100%', height: 104, minHeight: 104, marginBottom: 10, borderRadius: 17, overflow: 'hidden' },
+  creditBalancePanel: { width: '100%', minHeight: 84, paddingVertical: 10, paddingHorizontal: 14, marginBottom: 10, borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
+  creditBalanceHeroValue: { fontSize: 28, lineHeight: 33 },
+  creditPackagesTitle: { marginTop: 2, marginBottom: 5, textAlign: 'center' },
+  packageCard: { width: '100%', minHeight: 66, paddingVertical: 9, paddingHorizontal: 12, marginTop: 7, borderRadius: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  packageRight: { minWidth: 88, maxWidth: '38%', flexShrink: 0, alignItems: 'flex-end', justifyContent: 'center' },
+  popularBadge: { paddingHorizontal: 7, paddingVertical: 3, borderRadius: 8 },
+  popularBadgeText: { fontSize: 12, lineHeight: 15, fontWeight: '900' },
+  profileHeader: { position: 'relative', minHeight: 48, marginBottom: 8, paddingHorizontal: 50, alignItems: 'center', justifyContent: 'center' },
+  profileSettingsButton: { position: 'absolute', right: 0, top: 2, width: 42, height: 42, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  profileIdentity: { marginTop: 0, marginBottom: 10, paddingVertical: 10, paddingHorizontal: 12 },
+  profileGuestAvatar: { width: 72, height: 72, borderRadius: 36 },
+  profileGuestName: { fontSize: 19, lineHeight: 24, marginTop: 7 },
+  profileGuestStatus: { fontSize: 14, lineHeight: 19, marginTop: 3 },
+  loginScreen: { flex: 0, flexGrow: 0, flexShrink: 0, minHeight: 0, paddingHorizontal: 12, paddingTop: 10, paddingBottom: 10, marginTop: 0, overflow: 'visible' },
+  loginTagline: { fontSize: 14, lineHeight: 19, marginBottom: 8, paddingHorizontal: 8 },
+  profileVkButton: { minHeight: 48, height: 48, marginTop: 2, marginBottom: 7 },
+  profileEmailButton: { minHeight: 42, marginBottom: 6 },
+  profileMenuCard: { marginTop: 9, marginBottom: 12, paddingHorizontal: 8, paddingVertical: 2 },
+  menuItem: { minHeight: 48, paddingVertical: 9, paddingHorizontal: 12 },
+  version: { marginTop: 10, marginBottom: 8 },
+  bottomNav: { minHeight: 76, paddingTop: 5, paddingBottom: 7, backgroundColor: 'rgba(2,10,27,0.97)', borderTopColor: 'rgba(73,166,255,0.42)' },
+} as const;
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -4606,5 +4629,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V3,
   ...FINAL_UI_FIXES_V4,
   ...FINAL_UI_FIXES_V5,
+  ...FINAL_UI_FIXES_V6,
 });
 
