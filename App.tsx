@@ -44,7 +44,7 @@ const PANEL = '#071A34';
 const MUTED = '#9CB9D8';
 const WHITE = '#FFFFFF';
 
-const REFERENCE_HERO_SOURCE = { uri: 'data:image/jpeg;base64,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' };
+const REFERENCE_HERO_SOURCE = require('./assets/neuroscene-create-hero.webp');
 
 const RECOMMENDED_PROMPTS = [
   'A lone astronaut walks through a vast abandoned cathedral on an alien planet, soft shafts of blue light cut through drifting dust, slow cinematic dolly-in, photorealistic, atmospheric science-fiction film.',
@@ -1728,8 +1728,7 @@ export default function App() {
       return (
         <View style={[styles.screen, styles.creditsScreen]}>
           <View style={styles.creditsHeader}>
-            <Text style={styles.creditsHeaderIcon}>▤</Text>
-            <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
+            <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text><View style={styles.creditsTitleGlow} />
           </View>
           <View style={styles.creditIllustration}>
             <View pointerEvents="none" style={styles.creditIllustrationGlow} />
@@ -1749,8 +1748,9 @@ export default function App() {
             <View style={[styles.creditCoinStack, { display: 'none' }]} />
             <View style={[styles.creditStarBadge, { display: 'none' }]} />
             <View style={styles.creditBalanceHero}>
+              <Text style={styles.creditBalanceEyebrow}>ВАШ БАЛАНС</Text>
               <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
-              <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
+              <Text style={styles.creditBalanceHeroLabel}>кредитов</Text>
             </View>
           </View>
           <Text style={styles.creditPackagesTitle}>Пакеты кредитов</Text>
@@ -1842,7 +1842,7 @@ export default function App() {
         ) : (
           <>
           <View style={styles.loginScreen}>
-            <Text style={styles.loginTagline}>Войдите, чтобы сохранять видео и синхронизировать кредиты</Text>
+            <Text style={styles.loginTagline}>Войдите, чтобы сохранять свои видео и получать больше возможностей</Text>
           <TouchableOpacity activeOpacity={0.86} style={styles.profileVkButton} onPress={handleVkLogin} disabled={authBusy}>
             <Text style={styles.profileVkMark}>ᴠκ</Text>
             <Text style={styles.profileVkText}>Войти через VK ID</Text>
@@ -1850,8 +1850,8 @@ export default function App() {
           <TouchableOpacity activeOpacity={0.86} style={styles.profileEmailButton} onPress={() => setProfileEmailOpen((value) => !value)}>
             <Text style={styles.profileEmailButtonText}>{profileEmailOpen ? 'Скрыть вход по email' : 'Войти по email'}</Text>
           </TouchableOpacity>
-          <Text style={styles.loginLegalText}>Продолжая, вы подтверждаете ознакомление с условиями использования и политикой конфиденциальности.</Text>
-          <View pointerEvents="none" style={styles.loginBottomWave}><View style={styles.loginBottomWaveLine} /></View>
+          <View style={styles.profilePrivacyCard}><Text style={styles.profilePrivacyIcon}>◇</Text><View style={{ flex: 1 }}><Text style={styles.profilePrivacyTitle}>Ваши данные в безопасности</Text><Text style={styles.profilePrivacyText}>Мы не передаём их третьим лицам</Text></View></View>
+          <Text style={styles.loginLegalText}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
           </View>
           {profileEmailOpen && <View style={styles.authCard}>
             <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
@@ -1901,13 +1901,9 @@ export default function App() {
           </>
         )}
         <View style={styles.profileMenuCard}>
-        {['My videos', 'Notifications', 'About', 'Help / FAQ', 'Support', 'Sign out'].map((key, menuIndex) => uiText(language, key, ({
-          'My videos': 'Мои видео',
-          'Notifications': 'Уведомления',
-          'About': 'О приложении',
-          'Help / FAQ': 'Помощь / FAQ',
-          'Support': 'Поддержка',
-          'Sign out': 'Выход',
+        {['My videos', 'Notifications', 'Settings', 'About', 'Help / FAQ', 'Support'].map((key, menuIndex) => uiText(language, key, ({
+          'My videos': 'Мои видео', 'Notifications': 'Уведомления', 'Settings': 'Настройки',
+          'About': 'О приложении', 'Help / FAQ': 'Помощь / FAQ', 'Support': 'Поддержка',
         } as Record<string, string>)[key] || key)).map((item, menuIndex) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item}
@@ -1917,9 +1913,8 @@ export default function App() {
                 setTab('Gallery');
               } else if (item === 'О приложении') {
                 Alert.alert('НейроСцена', 'Твоя творческая студия на компьютере.');
-              } else if (item === 'Выход' || item === 'Sign out') {
-                if (authToken) logoutAllDevices();
-                else Alert.alert('НейроСцена', 'Вы уже используете приложение как гость.');
+              } else if (item === 'Настройки' || item === 'Settings') {
+                Alert.alert('Настройки', 'Настройки приложения');
               } else if (item === (uiText(language, 'Help / FAQ', 'Помощь / FAQ'))) {
                 setShowSupport(false);
                 setShowNotifications(false);
@@ -1964,7 +1959,8 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View pointerEvents="none" style={styles.ambientBackdrop}>
+      <ImageBackground pointerEvents="none" source={require('./assets/neuroscene-cosmic-background.webp')} resizeMode="cover" style={styles.ambientBackdrop} imageStyle={styles.ambientBackdropImage}>
+        <View style={styles.ambientBackdropTint} />
         <View style={styles.ambientGlowTop} />
         <View style={styles.ambientGlowBottom} />
         <View style={styles.ambientGlowCenter} />
@@ -1988,7 +1984,7 @@ export default function App() {
         <View style={styles.ambientStarSix} />
         <View style={styles.ambientStarSeven} />
         <View style={styles.ambientStarEight} />
-      </View>
+      </ImageBackground>
       <StatusBar style="light" hidden={showIntro} />
 
       {tab === 'Create' && <View style={styles.header}>
@@ -2168,6 +2164,15 @@ function CreateScreen({
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
   const busy =
     submitting || promptEnhancing || ['queued', 'starting', 'generating', 'uploading'].includes(jobStatus);
+  const ctaGlow = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const pulse = Animated.loop(Animated.sequence([
+      Animated.timing(ctaGlow, { toValue: 1, duration: 1750, useNativeDriver: false }),
+      Animated.timing(ctaGlow, { toValue: 0, duration: 1750, useNativeDriver: false }),
+    ]));
+    pulse.start();
+    return () => pulse.stop();
+  }, [ctaGlow]);
 
   return (
     <View>
@@ -2185,10 +2190,11 @@ function CreateScreen({
         </View>
 
       </ImageBackground>
-      <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
-        <Text style={styles.referencePlay}>▶</Text>
-        <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
-      </TouchableOpacity>
+      <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
+        <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
+          <Text style={styles.referencePlay}>▶</Text><Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+        </TouchableOpacity>
+      </Animated.View>
 
       {!showComposer && (
         <View style={styles.featureSection}>
@@ -4018,6 +4024,22 @@ const FINAL_UI_FIXES = {
   introProgressFill: { height: 5, borderRadius: 3, backgroundColor: '#39D5FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 6 },
 };
 
+const FINAL_UI_FIXES_V2 = {
+ container:{flex:1,backgroundColor:'#010713',paddingTop:26},header:{paddingTop:10,paddingBottom:15,minHeight:86},brandRow:{marginTop:2},logo:{fontSize:22,lineHeight:25},logoSecond:{fontSize:22,lineHeight:25},
+ content:{paddingHorizontal:16,paddingTop:20,paddingBottom:28},creditsContent:{paddingTop:16,paddingBottom:34},screen:{flex:1,paddingTop:12,paddingBottom:12},bottomNav:{paddingTop:8,paddingBottom:29,minHeight:98},navItem:{minHeight:64,paddingTop:5},navItemActive:{shadowColor:'#00AFFF',shadowOpacity:.82,shadowRadius:15,elevation:9},
+ referenceHero:{height:226,minHeight:226,marginTop:6,marginBottom:15,overflow:'hidden'},referenceHeroCopy:{top:20,left:18,width:'57%'},referenceHeroTitle:{fontSize:25,lineHeight:29,textShadowColor:'#087BFF',textShadowRadius:16},referenceHeroCaption:{fontSize:13,lineHeight:18,maxWidth:180},referenceCreateGlow:{width:'100%',marginBottom:13,borderRadius:30,shadowColor:'#00AFFF',shadowOffset:{width:0,height:0},elevation:12},referenceCreateButton:{shadowOpacity:.42,shadowRadius:15,elevation:8,marginBottom:0},
+ featureSectionTitle:{textAlign:'center',textShadowColor:'#168BFF',textShadowRadius:12},featureIconSquare:{shadowColor:'#168BFF',shadowOpacity:.58,shadowRadius:12,elevation:6},featureIconSquareActive:{shadowOpacity:1,shadowRadius:17,elevation:9},
+ creditsScreen:{paddingTop:10,paddingBottom:18},creditsHeader:{position:'relative',alignItems:'center',justifyContent:'center',marginBottom:17,minHeight:48},creditsTitle:{color:'#F5F8FF',fontSize:27,lineHeight:34,fontWeight:'900',textAlign:'center',textShadowColor:'rgba(35,145,255,.68)',textShadowRadius:14},creditsTitleGlow:{position:'absolute',bottom:0,width:'72%',height:2,borderRadius:2,backgroundColor:'#21BFFF',shadowColor:'#00AFFF',shadowOpacity:1,shadowRadius:12,elevation:8},
+ creditIllustration:{height:152,marginBottom:17,borderRadius:20,flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:14,overflow:'hidden'},creditIllustrationGlow:{width:210,height:120,left:0,top:10,opacity:.16},creditCoinReferenceCrop:{position:'absolute',left:8,top:12,width:140,height:124,overflow:'hidden',borderRadius:16},creditBalanceHero:{position:'relative',bottom:0,left:0,right:0,flex:1,alignItems:'flex-end',justifyContent:'center',paddingRight:5},creditBalanceEyebrow:{color:'#A9C9E9',fontSize:10,fontWeight:'900',letterSpacing:1.1,marginBottom:4},creditBalanceHeroValue:{color:'#FFD66F',fontSize:30,lineHeight:36,fontWeight:'900',textShadowColor:'#FF9E22',textShadowRadius:14},creditBalanceHeroLabel:{color:'#FFF0C2',fontSize:12,fontWeight:'800',letterSpacing:.6,marginTop:1},
+ creditPackagesTitle:{color:'#F5F8FF',fontSize:17,fontWeight:'900',marginTop:5,marginBottom:9,textAlign:'center'},packageCard:{minHeight:78,paddingVertical:11,paddingHorizontal:15,marginTop:9,borderRadius:16,flexDirection:'row',alignItems:'center',justifyContent:'space-between'},packageAmount:{color:'#FFD66F',fontSize:19,lineHeight:24,fontWeight:'900',textShadowColor:'#FFB52E',textShadowRadius:8},packagePrice:{color:'#F6E2B5',fontSize:15,lineHeight:20,fontWeight:'800',marginTop:3},packageRight:{minWidth:90,alignItems:'flex-end',justifyContent:'center'},packageIncluded:{color:'#A9C4E2',fontSize:10,marginTop:4},packagePriceHint:{display:'none'},popularBadge:{paddingHorizontal:9,paddingVertical:5,borderRadius:9},popularBadgeText:{fontSize:10,fontWeight:'900'},creditNeverExpire:{color:'#BBD8F5',textAlign:'center',marginTop:16,marginBottom:7,fontSize:13},buyCreditsButton:{minHeight:66,marginTop:10,paddingVertical:12,paddingHorizontal:18,borderRadius:17,flexDirection:'column',alignItems:'center',justifyContent:'center',shadowOpacity:.48,shadowRadius:16,elevation:9},buyCreditsButtonText:{color:'#FFF',fontSize:17,lineHeight:22,fontWeight:'900',textAlign:'center'},buyCreditsHint:{color:'#E0F2FF',fontSize:11,lineHeight:15,marginTop:3,textAlign:'center'},
+ profileHeader:{justifyContent:'center',marginBottom:8},profileIdentity:{alignItems:'center',paddingTop:7,paddingBottom:12,marginBottom:8,borderBottomWidth:1,borderBottomColor:'rgba(48,125,194,.34)'},profileGuestAvatar:{width:84,height:84,borderRadius:42,borderWidth:2,borderColor:'#62D7FF',backgroundColor:'rgba(0,91,180,.18)',shadowColor:'#00AFFF',shadowOpacity:.88,shadowRadius:22,elevation:11,alignItems:'center',justifyContent:'center',overflow:'visible'},profileAvatarHalo:{position:'absolute',width:100,height:100,borderRadius:50,borderWidth:1,borderColor:'rgba(70,190,255,.45)',shadowColor:'#00AFFF',shadowOpacity:.9,shadowRadius:20},profileGuestHead:{width:22,height:22,borderRadius:11,borderWidth:2,borderColor:'#BCEBFF',marginBottom:4},profileGuestBody:{width:48,height:27,borderTopLeftRadius:25,borderTopRightRadius:25,borderWidth:2,borderBottomWidth:0,borderColor:'#BCEBFF'},profileGuestName:{color:'#F3F7FF',fontSize:19,lineHeight:24,fontWeight:'900',marginTop:8,textAlign:'center'},profileGuestStatus:{color:'#A9BAD4',fontSize:12,lineHeight:17,marginTop:3,textAlign:'center',paddingHorizontal:16},
+ profileMenuCard:{marginTop:11,borderRadius:17,overflow:'hidden',borderWidth:1,borderColor:'rgba(48,125,194,.62)',backgroundColor:'rgba(5,19,43,.94)'},loginScreen:{flexGrow:0,flexShrink:0,minHeight:0,paddingHorizontal:5,paddingTop:3,paddingBottom:8,marginTop:4},loginTagline:{color:'#C5DDF8',fontSize:13,lineHeight:19,textAlign:'center',marginBottom:12,paddingHorizontal:12},profileVkButton:{height:54,borderRadius:18,marginTop:3,marginBottom:8,shadowOpacity:.62,shadowRadius:18,elevation:10},profileEmailButton:{minHeight:42,marginBottom:8,borderRadius:14},
+ profilePrivacyCard:{flexDirection:'row',alignItems:'center',gap:12,minHeight:58,paddingHorizontal:14,paddingVertical:10,borderRadius:15,borderWidth:1,borderColor:'rgba(57,132,210,.55)',backgroundColor:'rgba(5,25,56,.84)',marginTop:5},profilePrivacyIcon:{color:'#69CFFF',fontSize:26,fontWeight:'800',textShadowColor:'#168BFF',textShadowRadius:10},profilePrivacyTitle:{color:'#EAF5FF',fontSize:12,lineHeight:16,fontWeight:'800'},profilePrivacyText:{color:'#9DB9D8',fontSize:10,lineHeight:14,marginTop:2},loginLegalText:{color:'#8EA9C8',fontSize:9,lineHeight:13,textAlign:'center',marginTop:8,paddingHorizontal:9},
+ menuItem:{minHeight:54,paddingVertical:12},menuIcon:{width:28,textAlign:'center',color:'#70C9FF',fontSize:18,marginRight:8},menuText:{color:'#E4F1FF',fontSize:13,fontWeight:'700'},menuArrow:{color:'#6EBEFF',fontSize:22},version:{color:'#668BB7',fontSize:10,letterSpacing:1.1,textAlign:'center',marginTop:18},
+ ambientBackdrop:{...StyleSheet.absoluteFillObject,backgroundColor:'#020817'},ambientBackdropImage:{opacity:.48},ambientBackdropTint:{...StyleSheet.absoluteFillObject,backgroundColor:'rgba(1,7,18,.30)'},ambientLightningOne:{opacity:.14},ambientLightningTwo:{opacity:.10},ambientWaterReflection:{opacity:.08},
+ introOverlay:{top:0,bottom:0},introProgressTrack:{position:'absolute',bottom:'6%',width:'82%',maxWidth:320,height:5,borderRadius:3,backgroundColor:'rgba(62,122,190,.35)',overflow:'hidden',borderWidth:1,borderColor:'rgba(104,190,255,.28)'},introProgressFill:{height:5,borderRadius:3,backgroundColor:'#39D5FF',shadowColor:'#00AFFF',shadowOpacity:1,shadowRadius:12,elevation:6}
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -4352,5 +4374,6 @@ const styles = StyleSheet.create({
   ...COSMIC_OVERRIDES,
   ...REFERENCE_POLISH,
   ...FINAL_UI_FIXES,
+  ...FINAL_UI_FIXES_V2,
 });
 
