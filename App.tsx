@@ -2044,7 +2044,12 @@ export default function App() {
       {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
-            <Text style={styles.headerMonogram} accessibilityLabel="Логотип НейроСцены">Н+С</Text>
+            <Image
+              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
+              resizeMode="contain"
+              style={styles.brandLogoArtwork}
+              accessibilityLabel="Неоновый логотип НейроСцена"
+            />
           </View>
           <View style={styles.brandWordmark}>
             <Text style={styles.logo}>Нейро</Text>
@@ -2135,11 +2140,12 @@ export default function App() {
           />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup}>
-            <View style={styles.introBrandMonogramWrap}>
-              <View style={styles.brandMarkHalo} />
-              <Text style={styles.splashReferenceMonogram}>Н+С</Text>
-            </View>
-            <Text style={styles.introBrandName}>НейроСцена</Text>
+            <Image
+              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
+              resizeMode="contain"
+              style={styles.splashBrandArtwork}
+              accessibilityLabel="Логотип НейроСцена"
+            />
             <Text style={styles.introBrandCaption}>СТУДИЯ ВИДЕОГЕНЕРАЦИИ</Text>
           </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
@@ -5066,6 +5072,33 @@ const FINAL_UI_FIXES_V19 = {
   profileSettingsIcon: { color: '#A8EFFF', fontSize: 31, lineHeight: 38, textShadowColor: '#168BFF', textShadowRadius: 10 },
 };
 
+const FINAL_UI_FIXES_V22 = {
+  // Use the exact supplied NeuroScene logo artwork without a tile, border, or backing shape.
+  brandMarkSmall: { width: 48, height: 48, marginRight: 0, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, shadowRadius: 0, elevation: 0, overflow: 'visible', alignItems: 'center', justifyContent: 'center' },
+  brandLogoArtwork: { width: 48, height: 48, backgroundColor: 'transparent' },
+  brandRow: { backgroundColor: 'transparent', gap: 8, alignItems: 'center' },
+  brandWordmark: { backgroundColor: 'transparent', padding: 0, margin: 0 },
+  logo: { color: '#F4FAFF', backgroundColor: 'transparent', padding: 0, fontSize: 18, lineHeight: 20, fontWeight: '900', textShadowColor: 'rgba(42,166,255,0.68)', textShadowRadius: 12 },
+  introBrandLockup: { alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' },
+  splashBrandArtwork: { width: 168, height: 168, backgroundColor: 'transparent', marginBottom: 10 },
+  introBrandCaption: { color: '#A9DFFF', backgroundColor: 'transparent', fontFamily: 'Manrope', fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 2.4, textShadowColor: '#168BFF', textShadowRadius: 10 },
+  // Keep the supplied storm-sea PNG as the single full-screen background; UI surfaces remain translucent.
+  ambientBackdrop: { backgroundColor: '#020917' },
+  header: { backgroundColor: 'rgba(2,9,23,0.24)', borderBottomColor: 'rgba(83,174,255,0.16)' },
+  createHeroCard: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0, elevation: 0 },
+  createHeroArtwork: { width: '100%', height: '100%', backgroundColor: 'transparent' },
+  featureTile: { backgroundColor: 'rgba(3,18,43,0.72)', borderColor: 'rgba(74,166,255,0.48)', shadowColor: '#168BFF', shadowOpacity: 0.22, shadowRadius: 14 },
+  prompt: { backgroundColor: 'rgba(4,18,42,0.82)', borderColor: 'rgba(76,157,230,0.42)' },
+  option: { backgroundColor: 'rgba(4,18,42,0.78)', borderColor: 'rgba(76,157,230,0.38)' },
+  selectedOption: { backgroundColor: 'rgba(10,69,130,0.78)', borderColor: '#35BFFF' },
+  costCard: { backgroundColor: 'rgba(4,18,42,0.76)', borderColor: 'rgba(76,157,230,0.38)' },
+  imageUploadCard: { backgroundColor: 'rgba(4,18,42,0.76)', borderColor: 'rgba(76,157,230,0.38)' },
+  balanceCard: { backgroundColor: 'rgba(4,18,42,0.78)', borderColor: 'rgba(76,157,230,0.48)' },
+  packageCard: { backgroundColor: 'rgba(4,21,49,0.82)', borderColor: 'rgba(76,157,230,0.42)' },
+  profileMenuCard: { backgroundColor: 'rgba(4,18,42,0.70)', borderColor: 'rgba(76,157,230,0.36)' },
+  authCard: { backgroundColor: 'rgba(4,18,42,0.78)', borderColor: 'rgba(76,157,230,0.42)' },
+  notificationButton: { backgroundColor: 'transparent', borderWidth: 0', borderRadius: 0, shadowOpacity: 0, elevation: 0 },
+};
 const FINAL_UI_FIXES_V21 = {
   // Use the already-approved local cinematic artwork on the Create screen; keep the shared storm-sea background unchanged.
   createHeroCard: {
@@ -5542,5 +5575,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V19,
   ...FINAL_UI_FIXES_V20,
   ...FINAL_UI_FIXES_V21,
+  ...FINAL_UI_FIXES_V22,
 });
 
