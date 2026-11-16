@@ -35,7 +35,7 @@ const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || '').replace(/\/+$/, '')
 const StyledText = Text as typeof Text & { defaultProps?: any };
 StyledText.defaultProps = {
   ...(StyledText.defaultProps || {}),
-  style: [{ fontFamily: 'sans-serif' }, StyledText.defaultProps?.style],
+  style: [{ fontFamily: 'sans-serif', fontSize: 15 }, StyledText.defaultProps?.style],
 };
 
 const BLUE = '#168BFF';
@@ -240,20 +240,42 @@ export default function App() {
   const [faqError, setFaqError] = useState('');
   const [showIntro, setShowIntro] = useState(true);
   const splashProgress = useRef(new Animated.Value(0)).current;
+  const splashShimmer = useRef(new Animated.Value(0)).current;
+  const splashStartedAt = useRef(Date.now()).current;
 
   useEffect(() => {
-    const animation = Animated.timing(splashProgress, {
-      toValue: 1,
-      duration: 3200,
+    const progress = Animated.timing(splashProgress, {
+      toValue: 0.84,
+      duration: 2450,
       useNativeDriver: false,
     });
-    animation.start();
-    const splashTimer = setTimeout(() => setShowIntro(false), 3200);
-    return () => {
-      animation.stop();
-      clearTimeout(splashTimer);
-    };
+    progress.start();
+    return () => progress.stop();
   }, [splashProgress]);
+
+  useEffect(() => {
+    const shimmer = Animated.loop(Animated.sequence([
+      Animated.timing(splashShimmer, { toValue: 1, duration: 1050, useNativeDriver: true }),
+      Animated.timing(splashShimmer, { toValue: 0, duration: 1050, useNativeDriver: true }),
+    ]));
+    shimmer.start();
+    return () => shimmer.stop();
+  }, [splashShimmer]);
+
+  useEffect(() => {
+    if (!authReady) return;
+    const remaining = Math.max(0, 3200 - (Date.now() - splashStartedAt));
+    const splashTimer = setTimeout(() => {
+      Animated.timing(splashProgress, {
+        toValue: 1,
+        duration: 520,
+        useNativeDriver: false,
+      }).start(({ finished }) => {
+        if (finished) setShowIntro(false);
+      });
+    }, remaining);
+    return () => clearTimeout(splashTimer);
+  }, [authReady, splashProgress, splashStartedAt]);
 
 
   const saveAuthenticatedSession = async (data: any) => {
@@ -1810,6 +1832,7 @@ export default function App() {
       <View style={styles.screen}>
         <View style={styles.profileHeader}>
           <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
+          <View style={styles.profileTitleUnderline} />
           {authUser && <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')}>
             <Text style={styles.profileSettingsIcon}>⚙</Text>
           </TouchableOpacity>}
@@ -1989,6 +2012,10 @@ export default function App() {
 
       {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }]}>
         <View style={styles.brandRow}>
+          <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
+            <View style={styles.brandMarkAperture} />
+            <View style={styles.brandMarkPlay} />
+          </View>
           <View style={styles.brandWordmark}>
             <Text style={[styles.logo, { color: '#F3F8FF', textShadowColor: '#168CFF', textShadowRadius: 12 }]}>Нейро</Text>
             <Text style={[styles.logoSecond, { color: '#8DCAFF', textShadowColor: '#168CFF', textShadowRadius: 12 }]}>Сцена</Text>
@@ -2089,9 +2116,16 @@ export default function App() {
               </View>
             );
           })()}
+          <View style={styles.introSparkleOne} />
+          <View style={styles.introSparkleTwo} />
+          <View style={styles.introSparkleThree} />
           <View style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
               width: splashProgress.interpolate({ inputRange: [0, 1], outputRange: ['2%', '100%'] }),
+            }]} />
+            <Animated.View style={[styles.introProgressShimmer, {
+              opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.15, 1] }),
+              transform: [{ translateX: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [-42, 340] }) }],
             }]} />
           </View>
         </View>
@@ -2176,20 +2210,35 @@ function CreateScreen({
 
   return (
     <View>
-      <ImageBackground
-        source={REFERENCE_HERO_SOURCE}
-        resizeMode="cover"
-        style={styles.referenceHero}
-        imageStyle={{ borderRadius: 26 }}
-        accessibilityLabel="Кинематографичная сцена: путешественник на вершине горы перед огромной луной"
-      >
-        <View style={styles.referenceHeroShade} />
-        <View style={styles.referenceHeroCopy}>
-          <Text style={styles.referenceHeroTitle}>Создать видео</Text>
-          <Text style={styles.referenceHeroCaption}>С помощью искусственного интеллекта</Text>
+      <View style={styles.createTitleWrap}>
+        <Text style={styles.createScreenTitle}>Создать</Text>
+        <View style={styles.createTitleUnderline} />
+      </View>
+      <View style={styles.referenceHero} accessibilityLabel="Кинематографическая иллюстрация: мольберт в рамке киноплёнки">
+        <View style={styles.filmFrame}>
+          <View style={styles.filmPerforations}>
+            {Array.from({ length: 5 }, (_, index) => <View key={index} style={styles.filmPerforation} />)}
+          </View>
+          <View style={styles.filmScene}>
+            <View style={styles.filmSceneGlow} />
+            <View style={styles.easelCanvas}>
+              <View style={styles.easelCanvasInner} />
+              <View style={styles.easelPlay}><Text style={styles.easelPlayText}>▶</Text></View>
+            </View>
+            <View style={styles.easelLegLeft} />
+            <View style={styles.easelLegRight} />
+            <View style={styles.easelCrossbar} />
+            <View style={styles.easelBase} />
+          </View>
+          <View style={styles.filmPerforations}>
+            {Array.from({ length: 5 }, (_, index) => <View key={index} style={styles.filmPerforation} />)}
+          </View>
         </View>
-
-      </ImageBackground>
+        <View style={styles.referenceHeroCopy}>
+          <Text style={styles.referenceHeroTitle}>Твоя идея — твой фильм</Text>
+          <Text style={styles.referenceHeroCaption}>Создавай видео по тексту или изображению</Text>
+        </View>
+      </View>
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
           <Text style={styles.referencePlay}>▶</Text><Text style={styles.referenceCreateButtonText}>Создать видео</Text>
@@ -4040,6 +4089,55 @@ const FINAL_UI_FIXES_V2 = {
  introOverlay:{position:'absolute',top:0,right:0,bottom:0,left:0,zIndex:9999,elevation:9999,overflow:'hidden',backgroundColor:'#010714',alignItems:'center',justifyContent:'center'},splashReferenceViewport:{position:'absolute',top:0,right:0,bottom:0,left:0,overflow:'hidden',backgroundColor:'#020817'},introProgressTrack:{position:'absolute',bottom:'6%',width:'82%',maxWidth:320,height:5,borderRadius:3,backgroundColor:'rgba(62,122,190,.35)',overflow:'hidden',borderWidth:1,borderColor:'rgba(104,190,255,.28)'},introProgressFill:{height:5,borderRadius:3,backgroundColor:'#39D5FF',shadowColor:'#00AFFF',shadowOpacity:1,shadowRadius:12,elevation:6}
 };
 
+
+const FINAL_UI_FIXES_V3 = {
+  brandMarkSmall: { width: 40, height: 40, borderRadius: 13, borderWidth: 1.5, borderColor: '#56D7FF', backgroundColor: 'rgba(4,52,105,0.88)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00B8FF', shadowOpacity: 0.82, shadowRadius: 13, elevation: 8, marginRight: 9, overflow: 'hidden' },
+  brandMarkAperture: { width: 23, height: 23, borderRadius: 7, borderWidth: 2, borderColor: '#D7F7FF', transform: [{ rotate: '45deg' }], backgroundColor: 'rgba(15,143,255,0.22)' },
+  brandMarkPlay: { position: 'absolute', width: 0, height: 0, borderTopWidth: 6, borderBottomWidth: 6, borderLeftWidth: 9, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#FFFFFF', left: 17, top: 14 },
+  createTitleWrap: { alignItems: 'center', justifyContent: 'center', marginTop: 3, marginBottom: 12, minHeight: 43 },
+  createScreenTitle: { color: '#F5F8FF', fontSize: 27, lineHeight: 33, fontWeight: '900', letterSpacing: 0.2, textShadowColor: 'rgba(35,145,255,0.65)', textShadowRadius: 13 },
+  createTitleUnderline: { width: '72%', height: 2, borderRadius: 2, marginTop: 5, backgroundColor: '#21BFFF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 11, elevation: 7 },
+  referenceHero: { height: 151, minHeight: 151, marginTop: 0, marginBottom: 14, borderRadius: 23, overflow: 'hidden', backgroundColor: '#061B38', borderWidth: 1, borderColor: 'rgba(77,177,255,0.58)', shadowColor: '#087BFF', shadowOpacity: 0.28, shadowRadius: 16, elevation: 7, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12 },
+  filmFrame: { width: '49%', height: 119, borderRadius: 13, borderWidth: 2, borderColor: 'rgba(127,207,255,0.88)', backgroundColor: '#07152B', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, shadowColor: '#168BFF', shadowOpacity: 0.42, shadowRadius: 12, elevation: 5 },
+  filmPerforations: { width: 8, height: '88%', justifyContent: 'space-around', alignItems: 'center' },
+  filmPerforation: { width: 5, height: 9, borderRadius: 2, backgroundColor: '#9BDFFF', opacity: 0.9 },
+  filmScene: { flex: 1, height: '90%', marginHorizontal: 5, borderRadius: 8, backgroundColor: '#0B2D59', borderWidth: 1, borderColor: 'rgba(80,181,255,0.62)', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  filmSceneGlow: { position: 'absolute', width: 120, height: 90, borderRadius: 60, backgroundColor: '#087BFF', opacity: 0.3, top: 4 },
+  easelCanvas: { width: 43, height: 37, borderRadius: 4, backgroundColor: '#D8F3FF', borderWidth: 2, borderColor: '#79CFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#44CFFF', shadowOpacity: 0.8, shadowRadius: 9, elevation: 5, zIndex: 2, marginTop: -13 },
+  easelCanvasInner: { position: 'absolute', top: 4, left: 4, right: 4, bottom: 4, borderRadius: 2, backgroundColor: '#123E70' },
+  easelPlay: { width: 21, height: 21, borderRadius: 11, backgroundColor: 'rgba(19,153,255,0.94)', alignItems: 'center', justifyContent: 'center', zIndex: 3, borderWidth: 1, borderColor: '#C7F2FF' },
+  easelPlayText: { color: '#FFFFFF', fontSize: 9, marginLeft: 2, fontWeight: '900' },
+  easelLegLeft: { position: 'absolute', width: 3, height: 52, backgroundColor: '#B5E7FF', top: 50, left: '43%', transform: [{ rotate: '13deg' }], borderRadius: 2 },
+  easelLegRight: { position: 'absolute', width: 3, height: 52, backgroundColor: '#B5E7FF', top: 50, right: '43%', transform: [{ rotate: '-13deg' }], borderRadius: 2 },
+  easelCrossbar: { position: 'absolute', width: 40, height: 3, backgroundColor: '#72C8FF', top: 58, borderRadius: 2 },
+  easelBase: { position: 'absolute', width: 49, height: 3, backgroundColor: '#D2F4FF', bottom: 5, borderRadius: 2 },
+  referenceHeroCopy: { flex: 1, position: 'relative', top: 0, left: 0, width: 'auto', paddingLeft: 10, justifyContent: 'center' },
+  referenceHeroTitle: { color: '#FFFFFF', fontSize: 17, lineHeight: 21, fontWeight: '900', textShadowColor: '#087BFF', textShadowRadius: 9 },
+  referenceHeroCaption: { color: '#C6E7FF', fontSize: 12, lineHeight: 16, marginTop: 5, maxWidth: 155 },
+  profileHeader: { position: 'relative', alignItems: 'center', justifyContent: 'center', marginBottom: 17, minHeight: 48 },
+  profileTitleUnderline: { position: 'absolute', bottom: 0, width: '72%', height: 2, borderRadius: 2, backgroundColor: '#21BFFF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 11, elevation: 7 },
+  profileIdentity: { marginTop: 5, marginBottom: 16, paddingVertical: 20, paddingHorizontal: 15, borderRadius: 22, backgroundColor: 'rgba(5,24,51,0.82)', borderWidth: 1, borderColor: 'rgba(58,143,220,0.45)', alignItems: 'center', shadowColor: '#087BFF', shadowOpacity: 0.16, shadowRadius: 16, elevation: 4 },
+  profileGuestAvatar: { width: 82, height: 82, borderRadius: 41, borderWidth: 2, borderColor: '#51D5FF', backgroundColor: 'rgba(0,91,180,0.24)', shadowColor: '#00AFFF', shadowOpacity: 0.78, shadowRadius: 19, elevation: 9, alignItems: 'center', justifyContent: 'center', overflow: 'visible' },
+  profileGuestName: { color: '#F5FAFF', fontSize: 20, lineHeight: 25, fontWeight: '900', marginTop: 12 },
+  profileGuestStatus: { color: '#A9C7E5', fontSize: 14, lineHeight: 20, textAlign: 'center', marginTop: 4 },
+  loginScreen: { padding: 15, borderRadius: 20, backgroundColor: 'rgba(5,22,47,0.86)', borderWidth: 1, borderColor: 'rgba(54,133,209,0.44)', shadowColor: '#087BFF', shadowOpacity: 0.14, shadowRadius: 13, elevation: 3 },
+  loginTagline: { color: '#C4DDF5', fontSize: 15, lineHeight: 22, textAlign: 'center', marginBottom: 13 },
+  profileVkButton: { minHeight: 52, borderRadius: 15, borderWidth: 1, borderColor: '#61CFFF', backgroundColor: '#0879DC', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 15, shadowColor: '#008CFF', shadowOpacity: 0.32, shadowRadius: 12, elevation: 6 },
+  authSecondary: { minHeight: 49, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(82,151,215,0.42)', backgroundColor: 'rgba(7,29,58,0.88)', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 14, marginTop: 10 },
+  authSecondaryText: { color: '#D7E9FA', fontSize: 15, lineHeight: 20, fontWeight: '700', textAlign: 'center' },
+  introProgressTrack: { position: 'absolute', bottom: '6%', width: '82%', maxWidth: 320, height: 7, borderRadius: 4, backgroundColor: 'rgba(62,122,190,0.35)', overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(104,190,255,0.38)' },
+  introProgressFill: { height: 7, borderRadius: 4, backgroundColor: '#39D5FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 14, elevation: 7 },
+  introProgressShimmer: { position: 'absolute', left: 0, top: 0, width: 38, height: 7, borderRadius: 4, backgroundColor: '#FFFFFF', shadowColor: '#B7F4FF', shadowOpacity: 1, shadowRadius: 11, elevation: 8 },
+  introSparkleOne: { position: 'absolute', width: 4, height: 4, borderRadius: 2, backgroundColor: '#E8FAFF', top: '26%', left: '23%', shadowColor: '#38BFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
+  introSparkleTwo: { position: 'absolute', width: 3, height: 3, borderRadius: 2, backgroundColor: '#FFFFFF', top: '37%', right: '21%', shadowColor: '#38BFFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
+  introSparkleThree: { position: 'absolute', width: 5, height: 5, borderRadius: 3, backgroundColor: '#9BE7FF', bottom: '22%', left: '31%', shadowColor: '#38BFFF', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
+  description: { fontSize: 15, lineHeight: 22 },
+  mutedText: { fontSize: 14, lineHeight: 20 },
+  navLabel: { fontSize: 13, lineHeight: 17 },
+  featureTitle: { fontSize: 14, lineHeight: 19 },
+  featureSubtitle: { fontSize: 12, lineHeight: 16 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -4375,5 +4473,6 @@ const styles = StyleSheet.create({
   ...REFERENCE_POLISH,
   ...FINAL_UI_FIXES,
   ...FINAL_UI_FIXES_V2,
+  ...FINAL_UI_FIXES_V3,
 });
 
