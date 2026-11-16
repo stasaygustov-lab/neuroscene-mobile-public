@@ -2088,7 +2088,8 @@ export default function App() {
           >
             {item.id === 'Create' ? (
               <View style={[styles.navCreateIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Создать">
-                <View style={styles.navCreateTriangle} />
+                <View style={styles.navHomeRoof} />
+                <View style={styles.navHomeBody}><View style={styles.navHomeDoor} /></View>
               </View>
             ) : item.id === 'Gallery' ? (
               <View style={[styles.navGalleryIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Галерея">
@@ -4883,6 +4884,9 @@ const FINAL_UI_FIXES_V16 = {
   navLabel: { color: '#A5B2C8', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '800', width: '100%', textAlign: 'center', includeFontPadding: false, letterSpacing: 0 },
   navLabelActive: { color: '#E7F9FF', fontFamily: 'Manrope', fontWeight: '900', textShadowColor: '#00BFFF', textShadowRadius: 13 },
   navCreateIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#37C8FF', shadowOpacity: 0.85, shadowRadius: 14, elevation: 6 },
+  navHomeRoof: { width: 0, height: 0, borderLeftWidth: 13, borderRightWidth: 13, borderBottomWidth: 11, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#8BE9FF', marginBottom: -1 },
+  navHomeBody: { width: 19, height: 13, borderWidth: 1.5, borderTopWidth: 0, borderColor: '#8BE9FF', backgroundColor: 'rgba(0,149,255,0.16)', alignItems: 'center', justifyContent: 'flex-end' },
+  navHomeDoor: { width: 5, height: 8, borderTopLeftRadius: 2, borderTopRightRadius: 2, borderWidth: 1, borderBottomWidth: 0, borderColor: '#BDEBFF', backgroundColor: 'rgba(0,149,255,0.24)' },
   navCreateTriangle: { width: 0, height: 0, borderTopWidth: 7, borderBottomWidth: 7, borderLeftWidth: 11, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#8BE9FF', marginLeft: 3 },
   navGalleryIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', position: 'relative' },
   navGalleryClapperTop: { position: 'absolute', top: 3, width: 23, height: 7, borderWidth: 1.2, borderColor: '#BDEBFF', borderRadius: 2, backgroundColor: 'rgba(0,149,255,0.38)', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
@@ -5239,7 +5243,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V12,
   ...FINAL_UI_FIXES_V13,
   ...FINAL_UI_FIXES_V14,
-
+  ...FINAL_UI_FIXES_V15,
   ...FINAL_UI_FIXES_V16,
 });
 
