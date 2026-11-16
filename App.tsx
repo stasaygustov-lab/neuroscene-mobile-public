@@ -14,7 +14,6 @@ import {
   Alert,
   ActivityIndicator,
   Image,
-  Dimensions,
   Linking,
 } from 'react-native';
 import { VideoView, useVideoPlayer } from 'expo-video';
