@@ -2136,15 +2136,13 @@ export default function App() {
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup}>
             <View style={styles.introBrandMonogramWrap}>
-              <View style={[styles.brandMarkHalo, { width: 118, height: 118, borderRadius: 59 }]} />
-              <View style={[styles.brandMarkApertureRing, { width: 92, height: 92, borderRadius: 46, borderWidth: 3, borderColor: '#D4F8FF' }]}>
-                <View style={[styles.brandApertureBladeOne, { width: 17, height: 60, borderRadius: 9 }]} />
-                <View style={[styles.brandApertureBladeTwo, { width: 17, height: 60, borderRadius: 9 }]} />
-                <View style={[styles.brandApertureBladeThree, { width: 17, height: 60, borderRadius: 9 }]} />
-                <View style={[styles.brandApertureCore, { width: 22, height: 22, borderRadius: 11 }]} />
-              </View>
-              <View style={[styles.brandMarkPlay, { borderTopWidth: 11, borderBottomWidth: 11, borderLeftWidth: 18, left: 68, top: 63 }]} />
-              <View style={[styles.brandMarkSpark, { width: 7, height: 7, borderRadius: 4, top: 15, right: 18 }]} />
+              <View style={styles.brandMarkHalo} />
+              <Image
+                source={require('./assets/Неоновая айдентика «НейроСцена».jpg')}
+                resizeMode="contain"
+                style={styles.splashIdentityArtwork}
+                accessibilityLabel="Неоновая айдентика НейроСцены"
+              />
             </View>
             <Text style={styles.introBrandName}>НейроСцена</Text>
             <Text style={styles.introBrandCaption}>СТУДИЯ СОЗДАНИЯ ВИДЕО</Text>
@@ -2257,12 +2255,9 @@ function CreateScreen({
         <View style={styles.createTitleUnderline} />
       </View>
       <View style={styles.referenceHero} accessibilityLabel="Кинематографическая иллюстрация НейроСцены">
-        <Image
-          source={require('./assets/Штормовое море под электрическим небом-1.png')}
-          resizeMode="cover"
-          style={styles.referenceHeroArtwork}
-          accessibilityLabel="Кинематографическая сцена НейроСцены"
-        />
+        <View pointerEvents="none" style={styles.referenceHeroNebulaOne} />
+        <View pointerEvents="none" style={styles.referenceHeroNebulaTwo} />
+        <View pointerEvents="none" style={styles.referenceHeroStar} />
         <View pointerEvents="none" style={styles.referenceHeroArtworkShade} />
         <View style={styles.referenceHeroCopy}>
           <Text style={styles.referenceHeroEyebrow}>ТВОЯ ИДЕЯ — ТВОЙ ФИЛЬМ</Text>
@@ -4339,6 +4334,10 @@ const FINAL_UI_FIXES_V7 = () => ({
   introBrandMonogram: { color: '#D9F7FF', fontSize: 42, lineHeight: 52, fontWeight: '900', letterSpacing: -2, textShadowColor: '#168CFF', textShadowRadius: 18 },
   introBrandName: { marginTop: 24, color: '#F4FAFF', fontSize: 30, lineHeight: 38, fontWeight: '900', letterSpacing: 0.5, textShadowColor: '#168CFF', textShadowRadius: 18 },
   introBrandCaption: { marginTop: 8, color: '#82CFFF', fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 2.2, textAlign: 'center' },
+  splashIdentityArtwork: { width: 132, height: 132, borderRadius: 66 },
+  referenceHeroNebulaOne: { position: 'absolute', width: 220, height: 220, borderRadius: 110, right: -55, top: -95, backgroundColor: 'rgba(0,116,255,0.34)', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 55, elevation: 16 },
+  referenceHeroNebulaTwo: { position: 'absolute', width: 170, height: 170, borderRadius: 85, left: -55, bottom: -105, backgroundColor: 'rgba(0,205,255,0.20)', shadowColor: '#00BFFF', shadowOpacity: 0.9, shadowRadius: 48, elevation: 12 },
+  referenceHeroStar: { position: 'absolute', width: 5, height: 5, borderRadius: 3, top: 24, right: 38, backgroundColor: '#E7FAFF', shadowColor: '#54DFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
   // Keep the create brand row clear of Android's status bar and screen edges.
   header: { paddingTop: 32, paddingBottom: 8, paddingHorizontal: 18, minHeight: 88, width: '100%', flexShrink: 0, overflow: 'visible' },
   brandRow: { flexShrink: 1, minWidth: 0, maxWidth: '68%', alignItems: 'center' },
