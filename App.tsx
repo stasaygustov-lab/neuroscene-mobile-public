@@ -1767,7 +1767,7 @@ export default function App() {
               <View pointerEvents="none" style={styles.creditIllustrationGlow} />
               <View style={styles.creditReferenceArtworkCrop} pointerEvents="none">
                 <Image
-                  source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+                  source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
                   resizeMode="stretch"
                   style={styles.creditReferenceArtwork}
                   accessibilityLabel="Золотые монеты"
@@ -1844,7 +1844,7 @@ export default function App() {
     }
 
     return (
-      <View style={styles.screen}>
+      <View style={[styles.screen, styles.profileScreen]}>
         <View style={styles.profileHeader}>
           <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
           <View style={styles.profileTitleUnderline} />
@@ -2031,12 +2031,7 @@ export default function App() {
       {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
-            <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
-              resizeMode="stretch"
-              style={styles.headerBrandArtwork}
-              accessibilityLabel="Неоновый знак НейроСцены"
-            />
+            <Text style={styles.headerMonogram} accessibilityLabel="Логотип НейроСцены">Н+С</Text>
           </View>
           <View style={styles.brandWordmark}>
             <Text style={styles.logo}>Нейро</Text>
@@ -4897,6 +4892,41 @@ const FINAL_UI_FIXES_V16 = {
   navPersonBody: { width: 17, height: 10, borderWidth: 1.5, borderColor: '#75CFFF', borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomWidth: 0, marginTop: 2 },
 } as const;
 
+
+const FINAL_UI_FIXES_V17 = {
+  // Brand mark is typography only: no raster tile or image background behind the wordmark.
+  brandMarkSmall: { width: 48, height: 48, marginRight: 0, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowColor: '#28BFFF', shadowOpacity: 0.65, shadowRadius: 14, elevation: 0, overflow: 'visible', alignItems: 'center', justifyContent: 'center' },
+  headerMonogram: { color: '#8BE9FF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 24, fontWeight: '900', letterSpacing: -1, textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 14, includeFontPadding: false, backgroundColor: 'transparent' },
+  brandWordmark: { width: 108, minWidth: 0, flexShrink: 1, justifyContent: 'center', gap: 0, backgroundColor: 'transparent' },
+  logo: { backgroundColor: 'transparent' },
+  // A clean bell glyph with no circular button plate underneath it.
+  notificationButton: { width: 42, height: 42, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowColor: 'transparent', shadowOpacity: 0, shadowRadius: 0, elevation: 0, alignItems: 'center', justifyContent: 'center' },
+  notificationBell: { width: 24, height: 27, alignItems: 'center', justifyContent: 'center', transform: [{ scale: 1.08 }] },
+  notificationBellDome: { width: 17, height: 17, borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomLeftRadius: 3, borderBottomRightRadius: 3, borderWidth: 1.8, borderColor: '#C5ECFF', borderBottomWidth: 0, backgroundColor: 'transparent' },
+  notificationBellBase: { width: 21, height: 2.2, borderRadius: 2, backgroundColor: '#C5ECFF', marginTop: -1 },
+  notificationBellClapper: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#C5ECFF', marginTop: 1 },
+  // Remove decorative plates directly behind text while preserving the feature-card layout.
+  createTitleWrap: { backgroundColor: 'transparent' },
+  createScreenTitle: { backgroundColor: 'transparent' },
+  featureSectionTitle: { backgroundColor: 'transparent' },
+  featureTitle: { backgroundColor: 'transparent' },
+  featureSubtitle: { backgroundColor: 'transparent' },
+  featureIconSquare: { backgroundColor: 'transparent', borderWidth: 0 },
+  // Use the lossless reference artwork for the empty gallery and credit illustration.
+  galleryTitleWrap: { minHeight: 58, marginBottom: 16, paddingTop: 5, width: '100%', alignItems: 'center', justifyContent: 'center' },
+  galleryTitle: { width: '100%', textAlign: 'center', alignSelf: 'center', backgroundColor: 'transparent' },
+  galleryTitleGlow: { alignSelf: 'center' },
+  galleryEmptyArtwork: { width: 220, height: 190, marginBottom: 17, borderRadius: 0, overflow: 'visible', backgroundColor: 'transparent', borderWidth: 0, shadowColor: '#B78BFF', shadowOpacity: 0.9, shadowRadius: 24, elevation: 0 },
+  galleryReferenceArtwork: { position: 'absolute', width: 1610, height: 1788, left: -1048, top: -232 },
+  creditIllustration: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0.22, elevation: 0, borderRadius: 0 },
+  creditReferenceArtworkCrop: { backgroundColor: 'transparent' },
+  // Shift the complete profile content downward as one unit, including the title and settings gear.
+  profileScreen: { paddingTop: 48 },
+  profileHeader: { marginTop: 18, marginBottom: 14 },
+  profileSettingsButton: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', borderRadius: 0, top: 0 },
+  profileIdentity: { marginTop: 4 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5244,5 +5274,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V14,
   ...FINAL_UI_FIXES_V15,
   ...FINAL_UI_FIXES_V16,
+  ...FINAL_UI_FIXES_V17,
 });
 
