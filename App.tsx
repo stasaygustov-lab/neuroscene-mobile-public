@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
   Image,
   ImageBackground,
+  Dimensions,
   Linking,
 } from 'react-native';
 import { VideoView, useVideoPlayer } from 'expo-video';
@@ -1751,15 +1752,15 @@ export default function App() {
               </View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
-                <Text style={styles.packagePrice}>Без срока действия</Text>
+                <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
               </View>
               <View style={styles.packageRight}>
                 {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
-                <Text style={styles.packagePriceHint}>Разовая покупка</Text>
+                <Text style={styles.packagePriceHint}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
               </View>
             </View>
           ))}
-          <View style={styles.creditHistorySection}>
+          <View style={[styles.creditHistorySection, { display: 'none' } ]}>
             <View style={styles.creditHistoryHeader}>
               <Text style={styles.sectionTitle}>{uiText(language, 'CREDIT ACTIVITY', 'ИСТОРИЯ ОПЕРАЦИЙ')}</Text>
               <Text style={styles.creditHistoryCount}>{creditHistory.length}</Text>
@@ -1790,7 +1791,7 @@ export default function App() {
           <Text style={styles.creditNeverExpire}>∞  Кредиты не сгорают</Text>
           <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
             <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
-            <Text style={styles.buyCreditsHint}>Покупка скоро станет доступна</Text>
+            <Text style={styles.buyCreditsHint}>Без подписки · Кредиты не сгорают</Text>
           </TouchableOpacity>
         </View>
       );
@@ -1978,9 +1979,6 @@ export default function App() {
 
       {tab === 'Create' && <View style={styles.header}>
         <View style={styles.brandRow}>
-          <View style={styles.brandMarkLarge}>
-            <Text style={styles.brandMarkLargeText}>Н+С</Text>
-          </View>
           <View style={styles.brandWordmark}>
             <Text style={styles.logo}>Нейро</Text>
             <Text style={styles.logoSecond}>Сцена</Text>
@@ -2062,35 +2060,25 @@ export default function App() {
 
       {showIntro && (
         <View style={styles.introOverlay}>
-          <View pointerEvents="none" style={styles.introNebulaTop} />
-          <View pointerEvents="none" style={styles.introNebulaBottom} />
-          <View pointerEvents="none" style={styles.introCloudLeft} />
-          <View pointerEvents="none" style={styles.introCloudRight} />
-          <View pointerEvents="none" style={styles.introStarField}>
-            {Array.from({ length: 30 }, (_, index) => (
-              <View key={index} style={[styles.introStar, { top: `${(index * 29 + 7) % 88}%`, left: `${(index * 43 + 11) % 96}%`, opacity: 0.22 + ((index * 7) % 7) / 10 }]} />
-            ))}
-          </View>
-          <View style={styles.splashArtwork}>
-            <View style={styles.splashFilmStrip}>
-              <View style={styles.splashFilmPerforations}>
-                {Array.from({ length: 7 }, (_, index) => <View key={index} style={styles.splashPerforation} />)}
+          {(() => {
+            const { width, height } = Dimensions.get('window');
+            const scale = Math.max(width / 292, height / 674);
+            return (
+              <View style={styles.splashReferenceViewport}>
+                <Image
+                  source={require('./НейроСцена_ синяя галактика творчества-3.png')}
+                  resizeMode="stretch"
+                  style={{
+                    position: 'absolute',
+                    width: 1536 * scale,
+                    height: 1024 * scale,
+                    left: -20 * scale,
+                    top: (height - 674 * scale) / 2 - 166 * scale,
+                  }}
+                />
               </View>
-            </View>
-            <View style={styles.splashReelOuter}>
-              <View style={styles.splashReelInner}>
-                <View style={styles.splashReelHoleOne} />
-                <View style={styles.splashReelHoleTwo} />
-                <View style={styles.splashReelHoleThree} />
-                <View style={styles.splashReelHoleFour} />
-                <View style={styles.splashReelHub}><View style={styles.splashPlayTriangle} /></View>
-              </View>
-            </View>
-            <View style={styles.splashFilmTail} />
-          </View>
-          <Text style={styles.introTitle}>Нейро Сцена</Text>
-          <Text style={styles.splashTagline}>КИНО НАЧИНАЕТСЯ С ТЕБЯ</Text>
-          <View style={styles.introProgressTrack}><View style={styles.introProgressFill} /></View>
+            );
+          })()}
         </View>
       )}
     </SafeAreaView>
@@ -3624,6 +3612,7 @@ const COSMIC_OVERRIDES = {
   smallAction: { backgroundColor: 'rgba(5,43,91,0.96)', paddingHorizontal: 14, paddingVertical: 9, minHeight: 44, borderRadius: 13, borderWidth: 1, borderColor: '#168BFF', justifyContent: 'center', shadowColor: '#087BFF', shadowOpacity: 0.18, shadowRadius: 10, elevation: 3 },
   smallActionText: { color: '#EAF5FF', fontSize: 14, fontWeight: '700' },
   note: { color: '#9CB9D8', fontSize: 14, lineHeight: 22, marginTop: 20 },
+  splashReferenceViewport: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#020817' },
   introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010714', alignItems: 'center', justifyContent: 'center' },
   introStarField: { ...StyleSheet.absoluteFillObject },
   introStar: { position: 'absolute', width: 2, height: 2, borderRadius: 1, backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 0.95, shadowRadius: 5 },
