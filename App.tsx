@@ -239,11 +239,21 @@ export default function App() {
   const [faqLoading, setFaqLoading] = useState(false);
   const [faqError, setFaqError] = useState('');
   const [showIntro, setShowIntro] = useState(true);
+  const splashProgress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    const animation = Animated.timing(splashProgress, {
+      toValue: 1,
+      duration: 3200,
+      useNativeDriver: false,
+    });
+    animation.start();
     const splashTimer = setTimeout(() => setShowIntro(false), 3200);
-    return () => clearTimeout(splashTimer);
-  }, []);
+    return () => {
+      animation.stop();
+      clearTimeout(splashTimer);
+    };
+  }, [splashProgress]);
 
 
   const saveAuthenticatedSession = async (data: any) => {
@@ -1755,7 +1765,7 @@ export default function App() {
               </View>
               <View style={styles.packageRight}>
                 {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
-                <Text style={styles.packagePriceHint}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
+                <Text style={styles.packageIncluded}>Без подписки</Text>
               </View>
             </View>
           ))}
@@ -2078,6 +2088,11 @@ export default function App() {
               </View>
             );
           })()}
+          <View style={styles.introProgressTrack}>
+            <Animated.View style={[styles.introProgressFill, {
+              width: splashProgress.interpolate({ inputRange: [0, 1], outputRange: ['2%', '100%'] }),
+            }]} />
+          </View>
         </View>
       )}
     </SafeAreaView>
@@ -2163,13 +2178,7 @@ function CreateScreen({
           <Text style={styles.referenceHeroTitle}>Создать видео</Text>
           <Text style={styles.referenceHeroCaption}>С помощью искусственного интеллекта</Text>
         </View>
-        <View style={styles.referenceLocalBadge}>
-          <Text style={styles.referenceLocalBadgeIcon}>✦</Text>
-          <View style={styles.referenceLocalBadgeCopy}>
-            <Text style={styles.referenceLocalBadgeTitle}>Только на твоём ПК</Text>
-            <Text style={styles.referenceLocalBadgeText}>Без облачных сервисов</Text>
-          </View>
-        </View>
+
       </ImageBackground>
       <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
         <Text style={styles.referencePlay}>▶</Text>
@@ -2481,25 +2490,14 @@ function GalleryScreen({
   onCreate: () => void;
 }) {
   const ru = language === 'ru';
-  const [galleryFilter, setGalleryFilter] = useState<'videos' | 'favorites'>('videos');
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
-  const visibleItems = galleryFilter === 'favorites'
-    ? items.filter((item) => favoriteIds.includes(String(item.job_id)))
-    : items;
+  const visibleItems = items;
   return (
     <View style={styles.screen}>
-      <View style={styles.galleryHeader}>
-        <Text style={styles.screenTitle}>Галерея</Text>
-        <TouchableOpacity activeOpacity={0.86} style={styles.galleryFilterButton} onPress={onRefresh} accessibilityLabel="Обновить галерею">
-          <Text style={styles.galleryFilterIcon}>▽</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.galleryTabs}>
-        <TouchableOpacity style={[styles.galleryTab, galleryFilter === 'videos' && styles.galleryTabActive]} onPress={() => setGalleryFilter('videos')}>
-          <Text style={[styles.galleryTabText, galleryFilter === 'videos' && styles.galleryTabTextActive]}>Мои видео</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.galleryTab, galleryFilter === 'favorites' && styles.galleryTabActive]} onPress={() => setGalleryFilter('favorites')}>
-          <Text style={[styles.galleryTabText, galleryFilter === 'favorites' && styles.galleryTabTextActive]}>Избранное</Text>
+      <View style={styles.galleryTitleWrap}>
+        <Text style={styles.galleryTitle}>Мои видео</Text>
+        <View style={styles.galleryTitleGlow} />
+        <TouchableOpacity activeOpacity={0.86} style={styles.galleryRefreshButton} onPress={onRefresh} accessibilityLabel="Обновить галерею">
+          <Text style={styles.galleryFilterIcon}>↻</Text>
         </TouchableOpacity>
       </View>
 
@@ -2508,8 +2506,8 @@ function GalleryScreen({
       {!loading && visibleItems.length === 0 && (
         <View style={styles.emptyScreen}>
           <Text style={styles.emptyIcon}>▤</Text>
-          <Text style={styles.description}>{galleryFilter === 'favorites' ? 'В избранном пока нет видео' : uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
-          {galleryFilter === 'videos' && <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}><Text style={styles.secondaryButtonText}>{uiText(language, 'Create your first video', 'Создать видео')}</Text></TouchableOpacity>}
+          <Text style={styles.description}>{uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
+          <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}><Text style={styles.secondaryButtonText}>{uiText(language, 'Create your first video', 'Создать видео')}</Text></TouchableOpacity>
         </View>
       )}
 
@@ -2529,9 +2527,7 @@ function GalleryScreen({
             <View style={styles.galleryPreview}>
               <GalleryVideoPlayer uri={url} />
               {!!durationLabel && <Text style={styles.galleryDuration}>{durationLabel}</Text>}
-              <TouchableOpacity style={styles.galleryFavorite} onPress={() => setFavoriteIds((current) => current.includes(String(item.job_id)) ? current.filter((id) => id !== String(item.job_id)) : [...current, String(item.job_id)])}>
-                <Text style={styles.galleryFavoriteText}>{favoriteIds.includes(String(item.job_id)) ? '★' : '☆'}</Text>
-              </TouchableOpacity>
+
             </View>
             <Text style={[styles.galleryDate, { display: 'none' }]}>
               {item.created_at
@@ -3951,6 +3947,67 @@ const REFERENCE_POLISH = {
   introLogoPanel: { width: 224, height: 150, alignItems: 'center', justifyContent: 'center', borderRadius: 28, borderWidth: 1, borderColor: 'rgba(90,202,255,0.66)', backgroundColor: 'rgba(4,24,58,0.58)' },
   introReelPlay: { color: '#B7F0FF', fontSize: 62, lineHeight: 90, fontWeight: '900', letterSpacing: -3, textShadowColor: '#006DFF', textShadowRadius: 34 },
 };
+
+const FINAL_UI_FIXES = {
+  container: { flex: 1, backgroundColor: '#010713' },
+  header: { paddingTop: 30, paddingBottom: 16 },
+  brandRow: { marginTop: 4 },
+  logo: { fontSize: 21, lineHeight: 23 },
+  logoSecond: { fontSize: 21, lineHeight: 23 },
+  content: { paddingHorizontal: 16, paddingTop: 22, paddingBottom: 30 },
+  creditsContent: { paddingTop: 24, paddingBottom: 44 },
+  screen: { flex: 1, paddingTop: 20, paddingBottom: 12 },
+  bottomNav: { paddingTop: 9, paddingBottom: 24, minHeight: 88 },
+  navItemActive: { shadowColor: '#00AFFF', shadowOpacity: 0.75, shadowRadius: 15, elevation: 9 },
+  referenceHero: { height: 238, minHeight: 238, marginTop: 8, marginBottom: 16 },
+  referenceHeroCopy: { top: 20, left: 18, width: '52%' },
+  referenceHeroTitle: { fontSize: 24, lineHeight: 28, textShadowColor: '#087BFF', textShadowRadius: 16 },
+  referenceHeroCaption: { fontSize: 13, lineHeight: 18, maxWidth: 170 },
+  referenceCreateButton: { shadowOpacity: 0.62, shadowRadius: 18, elevation: 11 },
+  featureSectionTitle: { textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 12 },
+  featureIconSquare: { shadowColor: '#168BFF', shadowOpacity: 0.48, shadowRadius: 11, elevation: 5 },
+  featureIconSquareActive: { shadowOpacity: 1, shadowRadius: 17, elevation: 9 },
+  creditsScreen: { paddingTop: 22 },
+  creditsHeader: { justifyContent: 'center', marginBottom: 18 },
+  creditsTitle: { fontSize: 26, lineHeight: 32, textAlign: 'center' },
+  creditIllustration: { height: 168, marginBottom: 18, borderRadius: 20 },
+  creditCoinReferenceCrop: { top: 8, width: 150, height: 92 },
+  creditBalanceHero: { bottom: 9 },
+  creditBalanceHeroValue: { fontSize: 29, lineHeight: 34 },
+  creditPackagesTitle: { fontSize: 17, marginTop: 8, marginBottom: 9, textAlign: 'center' },
+  packageCard: { minHeight: 76, paddingVertical: 12, paddingHorizontal: 15, marginTop: 10, borderRadius: 16 },
+  packageAmount: { fontSize: 18, lineHeight: 23 },
+  packagePrice: { fontSize: 16, marginTop: 4 },
+  packageRight: { minWidth: 80, alignItems: 'flex-end', justifyContent: 'center' },
+  packageIncluded: { color: '#91B8E2', fontSize: 11, marginTop: 4 },
+  packagePriceHint: { display: 'none' },
+  creditNeverExpire: { textAlign: 'center', marginTop: 18, marginBottom: 6 },
+  buyCreditsButton: { marginTop: 12, shadowOpacity: 0.48, shadowRadius: 16 },
+  profileHeader: { justifyContent: 'center', marginBottom: 16 },
+  profileHeaderTitle: { textAlign: 'center' },
+  profileIdentity: { paddingTop: 8, paddingBottom: 18, marginBottom: 14 },
+  profileGuestAvatar: { width: 76, height: 76, borderRadius: 38, marginBottom: 8, alignItems: 'center', justifyContent: 'center' },
+  profileGuestHead: { width: 22, height: 22, borderRadius: 11, borderWidth: 2, borderColor: '#A6D8FF', backgroundColor: 'rgba(166,216,255,0.10)', marginBottom: 4 },
+  profileGuestBody: { width: 46, height: 26, borderTopLeftRadius: 24, borderTopRightRadius: 24, borderWidth: 2, borderBottomWidth: 0, borderColor: '#A6D8FF', backgroundColor: 'rgba(166,216,255,0.10)' },
+  profileGuestName: { fontSize: 21, marginTop: 9 },
+  profileGuestStatus: { fontSize: 13, lineHeight: 19, textAlign: 'center', paddingHorizontal: 16 },
+  loginScreen: { paddingHorizontal: 4, paddingTop: 0, paddingBottom: 12 },
+  loginTagline: { fontSize: 14, lineHeight: 21, textAlign: 'center', marginBottom: 18 },
+  profileVkButton: { height: 54, borderRadius: 17, marginTop: 4, marginBottom: 12, shadowOpacity: 0.55, shadowRadius: 18, elevation: 10 },
+  profileEmailButton: { minHeight: 48, marginBottom: 12 },
+  loginLegalText: { fontSize: 10, lineHeight: 15, textAlign: 'center', marginTop: 4, paddingHorizontal: 8 },
+  profileMenuCard: { marginTop: 12 },
+  menuItem: { minHeight: 56, paddingVertical: 13 },
+  galleryTitleWrap: { position: 'relative', alignItems: 'center', justifyContent: 'center', minHeight: 58, marginBottom: 16, paddingTop: 4 },
+  galleryTitle: { color: '#F5F8FF', fontSize: 25, lineHeight: 31, fontWeight: '900', textAlign: 'center', textShadowColor: 'rgba(35,145,255,0.65)', textShadowRadius: 13 },
+  galleryTitleGlow: { position: 'absolute', bottom: 1, width: '72%', height: 2, borderRadius: 2, backgroundColor: '#21BFFF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
+  galleryRefreshButton: { position: 'absolute', right: 2, top: 5, width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(80,174,255,0.55)', backgroundColor: 'rgba(4,27,61,0.86)' },
+  galleryFilterIcon: { color: '#BDEBFF', fontSize: 22, fontWeight: '700' },
+  introOverlay: { top: 0, bottom: 0 },
+  introProgressTrack: { position: 'absolute', bottom: '6%', width: '82%', maxWidth: 320, height: 5, borderRadius: 3, backgroundColor: 'rgba(62,122,190,0.35)', overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(104,190,255,0.28)' },
+  introProgressFill: { height: 5, borderRadius: 3, backgroundColor: '#39D5FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 6 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -4284,5 +4341,6 @@ const styles = StyleSheet.create({
   version: { color: '#566176', fontSize: 14, letterSpacing: 1.3, textAlign: 'center', marginTop: 35 },
   ...COSMIC_OVERRIDES,
   ...REFERENCE_POLISH,
+  ...FINAL_UI_FIXES,
 });
 
