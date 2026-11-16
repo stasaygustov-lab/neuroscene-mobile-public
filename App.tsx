@@ -2046,12 +2046,13 @@ export default function App() {
 
       {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
-          <Image
-            source={require('./Футуристический серебряно-синий монограмный логотип HC-1.png')}
-            resizeMode="contain"
-            style={styles.brandLogoArtwork}
-            accessibilityLabel="Референсный монограммный логотип НейроСцена"
-          />
+          <View style={styles.brandLockup} accessible accessibilityLabel="Логотип НейроСцена">
+            <View style={styles.brandPlayMark} />
+            <View style={styles.brandLockupWordmark}>
+              <Text style={styles.brandWordmarkLine}>Нейро</Text>
+              <Text style={[styles.brandWordmarkLine, styles.brandWordmarkAccent]}>Сцена</Text>
+            </View>
+          </View>
         </View>
 
         <View style={styles.headerActions}>
@@ -2136,13 +2137,13 @@ export default function App() {
           />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup}>
-            <Image
-              source={require('./Футуристический серебряно-синий монограмный логотип HC-1.png')}
-              resizeMode="contain"
-              style={styles.splashBrandArtwork}
-              accessibilityLabel="Референсный логотип НейроСцена"
-            />
-            <Text style={styles.introBrandCaption}>НЕЙРОСЦЕНА</Text>
+            <View style={styles.splashBrandLockup} accessible accessibilityLabel="Логотип НейроСцена">
+              <View style={styles.splashBrandPlayMark} />
+              <View style={styles.splashBrandWordmark}>
+                <Text style={styles.splashBrandWordmarkLine}>Нейро</Text>
+                <Text style={[styles.splashBrandWordmarkLine, styles.splashBrandWordmarkAccent]}>Сцена</Text>
+              </View>
+            </View>
           </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
@@ -5393,6 +5394,32 @@ const FINAL_REFERENCE_REDESIGN_V26 = {
   menuText: { color: '#E2F2FF', fontFamily: 'Manrope', fontSize: 17, fontWeight: '700' },
 };
 
+
+const FINAL_UI_FIXES_V27 = {
+  // Use the reference's play-mark + two-line Russian wordmark, centered and without a backing plate.
+  referenceCenteredHeader: { width: '100%', minHeight: 102, marginTop: 0, marginBottom: 4, paddingTop: 4, paddingBottom: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderBottomWidth: 0 },
+  brandRowCentered: { width: '100%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', margin: 0, padding: 0, backgroundColor: 'transparent' },
+  brandLockup: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9, padding: 0, margin: 0, backgroundColor: 'transparent' },
+  brandPlayMark: { width: 0, height: 0, borderTopWidth: 12, borderBottomWidth: 12, borderLeftWidth: 19, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#35C8FF', shadowColor: '#168BFF', shadowOpacity: 0.95, shadowRadius: 11, elevation: 8, marginRight: 1 },
+  brandLockupWordmark: { alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
+  brandWordmarkLine: { color: '#F2FAFF', fontFamily: 'Manrope', fontSize: 20, lineHeight: 21, fontWeight: '900', letterSpacing: -0.35, includeFontPadding: false, textShadowColor: 'rgba(39,157,255,0.78)', textShadowRadius: 10, backgroundColor: 'transparent', padding: 0, margin: 0 },
+  brandWordmarkAccent: { color: '#82DFFF' },
+  introBrandLockup: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, backgroundColor: 'transparent' },
+  splashBrandLockup: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 15, padding: 0, backgroundColor: 'transparent' },
+  splashBrandPlayMark: { width: 0, height: 0, borderTopWidth: 21, borderBottomWidth: 21, borderLeftWidth: 33, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#35C8FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 19, elevation: 14, marginRight: 2 },
+  splashBrandWordmark: { alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
+  splashBrandWordmarkLine: { color: '#F2FAFF', fontFamily: 'Manrope', fontSize: 34, lineHeight: 36, fontWeight: '900', letterSpacing: -0.65, includeFontPadding: false, textShadowColor: 'rgba(39,157,255,0.9)', textShadowRadius: 17, backgroundColor: 'transparent', padding: 0, margin: 0 },
+  splashBrandWordmarkAccent: { color: '#82DFFF' },
+  createTitleWrap: { alignItems: 'center', justifyContent: 'center', marginTop: 2, marginBottom: 12, minHeight: 43, backgroundColor: 'transparent' },
+  createScreenTitle: { color: '#F5FAFF', fontFamily: 'Manrope', fontSize: 27, lineHeight: 34, fontWeight: '900', letterSpacing: 0.1, textShadowColor: 'rgba(35,145,255,0.75)', textShadowRadius: 13, backgroundColor: 'transparent', padding: 0 },
+  createTitleUnderline: { width: '62%', height: 2, borderRadius: 2, marginTop: 5, backgroundColor: '#21BFFF', shadowColor: '#00AFFF', shadowOpacity: 0.95, shadowRadius: 10, elevation: 6 },
+  featureSectionTitle: { fontFamily: 'Manrope', backgroundColor: 'transparent', padding: 0 },
+  featureTitle: { fontFamily: 'Manrope', backgroundColor: 'transparent', padding: 0 },
+  featureSubtitle: { fontFamily: 'Manrope', backgroundColor: 'transparent', padding: 0 },
+  navLabel: { fontFamily: 'Manrope', color: '#BBD3EE', backgroundColor: 'transparent' },
+  navLabelActive: { color: '#62CFFF', textShadowColor: '#087BFF', textShadowRadius: 9 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5750,5 +5777,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V24,
   ...FINAL_UI_FIXES_V25,
   ...FINAL_REFERENCE_REDESIGN_V26,
+  ...FINAL_UI_FIXES_V27,
 });
 
