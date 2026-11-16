@@ -4876,7 +4876,6 @@ const styles = StyleSheet.create({
   statusSuccess: { color: '#42D992' },
   statusDescription: { color: MUTED, fontSize: 16, lineHeight: 21, marginTop: 6 },progressSegment: { flex: 1, height: 6, borderRadius: 4, backgroundColor: '#263147' },
   progressSegmentActive: { backgroundColor: BLUE },galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  galleryLimit: { color: MUTED, fontSize: 16, marginTop: -12, marginBottom: 15 },
   galleryCard: { backgroundColor: PANEL, borderRadius: 14, padding: 12, marginTop: 14, borderWidth: 1, borderColor: '#253147' },
   videoFrame: { width: '100%', height: 220, backgroundColor: '#000000', borderRadius: 10, overflow: 'hidden', justifyContent: 'center' },
   videoPlayer: { width: '100%', height: 220, backgroundColor: '#000000' },
@@ -4958,7 +4957,6 @@ const styles = StyleSheet.create({
   languageOptionText: { color: MUTED, fontSize: 16, fontWeight: '700' },
   languageOptionTextActive: { color: WHITE },
   screen: { flex: 1, paddingTop: 28 },
-  screenTitle: { color: WHITE, fontSize: 32, fontWeight: '900', marginTop: 18, marginBottom: 26 },
   emptyScreen: { flex: 1, alignItems: 'center', justifyContent: 'center', minHeight: 430, paddingHorizontal: 15 },
   emptyIcon: { color: BLUE, fontSize: 48, marginBottom: 15 },
   balanceCard: { backgroundColor: '#101B30', borderRadius: 16, borderWidth: 1, borderColor: '#263D65', padding: 22, marginTop: 12, marginBottom: 30 },
@@ -4966,8 +4964,6 @@ const styles = StyleSheet.create({
   bigBalance: { color: WHITE, fontSize: 38, fontWeight: '900', marginTop: 10 },
   creditSymbol: { color: BLUE, fontSize: 27 },
   mutedText: { color: MUTED, fontSize: 16, lineHeight: 21, marginTop: 7 },
-  packageCard: { backgroundColor: PANEL, borderRadius: 12, padding: 15, marginTop: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: '#253147' },
-  packageAmount: { color: WHITE, fontSize: 16, fontWeight: '800' },
   smallAction: { backgroundColor: '#172D51', paddingHorizontal: 14, paddingVertical: 9, minHeight: 38, borderRadius: 10, borderWidth: 1, borderColor: 'rgba(76,145,255,0.30)', justifyContent: 'center' },
   purchaseDisabled: { opacity: 0.48, borderWidth: 1, borderColor: '#33445F' },
   smallActionText: { color: WHITE, fontSize: 16, fontWeight: '800' },
@@ -5025,7 +5021,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V10,
 
 
-  ...FINAL_UI_FIXES_V12,
   ...FINAL_UI_FIXES_V11,
   ...FINAL_UI_FIXES_V12,
   ...FINAL_UI_FIXES_V13,
