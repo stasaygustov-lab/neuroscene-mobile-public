@@ -10,13 +10,17 @@
 ## 2. Репозиторий и рабочая ветка
 
 - Репозиторий: https://github.com/stasaygustov-lab/neuroscene-mobile-public
-- Рабочая ветка: `ui/full-visual-redesign`
-- Основную ветку `main` не изменять.
-- Референсы: https://github.com/stasaygustov-lab/neuroscene-mobile-public/tree/ui/full-visual-redesign/assets
-- Актуальные скриншоты приложения: https://github.com/stasaygustov-lab/neuroscene-mobile-public/tree/ui/full-visual-redesign/screenshots
+- **Единственная разрешённая рабочая ветка:** `ui/full-visual-redesign`.
+- Ссылка на рабочую ветку: https://github.com/stasaygustov-lab/neuroscene-mobile-public/tree/ui/full-visual-redesign
+- Основную ветку `main` и любые другие ветки не изменять.
+- **Референсы (источник визуальных требований):** https://github.com/stasaygustov-lab/neuroscene-mobile-public/tree/ui/full-visual-redesign/assets
+- **Актуальные скриншоты приложения (источник текущего UI):** https://github.com/stasaygustov-lab/neuroscene-mobile-public/tree/ui/full-visual-redesign/screenshots
+- Если пользователь присылает ссылки с сегментом `/tree/refs/heads/`, трактовать указанную ветку как `ui/full-visual-redesign`; канонический URL GitHub для просмотра ветки использует `/tree/ui/full-visual-redesign`.
 - README проверен в рабочей ветке 2026-11-17. Репозиторий содержит экспорт мобильного клиента без приватного backend и GPU-агента.
 
 ## 3. Обязательные правила работы
+
+0. Работать над приложением исключительно в ветке `ui/full-visual-redesign`. Не создавать и не использовать другие рабочие ветки; `main` не изменять.
 
 1. Все изменения делать только в отдельной рабочей ветке `ui/full-visual-redesign`; `main` не менять.
 2. Не запускать GitHub Actions, EAS, APK-сборки и другие сборки автоматически. Запускать сборку только после отдельного прямого разрешения пользователя.
