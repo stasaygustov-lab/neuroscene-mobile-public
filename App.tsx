@@ -2575,7 +2575,7 @@ function GalleryScreen({
         <View style={styles.emptyScreen}>
           <View style={styles.galleryEmptyArtwork} accessibilityLabel="Неоновая хлопушка из референса НейроСцены">
             <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
               resizeMode="stretch"
               style={styles.galleryReferenceArtwork}
               accessibilityLabel="Неоновая кинематографическая хлопушка"
