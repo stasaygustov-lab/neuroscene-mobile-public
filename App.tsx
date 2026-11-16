@@ -3871,7 +3871,7 @@ const REFERENCE_POLISH = {
   introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010713', alignItems: 'center', justifyContent: 'center' },
   introTitle: { position: 'absolute', bottom: '24%', color: WHITE, fontSize: 40, lineHeight: 44, fontWeight: '900', fontFamily: 'sans-serif-rounded', textAlign: 'center', letterSpacing: 0.4, textShadowColor: '#087BFF', textShadowRadius: 24, elevation: 12 },
   introTagline: { position: 'absolute', bottom: '10%', color: '#BBDFFF', fontSize: 16, lineHeight: 24, textAlign: 'center', fontWeight: '600', textShadowColor: '#168BFF', textShadowRadius: 14 },
-  introLogoPanel: { borderRadius: 28, borderWidth: 1, borderColor: 'rgba(90,202,255,0.66)', backgroundColor: 'rgba(4,24,58,0.58)' },
+  introLogoPanel: { width: 224, height: 150, alignItems: 'center', justifyContent: 'center', borderRadius: 28, borderWidth: 1, borderColor: 'rgba(90,202,255,0.66)', backgroundColor: 'rgba(4,24,58,0.58)' },
   introReelPlay: { color: '#B7F0FF', fontSize: 62, lineHeight: 90, fontWeight: '900', letterSpacing: -3, textShadowColor: '#006DFF', textShadowRadius: 34 },
 };
 const styles = StyleSheet.create({
