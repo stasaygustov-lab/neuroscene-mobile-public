@@ -161,12 +161,12 @@ export default function App() {
     onPanResponderTerminationRequest: () => false,
     onPanResponderRelease: (_event, gesture) => {
       if (Math.abs(gesture.dx) < 52) return;
+      setTransitionDirection(gesture.dx < 0 ? 1 : -1);
       const order: Tab[] = ['Create', 'Gallery', 'Credits', 'Profile'];
       setTab((currentTab) => {
         const current = order.indexOf(currentTab);
         const next = Math.max(0, Math.min(order.length - 1, current + (gesture.dx < 0 ? 1 : -1)));
         if (next === current) return currentTab;
-        setTransitionDirection(next > current ? 1 : -1);
         setShowSupport(false);
         setShowNotifications(false);
         setShowFaq(false);
@@ -5012,5 +5012,6 @@ const FINAL_UI_FIXES_V11 = {
   navPersonHead: { width: 9, height: 9, borderWidth: 1.5, borderColor: '#75CFFF', borderRadius: 5, backgroundColor: 'rgba(100,210,255,0.24)' },
   navPersonBody: { width: 17, height: 10, borderWidth: 1.5, borderColor: '#75CFFF', borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomWidth: 0, marginTop: 2 },
 
+  ...FINAL_UI_FIXES_V11,
 });
 
