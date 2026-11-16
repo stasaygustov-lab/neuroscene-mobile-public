@@ -2059,6 +2059,8 @@ export default function App() {
         style={styles.scroll}
         contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent]}
         keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        automaticallyAdjustKeyboardInsets
         showsVerticalScrollIndicator={false}
         {...swipeResponder.panHandlers}
       >
@@ -2112,7 +2114,7 @@ export default function App() {
               <View style={styles.splashReferenceViewport}>
                 <Image
                   source={require('./assets/neuroscene-brand.png')}
-                  resizeMode="stretch"
+                  resizeMode="contain"
                   style={{
                     position: 'absolute',
                     width: 1536 * scale,
@@ -2568,7 +2570,7 @@ function GalleryScreen({
   onCreate: () => void;
 }) {
   const ru = language === 'ru';
-  const visibleItems = items;
+  const visibleItems = items.filter((item) => Boolean(readVideoUrl(item)));
   return (
     <View style={styles.screen}>
       <View style={styles.galleryTitleWrap}>
@@ -2580,8 +2582,15 @@ function GalleryScreen({
       </View>
 
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
-      {!!error && <Text style={styles.errorText}>{error}</Text>}
-      {!loading && visibleItems.length === 0 && (
+      {!!error && (
+        <View style={styles.galleryErrorBox}>
+          <Text style={styles.errorText}>{error}</Text>
+          <TouchableOpacity activeOpacity={0.86} style={styles.galleryRetryButton} onPress={onRefresh} accessibilityRole="button">
+            <Text style={styles.galleryRetryText}>{uiText(language, 'Try again', 'Повторить загрузку')}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.emptyScreen}>
           <Text style={styles.emptyIcon}>▤</Text>
           <Text style={styles.description}>{uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
@@ -4205,15 +4214,15 @@ const FINAL_UI_FIXES_V5 = {
  screen: { flex: 1, paddingTop: 8, paddingBottom: 16 },
  bottomNav: { minHeight: 76, paddingTop: 5, paddingBottom: 7, backgroundColor: 'rgba(2,10,27,0.96)', borderTopColor: 'rgba(73,166,255,0.38)' },
  navItem: { minHeight: 58, paddingTop: 3, paddingBottom: 2, justifyContent: 'center', gap: 3 },
- navLabel: { color: '#D7E9FF', fontSize: 13, lineHeight: 17, fontWeight: '700', textAlign: 'center', includeFontPadding: false }, navLabelActive: { color: '#78D9FF', fontWeight: '900' },
+ navLabel: { color: '#D7E9FF', fontSize: 15, lineHeight: 19, fontWeight: '700', textAlign: 'center', includeFontPadding: false }, navLabelActive: { color: '#78D9FF', fontWeight: '900' },
  referenceHero: { height: 164, minHeight: 164, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 8, marginTop: 4, marginBottom: 12 },
  filmFrame: { width: '43%', height: 126, flexGrow: 0, flexShrink: 0 },
  referenceHeroCopy: { position: 'relative', top: 0, left: 0, width: '52%', flex: 1, minWidth: 0, paddingLeft: 10, paddingRight: 4, justifyContent: 'center' },
- referenceHeroTitle: { color: '#F4FAFF', fontSize: 19, lineHeight: 23, fontWeight: '900' }, referenceHeroCaption: { color: '#CDE7FF', fontSize: 14, lineHeight: 18, maxWidth: '100%', marginTop: 5 },
+ referenceHeroTitle: { color: '#F4FAFF', fontSize: 19, lineHeight: 23, fontWeight: '900' }, referenceHeroCaption: { color: '#CDE7FF', fontSize: 16, lineHeight: 21, maxWidth: '100%', marginTop: 5 },
  referenceCreateGlow: { width: '100%', marginTop: 0, marginBottom: 12 }, referenceCreateButton: { minHeight: 56, marginBottom: 0 },
  featureSection: { marginTop: 2, marginBottom: 14 }, featureGrid: { rowGap: 10, columnGap: 10 },
  featureTile: { width: '48%', minHeight: 112, padding: 12, backgroundColor: 'rgba(4,20,46,0.94)', borderColor: 'rgba(72,157,232,0.72)' },
- featureTitle: { color: '#F0F7FF', fontSize: 15, lineHeight: 20, fontWeight: '800' }, featureSubtitle: { color: '#B7D3F0', fontSize: 14, lineHeight: 19 },
+ featureTitle: { color: '#F0F7FF', fontSize: 16, lineHeight: 21, fontWeight: '800' }, featureSubtitle: { color: '#B7D3F0', fontSize: 16, lineHeight: 21 },
  description: { color: '#E3F0FF', fontSize: 16, lineHeight: 23, textAlign: 'center' },
  popularBadge: { backgroundColor: '#075DE2', borderColor: '#72D9FF' }, popularBadgeText: { color: '#FFFFFF', fontSize: 14, fontWeight: '900' },
  creditIllustration: { height: 152, marginBottom: 14, backgroundColor: 'rgba(4,19,47,0.94)', justifyContent: 'center' },
@@ -4224,8 +4233,11 @@ const FINAL_UI_FIXES_V5 = {
  profileIdentity: { marginTop: 5, marginBottom: 12, paddingVertical: 14, paddingHorizontal: 15 },
  loginScreen: { flex: 0, minHeight: 0, paddingHorizontal: 14, paddingTop: 12, paddingBottom: 14, marginTop: 4, overflow: 'visible' },
  profileMenuCard: { marginTop: 12, marginBottom: 14, paddingHorizontal: 12, paddingVertical: 4 }, menuItem: { minHeight: 52, paddingVertical: 12 },
- loginTagline: { color: '#D5E8FF', fontSize: 16, lineHeight: 22 }, loginLegalText: { color: '#B6CDE8', fontSize: 14, lineHeight: 20 },
+ loginTagline: { color: '#D5E8FF', fontSize: 16, lineHeight: 22 }, loginLegalText: { color: '#B6CDE8', fontSize: 16, lineHeight: 22 },
  introSparkleOne: { opacity: 0.95, shadowRadius: 16, elevation: 12 }, introSparkleTwo: { opacity: 0.95, shadowRadius: 14, elevation: 11 }, introSparkleThree: { opacity: 0.95, shadowRadius: 17, elevation: 12 },
+  galleryErrorBox: { width: '100%', alignItems: 'center', padding: 14, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,112,112,0.42)', backgroundColor: 'rgba(55,16,30,0.72)', marginTop: 12, marginBottom: 8 },
+  galleryRetryButton: { minHeight: 42, paddingHorizontal: 18, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: '#0877F4', borderWidth: 1, borderColor: '#52D3FF', marginTop: 10 },
+  galleryRetryText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 16, fontWeight: '800' },
 } as const;
 
 const styles = StyleSheet.create({
