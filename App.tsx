@@ -2107,25 +2107,17 @@ export default function App() {
 
       {showIntro && (
         <View style={styles.introOverlay}>
-          {(() => {
-            const { width, height } = Dimensions.get('window');
-            const scale = Math.max(width / 292, height / 674);
-            return (
-              <View style={styles.splashReferenceViewport}>
-                <Image
-                  source={require('./assets/neuroscene-brand.png')}
-                  resizeMode="contain"
-                  style={{
-                    position: 'absolute',
-                    width: 1536 * scale,
-                    height: 1024 * scale,
-                    left: -20 * scale,
-                    top: (height - 674 * scale) / 2 - 166 * scale,
-                  }}
-                />
+          <View style={styles.introBrandLockup}>
+            <View style={styles.introLogoHalo} />
+            <View style={styles.introOrbitOuter}>
+              <View style={styles.introOrbitInner} />
+              <View style={styles.introBrandMonogramWrap}>
+                <Text style={styles.introBrandMonogram}>Н+С</Text>
               </View>
-            );
-          })()}
+            </View>
+            <Text style={styles.introBrandName}>НейроСцена</Text>
+            <Text style={styles.introBrandCaption}>ТВОЯ ТВОРЧЕСКАЯ СТУДИЯ</Text>
+          </View>
           <View style={styles.introSparkleOne} />
           <View style={styles.introSparkleTwo} />
           <View style={styles.introSparkleThree} />
@@ -4292,6 +4284,12 @@ const FINAL_UI_FIXES_V6 = () => ({
 } as const);
 
 const FINAL_UI_FIXES_V7 = () => ({
+  // Use the current Н+С brand lockup instead of the obsolete raster logo on splash.
+  introBrandLockup: { position: 'absolute', top: '31%', left: 0, right: 0, alignItems: 'center', justifyContent: 'center', minHeight: 250 },
+  introBrandMonogramWrap: { width: 148, height: 148, borderRadius: 74, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(2,16,43,0.92)', borderWidth: 2, borderColor: '#70DFFF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 28, elevation: 20 },
+  introBrandMonogram: { color: '#D9F7FF', fontSize: 42, lineHeight: 52, fontWeight: '900', letterSpacing: -2, textShadowColor: '#168CFF', textShadowRadius: 18 },
+  introBrandName: { marginTop: 24, color: '#F4FAFF', fontSize: 30, lineHeight: 38, fontWeight: '900', letterSpacing: 0.5, textShadowColor: '#168CFF', textShadowRadius: 18 },
+  introBrandCaption: { marginTop: 8, color: '#82CFFF', fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 2.2, textAlign: 'center' },
   // Keep the create brand row clear of Android's status bar and screen edges.
   header: { paddingTop: 32, paddingBottom: 8, paddingHorizontal: 18, minHeight: 88, width: '100%', flexShrink: 0, overflow: 'visible' },
   brandRow: { flexShrink: 1, minWidth: 0, maxWidth: '68%', alignItems: 'center' },
