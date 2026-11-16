@@ -28,8 +28,8 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#050914",
-          "image": "./assets/neuroscene-brand.png",
-          "imageWidth": 180,
+          "image": "./Футуристический серебряно-синий монограмный логотип HC-1.png",
+          "imageWidth": 220,
           "resizeMode": "contain"
         }
       ]
