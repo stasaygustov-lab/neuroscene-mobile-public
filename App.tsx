@@ -2202,10 +2202,8 @@ function CreateScreen({
               <TouchableOpacity key={feature.id} activeOpacity={0.82}
                 onPress={() => {
                   setActiveFeature(feature.id);
-                  if (feature.id === 'text' || feature.id === 'image' || feature.id === 'prompt') {
-                    setGenerationType(feature.id === 'image' ? 'i2v' : 't2v');
-                    setShowComposer(true);
-                  }
+                  if (feature.id === 'text' || feature.id === 'prompt') setGenerationType('t2v');
+                  if (feature.id === 'image') setGenerationType('i2v');
                 }}
                 style={[styles.featureTile, activeFeature === feature.id && styles.featureTileActive]}
               >
@@ -3733,7 +3731,7 @@ const COSMIC_OVERRIDES = {
   profileMenuCard: { marginTop: 9, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(48,125,194,0.62)', backgroundColor: 'rgba(5,19,43,0.97)' },
   navCreateIcon: { width: 27, height: 27, borderRadius: 8, borderWidth: 2, borderColor: '#68BFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 5 },
   navCreateTriangle: { width: 0, height: 0, marginLeft: 3, borderTopWidth: 7, borderBottomWidth: 7, borderLeftWidth: 10, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#68BFFF' },
-  navGalleryIcon: { width: 27, height: 27, flexDirection: 'row', flexWrap: 'wrap', gap: 3, padding: 2, alignItems: 'center', justifyContent: 'center' },
+  navGalleryIcon: { width: 27, height: 27, flexDirection: 'row', flexWrap: 'wrap', gap: 3, padding: 2, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#68BFFF', borderRadius: 7, backgroundColor: 'rgba(22,139,255,0.08)' },
   navGalleryCell: { width: 10, height: 10, borderRadius: 2, borderWidth: 1.8, borderColor: '#68BFFF', backgroundColor: 'rgba(22,139,255,0.10)' },
   navGlyphActive: { borderColor: '#B9F0FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
   navCoinActive: { borderColor: '#FFE08A', shadowColor: '#FFB52E', shadowOpacity: 0.95, shadowRadius: 14, elevation: 8 },
