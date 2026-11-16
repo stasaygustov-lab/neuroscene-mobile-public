@@ -44,8 +44,6 @@ const PANEL = '#071A34';
 const MUTED = '#9CB9D8';
 const WHITE = '#FFFFFF';
 
-const REFERENCE_HERO_SOURCE = require('./assets/neuroscene-create-hero.webp');
-
 const RECOMMENDED_PROMPTS = [
   'A lone astronaut walks through a vast abandoned cathedral on an alien planet, soft shafts of blue light cut through drifting dust, slow cinematic dolly-in, photorealistic, atmospheric science-fiction film.',
   'A black sports car races through a rain-soaked neon city at night, reflections shimmer across the asphalt, dynamic low tracking shot, realistic motion blur, premium action-film cinematography.',
