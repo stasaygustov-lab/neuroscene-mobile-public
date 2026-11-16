@@ -2001,7 +2001,7 @@ export default function App() {
         <Image
           source={require('./assets/Штормовое море под электрическим небом-1.png')}
           resizeMode="cover"
-          blurRadius={1}
+          blurRadius={2}
           style={{
             ...StyleSheet.absoluteFill,
             width: '100%',
