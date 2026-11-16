@@ -4091,6 +4091,17 @@ const FINAL_UI_FIXES_V2 = {
 
 
 const FINAL_UI_FIXES_V3 = {
+  ambientBackdropImage: { opacity: 0 },
+  ambientBackdropTint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,7,18,0.10)' },
+  ambientCloudOne: { opacity: 0.23, shadowOpacity: 1, shadowRadius: 82 },
+  ambientCloudTwo: { opacity: 0.22, shadowOpacity: 1, shadowRadius: 88 },
+  ambientCloudThree: { opacity: 0.24, shadowOpacity: 1, shadowRadius: 78 },
+  ambientCloudFour: { opacity: 0.18, shadowOpacity: 1, shadowRadius: 72 },
+  ambientLightningOne: { opacity: 0.48 },
+  ambientLightningTwo: { opacity: 0.32 },
+  ambientWaterReflection: { opacity: 0.32 },
+  ambientWaterRippleOne: { opacity: 0.55 },
+  ambientWaterRippleTwo: { opacity: 0.42 },
   brandMarkSmall: { width: 40, height: 40, borderRadius: 13, borderWidth: 1.5, borderColor: '#56D7FF', backgroundColor: 'rgba(4,52,105,0.88)', alignItems: 'center', justifyContent: 'center', shadowColor: '#00B8FF', shadowOpacity: 0.82, shadowRadius: 13, elevation: 8, marginRight: 9, overflow: 'hidden' },
   brandMarkAperture: { width: 23, height: 23, borderRadius: 7, borderWidth: 2, borderColor: '#D7F7FF', transform: [{ rotate: '45deg' }], backgroundColor: 'rgba(15,143,255,0.22)' },
   brandMarkPlay: { position: 'absolute', width: 0, height: 0, borderTopWidth: 6, borderBottomWidth: 6, borderLeftWidth: 9, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#FFFFFF', left: 17, top: 14 },
