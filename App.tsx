@@ -2246,9 +2246,12 @@ function CreateScreen({
         <View style={styles.createTitleUnderline} />
       </View>
       <View style={styles.referenceHero} accessibilityLabel="Кинематографическая иллюстрация НейроСцены">
-        <Image source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')} resizeMode="cover" style={styles.referenceHeroArtwork} accessibilityLabel="Неоновая галактическая иллюстрация из референса без акцента на лицах" />
         <View pointerEvents="none" style={styles.referenceHeroNebulaOne} />
         <View pointerEvents="none" style={styles.referenceHeroNebulaTwo} />
+        <View pointerEvents="none" style={styles.referenceHeroOrbitOuter} />
+        <View pointerEvents="none" style={styles.referenceHeroOrbitInner} />
+        <View pointerEvents="none" style={styles.referenceHeroHorizon} />
+        <View pointerEvents="none" style={styles.referenceHeroLightBeam} />
         <View pointerEvents="none" style={styles.referenceHeroArtworkShade} />
         <View style={styles.referenceHeroCopy}>
           <Text style={styles.referenceHeroEyebrow}>ТВОЯ ИДЕЯ — ТВОЙ ФИЛЬМ</Text>
@@ -4680,6 +4683,70 @@ const FINAL_UI_FIXES_V13 = {
 } as const;
 
 
+const FINAL_UI_FIXES_V14 = {
+  // The supplied galaxy reference is a four-screen UI montage, not a standalone hero image.
+  // Build a clean cinematic nebula illustration from native layers instead of rendering the montage.
+  referenceHero: { height: 146, minHeight: 146, paddingHorizontal: 18, paddingVertical: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(2,13,37,0.98)', borderColor: 'rgba(104,202,255,0.82)' },
+  referenceHeroCopy: { width: '100%', marginTop: 0, paddingHorizontal: 12, zIndex: 4, alignItems: 'center', justifyContent: 'center' },
+  referenceHeroNebulaOne: { position: 'absolute', width: 190, height: 190, borderRadius: 95, right: -56, top: -116, backgroundColor: 'rgba(0,111,255,0.28)', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 48, elevation: 15 },
+  referenceHeroNebulaTwo: { position: 'absolute', width: 164, height: 164, borderRadius: 82, left: -65, bottom: -116, backgroundColor: 'rgba(0,197,255,0.20)', shadowColor: '#00CFFF', shadowOpacity: 1, shadowRadius: 42, elevation: 12 },
+  referenceHeroOrbitOuter: { position: 'absolute', width: 236, height: 236, borderRadius: 118, right: -25, top: -48, borderWidth: 1.2, borderColor: 'rgba(111,203,255,0.30)', transform: [{ rotate: '24deg' }] },
+  referenceHeroOrbitInner: { position: 'absolute', width: 176, height: 176, borderRadius: 88, right: 4, top: -18, borderWidth: 1, borderColor: 'rgba(95,180,255,0.22)' },
+  referenceHeroHorizon: { position: 'absolute', left: 0, right: 0, bottom: 23, height: 1, backgroundColor: 'rgba(92,190,255,0.46)', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 10 },
+  referenceHeroLightBeam: { position: 'absolute', width: 2, height: 112, right: '24%', top: 10, backgroundColor: 'rgba(134,224,255,0.48)', shadowColor: '#4FCBFF', shadowOpacity: 1, shadowRadius: 18, transform: [{ rotate: '28deg' }] },
+  referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,8,25,0.16)' },
+  referenceHeroEyebrow: { fontFamily: 'sans-serif-condensed', fontSize: 20, lineHeight: 26, fontWeight: '900', letterSpacing: 0.25, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
+  referenceHeroCaption: { fontSize: 14, lineHeight: 19, fontWeight: '700', color: '#D7EEFF', textAlign: 'center', marginTop: 5, textShadowColor: '#087BFF', textShadowRadius: 10 },
+
+  // Keep the coin artwork gold, while returning the surrounding credits UI to the dark-blue brand palette.
+  creditsScreen: { paddingTop: 8, paddingBottom: 10 },
+  creditsHeader: { minHeight: 42, marginBottom: 9 },
+  creditsTitle: { color: '#FFE7A8', textShadowColor: '#D88A20', textShadowRadius: 16 },
+  creditIllustration: { height: 132, minHeight: 132, marginBottom: 9, borderRadius: 20, borderColor: 'rgba(255,218,135,0.84)', backgroundColor: 'rgba(3,17,43,0.96)', shadowColor: '#168BFF', shadowOpacity: 0.34, shadowRadius: 20, elevation: 9 },
+  creditIllustrationGlow: { backgroundColor: 'rgba(0,111,255,0.16)', shadowColor: '#168BFF', shadowOpacity: 0.9, shadowRadius: 34 },
+  creditCoin: { width: 58, height: 20, marginTop: -4, borderRadius: 30, backgroundColor: '#D99A2B', borderWidth: 2.2, borderColor: '#FFF0B0', shadowColor: '#FFB72E', shadowOpacity: 1, shadowRadius: 13, elevation: 9 },
+  creditCoinFace: { borderColor: 'rgba(255,244,196,0.92)' },
+  creditCoinGlyph: { color: '#FFF8DE', textShadowColor: '#8B4A08', textShadowRadius: 5 },
+  creditStarBadge: { backgroundColor: '#D99A2B', borderColor: '#FFF0BA', shadowColor: '#FFC24D', shadowOpacity: 1, shadowRadius: 15 },
+  creditStarGlyph: { color: '#FFF8DE' },
+  creditIllustrationCaption: { top: 12, zIndex: 3 },
+  creditIllustrationTitle: { color: '#F4FAFF', textShadowColor: '#168BFF', textShadowRadius: 9 },
+  creditIllustrationSub: { color: '#B9DDFB' },
+  welcomeBonusCard: { minHeight: 70, paddingVertical: 10, paddingHorizontal: 12, marginBottom: 9, borderRadius: 15, borderColor: 'rgba(82,181,255,0.62)', backgroundColor: 'rgba(4,25,58,0.96)', shadowColor: '#168BFF', shadowOpacity: 0.28, shadowRadius: 12, elevation: 5 },
+  welcomeBonusIcon: { backgroundColor: 'rgba(0,142,255,0.18)', borderColor: 'rgba(103,212,255,0.72)' },
+  welcomeBonusGlyph: { color: '#C9F5FF', textShadowColor: '#168BFF', textShadowRadius: 9 },
+  welcomeBonusTitle: { color: '#EAF8FF' },
+  welcomeBonusText: { color: '#B8D8F4' },
+  creditBalancePanel: { minHeight: 78, paddingVertical: 8, paddingHorizontal: 14, marginBottom: 8, borderRadius: 15, borderColor: 'rgba(75,177,255,0.62)', backgroundColor: 'rgba(3,20,52,0.96)', shadowColor: '#087BFF', shadowOpacity: 0.32, shadowRadius: 14, elevation: 6 },
+  creditBalanceEyebrow: { color: '#A9DFFF' },
+  creditBalanceHeroValue: { color: '#E6F8FF', textShadowColor: '#168BFF', textShadowRadius: 12 },
+  creditBalanceHeroLabel: { color: '#BDEBFF' },
+  creditPackagesTitle: { color: '#F2F8FF', marginTop: 3, marginBottom: 4 },
+  packageCard: { width: '100%', minHeight: 68, marginTop: 6, paddingVertical: 8, paddingHorizontal: 11, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(75,164,235,0.58)', backgroundColor: 'rgba(4,22,52,0.94)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', shadowColor: '#168BFF', shadowOpacity: 0.16, shadowRadius: 10, elevation: 3 },
+  packageCardPopular: { borderWidth: 1.5, borderColor: '#6BE0FF', backgroundColor: 'rgba(5,48,94,0.98)', shadowColor: '#00AFFF', shadowOpacity: 0.5, shadowRadius: 14, elevation: 7 },
+  packageIconWrap: { width: 38, height: 38, marginRight: 10, borderRadius: 12, backgroundColor: 'rgba(214,145,38,0.16)', borderColor: 'rgba(255,214,131,0.62)' },
+  packageIcon: { color: '#FFE4A0', textShadowColor: '#D98A20', textShadowRadius: 8 },
+  packageAmount: { color: '#F2F8FF', fontSize: 17, lineHeight: 22, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 5 },
+  packagePrice: { color: '#BDE7FF', fontSize: 15, lineHeight: 19, fontWeight: '800' },
+  packageRight: { minWidth: 90, maxWidth: '38%', alignItems: 'flex-end', justifyContent: 'center', flexShrink: 0 },
+  packageIncluded: { color: '#B7D5F1', fontSize: 11, lineHeight: 15, textAlign: 'right', marginTop: 3 },
+  popularBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8, backgroundColor: 'rgba(0,150,255,0.22)', borderWidth: 1, borderColor: '#6BE0FF' },
+  popularBadgeText: { color: '#D9F8FF', fontSize: 11, lineHeight: 14, fontWeight: '900' },
+  creditNeverExpire: { color: '#BDEBFF' },
+  buyCreditsButton: { borderColor: '#78DFFF', backgroundColor: '#0877F4', shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 17, elevation: 8 },
+  buyCreditsButtonText: { color: '#FFFFFF' },
+  buyCreditsHint: { color: '#D5F1FF' },
+
+  // A round coin glyph rather than the previous square-looking selected credit icon.
+  navCoin: { width: 27, height: 27, borderRadius: 14, borderWidth: 2, borderColor: '#E9BD69', backgroundColor: 'rgba(91,55,15,0.18)', alignItems: 'center', justifyContent: 'center', padding: 3, shadowColor: '#FFCA62', shadowOpacity: 0.35, shadowRadius: 8, elevation: 2 },
+  navCoinInner: { width: '100%', height: '100%', borderRadius: 10, borderWidth: 1, borderColor: '#FFE6A5', alignItems: 'center', justifyContent: 'center' },
+  navCoinMark: { color: '#FFE4A0', fontSize: 14, lineHeight: 18, fontWeight: '900' },
+  navCoinActive: { backgroundColor: 'rgba(91,55,15,0.28)', borderColor: '#FFF0BA', shadowColor: '#FFC34F', shadowOpacity: 0.65, shadowRadius: 10, elevation: 3 },
+  navPerson: { width: 27, height: 27, minHeight: 27, alignItems: 'center', justifyContent: 'flex-end', marginBottom: 0 },
+  navPersonBody: { width: 23, height: 13, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 1.8, borderBottomWidth: 1, borderColor: '#4CAEFF', backgroundColor: 'rgba(8,55,104,0.65)' },
+  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopColor: 'rgba(100,192,255,0.42)' },
+} as const;
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5024,5 +5091,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V11,
   ...FINAL_UI_FIXES_V12,
   ...FINAL_UI_FIXES_V13,
+  ...FINAL_UI_FIXES_V14,
 });
 
