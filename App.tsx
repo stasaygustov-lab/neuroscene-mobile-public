@@ -3828,7 +3828,7 @@ const REFERENCE_POLISH = {
   referenceStarA: { position: 'absolute', top: 52, left: '54%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#C6EDFF', shadowColor: '#49BFFF', shadowOpacity: 1, shadowRadius: 10 },
   referenceStarB: { position: 'absolute', top: 136, left: '18%', width: 2, height: 2, borderRadius: 1, backgroundColor: '#A7E7FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 8 },
   referenceStarC: { position: 'absolute', top: 92, right: '9%', width: 2, height: 2, borderRadius: 1, backgroundColor: '#D7F4FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 9 },
-  referenceHero: { width: '100%', maxWidth: 520, alignSelf: 'center' },
+  referenceHero: { width: '100%', maxWidth: 520, alignSelf: 'center', height: 246, minHeight: 246 },
   creditIllustration: { width: '100%', maxWidth: 420, alignSelf: 'center' },
   packageCard: { backgroundColor: PANEL, borderRadius: 12, padding: 15, marginTop: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: '#253147', width: '100%', maxWidth: 520, alignSelf: 'center' },
   profileGuestAvatar: { width: 82, height: 82, borderRadius: 41, borderWidth: 2, borderColor: '#6688B6', backgroundColor: 'rgba(80,119,177,0.16)', shadowColor: '#00AFFF', shadowOpacity: 0.25, shadowRadius: 12, elevation: 4 },
