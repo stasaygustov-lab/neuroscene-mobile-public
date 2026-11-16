@@ -162,10 +162,14 @@ export default function App() {
   const [fontsLoaded, fontError] = useFonts({ Manrope: require('./assets/Manrope[wght].ttf') });
   const [tab, setTab] = useState<Tab>('Create');
   const swipeResponder = useRef(PanResponder.create({
+    // Capture deliberate horizontal drags before ScrollView can interpret them as vertical scrolling.
+    onMoveShouldSetPanResponderCapture: (_event, gesture) =>
+      Math.abs(gesture.dx) > 22 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35,
     onMoveShouldSetPanResponder: (_event, gesture) =>
-      Math.abs(gesture.dx) > 48 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.25,
+      Math.abs(gesture.dx) > 22 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35,
+    onPanResponderTerminationRequest: () => false,
     onPanResponderRelease: (_event, gesture) => {
-      if (Math.abs(gesture.dx) < 72) return;
+      if (Math.abs(gesture.dx) < 52) return;
       const order: Tab[] = ['Create', 'Gallery', 'Credits', 'Profile'];
       setTab((currentTab) => {
         const current = order.indexOf(currentTab);
@@ -1990,14 +1994,13 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
         <Image
-          source={require('./assets/Штормовое море под электрическим небом-1.jpg')}
+          source={require('./assets/Штормовое море под электрическим небом-1.png')}
           resizeMode="cover"
-          blurRadius={2}
           style={{
             ...StyleSheet.absoluteFill,
             width: '100%',
             height: '100%',
-            opacity: 0.88,
+            opacity: 0.96,
           }}
         />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.48)' }]} />
@@ -2029,7 +2032,7 @@ export default function App() {
       <StatusBar style="light" hidden={showIntro} />
 
       {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }]}>
-        <View style={styles.brandRow}>
+        <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
             <View style={styles.brandMarkHalo} />
             <View style={styles.brandMarkApertureRing}>
@@ -2086,10 +2089,10 @@ export default function App() {
 
       <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', alignSelf: 'stretch', flexShrink: 0, height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 20 }]}>
         {([
-          { id: 'Create', icon: '✧', label: 'Создать' },
-          { id: 'Gallery', icon: '▧', label: 'Галерея' },
-          { id: 'Credits', icon: '✦', label: 'Кредиты' },
-          { id: 'Profile', icon: '◉', label: 'Профиль' },
+          { id: 'Create', icon: 'film', label: 'Создать' },
+          { id: 'Gallery', icon: 'grid', label: 'Галерея' },
+          { id: 'Credits', icon: 'coin', label: 'Кредиты' },
+          { id: 'Profile', icon: 'user', label: 'Профиль' },
         ] as const).map((item) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item.id}
@@ -2125,12 +2128,27 @@ export default function App() {
       {showIntro && (
         <View style={styles.introOverlay}>
           <Image
-            source={require('./assets/заставка.jpg')}
-            resizeMode="contain"
+            source={require('./assets/Штормовое море под электрическим небом-1.png')}
+            resizeMode="cover"
             style={StyleSheet.absoluteFill}
-            accessibilityLabel="Заставка НейроСцены"
+            accessibilityLabel="Кинематографический фон НейроСцены"
           />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
+          <View style={styles.introBrandLockup}>
+            <View style={styles.introBrandMonogramWrap}>
+              <View style={[styles.brandMarkHalo, { width: 118, height: 118, borderRadius: 59 }]} />
+              <View style={[styles.brandMarkApertureRing, { width: 92, height: 92, borderRadius: 46, borderWidth: 3, borderColor: '#D4F8FF' }]}>
+                <View style={[styles.brandApertureBladeOne, { width: 17, height: 60, borderRadius: 9 }]} />
+                <View style={[styles.brandApertureBladeTwo, { width: 17, height: 60, borderRadius: 9 }]} />
+                <View style={[styles.brandApertureBladeThree, { width: 17, height: 60, borderRadius: 9 }]} />
+                <View style={[styles.brandApertureCore, { width: 22, height: 22, borderRadius: 11 }]} />
+              </View>
+              <View style={[styles.brandMarkPlay, { borderTopWidth: 11, borderBottomWidth: 11, borderLeftWidth: 18, left: 68, top: 63 }]} />
+              <View style={[styles.brandMarkSpark, { width: 7, height: 7, borderRadius: 4, top: 15, right: 18 }]} />
+            </View>
+            <Text style={styles.introBrandName}>НейроСцена</Text>
+            <Text style={styles.introBrandCaption}>СТУДИЯ СОЗДАНИЯ ВИДЕО</Text>
+          </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
               width: splashProgress.interpolate({ inputRange: [0, 1], outputRange: ['2%', '100%'] }),
@@ -2240,7 +2258,7 @@ function CreateScreen({
       </View>
       <View style={styles.referenceHero} accessibilityLabel="Кинематографическая иллюстрация НейроСцены">
         <Image
-          source={require('./assets/neuroscene-create-hero.webp')}
+          source={require('./assets/Штормовое море под электрическим небом-1.png')}
           resizeMode="cover"
           style={styles.referenceHeroArtwork}
           accessibilityLabel="Кинематографическая сцена НейроСцены"
@@ -4725,7 +4743,60 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V6(),
   ...FINAL_UI_FIXES_V7(),
   // Unified storm-ocean glass/neon visual system across all four primary tabs.
-  container: { flex:  1, backgroundColor: '#020817' },
+  // Final reference-aligned pass: crisp artwork, centered brand and restrained navigation glow.
+  container: { flex: 1, backgroundColor: '#020817' },
+  header: { position: 'relative', alignItems: 'center', justifyContent: 'center', minHeight: 88, paddingTop: 26, paddingBottom: 8, paddingHorizontal: 18 },
+  brandRowCentered: { position: 'absolute', left: 0, right: 0, top: 18, width: '100%', maxWidth: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', zIndex: 1 },
+  brandMarkSmall: { width: 46, height: 46, borderRadius: 23, marginRight: 10, backgroundColor: 'rgba(3,24,57,0.92)', borderColor: 'rgba(141,226,255,0.95)', shadowOpacity: 0.72, shadowRadius: 14 },
+  brandMarkApertureRing: { width: 31, height: 31, borderRadius: 16, borderWidth: 2, borderColor: '#D6F8FF' },
+  brandWordmark: { alignItems: 'flex-start', justifyContent: 'center' },
+  logo: { fontSize: 20, lineHeight: 23, fontWeight: '800', letterSpacing: 0.35 },
+  logoSecond: { fontSize: 20, lineHeight: 23, fontWeight: '800', letterSpacing: 0.35 },
+  headerActions: { position: 'absolute', right: 14, top: 26, zIndex: 3, flexDirection: 'row', alignItems: 'center', gap: 6 },
+  referenceHero: { height: 170, minHeight: 170, borderRadius: 22, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(105,207,255,0.76)', backgroundColor: 'rgba(3,22,53,0.9)', shadowColor: '#168BFF', shadowOpacity: 0.3, shadowRadius: 16, elevation: 8 },
+  referenceHeroArtwork: { position: 'absolute', top: 0, bottom: 0, left: '28%', width: '72%', height: '100%', opacity: 0.82 },
+  referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,27,0.20)' },
+  referenceHeroCopy: { position: 'absolute', top: 14, left: 16, width: '44%', maxWidth: '44%', alignItems: 'flex-start', justifyContent: 'center' },
+  referenceHeroEyebrow: { color: '#8DE8FF', fontSize: 11, lineHeight: 15, fontWeight: '900', letterSpacing: 1.4 },
+  referenceHeroCaption: { color: '#F1F8FF', fontSize: 15, lineHeight: 21, fontWeight: '700', marginTop: 8, maxWidth: '100%' },
+  creditIllustration: { height: 136, minHeight: 136, borderRadius: 20, borderColor: 'rgba(255,202,105,0.72)', backgroundColor: 'rgba(10,24,48,0.78)', shadowColor: '#F5A623', shadowOpacity: 0.30, shadowRadius: 20, elevation: 9 },
+  creditIllustrationGlow: { position: 'absolute', width: 180, height: 120, borderRadius: 90, left: '28%', top: 4, backgroundColor: 'rgba(255,172,46,0.16)', shadowColor: '#FFB638', shadowOpacity: 0.9, shadowRadius: 36 },
+  creditCoinStack: { position: 'absolute', bottom: 8, alignItems: 'center', justifyContent: 'flex-end' },
+  creditStackLeft: { left: '12%' },
+  creditStackCenter: { left: '43%', bottom: 7 },
+  creditStackRight: { right: '12%' },
+  creditCoin: { width: 38, height: 38, borderRadius: 19, marginTop: -7, borderWidth: 3, borderColor: '#FFE7A5', backgroundColor: '#C88725', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFC45C', shadowOpacity: 0.9, shadowRadius: 10, elevation: 6 },
+  creditCoinGlyph: { color: '#FFF4C8', fontSize: 19, lineHeight: 23, fontWeight: '900', textShadowColor: '#9B5A10', textShadowRadius: 4 },
+  creditStarBadge: { right: '21%', bottom: 12, width: 34, height: 34, borderRadius: 17, backgroundColor: '#123D68', borderWidth: 1.5, borderColor: '#FFE5A0', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFC24D', shadowOpacity: 0.9, shadowRadius: 12, elevation: 8 },
+  creditIllustrationCaption: { position: 'absolute', left: 12, top: 10, right: 12, alignItems: 'center' },
+  creditIllustrationTitle: { color: '#FFF1CC', fontSize: 11, lineHeight: 15, fontWeight: '900', letterSpacing: 1.25, textShadowColor: '#D78A24', textShadowRadius: 8 },
+  creditIllustrationSub: { color: '#D7E9FF', fontSize: 10, lineHeight: 14, fontWeight: '700', marginTop: 2, letterSpacing: 0.8 },
+  bottomNav: { minHeight: 84, paddingTop: 6, paddingBottom: 9, backgroundColor: 'rgba(1,9,25,0.985)', borderTopWidth: 1, borderTopColor: 'rgba(73,177,255,0.34)', shadowColor: '#008CFF', shadowOpacity: 0.18, shadowRadius: 12, elevation: 12 },
+  navItem: { minHeight: 62, paddingTop: 4, paddingBottom: 3, gap: 4, borderRadius: 15, borderColor: 'transparent' },
+  navItemActive: { backgroundColor: 'rgba(0,119,255,0.14)', borderColor: 'rgba(100,202,255,0.78)', shadowColor: '#00AFFF', shadowOpacity: 0.36, shadowRadius: 12, elevation: 6 },
+  navLabel: { color: '#A8C5E2', fontSize: 13, lineHeight: 17, fontWeight: '700', letterSpacing: 0.15 },
+  navLabelActive: { color: '#E4F8FF', fontWeight: '900', textShadowColor: 'rgba(0,175,255,0.72)', textShadowRadius: 7 },
+  navCreateIcon: { width: 26, height: 26, borderWidth: 1.7, borderColor: '#78DFFF', borderRadius: 7, backgroundColor: 'rgba(0,132,255,0.12)', alignItems: 'center', justifyContent: 'center' },
+  navCreateTriangle: { width: 0, height: 0, borderTopWidth: 7, borderBottomWidth: 7, borderLeftWidth: 11, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#8BE9FF', marginLeft: 3 },
+  navGalleryIcon: { width: 26, height: 26, flexDirection: 'row', flexWrap: 'wrap', gap: 3, padding: 2, borderWidth: 1.4, borderColor: '#78DFFF', borderRadius: 5, alignContent: 'center', justifyContent: 'center' },
+  navGalleryCell: { width: 7, height: 7, borderRadius: 1.5, borderWidth: 1.4, borderColor: '#8BDFFF', backgroundColor: 'rgba(91,192,255,0.16)' },
+  navCoin: { width: 27, height: 27, borderRadius: 14, borderWidth: 2, borderColor: '#8BDFFF', backgroundColor: 'rgba(7,46,82,0.65)', alignItems: 'center', justifyContent: 'center', padding: 3 },
+  navCoinInner: { width: '100%', height: '100%', borderRadius: 10, borderWidth: 1, borderColor: '#B9ECFF', alignItems: 'center', justifyContent: 'center' },
+  navCoinMark: { color: '#FFE5A0', fontSize: 14, lineHeight: 17, fontWeight: '900' },
+  navCoinActive: { borderColor: '#FFE5A0', shadowColor: '#FFC14D', shadowOpacity: 0.55, shadowRadius: 10, elevation: 6 },
+  navPerson: { width: 27, height: 27, alignItems: 'center', justifyContent: 'flex-end' },
+  navPersonHead: { width: 10, height: 10, borderRadius: 5, borderWidth: 1.8, borderColor: '#8BDFFF', backgroundColor: 'transparent', marginBottom: 2 },
+  navPersonBody: { width: 23, height: 13, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 1.8, borderBottomWidth: 0, borderColor: '#8BDFFF', backgroundColor: 'transparent' },
+  introOverlay: { ...StyleSheet.absoluteFillObject, zIndex: 9999, elevation: 9999, overflow: 'hidden', backgroundColor: '#010714', alignItems: 'center', justifyContent: 'center' },
+  splashCinematicShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,7,22,0.28)' },
+  introBrandLockup: { position: 'absolute', top: '25%', left: 0, right: 0, alignItems: 'center', justifyContent: 'center', minHeight: 280 },
+  introBrandMonogramWrap: { width: 148, height: 148, borderRadius: 74, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(2,16,43,0.78)', borderWidth: 2, borderColor: '#70DFFF', shadowColor: '#168CFF', shadowOpacity: 0.92, shadowRadius: 28, elevation: 20 },
+  introBrandName: { marginTop: 22, color: '#F4FAFF', fontSize: 32, lineHeight: 40, fontWeight: '900', letterSpacing: 0.5, textShadowColor: '#168BFF', textShadowRadius: 18 },
+  introBrandCaption: { marginTop: 7, color: '#8DDCFF', fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 2.0, textAlign: 'center' },
+  splashProgressTrack: { bottom: '8%' },
+  fontFamily: 'Manrope',
+  text: { fontFamily: 'Manrope', letterSpacing: 0.12 },
+
   ambientBackdrop: { ...StyleSheet.absoluteFill, overflow: 'hidden', backgroundColor: '#020817' },
   ambientBackdropTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,8,22,0.24)' },
   content: { paddingHorizontal: 18, paddingTop: 16, paddingBottom: 24 },
