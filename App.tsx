@@ -1718,7 +1718,7 @@ export default function App() {
       return (
         <View style={[styles.screen, styles.creditsScreen]}>
           <View style={styles.creditsHeader}>
-            <Text style={styles.creditsHeaderIcon}>✦</Text>
+            <Text style={styles.creditsHeaderIcon}>▤</Text>
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
           </View>
           <View style={styles.creditIllustration}>
@@ -1811,12 +1811,12 @@ export default function App() {
             <View style={styles.profileGuestHead} />
             <View style={styles.profileGuestBody} />
           </View>
-          <Text style={styles.profileGuestName}>{authUser?.email || 'Гость'}</Text>
-          <Text style={styles.profileGuestStatus}>{authUser ? 'В сети' : 'Войдите, чтобы открыть все возможности'}</Text>
+          <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
+          <Text style={styles.profileGuestStatus}>{authUser?.email || 'Войдите, чтобы открыть все возможности'}</Text>
         </View>
         {authUser ? (
           <>
-            <View style={styles.profileCard}>
+            <View style={[styles.profileCard, { display: 'none' }]}>
               <View style={styles.avatar}><Text style={styles.avatarText}>Н+С</Text></View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.profileName}>{uiText(language, 'YOUR ACCOUNT', 'ВАШ АККАУНТ')}</Text>
@@ -2174,7 +2174,7 @@ function CreateScreen({
       </ImageBackground>
       <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
         <Text style={styles.referencePlay}>▶</Text>
-        <Text style={styles.referenceCreateButtonText}>Создать</Text>
+        <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
       </TouchableOpacity>
 
       {!showComposer && (
@@ -2492,7 +2492,7 @@ function GalleryScreen({
       <View style={styles.galleryHeader}>
         <Text style={styles.screenTitle}>Галерея</Text>
         <TouchableOpacity activeOpacity={0.86} style={styles.galleryFilterButton} onPress={onRefresh} accessibilityLabel="Обновить галерею">
-          <Text style={styles.galleryFilterIcon}>☷</Text>
+          <Text style={styles.galleryFilterIcon}>▽</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.galleryTabs}>
