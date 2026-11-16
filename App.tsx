@@ -1795,7 +1795,7 @@ export default function App() {
                     </View>
                     <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')} кредитов</Text>
                     <View style={styles.packageRight}>
-                      {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
+                      {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText} numberOfLines={1}>Популярно</Text></View>}
                       <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
                     </View>
                   </View>
@@ -2260,7 +2260,7 @@ function CreateScreen({
       </View>
       <View style={styles.createHeroCard}>
         <Image
-          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
           resizeMode="cover"
           style={styles.createHeroArtwork}
           accessibilityLabel="Кинематографическая иллюстрация НейроСцены"
@@ -5309,6 +5309,13 @@ const FINAL_UI_FIXES_V20 = {
   menuItem: { minHeight: 50, paddingVertical: 10, borderBottomColor: 'rgba(104,158,205,0.16)' },
 };
 
+const FINAL_UI_FIXES_V24 = {
+  // Keep the popular label on one line in the compact side-by-side credit layout.
+  packageRight: { minWidth: 72, maxWidth: 76, flexShrink: 0, alignItems: 'flex-end', justifyContent: 'center', gap: 2 },
+  popularBadge: { position: 'relative', top: 0, right: 0, width: 72, minWidth: 72, alignSelf: 'flex-end', alignItems: 'center', paddingHorizontal: 2, paddingVertical: 2, borderRadius: 6 },
+  popularBadgeText: { width: '100%', fontSize: 8, lineHeight: 10, textAlign: 'center', includeFontPadding: false },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5663,5 +5670,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V21,
   ...FINAL_UI_FIXES_V22,
   ...FINAL_UI_FIXES_V23,
+  ...FINAL_UI_FIXES_V24,
 });
 
