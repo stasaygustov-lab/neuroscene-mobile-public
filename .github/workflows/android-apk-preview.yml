@@ -44,11 +44,13 @@ jobs:
       - name: TypeScript validation (report existing app typing issues)
         run: npx tsc --noEmit
         continue-on-error: true
-      - name: Fit launcher logo inside Android safe area
+      - name: Prepare launcher and adaptive brand artwork
         run: |
           python3 -m venv .venv
           .venv/bin/pip install Pillow
-          .venv/bin/python scripts/fit-android-icon.py
+          .venv/bin/python scripts/prepare-brand-assets.py
+      - name: Fit launcher logo inside Android safe area
+        run: .venv/bin/python scripts/fit-android-icon.py
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install --clean
       - name: Build standalone installable APK
