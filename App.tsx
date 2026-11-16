@@ -4252,7 +4252,7 @@ const FINAL_UI_FIXES_V5 = {
 } as const;
 
 
-const FINAL_UI_FIXES_V6 = {
+const FINAL_UI_FIXES_V6 = () => ({
   header: { paddingTop: 22, paddingBottom: 12, minHeight: 84, flexShrink: 0 },
   content: { flexGrow: 1, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 22 },
   creditsContent: { flexGrow: 1, paddingTop: 12, paddingBottom: 24 },
@@ -4289,7 +4289,7 @@ const FINAL_UI_FIXES_V6 = {
   menuItem: { minHeight: 48, paddingVertical: 9, paddingHorizontal: 12 },
   version: { marginTop: 10, marginBottom: 8 },
   bottomNav: { minHeight: 76, paddingTop: 5, paddingBottom: 7, backgroundColor: 'rgba(2,10,27,0.97)', borderTopColor: 'rgba(73,166,255,0.42)' },
-} as const;
+} as const);
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
@@ -4629,6 +4629,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V3,
   ...FINAL_UI_FIXES_V4,
   ...FINAL_UI_FIXES_V5,
-  ...FINAL_UI_FIXES_V6,
+  ...FINAL_UI_FIXES_V6(),
 });
 
