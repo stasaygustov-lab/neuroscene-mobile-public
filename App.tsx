@@ -2070,7 +2070,6 @@ export default function App() {
             <View style={styles.notificationBell}>
               <View style={styles.notificationBellDome} />
               <View style={styles.notificationBellBase} />
-              <View style={styles.notificationBellClapper} />
             </View>
             {unreadNotifications > 0 && <View style={styles.notificationBadge}><Text style={styles.notificationBadgeText}>{unreadNotifications > 9 ? '9+' : unreadNotifications}</Text></View>}
           </TouchableOpacity>
@@ -5316,6 +5315,31 @@ const FINAL_UI_FIXES_V24 = {
   popularBadgeText: { width: '100%', fontSize: 8, lineHeight: 10, textAlign: 'center', includeFontPadding: false },
 };
 
+const FINAL_UI_FIXES_V25 = {
+  // Keep the supplied wordmark fully visible: the two intentional lines must not shrink.
+  referenceCenteredHeader: { alignItems: 'stretch', justifyContent: 'flex-start', minHeight: 76, marginBottom: 8 },
+  brandRowCentered: { alignSelf: 'flex-start', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', gap: 10, marginLeft: 0, width: 'auto' },
+  brandWordmark: { width: 122, minWidth: 122, maxWidth: 122, flexShrink: 0, flexGrow: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
+  logo: { width: '100%', flexShrink: 0, color: '#F2FAFF', backgroundColor: 'transparent', padding: 0, margin: 0, fontSize: 18, lineHeight: 22, fontWeight: '900', letterSpacing: 0, textShadowColor: 'rgba(34,158,255,0.65)', textShadowRadius: 10 },
+  // The bell is drawn from dome + base only; remove the detached dot/clapper.
+  notificationBellClapper: { display: 'none', width: 0, height: 0, opacity: 0 },
+  notificationBell: { width: 24, height: 26, alignItems: 'center', justifyContent: 'center' },
+  notificationBellDome: { width: 18, height: 18, borderTopLeftRadius: 10, borderTopRightRadius: 10, borderBottomLeftRadius: 3, borderBottomRightRadius: 3, borderWidth: 1.8, borderColor: '#A9D9FF', borderBottomWidth: 0 },
+  notificationBellBase: { width: 22, height: 2, borderRadius: 1, backgroundColor: '#A9D9FF', marginTop: -1 },
+  // Keep the feature cards translucent and remove any inset dark backing behind their copy.
+  featureTile: { backgroundColor: 'rgba(4,20,48,0.62)', borderColor: 'rgba(77,166,235,0.66)', shadowOpacity: 0.20, elevation: 3 },
+  featureIconSquare: { backgroundColor: 'transparent', borderWidth: 0, elevation: 0, shadowOpacity: 0 },
+  featureTitle: { backgroundColor: 'transparent', padding: 0, margin: 0 },
+  featureSubtitle: { backgroundColor: 'transparent', padding: 0, marginTop: 2 },
+  // Move the credits heading clear of the Android status bar and leave scroll room above navigation.
+  creditsContent: { flexGrow: 1, paddingTop: 42, paddingBottom: 156, paddingHorizontal: 18 },
+  creditsHeader: { width: '100%', minHeight: 42, alignItems: 'flex-start', justifyContent: 'center', marginTop: 0, marginBottom: 12 },
+  creditsTitle: { fontFamily: 'Manrope', fontSize: 27, lineHeight: 34, textAlign: 'left', color: '#FFE7A8', textShadowColor: '#D88A20', textShadowRadius: 14 },
+  creditsScreen: { width: '100%', minWidth: 0, alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, paddingHorizontal: 0, paddingBottom: 140 },
+  profileScreen: { paddingBottom: 140 },
+  galleryEmptyCard: { backgroundColor: 'rgba(4,20,48,0.62)' },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5671,5 +5695,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V22,
   ...FINAL_UI_FIXES_V23,
   ...FINAL_UI_FIXES_V24,
+  ...FINAL_UI_FIXES_V25,
 });
 
