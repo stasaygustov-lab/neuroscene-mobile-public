@@ -242,6 +242,7 @@ export default function App() {
   const [showIntro, setShowIntro] = useState(true);
   const splashProgress = useRef(new Animated.Value(0)).current;
   const splashShimmer = useRef(new Animated.Value(0)).current;
+  const splashSweep = useRef(new Animated.Value(0)).current;
   const splashStartedAt = useRef(Date.now()).current;
 
   useEffect(() => {
@@ -250,12 +251,21 @@ export default function App() {
 
   useEffect(() => {
     const shimmer = Animated.loop(Animated.sequence([
-      Animated.timing(splashShimmer, { toValue: 1, duration: 1050, useNativeDriver: true }),
-      Animated.timing(splashShimmer, { toValue: 0, duration: 1050, useNativeDriver: true }),
+      Animated.timing(splashShimmer, { toValue: 1, duration: 1150, useNativeDriver: true }),
+      Animated.timing(splashShimmer, { toValue: 0, duration: 1150, useNativeDriver: true }),
     ]));
+    const sweep = Animated.loop(Animated.timing(splashSweep, {
+      toValue: 1,
+      duration: 1750,
+      useNativeDriver: true,
+    }));
     shimmer.start();
-    return () => shimmer.stop();
-  }, [splashShimmer]);
+    sweep.start();
+    return () => {
+      shimmer.stop();
+      sweep.stop();
+    };
+  }, [splashShimmer, splashSweep]);
 
   useEffect(() => {
     if (!authReady || (!fontsLoaded && !fontError)) return;
@@ -1972,17 +1982,17 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
         <Image
-          source={require('./assets/Штормовое море под электрическим небом-1.png')}
+          source={require('./assets/Штормовое море под электрическим небом-1.jpg')}
           resizeMode="cover"
-          blurRadius={8}
+          blurRadius={2}
           style={{
             ...StyleSheet.absoluteFill,
             width: '100%',
             height: '100%',
-            opacity: 0.82,
+            opacity: 0.88,
           }}
         />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.30)' }]} />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.48)' }]} />
         <View style={styles.ambientBackdropTint} />
         <View style={styles.ambientGlowTop} />
         <View style={styles.ambientGlowBottom} />
@@ -2106,34 +2116,34 @@ export default function App() {
 
       {showIntro && (
         <View style={styles.introOverlay}>
-          <View style={styles.introBrandLockup}>
-            <View style={styles.introLogoHalo} />
-            <View style={styles.introOrbitOuter}>
-              <View style={styles.introOrbitInner} />
-              <View style={styles.introBrandMonogramWrap}>
-                <Text style={styles.introBrandMonogram}>Н+С</Text>
-              </View>
-            </View>
-            <Text style={styles.introBrandName}>НейроСцена</Text>
-            <Text style={styles.introBrandCaption}>ТВОЯ ТВОРЧЕСКАЯ СТУДИЯ</Text>
-          </View>
-          <View style={styles.introSparkleOne} />
-          <View style={styles.introSparkleTwo} />
-          <View style={styles.introSparkleThree} />
-          <Animated.View style={[styles.introSparkleExtra, { top: '19%', left: '39%', opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.18, 1] }), transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.55, 1.65] }) }] }]} />
-          <Animated.View style={[styles.introSparkleExtra, { top: '31%', right: '34%', opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [1, 0.16] }), transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [1.5, 0.55] }) }] }]} />
-          <Animated.View style={[styles.introSparkleExtraLarge, { top: '48%', left: '17%', opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.12, 0.95] }), transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.45, 1.4] }) }] }]} />
-          <Animated.View style={[styles.introSparkleExtra, { top: '56%', right: '18%', opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.9, 0.12] }), transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [1.35, 0.5] }) }] }]} />
-          <Animated.View style={[styles.introSparkleExtraLarge, { bottom: '28%', right: '38%', opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.14, 1] }), transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.5, 1.6] }) }] }]} />
-          <View style={styles.introProgressTrack}>
+          <Image
+            source={require('./assets/заставка.jpg')}
+            resizeMode="contain"
+            style={StyleSheet.absoluteFill}
+            accessibilityLabel="Заставка НейроСцены"
+          />
+          <View pointerEvents="none" style={styles.splashCinematicShade} />
+          <View pointerEvents="none" style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
               width: splashProgress.interpolate({ inputRange: [0, 1], outputRange: ['2%', '100%'] }),
             }]} />
-            <Animated.View style={[styles.introProgressShimmer, {
-              opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.15, 1] }),
-              transform: [{ translateX: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [-42, 340] }) }],
+            <Animated.View style={[styles.introProgressSweep, {
+              opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.55, 1] }),
+              transform: [{ translateX: splashSweep.interpolate({ inputRange: [0, 1], outputRange: [-48, 292] }) }],
+            }]} />
+            <Animated.View style={[styles.introProgressSpark, {
+              opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.18, 1] }),
+              transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.55, 1.45] }) }],
             }]} />
           </View>
+          <Animated.View pointerEvents="none" style={[styles.splashSparkLeft, {
+            opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.12, 0.9] }),
+            transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.55, 1.3] }) }],
+          }]} />
+          <Animated.View pointerEvents="none" style={[styles.splashSparkRight, {
+            opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.9, 0.16] }),
+            transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [1.25, 0.6] }) }],
+          }]} />
         </View>
       )}
     </SafeAreaView>
@@ -2566,7 +2576,20 @@ function GalleryScreen({
       )}
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.emptyScreen}>
-          <Text style={styles.emptyIcon}>▤</Text>
+          <View style={styles.galleryEmptyArtwork} accessibilityLabel="Неоновая кинематографическая хлопушка">
+            <View style={styles.galleryClapperTop}>
+              <View style={styles.galleryClapperStripe} />
+              <View style={styles.galleryClapperStripe} />
+              <View style={styles.galleryClapperStripe} />
+              <View style={styles.galleryClapperStripe} />
+            </View>
+            <View style={styles.galleryClapperBody}>
+              <Text style={styles.galleryClapperPlay}>▶</Text>
+              <Text style={styles.galleryClapperCaption}>NEUROSCENE</Text>
+            </View>
+            <View style={styles.galleryClapperBase} />
+          </View>
+          <Text style={styles.galleryEmptyTitle}>Ваша галерея ждёт первый фильм</Text>
           <Text style={styles.description}>{uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
           <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}><Text style={styles.secondaryButtonText}>{uiText(language, 'Create your first video', 'Создать видео')}</Text></TouchableOpacity>
         </View>
@@ -4692,5 +4715,79 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V5,
   ...FINAL_UI_FIXES_V6(),
   ...FINAL_UI_FIXES_V7(),
+  // Unified storm-ocean glass/neon visual system across all four primary tabs.
+  container: { flex:  1, backgroundColor: '#020817' },
+  ambientBackdrop: { ...StyleSheet.absoluteFill, overflow: 'hidden', backgroundColor: '#020817' },
+  ambientBackdropTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,8,22,0.24)' },
+  content: { paddingHorizontal: 18, paddingTop: 16, paddingBottom: 24 },
+  creditsContent: { paddingTop: 14, paddingHorizontal: 18, paddingBottom: 28 },
+  screen: { flex: 1, paddingTop: 12, paddingBottom: 10 },
+  creditsScreen: { flex: 1, paddingTop: 12, paddingBottom: 12 },
+  header: { paddingTop: 30, paddingBottom: 9, paddingHorizontal: 18, minHeight: 86, width: '100%', flexShrink: 0 },
+  bottomNav: { minHeight: 78, paddingTop: 6, paddingBottom: 8, backgroundColor: 'rgba(2,10,27,0.96)', borderTopWidth: 1, borderTopColor: 'rgba(70,173,255,0.52)', shadowColor: '#008CFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 16 },
+  navItem: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4, minWidth: 0, minHeight: 58, paddingHorizontal: 3, paddingTop: 3, borderRadius: 14, borderWidth: 1, borderColor: 'transparent' },
+  navItemActive: { backgroundColor: 'rgba(0,120,255,0.18)', borderColor: 'rgba(77,195,255,0.72)', shadowColor: '#00AFFF', shadowOpacity: 0.82, shadowRadius: 17, elevation: 10 },
+  navLabel: { color: '#8FAFCF', fontSize: 13, lineHeight: 17, fontWeight: '700' },
+  navLabelActive: { color: '#C8F5FF', fontWeight: '900', textShadowColor: '#00AFFF', textShadowRadius: 12 },
+  navCreateIcon: { shadowColor: '#37C8FF', shadowOpacity: 0.62, shadowRadius: 12, elevation: 6 },
+  navCoinActive: { borderColor: '#8DE7FF', shadowColor: '#00BFFF', shadowOpacity: 0.9, shadowRadius: 12, elevation: 8 },
+  navPersonHead: { borderColor: '#75CFFF' },
+  navPersonBody: { borderColor: '#75CFFF' },
+  referenceHero: { height: 170, minHeight: 170, marginTop: 5, marginBottom: 14, borderRadius: 23, borderWidth: 1, borderColor: 'rgba(95,194,255,0.72)', backgroundColor: 'rgba(3,22,53,0.82)', shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 22, elevation: 10 },
+  referenceHeroCopy: { top: 15, left: 16, width: '48%' },
+  referenceHeroTitle: { color: '#F3FAFF', fontSize: 22, lineHeight: 27, textShadowColor: '#087BFF', textShadowRadius: 16 },
+  referenceHeroCaption: { color: '#BBDFFF', fontSize: 14, lineHeight: 19, maxWidth: 190 },
+  referenceCreateGlow: { width: '100%', marginBottom: 17, borderRadius: 30, shadowColor: '#00BFFF', shadowOpacity: 0.72, shadowRadius: 22, elevation: 13 },
+  referenceCreateButton: { minHeight: 58, borderRadius: 30, backgroundColor: '#087BFF', borderWidth: 1, borderColor: '#8BE7FF', shadowColor: '#00AFFF', shadowOpacity: 0.65, shadowRadius: 18, elevation: 10 },
+  featureSectionTitle: { color: '#F3FAFF', fontSize: 18, fontWeight: '900', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 13, marginBottom: 12 },
+  featureTile: { backgroundColor: 'rgba(4,20,48,0.88)', borderColor: 'rgba(77,166,235,0.64)', borderRadius: 17, shadowColor: '#087BFF', shadowOpacity: 0.24, shadowRadius: 12, elevation: 5 },
+  featureTileActive: { borderColor: '#55D8FF', backgroundColor: 'rgba(4,52,100,0.9)', shadowOpacity: 0.72, shadowRadius: 17, elevation: 9 },
+  galleryTitleWrap: { minHeight: 64, marginBottom: 18, paddingTop: 5 },
+  galleryTitle: { color: '#F4FBFF', fontSize: 27, lineHeight: 34, fontWeight: '900', textShadowColor: 'rgba(24,159,255,0.82)', textShadowRadius: 17 },
+  galleryTitleGlow: { bottom: 0, width: '74%', height: 2, backgroundColor: '#45D8FF', shadowColor: '#00BFFF', shadowOpacity: 1, shadowRadius: 14, elevation: 9 },
+  emptyScreen: { flex: 1, minHeight: 330, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, paddingVertical: 28, borderRadius: 24, backgroundColor: 'rgba(3,17,42,0.78)', borderWidth: 1, borderColor: 'rgba(70,164,238,0.62)', shadowColor: '#087BFF', shadowOpacity: 0.24, shadowRadius: 20, elevation: 8 },
+  galleryEmptyArtwork: { width: 164, height: 132, alignItems: 'center', justifyContent: 'center', marginBottom: 22, shadowColor: '#00AFFF', shadowOpacity: 0.78, shadowRadius: 24, elevation: 12 },
+  galleryClapperTop: { width: 146, height: 27, borderRadius: 7, borderWidth: 2, borderColor: '#8BE8FF', backgroundColor: '#0C4C88', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', transform: [{ rotate: '-8deg' }], shadowColor: '#00BFFF', shadowOpacity: 0.9, shadowRadius: 12, elevation: 8, zIndex: 2 },
+  galleryClapperStripe: { width: 13, height: 19, backgroundColor: '#C8F6FF', borderRadius: 2, transform: [{ skewX: '-22deg' }] },
+  galleryClapperBody: { width: 136, height: 83, marginTop: -2, borderRadius: 10, borderWidth: 2, borderColor: '#5DD9FF', backgroundColor: 'rgba(5,35,78,0.98)', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.9, shadowRadius: 17, elevation: 9 },
+  galleryClapperPlay: { color: '#D5F8FF', fontSize: 34, lineHeight: 39, textShadowColor: '#00BFFF', textShadowRadius: 14 },
+  galleryClapperCaption: { color: '#82DFFF', fontSize: 9, fontWeight: '900', letterSpacing: 2.5, marginTop: 2 },
+  galleryClapperBase: { position: 'absolute', bottom: 3, width: 120, height: 5, borderRadius: 3, backgroundColor: '#2B9FE8', opacity: 0.72 },
+  galleryEmptyTitle: { color: '#F0F8FF', fontSize: 18, lineHeight: 24, fontWeight: '900', textAlign: 'center', marginBottom: 2, textShadowColor: '#168BFF', textShadowRadius: 10 },
+  galleryCard: { backgroundColor: 'rgba(4,19,45,0.94)', borderColor: 'rgba(70,151,219,0.58)', borderRadius: 19, padding: 13, marginTop: 13, shadowColor: '#087BFF', shadowOpacity: 0.22, shadowRadius: 14, elevation: 6 },
+  galleryPreview: { borderRadius: 14, borderColor: 'rgba(88,196,255,0.72)' },
+  storageTrack: { height: 7, borderRadius: 5, backgroundColor: 'rgba(62,128,190,0.38)', overflow: 'hidden', marginTop: 2, marginBottom: 16 },
+  storageProgress: { height: 7, borderRadius: 5, backgroundColor: '#43D5FF', shadowColor: '#00BFFF', shadowOpacity: 1, shadowRadius: 10 },
+  creditsHeader: { position: 'relative', alignItems: 'center', justifyContent: 'center', marginBottom: 15, minHeight: 52 },
+  creditsTitle: { color: '#F6FBFF', fontSize: 28, lineHeight: 35, fontWeight: '900', textAlign: 'center', textShadowColor: 'rgba(35,160,255,0.82)', textShadowRadius: 16 },
+  creditIllustration: { borderRadius: 22, borderColor: 'rgba(255,198,91,0.64)', backgroundColor: 'rgba(9,25,51,0.88)', shadowColor: '#FFB83F', shadowOpacity: 0.24, shadowRadius: 18, elevation: 8 },
+  creditCoin: { borderColor: '#FFE39A', shadowColor: '#FFB72E', shadowOpacity: 0.92, shadowRadius: 13, elevation: 9 },
+  creditBalancePanel: { borderRadius: 18, borderWidth: 1, borderColor: 'rgba(255,201,94,0.48)', backgroundColor: 'rgba(23,31,54,0.88)', paddingVertical: 12, paddingHorizontal: 16, alignItems: 'center', marginBottom: 13 },
+  packageCard: { minHeight: 76, paddingVertical: 12, paddingHorizontal: 15, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(102,169,225,0.54)', backgroundColor: 'rgba(4,21,48,0.91)', shadowColor: '#168BFF', shadowOpacity: 0.2, shadowRadius: 12, elevation: 5 },
+  packageCardPopular: { borderColor: '#FFD477', backgroundColor: 'rgba(43,42,55,0.94)', shadowColor: '#FFB72E', shadowOpacity: 0.55, shadowRadius: 17, elevation: 9 },
+  packageAmount: { color: '#FFE09A', fontSize: 19, lineHeight: 24, fontWeight: '900', textShadowColor: 'rgba(255,168,40,0.48)', textShadowRadius: 8 },
+  packagePrice: { color: '#FFF1CC', fontSize: 16, lineHeight: 21, fontWeight: '800' },
+  creditNeverExpire: { color: '#FFE7AE', textAlign: 'center', marginTop: 13, marginBottom: 8, fontSize: 16, fontWeight: '800' },
+  creditHistorySection: { marginTop: 21, paddingTop: 16, borderTopColor: 'rgba(111,172,226,0.35)' },
+  profileHeader: { justifyContent: 'center', marginBottom: 8 },
+  profileIdentity: { alignItems: 'center', paddingTop: 9, paddingBottom: 15, marginBottom: 11, borderBottomColor: 'rgba(70,164,238,0.42)' },
+  profileGuestAvatar: { width: 92, height: 92, borderRadius: 46, borderWidth: 2, borderColor: '#6DE2FF', backgroundColor: 'rgba(0,91,180,0.22)', shadowColor: '#00BFFF', shadowOpacity: 0.95, shadowRadius: 25, elevation: 13 },
+  profileGuestName: { color: '#F3FAFF', fontSize: 21, lineHeight: 27, fontWeight: '900', marginTop: 9, textShadowColor: '#168BFF', textShadowRadius: 10 },
+  profileGuestStatus: { color: '#B7D1EA', fontSize: 15, lineHeight: 21, marginTop: 3, textAlign: 'center', paddingHorizontal: 16 },
+  profileVkButton: { height: 56, borderRadius: 18, backgroundColor: '#087BFF', borderColor: '#91E8FF', shadowColor: '#008CFF', shadowOpacity: 0.7, shadowRadius: 20, elevation: 11 },
+  profilePrivacyCard: { borderRadius: 17, borderColor: 'rgba(77,173,239,0.64)', backgroundColor: 'rgba(4,22,51,0.9)' },
+  profileMenuCard: { marginTop: 12, borderRadius: 18, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(70,164,238,0.56)', backgroundColor: 'rgba(3,16,40,0.88)' },
+  menuItem: { minHeight: 53, paddingVertical: 10, paddingHorizontal: 13, borderBottomColor: 'rgba(68,137,196,0.28)' },
+  menuText: { color: '#EAF5FF', fontSize: 15, fontWeight: '800' },
+  menuArrow: { color: '#69D8FF', fontSize: 23 },
+  version: { color: '#8AB5D9', fontSize: 11, letterSpacing: 1.4, textAlign: 'center', marginTop: 13, marginBottom: 8 },
+  introOverlay: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 9999, elevation: 9999, overflow: 'hidden', backgroundColor: '#020817', alignItems: 'center', justifyContent: 'center' },
+  splashCinematicShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(0,7,22,0.20)' },
+  introProgressTrack: { position: 'absolute', bottom: '8.2%', width: '60%', maxWidth: 270, height: 5, borderRadius: 4, backgroundColor: 'rgba(8,27,56,0.82)', overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(155,229,255,0.82)', shadowColor: '#00BFFF', shadowOpacity: 0.95, shadowRadius: 13, elevation: 10 },
+  introProgressFill: { height: 5, borderRadius: 4, backgroundColor: '#39D5FF', shadowColor: '#FFFFFF', shadowOpacity: 1, shadowRadius: 10, elevation: 8 },
+  introProgressSweep: { position: 'absolute', top: -2, left: 0, width: 42, height: 8, borderRadius: 6, backgroundColor: '#FFFFFF', shadowColor: '#6CEBFF', shadowOpacity: 1, shadowRadius: 14, elevation: 12 },
+  introProgressSpark: { position: 'absolute', right: 13, top: -3, width: 7, height: 7, borderRadius: 4, backgroundColor: '#FFFFFF', shadowColor: '#FFFFFF', shadowOpacity: 1, shadowRadius: 11, elevation: 10 },
+  splashSparkLeft: { position: 'absolute', bottom: '7.7%', left: '20%', width: 4, height: 4, borderRadius: 2, backgroundColor: '#FFFFFF', shadowColor: '#50DFFF', shadowOpacity: 1, shadowRadius: 10, elevation: 8 },
+  splashSparkRight: { position: 'absolute', bottom: '8.7%', right: '20%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#D8FAFF', shadowColor: '#00BFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 8 },
 });
 
