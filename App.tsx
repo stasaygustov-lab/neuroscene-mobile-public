@@ -2034,15 +2034,12 @@ export default function App() {
       {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
-            <View style={styles.brandMarkHalo} />
-            <View style={styles.brandMarkApertureRing}>
-              <View style={styles.brandApertureBladeOne} />
-              <View style={styles.brandApertureBladeTwo} />
-              <View style={styles.brandApertureBladeThree} />
-              <View style={styles.brandApertureCore} />
-            </View>
-            <View style={styles.brandMarkPlay} />
-            <View style={styles.brandMarkSpark} />
+            <Image
+              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
+              resizeMode="contain"
+              style={styles.headerBrandArtwork}
+              accessibilityLabel="Неоновая иконка НейроСцены"
+            />
           </View>
           <View style={styles.brandWordmark}>
             <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.82} style={[styles.logo, { color: '#F3F8FF', textShadowColor: '#168CFF', textShadowRadius: 12 }]}>Нейро</Text>
@@ -4434,6 +4431,10 @@ const FINAL_UI_FIXES_V8 = {
   profileMenuCard: { borderColor: 'rgba(73,166,255,0.56)', backgroundColor: 'rgba(4,18,43,0.94)' },
 } as const;
 
+const FINAL_UI_FIXES_V10 = {
+  headerBrandArtwork: { width: 38, height: 38, borderRadius: 10 },
+} as const;
+
 const FINAL_UI_FIXES_V9 = {
   // Align header actions explicitly to the right; keep the brand lockup centered.
   header: { position: 'relative', minHeight: 88, paddingTop: 32, paddingBottom: 8, paddingHorizontal: 18, width: '100%', flexShrink: 0 },
@@ -4791,6 +4792,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V7(),
   ...FINAL_UI_FIXES_V8,
   ...FINAL_UI_FIXES_V9,
+  ...FINAL_UI_FIXES_V10,
   // Unified storm-ocean glass/neon visual system across all four primary tabs.
   // Final reference-aligned pass: crisp artwork, centered brand and restrained navigation glow.
   container: { flex: 1, backgroundColor: '#020817' },
