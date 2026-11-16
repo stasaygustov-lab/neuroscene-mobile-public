@@ -5018,6 +5018,67 @@ const FINAL_UI_FIXES_V19 = {
   profileSettingsIcon: { color: '#A8EFFF', fontSize: 31, lineHeight: 38, textShadowColor: '#168BFF', textShadowRadius: 10 },
 };
 
+const FINAL_UI_FIXES_V20 = {
+  // Remove the rectangular active-tab plate; keep the selected icon readable through its own glow.
+  navItemActive: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    borderColor: 'transparent',
+    shadowColor: 'transparent',
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    elevation: 0,
+  },
+  navGlyphActive: {
+    backgroundColor: 'transparent',
+    shadowColor: '#39CFFF',
+    shadowOpacity: 0.78,
+    shadowRadius: 11,
+    elevation: 5,
+  },
+  // The bell's lower circular clapper was the extra round element visible below the icon.
+  notificationBellClapper: { display: 'none' },
+  notificationBell: { width: 27, height: 30, alignItems: 'center', justifyContent: 'center' },
+  notificationBellDome: {
+    width: 19,
+    height: 20,
+    borderTopLeftRadius: 11,
+    borderTopRightRadius: 11,
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+    borderWidth: 2,
+    borderBottomWidth: 0,
+    borderColor: '#D7F2FF',
+    backgroundColor: 'transparent',
+  },
+  notificationBellBase: { width: 23, height: 2, marginTop: -1, borderRadius: 1, backgroundColor: '#D7F2FF' },
+  // Keep credits content inside the viewport on narrow Android devices.
+  creditsScreen: { width: '100%', minWidth: 0, alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, paddingHorizontal: 0, paddingBottom: 20 },
+  creditBalanceCard: { width: '100%', maxWidth: '100%', minWidth: 0, alignSelf: 'stretch' },
+  creditPackagesList: { width: '100%', maxWidth: '100%', minWidth: 0, alignSelf: 'stretch' },
+  packageCard: { width: '100%', maxWidth: '100%', minWidth: 0, flexShrink: 1, alignSelf: 'stretch' },
+  packageRight: { minWidth: 0, maxWidth: '42%', flexShrink: 1 },
+  // Give the final profile menu rows enough scroll clearance above the fixed bottom navigation.
+  content: { paddingBottom: 116 },
+  creditsContent: { paddingBottom: 116 },
+  profileScreen: { paddingBottom: 24 },
+  profileMenuCard: {
+    width: '100%',
+    minWidth: 0,
+    marginTop: 8,
+    marginBottom: 18,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 17,
+    borderWidth: 1,
+    borderColor: 'rgba(89,171,232,0.18)',
+    backgroundColor: 'rgba(2,12,30,0.18)',
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  menuItem: { minHeight: 50, paddingVertical: 10, borderBottomColor: 'rgba(104,158,205,0.16)' },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5368,5 +5429,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V17,
   ...FINAL_UI_FIXES_V18,
   ...FINAL_UI_FIXES_V19,
+  ...FINAL_UI_FIXES_V20,
 });
 
