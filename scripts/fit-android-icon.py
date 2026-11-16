@@ -1,15 +1,17 @@
 from pathlib import Path
 from PIL import Image
 
-# Keep the artwork comfortably inside Android's adaptive-icon safe area.
-# The canvas and transparent padding stay unchanged; only the visible logo shrinks.
+# Keep the adaptive foreground artwork comfortably inside Android's safe area.
+# The monochrome icon is not configured in app.json, so do not require it here.
 SCALE = 0.78
 FILES = (
     Path("assets/android-icon-foreground.png"),
-    Path("assets/android-icon-monochrome.png"),
 )
 
 for path in FILES:
+    if not path.is_file():
+        raise SystemExit(f"Required Android icon asset not found: {path}")
+
     image = Image.open(path).convert("RGBA")
     alpha = image.getchannel("A")
     bbox = alpha.getbbox()
