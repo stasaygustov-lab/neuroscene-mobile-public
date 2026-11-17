@@ -37,7 +37,7 @@ foreground_canvas.alpha_composite(
     foreground_art,
     ((CANVAS_SIZE[0] - foreground_art.width) // 2, (CANVAS_SIZE[1] - foreground_art.height) // 2),
 )
-ADAPTIVE_FOREGROUND.save(foreground_canvas, optimize=True)
+foreground_canvas.save(ADAPTIVE_FOREGROUND, optimize=True)
 
 print(f"Generated {APP_ICON} ({CANVAS_SIZE[0]}x{CANVAS_SIZE[1]}) from {SOURCE}")
 print(
