@@ -2291,13 +2291,17 @@ function CreateScreen({
 
       {!showComposer && (
         <View style={styles.featureSection}>
-          <Text style={styles.featureSectionTitle}>Возможности</Text>
+          <View style={styles.featureHeadingRow}>
+            <View pointerEvents="none" style={styles.featureHeadingLine} />
+            <Text style={styles.featureSectionTitle}>Возможности</Text>
+            <View pointerEvents="none" style={styles.featureHeadingLine} />
+          </View>
           <View style={styles.featureGrid}>
             {[
-              { id: 'text', icon: '▶', title: 'Текст в видео', subtitle: 'Создание по описанию' },
-              { id: 'image', icon: '▧', title: 'Фото → видео', subtitle: 'Оживление изображения' },
-              { id: 'sound', icon: '♫', title: 'Добавить звук', subtitle: 'Звуковое оформление' },
-              { id: 'prompt', icon: '✧', title: 'Улучшить промпт', subtitle: 'Точнее описать сцену' },
+              { id: 'text', image: require('./assets/feature-wand.png'), title: 'Текст\nв видео' },
+              { id: 'image', image: require('./assets/feature-image.png'), title: 'Изображение\nв видео' },
+              { id: 'sound', image: require('./assets/feature-audio.png'), title: 'Озвучка\nи эффекты' },
+              { id: 'prompt', image: require('./assets/feature-quality.png'), title: 'Профессиональное\nкачество' },
             ].map((feature) => (
               <TouchableOpacity key={feature.id} activeOpacity={0.82}
                 onPress={() => {
@@ -2307,11 +2311,8 @@ function CreateScreen({
                 }}
                 style={[styles.featureTile, activeFeature === feature.id && styles.featureTileActive]}
               >
-                <View style={[styles.featureIconSquare, activeFeature === feature.id && styles.featureIconSquareActive]}>
-                  <Text style={styles.featureIcon}>{feature.icon}</Text>
-                </View>
+                <Image source={feature.image} resizeMode="contain" style={styles.featureIconImage} />
                 <Text style={styles.featureTitle}>{feature.title}</Text>
-                <Text style={styles.featureSubtitle}>{feature.subtitle}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -6620,6 +6621,19 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V41,
   ...FINAL_UI_FIXES_V42,
   ...FINAL_UI_FIXES_V43,
+  featureSection: { width: '100%', marginTop: 0, marginBottom: 12, backgroundColor: 'transparent' },
+  featureHeadingRow: { width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', columnGap: 10, marginBottom: 12 },
+  featureHeadingLine: { flex: 1, height: 2, borderRadius: 2, backgroundColor: '#168BFF', shadowColor: '#00AFFF', shadowOpacity: 0.95, shadowRadius: 7, elevation: 5 },
+  featureSectionTitle: { color: '#F5FAFF', fontFamily: 'Manrope', fontSize: 15, lineHeight: 20, fontWeight: '800', textAlign: 'center', marginBottom: 0, letterSpacing: 0.1, textShadowColor: '#168BFF', textShadowRadius: 7 },
+  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'flex-start', columnGap: 2, rowGap: 0 },
+  featureTile: { width: '24.5%', minWidth: 0, minHeight: 72, paddingHorizontal: 1, paddingVertical: 0, borderRadius: 0, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0, alignItems: 'center', justifyContent: 'flex-start' },
+  featureTileActive: { backgroundColor: 'transparent', borderColor: 'transparent', shadowOpacity: 0, elevation: 0 },
+  featureIconImage: { width: 38, height: 38, marginBottom: 3 },
+  featureIconSquare: { width: 0, height: 0, marginBottom: 0, backgroundColor: 'transparent', borderWidth: 0 },
+  featureIconSquareActive: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
+  featureIcon: { display: 'none' },
+  featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 12, fontWeight: '700', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
+  featureSubtitle: { display: 'none' },
 });
 
 
