@@ -2049,7 +2049,7 @@ export default function App() {
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandLogoArtwork} accessibilityLabel="Логотип НейроСцена">
             <Image
-              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
+              source={require('./assets/neuroscene-splash.png')}
               resizeMode="contain"
               style={styles.brandLogoImage}
               accessibilityLabel="Утверждённая иконка НейроСцена"
@@ -2272,14 +2272,16 @@ function CreateScreen({
         <Text style={styles.createScreenTitle}>Создать</Text>
         <View style={styles.createTitleUnderline} />
       </View>
-      <View style={styles.createReferenceImageFrame} accessibilityLabel="Кинематографическая иллюстрация из утверждённого референса">
-        <Image
-          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-          resizeMode="stretch"
-          style={styles.createReferenceArtwork}
-        />
-        <View pointerEvents="none" style={styles.createReferenceImageShade} />
-      </View>
+      {!showComposer && (
+        <View style={styles.createReferenceImageFrame} accessibilityLabel="Кинематографическая иллюстрация из утверждённого референса">
+          <Image
+            source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
+            resizeMode="stretch"
+            style={styles.createReferenceArtwork}
+          />
+          <View pointerEvents="none" style={styles.createReferenceImageShade} />
+        </View>
+      )}
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
           <View style={styles.referencePlayCircle}><Text style={styles.referencePlay}>▶</Text></View>
