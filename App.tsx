@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, Modal, PanResponder } from 'react-native';
+import { Animated, Easing, PanResponder } from 'react-native';
 import { useEvent } from 'expo';
 import { useFonts } from 'expo-font';
 import {
@@ -2019,16 +2019,18 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
-        <Image
-          source={require('./assets/Штормовое море под электрическим небом-1.png')}
-          resizeMode="cover"
-          style={{
-            ...StyleSheet.absoluteFill,
-            width: '100%',
-            height: '100%',
-            opacity: 0.92,
-          }}
-        />
+        {!showIntro && (
+          <Image
+            source={require('./assets/Штормовое море под электрическим небом-1.png')}
+            resizeMode="cover"
+            style={{
+              ...StyleSheet.absoluteFill,
+              width: '100%',
+              height: '100%',
+              opacity: 0.92,
+            }}
+          />
+        )}
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.24)' }]} />
         <View style={[styles.ambientBackdropTint, tab === 'Gallery' ? styles.ambientTintGallery : tab === 'Credits' ? styles.ambientTintCredits : tab === 'Profile' ? styles.ambientTintProfile : null]} />
         <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
@@ -2135,14 +2137,6 @@ export default function App() {
       </View>
 
       {showIntro && (
-        <Modal
-          visible={showIntro}
-          transparent
-          animationType="none"
-          statusBarTranslucent
-          navigationBarTranslucent
-          onRequestClose={() => setShowIntro(false)}
-        >
         <View style={styles.introOverlay}>
           <Image
             source={require('./assets/Штормовое море под электрическим небом-1.png')}
@@ -2194,7 +2188,6 @@ export default function App() {
             transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [1.25, 0.6] }) }],
           }]} />
         </View>
-        </Modal>
       )}
     </SafeAreaView>
   );
