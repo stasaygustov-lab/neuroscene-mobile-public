@@ -1,3 +1,12 @@
+### 2026-11-17 — увеличен лимит времени Android APK build после отмены run #157
+- Ветка: `ui/full-visual-redesign`.
+- Run #157: https://github.com/stasaygustov-lab/neuroscene-mobile-public/actions/runs/44161787580; SHA сборки: `045f974bd9f2af499795516fc9b13e84e79493a5`.
+- Подтверждённая причина отмены: workflow задавал `timeout-minutes: 35` для job сборки. GitHub отменил job ровно на 35-й минуте, когда Gradle выполнял `:app:minifyReleaseWithR8`; в логе `The operation was canceled`. До отмены прошли checkout, npm ci, неблокирующая проверка TypeScript, подготовка logo assets, Expo prebuild и большая часть Gradle release tasks. Ошибки компиляции в этом логе не установлены.
+- APK не завершён, проверка APK и upload-artifact пропущены; UI/emulator job пропущен. Установка, запуск и Logcat приложения не проверялись.
+- Исправление workflow: лимит job сборки увеличен с 35 до 60 минут. Коммит: `bf5680c4b54683d5498da1f315027c2dbea1b94b`. UI job по-прежнему имеет отдельный лимит 30 минут.
+- Что осталось: проверить новый workflow запуском на этом коммите; после изменений требуется новое прямое разрешение пользователя на сборку. Не запускать автоматически. После успешного APK build проверить установку/старт в эмуляторе, скриншоты и crash Logcat.
+- Сборка после исправления не запускалась.
+
 ### 2026-11-17 — исправлен Android UI smoke-test runner
 - Ветка: `ui/full-visual-redesign`.
 - Скрипт: `4e8e526d1b34976b151ea36b7774cf54c33335ea`, `f8d47a7d05fbe31251bde852fc1ccb4e55c9ae60`, `3181118325b566d8303c4cb70bcdc3ea46ecd7bc`; workflow: `b6bb138ac513b708af39a69cbc942c00319770e8`, `33d0c2b9ce776aa219436f1c7ef7a338cde6d2ee`.
