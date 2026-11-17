@@ -2135,22 +2135,29 @@ export default function App() {
       </View>
 
       {showIntro && (
+        <Modal
+          visible={showIntro}
+          transparent
+          animationType="none"
+          statusBarTranslucent
+          navigationBarTranslucent
+          onRequestClose={() => setShowIntro(false)}
+        >
         <View style={styles.introOverlay}>
           <Image
             source={require('./assets/Штормовое море под электрическим небом-1.png')}
-            resizeMode="stretch"
-            style={[StyleSheet.absoluteFill, { width: '100%', height: '100%' }]}
+            resizeMode="cover"
+            style={StyleSheet.absoluteFillObject}
             accessibilityLabel="Кинематографический фон НейроСцены"
           />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup} accessibilityLabel="Логотип НейроСцена">
-            <View style={[styles.brandLogoArtwork, styles.splashVectorBrand]}>
-              <View style={styles.brandPlayMark} />
-              <View style={styles.brandLockupWordmark}>
-                <Text style={[styles.brandWordmarkLine, styles.splashWordmarkLine]}>Нейро</Text>
-                <Text style={[styles.brandWordmarkLine, styles.brandWordmarkAccent, styles.splashWordmarkLine]}>Сцена</Text>
-              </View>
-            </View>
+            <Image
+              source={require('./assets/neuroscene-splash.png')}
+              resizeMode="contain"
+              style={styles.splashLogoImage}
+              accessibilityLabel="Утверждённый логотип НейроСцена"
+            />
           </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
@@ -2187,6 +2194,7 @@ export default function App() {
             transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [1.25, 0.6] }) }],
           }]} />
         </View>
+        </Modal>
       )}
     </SafeAreaView>
   );
@@ -5785,12 +5793,12 @@ const FINAL_UI_FIXES_V34 = {
   profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
 };
 
-const FINAL_UI_FIXES_V36 = {
-  // Keep the complete cinematic backdrop edge-to-edge and prevent the logo lockup from being oversized.
-  introOverlay: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, width: '100%', height: '100%', zIndex: 9999, elevation: 9999, overflow: 'hidden', backgroundColor: '#020817', alignItems: 'center', justifyContent: 'center' },
-  introBrandLockup: { position: 'absolute', top: '31%', left: 0, right: 0, height: 124, minHeight: 0, alignItems: 'center', justifyContent: 'center' },
-  splashVectorBrand: { width: 220, height: 104, justifyContent: 'center', transform: [{ scale: 1 }], backgroundColor: 'transparent' },
-  introProgressTrack: { bottom: '8%', width: '82%', maxWidth: 320, height: 5, borderRadius: 3, overflow: 'visible', backgroundColor: 'rgba(28,105,170,0.42)', borderWidth: 1, borderColor: 'rgba(118,224,255,0.32)', shadowColor: '#00BFFF', shadowOpacity: 0.8, shadowRadius: 12, elevation: 8 },
+const FINAL_UI_FIXES_V37 = {
+  // The intro is rendered in a native full-screen Modal, outside SafeAreaView.
+  introOverlay: { flex: 1, width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#020817', alignItems: 'center', justifyContent: 'center' },
+  introBrandLockup: { position: 'absolute', top: '30%', left: 0, right: 0, height: 220, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, backgroundColor: 'transparent' },
+  splashLogoImage: { width: '84%', maxWidth: 380, height: 220, backgroundColor: 'transparent', alignSelf: 'center' },
+  introProgressTrack: { position: 'absolute', bottom: '8%', width: '82%', maxWidth: 320, height: 5, borderRadius: 3, overflow: 'visible', backgroundColor: 'rgba(28,105,170,0.42)', borderWidth: 1, borderColor: 'rgba(118,224,255,0.32)', shadowColor: '#00BFFF', shadowOpacity: 0.8, shadowRadius: 12, elevation: 8 },
   introProgressFill: { height: 5, minWidth: 4, borderRadius: 3, backgroundColor: '#43DFFF', shadowColor: '#7CEBFF', shadowOpacity: 1, shadowRadius: 13, elevation: 9 },
   introProgressSpark: { right: 0, top: -4, width: 9, height: 9, borderRadius: 5, backgroundColor: '#FFFFFF', shadowColor: '#FFFFFF', shadowOpacity: 1, shadowRadius: 14, elevation: 14 },
 };
@@ -6196,6 +6204,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V34,
   ...FINAL_UI_FIXES_V35,
   ...FINAL_UI_FIXES_V36,
+  ...FINAL_UI_FIXES_V37,
 });
 
 
