@@ -22,25 +22,8 @@ if ! adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 
   exit 1
 fi
 
-# Give a slow emulator up to 60 seconds to start the app before declaring
-# that the process failed. Save the PID once it appears.
-pid=""
-attempt=0
-while [ "$attempt" -lt 60 ]; do
-  pid="$(adb shell pidof com.neuroscene.app 2>/dev/null || true)"
-  if [ -n "$pid" ]; then
-    printf '%s\n' "$pid" > artifacts/diagnostics/app-pid.txt
-    break
-  fi
-  attempt=$((attempt + 1))
-  sleep 1
-done
-if [ -z "$pid" ]; then
-  adb logcat -d -v threadtime > artifacts/diagnostics/android-logcat-no-process.txt 2>&1 || true
-  cat artifacts/diagnostics/launch.txt
-  exit 1
-fi
-
+# The capture script waits up to 60 seconds for the process itself. Call it
+# immediately after launch so the 2-second splash can still be captured.
 if ! python3 scripts/capture-android-screens.py; then
   adb logcat -d -v threadtime > artifacts/diagnostics/android-logcat-capture-failure.txt 2>&1 || true
   adb shell pidof com.neuroscene.app > artifacts/diagnostics/app-pid-after-failure.txt 2>&1 || true
