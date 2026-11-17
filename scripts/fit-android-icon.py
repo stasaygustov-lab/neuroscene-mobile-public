@@ -1,31 +1,46 @@
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageOps
 
-# Keep the adaptive foreground artwork comfortably inside Android's safe area.
-# The monochrome icon is not configured in app.json, so do not require it here.
-SCALE = 0.78
-FILES = (
-    Path("assets/android-icon-foreground.png"),
+# Generate the two PNG assets referenced by app.json from the approved brand artwork.
+# Keep the adaptive foreground artwork inside Android's safe area.
+SOURCE = Path("assets/Неоновая иконка «НейроСцена».jpg")
+APP_ICON = Path("assets/neuroscene-brand.png")
+ADAPTIVE_FOREGROUND = Path("assets/android-icon-foreground.png")
+CANVAS_SIZE = (1024, 1024)
+SAFE_AREA_SCALE = 0.78
+BACKGROUND = (8, 11, 20, 255)
+
+
+if not SOURCE.is_file():
+    raise SystemExit(f"Approved brand icon source not found: {SOURCE}")
+
+source = Image.open(SOURCE).convert("RGBA")
+
+# The regular launcher icon fills a square canvas without stretching the artwork.
+icon_art = ImageOps.contain(source, CANVAS_SIZE, method=Image.Resampling.LANCZOS)
+icon_canvas = Image.new("RGBA", CANVAS_SIZE, BACKGROUND)
+icon_canvas.alpha_composite(
+    icon_art,
+    ((CANVAS_SIZE[0] - icon_art.width) // 2, (CANVAS_SIZE[1] - icon_art.height) // 2),
 )
+APP_ICON.parent.mkdir(parents=True, exist_ok=True)
+icon_canvas.save(APP_ICON, optimize=True)
 
-for path in FILES:
-    if not path.is_file():
-        raise SystemExit(f"Required Android icon asset not found: {path}")
+# Adaptive foreground uses the same artwork, centered within the Android safe area.
+foreground_size = (
+    round(CANVAS_SIZE[0] * SAFE_AREA_SCALE),
+    round(CANVAS_SIZE[1] * SAFE_AREA_SCALE),
+)
+foreground_art = ImageOps.contain(source, foreground_size, method=Image.Resampling.LANCZOS)
+foreground_canvas = Image.new("RGBA", CANVAS_SIZE, (0, 0, 0, 0))
+foreground_canvas.alpha_composite(
+    foreground_art,
+    ((CANVAS_SIZE[0] - foreground_art.width) // 2, (CANVAS_SIZE[1] - foreground_art.height) // 2),
+)
+ADAPTIVE_FOREGROUND.save(foreground_canvas, optimize=True)
 
-    image = Image.open(path).convert("RGBA")
-    alpha = image.getchannel("A")
-    bbox = alpha.getbbox()
-    if bbox is None:
-        raise SystemExit(f"No visible artwork found in {path}")
-
-    artwork = image.crop(bbox)
-    target_w = max(1, round(artwork.width * SCALE))
-    target_h = max(1, round(artwork.height * SCALE))
-    artwork = artwork.resize((target_w, target_h), Image.Resampling.LANCZOS)
-
-    canvas = Image.new("RGBA", image.size, (0, 0, 0, 0))
-    x = (image.width - target_w) // 2
-    y = (image.height - target_h) // 2
-    canvas.alpha_composite(artwork, (x, y))
-    canvas.save(path, optimize=True)
-    print(f"Resized {path}: {image.size} canvas, artwork {bbox} -> {target_w}x{target_h}")
+print(f"Generated {APP_ICON} ({CANVAS_SIZE[0]}x{CANVAS_SIZE[1]}) from {SOURCE}")
+print(
+    f"Generated {ADAPTIVE_FOREGROUND} ({CANVAS_SIZE[0]}x{CANVAS_SIZE[1]}); "
+    f"artwork constrained to {SAFE_AREA_SCALE:.0%} safe area"
+)
