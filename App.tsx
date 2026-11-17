@@ -1769,7 +1769,7 @@ export default function App() {
           <View style={styles.creditTopRow}>
             <View style={styles.creditBalanceCard}>
               <Image
-                source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+                source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
                 resizeMode="stretch"
                 style={styles.creditCoinsReferenceCrop}
               />
@@ -1878,7 +1878,7 @@ export default function App() {
         <View style={styles.profileIdentity}>
           <View style={styles.profileGuestAvatar}>
             <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
               resizeMode="stretch"
               style={styles.profileAvatarReferenceCrop}
             />
@@ -2025,6 +2025,7 @@ export default function App() {
         {!showIntro && (
           <Image
             source={require('./assets/Штормовое море под электрическим небом-1.png')}
+            blurRadius={8}
             resizeMode="cover"
             style={{
               ...StyleSheet.absoluteFill,
@@ -2039,18 +2040,7 @@ export default function App() {
         <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
         <View style={[styles.ambientGlowBottom, tab === 'Gallery' ? styles.ambientGlowBottomGallery : tab === 'Credits' ? styles.ambientGlowBottomCredits : tab === 'Profile' ? styles.ambientGlowBottomProfile : null]} />
         <View style={[styles.ambientGlowCenter, tab === 'Gallery' ? styles.ambientGlowCenterGallery : tab === 'Credits' ? styles.ambientGlowCenterCredits : tab === 'Profile' ? styles.ambientGlowCenterProfile : null]} />
-        <View style={styles.ambientCloudOne} />
-        <View style={styles.ambientCloudTwo} />
-        <View style={styles.ambientCloudThree} />
-        <View style={styles.ambientCloudFour} />
-        <View style={styles.ambientLightningOne} />
-        <View style={styles.ambientLightningTwo} />
-        <View style={styles.ambientWaterReflection} />
-        <View style={styles.ambientWaterRippleOne} />
-        <View style={styles.ambientWaterRippleTwo} />
-        <View style={styles.ambientRing} />
-        <View style={styles.ambientRingFar} />
-        <View style={styles.ambientHorizon} />
+        {/* The blurred storm artwork is the sole environmental backdrop; avoid duplicate synthetic scenery. */}
 
       </View>
       <StatusBar style="light" hidden={showIntro} />
@@ -2058,7 +2048,12 @@ export default function App() {
       {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandLogoArtwork} accessibilityLabel="Логотип НейроСцена">
-            <View style={styles.brandPlayMark} />
+            <Image
+              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
+              resizeMode="contain"
+              style={styles.brandLogoImage}
+              accessibilityLabel="Утверждённая иконка НейроСцена"
+            />
             <View style={styles.brandLockupWordmark}>
               <Text style={styles.brandWordmarkLine}>Нейро</Text>
               <Text style={[styles.brandWordmarkLine, styles.brandWordmarkAccent]}>Сцена</Text>
@@ -2104,7 +2099,7 @@ export default function App() {
         ] as const).map((item) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item.id}
-            style={[styles.navItem, { flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: 0, width: '25%', maxWidth: '25%', minWidth: 0, alignSelf: 'auto' }, tab === item.id && styles.navItemActive]}
+            style={[styles.navItem, { flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: 0, width: '25%', maxWidth: '25%', minWidth: 0, alignSelf: 'auto' }, tab === item.id && styles.navItemActive, tab === item.id && item.id === 'Gallery' && styles.navItemActiveGallery, tab === item.id && item.id === 'Credits' && styles.navItemActiveCredits, tab === item.id && item.id === 'Profile' && styles.navItemActiveProfile]}
             onPress={() => { const order: Tab[] = ['Create', 'Gallery', 'Credits', 'Profile']; setTransitionDirection(order.indexOf(item.id) >= order.indexOf(tab) ? 1 : -1); setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
             {item.id === 'Create' ? (
@@ -2131,7 +2126,7 @@ export default function App() {
               numberOfLines={1}
               adjustsFontSizeToFit
               minimumFontScale={0.78}
-              style={[styles.navLabel, tab === item.id && styles.navLabelActive]}
+              style={[styles.navLabel, tab === item.id && styles.navLabelActive, tab === item.id && item.id === 'Gallery' && styles.navLabelActiveGallery, tab === item.id && item.id === 'Credits' && styles.navLabelActiveCredits, tab === item.id && item.id === 'Profile' && styles.navLabelActiveProfile]}
             >
               {item.label}
             </Text>
@@ -2143,6 +2138,7 @@ export default function App() {
         <View style={styles.introOverlay}>
           <Image
             source={require('./assets/Штормовое море под электрическим небом-1.png')}
+            blurRadius={8}
             resizeMode="cover"
             style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
             accessibilityLabel="Кинематографический фон НейроСцены"
@@ -2275,6 +2271,14 @@ function CreateScreen({
       <View style={styles.createTitleWrap}>
         <Text style={styles.createScreenTitle}>Создать</Text>
         <View style={styles.createTitleUnderline} />
+      </View>
+      <View style={styles.createReferenceImageFrame} accessibilityLabel="Кинематографическая иллюстрация из утверждённого референса">
+        <Image
+          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
+          resizeMode="stretch"
+          style={styles.createReferenceArtwork}
+        />
+        <View pointerEvents="none" style={styles.createReferenceImageShade} />
       </View>
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
@@ -2608,7 +2612,7 @@ function GalleryScreen({
         <View style={styles.galleryEmptyReferenceState}>
           <View style={styles.galleryReferenceImage} accessibilityLabel="Неоновая кинематографическая хлопушка">
             <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
               resizeMode="stretch"
               style={styles.galleryReferenceArtwork}
             />
@@ -6199,7 +6203,115 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V33,
   ...FINAL_UI_FIXES_V34,
   ...FINAL_UI_FIXES_V35,
+
   ...FINAL_UI_FIXES_V37,
+  ...FINAL_UI_FIXES_V38,
 });
+
+const FINAL_UI_FIXES_V38 = {
+  // Use the approved artwork as the only page backdrop, softened so foreground content stays legible.
+  ambientBackdrop: { backgroundColor: '#020817' },
+  ambientBackdropTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,7,18,0.16)' },
+  ambientTintGallery: { backgroundColor: 'rgba(67,28,112,0.24)' },
+  ambientTintCredits: { backgroundColor: 'rgba(116,24,78,0.22)' },
+  ambientTintProfile: { backgroundColor: 'rgba(5,91,91,0.22)' },
+  ambientGlowTop: { backgroundColor: '#087BFF', opacity: 0.20 },
+  ambientGlowBottom: { backgroundColor: '#087BFF', opacity: 0.17 },
+  ambientGlowCenter: { backgroundColor: '#075CEB', opacity: 0.10 },
+  ambientGlowTopGallery: { backgroundColor: '#A64DFF', opacity: 0.24 },
+  ambientGlowBottomGallery: { backgroundColor: '#7C35D8', opacity: 0.20 },
+  ambientGlowCenterGallery: { backgroundColor: '#A64DFF', opacity: 0.13 },
+  ambientGlowTopCredits: { backgroundColor: '#FF4CB8', opacity: 0.22 },
+  ambientGlowBottomCredits: { backgroundColor: '#D52C8B', opacity: 0.18 },
+  ambientGlowCenterCredits: { backgroundColor: '#FF4CB8', opacity: 0.12 },
+  ambientGlowTopProfile: { backgroundColor: '#26D9C7', opacity: 0.22 },
+  ambientGlowBottomProfile: { backgroundColor: '#08AFA8', opacity: 0.18 },
+  ambientGlowCenterProfile: { backgroundColor: '#26D9C7', opacity: 0.12 },
+
+  // Brand lockup uses the exact approved icon, not a substitute triangle.
+  brandLogoArtwork: { width: 166, height: 54, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8, backgroundColor: 'transparent' },
+  brandLogoImage: { width: 48, height: 48, flexShrink: 0, backgroundColor: 'transparent' },
+  brandLockupWordmark: { alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
+  brandWordmarkLine: { color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 19, fontWeight: '900', letterSpacing: -0.35, textShadowColor: '#168BFF', textShadowRadius: 11, includeFontPadding: false },
+  brandWordmarkAccent: { color: '#83E5FF' },
+
+  // A separate, clipped illustration keeps the main Create screen faithful without inserting the full reference sheet.
+  createReferenceImageFrame: { width: '100%', height: 154, alignSelf: 'center', marginTop: 0, marginBottom: 14, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(99,193,255,0.68)', backgroundColor: 'rgba(3,16,42,0.78)', shadowColor: '#168BFF', shadowOpacity: 0.52, shadowRadius: 18, elevation: 9 },
+  createReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -120, top: -150 },
+  createReferenceImageShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(2,10,28,0.08)' },
+
+  // The four screens share a restrained glass treatment while each receives its own reference accent.
+  screen: { flex: 1, minHeight: 0, paddingTop: 12, paddingBottom: 24 },
+  content: { paddingHorizontal: 18, paddingTop: 10, paddingBottom: 132 },
+  creditsContent: { paddingTop: 10, paddingBottom: 132 },
+  header: { minHeight: 122, height: 122, backgroundColor: 'transparent', borderBottomWidth: 0 },
+  referenceCenteredHeader: { backgroundColor: 'transparent', borderBottomWidth: 0 },
+  createTitleWrap: { marginTop: 2, marginBottom: 12, paddingBottom: 8 },
+  createScreenTitle: { fontSize: 29, lineHeight: 36, color: '#F5FBFF', textShadowColor: '#168BFF', textShadowRadius: 20 },
+  createTitleUnderline: { width: '66%', height: 2, backgroundColor: '#39CFFF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 12 },
+
+  // Purple Gallery screen; empty-state art is compact and does not compete with its heading.
+  galleryReferenceHeader: { marginTop: 4, marginBottom: 10, alignItems: 'center' },
+  galleryReferenceTitle: { fontSize: 25, lineHeight: 32, fontWeight: '900', color: '#F8F2FF', textShadowColor: '#A64DFF', textShadowRadius: 18 },
+  galleryReferenceUnderline: { width: '68%', height: 2, marginTop: 7, backgroundColor: '#C18BFF', shadowColor: '#A64DFF', shadowOpacity: 1, shadowRadius: 12 },
+  galleryEmptyReferenceState: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingTop: 4, paddingBottom: 8 },
+  galleryReferenceImage: { width: 190, height: 128, maxWidth: 220, alignSelf: 'center', overflow: 'hidden', borderRadius: 16, backgroundColor: 'rgba(8,14,35,0.45)' },
+  galleryReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -741, top: -160 },
+  galleryEmptyActionButton: { width: '78%', minHeight: 48, marginTop: 12, borderRadius: 24, backgroundColor: 'rgba(115,56,190,0.72)', borderWidth: 1, borderColor: 'rgba(207,165,255,0.72)' },
+  galleryCard: { width: '100%', marginTop: 12, borderRadius: 18, padding: 12, backgroundColor: 'rgba(9,13,34,0.78)', borderColor: 'rgba(175,116,255,0.58)', shadowColor: '#A64DFF', shadowOpacity: 0.22, shadowRadius: 16, elevation: 6 },
+  galleryPreview: { width: '100%', aspectRatio: 16 / 9, height: undefined, overflow: 'hidden', borderRadius: 13 },
+
+  // Credits retain a single electric-blue/cyan palette for balance, illustration and all packages.
+  creditsScreen: { paddingTop: 10, paddingBottom: 24 },
+  creditsHeader: { marginBottom: 12 },
+  creditsTitle: { color: '#F4FBFF', fontSize: 26, lineHeight: 32, textAlign: 'center', textShadowColor: '#27BFFF', textShadowRadius: 17 },
+  creditTopRow: { gap: 9, marginBottom: 12 },
+  creditBalanceCard: { borderRadius: 18, borderColor: 'rgba(78,190,255,0.76)', backgroundColor: 'rgba(4,23,55,0.88)', shadowColor: '#168BFF', shadowOpacity: 0.38, shadowRadius: 18, elevation: 8 },
+  creditIllustration: { borderColor: 'rgba(78,190,255,0.76)', backgroundColor: 'rgba(4,23,55,0.88)', shadowColor: '#168BFF', shadowOpacity: 0.34, shadowRadius: 18, elevation: 8 },
+  creditBalanceHeroValue: { color: '#E9FBFF', textShadowColor: '#00BFFF', textShadowRadius: 16 },
+  creditBalanceHeroLabel: { color: '#B8EFFF' },
+  creditPackagesTitle: { color: '#DDF7FF', textShadowColor: '#168BFF', textShadowRadius: 9 },
+  packageCard: { borderColor: 'rgba(75,183,255,0.56)', backgroundColor: 'rgba(4,24,54,0.88)', shadowColor: '#168BFF', shadowOpacity: 0.20, shadowRadius: 10, elevation: 3 },
+  packageCardPopular: { borderColor: '#65E2FF', backgroundColor: 'rgba(8,75,125,0.82)', shadowColor: '#00BFFF', shadowOpacity: 0.58, shadowRadius: 14, elevation: 6 },
+  packageAmount: { color: '#F0FCFF' },
+  packagePrice: { color: '#75E6FF' },
+  packageIncluded: { color: '#A9D9F5' },
+  popularBadge: { backgroundColor: 'rgba(27,176,232,0.22)', borderColor: 'rgba(95,222,255,0.62)' },
+  popularBadgeText: { color: '#D9F9FF' },
+  creditBalanceHero: { bottom: 8 },
+  creditCoinReferenceCrop: { borderRadius: 14 },
+
+  // Profile is a true scrollable screen with a visible settings affordance and breathing room below the final item.
+  profileScreen: { flexGrow: 1, minHeight: 0, paddingTop: 12, paddingBottom: 34 },
+  profileHeader: { width: '100%', minHeight: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
+  profileTitleGroup: { flex: 1 },
+  profileSettingsButton: { width: 42, height: 42, borderRadius: 21, backgroundColor: 'rgba(7,45,66,0.76)', borderWidth: 1, borderColor: 'rgba(72,226,210,0.72)', alignItems: 'center', justifyContent: 'center', shadowColor: '#26D9C7', shadowOpacity: 0.55, shadowRadius: 12, elevation: 5 },
+  profileSettingsIcon: { color: '#9DFFF1', fontSize: 22 },
+  profileGuestAvatar: { width: 88, height: 88, borderRadius: 44, borderColor: '#54EBDD', shadowColor: '#26D9C7', shadowOpacity: 0.78, shadowRadius: 20, elevation: 9 },
+  profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
+  profileIdentity: { alignItems: 'center', marginBottom: 16 },
+  profileGuestName: { color: '#F0FFFC', textShadowColor: '#26D9C7', textShadowRadius: 12 },
+  profileGuestStatus: { color: '#B4E9E2' },
+  loginScreen: { paddingBottom: 24 },
+  authCard: { borderColor: 'rgba(72,226,210,0.45)', backgroundColor: 'rgba(4,26,39,0.82)' },
+
+  // Dock is transparent glass; the selected tab glows instead of becoming a dark rectangular tile.
+  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 6, paddingBottom: 18, paddingHorizontal: 8, backgroundColor: 'rgba(2,9,24,0.92)', borderTopWidth: 1, borderTopColor: 'rgba(90,180,255,0.42)', shadowColor: '#168BFF', shadowOpacity: 0.24, shadowRadius: 16, elevation: 14 },
+  navItem: { minHeight: 66, paddingTop: 5, paddingBottom: 4, gap: 4, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
+  navItemActive: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowColor: '#38CFFF', shadowOpacity: 0.72, shadowRadius: 17, elevation: 8 },
+  navItemActiveGallery: { shadowColor: '#C18BFF' },
+  navItemActiveCredits: { shadowColor: '#FF6FC6' },
+  navItemActiveProfile: { shadowColor: '#42E8D8' },
+  navLabel: { color: 'rgba(218,232,249,0.88)', fontSize: 13, lineHeight: 18, fontWeight: '800', textAlign: 'center', includeFontPadding: false },
+  navLabelActive: { color: '#C8F6FF', fontSize: 14, fontWeight: '900', textShadowColor: '#39D5FF', textShadowRadius: 13 },
+  navLabelActiveGallery: { color: '#E7D1FF', textShadowColor: '#B76BFF' },
+  navLabelActiveCredits: { color: '#FFD2ED', textShadowColor: '#FF5CB9' },
+  navLabelActiveProfile: { color: '#C8FFF7', textShadowColor: '#35E5D2' },
+  navCreateIcon: { shadowColor: '#39D5FF' },
+  navGalleryIcon: { shadowColor: '#B76BFF' },
+  navCoin: { borderColor: '#67DFFF' },
+  navPerson: { shadowColor: '#35E5D2' },
+};
+
 
 
