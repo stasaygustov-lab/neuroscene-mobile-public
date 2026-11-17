@@ -128,10 +128,13 @@ else:
     diagnostic("boot-timeout-logcat.txt")
     raise SystemExit("Android framework did not report sys.boot_completed=1")
 
+# The splash is brief: capture it immediately after the app process appears.
+pid_deadline = time.monotonic() + 60
+while time.monotonic() < pid_deadline and not app_pid():
+    time.sleep(1)
 assert_app_running()
-time.sleep(2)
-diagnostic("before-capture-logcat.txt")
 capture("00-splash.png")
+diagnostic("before-capture-logcat.txt")
 time.sleep(5)
 capture("01-create.png")
 
