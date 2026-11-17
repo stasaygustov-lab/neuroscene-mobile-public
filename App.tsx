@@ -269,19 +269,18 @@ export default function App() {
   }, [splashShimmer, splashSweep]);
 
   useEffect(() => {
-    if (!authReady || (!fontsLoaded && !fontError)) return;
-    const remaining = Math.max(0, 3200 - (Date.now() - splashStartedAt));
+    const remaining = Math.max(0, 1600 - (Date.now() - splashStartedAt));
     const splashTimer = setTimeout(() => {
       Animated.timing(splashProgress, {
         toValue: 1,
-        duration: 520,
+        duration: 400,
         useNativeDriver: false,
       }).start(({ finished }) => {
         if (finished) setShowIntro(false);
       });
     }, remaining);
     return () => clearTimeout(splashTimer);
-  }, [authReady, fontsLoaded, fontError, splashProgress, splashStartedAt]);
+  }, [splashProgress, splashStartedAt]);
 
 
   const saveAuthenticatedSession = async (data: any) => {
@@ -2144,13 +2143,14 @@ export default function App() {
             accessibilityLabel="Кинематографический фон НейроСцены"
           />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
-          <View style={styles.introBrandLockup}>
-            <Image
-              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
-              resizeMode="contain"
-              style={styles.splashBrandArtwork}
-              accessibilityLabel="Логотип НейроСцена"
-            />
+          <View style={styles.introBrandLockup} accessibilityLabel="Логотип НейроСцена">
+            <View style={[styles.brandLogoArtwork, styles.splashVectorBrand]}>
+              <View style={styles.brandPlayMark} />
+              <View style={styles.brandLockupWordmark}>
+                <Text style={[styles.brandWordmarkLine, styles.splashWordmarkLine]}>Нейро</Text>
+                <Text style={[styles.brandWordmarkLine, styles.brandWordmarkAccent, styles.splashWordmarkLine]}>Сцена</Text>
+              </View>
+            </View>
           </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
@@ -2164,6 +2164,19 @@ export default function App() {
               opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.18, 1] }),
               transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.55, 1.45] }) }],
             }]} />
+            <Animated.View style={[styles.introProgressSparkCluster, {
+              left: splashProgress.interpolate({ inputRange: [0, 1], outputRange: ['2%', '96%'] }),
+              opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.55, 1] }),
+              transform: [{ scale: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.7, 1.25] }) }],
+            }]}>
+              <View style={styles.progressSparkCore} />
+              <View style={[styles.progressSparkRay, styles.progressSparkRayA]} />
+              <View style={[styles.progressSparkRay, styles.progressSparkRayB]} />
+              <View style={[styles.progressSparkDot, styles.progressSparkDotA]} />
+              <View style={[styles.progressSparkDot, styles.progressSparkDotB]} />
+              <View style={[styles.progressSparkDot, styles.progressSparkDotC]} />
+              <View style={[styles.progressSparkDot, styles.progressSparkDotD]} />
+            </Animated.View>
           </View>
           <Animated.View pointerEvents="none" style={[styles.splashSparkLeft, {
             opacity: splashShimmer.interpolate({ inputRange: [0, 1], outputRange: [0.12, 0.9] }),
@@ -5772,6 +5785,46 @@ const FINAL_UI_FIXES_V34 = {
   profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
 };
 
+const FINAL_UI_FIXES_V35 = {
+  // Splash: transparent vector branding, a uniform progress bar and a denser electric spark burst.
+  splashVectorBrand: { width: 252, height: 120, justifyContent: 'center', transform: [{ scale: 1.72 }], backgroundColor: 'transparent' },
+  splashWordmarkLine: { fontSize: 22, lineHeight: 25, letterSpacing: -0.35 },
+  introProgressTrack: { height: 5, borderRadius: 3, overflow: 'visible', backgroundColor: 'rgba(28,105,170,0.42)', borderWidth: 1, borderColor: 'rgba(118,224,255,0.32)', shadowColor: '#00BFFF', shadowOpacity: 0.8, shadowRadius: 12, elevation: 8 },
+  introProgressFill: { height: 5, minWidth: 4, borderRadius: 3, backgroundColor: '#43DFFF', shadowColor: '#7CEBFF', shadowOpacity: 1, shadowRadius: 13, elevation: 9 },
+  introProgressSweep: { top: -2, width: 46, height: 9, borderRadius: 5, backgroundColor: '#FFFFFF', shadowColor: '#8AF3FF', shadowOpacity: 1, shadowRadius: 16, elevation: 13 },
+  introProgressSpark: { right: 0, top: -4, width: 9, height: 9, backgroundColor: '#FFFFFF', shadowColor: '#FFFFFF', shadowOpacity: 1, shadowRadius: 14, elevation: 14 },
+  introProgressSparkCluster: { position: 'absolute', top: -3, width: 1, height: 1, overflow: 'visible' },
+  progressSparkCore: { position: 'absolute', left: -3, top: -3, width: 7, height: 7, borderRadius: 4, backgroundColor: '#FFFFFF', shadowColor: '#FFFFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 12 },
+  progressSparkRay: { position: 'absolute', left: -1, top: -9, width: 2, height: 19, borderRadius: 2, backgroundColor: '#D8FAFF', shadowColor: '#63E7FF', shadowOpacity: 1, shadowRadius: 7 },
+  progressSparkRayA: { transform: [{ rotate: '0deg' }] },
+  progressSparkRayB: { transform: [{ rotate: '90deg' }] },
+  progressSparkDot: { position: 'absolute', width: 3, height: 3, borderRadius: 2, backgroundColor: '#FFFFFF', shadowColor: '#70E8FF', shadowOpacity: 1, shadowRadius: 7 },
+  progressSparkDotA: { left: -12, top: -8 },
+  progressSparkDotB: { left: 9, top: -7 },
+  progressSparkDotC: { left: -10, top: 7 },
+  progressSparkDotD: { left: 8, top: 8 },
+  splashSparkLeft: { width: 5, height: 5, shadowRadius: 15, elevation: 12 },
+  splashSparkRight: { width: 5, height: 5, shadowRadius: 15, elevation: 12 },
+  // Reference-style navigation: low glass dock, larger luminous glyphs, restrained active capsule.
+  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 7, paddingBottom: 19, paddingHorizontal: 8, backgroundColor: 'rgba(2,12,31,0.94)', borderTopWidth: 1, borderTopColor: 'rgba(80,177,255,0.52)', shadowColor: '#087DFF', shadowOpacity: 0.38, shadowRadius: 18, elevation: 16, justifyContent: 'space-around', alignItems: 'center' },
+  navItem: { minHeight: 63, paddingTop: 5, paddingBottom: 3, paddingHorizontal: 2, gap: 3, borderRadius: 17, borderWidth: 1, borderColor: 'transparent', backgroundColor: 'transparent' },
+  navItemActive: { backgroundColor: 'rgba(17,91,170,0.28)', borderColor: 'rgba(93,204,255,0.54)', shadowColor: '#16AFFF', shadowOpacity: 0.5, shadowRadius: 13, elevation: 7 },
+  navCreateIcon: { width: 32, height: 32, shadowOpacity: 1, shadowRadius: 17, elevation: 9 },
+  navHomeRoof: { borderLeftWidth: 15, borderRightWidth: 15, borderBottomWidth: 13, borderBottomColor: '#9CEEFF' },
+  navHomeBody: { width: 22, height: 15, borderWidth: 1.8, borderColor: '#8BE9FF', backgroundColor: 'rgba(0,149,255,0.22)' },
+  navHomeDoor: { width: 6, height: 9, borderColor: '#D7F8FF' },
+  navGalleryIcon: { width: 32, height: 32 },
+  navGalleryClapperTop: { top: 2, width: 27, height: 9, borderWidth: 1.5, borderColor: '#C7F4FF', backgroundColor: 'rgba(0,149,255,0.48)' },
+  navGalleryClapperBody: { top: 10, width: 26, height: 19, borderWidth: 1.6, borderColor: '#8BE7FF', backgroundColor: 'rgba(0,115,220,0.32)' },
+  navCoinStack: { width: 32, height: 32, gap: 1 },
+  navCoinLayer: { width: 27, height: 8, borderWidth: 1.5, borderColor: '#FFE5A2', backgroundColor: '#C38A27', shadowOpacity: 1, shadowRadius: 9, elevation: 7 },
+  navPerson: { width: 32, height: 32 },
+  navPersonHead: { width: 12, height: 12, borderWidth: 1.8, borderColor: '#9DEAFF', backgroundColor: 'rgba(72,190,255,0.22)' },
+  navPersonBody: { width: 25, height: 15, borderWidth: 1.8, borderColor: '#8BE7FF' },
+  navLabel: { color: 'rgba(193,218,244,0.82)', fontFamily: 'Manrope', fontSize: 11, lineHeight: 15, fontWeight: '700', letterSpacing: 0.2, textAlign: 'center' },
+  navLabelActive: { color: '#E9FBFF', fontWeight: '900', textShadowColor: '#24C8FF', textShadowRadius: 12 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -6131,6 +6184,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V32,
   ...FINAL_UI_FIXES_V33,
   ...FINAL_UI_FIXES_V34,
+  ...FINAL_UI_FIXES_V35,
 });
 
 
