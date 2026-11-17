@@ -2144,7 +2144,7 @@ export default function App() {
           <Image
             source={require('./assets/Штормовое море под электрическим небом-1.png')}
             resizeMode="cover"
-            style={StyleSheet.absoluteFillObject}
+            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
             accessibilityLabel="Кинематографический фон НейроСцены"
           />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
@@ -4626,7 +4626,7 @@ const FINAL_UI_FIXES_V13 = {
   createScreenTitle: { fontFamily: 'Manrope', fontSize: 27, lineHeight: 34, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
   referenceHero: { height: 146, minHeight: 146, marginTop: 2, marginBottom: 12, borderRadius: 21, borderWidth: 1.2, borderColor: 'rgba(124,211,255,0.86)', shadowColor: '#168BFF', shadowOpacity: 0.48, shadowRadius: 22, elevation: 11, backgroundColor: 'rgba(3,16,42,0.96)' },
   referenceHeroArtwork: { position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, width: '100%', height: '100%', opacity: 0.82 },
-  referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,27,0.30)' },
+  referenceHeroArtworkShade: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(2,10,27,0.30)' },
   referenceHeroNebulaOne: { width: 190, height: 190, borderRadius: 95, right: -40, top: -82, backgroundColor: 'rgba(0,125,255,0.25)', shadowColor: '#168BFF', shadowOpacity: 0.9, shadowRadius: 52 },
   referenceHeroNebulaTwo: { width: 155, height: 155, borderRadius: 78, left: -42, bottom: -92, backgroundColor: 'rgba(0,203,255,0.16)', shadowColor: '#00CFFF', shadowOpacity: 0.9, shadowRadius: 46 },
   referenceHeroEyebrow: { fontFamily: 'Manrope', fontSize: 20, lineHeight: 26, fontWeight: '900', letterSpacing: 0.1, color: '#F8FCFF', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
@@ -4695,7 +4695,7 @@ const FINAL_UI_FIXES_V14 = {
   referenceHeroOrbitInner: { position: 'absolute', width: 176, height: 176, borderRadius: 88, right: 4, top: -18, borderWidth: 1, borderColor: 'rgba(95,180,255,0.22)' },
   referenceHeroHorizon: { position: 'absolute', left: 0, right: 0, bottom: 23, height: 1, backgroundColor: 'rgba(92,190,255,0.46)', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 10 },
   referenceHeroLightBeam: { position: 'absolute', width: 2, height: 112, right: '24%', top: 10, backgroundColor: 'rgba(134,224,255,0.48)', shadowColor: '#4FCBFF', shadowOpacity: 1, shadowRadius: 18, transform: [{ rotate: '28deg' }] },
-  referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,8,25,0.16)' },
+  referenceHeroArtworkShade: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(1,8,25,0.16)' },
   referenceHeroEyebrow: { fontFamily: 'Manrope', fontSize: 20, lineHeight: 26, fontWeight: '900', letterSpacing: 0.25, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
   referenceHeroCaption: { fontSize: 14, lineHeight: 19, fontWeight: '700', color: '#D7EEFF', textAlign: 'center', marginTop: 5, textShadowColor: '#087BFF', textShadowRadius: 10 },
 
@@ -4777,7 +4777,7 @@ const FINAL_UI_FIXES_V15 = {
   createScreenTitle: { fontFamily: 'Manrope', fontSize: 27, lineHeight: 35, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 19, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.25 },
   referenceHero: { height: 98, minHeight: 98, marginTop: 2, marginBottom: 12, borderRadius: 19, borderWidth: 1.2, borderColor: 'rgba(124,211,255,0.9)', shadowColor: '#168BFF', shadowOpacity: 0.5, shadowRadius: 22, elevation: 11, backgroundColor: 'rgba(3,16,42,0.96)', overflow: 'hidden' },
   referenceHeroArtwork: { position: 'absolute', width: '296%', height: '1075%', left: '-37.5%', top: '-155%', opacity: 1 },
-  referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,27,0.14)' },
+  referenceHeroArtworkShade: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(2,10,27,0.14)' },
   referenceHeroCopy: { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, width: '100%', paddingHorizontal: 12, paddingVertical: 7, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(2,10,27,0.26)' },
   referenceHeroEyebrow: { fontFamily: 'Manrope', fontSize: 18, lineHeight: 23, fontWeight: '900', letterSpacing: 0.2, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 2 } },
   referenceHeroCaption: { fontFamily: 'Manrope', fontSize: 12, lineHeight: 16, fontWeight: '800', color: '#E1F3FF', textAlign: 'center', marginTop: 3, textShadowColor: '#087BFF', textShadowRadius: 12 },
@@ -6199,7 +6199,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V33,
   ...FINAL_UI_FIXES_V34,
   ...FINAL_UI_FIXES_V35,
-  ...FINAL_UI_FIXES_V36,
   ...FINAL_UI_FIXES_V37,
 });
 
