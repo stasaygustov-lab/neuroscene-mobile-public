@@ -36,7 +36,7 @@ class StartupErrorBoundary extends React.Component<
         React.createElement(
           Text,
           { style: styles.description },
-          'Приложение перехватило ошибку запуска вместо пустого экрана. Текст ошибки сохранён в журнале Android.'
+          'Приложение перехватило ошибку запуска вместо пустого экрана. Подробности ошибки доступны в системном журнале Android (logcat).'
         ),
         React.createElement(
           ScrollView,

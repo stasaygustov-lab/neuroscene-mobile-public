@@ -1,3 +1,13 @@
+### 2026-11-17 — устойчивость Android UI smoke-test и исправление preview assets
+- Рабочая ветка: `ui/full-visual-redesign`; исходный HEAD перед изменениями: `cb2f948ea85777ab27e5b5fb6bd36f1014db21f2`.
+- Причина пропуска splash asset в preview workflow: `App.tsx` импортирует `assets/neuroscene-splash.png`, но `android-apk-preview.yml` не запускал `scripts/process-splash-logo.py`. Добавлен шаг генерации из утверждённого JPG до Expo prebuild; подготовка launcher/adaptive artwork теперь использует уже созданное Python-окружение.
+- Усилен `scripts/capture-android-screens.py`: ожидание `sys.boot_completed=1`, проверка PID приложения перед каждым снимком, три попытки `screencap` с увеличенными таймаутами и паузами, валидация размера каждого PNG, logcat до/после захвата и отдельный журнал при ошибках захвата. Проверка навигации/различимости кадров сохранена.
+- В `index.ts` исправлен текст startup error boundary: он больше не утверждает, что приложение сохраняет отдельный журнал; указано, что подробности доступны в системном logcat.
+- Предыдущий run #155: APK build успешен, UI capture упал на зависшем `adb shell screencap -p` с timeout 45 секунд. Диагностика зафиксировала запущенный PID приложения и не показала FATAL EXCEPTION / Fatal signal / ANR для `com.neuroscene.app`; системные сбои bluetooth и медленный эмулятор не считать crash приложения. Это не доказывает корректную отрисовку всего React UI.
+- Ограничения: исправлены только preview asset preparation, UI-test capture и текст диагностического экрана; backend, авторизация, генерация, платежи и прочая бизнес-логика не менялись.
+- Проверки в этом изменении: сверены исходные workflow и скрипты; сборки, APK, EAS и GitHub Actions не запускались.
+- Следующий шаг: после отдельного разрешения пользователя запустить актуальный Android workflow и проверить новый APK/скриншоты/logcat.
+
 ### 2026-11-17 — аудит причин возможного вылета при запуске
 - Проверена ветка `ui/full-visual-redesign`, HEAD на момент аудита: `d5392268e60f6829175eee7cb176df7e89279aa9`.
 - Область: точка входа `index.ts`, глобальные импорты и первый render в `App.tsx`, startup effects, splash Modal/native splash config, font loading, assets, зависимости/lockfile, Expo config, Android build and emulator workflow.

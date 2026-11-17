@@ -41,11 +41,13 @@ jobs:
       - name: TypeScript validation (report existing app typing issues)
         run: npx tsc --noEmit
         continue-on-error: true
-      - name: Prepare launcher and adaptive brand artwork
+      - name: Prepare transparent splash logo from approved reference
         run: |
           python3 -m venv .venv
           .venv/bin/pip install Pillow
-          .venv/bin/python scripts/prepare-brand-assets.py
+          .venv/bin/python scripts/process-splash-logo.py
+      - name: Prepare launcher and adaptive brand artwork
+        run: .venv/bin/python scripts/prepare-brand-assets.py
       - name: Fit launcher logo inside Android safe area
         run: .venv/bin/python scripts/fit-android-icon.py
       - name: Generate native Android project
