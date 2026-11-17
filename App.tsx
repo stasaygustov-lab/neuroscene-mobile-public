@@ -2130,6 +2130,7 @@ export default function App() {
             >
               {item.label}
             </Text>
+            {tab === item.id && <View pointerEvents="none" style={styles.navActiveIndicator} />}
           </TouchableOpacity>
         ))}
       </View>
@@ -6113,68 +6114,68 @@ const FINAL_UI_FIXES_V43 = {
   navHomeRoof: {
     width: 0, height: 0, borderLeftWidth: 16, borderRightWidth: 16,
     borderBottomWidth: 13, borderLeftColor: 'transparent',
-    borderRightColor: 'transparent', borderBottomColor: '#A8F1FF',
+    borderRightColor: 'transparent', borderBottomColor: '#91DFFF',
     marginBottom: -1,
   },
   navHomeBody: {
     width: 23, height: 16, borderWidth: 1.8, borderTopWidth: 0,
-    borderColor: '#70DFFF', backgroundColor: 'rgba(20,145,255,0.16)',
+    borderColor: '#76CFFF', backgroundColor: 'rgba(20,145,255,0.12)',
     alignItems: 'center', justifyContent: 'flex-end',
   },
   navHomeDoor: {
     width: 7, height: 9, borderWidth: 1.2, borderBottomWidth: 0,
-    borderColor: '#D9FAFF', backgroundColor: 'rgba(112,223,255,0.20)',
+    borderColor: '#DDF6FF', backgroundColor: 'rgba(112,223,255,0.14)',
   },
 
   navGalleryIcon: {
     width: 34, height: 34, minHeight: 34, marginBottom: 0,
     alignItems: 'center', justifyContent: 'center',
     backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0,
-    shadowColor: '#B76BFF', shadowOpacity: 0.32, shadowRadius: 9,
+    shadowColor: '#25BFFF', shadowOpacity: 0.32, shadowRadius: 9,
     shadowOffset: { width: 0, height: 0 }, elevation: 4,
   },
   navGalleryClapperTop: {
     position: 'absolute', top: 3, width: 28, height: 9,
-    borderWidth: 1.5, borderColor: '#D7B7FF', borderRadius: 3,
-    backgroundColor: 'rgba(126,67,205,0.32)',
+    borderWidth: 1.5, borderColor: '#A8E5FF', borderRadius: 3,
+    backgroundColor: 'rgba(20,125,220,0.22)',
     flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center',
   },
-  navGalleryClapperStripe: { width: 3, height: 6, backgroundColor: '#E6D2FF', transform: [{ skewX: '-24deg' }] },
+  navGalleryClapperStripe: { width: 3, height: 6, backgroundColor: '#C8F0FF', transform: [{ skewX: '-24deg' }] },
   navGalleryClapperBody: {
     position: 'absolute', top: 11, width: 27, height: 19,
-    borderWidth: 1.6, borderColor: '#C69AFF', borderRadius: 4,
-    backgroundColor: 'rgba(107,58,181,0.20)',
+    borderWidth: 1.6, borderColor: '#70CFFF', borderRadius: 4,
+    backgroundColor: 'rgba(13,99,184,0.20)',
     alignItems: 'center', justifyContent: 'center',
   },
   navGalleryPlay: {
     width: 0, height: 0, borderTopWidth: 4.5, borderBottomWidth: 4.5,
     borderLeftWidth: 7, borderTopColor: 'transparent',
-    borderBottomColor: 'transparent', borderLeftColor: '#F1E4FF',
+    borderBottomColor: 'transparent', borderLeftColor: '#E4F8FF',
     marginLeft: 2,
   },
 
   navCoinStack: {
     width: 34, height: 34, minHeight: 34, marginBottom: 0,
     alignItems: 'center', justifyContent: 'center', gap: 1,
-    shadowColor: '#FFBD4A', shadowOpacity: 0.52, shadowRadius: 10,
+    shadowColor: '#22BFFF', shadowOpacity: 0.52, shadowRadius: 10,
     shadowOffset: { width: 0, height: 0 }, elevation: 5,
   },
   navCoinLayer: {
     width: 27, height: 8, borderRadius: 5, borderWidth: 1.5,
-    borderColor: '#FFE6A6', backgroundColor: '#B98026',
-    shadowColor: '#FFC65C', shadowOpacity: 0.72, shadowRadius: 6,
+    borderColor: '#B9E9FF', backgroundColor: '#167CC1',
+    shadowColor: '#25BFFF', shadowOpacity: 0.72, shadowRadius: 6,
     shadowOffset: { width: 0, height: 0 }, elevation: 4,
   },
 
   navPerson: {
     width: 34, height: 34, minHeight: 34, marginBottom: 0,
     alignItems: 'center', justifyContent: 'center',
-    shadowColor: '#35E5D2', shadowOpacity: 0.34, shadowRadius: 9,
+    shadowColor: '#22BFFF', shadowOpacity: 0.34, shadowRadius: 9,
     shadowOffset: { width: 0, height: 0 }, elevation: 4,
   },
   navPersonHead: {
     width: 12, height: 12, borderRadius: 6, borderWidth: 1.8,
-    borderColor: '#B9FFF5', backgroundColor: 'rgba(38,217,199,0.16)',
+    borderColor: '#B9E9FF', backgroundColor: 'rgba(38,170,255,0.14)',
     marginBottom: 3,
   },
   navPersonBody: {
@@ -6190,15 +6191,15 @@ const FINAL_UI_FIXES_V43 = {
     shadowOffset: { width: 0, height: 0 }, elevation: 10,
   },
   navGlyphActiveGallery: {
-    shadowColor: '#C18BFF', shadowOpacity: 1, shadowRadius: 16,
+    shadowColor: '#22BFFF', shadowOpacity: 1, shadowRadius: 16,
     shadowOffset: { width: 0, height: 0 }, elevation: 10,
   },
   navCoinActive: {
-    shadowColor: '#FFBD4A', shadowOpacity: 1, shadowRadius: 17,
+    shadowColor: '#22BFFF', shadowOpacity: 1, shadowRadius: 17,
     shadowOffset: { width: 0, height: 0 }, elevation: 11,
   },
   navPersonActive: {
-    shadowColor: '#35E5D2', shadowOpacity: 1, shadowRadius: 16,
+    shadowColor: '#22BFFF', shadowOpacity: 1, shadowRadius: 16,
     shadowOffset: { width: 0, height: 0 }, elevation: 10,
   },
 
@@ -6212,9 +6213,9 @@ const FINAL_UI_FIXES_V43 = {
     color: '#E8FBFF', fontSize: 12, fontWeight: '900',
     textShadowColor: '#39D5FF', textShadowRadius: 12,
   },
-  navLabelActiveGallery: { color: '#F0E2FF', textShadowColor: '#B76BFF', textShadowRadius: 12 },
-  navLabelActiveCredits: { color: '#FFF0C8', textShadowColor: '#FFBD4A', textShadowRadius: 12 },
-  navLabelActiveProfile: { color: '#D5FFF9', textShadowColor: '#35E5D2', textShadowRadius: 12 },
+  navLabelActiveGallery: { color: '#E8FBFF', textShadowColor: '#22BFFF', textShadowRadius: 12 },
+  navLabelActiveCredits: { color: '#E8FBFF', textShadowColor: '#22BFFF', textShadowRadius: 12 },
+  navLabelActiveProfile: { color: '#E8FBFF', textShadowColor: '#22BFFF', textShadowRadius: 12 },
 };
 
 const FINAL_UI_FIXES_V40 = {
@@ -6485,19 +6486,33 @@ const styles = StyleSheet.create({
   resetButtonText: { color: BLUE, fontWeight: '800', fontSize: 16 },
   footerNote: { color: MUTED, fontSize: 16, textAlign: 'center', marginTop: 19, marginBottom: 10 },
   bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: 'rgba(10,16,29,0.97)',
-    borderTopWidth: 1,
-    borderTopColor: '#1B2434',
-    paddingTop: 10,
-    paddingBottom: 18,
-    minHeight: 88,
+    flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around',
+    alignItems: 'center', height: 92, minHeight: 92, maxHeight: 92,
+    paddingTop: 5, paddingBottom: 19, paddingHorizontal: 8,
+    backgroundColor: 'rgba(3, 13, 39, 0.94)',
+    borderTopWidth: 1.2, borderLeftWidth: 1, borderRightWidth: 1,
+    borderTopLeftRadius: 27, borderTopRightRadius: 27,
+    borderColor: 'rgba(87, 177, 255, 0.62)', borderBottomWidth: 0,
+    shadowColor: '#087DFF', shadowOpacity: 0.58, shadowRadius: 20,
+    shadowOffset: { width: 0, height: -4 }, elevation: 18,
+    overflow: 'visible',
   },
-  navItem: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4, minWidth: 0, minHeight: 62, paddingHorizontal: 4, paddingTop: 4, borderRadius: 14, borderWidth: 1, borderColor: 'transparent' },
-  navItemActive: { backgroundColor: '#142344', borderWidth: 1, borderColor: 'rgba(76,145,255,0.34)' },
-  navIcon: { fontSize: 27, lineHeight: 33, color: BLUE },
+  navItem: {
+    flex: 1, alignItems: 'center', justifyContent: 'center', gap: 3,
+    minWidth: 0, minHeight: 66, paddingHorizontal: 3, paddingTop: 2,
+    paddingBottom: 7, borderRadius: 0, borderWidth: 0,
+    borderColor: 'transparent', backgroundColor: 'transparent',
+    overflow: 'visible',
+  },
+  navItemActive: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0, elevation: 0 },
+  navActiveIndicator: {
+    position: 'absolute', bottom: 0, alignSelf: 'center',
+    width: '56%', height: 3, borderRadius: 3,
+    backgroundColor: '#19BFFF', shadowColor: '#16BFFF',
+    shadowOpacity: 1, shadowRadius: 11,
+    shadowOffset: { width: 0, height: 0 }, elevation: 10,
+  },
+  navIcon: { fontSize: 27, lineHeight: 33, color: '#A9DFFF' },
   navCoin: { width: 27, height: 27, borderRadius: 14, borderWidth: 2, borderColor: BLUE, backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', padding: 3 },
   navCoinInner: { width: '100%', height: '100%', borderRadius: 10, borderWidth: 1, borderColor: BLUE, alignItems: 'center', justifyContent: 'center' },
   navCoinMark: { color: BLUE, fontSize: 16, lineHeight: 21, fontWeight: '900' },
