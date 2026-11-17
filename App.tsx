@@ -1875,7 +1875,7 @@ export default function App() {
             <View style={styles.profileGuestBody} />
           </View>
           <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
-          <Text style={styles.profileGuestStatus}>{authUser?.email || 'Войдите, чтобы открыть все возможности'}</Text>
+          {!!authUser?.email && <Text style={styles.profileGuestStatus}>{authUser.email}</Text>}
         </View>
         {authUser ? (
           <>
