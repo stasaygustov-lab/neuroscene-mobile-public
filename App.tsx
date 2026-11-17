@@ -269,6 +269,9 @@ export default function App() {
   }, [splashShimmer, splashSweep]);
 
   useEffect(() => {
+    // Keep the intro visible until session restoration and the app font are ready.
+    // This startup gate existed in the last known-good build; retain the ~2s minimum splash.
+    if (!authReady || (!fontsLoaded && !fontError)) return;
     const remaining = Math.max(0, 1600 - (Date.now() - splashStartedAt));
     const splashTimer = setTimeout(() => {
       Animated.timing(splashProgress, {
@@ -280,7 +283,7 @@ export default function App() {
       });
     }, remaining);
     return () => clearTimeout(splashTimer);
-  }, [splashProgress, splashStartedAt]);
+  }, [authReady, fontsLoaded, fontError, splashProgress, splashStartedAt]);
 
 
   const saveAuthenticatedSession = async (data: any) => {
