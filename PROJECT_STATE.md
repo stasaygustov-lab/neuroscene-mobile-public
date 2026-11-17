@@ -1,3 +1,8 @@
+### 2026-11-17 — уточнён порядок Android smoke-test
+- После первой правки ожидание splash capture перенесено непосредственно к моменту появления PID приложения; убрана фиксированная восьмисекундная задержка перед снимками.
+- UI job получил 30 минут вместо 20; при ошибке capture workflow теперь сохраняет дополнительный logcat и PID до завершения job. Диагностический артефакт по-прежнему загружается через `if: always()`.
+- Сборка и Actions не запускались.
+
 ### 2026-11-17 — устойчивость Android UI smoke-test и исправление preview assets
 - Рабочая ветка: `ui/full-visual-redesign`; исходный HEAD перед изменениями: `cb2f948ea85777ab27e5b5fb6bd36f1014db21f2`.
 - Причина пропуска splash asset в preview workflow: `App.tsx` импортирует `assets/neuroscene-splash.png`, но `android-apk-preview.yml` не запускал `scripts/process-splash-logo.py`. Добавлен шаг генерации из утверждённого JPG до Expo prebuild; подготовка launcher/adaptive artwork теперь использует уже созданное Python-окружение.
