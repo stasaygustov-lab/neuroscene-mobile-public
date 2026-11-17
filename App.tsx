@@ -5438,6 +5438,56 @@ const FINAL_UI_FIXES_V28 = {
   introBrandLockup: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, backgroundColor: 'transparent' },
 };
 
+const FINAL_UI_FIXES_V29 = {
+  // Gallery empty state: show the complete supplied artwork at a natural size.
+  galleryEmptyReferenceState: {
+    width: '100%',
+    minHeight: 0,
+    height: undefined,
+    flex: 0,
+    flexGrow: 0,
+    flexShrink: 0,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 8,
+    paddingHorizontal: 0,
+    marginTop: 0,
+    marginBottom: 0,
+    overflow: 'visible',
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    borderRadius: 0,
+  },
+  galleryReferenceImage: {
+    position: 'relative',
+    width: '100%',
+    height: 250,
+    maxWidth: 360,
+    left: 0,
+    top: 0,
+    alignSelf: 'center',
+    margin: 0,
+    backgroundColor: 'transparent',
+  },
+  secondaryButton: {
+    width: '78%',
+    minHeight: 58,
+    marginTop: 16,
+    marginBottom: 8,
+    borderRadius: 18,
+    backgroundColor: '#087CF4',
+    borderColor: '#64DFFF',
+    borderWidth: 1.5,
+    shadowColor: '#16B9FF',
+    shadowOpacity: 0.36,
+    shadowRadius: 18,
+    elevation: 7,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+};
+ 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5797,5 +5847,6 @@ const styles = StyleSheet.create({
   ...FINAL_REFERENCE_REDESIGN_V26,
   ...FINAL_UI_FIXES_V27,
   ...FINAL_UI_FIXES_V28,
+  ...FINAL_UI_FIXES_V29,
 });
 
