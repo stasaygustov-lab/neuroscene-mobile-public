@@ -6252,6 +6252,23 @@ const FINAL_UI_FIXES_V40 = {
   profileIdentity: { marginTop: 6, marginBottom: 14, paddingTop: 2, paddingBottom: 8 },
 };
 
+const FINAL_UI_REFERENCE_ARTWORK_V49 = {
+  createReferenceImageFrame: {
+    width: '100%', height: 154, alignSelf: 'center', marginTop: 0, marginBottom: 14,
+    borderRadius: 18, overflow: 'hidden', borderWidth: 0,
+    backgroundColor: 'transparent', shadowColor: '#168BFF',
+    shadowOpacity: 0.38, shadowRadius: 18, elevation: 7,
+  },
+  createReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -120, top: -150 },
+  createReferenceImageShade: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(2,10,28,0.04)' },
+  creditBalanceCard: { width: '40%', flex: 0, maxWidth: '40%', minHeight: 174, height: 174, borderRadius: 20, overflow: 'hidden' },
+  creditCoinsReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -210, top: -795 },
+  galleryReferenceImage: { width: 224, height: 190, maxWidth: 260, alignSelf: 'center', position: 'relative', overflow: 'hidden', borderRadius: 0, backgroundColor: 'transparent' },
+  galleryReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -741, top: -160 },
+  profileGuestAvatar: { width: 104, height: 104, borderRadius: 52, overflow: 'hidden', borderWidth: 0, backgroundColor: 'transparent', shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 22, elevation: 9, alignItems: 'center', justifyContent: 'center' },
+  profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -6634,6 +6651,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V41,
   ...FINAL_UI_FIXES_V42,
   ...FINAL_UI_FIXES_V43,
+  ...FINAL_UI_REFERENCE_ARTWORK_V49,
   referenceCenteredHeader: { width: '100%', minHeight: 66, height: 66, marginTop: 0, marginBottom: 0, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'transparent', borderBottomWidth: 0 },
   brandRowCentered: { position: 'relative', top: 0, left: 0, right: undefined, width: 'auto', height: 48, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent' },
   brandLogoArtwork: { width: 146, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 7, alignSelf: 'flex-start', margin: 0, padding: 0, backgroundColor: 'transparent' },
@@ -6676,20 +6694,5 @@ const styles = StyleSheet.create({
 });
 
 
-const FINAL_UI_REFERENCE_ARTWORK_V49 = {
-  createReferenceImageFrame: {
-    width: '100%', height: 154, alignSelf: 'center', marginTop: 0, marginBottom: 14,
-    borderRadius: 18, overflow: 'hidden', borderWidth: 0,
-    backgroundColor: 'transparent', shadowColor: '#168BFF',
-    shadowOpacity: 0.38, shadowRadius: 18, elevation: 7,
-  },
-  createReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -120, top: -150 },
-  createReferenceImageShade: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(2,10,28,0.04)' },
-  creditBalanceCard: { width: '40%', flex: 0, maxWidth: '40%', minHeight: 174, height: 174, borderRadius: 20, overflow: 'hidden' },
-  creditCoinsReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -210, top: -795 },
-  galleryReferenceImage: { width: 224, height: 190, maxWidth: 260, alignSelf: 'center', position: 'relative', overflow: 'hidden', borderRadius: 0, backgroundColor: 'transparent' },
-  galleryReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -741, top: -160 },
-  profileGuestAvatar: { width: 104, height: 104, borderRadius: 52, overflow: 'hidden', borderWidth: 0, backgroundColor: 'transparent', shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 22, elevation: 9, alignItems: 'center', justifyContent: 'center' },
-  profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
-};
+
 
