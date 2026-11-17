@@ -5488,6 +5488,83 @@ const FINAL_UI_FIXES_V29 = {
   },
 };
  
+const FINAL_UI_FIXES_V30 = {
+  // Keep the credits page compact while preserving scroll space for the history list.
+  creditsContent: {
+    flexGrow: 1,
+    paddingTop: 28,
+    paddingBottom: 34,
+    paddingHorizontal: 18,
+  },
+  creditsScreen: {
+    width: '100%',
+    minWidth: 0,
+    alignSelf: 'stretch',
+    flexGrow: 1,
+    flexShrink: 1,
+    paddingHorizontal: 0,
+    paddingBottom: 12,
+  },
+  // Reduce the oversized empty tail below the profile menu; the parent ScrollView
+  // already clears the fixed bottom navigation.
+  profileScreen: {
+    paddingTop: 14,
+    paddingBottom: 30,
+  },
+  profileHeader: {
+    minHeight: 54,
+    marginTop: 0,
+    marginBottom: 12,
+    paddingBottom: 8,
+  },
+  profileIdentity: {
+    paddingTop: 2,
+    paddingBottom: 10,
+    marginTop: 4,
+    marginBottom: 12,
+  },
+  profileMenuCard: {
+    width: '100%',
+    marginTop: 8,
+    marginBottom: 14,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 17,
+    borderWidth: 1,
+    borderColor: 'rgba(89,171,232,0.28)',
+    backgroundColor: 'rgba(3,16,40,0.34)',
+  },
+  menuItem: {
+    minHeight: 50,
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+  },
+  // Keep the four navigation targets evenly sized and their labels legible.
+  navItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    minWidth: 0,
+    minHeight: 62,
+    paddingHorizontal: 2,
+    paddingTop: 2,
+    borderRadius: 0,
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+  },
+  navLabel: {
+    color: '#BBD3EE',
+    fontFamily: 'Manrope',
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: '800',
+    width: '100%',
+    textAlign: 'center',
+    includeFontPadding: false,
+  },
+};
+ 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5848,5 +5925,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V27,
   ...FINAL_UI_FIXES_V28,
   ...FINAL_UI_FIXES_V29,
+  ...FINAL_UI_FIXES_V30,
 });
 
