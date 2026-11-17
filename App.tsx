@@ -143,9 +143,9 @@ function ScreenTransition({ children, direction = 1 }: { children: any; directio
   const scale = useRef(new Animated.Value(0.992)).current;
   useEffect(() => {
     const animation = Animated.parallel([
-      Animated.timing(opacity, { toValue: 1, duration: 210, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
-      Animated.timing(translateX, { toValue: 0, duration: 270, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
-      Animated.timing(scale, { toValue: 1, duration: 270, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+      Animated.timing(opacity, { toValue: 1, duration: 210, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
+      Animated.timing(translateX, { toValue: 0, duration: 270, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
+      Animated.timing(scale, { toValue: 1, duration: 270, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
     ]);
     animation.start();
     return () => { animation.stop(); opacity.stopAnimation(); translateX.stopAnimation(); scale.stopAnimation(); };
@@ -252,13 +252,13 @@ export default function App() {
 
   useEffect(() => {
     const shimmer = Animated.loop(Animated.sequence([
-      Animated.timing(splashShimmer, { toValue: 1, duration: 1150, useNativeDriver: true }),
-      Animated.timing(splashShimmer, { toValue: 0, duration: 1150, useNativeDriver: true }),
+      Animated.timing(splashShimmer, { toValue: 1, duration: 1150, useNativeDriver: false }),
+      Animated.timing(splashShimmer, { toValue: 0, duration: 1150, useNativeDriver: false }),
     ]));
     const sweep = Animated.loop(Animated.timing(splashSweep, {
       toValue: 1,
       duration: 1750,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }));
     shimmer.start();
     sweep.start();
