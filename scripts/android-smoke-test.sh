@@ -22,10 +22,20 @@ if ! adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 
   exit 1
 fi
 
-# Allow the native activity and React Native bundle to initialize before
-# checking the process. The capture script performs its own bounded wait too.
-sleep 3
-if ! adb shell pidof com.neuroscene.app > artifacts/diagnostics/app-pid.txt 2>&1; then
+# Give a slow emulator up to 60 seconds to start the app before declaring
+# that the process failed. Save the PID once it appears.
+pid=""
+attempt=0
+while [ "$attempt" -lt 60 ]; do
+  pid="$(adb shell pidof com.neuroscene.app 2>/dev/null || true)"
+  if [ -n "$pid" ]; then
+    printf '%s\n' "$pid" > artifacts/diagnostics/app-pid.txt
+    break
+  fi
+  attempt=$((attempt + 1))
+  sleep 1
+done
+if [ -z "$pid" ]; then
   adb logcat -d -v threadtime > artifacts/diagnostics/android-logcat-no-process.txt 2>&1 || true
   cat artifacts/diagnostics/launch.txt
   exit 1
