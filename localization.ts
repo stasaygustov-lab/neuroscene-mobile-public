@@ -1,11 +1,11 @@
 export type AppLanguage = 'ru';
 
-export function uiText(_language: AppLanguage | string, _english: string, russian: string): string {
+export function uiText(_language: AppLanguage, _english: string, russian: string): string {
   return russian;
 }
 
 export function faqText(
-  _language: AppLanguage | string,
+  _language: AppLanguage,
   item: {
     faq_id?: string;
     question_ru?: string;
