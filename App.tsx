@@ -6651,7 +6651,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V41,
   ...FINAL_UI_FIXES_V42,
   ...FINAL_UI_FIXES_V43,
-  ...FINAL_UI_REFERENCE_ARTWORK_V49,
   referenceCenteredHeader: { width: '100%', minHeight: 66, height: 66, marginTop: 0, marginBottom: 0, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'transparent', borderBottomWidth: 0 },
   brandRowCentered: { position: 'relative', top: 0, left: 0, right: undefined, width: 'auto', height: 48, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent' },
   brandLogoArtwork: { width: 146, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 7, alignSelf: 'flex-start', margin: 0, padding: 0, backgroundColor: 'transparent' },
