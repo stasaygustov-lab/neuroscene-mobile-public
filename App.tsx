@@ -1907,7 +1907,7 @@ export default function App() {
           <View style={styles.loginScreen}>
             <Text style={styles.loginTagline}>Войдите, чтобы сохранять свои видео и получать больше возможностей</Text>
           <TouchableOpacity activeOpacity={0.86} style={styles.profileVkButton} onPress={handleVkLogin} disabled={authBusy}>
-            <Text style={styles.profileVkMark}>ᴠκ</Text>
+            <Text style={styles.profileVkMark}>vk</Text>
             <Text style={styles.profileVkText}>Войти через VK ID</Text>
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.86} style={styles.profileEmailButton} onPress={() => setProfileEmailOpen((value) => !value)}>
@@ -6038,6 +6038,77 @@ const FINAL_UI_FIXES_V41 = {
   profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
 };
 
+const FINAL_UI_FIXES_V42 = {
+  // Final reference-aligned primary actions. This layer is deliberately last so legacy
+  // V1-V41 style overrides cannot change these three controls.
+  referenceCreateGlow: {
+    width: '100%', marginTop: 0, marginBottom: 14, borderRadius: 29,
+    shadowColor: '#00BFFF', shadowOpacity: 0.82, shadowRadius: 21,
+    shadowOffset: { width: 0, height: 0 }, elevation: 12,
+  },
+  referenceCreateButton: {
+    width: '100%', height: 58, minHeight: 58, paddingHorizontal: 20,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: 11, borderRadius: 29, borderWidth: 1.4,
+    borderColor: '#9BEAFF', backgroundColor: '#0879F5',
+    shadowColor: '#00AFFF', shadowOpacity: 0.42, shadowRadius: 13,
+    shadowOffset: { width: 0, height: 2 }, elevation: 7,
+  },
+  referencePlayCircle: {
+    width: 30, height: 30, borderRadius: 15, alignItems: 'center',
+    justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.18)',
+    borderWidth: 1, borderColor: 'rgba(225,249,255,0.78)',
+  },
+  referencePlay: {
+    color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 14,
+    lineHeight: 19, fontWeight: '900', marginLeft: 2,
+    textShadowColor: '#D8F8FF', textShadowRadius: 5,
+  },
+  referenceCreateButtonText: {
+    color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 17,
+    lineHeight: 23, fontWeight: '900', letterSpacing: 0.15,
+    textAlign: 'center', textShadowColor: 'rgba(0,32,84,0.55)',
+    textShadowRadius: 4,
+  },
+  buyCreditsButton: {
+    width: '100%', minHeight: 58, height: 58, marginTop: 10,
+    marginBottom: 12, paddingHorizontal: 20, paddingVertical: 0,
+    borderRadius: 29, borderWidth: 1.4, borderColor: '#9BEAFF',
+    backgroundColor: '#0879F5', alignItems: 'center',
+    justifyContent: 'center', shadowColor: '#00AFFF',
+    shadowOpacity: 0.66, shadowRadius: 18,
+    shadowOffset: { width: 0, height: 3 }, elevation: 9,
+  },
+  buyCreditsButtonText: {
+    color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 17,
+    lineHeight: 23, fontWeight: '900', letterSpacing: 0.15,
+    textAlign: 'center', textShadowColor: 'rgba(0,32,84,0.55)',
+    textShadowRadius: 4,
+  },
+  profileVkButton: {
+    width: '100%', maxWidth: 350, height: 54, minHeight: 54,
+    marginTop: 3, marginBottom: 9, paddingHorizontal: 18,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: 10, borderRadius: 27, borderWidth: 1.4,
+    borderColor: '#9BEAFF', backgroundColor: '#0879F5',
+    shadowColor: '#00AFFF', shadowOpacity: 0.68, shadowRadius: 18,
+    shadowOffset: { width: 0, height: 3 }, elevation: 9,
+  },
+  profileVkMark: {
+    color: '#0879F5', backgroundColor: '#FFFFFF',
+    width: 25, height: 25, borderRadius: 7,
+    textAlign: 'center', textAlignVertical: 'center',
+    fontFamily: 'Manrope', fontSize: 14, lineHeight: 20,
+    fontWeight: '900', overflow: 'hidden',
+  },
+  profileVkText: {
+    color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 16,
+    lineHeight: 22, fontWeight: '900', letterSpacing: 0.1,
+    textAlign: 'center', textShadowColor: 'rgba(0,32,84,0.5)',
+    textShadowRadius: 4,
+  },
+};
+
 const FINAL_UI_FIXES_V40 = {
   // Reference layout: compact left-aligned brand lockup, centered screen title, no oversized hero panel.
   referenceCenteredHeader: { width: '100%', minHeight: 66, height: 66, marginTop: 0, marginBottom: 0, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'transparent', borderBottomWidth: 0 },
@@ -6438,6 +6509,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V39,
   ...FINAL_UI_FIXES_V40,
   ...FINAL_UI_FIXES_V41,
+  ...FINAL_UI_FIXES_V42,
 });
 
 
