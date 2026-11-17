@@ -5866,6 +5866,7 @@ const FINAL_UI_FIXES_V38 = {
   ambientGlowCenterProfile: { backgroundColor: '#26D9C7', opacity: 0.12 },
 
   // Brand lockup uses the exact approved icon, not a substitute triangle.
+  brandRowCentered: { position: 'absolute', top: 53, left: 0, right: 0, width: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent' },
   brandLogoArtwork: { width: 166, height: 54, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8, backgroundColor: 'transparent' },
   brandLogoImage: { width: 48, height: 48, flexShrink: 0, backgroundColor: 'transparent' },
   brandLockupWordmark: { alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
