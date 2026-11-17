@@ -1894,7 +1894,7 @@ export default function App() {
             <View style={styles.profileSecurityIcon}><Text style={styles.profileSecurityCheck}>✓</Text></View>
             <View style={styles.profileSecurityCopy}><Text style={styles.profileSecurityTitle}>Ваши данные в безопасности</Text><Text style={styles.profileSecurityText}>Мы не передаём их третьим лицам</Text></View>
           </View>
-          <TouchableOpacity activeOpacity={0.86} style={styles.profileEmailButton> onPress={() => setProfileEmailOpen((value) => !value)}>
+          <TouchableOpacity activeOpacity={0.86} style={styles.profileEmailButton} onPress={() => setProfileEmailOpen((value) => !value)}>
             <Text style={styles.profileEmailButtonText}>{profileEmailOpen ? 'Скрыть вход по email' : 'Войти по email'}</Text>
           </TouchableOpacity>
                     <Text style={styles.loginLegalText}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
