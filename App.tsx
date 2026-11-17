@@ -2272,16 +2272,6 @@ function CreateScreen({
         <Text style={styles.createScreenTitle}>Создать</Text>
         <View style={styles.createTitleUnderline} />
       </View>
-      {!showComposer && (
-        <View style={styles.createReferenceImageFrame} accessibilityLabel="Кинематографическая иллюстрация из утверждённого референса">
-          <Image
-            source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-            resizeMode="stretch"
-            style={styles.createReferenceArtwork}
-          />
-          <View pointerEvents="none" style={styles.createReferenceImageShade} />
-        </View>
-      )}
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
           <View style={styles.referencePlayCircle}><Text style={styles.referencePlay}>▶</Text></View>
@@ -2295,7 +2285,7 @@ function CreateScreen({
           <View style={styles.featureGrid}>
             {[
               { id: 'text', icon: '▶', title: 'Текст в видео', subtitle: 'Создание по описанию' },
-              { id: 'image', icon: '▧', title: 'Изображение в видео', subtitle: 'Оживление изображения' },
+              { id: 'image', icon: '▧', title: 'Фото → видео', subtitle: 'Оживление изображения' },
               { id: 'sound', icon: '♫', title: 'Добавить звук', subtitle: 'Звуковое оформление' },
               { id: 'prompt', icon: '✧', title: 'Улучшить промпт', subtitle: 'Точнее описать сцену' },
             ].map((feature) => (
@@ -6023,6 +6013,40 @@ const FINAL_UI_FIXES_V39 = {
   menuItem: { minHeight: 52, paddingHorizontal: 15 },
   creditHistoryEmptyIcon: { color: '#9CEBFF', textShadowColor: '#168BFF', textShadowRadius: 11 },
 };
+const FINAL_UI_FIXES_V40 = {
+  // Reference layout: compact left-aligned brand lockup, centered screen title, no oversized hero panel.
+  referenceCenteredHeader: { width: '100%', minHeight: 66, height: 66, marginTop: 0, marginBottom: 0, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'transparent', borderBottomWidth: 0 },
+  brandRowCentered: { position: 'relative', top: 0, left: 0, right: undefined, width: 'auto', height: 48, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent' },
+  brandLogoArtwork: { width: 128, height: 46, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 6, alignSelf: 'flex-start', margin: 0, padding: 0, backgroundColor: 'transparent' },
+  brandLogoImage: { width: 39, height: 39, flexShrink: 0, backgroundColor: 'transparent' },
+  brandLockupWordmark: { alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
+  brandWordmarkLine: { color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 16, fontWeight: '900', letterSpacing: -0.25, textShadowColor: '#168BFF', textShadowRadius: 9, includeFontPadding: false },
+  headerActions: { position: 'relative', right: 0, top: 0, alignItems: 'center', justifyContent: 'center' },
+  content: { paddingHorizontal: 18, paddingTop: 8, paddingBottom: 132 },
+  createTitleWrap: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 12, paddingBottom: 8, backgroundColor: 'transparent' },
+  createScreenTitle: { color: '#F2F8FF', fontFamily: 'Manrope', fontSize: 28, lineHeight: 35, fontWeight: '900', textAlign: 'center', textShadowColor: 'rgba(54,171,255,0.9)', textShadowRadius: 15 },
+  createTitleUnderline: { width: '68%', height: 2, marginTop: 7, borderRadius: 2, backgroundColor: '#28C8FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
+  referenceCreateGlow: { width: '92%', alignSelf: 'center', marginTop: 0, marginBottom: 18, shadowColor: '#11BFFF', shadowOpacity: 0.92, shadowRadius: 22, elevation: 12 },
+  referenceCreateButton: { width: '100%', height: 58, minHeight: 58, borderRadius: 29, borderWidth: 1.5, borderColor: '#72E5FF', backgroundColor: '#087CF4', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 20, elevation: 12 },
+  featureSection: { marginTop: 0, marginBottom: 12, width: '100%' },
+  featureSectionTitle: { color: '#DDF5FF', fontFamily: 'Manrope', fontSize: 16, lineHeight: 22, fontWeight: '900', textAlign: 'center', marginBottom: 8, textShadowColor: '#168BFF', textShadowRadius: 9 },
+  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'flex-start', columnGap: 0, rowGap: 0 },
+  featureTile: { width: '24.5%', minWidth: 0, minHeight: 74, height: 'auto', paddingHorizontal: 1, paddingVertical: 3, borderRadius: 10, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0, alignItems: 'center', justifyContent: 'flex-start' },
+  featureIconSquare: { width: 30, height: 30, marginBottom: 4, backgroundColor: 'transparent', borderWidth: 0, alignItems: 'center', justifyContent: 'center' },
+  featureIcon: { color: '#83E8FF', fontSize: 22, lineHeight: 27, fontWeight: '800', textShadowColor: '#168BFF', textShadowRadius: 12 },
+  featureTitle: { color: '#F0F8FF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 13, fontWeight: '900', textAlign: 'center', backgroundColor: 'transparent', padding: 0 },
+  featureSubtitle: { display: 'none' },
+  galleryReferenceHeader: { marginTop: 0, marginBottom: 12 },
+  creditsContent: { flexGrow: 1, paddingTop: 12, paddingBottom: 132, paddingHorizontal: 16 },
+  creditsHeader: { marginTop: 0, marginBottom: 12 },
+  creditTopRow: { width: '100%', flexDirection: 'row', alignItems: 'stretch', gap: 9, marginBottom: 10 },
+  creditBalanceCard: { width: '40%', flex: 0, maxWidth: '40%', minHeight: 174, height: 174 },
+  creditPackageColumn: { flex: 1, minWidth: 0, justifyContent: 'center' },
+  profileScreen: { paddingTop: 8, paddingBottom: 132 },
+  profileHeader: { minHeight: 48, marginTop: 0, marginBottom: 12 },
+  profileIdentity: { marginTop: 6, marginBottom: 14, paddingTop: 2, paddingBottom: 8 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -6387,6 +6411,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V37,
   ...FINAL_UI_FIXES_V38,
   ...FINAL_UI_FIXES_V39,
+  ...FINAL_UI_FIXES_V40,
 });
 
 
