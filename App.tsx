@@ -1793,7 +1793,7 @@ export default function App() {
                     <View style={styles.packageIconWrap}>
                       <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
                     </View>
-                    <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')} кредитов</Text>
+                    <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')} кредитов</Text>
                     <View style={styles.packageRight}>
                       {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText} numberOfLines={1}>Популярно</Text></View>}
                       <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
