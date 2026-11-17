@@ -5761,15 +5761,15 @@ const FINAL_UI_FIXES_V33 = {
 const FINAL_UI_FIXES_V34 = {
   // Use exact artwork from the approved four-screen reference sheet, cropped to each relevant illustration.
   galleryReferenceImage: { width: 224, height: 190, maxWidth: 260, alignSelf: 'center', position: 'relative', overflow: 'hidden', borderRadius: 16, backgroundColor: 'transparent' },
-  galleryReferenceArtwork: { position: 'absolute', width: 1184, height: 1398, left: -723, top: -150 },
+  galleryReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -741, top: -160 },
   galleryClapperGlow: { display: 'none' },
   galleryClapperTop: { display: 'none' },
   galleryClapperBody: { display: 'none' },
-  creditCoinsReferenceCrop: { position: 'absolute', width: 1184, height: 1398, left: -203, top: -810 },
+  creditCoinsReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -210, top: -795 },
   creditHeroCoins: { display: 'none' },
   creditIllustrationGlow: { display: 'none' },
   profileGuestAvatar: { width: 104, height: 104, borderRadius: 52, overflow: 'hidden', borderWidth: 2, borderColor: '#42D9FF', backgroundColor: 'rgba(0,91,180,0.20)', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 25, elevation: 12, alignItems: 'center', justifyContent: 'center' },
-  profileAvatarReferenceCrop: { position: 'absolute', width: 1184, height: 1398, left: -768, top: -790 },
+  profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
 };
 
 const styles = StyleSheet.create({
