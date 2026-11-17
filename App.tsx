@@ -1766,6 +1766,11 @@ export default function App() {
 
           <View style={styles.creditTopRow}>
             <View style={styles.creditBalanceCard}>
+              <Image
+                source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+                resizeMode="stretch"
+                style={styles.creditCoinsReferenceCrop}
+              />
               <View pointerEvents="none" style={styles.creditIllustrationGlow} />
               <View style={styles.creditHeroCoins}>
                 <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
@@ -1870,9 +1875,11 @@ export default function App() {
         </View>
         <View style={styles.profileIdentity}>
           <View style={styles.profileGuestAvatar}>
-            <View style={styles.profileAvatarHalo} />
-            <View style={styles.profileGuestHead} />
-            <View style={styles.profileGuestBody} />
+            <Image
+              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+              resizeMode="stretch"
+              style={styles.profileAvatarReferenceCrop}
+            />
           </View>
           <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
           {!!authUser?.email && <Text style={styles.profileGuestStatus}>{authUser.email}</Text>}
@@ -2583,16 +2590,11 @@ function GalleryScreen({
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.galleryEmptyReferenceState}>
           <View style={styles.galleryReferenceImage} accessibilityLabel="Неоновая кинематографическая хлопушка">
-            <View style={styles.galleryClapperGlow} />
-            <View style={styles.galleryClapperTop}>
-              <View style={styles.galleryClapperStripe} />
-              <View style={styles.galleryClapperStripe} />
-              <View style={styles.galleryClapperStripe} />
-              <View style={styles.galleryClapperStripe} />
-            </View>
-            <View style={styles.galleryClapperBody}>
-              <View style={styles.galleryClapperPlay} />
-            </View>
+            <Image
+              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
+              resizeMode="stretch"
+              style={styles.galleryReferenceArtwork}
+            />
           </View>
           <TouchableOpacity activeOpacity={0.86} style={styles.galleryEmptyActionButton} onPress={onCreate}>
             <Text style={styles.secondaryButtonText}>Создать видео</Text>
@@ -5755,6 +5757,21 @@ const FINAL_UI_FIXES_V33 = {
   loginLegalText: { width: '92%', color: '#AFCBE7', fontFamily: 'Manrope', fontSize: 11, lineHeight: 16, textAlign: 'center', marginTop: 12, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(93,169,224,0.35)', backgroundColor: 'rgba(3,18,43,0.62)' },
 };
 
+
+const FINAL_UI_FIXES_V34 = {
+  // Use exact artwork from the approved four-screen reference sheet, cropped to each relevant illustration.
+  galleryReferenceImage: { width: 224, height: 190, maxWidth: 260, alignSelf: 'center', position: 'relative', overflow: 'hidden', borderRadius: 16, backgroundColor: 'transparent' },
+  galleryReferenceArtwork: { position: 'absolute', width: 1184, height: 1398, left: -723, top: -150 },
+  galleryClapperGlow: { display: 'none' },
+  galleryClapperTop: { display: 'none' },
+  galleryClapperBody: { display: 'none' },
+  creditCoinsReferenceCrop: { position: 'absolute', width: 1184, height: 1398, left: -203, top: -810 },
+  creditHeroCoins: { display: 'none' },
+  creditIllustrationGlow: { display: 'none' },
+  profileGuestAvatar: { width: 104, height: 104, borderRadius: 52, overflow: 'hidden', borderWidth: 2, borderColor: '#42D9FF', backgroundColor: 'rgba(0,91,180,0.20)', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 25, elevation: 12, alignItems: 'center', justifyContent: 'center' },
+  profileAvatarReferenceCrop: { position: 'absolute', width: 1184, height: 1398, left: -768, top: -790 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -6113,6 +6130,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V31,
   ...FINAL_UI_FIXES_V32,
   ...FINAL_UI_FIXES_V33,
+  ...FINAL_UI_FIXES_V34,
 });
 
 
