@@ -6027,7 +6027,7 @@ const FINAL_UI_FIXES_V41 = {
   // Restore the landscape artwork crop from the approved four-screen reference sheet.
   createReferenceImageFrame: { width: '100%', height: 154, alignSelf: 'center', marginTop: 0, marginBottom: 14, borderRadius: 18, overflow: 'hidden', borderWidth: 0, backgroundColor: 'transparent', shadowColor: '#168BFF', shadowOpacity: 0.38, shadowRadius: 18, elevation: 7 },
   createReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -120, top: -150 },
-  createReferenceImageShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,28,0.04)' },
+  createReferenceImageShade: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(2,10,28,0.04)' },
   // Keep the original reference-sheet crops visible; do not replace them with CSS-drawn stand-ins.
   galleryReferenceImage: { width: 224, height: 190, maxWidth: 260, alignSelf: 'center', position: 'relative', overflow: 'hidden', borderRadius: 0, backgroundColor: 'transparent' },
   galleryReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -741, top: -160 },
