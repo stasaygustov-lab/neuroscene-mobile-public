@@ -2590,11 +2590,11 @@ function GalleryScreen({
         <View style={styles.galleryEmptyReferenceState}>
           <Image
             source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-            resizeMode="cover"
+            resizeMode="contain"
             style={styles.galleryReferenceImage}
             accessibilityLabel="Неоновая кинематографическая хлопушка"
           />
-          <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}>
+          <TouchableOpacity activeOpacity={0.86} style={styles.galleryEmptyActionButton} onPress={onCreate}>
             <Text style={styles.secondaryButtonText}>Создать видео</Text>
           </TouchableOpacity>
         </View>
@@ -5470,7 +5470,7 @@ const FINAL_UI_FIXES_V29 = {
     margin: 0,
     backgroundColor: 'transparent',
   },
-  secondaryButton: {
+  galleryEmptyActionButton: {
     width: '78%',
     minHeight: 58,
     marginTop: 16,
