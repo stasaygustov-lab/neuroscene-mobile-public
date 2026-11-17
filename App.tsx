@@ -5788,7 +5788,7 @@ const FINAL_UI_FIXES_V34 = {
 
 const FINAL_UI_FIXES_V37 = {
   // The intro overlay is positioned inside the app window to avoid a second Android window.
-  introOverlay: { flex: 1, width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#020817', alignItems: 'center', justifyContent: 'center' },
+  introOverlay: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 100, width: '100%', overflow: 'hidden', backgroundColor: '#020817', alignItems: 'center', justifyContent: 'center' },
   introBrandLockup: { position: 'absolute', top: '30%', left: 0, right: 0, height: 220, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, backgroundColor: 'transparent' },
   splashLogoImage: { width: '84%', maxWidth: 380, height: 220, backgroundColor: 'transparent', alignSelf: 'center' },
   introProgressTrack: { position: 'absolute', bottom: '8%', width: '82%', maxWidth: 320, height: 5, borderRadius: 3, overflow: 'visible', backgroundColor: 'rgba(28,105,170,0.42)', borderWidth: 1, borderColor: 'rgba(118,224,255,0.32)', shadowColor: '#00BFFF', shadowOpacity: 0.8, shadowRadius: 12, elevation: 8 },
