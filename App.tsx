@@ -5565,6 +5565,39 @@ const FINAL_UI_FIXES_V30 = {
   },
 };
  
+const FINAL_UI_FIXES_V31 = {
+  // Reserve enough horizontal space for the "Популярно" chip in the compact
+  // side-by-side credit layout; prevent font scaling from wrapping its label.
+  packageRight: {
+    minWidth: 80,
+    maxWidth: 84,
+    flexShrink: 0,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    gap: 2,
+  },
+  popularBadge: {
+    position: 'relative',
+    top: 0,
+    right: 0,
+    width: 80,
+    minWidth: 80,
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+    borderRadius: 7,
+  },
+  popularBadgeText: {
+    width: '100%',
+    flexShrink: 0,
+    fontSize: 8,
+    lineHeight: 10,
+    textAlign: 'center',
+    includeFontPadding: false,
+  },
+};
+ 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5926,5 +5959,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V28,
   ...FINAL_UI_FIXES_V29,
   ...FINAL_UI_FIXES_V30,
+  ...FINAL_UI_FIXES_V31,
 });
 
