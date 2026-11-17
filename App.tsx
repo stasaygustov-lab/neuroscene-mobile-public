@@ -4122,7 +4122,7 @@ const FINAL_UI_FIXES = {
 
 const FINAL_UI_FIXES_V2 = {
  container: {flex:1,backgroundColor:'#010713'},header: {paddingTop:10,paddingBottom:12,minHeight:78},brandRow: {marginTop:2},logo: {fontSize:22,lineHeight:25},logoSecond: {fontSize:22,lineHeight:25},
- content: {paddingHorizontal:16,paddingTop:16,paddingBottom:22},creditsContent: {paddingTop:12,paddingBottom:24},screen: {flex:1,paddingTop:10,paddingBottom:8},bottomNav: {paddingTop:6,paddingBottom:6,minHeight:72},navItem: {minHeight:54,paddingTop:2},navItemActive: {shadowColor:'#00AFFF',shadowOpacity:.82,shadowRadius:15,elevation:9},
+ content: {paddingHorizontal:16,paddingTop:16,paddingBottom:22},creditsContent: {paddingTop:12,paddingBottom:24},screen: {flex:1,paddingTop:10,paddingBottom:8},
  referenceHero: {height:226,minHeight:226,marginTop:6,marginBottom:15,overflow:'hidden'},referenceHeroCopy: {top:20,left:18,width:'57%'},referenceHeroTitle: {fontSize:25,lineHeight:29,textShadowColor:'#087BFF',textShadowRadius:16},referenceHeroCaption: {fontSize: 16,lineHeight: 21,maxWidth:180},referenceCreateGlow:{width:'100%',marginBottom:13,borderRadius:30,shadowColor:'#00AFFF',shadowOffset: {width:0,height:0},elevation:12},referenceCreateButton: {shadowOpacity:.42,shadowRadius:15,elevation:8,marginBottom:0},
  featureSectionTitle: {textAlign:'center',textShadowColor:'#168BFF',textShadowRadius:12},featureIconSquare: {shadowColor:'#168BFF',shadowOpacity:.58,shadowRadius:12,elevation:6},featureIconSquareActive: {shadowOpacity:1,shadowRadius:17,elevation:9},
  creditsScreen: {paddingTop:10,paddingBottom:18},creditsHeader: {position:'relative',alignItems:'center',justifyContent:'center',marginBottom:17,minHeight:48},creditsTitle: {color:'#F5F8FF',fontSize:27,lineHeight:34,fontWeight:'900',textAlign:'center',textShadowColor:'rgba(35,145,255,.68)',textShadowRadius:14},creditsTitleGlow: {position:'absolute',bottom:0,width:'72%',height:2,borderRadius:2,backgroundColor:'#21BFFF',shadowColor:'#00AFFF',shadowOpacity:1,shadowRadius:12,elevation:8},
@@ -4221,7 +4221,7 @@ const FINAL_UI_FIXES_V3 = {
   introSparkleExtraLarge: { position: 'absolute', width: 6, height: 6, borderRadius: 3, backgroundColor: '#B7F3FF', shadowColor: '#29AFFF', shadowOpacity: 1, shadowRadius: 20, elevation: 12 },
   description: { fontSize: 16, lineHeight: 22 },
   mutedText: { fontSize: 16, lineHeight: 20 },
-  navLabel: { fontSize: 16, lineHeight: 21 },
+  
   featureTitle: { fontSize: 16, lineHeight: 21 },
   featureSubtitle: { fontSize: 16, lineHeight: 21 },
 };
@@ -4232,9 +4232,9 @@ const FINAL_UI_FIXES_V5 = {
  logo: { fontSize: 20, lineHeight: 24, includeFontPadding: false }, logoSecond: { fontSize: 20, lineHeight: 24, includeFontPadding: false },
  content: { flexGrow: 1, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 18 }, creditsContent: { flexGrow: 1, paddingTop: 10, paddingBottom: 18 },
  screen: { flexGrow: 1, flexShrink: 0, minHeight: 0, paddingTop: 8, paddingBottom: 12 },
- bottomNav: { minHeight: 76, paddingTop: 5, paddingBottom: 7, backgroundColor: 'rgba(2,10,27,0.96)', borderTopColor: 'rgba(73,166,255,0.38)' },
- navItem: { minHeight: 58, paddingTop: 3, paddingBottom: 2, justifyContent: 'center', gap: 3 },
- navLabel: { color: '#D7E9FF', fontSize: 15, lineHeight: 19, fontWeight: '700', textAlign: 'center', includeFontPadding: false }, navLabelActive: { color: '#78D9FF', fontWeight: '900' },
+ 
+ 
+  
  referenceHero: { height: 151, minHeight: 151, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 8, marginTop: 4, marginBottom: 12 },
  filmFrame: { width: '43%', height: 116, flexGrow: 0, flexShrink: 0 },
  referenceHeroCopy: { position: 'relative', top: 0, left: 0, width: '52%', flex: 1, minWidth: 0, paddingLeft: 10, paddingRight: 4, justifyContent: 'center' },
@@ -4438,8 +4438,8 @@ const FINAL_UI_FIXES_V9 = {
   // Align header actions explicitly to the right; keep the brand lockup centered.
   header: { position: 'relative', minHeight: 88, paddingTop: 32, paddingBottom: 8, paddingHorizontal: 18, width: '100%', flexShrink: 0 },
   headerActions: { position: 'absolute', right: 14, top: 26, zIndex: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 7 },
-  navLabel: { width: '100%', fontSize: 12, lineHeight: 16, textAlign: 'center', includeFontPadding: false, flexShrink: 1 },
-  navLabelActive: { fontSize: 12, lineHeight: 16 },
+  
+  
   emptyScreen: { minHeight: 300, paddingHorizontal: 16, paddingVertical: 18, justifyContent: 'center' },
   galleryEmptyArtwork: { width: 146, height: 112, marginBottom: 14 },
   welcomeBonusCard: { borderColor: 'rgba(82,181,255,0.62)', backgroundColor: 'rgba(4,30,68,0.92)', shadowColor: '#168BFF', shadowOpacity: 0.32, shadowRadius: 13, elevation: 5 },
@@ -4468,7 +4468,7 @@ const FINAL_UI_FIXES_V11 = {
  creditBalancePanel:{borderColor:'rgba(255,204,111,0.72)',backgroundColor:'rgba(43,31,23,0.94)',shadowColor:'#D88A20',shadowOpacity:0.3,shadowRadius:15,elevation:7},creditBalanceHeroValue:{color:'#FFE09A',textShadowColor:'#FF9F24',textShadowRadius:17},creditBalanceHeroLabel:{color:'#FFE9B8'},creditBalanceEyebrow:{color:'#EACB8B'},
  welcomeBonusCard:{borderColor:'rgba(255,210,125,0.72)',backgroundColor:'rgba(54,37,20,0.94)',shadowColor:'#E8A33B',shadowOpacity:0.3},welcomeBonusIcon:{backgroundColor:'rgba(255,185,61,0.2)',borderColor:'rgba(255,222,155,0.78)'},welcomeBonusGlyph:{color:'#FFE8AC',textShadowColor:'#FFB52E',textShadowRadius:10},welcomeBonusTitle:{color:'#FFF0C8'},welcomeBonusText:{color:'#E9D5B0'},
  packageCard:{borderColor:'rgba(255,203,116,0.48)',backgroundColor:'rgba(36,29,25,0.94)'},packageCardPopular:{borderColor:'#FFE19A',backgroundColor:'rgba(72,48,20,0.96)',shadowColor:'#FFB72E',shadowOpacity:0.72,shadowRadius:19,elevation:10},packageAmount:{color:'#FFE09A',textShadowColor:'#D98A20',textShadowRadius:8},packagePrice:{color:'#FFF0CB'},packageIconWrap:{backgroundColor:'rgba(214,145,38,0.2)',borderColor:'rgba(255,214,131,0.72)'},packageIcon:{color:'#FFE4A0',textShadowColor:'#D98A20',textShadowRadius:8},popularBadge:{backgroundColor:'rgba(219,151,43,0.25)',borderColor:'rgba(255,220,151,0.72)'},popularBadgeText:{color:'#FFE9B7'},creditNeverExpire:{color:'#FFE5AE',textShadowColor:'#B56D17',textShadowRadius:7},buyCreditsButton:{borderColor:'#FFE2A0',backgroundColor:'#986016',shadowColor:'#FFB52E',shadowOpacity:0.65,shadowRadius:18,elevation:9},buyCreditsButtonText:{color:'#FFF5D9'},
- bottomNav:{minHeight:92,height:92,maxHeight:92,paddingTop:5,paddingBottom:19,backgroundColor:'rgba(2,10,27,0.98)',borderTopColor:'rgba(100,192,255,0.42)'},navItem:{minHeight:64,paddingTop:3,paddingBottom:2,gap:3,borderRadius:12,borderWidth:1,borderColor:'transparent',backgroundColor:'transparent',alignItems:'center',justifyContent:'center'},navItemActive:{backgroundColor:'transparent',borderColor:'rgba(103,214,255,0.7)',shadowColor:'#00BFFF',shadowOpacity:0.28,shadowRadius:11,elevation:3},navLabel:{width:'100%',color:'#A9C5E2',fontSize:14,lineHeight:18,fontWeight:'800',textAlign:'center',includeFontPadding:false,flexShrink:1},navLabelActive:{color:'#E7F9FF',fontWeight:'900',textShadowColor:'#00BFFF',textShadowRadius:9},navCreateIcon:{width:26,height:26,minHeight:26,marginBottom:0},navGalleryIcon:{width:26,height:26,minHeight:26,marginBottom:0},navCoin:{width:26,height:26,marginBottom:0,borderColor:'#E9BD69',backgroundColor:'rgba(91,55,15,0.72)',shadowColor:'#FFCA62',shadowOpacity:0.48,shadowRadius:10,elevation:5},navCoinInner:{borderColor:'#FFE6A5'},navCoinMark:{color:'#FFE4A0',textShadowColor:'#C27B20',textShadowRadius:5},navCoinActive:{borderColor:'#FFF0BA',shadowColor:'#FFC34F',shadowOpacity:0.9,shadowRadius:13,elevation:8},navPerson:{width:26,height:26,minHeight:26,alignItems:'center',justifyContent:'center',marginBottom:0},navPersonHead:{marginBottom:1},
+ 
  ambientTintGallery:{backgroundColor:'rgba(28,8,58,0.24)'},ambientTintCredits:{backgroundColor:'rgba(54,13,39,0.19)'},ambientTintProfile:{backgroundColor:'rgba(5,48,48,0.22)'},ambientGlowTopGallery:{backgroundColor:'#7753B8',opacity:0.19,shadowColor:'#A77CFF'},ambientGlowBottomGallery:{backgroundColor:'#9B78D8',opacity:0.17,shadowColor:'#B58BFF'},ambientGlowCenterGallery:{backgroundColor:'#573A9A',opacity:0.11},ambientGlowTopCredits:{backgroundColor:'#C56F9C',opacity:0.17,shadowColor:'#E5A3C7'},ambientGlowBottomCredits:{backgroundColor:'#A85B88',opacity:0.14,shadowColor:'#D68DB6'},ambientGlowCenterCredits:{backgroundColor:'#81456C',opacity:0.09},ambientGlowTopProfile:{backgroundColor:'#4BAFA5',opacity:0.17,shadowColor:'#5AD6C6'},ambientGlowBottomProfile:{backgroundColor:'#378F8B',opacity:0.15,shadowColor:'#5AD6C6'},ambientGlowCenterProfile:{backgroundColor:'#287C78',opacity:0.1}
 } as const;
 
@@ -4501,22 +4501,22 @@ const FINAL_UI_FIXES_V12 = {
   creditIllustrationCaption: { position: 'absolute', top: 14, left: 0, right: 0, alignItems: 'center', zIndex: 4 },
   creditIllustrationTitle: { color: '#FFF1CB', fontSize: 13, lineHeight: 17, fontWeight: '900', letterSpacing: 1.1, textAlign: 'center' },
   creditIllustrationSub: { color: '#E8C98B', fontSize: 11, lineHeight: 15, marginTop: 2, textAlign: 'center' },
-  bottomNav: { minHeight: 78, height: 88, paddingTop: 6, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopWidth: 1, borderTopColor: 'rgba(70,173,255,0.52)', shadowColor: '#008CFF', shadowOpacity: 0.3, shadowRadius: 18, elevation: 16 },
-  navItem: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4, minWidth: 0, minHeight: 58, paddingHorizontal: 3, paddingTop: 3, borderRadius: 14, borderWidth: 1, borderColor: 'transparent' },
-  navItemActive: { backgroundColor: 'rgba(0,120,255,0.18)', borderColor: 'rgba(77,195,255,0.72)', shadowColor: '#00AFFF', shadowOpacity: 0.82, shadowRadius: 17, elevation: 10 },
-  navLabel: { color: '#8FAFCF', fontSize: 13, lineHeight: 17, fontWeight: '700' },
-  navLabelActive: { color: '#C8F5FF', fontWeight: '900', textShadowColor: '#00AFFF', textShadowRadius: 12 },
-  navCreateIcon: { shadowColor: '#37C8FF', shadowOpacity: 0.62, shadowRadius: 12, elevation: 6 },
-  navCreateTriangle: { width: 0, height: 0, borderTopWidth: 7, borderBottomWidth: 7, borderLeftWidth: 11, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#8BE9FF', marginLeft: 3 },
-  navGalleryIcon: { width: 24, height: 24, flexDirection: 'row', flexWrap: 'wrap', gap: 2, padding: 2, alignItems: 'center', justifyContent: 'center' },
-  navGalleryCell: { width: 8, height: 8, borderWidth: 1.5, borderColor: '#72D9FF', borderRadius: 2, backgroundColor: 'rgba(0,153,255,0.14)' },
-  navCoin: { width: 27, height: 27, borderRadius: 14, borderWidth: 2, borderColor: '#8BDFFF', backgroundColor: 'rgba(7,46,82,0.65)', alignItems: 'center', justifyContent: 'center', padding: 3 },
-  navCoinInner: { width: '100%', height: '100%', borderRadius: 10, borderWidth: 1, borderColor: '#B9ECFF', alignItems: 'center', justifyContent: 'center' },
-  navCoinMark: { color: '#FFE5A0', fontSize: 14, lineHeight: 17, fontWeight: '900' },
-  navCoinActive: { borderColor: '#8DE7FF', shadowColor: '#00BFFF', shadowOpacity: 0.9, shadowRadius: 12, elevation: 8 },
-  navPerson: { width: 25, height: 26, alignItems: 'center', justifyContent: 'center' },
-  navPersonHead: { width: 9, height: 9, borderWidth: 1.5, borderColor: '#75CFFF', borderRadius: 5, backgroundColor: 'rgba(100,210,255,0.24)' },
-  navPersonBody: { width: 17, height: 10, borderWidth: 1.5, borderColor: '#75CFFF', borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomWidth: 0, marginTop: 2 },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   introOverlay: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 9999, elevation: 9999, overflow: 'hidden', backgroundColor: '#020817', alignItems: 'center', justifyContent: 'center' },
   splashCinematicShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(0,7,22,0.20)' },
   introBrandLockup: { position: 'absolute', top: '25%', left: 0, right: 0, alignItems: 'center', justifyContent: 'center', minHeight: 280 },
@@ -4671,19 +4671,19 @@ const FINAL_UI_FIXES_V13 = {
   creditNeverExpire: { color: '#FFE5AE', textShadowColor: '#B56D17', textShadowRadius: 8 },
   buyCreditsButton: { borderColor: '#FFE2A0', backgroundColor: '#986016', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 19, elevation: 10 },
   buyCreditsButtonText: { color: '#FFF5D9' },
-  bottomNav: { minHeight: 92, height: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopColor: 'rgba(100,192,255,0.42)' },
-  navItem: { minHeight: 66, paddingTop: 2, paddingBottom: 2, gap: 4, borderRadius: 12, borderWidth: 1, borderColor: 'transparent', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', overflow: 'visible' },
-  navItemActive: { backgroundColor: 'transparent', borderColor: 'rgba(103,214,255,0.74)', shadowColor: '#00BFFF', shadowOpacity: 0.32, shadowRadius: 12, elevation: 0 },
-  navLabel: { width: '100%', color: '#A9C5E2', fontSize: 15, lineHeight: 19, fontWeight: '800', textAlign: 'center', includeFontPadding: false, flexShrink: 1 },
-  navLabelActive: { color: '#E7F9FF', fontWeight: '900', textShadowColor: '#00BFFF', textShadowRadius: 10 },
-  navCreateIcon: { width: 27, height: 27, minHeight: 27, marginBottom: 0 },
-  navGalleryIcon: { width: 27, height: 27, minHeight: 27, marginBottom: 0 },
-  navCoin: { width: 29, height: 29, marginBottom: 0, borderColor: '#E9BD69', backgroundColor: 'rgba(91,55,15,0.72)', shadowColor: '#FFCA62', shadowOpacity: 0.58, shadowRadius: 11, elevation: 6 },
-  navCoinInner: { borderColor: '#FFE6A5' },
-  navCoinMark: { color: '#FFE4A0', textShadowColor: '#C27B20', textShadowRadius: 6 },
-  navCoinActive: { borderColor: '#FFF0BA', shadowColor: '#FFC34F', shadowOpacity: 0.92, shadowRadius: 14, elevation: 8 },
-  navPerson: { width: 27, height: 27, minHeight: 27, alignItems: 'center', justifyContent: 'center', marginBottom: 0 },
-  navPersonHead: { marginBottom: 1 },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   ambientStarOne: { opacity: 0, width: 0, height: 0 },
   ambientStarTwo: { opacity: 0, width: 0, height: 0 },
   ambientStarThree: { opacity: 0, width: 0, height: 0 },
@@ -4745,13 +4745,13 @@ const FINAL_UI_FIXES_V14 = {
   buyCreditsHint: { color: '#D5F1FF' },
 
   // A round coin glyph rather than the previous square-looking selected credit icon.
-  navCoin: { width: 27, height: 27, borderRadius: 14, borderWidth: 2, borderColor: '#E9BD69', backgroundColor: 'rgba(91,55,15,0.18)', alignItems: 'center', justifyContent: 'center', padding: 3, shadowColor: '#FFCA62', shadowOpacity: 0.35, shadowRadius: 8, elevation: 2 },
-  navCoinInner: { width: '100%', height: '100%', borderRadius: 10, borderWidth: 1, borderColor: '#FFE6A5', alignItems: 'center', justifyContent: 'center' },
-  navCoinMark: { color: '#FFE4A0', fontSize: 14, lineHeight: 18, fontWeight: '900' },
-  navCoinActive: { backgroundColor: 'rgba(91,55,15,0.28)', borderColor: '#FFF0BA', shadowColor: '#FFC34F', shadowOpacity: 0.65, shadowRadius: 10, elevation: 3 },
-  navPerson: { width: 27, height: 27, minHeight: 27, alignItems: 'center', justifyContent: 'flex-end', marginBottom: 0 },
-  navPersonBody: { width: 23, height: 13, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 1.8, borderBottomWidth: 1, borderColor: '#4CAEFF', backgroundColor: 'rgba(8,55,104,0.65)' },
-  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopColor: 'rgba(100,192,255,0.42)' },
+  
+  
+  
+  
+  
+  
+  
 } as const;
 
 const FINAL_UI_FIXES_V15 = {
@@ -4815,20 +4815,20 @@ const FINAL_UI_FIXES_V15 = {
   ambientGlowTopProfile: { backgroundColor: '#58DCCB', opacity: 0.18 },
   ambientGlowBottomProfile: { backgroundColor: '#79E8D7', opacity: 0.15 },
   ambientGlowCenterProfile: { backgroundColor: '#48CDBB', opacity: 0.1 },
-  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopWidth: 1, borderTopColor: 'rgba(100,192,255,0.42)' },
-  navItem: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4, minWidth: 0, minHeight: 66, paddingHorizontal: 2, paddingTop: 2, borderRadius: 18, borderWidth: 1, borderColor: 'transparent', backgroundColor: 'transparent', overflow: 'hidden' },
-  navItemActive: { backgroundColor: 'rgba(0,126,255,0.11)', borderColor: 'rgba(77,195,255,0.48)', borderWidth: 1, borderRadius: 18, shadowColor: '#00AFFF', shadowOpacity: 0.35, shadowRadius: 13, elevation: 3 },
-  navLabel: { color: '#A5B2C8', fontSize: 14, lineHeight: 18, fontWeight: '800', width: '100%', textAlign: 'center', includeFontPadding: false, letterSpacing: 0 },
-  navLabelActive: { color: '#C8F5FF', fontWeight: '900', textShadowColor: '#00AFFF', textShadowRadius: 11 },
-  navCreateIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#37C8FF', shadowOpacity: 0.7, shadowRadius: 13, elevation: 6 },
-  navGalleryIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', position: 'relative' },
-  navGalleryClapperTop: { position: 'absolute', top: 3, width: 23, height: 7, borderWidth: 1.2, borderColor: '#BDEBFF', borderRadius: 2, backgroundColor: 'rgba(0,149,255,0.38)', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
-  navGalleryClapperStripe: { width: 3, height: 5, backgroundColor: '#8CE6FF', transform: [{ skewX: '-24deg' }] },
-  navGalleryClapperBody: { position: 'absolute', top: 9, width: 22, height: 16, borderWidth: 1.4, borderColor: '#72D9FF', borderRadius: 3, backgroundColor: 'rgba(0,115,220,0.24)', alignItems: 'center', justifyContent: 'center' },
-  navGalleryPlay: { width: 0, height: 0, borderTopWidth: 4, borderBottomWidth: 4, borderLeftWidth: 6, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#C8F5FF', marginLeft: 2 },
-  navCoinStack: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', gap: 1 },
-  navCoinLayer: { width: 23, height: 7, borderRadius: 5, borderWidth: 1.3, borderColor: '#FFD77A', backgroundColor: '#B98225', shadowColor: '#FFC34D', shadowOpacity: 0.85, shadowRadius: 6, elevation: 4 },
-  navPerson: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center' },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 };
 
 
@@ -4902,25 +4902,25 @@ const FINAL_UI_FIXES_V16 = {
   loginLegalText: { fontFamily: 'Manrope', fontSize: 13, lineHeight: 20, textAlign: 'center' },
 
   // Active navigation is indicated by icon/label glow only; no animated rectangular plate or clipped overlay.
-  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopWidth: 1, borderTopColor: 'rgba(100,192,255,0.42)' },
-  navItem: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4, minWidth: 0, minHeight: 66, paddingHorizontal: 2, paddingTop: 2, borderRadius: 0, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', overflow: 'visible' },
-  navItemActive: { backgroundColor: 'transparent', borderColor: 'transparent', borderWidth: 0, borderRadius: 0, shadowColor: 'transparent', shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
-  navGlyphActive: { backgroundColor: 'transparent', borderColor: 'transparent', shadowColor: '#00BFFF', shadowOpacity: 0.95, shadowRadius: 16, elevation: 0 },
-  navLabel: { color: '#A5B2C8', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '800', width: '100%', textAlign: 'center', includeFontPadding: false, letterSpacing: 0 },
-  navLabelActive: { color: '#E7F9FF', fontFamily: 'Manrope', fontWeight: '900', textShadowColor: '#00BFFF', textShadowRadius: 13 },
-  navCreateIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#37C8FF', shadowOpacity: 0.85, shadowRadius: 14, elevation: 6 },
-  navHomeRoof: { width: 0, height: 0, borderLeftWidth: 13, borderRightWidth: 13, borderBottomWidth: 11, borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#8BE9FF', marginBottom: -1 },
-  navHomeBody: { width: 19, height: 13, borderWidth: 1.5, borderTopWidth: 0, borderColor: '#8BE9FF', backgroundColor: 'rgba(0,149,255,0.16)', alignItems: 'center', justifyContent: 'flex-end' },
-  navHomeDoor: { width: 5, height: 8, borderTopLeftRadius: 2, borderTopRightRadius: 2, borderWidth: 1, borderBottomWidth: 0, borderColor: '#BDEBFF', backgroundColor: 'rgba(0,149,255,0.24)' },
-  navCreateTriangle: { width: 0, height: 0, borderTopWidth: 7, borderBottomWidth: 7, borderLeftWidth: 11, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#8BE9FF', marginLeft: 3 },
-  navGalleryIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', position: 'relative' },
-  navGalleryClapperTop: { position: 'absolute', top: 3, width: 23, height: 7, borderWidth: 1.2, borderColor: '#BDEBFF', borderRadius: 2, backgroundColor: 'rgba(0,149,255,0.38)', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
-  navGalleryClapperBody: { position: 'absolute', top: 9, width: 22, height: 16, borderWidth: 1.4, borderColor: '#72D9FF', borderRadius: 3, backgroundColor: 'rgba(0,115,220,0.24)', alignItems: 'center', justifyContent: 'center' },
-  navCoinStack: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', gap: 1 },
-  navCoinLayer: { width: 23, height: 7, borderRadius: 5, borderWidth: 1.3, borderColor: '#FFD77A', backgroundColor: '#B98225', shadowColor: '#FFC34D', shadowOpacity: 0.85, shadowRadius: 6, elevation: 4 },
-  navPerson: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center' },
-  navPersonHead: { width: 9, height: 9, borderWidth: 1.5, borderColor: '#75CFFF', borderRadius: 5, backgroundColor: 'rgba(100,210,255,0.24)' },
-  navPersonBody: { width: 17, height: 10, borderWidth: 1.5, borderColor: '#75CFFF', borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomWidth: 0, marginTop: 2 },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 } as const;
 
 
@@ -5265,22 +5265,8 @@ const FINAL_UI_FIXES_V21 = {
 
 const FINAL_UI_FIXES_V20 = {
   // Remove the rectangular active-tab plate; keep the selected icon readable through its own glow.
-  navItemActive: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    borderColor: 'transparent',
-    shadowColor: 'transparent',
-    shadowOpacity: 0,
-    shadowRadius: 0,
-    elevation: 0,
-  },
-  navGlyphActive: {
-    backgroundColor: 'transparent',
-    shadowColor: '#39CFFF',
-    shadowOpacity: 0.78,
-    shadowRadius: 11,
-    elevation: 5,
-  },
+  
+  
   // The bell's lower circular clapper was the extra round element visible below the icon.
   notificationBellClapper: { display: 'none' },
   notificationBell: { width: 27, height: 30, alignItems: 'center', justifyContent: 'center' },
@@ -5437,8 +5423,8 @@ const FINAL_UI_FIXES_V27 = {
   featureSectionTitle: { fontFamily: 'Manrope', backgroundColor: 'transparent', padding: 0 },
   featureTitle: { fontFamily: 'Manrope', backgroundColor: 'transparent', padding: 0 },
   featureSubtitle: { fontFamily: 'Manrope', backgroundColor: 'transparent', padding: 0 },
-  navLabel: { fontFamily: 'Manrope', color: '#BBD3EE', backgroundColor: 'transparent' },
-  navLabelActive: { color: '#62CFFF', textShadowColor: '#087BFF', textShadowRadius: 9 },
+  
+  
   // Gallery follows the reference: centered title, one clean cropped clapperboard image, action and storage count.
   galleryReferenceHeader: { width: '100%', minHeight: 46, alignItems: 'center', justifyContent: 'center', marginTop: 2, marginBottom: 10, paddingBottom: 7 },
   galleryReferenceTitle: { color: '#F3F8FF', fontFamily: 'Manrope', fontSize: 25, lineHeight: 32, fontWeight: '900', letterSpacing: 0.1, textAlign: 'center', textShadowColor: 'rgba(43,147,255,0.78)', textShadowRadius: 13, backgroundColor: 'transparent', padding: 0 },
@@ -5559,29 +5545,8 @@ const FINAL_UI_FIXES_V30 = {
     paddingHorizontal: 14,
   },
   // Keep the four navigation targets evenly sized and their labels legible.
-  navItem: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-    minWidth: 0,
-    minHeight: 62,
-    paddingHorizontal: 2,
-    paddingTop: 2,
-    borderRadius: 0,
-    borderWidth: 0,
-    backgroundColor: 'transparent',
-  },
-  navLabel: {
-    color: '#BBD3EE',
-    fontFamily: 'Manrope',
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: '800',
-    width: '100%',
-    textAlign: 'center',
-    includeFontPadding: false,
-  },
+  
+  
 };
  
 const FINAL_UI_FIXES_V31 = {
@@ -5826,23 +5791,23 @@ const FINAL_UI_FIXES_V35 = {
   splashSparkLeft: { width: 5, height: 5, shadowRadius: 15, elevation: 12 },
   splashSparkRight: { width: 5, height: 5, shadowRadius: 15, elevation: 12 },
   // Reference-style navigation: low glass dock, larger luminous glyphs, restrained active capsule.
-  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 7, paddingBottom: 19, paddingHorizontal: 8, backgroundColor: 'rgba(2,12,31,0.94)', borderTopWidth: 1, borderTopColor: 'rgba(80,177,255,0.52)', shadowColor: '#087DFF', shadowOpacity: 0.38, shadowRadius: 18, elevation: 16, justifyContent: 'space-around', alignItems: 'center' },
-  navItem: { minHeight: 63, paddingTop: 5, paddingBottom: 3, paddingHorizontal: 2, gap: 3, borderRadius: 17, borderWidth: 1, borderColor: 'transparent', backgroundColor: 'transparent' },
-  navItemActive: { backgroundColor: 'rgba(17,91,170,0.28)', borderColor: 'rgba(93,204,255,0.54)', shadowColor: '#16AFFF', shadowOpacity: 0.5, shadowRadius: 13, elevation: 7 },
-  navCreateIcon: { width: 32, height: 32, shadowOpacity: 1, shadowRadius: 17, elevation: 9 },
-  navHomeRoof: { borderLeftWidth: 15, borderRightWidth: 15, borderBottomWidth: 13, borderBottomColor: '#9CEEFF' },
-  navHomeBody: { width: 22, height: 15, borderWidth: 1.8, borderColor: '#8BE9FF', backgroundColor: 'rgba(0,149,255,0.22)' },
-  navHomeDoor: { width: 6, height: 9, borderColor: '#D7F8FF' },
-  navGalleryIcon: { width: 32, height: 32 },
-  navGalleryClapperTop: { top: 2, width: 27, height: 9, borderWidth: 1.5, borderColor: '#C7F4FF', backgroundColor: 'rgba(0,149,255,0.48)' },
-  navGalleryClapperBody: { top: 10, width: 26, height: 19, borderWidth: 1.6, borderColor: '#8BE7FF', backgroundColor: 'rgba(0,115,220,0.32)' },
-  navCoinStack: { width: 32, height: 32, gap: 1 },
-  navCoinLayer: { width: 27, height: 8, borderWidth: 1.5, borderColor: '#FFE5A2', backgroundColor: '#C38A27', shadowOpacity: 1, shadowRadius: 9, elevation: 7 },
-  navPerson: { width: 32, height: 32 },
-  navPersonHead: { width: 12, height: 12, borderWidth: 1.8, borderColor: '#9DEAFF', backgroundColor: 'rgba(72,190,255,0.22)' },
-  navPersonBody: { width: 25, height: 15, borderWidth: 1.8, borderColor: '#8BE7FF' },
-  navLabel: { color: 'rgba(193,218,244,0.82)', fontFamily: 'Manrope', fontSize: 11, lineHeight: 15, fontWeight: '700', letterSpacing: 0.2, textAlign: 'center' },
-  navLabelActive: { color: '#E9FBFF', fontWeight: '900', textShadowColor: '#24C8FF', textShadowRadius: 12 },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 };
 
 const FINAL_UI_FIXES_V38 = {
@@ -5934,54 +5899,54 @@ const FINAL_UI_FIXES_V38 = {
   authCard: { borderColor: 'rgba(72,226,210,0.45)', backgroundColor: 'rgba(4,26,39,0.82)' },
 
   // Dock is transparent glass; the selected tab glows instead of becoming a dark rectangular tile.
-  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 6, paddingBottom: 18, paddingHorizontal: 8, backgroundColor: 'rgba(2,9,24,0.92)', borderTopWidth: 1, borderTopColor: 'rgba(90,180,255,0.42)', shadowColor: '#168BFF', shadowOpacity: 0.24, shadowRadius: 16, elevation: 14 },
-  navItem: { minHeight: 66, paddingTop: 5, paddingBottom: 4, gap: 4, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' },
-  navItemActive: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowColor: '#38CFFF', shadowOpacity: 0.72, shadowRadius: 17, elevation: 8 },
-  navItemActiveGallery: { shadowColor: '#C18BFF' },
-  navItemActiveCredits: { shadowColor: '#FF6FC6' },
-  navItemActiveProfile: { shadowColor: '#42E8D8' },
-  navLabel: { color: 'rgba(218,232,249,0.88)', fontSize: 13, lineHeight: 18, fontWeight: '800', textAlign: 'center', includeFontPadding: false },
-  navLabelActive: { color: '#C8F6FF', fontSize: 14, fontWeight: '900', textShadowColor: '#39D5FF', textShadowRadius: 13 },
-  navLabelActiveGallery: { color: '#E7D1FF', textShadowColor: '#B76BFF' },
-  navLabelActiveCredits: { color: '#FFD2ED', textShadowColor: '#FF5CB9' },
-  navLabelActiveProfile: { color: '#C8FFF7', textShadowColor: '#35E5D2' },
-  navCreateIcon: { shadowColor: '#39D5FF' },
-  navGalleryIcon: { shadowColor: '#B76BFF' },
-  navCoin: { borderColor: '#67DFFF' },
-  navPerson: { shadowColor: '#35E5D2' },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 };
 
 
 const FINAL_UI_FIXES_V39 = {
   // Navigation pictograms: crisp outlined home, clapperboard, coin stack and profile.
-  navItem: { minHeight: 68, paddingTop: 4, paddingBottom: 5, gap: 4, borderRadius: 14 },
-  navItemActive: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowColor: 'transparent', shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
-  navItemActiveGallery: { borderColor: 'rgba(195,139,255,0.28)', shadowColor: '#B76BFF' },
-  navItemActiveCredits: { borderColor: 'rgba(255,211,116,0.28)', shadowColor: '#FFBD4A' },
-  navItemActiveProfile: { borderColor: 'rgba(85,239,218,0.28)', shadowColor: '#35E5D2' },
-  navCreateIcon: { width: 34, height: 34, borderWidth: 0, borderRadius: 0, backgroundColor: 'transparent', shadowColor: '#43CFFF', shadowOpacity: 0.48, shadowRadius: 10, elevation: 4 },
-  navHomeRoof: { borderLeftWidth: 16, borderRightWidth: 16, borderBottomWidth: 13, borderBottomColor: '#A8F1FF', marginBottom: -1 },
-  navHomeBody: { width: 23, height: 16, borderWidth: 1.8, borderTopWidth: 0, borderColor: '#70DFFF', backgroundColor: 'rgba(20,145,255,0.16)' },
-  navHomeDoor: { width: 7, height: 9, borderWidth: 1.2, borderBottomWidth: 0, borderColor: '#D9FAFF', backgroundColor: 'rgba(112,223,255,0.20)' },
-  navGalleryIcon: { width: 34, height: 34, borderWidth: 0, borderRadius: 0, backgroundColor: 'transparent', shadowColor: '#9F68FF', shadowOpacity: 0.42, shadowRadius: 10, elevation: 4 },
-  navGalleryClapperTop: { top: 3, width: 28, height: 9, borderWidth: 1.5, borderColor: '#D7B7FF', borderRadius: 3, backgroundColor: 'rgba(126,67,205,0.32)' },
-  navGalleryClapperStripe: { width: 3, height: 6, backgroundColor: '#E6D2FF' },
-  navGalleryClapperBody: { top: 11, width: 27, height: 19, borderWidth: 1.6, borderColor: '#C69AFF', borderRadius: 4, backgroundColor: 'rgba(107,58,181,0.20)' },
-  navGalleryPlay: { borderLeftColor: '#F1E4FF', borderTopWidth: 4.5, borderBottomWidth: 4.5, borderLeftWidth: 7 },
-  navCoinStack: { width: 34, height: 34, gap: 1, shadowColor: '#FFBD4A', shadowOpacity: 0.55, shadowRadius: 10, elevation: 4 },
-  navCoinLayer: { width: 27, height: 8, borderRadius: 5, borderWidth: 1.5, borderColor: '#FFE6A6', backgroundColor: '#B98026', shadowColor: '#FFC65C', shadowOpacity: 0.82, shadowRadius: 6, elevation: 4 },
-  navPerson: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center', shadowColor: '#35E5D2', shadowOpacity: 0.44, shadowRadius: 10, elevation: 4 },
-  navPersonHead: { width: 12, height: 12, borderRadius: 6, borderWidth: 1.8, borderColor: '#B9FFF5', backgroundColor: 'rgba(38,217,199,0.16)', marginBottom: 3 },
-  navPersonBody: { width: 25, height: 15, borderTopLeftRadius: 13, borderTopRightRadius: 13, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 1.8, borderBottomWidth: 0, borderColor: '#7AF3E3', backgroundColor: 'rgba(38,217,199,0.12)' },
-  navGlyphActive: { shadowColor: '#66E7FF', shadowOpacity: 0.95, shadowRadius: 15, elevation: 9 },
-  navGlyphActiveGallery: { shadowColor: '#C18BFF', shadowOpacity: 0.95, shadowRadius: 15, elevation: 9 },
-  navCoinActive: { shadowColor: '#FFBD4A', shadowOpacity: 1, shadowRadius: 16, elevation: 10 },
-  navPersonActive: { shadowColor: '#35E5D2', shadowOpacity: 1, shadowRadius: 15, elevation: 9 },
-  navLabel: { fontSize: 12, lineHeight: 16, fontWeight: '800', letterSpacing: 0.12 },
-  navLabelActive: { color: '#E8FBFF', fontSize: 12, fontWeight: '900', textShadowColor: '#39D5FF', textShadowRadius: 11 },
-  navLabelActiveGallery: { color: '#F0E2FF', textShadowColor: '#B76BFF' },
-  navLabelActiveCredits: { color: '#FFF0C8', textShadowColor: '#FFBD4A' },
-  navLabelActiveProfile: { color: '#D5FFF9', textShadowColor: '#35E5D2' },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   // Primary and secondary actions now share one consistent cinematic glass-button language.
   createButton: { minHeight: 62, borderRadius: 17, borderWidth: 1.4, borderColor: '#9AEAFF', backgroundColor: '#0878F5', shadowColor: '#159DFF', shadowOpacity: 0.72, shadowRadius: 22, shadowOffset: { width: 0, height: 5 }, elevation: 12 },
@@ -6107,6 +6072,150 @@ const FINAL_UI_FIXES_V42 = {
     textAlign: 'center', textShadowColor: 'rgba(0,32,84,0.5)',
     textShadowRadius: 4,
   },
+};
+
+const FINAL_UI_FIXES_V43 = {
+  // Single source of truth for the bottom dock. Earlier navigation declarations
+  // were removed from legacy FINAL_UI_FIXES layers to prevent style drift.
+  bottomNav: {
+    flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around',
+    alignItems: 'center', height: 92, minHeight: 92, maxHeight: 92,
+    paddingTop: 6, paddingBottom: 19, paddingHorizontal: 8,
+    backgroundColor: 'rgba(2, 9, 25, 0.96)',
+    borderTopWidth: 1, borderTopColor: 'rgba(91, 190, 255, 0.48)',
+    shadowColor: '#087DFF', shadowOpacity: 0.34, shadowRadius: 18,
+    shadowOffset: { width: 0, height: -3 }, elevation: 16,
+  },
+  navItem: {
+    flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: 0,
+    width: '25%', maxWidth: '25%', minWidth: 0,
+    minHeight: 67, paddingHorizontal: 2, paddingTop: 4,
+    paddingBottom: 4, gap: 4, alignItems: 'center',
+    justifyContent: 'center', borderRadius: 0, borderWidth: 0,
+    borderColor: 'transparent', backgroundColor: 'transparent',
+    overflow: 'visible',
+  },
+  navItemActive: {
+    backgroundColor: 'transparent', borderWidth: 0,
+    borderColor: 'transparent', shadowColor: 'transparent',
+    shadowOpacity: 0, shadowRadius: 0, elevation: 0,
+  },
+  navItemActiveGallery: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
+  navItemActiveCredits: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
+  navItemActiveProfile: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
+
+  navCreateIcon: {
+    width: 34, height: 34, minHeight: 34, marginBottom: 0,
+    alignItems: 'center', justifyContent: 'center',
+    backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0,
+    shadowColor: '#35CFFF', shadowOpacity: 0.38, shadowRadius: 9,
+    shadowOffset: { width: 0, height: 0 }, elevation: 4,
+  },
+  navHomeRoof: {
+    width: 0, height: 0, borderLeftWidth: 16, borderRightWidth: 16,
+    borderBottomWidth: 13, borderLeftColor: 'transparent',
+    borderRightColor: 'transparent', borderBottomColor: '#A8F1FF',
+    marginBottom: -1,
+  },
+  navHomeBody: {
+    width: 23, height: 16, borderWidth: 1.8, borderTopWidth: 0,
+    borderColor: '#70DFFF', backgroundColor: 'rgba(20,145,255,0.16)',
+    alignItems: 'center', justifyContent: 'flex-end',
+  },
+  navHomeDoor: {
+    width: 7, height: 9, borderWidth: 1.2, borderBottomWidth: 0,
+    borderColor: '#D9FAFF', backgroundColor: 'rgba(112,223,255,0.20)',
+  },
+
+  navGalleryIcon: {
+    width: 34, height: 34, minHeight: 34, marginBottom: 0,
+    alignItems: 'center', justifyContent: 'center',
+    backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0,
+    shadowColor: '#B76BFF', shadowOpacity: 0.32, shadowRadius: 9,
+    shadowOffset: { width: 0, height: 0 }, elevation: 4,
+  },
+  navGalleryClapperTop: {
+    position: 'absolute', top: 3, width: 28, height: 9,
+    borderWidth: 1.5, borderColor: '#D7B7FF', borderRadius: 3,
+    backgroundColor: 'rgba(126,67,205,0.32)',
+    flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center',
+  },
+  navGalleryClapperStripe: { width: 3, height: 6, backgroundColor: '#E6D2FF', transform: [{ skewX: '-24deg' }] },
+  navGalleryClapperBody: {
+    position: 'absolute', top: 11, width: 27, height: 19,
+    borderWidth: 1.6, borderColor: '#C69AFF', borderRadius: 4,
+    backgroundColor: 'rgba(107,58,181,0.20)',
+    alignItems: 'center', justifyContent: 'center',
+  },
+  navGalleryPlay: {
+    width: 0, height: 0, borderTopWidth: 4.5, borderBottomWidth: 4.5,
+    borderLeftWidth: 7, borderTopColor: 'transparent',
+    borderBottomColor: 'transparent', borderLeftColor: '#F1E4FF',
+    marginLeft: 2,
+  },
+
+  navCoinStack: {
+    width: 34, height: 34, minHeight: 34, marginBottom: 0,
+    alignItems: 'center', justifyContent: 'center', gap: 1,
+    shadowColor: '#FFBD4A', shadowOpacity: 0.52, shadowRadius: 10,
+    shadowOffset: { width: 0, height: 0 }, elevation: 5,
+  },
+  navCoinLayer: {
+    width: 27, height: 8, borderRadius: 5, borderWidth: 1.5,
+    borderColor: '#FFE6A6', backgroundColor: '#B98026',
+    shadowColor: '#FFC65C', shadowOpacity: 0.72, shadowRadius: 6,
+    shadowOffset: { width: 0, height: 0 }, elevation: 4,
+  },
+
+  navPerson: {
+    width: 34, height: 34, minHeight: 34, marginBottom: 0,
+    alignItems: 'center', justifyContent: 'center',
+    shadowColor: '#35E5D2', shadowOpacity: 0.34, shadowRadius: 9,
+    shadowOffset: { width: 0, height: 0 }, elevation: 4,
+  },
+  navPersonHead: {
+    width: 12, height: 12, borderRadius: 6, borderWidth: 1.8,
+    borderColor: '#B9FFF5', backgroundColor: 'rgba(38,217,199,0.16)',
+    marginBottom: 3,
+  },
+  navPersonBody: {
+    width: 25, height: 15, borderTopLeftRadius: 13,
+    borderTopRightRadius: 13, borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5, borderWidth: 1.8,
+    borderBottomWidth: 0, borderColor: '#7AF3E3',
+    backgroundColor: 'rgba(38,217,199,0.12)',
+  },
+
+  navGlyphActive: {
+    shadowColor: '#66E7FF', shadowOpacity: 1, shadowRadius: 16,
+    shadowOffset: { width: 0, height: 0 }, elevation: 10,
+  },
+  navGlyphActiveGallery: {
+    shadowColor: '#C18BFF', shadowOpacity: 1, shadowRadius: 16,
+    shadowOffset: { width: 0, height: 0 }, elevation: 10,
+  },
+  navCoinActive: {
+    shadowColor: '#FFBD4A', shadowOpacity: 1, shadowRadius: 17,
+    shadowOffset: { width: 0, height: 0 }, elevation: 11,
+  },
+  navPersonActive: {
+    shadowColor: '#35E5D2', shadowOpacity: 1, shadowRadius: 16,
+    shadowOffset: { width: 0, height: 0 }, elevation: 10,
+  },
+
+  navLabel: {
+    width: '100%', color: 'rgba(193,218,244,0.86)',
+    fontFamily: 'Manrope', fontSize: 12, lineHeight: 16,
+    fontWeight: '800', letterSpacing: 0.12,
+    textAlign: 'center', includeFontPadding: false, flexShrink: 1,
+  },
+  navLabelActive: {
+    color: '#E8FBFF', fontSize: 12, fontWeight: '900',
+    textShadowColor: '#39D5FF', textShadowRadius: 12,
+  },
+  navLabelActiveGallery: { color: '#F0E2FF', textShadowColor: '#B76BFF', textShadowRadius: 12 },
+  navLabelActiveCredits: { color: '#FFF0C8', textShadowColor: '#FFBD4A', textShadowRadius: 12 },
+  navLabelActiveProfile: { color: '#D5FFF9', textShadowColor: '#35E5D2', textShadowRadius: 12 },
 };
 
 const FINAL_UI_FIXES_V40 = {
@@ -6510,6 +6619,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V40,
   ...FINAL_UI_FIXES_V41,
   ...FINAL_UI_FIXES_V42,
+  ...FINAL_UI_FIXES_V43,
 });
 
 
