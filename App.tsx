@@ -6182,8 +6182,8 @@ const FINAL_UI_FIXES_V43 = {
     width: 25, height: 15, borderTopLeftRadius: 13,
     borderTopRightRadius: 13, borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5, borderWidth: 1.8,
-    borderBottomWidth: 0, borderColor: '#7AF3E3',
-    backgroundColor: 'rgba(38,217,199,0.12)',
+    borderBottomWidth: 0, borderColor: '#79D4FF',
+    backgroundColor: 'rgba(38,170,255,0.12)',
   },
 
   navGlyphActive: {
@@ -6211,7 +6211,7 @@ const FINAL_UI_FIXES_V43 = {
   },
   navLabelActive: {
     color: '#E8FBFF', fontSize: 12, fontWeight: '900',
-    textShadowColor: '#39D5FF', textShadowRadius: 12,
+    textShadowColor: '#22BFFF', textShadowRadius: 12,
   },
   navLabelActiveGallery: { color: '#E8FBFF', textShadowColor: '#22BFFF', textShadowRadius: 12 },
   navLabelActiveCredits: { color: '#E8FBFF', textShadowColor: '#22BFFF', textShadowRadius: 12 },
