@@ -2020,10 +2020,10 @@ export default function App() {
             ...StyleSheet.absoluteFill,
             width: '100%',
             height: '100%',
-            opacity: 0.96,
+            opacity: 0.92,
           }}
         />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.48)' }]} />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.24)' }]} />
         <View style={[styles.ambientBackdropTint, tab === 'Gallery' ? styles.ambientTintGallery : tab === 'Credits' ? styles.ambientTintCredits : tab === 'Profile' ? styles.ambientTintProfile : null]} />
         <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
         <View style={[styles.ambientGlowBottom, tab === 'Gallery' ? styles.ambientGlowBottomGallery : tab === 'Credits' ? styles.ambientGlowBottomCredits : tab === 'Profile' ? styles.ambientGlowBottomProfile : null]} />
@@ -2046,12 +2046,13 @@ export default function App() {
 
       {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
-          <Image
-            source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
-            resizeMode="contain"
-            style={styles.brandLogoArtwork}
-            accessibilityLabel="Логотип НейроСцена"
-          />
+          <View style={styles.brandLogoArtwork} accessibilityLabel="Логотип НейроСцена">
+            <View style={styles.brandPlayMark} />
+            <View style={styles.brandLockupWordmark}>
+              <Text style={styles.brandWordmarkLine}>Нейро</Text>
+              <Text style={[styles.brandWordmarkLine, styles.brandWordmarkAccent]}>Сцена</Text>
+            </View>
+          </View>
         </View>
 
         <View style={styles.headerActions}>
@@ -2250,14 +2251,6 @@ function CreateScreen({
       <View style={styles.createTitleWrap}>
         <Text style={styles.createScreenTitle}>Создать</Text>
         <View style={styles.createTitleUnderline} />
-      </View>
-      <View style={styles.createHeroCard}>
-        <Image
-          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-          resizeMode="cover"
-          style={styles.createHeroArtwork}
-          accessibilityLabel="Кинематографическая иллюстрация НейроСцены"
-        />
       </View>
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
@@ -2589,12 +2582,18 @@ function GalleryScreen({
       )}
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.galleryEmptyReferenceState}>
-          <Image
-            source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-            resizeMode="contain"
-            style={styles.galleryReferenceImage}
-            accessibilityLabel="Неоновая кинематографическая хлопушка"
-          />
+          <View style={styles.galleryReferenceImage} accessibilityLabel="Неоновая кинематографическая хлопушка">
+            <View style={styles.galleryClapperGlow} />
+            <View style={styles.galleryClapperTop}>
+              <View style={styles.galleryClapperStripe} />
+              <View style={styles.galleryClapperStripe} />
+              <View style={styles.galleryClapperStripe} />
+              <View style={styles.galleryClapperStripe} />
+            </View>
+            <View style={styles.galleryClapperBody}>
+              <View style={styles.galleryClapperPlay} />
+            </View>
+          </View>
           <TouchableOpacity activeOpacity={0.86} style={styles.galleryEmptyActionButton} onPress={onCreate}>
             <Text style={styles.secondaryButtonText}>Создать видео</Text>
           </TouchableOpacity>
@@ -5643,6 +5642,105 @@ const FINAL_UI_FIXES_V32 = {
   },
 };
 
+const FINAL_UI_FIXES_V33 = {
+  container: { backgroundColor: '#020817' },
+  ambientBackdrop: { backgroundColor: '#020817' },
+  referenceCenteredHeader: { width: '100%', minHeight: 66, height: 66, marginTop: 0, marginBottom: 0, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'transparent', borderBottomWidth: 0 },
+  brandRowCentered: { width: 'auto', alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent' },
+  brandLogoArtwork: { width: 104, height: 54, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8, alignSelf: 'flex-start', margin: 0, padding: 0, backgroundColor: 'transparent' },
+  brandPlayMark: { width: 0, height: 0, borderTopWidth: 12, borderBottomWidth: 12, borderLeftWidth: 18, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#48D7FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
+  brandLockupWordmark: { alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
+  brandWordmarkLine: { color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 15, lineHeight: 17, fontWeight: '900', letterSpacing: -0.25, textShadowColor: '#168BFF', textShadowRadius: 9, includeFontPadding: false },
+  brandWordmarkAccent: { color: '#83E5FF' },
+  headerActions: { position: 'relative', right: 0, top: 0, alignItems: 'center', justifyContent: 'center' },
+  content: { paddingHorizontal: 18, paddingTop: 12, paddingBottom: 116 },
+  createTitleWrap: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 8, marginBottom: 18, paddingBottom: 11, backgroundColor: 'transparent' },
+  createScreenTitle: { color: '#F2F8FF', fontFamily: 'Manrope', fontSize: 30, lineHeight: 38, fontWeight: '900', textAlign: 'center', textShadowColor: 'rgba(54,171,255,0.9)', textShadowRadius: 15 },
+  createTitleUnderline: { width: '78%', height: 3, marginTop: 9, borderRadius: 3, backgroundColor: '#28C8FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
+  createHeroCard: { display: 'none', height: 0, minHeight: 0, margin: 0, padding: 0 },
+  referenceCreateGlow: { width: '90%', alignSelf: 'center', marginTop: 2, marginBottom: 22, shadowColor: '#11BFFF', shadowOpacity: 0.92, shadowRadius: 22, elevation: 12 },
+  referenceCreateButton: { width: '100%', height: 60, minHeight: 60, borderRadius: 30, borderWidth: 1.5, borderColor: '#72E5FF', backgroundColor: '#087CF4', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 20, elevation: 12 },
+  referenceCreateButtonText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 24, fontWeight: '900', letterSpacing: 0.2 },
+  referencePlayCircle: { width: 32, height: 32, borderRadius: 16, backgroundColor: 'rgba(255,255,255,0.18)', borderColor: 'rgba(255,255,255,0.72)', borderWidth: 1 },
+  referencePlay: { color: '#FFFFFF', fontSize: 15, lineHeight: 20, textShadowColor: '#FFFFFF', textShadowRadius: 7 },
+  featureSection: { marginTop: 0, marginBottom: 14, width: '100%' },
+  featureSectionTitle: { color: '#DDF5FF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 23, fontWeight: '900', textAlign: 'center', marginBottom: 10, textShadowColor: '#168BFF', textShadowRadius: 9 },
+  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'flex-start', columnGap: 2, rowGap: 0 },
+  featureTile: { width: '24%', minWidth: 0, minHeight: 94, height: 'auto', paddingHorizontal: 2, paddingVertical: 5, borderRadius: 13, borderWidth: 1, borderColor: 'rgba(64,184,255,0.42)', backgroundColor: 'rgba(2,19,48,0.42)', shadowColor: '#168BFF', shadowOpacity: 0.38, shadowRadius: 12, elevation: 5, alignItems: 'center', justifyContent: 'flex-start' },
+  featureIconSquare: { width: 34, height: 34, marginBottom: 5, backgroundColor: 'transparent', borderWidth: 0, alignItems: 'center', justifyContent: 'center' },
+  featureIcon: { color: '#83E8FF', fontSize: 23, lineHeight: 29, fontWeight: '800', textShadowColor: '#168BFF', textShadowRadius: 13 },
+  featureTitle: { color: '#F0F8FF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '900', textAlign: 'center', backgroundColor: 'transparent', padding: 0 },
+  featureSubtitle: { display: 'none' },
+  screen: { flex: 1, paddingTop: 14, paddingBottom: 24 },
+  galleryReferenceHeader: { width: '100%', alignItems: 'center', justifyContent: 'center', marginBottom: 16, paddingBottom: 10, borderBottomWidth: 2, borderBottomColor: '#28C8FF' },
+  galleryReferenceTitle: { color: '#F2F8FF', fontFamily: 'Manrope', fontSize: 29, lineHeight: 37, fontWeight: '900', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 15 },
+  galleryReferenceUnderline: { display: 'none' },
+  galleryEmptyReferenceState: { flex: 1, minHeight: 430, width: '100%', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8, paddingVertical: 22, gap: 24, backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0 },
+  galleryReferenceImage: { width: 224, height: 190, maxWidth: 260, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', position: 'relative', backgroundColor: 'transparent' },
+  galleryClapperGlow: { position: 'absolute', width: 170, height: 150, borderRadius: 80, backgroundColor: 'rgba(0,104,255,0.24)', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 38, elevation: 15 },
+  galleryClapperTop: { width: 150, height: 34, borderRadius: 8, borderWidth: 2, borderColor: '#72E5FF', backgroundColor: 'rgba(4,53,112,0.96)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', transform: [{ rotate: '-8deg' }], shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 15, elevation: 10 },
+  galleryClapperStripe: { width: 17, height: 25, backgroundColor: 'rgba(142,232,255,0.92)', transform: [{ skewX: '-24deg' }], borderRadius: 2 },
+  galleryClapperBody: { width: 146, height: 105, marginTop: -2, borderWidth: 2, borderColor: '#42CFFF', borderRadius: 10, backgroundColor: 'rgba(2,31,79,0.94)', alignItems: 'center', justifyContent: 'center', shadowColor: '#087BFF', shadowOpacity: 0.95, shadowRadius: 20, elevation: 12 },
+  galleryClapperPlay: { width: 0, height: 0, borderTopWidth: 23, borderBottomWidth: 23, borderLeftWidth: 34, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#7DEBFF', marginLeft: 8, shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 14, elevation: 8 },
+  galleryEmptyActionButton: { width: '78%', minHeight: 58, marginTop: 0, borderRadius: 18, borderWidth: 1.5, borderColor: '#72E5FF', backgroundColor: '#087CF4', shadowColor: '#168BFF', shadowOpacity: 0.78, shadowRadius: 19, elevation: 9, alignItems: 'center', justifyContent: 'center' },
+  galleryLimit: { color: '#D4E9FF', fontFamily: 'Manrope', fontSize: 16, lineHeight: 23, fontWeight: '800', textAlign: 'center', marginTop: 14, textShadowColor: '#168BFF', textShadowRadius: 8 },
+  creditsContent: { flexGrow: 1, paddingTop: 22, paddingBottom: 144, paddingHorizontal: 16 },
+  creditsScreen: { width: '100%', minWidth: 0, alignSelf: 'stretch', flexGrow: 1, flexShrink: 1, paddingTop: 4, paddingHorizontal: 0, paddingBottom: 24 },
+  creditsHeader: { width: '100%', minHeight: 54, alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 15, paddingBottom: 10, borderBottomWidth: 2, borderBottomColor: '#25C7FF' },
+  creditsTitle: { color: '#FFE4A0', fontFamily: 'Manrope', fontSize: 30, lineHeight: 38, fontWeight: '900', textAlign: 'center', textShadowColor: '#FFB52E', textShadowRadius: 16 },
+  creditTopRow: { width: '100%', flexDirection: 'row', alignItems: 'stretch', gap: 10, marginBottom: 12 },
+  creditBalanceCard: { width: '41%', flex: 0, height: 184, minHeight: 184, maxWidth: '41%', marginBottom: 0, paddingHorizontal: 4, paddingTop: 8, paddingBottom: 13, borderRadius: 20, borderWidth: 1.5, borderColor: 'rgba(255,205,112,0.78)', backgroundColor: 'rgba(22,23,44,0.72)', overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-end', shadowColor: '#FFB52E', shadowOpacity: 0.55, shadowRadius: 21, elevation: 9 },
+  creditIllustrationGlow: { top: 8, left: '4%', width: '92%', height: 106, borderRadius: 60, backgroundColor: 'rgba(255,166,43,0.2)', shadowColor: '#FF9E22', shadowOpacity: 1, shadowRadius: 30 },
+  creditHeroCoins: { position: 'absolute', top: 22, left: 0, right: 0, height: 96, alignItems: 'center', justifyContent: 'center' },
+  creditCoinStack: { position: 'absolute', bottom: 0, alignItems: 'center', justifyContent: 'flex-end', zIndex: 2 },
+  creditStackLeft: { left: '5%', bottom: 0 },
+  creditStackCenter: { left: '36%', bottom: 12 },
+  creditStackRight: { right: '5%', bottom: 0 },
+  creditCoin: { width: 34, height: 12, marginTop: -2, borderRadius: 18, backgroundColor: '#D99521', borderWidth: 1.5, borderColor: '#FFF0B0', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB72E', shadowOpacity: 1, shadowRadius: 9, elevation: 6 },
+  creditCoinFace: { width: 22, height: 6, borderRadius: 5, borderWidth: 0.8, borderColor: 'rgba(255,247,207,0.92)', alignItems: 'center', justifyContent: 'center' },
+  creditCoinGlyph: { color: '#FFF7D7', fontSize: 6, lineHeight: 7, fontWeight: '900' },
+  creditBalanceHeroValue: { color: '#FFD66F', fontSize: 22, lineHeight: 27, fontWeight: '900', textShadowColor: '#FF9E22', textShadowRadius: 13 },
+  creditBalanceHeroLabel: { color: '#FFF0C2', fontSize: 12, lineHeight: 16, fontWeight: '800' },
+  creditPackageColumn: { flex: 1, width: undefined, minWidth: 0, justifyContent: 'center' },
+  creditPackagesTitle: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900', marginTop: 0, marginBottom: 5, textShadowColor: '#D98A20', textShadowRadius: 8 },
+  creditPackagesList: { width: '100%', gap: 7 },
+  packageCard: { width: '100%', minWidth: 0, height: 53, minHeight: 53, marginTop: 0, paddingVertical: 5, paddingHorizontal: 7, borderRadius: 12, gap: 4, flexShrink: 0, borderWidth: 1, borderColor: 'rgba(255,198,91,0.58)', backgroundColor: 'rgba(35,27,21,0.78)', shadowColor: '#FFB52E', shadowOpacity: 0.24, shadowRadius: 9, elevation: 4 },
+  packageIconWrap: { width: 19, height: 24, marginRight: 0, flexShrink: 0 },
+  packageIcon: { color: '#FFD77A', fontSize: 14, textShadowColor: '#FFB52E', textShadowRadius: 7 },
+  packageAmount: { color: '#FFF3D0', fontFamily: 'Manrope', fontSize: 11, lineHeight: 14, fontWeight: '900', flexShrink: 1, minWidth: 0 },
+  packageRight: { minWidth: 54, maxWidth: 64, flexShrink: 0, alignItems: 'flex-end', justifyContent: 'center', gap: 2 },
+  packagePrice: { color: '#FFD77A', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900' },
+  popularBadge: { position: 'relative', top: 0, right: 0, width: 62, minWidth: 62, alignSelf: 'flex-end', alignItems: 'center', paddingHorizontal: 2, paddingVertical: 1, borderRadius: 6, backgroundColor: '#B8791B' },
+  popularBadgeText: { color: '#FFFFFF', fontFamily: 'Manrope', width: '100%', fontSize: 7, lineHeight: 9, textAlign: 'center', includeFontPadding: false },
+  creditBenefits: { marginTop: 10, marginBottom: 8, gap: 5 },
+  creditBenefit: { color: '#FFF0D0', fontFamily: 'Manrope', fontSize: 14, lineHeight: 20, fontWeight: '800', textShadowColor: 'rgba(255,178,57,0.24)', textShadowRadius: 6 },
+  buyCreditsButton: { width: '100%', minHeight: 54, marginTop: 5, marginBottom: 8, borderRadius: 16, backgroundColor: '#087CF4', borderWidth: 1.5, borderColor: '#72E5FF', shadowColor: '#168BFF', shadowOpacity: 0.68, shadowRadius: 17, elevation: 8, alignItems: 'center', justifyContent: 'center' },
+  buyCreditsButtonText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 22, fontWeight: '900' },
+  creditHistorySection: { marginTop: 15, paddingTop: 13, borderTopWidth: 1, borderTopColor: 'rgba(79,178,235,0.34)' },
+  profileScreen: { paddingTop: 10, paddingBottom: 144 },
+  profileHeader: { minHeight: 52, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 15, paddingBottom: 9, borderBottomWidth: 2, borderBottomColor: '#25C7FF' },
+  profileTitleGroup: { flex: 1, minWidth: 0, alignItems: 'center', justifyContent: 'center', marginRight: 0 },
+  screenTitle: { color: '#F2F8FF', fontFamily: 'Manrope', fontSize: 29, lineHeight: 37, fontWeight: '900', textAlign: 'center', marginTop: 0, marginBottom: 0, textShadowColor: '#168BFF', textShadowRadius: 14 },
+  profileTitleUnderline: { display: 'none' },
+  profileSettingsButton: { position: 'absolute', right: 0, top: 0, width: 42, height: 42, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0 },
+  profileSettingsIcon: { color: '#A8EFFF', fontSize: 27, lineHeight: 34, textShadowColor: '#168BFF', textShadowRadius: 10 },
+  profileIdentity: { alignItems: 'center', marginTop: 10, marginBottom: 16, paddingTop: 4, paddingBottom: 8 },
+  profileGuestAvatar: { width: 104, height: 104, borderRadius: 52, borderWidth: 2, borderColor: '#42D9FF', backgroundColor: 'rgba(0,91,180,0.20)', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 25, elevation: 12, alignItems: 'center', justifyContent: 'center', overflow: 'visible' },
+  profileAvatarHalo: { position: 'absolute', width: 124, height: 124, borderRadius: 62, borderWidth: 1, borderColor: 'rgba(83,205,255,0.55)', shadowColor: '#168BFF', shadowOpacity: 0.85, shadowRadius: 22 },
+  profileGuestHead: { width: 31, height: 31, borderRadius: 16, backgroundColor: '#A5DFFF', shadowColor: '#168BFF', shadowOpacity: 0.75, shadowRadius: 12, elevation: 6 },
+  profileGuestBody: { width: 58, height: 31, marginTop: 5, borderTopLeftRadius: 31, borderTopRightRadius: 31, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, backgroundColor: '#78CFFF', borderWidth: 1, borderColor: '#C8F2FF' },
+  profileGuestName: { color: '#F2F8FF', fontFamily: 'Manrope', fontSize: 22, lineHeight: 29, fontWeight: '900', marginTop: 12, textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 10 },
+  profileGuestStatus: { color: '#B9D5EE', fontFamily: 'Manrope', fontSize: 14, lineHeight: 20, textAlign: 'center', marginTop: 4 },
+  loginScreen: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8, paddingTop: 2 },
+  loginTagline: { color: '#E0F1FF', fontFamily: 'Manrope', fontSize: 15, lineHeight: 22, textAlign: 'center', marginBottom: 14, textShadowColor: 'rgba(22,139,255,0.38)', textShadowRadius: 8 },
+  profileVkButton: { width: '88%', minHeight: 52, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9, borderRadius: 17, borderWidth: 1.5, borderColor: '#72E5FF', backgroundColor: '#087CF4', shadowColor: '#168BFF', shadowOpacity: 0.72, shadowRadius: 18, elevation: 9 },
+  profileVkMark: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 17, fontWeight: '900' },
+  profileVkText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 16, lineHeight: 22, fontWeight: '900' },
+  profileEmailButton: { width: '88%', minHeight: 46, alignItems: 'center', justifyContent: 'center', marginTop: 8, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(105,196,255,0.55)', backgroundColor: 'rgba(3,24,58,0.72)' },
+  profileEmailButtonText: { color: '#C8E8FF', fontFamily: 'Manrope', fontSize: 15, fontWeight: '800' },
+  loginLegalText: { width: '92%', color: '#AFCBE7', fontFamily: 'Manrope', fontSize: 11, lineHeight: 16, textAlign: 'center', marginTop: 12, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(93,169,224,0.35)', backgroundColor: 'rgba(3,18,43,0.62)' },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -6000,6 +6098,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V30,
   ...FINAL_UI_FIXES_V31,
   ...FINAL_UI_FIXES_V32,
+  ...FINAL_UI_FIXES_V33,
 });
 
 
