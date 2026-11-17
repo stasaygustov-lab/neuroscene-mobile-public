@@ -6671,8 +6671,25 @@ const styles = StyleSheet.create({
   featureIcon: { display: 'none' },
   featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 9, lineHeight: 11, fontWeight: '700', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
   featureSubtitle: { display: 'none' },
+  ...FINAL_UI_REFERENCE_ARTWORK_V49,
+
 });
 
 
-
+const FINAL_UI_REFERENCE_ARTWORK_V49 = {
+  createReferenceImageFrame: {
+    width: '100%', height: 154, alignSelf: 'center', marginTop: 0, marginBottom: 14,
+    borderRadius: 18, overflow: 'hidden', borderWidth: 0,
+    backgroundColor: 'transparent', shadowColor: '#168BFF',
+    shadowOpacity: 0.38, shadowRadius: 18, elevation: 7,
+  },
+  createReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -120, top: -150 },
+  createReferenceImageShade: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(2,10,28,0.04)' },
+  creditBalanceCard: { width: '40%', flex: 0, maxWidth: '40%', minHeight: 174, height: 174, borderRadius: 20, overflow: 'hidden' },
+  creditCoinsReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -210, top: -795 },
+  galleryReferenceImage: { width: 224, height: 190, maxWidth: 260, alignSelf: 'center', position: 'relative', overflow: 'hidden', borderRadius: 0, backgroundColor: 'transparent' },
+  galleryReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -741, top: -160 },
+  profileGuestAvatar: { width: 104, height: 104, borderRadius: 52, overflow: 'hidden', borderWidth: 0, backgroundColor: 'transparent', shadowColor: '#00AFFF', shadowOpacity: 0.8, shadowRadius: 22, elevation: 9, alignItems: 'center', justifyContent: 'center' },
+  profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
+};
 
