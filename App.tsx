@@ -2064,6 +2064,7 @@ export default function App() {
             <View style={styles.notificationBell}>
               <View style={styles.notificationBellDome} />
               <View style={styles.notificationBellBase} />
+              <View style={styles.notificationBellClapper} />
             </View>
             {unreadNotifications > 0 && <View style={styles.notificationBadge}><Text style={styles.notificationBadgeText}>{unreadNotifications > 9 ? '9+' : unreadNotifications}</Text></View>}
           </TouchableOpacity>
