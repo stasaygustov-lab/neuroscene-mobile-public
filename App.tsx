@@ -1773,44 +1773,27 @@ export default function App() {
                 resizeMode="stretch"
                 style={styles.creditCoinsReferenceCrop}
               />
-              <View pointerEvents="none" style={styles.creditIllustrationGlow} />
-              <View style={styles.creditHeroCoins}>
-                <View style={[styles.creditCoinStack, styles.creditStackLeft]}>
-                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                </View>
-                <View style={[styles.creditCoinStack, styles.creditStackCenter]}>
-                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                </View>
-                <View style={[styles.creditCoinStack, styles.creditStackRight]}>
-                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                  <View style={styles.creditCoin}><View style={styles.creditCoinFace}><Text style={styles.creditCoinGlyph}>✦</Text></View></View>
-                </View>
-              </View>
               <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
-              <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
             </View>
             <View style={styles.creditPackageColumn}>
-              <Text style={styles.creditPackagesTitle}>{uiText(language, 'Credit packages', 'Пакеты кредитов')}</Text>
               <View style={styles.creditPackagesList}>
                 {[500, 1500, 5000].map((amount) => (
-                  <View style={[styles.packageCard, amount === 1500 && styles.packageCardPopular]} key={amount}>
-                    <View style={styles.packageIconWrap}>
-                      <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
-                    </View>
-                    <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')} кредитов</Text>
-                    <View style={styles.packageRight}>
-                      {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText} numberOfLines={1}>Популярно</Text></View>}
-                      <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
-                    </View>
+                  <View style={styles.packageCard} key={amount}>
+                    <View style={styles.packageIconWrap}><View style={styles.packageCoin}><Text style={styles.packageCoinGlyph}>✦</Text></View></View>
+                    <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')}</Text>
+                    <View style={styles.packageRight}><View style={styles.packagePriceChip}><Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text></View></View>
                   </View>
                 ))}
               </View>
             </View>
           </View>
 
+          <View style={styles.creditWelcomeBonus}>
+            <View style={styles.creditBonusGift}><View style={styles.creditBonusRibbonV} /><View style={styles.creditBonusRibbonH} /><View style={styles.creditBonusBowLeft} /><View style={styles.creditBonusBowRight} /></View>
+            <View style={styles.creditBonusCopy}><Text style={styles.creditBonusTitle}>Приветственный бонус</Text><Text style={styles.creditBonusText}>500 кредитов при первом запуске!</Text></View>
+            <Text style={styles.creditBonusArrow}>›</Text>
+          </View>
+          <View style={styles.creditExpiryNote}><View style={styles.creditInfoIcon}><Text style={styles.creditInfoGlyph}>i</Text></View><Text style={styles.creditExpiryText}>Кредиты не сгорают и не имеют срока действия</Text></View>
           <View style={styles.creditBenefits}>
             <Text style={styles.creditBenefit}>✓  Кредиты не сгорают</Text>
             <Text style={styles.creditBenefit}>✓  Без подписок</Text>
@@ -1871,9 +1854,6 @@ export default function App() {
             <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
             <View style={styles.profileTitleUnderline} />
           </View>
-          <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')} accessibilityRole="button" accessibilityLabel="Настройки профиля">
-            <Text style={styles.profileSettingsIcon}>⚙</Text>
-          </TouchableOpacity>
         </View>
         <View style={styles.profileIdentity}>
           <View style={styles.profileGuestAvatar}>
@@ -1905,12 +1885,16 @@ export default function App() {
         ) : (
           <>
           <View style={styles.loginScreen}>
-            <Text style={styles.loginTagline}>Войдите, чтобы сохранять свои видео и получать больше возможностей</Text>
+            <Text style={styles.loginTagline}>Войдите, чтобы сохранить ваши видео и получить больше возможностей</Text>
           <TouchableOpacity activeOpacity={0.86} style={styles.profileVkButton} onPress={handleVkLogin} disabled={authBusy}>
             <Text style={styles.profileVkMark}>vk</Text>
             <Text style={styles.profileVkText}>Войти через VK ID</Text>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.86} style={styles.profileEmailButton} onPress={() => setProfileEmailOpen((value) => !value)}>
+          <View style={styles.profileSecurityCard}>
+            <View style={styles.profileSecurityIcon}><Text style={styles.profileSecurityCheck}>✓</Text></View>
+            <View style={styles.profileSecurityCopy}><Text style={styles.profileSecurityTitle}>Ваши данные в безопасности</Text><Text style={styles.profileSecurityText}>Мы не передаём их третьим лицам</Text></View>
+          </View>
+          <TouchableOpacity activeOpacity={0.86} style={styles.profileEmailButton> onPress={() => setProfileEmailOpen((value) => !value)}>
             <Text style={styles.profileEmailButtonText}>{profileEmailOpen ? 'Скрыть вход по email' : 'Войти по email'}</Text>
           </TouchableOpacity>
                     <Text style={styles.loginLegalText}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
@@ -2025,17 +2009,2028 @@ export default function App() {
         {!showIntro && (
           <Image
             source={require('./assets/Штормовое море под электрическим небом-1.png')}
-            blurRadius={8}
+            import { useEffect, useRef, useState } from 'react';
+import { Animated, Easing, Modal, PanResponder } from 'react-native';
+import { useEvent } from 'expo';
+import { useFonts } from 'expo-font';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text as NativeText,
+  type TextProps,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Alert,
+  ActivityIndicator,
+  Image,
+  Linking,
+  useWindowDimensions,
+} from 'react-native';
+import { VideoView, useVideoPlayer } from 'expo-video';
+import { StatusBar } from 'expo-status-bar';
+import * as ImagePicker from 'expo-image-picker';
+import { File as ExpoFile, Paths as ExpoPaths } from 'expo-file-system';
+import * as Clipboard from 'expo-clipboard';
+import * as Sharing from 'expo-sharing';
+import { fetch as expoFetch } from 'expo/fetch';
+import * as SecureStore from 'expo-secure-store';
+import * as WebBrowser from 'expo-web-browser';
+import { faqText, uiText } from './localization';
+
+const Text = (props: TextProps) => { const flat = StyleSheet.flatten(props.style) || {}; const c = typeof flat.color === 'string' ? flat.color.toLowerCase() : ''; const dark = c === 'black' || c === '#000' || c === '#000000' || /^#[0-9a-f]{6}$/.test(c) && (() => { const v = [1,3,5].map(i => parseInt(c.slice(i,i+2),16)); return 0.2126*v[0]+0.7152*v[1]+0.0722*v[2] < 31; })(); return <NativeText {...props} style={[{ fontFamily: 'Manrope', color: '#EAF4FF' }, flat, dark ? { color: '#EAF4FF' } : null]} />; };
+
+const VK_CLIENT_ID = process.env.EXPO_PUBLIC_VK_CLIENT_ID || '';
+const VK_REDIRECT_URI = VK_CLIENT_ID ? `vk${VK_CLIENT_ID}://vk.ru/blank.html` : '';
+const SESSION_STORAGE_KEY = 'neuroscene.session';
+const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || '').replace(/\/+$/, '');
+
+const StyledText = Text as typeof Text & { defaultProps?: any };
+StyledText.defaultProps = {
+  ...(StyledText.defaultProps || {}),
+  style: [{ fontSize: 16, includeFontPadding: false, letterSpacing: 0.05 }, StyledText.defaultProps?.style],
+};
+
+const BLUE = '#168BFF';
+const BG = '#020713';
+const PANEL = '#071A34';
+const MUTED = '#9CB9D8';
+const WHITE = '#FFFFFF';
+
+const RECOMMENDED_PROMPTS = [
+  'A lone astronaut walks through a vast abandoned cathedral on an alien planet, soft shafts of blue light cut through drifting dust, slow cinematic dolly-in, photorealistic, atmospheric science-fiction film.',
+  'A black sports car races through a rain-soaked neon city at night, reflections shimmer across the asphalt, dynamic low tracking shot, realistic motion blur, premium action-film cinematography.',
+  'A medieval warrior stands on a windswept cliff above a stormy sea, cloak moving naturally in the wind, distant lightning illuminates the clouds, slow dramatic camera orbit, photorealistic epic cinema.',
+  'A tiny coastal village at sunrise, warm light slowly spreads across old rooftops, sea mist drifts between the houses, gentle aerial camera movement, natural colors, cinematic realism.',
+  'A secret agent walks calmly through a crowded futuristic train station as the world moves around him, subtle handheld camera, shallow depth of field, tense thriller atmosphere, photorealistic.',
+  'An enormous ancient tree rises from the center of a forgotten city, leaves and hanging roots move in the breeze, camera slowly cranes upward to reveal its scale, magical realism, cinematic detail.',
+  'A helicopter flies between snow-covered mountain peaks at dawn, rotor wash lifts loose snow, wide aerial tracking shot, realistic physics, high-end documentary cinematography.',
+  'A woman in a red coat walks through a quiet Tokyo alley in the rain, glowing signs reflect in puddles, slow side-tracking shot, natural human movement, photorealistic neo-noir film.'
+];
+
+type Tab = 'Create' | 'Gallery' | 'Credits' | 'Profile';
+type Language = 'ru';
+
+type GenerationType = 't2v' | 'i2v';
+
+type JobStatus =
+  | 'idle'
+  | 'queued'
+  | 'starting'
+  | 'generating'
+  | 'uploading'
+  | 'completed'
+  | 'failed';
+
+function readVideoUrl(data: any): string | null {
+  if (!data || typeof data !== 'object') return null;
+
+  const keys = [
+    'result_url',
+    'video_url',
+    'output_url',
+    'media_url',
+    'url',
+  ];
+
+  for (const key of keys) {
+    if (typeof data[key] === 'string' && data[key].length > 0) {
+      const value = data[key];
+
+      if (value.startsWith('http://') || value.startsWith('https://')) {
+        return value;
+      }
+
+      if (value.startsWith('/')) {
+        return `${API_BASE_URL}${value}`;
+      }
+    }
+  }
+
+  for (const value of Object.values(data)) {
+    if (value && typeof value === 'object') {
+      const found = readVideoUrl(value);
+      if (found) return found;
+    }
+  }
+
+  return null;
+}
+
+function readJobStatus(data: any): string {
+  if (!data || typeof data !== 'object') return '';
+
+  const value = data.status || data.state || data.job_status;
+
+  if (typeof value === 'string') return value.toLowerCase();
+
+  return '';
+}
+
+function readJobId(data: any): string | null {
+  if (!data || typeof data !== 'object') return null;
+
+  const value = data.job_id || data.id || data.generation_id;
+
+  return typeof value === 'string' ? value : null;
+}
+
+async function readResponse(response: Response): Promise<any> {
+  const text = await response.text();
+
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    return { detail: text };
+  }
+}
+
+function ScreenTransition({ children, direction = 1 }: { children: any; direction?: 1 | -1 }) {
+  const { width } = useWindowDimensions();
+  const entryOffset = Math.max(84, Math.min(width * 0.28, 124));
+  const opacity = useRef(new Animated.Value(0.72)).current;
+  const translateX = useRef(new Animated.Value(direction * entryOffset)).current;
+  const scale = useRef(new Animated.Value(0.992)).current;
+  useEffect(() => {
+    const animation = Animated.parallel([
+      Animated.timing(opacity, { toValue: 1, duration: 210, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+      Animated.timing(translateX, { toValue: 0, duration: 270, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+      Animated.timing(scale, { toValue: 1, duration: 270, easing: Easing.out(Easing.cubic), useNativeDriver: true }),
+    ]);
+    animation.start();
+    return () => { animation.stop(); opacity.stopAnimation(); translateX.stopAnimation(); scale.stopAnimation(); };
+  }, [direction, entryOffset, opacity, scale, translateX]);
+  return <Animated.View style={{ flexGrow: 1, flexShrink: 0, opacity, transform: [{ translateX }, { scale }] }}>{children}</Animated.View>;
+}
+
+export default function App() {
+  const [fontsLoaded, fontError] = useFonts({ Manrope: require('./assets/Manrope[wght].ttf') });
+  const [tab, setTab] = useState<Tab>('Create');
+  const [transitionDirection, setTransitionDirection] = useState<1 | -1>(1);
+  const swipeResponder = useRef(PanResponder.create({
+    // Capture deliberate horizontal drags before ScrollView can interpret them as vertical scrolling.
+    onMoveShouldSetPanResponderCapture: (_event, gesture) =>
+      Math.abs(gesture.dx) > 22 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35,
+    onMoveShouldSetPanResponder: (_event, gesture) =>
+      Math.abs(gesture.dx) > 22 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35,
+    onPanResponderTerminationRequest: () => false,
+    onPanResponderRelease: (_event, gesture) => {
+      if (Math.abs(gesture.dx) < 52) return;
+      setTransitionDirection(gesture.dx < 0 ? 1 : -1);
+      const order: Tab[] = ['Create', 'Gallery', 'Credits', 'Profile'];
+      setTab((currentTab) => {
+        const current = order.indexOf(currentTab);
+        const next = Math.max(0, Math.min(order.length - 1, current + (gesture.dx < 0 ? 1 : -1)));
+        if (next === current) return currentTab;
+        setShowSupport(false);
+        setShowNotifications(false);
+        setShowFaq(false);
+        setShowAdminPanel(false);
+        return order[next];
+      });
+    },
+  })).current;
+  const language: Language = 'ru';
+  const [generationType, setGenerationType] = useState<GenerationType>('t2v');
+  const [sourceImage, setSourceImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
+  const [duration, setDuration] = useState(5);
+  const [ratio, setRatio] = useState('16:9');
+  const [prompt, setPrompt] = useState(() => RECOMMENDED_PROMPTS[Math.floor(Math.random() * RECOMMENDED_PROMPTS.length)]);
+  const [enhancedPrompt, setEnhancedPrompt] = useState('');
+  const [promptEnhancing, setPromptEnhancing] = useState(false);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [authUser, setAuthUser] = useState<any | null>(null);
+  const [authReady, setAuthReady] = useState(false);
+  const [authEmail, setAuthEmail] = useState('');
+  const [authPassword, setAuthPassword] = useState('');
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [authBusy, setAuthBusy] = useState(false);
+  const [authNotice, setAuthNotice] = useState('');
+  const [profileEmailOpen, setProfileEmailOpen] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState('');
+
+  const [jobId, setJobId] = useState<string | null>(null);
+  const [jobStatus, setJobStatus] = useState<JobStatus>('idle');
+  const [jobMessage, setJobMessage] = useState('');
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [pollError, setPollError] = useState('');
+  const [galleryItems, setGalleryItems] = useState<any[]>([]);
+  const [galleryLoading, setGalleryLoading] = useState(false);
+  const [galleryError, setGalleryError] = useState('');
+  const [creditsBalance, setCreditsBalance] = useState<number | null>(null);
+  const [creditHistory, setCreditHistory] = useState<any[]>([]);
+  const [creditsLoading, setCreditsLoading] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [adminUsers, setAdminUsers] = useState<any[]>([]);
+  const [adminAudit, setAdminAudit] = useState<any[]>([]);
+  const [adminGenerations, setAdminGenerations] = useState<any[]>([]);
+  const [adminWorkers, setAdminWorkers] = useState<any[]>([]);
+  const [adminAnalytics, setAdminAnalytics] = useState<any | null>(null);
+  const [adminLoading, setAdminLoading] = useState(false);
+  const [adminError, setAdminError] = useState('');
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const [notificationsLoading, setNotificationsLoading] = useState(false);
+  const notificationRefreshRef = useRef<(() => Promise<void>) | null>(null);
+  const notificationRefreshBusyRef = useRef(false);
+  const [supportTickets, setSupportTickets] = useState<any[]>([]);
+  const [selectedSupportTicket, setSelectedSupportTicket] = useState<any | null>(null);
+  const [supportCategory, setSupportCategory] = useState<'generation' | 'payment' | 'account' | 'other'>('generation');
+  const [supportFilter, setSupportFilter] = useState<'new' | 'in_progress' | 'closed'>('new');
+  const [supportDescription, setSupportDescription] = useState('');
+  const [supportMessage, setSupportMessage] = useState('');
+  const [supportFiles, setSupportFiles] = useState<ImagePicker.ImagePickerAsset[]>([]);
+  const [supportLoading, setSupportLoading] = useState(false);
+  const [supportBusy, setSupportBusy] = useState(false);
+  const [supportError, setSupportError] = useState('');
+  const [showFaq, setShowFaq] = useState(false);
+  const [faqItems, setFaqItems] = useState<any[]>([]);
+  const [faqLoading, setFaqLoading] = useState(false);
+  const [faqError, setFaqError] = useState('');
+  const [showIntro, setShowIntro] = useState(true);
+  const splashProgress = useRef(new Animated.Value(0)).current;
+  const splashShimmer = useRef(new Animated.Value(0)).current;
+  const splashSweep = useRef(new Animated.Value(0)).current;
+  const splashStartedAt = useRef(Date.now()).current;
+
+  useEffect(() => {
+    splashProgress.setValue(0.06);
+  }, [splashProgress]);
+
+  useEffect(() => {
+    const shimmer = Animated.loop(Animated.sequence([
+      Animated.timing(splashShimmer, { toValue: 1, duration: 1150, useNativeDriver: true }),
+      Animated.timing(splashShimmer, { toValue: 0, duration: 1150, useNativeDriver: true }),
+    ]));
+    const sweep = Animated.loop(Animated.timing(splashSweep, {
+      toValue: 1,
+      duration: 1750,
+      useNativeDriver: true,
+    }));
+    shimmer.start();
+    sweep.start();
+    return () => {
+      shimmer.stop();
+      sweep.stop();
+    };
+  }, [splashShimmer, splashSweep]);
+
+  useEffect(() => {
+    // Keep the intro visible until session restoration and the app font are ready.
+    // This startup gate existed in the last known-good build; retain the ~2s minimum splash.
+    if (!authReady || (!fontsLoaded && !fontError)) return;
+    const remaining = Math.max(0, 1600 - (Date.now() - splashStartedAt));
+    const splashTimer = setTimeout(() => {
+      Animated.timing(splashProgress, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: false,
+      }).start(({ finished }) => {
+        if (finished) setShowIntro(false);
+      });
+    }, remaining);
+    return () => clearTimeout(splashTimer);
+  }, [authReady, fontsLoaded, fontError, splashProgress, splashStartedAt]);
+
+
+  const saveAuthenticatedSession = async (data: any) => {
+    if (!data?.access_token || !data?.user) {
+      throw new Error('Сервер вернул неполные данные авторизации');
+    }
+    await SecureStore.setItemAsync(SESSION_STORAGE_KEY, data.access_token);
+    setAuthToken(data.access_token);
+    setAuthUser(data.user);
+    setPrompt(RECOMMENDED_PROMPTS[Math.floor(Math.random() * RECOMMENDED_PROMPTS.length)]);
+    setAuthPassword('');
+    setAuthNotice('');
+    setPendingEmail('');
+    setTab('Gallery');
+  };
+
+  const handleEmailVerificationLink = async (url: string) => {
+    try {
+      const parsed = new URL(url);
+      const isVerification = url.startsWith('neuroscene://verify-email') || parsed.hostname === 'verify-email';
+      const isLogin = url.startsWith('neuroscene://login') || parsed.hostname === 'login';
+      if (!isVerification && !isLogin) return;
+      const token = parsed.searchParams.get('token');
+      if (!token) return;
+      setAuthBusy(true);
+      const endpoint = isLogin ? 'login-link/consume' : 'verify-email';
+      const response = await fetch(`${API_BASE_URL}/api/auth/${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ token }),
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || (isLogin ? 'Не удалось выполнить вход' : 'Не удалось подтвердить email'));
+      await saveAuthenticatedSession(data);
+      Alert.alert(
+        isLogin ? (language === 'ru' ? 'Вход выполнен' : 'Вход выполнен') : 'Почта подтверждена',
+        isLogin
+          ? (language === 'ru' ? 'Вы вошли в НейроСцену.' : 'You are now signed in to NeuroScene.')
+          : 'Аккаунт активирован. Добро пожаловать в НейроСцену!'
+      );
+    } catch (error) {
+      Alert.alert('НейроСцена', error instanceof Error ? error.message : 'Неизвестная ошибка');
+    } finally {
+      setAuthBusy(false);
+    }
+  };
+
+  useEffect(() => {
+    let mounted = true;
+    const restoreSession = async () => {
+      try {
+        splashProgress.setValue(0.16);
+        const savedToken = await SecureStore.getItemAsync(SESSION_STORAGE_KEY);
+        splashProgress.setValue(0.42);
+        if (!savedToken) return;
+        const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+          headers: { Authorization: `Bearer ${savedToken}`, Accept: 'application/json' },
+        });
+        const data = await readResponse(response);
+        splashProgress.setValue(0.72);
+        if (!response.ok) {
+          await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY);
+          return;
+        }
+        if (mounted) {
+          setAuthToken(savedToken);
+          setAuthUser(data.user);
+          setTab('Gallery');
+        }
+      } catch {
+        await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY).catch(() => undefined);
+      } finally {
+        splashProgress.setValue(0.90);
+        if (mounted) setAuthReady(true);
+      }
+    };
+    restoreSession();
+    const subscription = Linking.addEventListener('url', ({ url }) => {
+      void handleEmailVerificationLink(url);
+    });
+    Linking.getInitialURL().then((url) => {
+      if (url) void handleEmailVerificationLink(url);
+    }).catch(() => undefined);
+    return () => {
+      mounted = false;
+      subscription.remove();
+    };
+  }, []);
+
+  const handleAuthSubmit = async () => {
+    const email = authEmail.trim().toLowerCase();
+    if (!email || !authPassword) {
+      setAuthNotice(language === 'ru' ? 'Укажи email и пароль.' : 'Enter your email and password.');
+      return;
+    }
+    if (authMode === 'register' && authPassword.length < 12) {
+      setAuthNotice(language === 'ru' ? 'Пароль должен содержать минимум 12 символов.' : 'Password must contain at least 12 characters.');
+      return;
+    }
+    setAuthBusy(true);
+    setAuthNotice('');
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/${authMode === 'register' ? 'register' : 'login'}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ email, password: authPassword }),
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
+      if (authMode === 'register') {
+        setPendingEmail(email);
+        setAuthPassword('');
+        setAuthNotice(data.message || (language === 'ru' ? 'Проверь почту и подтверди адрес.' : 'Check your inbox to verify your email.'));
+      } else {
+        await saveAuthenticatedSession(data);
+      }
+    } catch (error) {
+      if (authMode === 'register' || (error instanceof Error && error.message.toLowerCase().includes('подтвердите email'))) {
+        setPendingEmail(email);
+      }
+      setAuthNotice(error instanceof Error ? error.message : 'Неизвестная ошибка');
+    } finally {
+      setAuthBusy(false);
+    }
+  };
+
+  const requestEmailLoginLink = async () => {
+    const email = authEmail.trim().toLowerCase();
+    if (!email) {
+      setAuthNotice(language === 'ru' ? 'Сначала укажи email.' : 'Enter your email first.');
+      return;
+    }
+    setAuthBusy(true);
+    setAuthNotice('');
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login-link`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
+      setPendingEmail(email);
+      setAuthNotice(data.message || (language === 'ru' ? 'Если аккаунт существует, ссылка отправлена.' : 'If the account exists, a sign-in link has been sent.'));
+    } catch (error) {
+      setAuthNotice(error instanceof Error ? error.message : 'Не удалось запросить ссылку входа.');
+    } finally {
+      setAuthBusy(false);
+    }
+  };
+
+  const resendVerification = async () => {
+    const email = pendingEmail || authEmail.trim().toLowerCase();
+    if (!email) return;
+    setAuthBusy(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/resend-verification`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || 'Не удалось отправить письмо');
+      setAuthNotice(data.message || 'Если аккаунт ожидает подтверждения, письмо отправлено.');
+    } catch (error) {
+      setAuthNotice(error instanceof Error ? error.message : 'Неизвестная ошибка');
+    } finally {
+      setAuthBusy(false);
+    }
+  };
+
+  const handleVkLogin = async () => {
+    setAuthBusy(true);
+    setAuthNotice('');
+    try {
+      if (!VK_CLIENT_ID || !VK_REDIRECT_URI) {
+        throw new Error('Вход через VK ID пока не настроен в конфигурации приложения.');
+      }
+      const startResponse = await fetch(`${API_BASE_URL}/api/auth/vk/start`);
+      const startData = await readResponse(startResponse);
+      if (!startResponse.ok) throw new Error(startData.detail || 'VK ID пока не настроен');
+      if (startData.redirect_uri !== VK_REDIRECT_URI) throw new Error('Адрес возврата VK ID не совпадает с настройкой приложения.');
+      const result = await WebBrowser.openAuthSessionAsync(startData.authorization_url, VK_REDIRECT_URI);
+      if (result.type !== 'success' || !result.url) return;
+      const callback = new URL(result.url);
+      let code = callback.searchParams.get('code') || '';
+      let state = callback.searchParams.get('state') || '';
+      let deviceId = callback.searchParams.get('device_id') || '';
+      const payload = callback.searchParams.get('payload');
+      if (payload) {
+        try {
+          const decoded = JSON.parse(payload);
+          code = code || decoded.code || '';
+          state = state || decoded.state || '';
+          deviceId = deviceId || decoded.device_id || '';
+        } catch {
+          throw new Error('VK ID вернул некорректный ответ.');
+        }
+      }
+      const completeResponse = await fetch(`${API_BASE_URL}/api/auth/vk/complete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ code, state, device_id: deviceId }),
+      });
+      const completeData = await readResponse(completeResponse);
+      if (!completeResponse.ok) throw new Error(completeData.detail || 'Не удалось войти через VK ID');
+      await saveAuthenticatedSession(completeData);
+    } catch (error) {
+      setAuthNotice(error instanceof Error ? error.message : 'Ошибка входа через VK ID');
+    } finally {
+      setAuthBusy(false);
+    }
+  };
+
+  const logoutAllDevices = async () => {
+    let revoked = false;
+    try {
+      if (authToken) {
+        const response = await fetch(`${API_BASE_URL}/api/auth/logout-all`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${authToken}` },
+        });
+        revoked = response.ok;
+        if (!response.ok) throw new Error('Сервер не подтвердил выход со всех устройств.');
+      }
+    } catch (error) {
+      Alert.alert(
+        language === 'ru' ? 'Не удалось завершить все сеансы' : 'Не удалось завершить все сеансы',
+        error instanceof Error ? error.message : 'Проверь подключение к серверу.'
+      );
+    } finally {
+      await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY);
+      setAuthToken(null);
+      setAuthUser(null);
+      setGalleryItems([]);
+      setCreditsBalance(null);
+      setCreditHistory([]);
+      setNotifications([]);
+      setUnreadNotifications(0);
+      setSupportTickets([]);
+      setSelectedSupportTicket(null);
+      setAdminUsers([]);
+      setAdminAudit([]);
+       setAdminGenerations([]);
+       setAdminWorkers([]);
+       setAdminAnalytics(null);
+      setShowAdminPanel(false);
+      setShowSupport(false);
+      setShowNotifications(false);
+      setTab('Create');
+      setAuthNotice(revoked
+        ? (language === 'ru' ? 'Вы вышли из аккаунта на всех устройствах.' : 'You signed out on all devices.')
+        : (language === 'ru' ? 'Выход выполнен на этом устройстве. Остальные сеансы могли сохраниться.' : 'Signed out on this device. Other sessions may remain active.'));
+    }
+  };
+
+
+  const deleteAccount = () => {
+    Alert.alert(
+      language === 'ru' ? 'Удалить аккаунт?' : 'Delete account?',
+      language === 'ru'
+        ? 'Профильные данные, история и все видео в галерее будут удалены без возможности восстановления. Финансовые записи, которые необходимо хранить, останутся без прямых личных идентификаторов.'
+        : 'Your profile data, history and gallery videos will be permanently deleted. Legally required financial records will be retained without direct personal identifiers.',
+      [
+        { text: language === 'ru' ? 'Отмена' : 'Cancel', style: 'cancel' },
+        {
+          text: language === 'ru' ? 'Удалить аккаунт' : 'Delete account',
+          style: 'destructive',
+          onPress: async () => {
+            setAuthBusy(true);
+            try {
+              const response = await fetch(`${API_BASE_URL}/api/auth/account`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${authToken}` },
+              });
+              const data = await readResponse(response);
+              if (!response.ok) throw new Error(data.detail || 'Не удалось удалить аккаунт');
+              await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY);
+              setAuthToken(null);
+              setAuthUser(null);
+              setAuthPassword('');
+              setPendingEmail('');
+              setGalleryItems([]);
+              setCreditsBalance(null);
+              setCreditHistory([]);
+              setNotifications([]);
+              setUnreadNotifications(0);
+              setSupportTickets([]);
+              setSelectedSupportTicket(null);
+              setAdminUsers([]);
+              setAdminAudit([]);
+       setAdminGenerations([]);
+       setAdminWorkers([]);
+       setAdminAnalytics(null);
+              setShowAdminPanel(false);
+       setShowFaq(false);
+       setFaqItems([]);
+              setShowSupport(false);
+              setShowNotifications(false);
+              setVideoUrl(null);
+              setJobId(null);
+              setTab('Create');
+              Alert.alert(
+                language === 'ru' ? 'Аккаунт удалён' : 'Account deleted',
+                language === 'ru' ? 'Личные данные и галерея удалены.' : 'Personal data and gallery have been deleted.'
+              );
+            } catch (error) {
+              Alert.alert(
+                language === 'ru' ? 'Не удалось удалить аккаунт' : 'Account deletion failed',
+                error instanceof Error ? error.message : 'Проверь подключение и повтори попытку.'
+              );
+            } finally {
+              setAuthBusy(false);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const loadCredits = async () => {
+    if (!authToken) {
+      setCreditsBalance(null);
+      setCreditHistory([]);
+      return;
+    }
+    setCreditsLoading(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/credits`, {
+        headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
+      setCreditsBalance(Number.isFinite(Number(data.balance)) ? Number(data.balance) : 0);
+      setCreditHistory(Array.isArray(data.items) ? data.items : []);
+    } catch (error) {
+      setCreditsBalance(null);
+      Alert.alert(
+        language === 'ru' ? 'Не удалось загрузить баланс' : 'Не удалось загрузить баланс',
+        error instanceof Error ? error.message : 'Неизвестная ошибка'
+      );
+    } finally {
+      setCreditsLoading(false);
+    }
+  };
+
+  const loadFaq = async () => {
+    setFaqLoading(true);
+    setFaqError('');
+    try {
+      const isAdmin = !!authToken && ['owner', 'admin'].includes(authUser?.role);
+      const response = await fetch(API_BASE_URL + (isAdmin ? '/api/admin/faq' : '/api/faq'), {
+        headers: authToken ? { Authorization: 'Bearer ' + authToken, Accept: 'application/json' } : { Accept: 'application/json' },
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || 'Не удалось загрузить FAQ');
+      setFaqItems(Array.isArray(data.items) ? data.items : []);
+    } catch (error) {
+      setFaqError(error instanceof Error ? error.message : 'Не удалось загрузить FAQ');
+    } finally {
+      setFaqLoading(false);
+    }
+  };
+
+  const saveFaqEntry = async (entry: any, faqId?: string): Promise<boolean> => {
+    if (!authToken || !['owner', 'admin'].includes(authUser?.role)) return false;
+    setFaqLoading(true);
+    setFaqError('');
+    try {
+      const response = await fetch(
+        API_BASE_URL + (faqId ? '/api/admin/faq/' + encodeURIComponent(faqId) : '/api/admin/faq'),
+        {
+          method: faqId ? 'PUT' : 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
+          body: JSON.stringify(entry),
+        }
+      );
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || 'Не удалось сохранить FAQ');
+      await loadFaq();
+      Alert.alert(language === 'ru' ? 'FAQ обновлён' : 'FAQ saved');
+      return true;
+    } catch (error) {
+      setFaqError(error instanceof Error ? error.message : 'Не удалось сохранить FAQ');
+      return false;
+    } finally {
+      setFaqLoading(false);
+    }
+  };
+
+  const loadSupportTickets = async () => {
+    if (!authToken) {
+      setSupportTickets([]);
+      setSupportError(language === 'ru' ? 'Войдите, чтобы обратиться в поддержку.' : 'Sign in to contact support.');
+      return;
+    }
+    setSupportLoading(true);
+    setSupportError('');
+    try {
+      const staffMode = ['owner', 'admin', 'support'].includes(authUser?.role);
+      const endpoint = staffMode
+        ? `${API_BASE_URL}/api/support/staff/tickets?status=${supportFilter}`
+        : `${API_BASE_URL}/api/support/tickets`;
+      const response = await fetch(endpoint, {
+        headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
+      setSupportTickets(Array.isArray(data.items) ? data.items : []);
+    } catch (error) {
+      setSupportError(error instanceof Error ? error.message : 'Не удалось загрузить обращения');
+    } finally {
+      setSupportLoading(false);
+    }
+  };
+
+  const openSupportTicket = async (ticketId: string) => {
+    if (!authToken) return;
+    setSupportBusy(true);
+    setSupportError('');
+    try {
+      const staffMode = ['owner', 'admin', 'support'].includes(authUser?.role);
+      const route = staffMode ? 'staff/tickets/' : 'tickets/';
+      const response = await fetch(`${API_BASE_URL}/api/support/${route}${encodeURIComponent(ticketId)}`, {
+        headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
+      setSupportFiles([]);
+      setSelectedSupportTicket(data);
+    } catch (error) {
+      setSupportError(error instanceof Error ? error.message : 'Не удалось открыть обращение');
+    } finally {
+      setSupportBusy(false);
+    }
+  };
+
+  const createSupportTicket = async () => {
+    if (!authToken) {
+      setSupportError(language === 'ru' ? 'Сначала войдите в аккаунт.' : 'Sign in first.');
+      return;
+    }
+    if (supportDescription.trim().length < 5) {
+      setSupportError(language === 'ru' ? 'Опишите проблему подробнее.' : 'Please describe the issue in more detail.');
+      return;
+    }
+    setSupportBusy(true);
+    setSupportError('');
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/support/tickets`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
+        body: JSON.stringify({ category: supportCategory, description: supportDescription.trim() }),
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
+      setSupportDescription('');
+      setSelectedSupportTicket(data);
+      let createdTicket = data;
+      if (supportFiles.length > 0) {
+        const form = new FormData();
+        form.append('message', '');
+        supportFiles.forEach((asset, index) => {
+          const name = (asset.fileName || asset.uri).toLowerCase();
+          const extension = asset.mimeType === 'image/png' || name.endsWith('.png') ? 'png' : 'jpg';
+          const file = new ExpoFile(asset.uri);
+          form.append('files', file, asset.fileName || `support-attachment-${index + 1}.${extension}`);
+        });
+        const attachmentResponse = await fetch(`${API_BASE_URL}/api/support/tickets/${encodeURIComponent(data.ticket_id)}/messages/attachments`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
+          body: form,
+        });
+        const attachmentData = await readResponse(attachmentResponse);
+        if (!attachmentResponse.ok) throw new Error(attachmentData.detail || `HTTP ${attachmentResponse.status}`);
+        createdTicket = attachmentData;
+      }
+      setSupportFiles([]);
+      setSelectedSupportTicket(createdTicket);
+      await loadSupportTickets();
+    } catch (error) {
+      setSupportError(error instanceof Error ? error.message : 'Не удалось создать обращение');
+    } finally {
+      setSupportBusy(false);
+    }
+  };
+
+  const closeSupportTicket = async () => {
+    if (!authToken || !selectedSupportTicket) return;
+    setSupportBusy(true);
+    setSupportError('');
+    try {
+      const response = await fetch(
+        API_BASE_URL + '/api/support/staff/tickets/' + encodeURIComponent(selectedSupportTicket.ticket_id) + '/status',
+        {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
+          body: JSON.stringify({ status: 'closed' }),
+        }
+      );
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || 'HTTP ' + response.status);
+      setSelectedSupportTicket(data);
+      await loadSupportTickets();
+    } catch (error) {
+      setSupportError(error instanceof Error ? error.message : 'Не удалось закрыть обращение');
+    } finally {
+      setSupportBusy(false);
+    }
+  };
+
+  const chooseSupportFiles = async () => {
+    try {
+      const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!permission.granted) {
+        Alert.alert(
+          language === 'ru' ? 'Нужен доступ к фотографиям' : 'Photo access required',
+          language === 'ru' ? 'Разрешите выбрать изображения для обращения.' : 'Allow access to choose support attachments.'
+        );
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        allowsEditing: false,
+        allowsMultipleSelection: true,
+        selectionLimit: 5,
+        quality: 1,
+      });
+      if (result.canceled || !result.assets?.length) return;
+      const combined = [...supportFiles, ...result.assets];
+      if (combined.length > 5) {
+        Alert.alert(
+          language === 'ru' ? 'Слишком много файлов' : 'Too many files',
+          language === 'ru' ? 'К одному сообщению можно прикрепить не более 5 изображений.' : 'You can attach up to 5 images to one message.'
+        );
+        return;
+      }
+      for (const asset of result.assets) {
+        const name = (asset.fileName || asset.uri).toLowerCase();
+        const mime = asset.mimeType || (name.endsWith('.png') ? 'image/png' : name.endsWith('.jpg') || name.endsWith('.jpeg') ? 'image/jpeg' : '');
+        if (!['image/jpeg', 'image/png'].includes(mime)) {
+          throw new Error(language === 'ru' ? 'Поддерживаются только JPEG и PNG.' : 'Only JPEG and PNG files are supported.');
+        }
+        if (asset.fileSize && asset.fileSize > 10 * 1024 * 1024) {
+          throw new Error(language === 'ru' ? 'Размер каждого изображения — не более 10 МБ.' : 'Each image must be 10 MB or smaller.');
+        }
+      }
+      setSupportFiles(combined);
+      setSupportError('');
+    } catch (error) {
+      setSupportError(error instanceof Error ? error.message : 'Не удалось выбрать вложения');
+    }
+  };
+
+  const openSupportAttachment = async (attachment: any) => {
+    if (!authToken || !attachment?.attachment_id) return;
+    let file: ExpoFile | null = null;
+    try {
+      const response = await expoFetch(
+        `${API_BASE_URL}/api/support/attachments/${encodeURIComponent(attachment.attachment_id)}`,
+        { headers: { Authorization: `Bearer ${authToken}` } }
+      );
+      if (!response.ok) {
+        const body = await response.text();
+        throw new Error(body || `HTTP ${response.status}`);
+      }
+      const safeName = String(attachment.file_name || 'support-image.jpg').replace(/[^a-zA-Z0-9._-]/g, '_');
+      const extension = safeName.toLowerCase().endsWith('.png') ? 'png' : 'jpg';
+      file = new ExpoFile(ExpoPaths.cache, `support-${attachment.attachment_id}-${Date.now()}.${extension}`);
+      await file.write(await response.bytes());
+      if (!(await Sharing.isAvailableAsync())) {
+        throw new Error(language === 'ru' ? 'На устройстве недоступно открытие вложений.' : 'Attachments cannot be opened on this device.');
+      }
+      await Sharing.shareAsync(file.uri, {
+        mimeType: extension === 'png' ? 'image/png' : 'image/jpeg',
+        dialogTitle: language === 'ru' ? 'Открыть или сохранить изображение' : 'Open or save image',
+      });
+    } catch (error) {
+      Alert.alert(
+        language === 'ru' ? 'Не удалось открыть вложение' : 'Не удалось открыть вложение',
+        error instanceof Error ? error.message : 'Неизвестная ошибка'
+      );
+    } finally {
+      try { file?.delete(); } catch { /* temporary attachment cleanup is best-effort */ }
+    }
+  };
+
+  const sendSupportMessage = async () => {
+    if (!authToken || !selectedSupportTicket || !supportMessage.trim()) return;
+    setSupportBusy(true);
+    setSupportError('');
+    try {
+      let response: Response;
+      const staffMode = ['owner', 'admin', 'support'].includes(authUser?.role);
+      const messageRoute = staffMode ? 'staff/tickets/' : 'tickets/';
+      const attachmentRoute = staffMode
+        ? 'staff/tickets/' + encodeURIComponent(selectedSupportTicket.ticket_id) + '/messages/attachments'
+        : 'tickets/' + encodeURIComponent(selectedSupportTicket.ticket_id) + '/messages/attachments';
+      const standardRoute = messageRoute + encodeURIComponent(selectedSupportTicket.ticket_id) + '/messages';
+      if (supportFiles.length > 0) {
+        const form = new FormData();
+        form.append('message', supportMessage.trim());
+        supportFiles.forEach((asset, index) => {
+          const name = (asset.fileName || asset.uri).toLowerCase();
+          const extension = asset.mimeType === 'image/png' || name.endsWith('.png') ? 'png' : 'jpg';
+          const file = new ExpoFile(asset.uri);
+          form.append('files', file, asset.fileName || `support-attachment-${index + 1}.${extension}`);
+        });
+        response = await fetch(`${API_BASE_URL}/api/support/${attachmentRoute}`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
+          body: form,
+        });
+      } else {
+        response = await fetch(`${API_BASE_URL}/api/support/${standardRoute}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
+          body: JSON.stringify({ message: supportMessage.trim() }),
+        });
+      }
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
+      setSelectedSupportTicket(data);
+      setSupportMessage('');
+      setSupportFiles([]);
+      await loadSupportTickets();
+    } catch (error) {
+      setSupportError(error instanceof Error ? error.message : 'Не удалось отправить сообщение');
+    } finally {
+      setSupportBusy(false);
+    }
+  };
+
+  const loadNotifications = async (silent = false) => {
+    if (!authToken) {
+      setNotifications([]);
+      setUnreadNotifications(0);
+      return;
+    }
+    if (notificationRefreshBusyRef.current) return;
+    notificationRefreshBusyRef.current = true;
+    if (!silent) setNotificationsLoading(true);
+    try {
+      const response = await fetch(API_BASE_URL + '/api/notifications', {
+        headers: { Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || 'HTTP ' + response.status);
+      setNotifications(Array.isArray(data.items) ? data.items : []);
+      setUnreadNotifications(Number(data.unread_count) || 0);
+    } catch (error) {
+      if (!silent) {
+        Alert.alert(
+          language === 'ru' ? 'Не удалось загрузить уведомления' : 'Не удалось загрузить уведомления',
+          error instanceof Error ? error.message : 'Неизвестная ошибка'
+        );
+      }
+    } finally {
+      notificationRefreshBusyRef.current = false;
+      if (!silent) setNotificationsLoading(false);
+    }
+  };
+
+  notificationRefreshRef.current = () => loadNotifications(true);
+
+  useEffect(() => {
+    if (!authToken) {
+      setNotifications([]);
+      setUnreadNotifications(0);
+      return;
+    }
+    const refreshNotifications = () => {
+      void notificationRefreshRef.current?.();
+    };
+    refreshNotifications();
+    const timer = setInterval(refreshNotifications, 30000);
+    return () => clearInterval(timer);
+  }, [authToken]);
+
+  const markNotificationRead = async (notificationId: string) => {
+    if (!authToken) return;
+    try {
+      const response = await fetch(API_BASE_URL + '/api/notifications/' + encodeURIComponent(notificationId) + '/read', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + authToken },
+      });
+      if (!response.ok) return;
+      const wasUnread = notifications.some((item) => item.notification_id === notificationId && !item.read_at);
+      setNotifications((current) => current.map((item) => item.notification_id === notificationId ? { ...item, read_at: new Date().toISOString() } : item));
+      if (wasUnread) setUnreadNotifications((count) => Math.max(0, count - 1));
+    } catch {
+      // Keep the notification unread locally if the server could not confirm the update.
+    }
+  };
+
+  const markAllNotificationsRead = async () => {
+    if (!authToken) return;
+    try {
+      const response = await fetch(API_BASE_URL + '/api/notifications/read-all', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + authToken },
+      });
+      if (!response.ok) return;
+      const now = new Date().toISOString();
+      setNotifications((current) => current.map((item) => ({ ...item, read_at: item.read_at || now })));
+      setUnreadNotifications(0);
+    } catch {
+      // Leave the unread state unchanged if the server did not confirm.
+    }
+  };
+
+  const loadAdminPanel = async () => {
+    if (!authToken || !['owner', 'admin'].includes(authUser?.role)) return;
+    setAdminLoading(true);
+    setAdminError('');
+    try {
+      const headers = { Authorization: 'Bearer ' + authToken, Accept: 'application/json' };
+      const [usersResponse, auditResponse, generationsResponse, workersResponse, analyticsResponse] = await Promise.all([
+        fetch(API_BASE_URL + '/api/admin/users?limit=100&offset=0', { headers }),
+        fetch(API_BASE_URL + '/api/admin/audit?limit=100', { headers }),
+        fetch(API_BASE_URL + '/api/admin/generations?limit=100&offset=0', { headers }),
+        fetch(API_BASE_URL + '/api/admin/workers', { headers }),
+        fetch(API_BASE_URL + '/api/admin/analytics', { headers }),
+      ]);
+      const usersData = await readResponse(usersResponse);
+      const auditData = await readResponse(auditResponse);
+      const generationsData = await readResponse(generationsResponse);
+      const workersData = await readResponse(workersResponse);
+      const analyticsData = await readResponse(analyticsResponse);
+      if (!usersResponse.ok) throw new Error(usersData.detail || 'Не удалось загрузить пользователей');
+      if (!auditResponse.ok) throw new Error(auditData.detail || 'Не удалось загрузить журнал действий');
+      if (!generationsResponse.ok) throw new Error(generationsData.detail || 'Не удалось загрузить очередь генераций');
+      if (!workersResponse.ok) throw new Error(workersData.detail || 'Не удалось загрузить GPU-мониторинг');
+      if (!analyticsResponse.ok) throw new Error(analyticsData.detail || 'Не удалось загрузить аналитику');
+      setAdminUsers(Array.isArray(usersData.items) ? usersData.items : []);
+      setAdminAudit(Array.isArray(auditData.items) ? auditData.items : []);
+      setAdminGenerations(Array.isArray(generationsData.items) ? generationsData.items : []);
+      setAdminWorkers(Array.isArray(workersData.items) ? workersData.items : []);
+      setAdminAnalytics(analyticsData);
+    } catch (error) {
+      setAdminError(error instanceof Error ? error.message : 'Не удалось загрузить панель управления');
+    } finally {
+      setAdminLoading(false);
+    }
+  };
+
+  const setAdminGenerationPriority = async (jobId: string, priority: number) => {
+    if (!authToken || !Number.isInteger(priority) || priority < -100 || priority > 100) return;
+    setAdminLoading(true);
+    try {
+      const response = await fetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/priority', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
+        body: JSON.stringify({ priority }),
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || 'Не удалось изменить приоритет');
+      await loadAdminPanel();
+    } catch (error) {
+      Alert.alert(language === 'ru' ? 'Ошибка очереди' : 'Ошибка очереди', error instanceof Error ? error.message : 'Запрос не выполнен');
+    } finally {
+      setAdminLoading(false);
+    }
+  };
+
+  const cancelAdminGeneration = (jobId: string) => {
+    Alert.alert(
+      language === 'ru' ? 'Отменить задание?' : 'Cancel generation?',
+      language === 'ru'
+        ? 'Отменить можно только задание, которое ещё не передано GPU-воркеру.'
+        : 'Only a job not yet leased to a GPU worker can be cancelled.',
+      [
+        { text: language === 'ru' ? 'Назад' : 'Back', style: 'cancel' },
+        {
+          text: language === 'ru' ? 'Отменить' : 'Cancel',
+          style: 'destructive',
+          onPress: async () => {
+            setAdminLoading(true);
+            try {
+              const response = await fetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/cancel', {
+                method: 'POST',
+                headers: { Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
+              });
+              const data = await readResponse(response);
+              if (!response.ok) throw new Error(data.detail || 'Не удалось отменить задание');
+              await loadAdminPanel();
+            } catch (error) {
+              Alert.alert(language === 'ru' ? 'Ошибка очереди' : 'Ошибка очереди', error instanceof Error ? error.message : 'Запрос не выполнен');
+            } finally {
+              setAdminLoading(false);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const retryAdminGeneration = (jobId: string) => {
+    Alert.alert(
+      language === 'ru' ? 'Повторить генерацию?' : 'Retry generation?',
+      language === 'ru'
+        ? 'Повторно запускаются только ошибки T2V. Для I2V потребуется новое изображение.'
+        : 'Only failed T2V jobs can be retried. I2V requires a new source image.',
+      [
+        { text: language === 'ru' ? 'Назад' : 'Back', style: 'cancel' },
+        {
+          text: language === 'ru' ? 'Повторить' : 'Retry',
+          onPress: async () => {
+            setAdminLoading(true);
+            try {
+              const response = await fetch(API_BASE_URL + '/api/admin/generations/' + encodeURIComponent(jobId) + '/retry', {
+                method: 'POST',
+                headers: { Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
+              });
+              const data = await readResponse(response);
+              if (!response.ok) throw new Error(data.detail || 'Не удалось повторить генерацию');
+              await loadAdminPanel();
+            } catch (error) {
+              Alert.alert(language === 'ru' ? 'Ошибка очереди' : 'Ошибка очереди', error instanceof Error ? error.message : 'Запрос не выполнен');
+            } finally {
+              setAdminLoading(false);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const adjustUserCredits = (targetUserId: string, amount: number, reason: string) => {
+    Alert.alert(
+      language === 'ru' ? 'Подтвердить изменение баланса?' : 'Confirm credit adjustment?',
+      language === 'ru'
+        ? 'Операция будет записана в неизменяемый журнал аудита.'
+        : 'This operation will be written to the immutable audit log.',
+      [
+        { text: language === 'ru' ? 'Отмена' : 'Cancel', style: 'cancel' },
+        {
+          text: language === 'ru' ? 'Подтвердить' : 'Confirm',
+          onPress: async () => {
+            setAdminLoading(true);
+            try {
+              const response = await fetch(API_BASE_URL + '/api/admin/users/' + encodeURIComponent(targetUserId) + '/credits', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
+                body: JSON.stringify({
+                  amount,
+                  reason: reason.trim(),
+                  request_id: 'admin-credit-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10),
+                }),
+              });
+              const data = await readResponse(response);
+              if (!response.ok) throw new Error(data.detail || 'Не удалось изменить баланс');
+              Alert.alert(language === 'ru' ? 'Баланс обновлён' : 'Баланс обновлён', (language === 'ru' ? 'Новый баланс: ' : 'New balance: ') + data.balance);
+              await loadAdminPanel();
+            } catch (error) {
+              Alert.alert(language === 'ru' ? 'Ошибка' : 'Ошибка', error instanceof Error ? error.message : 'Запрос не выполнен');
+            } finally {
+              setAdminLoading(false);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const changeUserRole = (targetUserId: string, role: 'user' | 'admin' | 'support', reason: string) => {
+    Alert.alert(
+      language === 'ru' ? 'Изменить роль пользователя?' : 'Change user role?',
+      language === 'ru' ? 'Действие будет записано в журнал аудита.' : 'This action will be recorded in the audit log.',
+      [
+        { text: language === 'ru' ? 'Отмена' : 'Cancel', style: 'cancel' },
+        {
+          text: language === 'ru' ? 'Подтвердить' : 'Confirm',
+          onPress: async () => {
+            setAdminLoading(true);
+            try {
+              const response = await fetch(API_BASE_URL + '/api/admin/users/' + encodeURIComponent(targetUserId) + '/role', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + authToken, Accept: 'application/json' },
+                body: JSON.stringify({
+                  role,
+                  reason: reason.trim(),
+                  request_id: 'admin-role-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10),
+                }),
+              });
+              const data = await readResponse(response);
+              if (!response.ok) throw new Error(data.detail || 'Не удалось изменить роль');
+              await loadAdminPanel();
+            } catch (error) {
+              Alert.alert(language === 'ru' ? 'Ошибка' : 'Ошибка', error instanceof Error ? error.message : 'Запрос не выполнен');
+            } finally {
+              setAdminLoading(false);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const loadGallery = async () => {
+    setGalleryLoading(true);
+    setGalleryError('');
+
+    try {
+      if (!authToken) { setGalleryItems([]); return; }
+      const response = await fetch(`${API_BASE_URL}/api/generations?limit=50&offset=0`, { headers: { Authorization: `Bearer ${authToken}` } });
+      const data = await readResponse(response);
+      if (!response.ok) {
+        throw new Error(data.detail || `HTTP ${response.status}`);
+      }
+      const items = Array.isArray(data.items) ? data.items : [];
+      setGalleryItems(
+        items
+          .filter((item: any) =>
+            ['completed', 'complete', 'success', 'succeeded', 'done'].includes(
+              String(item.status || '').toLowerCase()
+            ) && readVideoUrl(item)
+          )
+          .slice(0, 2)
+      );
+    } catch (error) {
+      setGalleryError(
+        error instanceof Error ? error.message : language === 'ru' ? 'Не удалось загрузить галерею' : 'Не удалось загрузить галерею'
+      );
+    } finally {
+      setGalleryLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (tab === 'Gallery' || jobStatus === 'completed') {
+      loadGallery();
+    }
+  }, [tab, jobStatus, authToken]);
+
+  useEffect(() => {
+    if (showSupport && authToken && ['owner', 'admin', 'support'].includes(authUser?.role)) {
+      void loadSupportTickets();
+    }
+  }, [showSupport, supportFilter, authToken, authUser?.role]);
+
+  useEffect(() => {
+    if (authToken) void loadCredits();
+    else {
+      setCreditsBalance(null);
+      setCreditHistory([]);
+    }
+  }, [authToken]);
+
+  useEffect(() => {
+    if (!jobId || jobStatus === 'completed' || jobStatus === 'failed') {
+      return;
+    }
+
+    let cancelled = false;
+
+    const poll = async () => {
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/generations/${encodeURIComponent(jobId)}`,
+          { headers: authToken ? { Authorization: `Bearer ${authToken}` } : {} }
+        );
+
+        const data = await readResponse(response);
+
+        if (!response.ok) {
+          throw new Error(
+            data.detail || data.message || `HTTP ${response.status}`
+          );
+        }
+
+        if (cancelled) return;
+
+        const status = readJobStatus(data);
+        const url = readVideoUrl(data);
+
+        setPollError('');
+
+        if (url) setVideoUrl(url);
+
+        if (
+          ['completed', 'complete', 'success', 'succeeded', 'done'].includes(status)
+        ) {
+          setJobStatus('completed');
+          setPrompt('');
+          setSourceImage(null);
+          setJobMessage(language === 'ru' ? 'Видео успешно создано.' : 'Video created successfully.');
+          return;
+        }
+
+        if (
+          ['failed', 'error', 'cancelled', 'canceled'].includes(status)
+        ) {
+          setJobStatus('failed');
+          setJobMessage(
+            language === 'ru' ? (data.error || data.detail || 'Генерация завершилась с ошибкой.') : 'Generation failed. Please try again.'
+          );
+          return;
+        }
+
+        if (status === 'uploading') {
+          setJobStatus('uploading');
+          setJobMessage(language === 'ru' ? 'Сохраняем готовое видео.' : 'Saving the completed video.');
+        } else if (status === 'starting') {
+          setJobStatus('starting');
+          setJobMessage(language === 'ru' ? 'Подготавливаем генерацию.' : 'Preparing generation.');
+        } else if (
+          ['generating', 'running', 'in_progress'].includes(status)
+        ) {
+          setJobStatus('generating');
+          setJobMessage(language === 'ru' ? 'НейроСцена создаёт видео. Это может занять некоторое время.' : 'NeuroScene is generating your video. This may take a while.');
+        } else {
+          setJobStatus('queued');
+          setJobMessage(language === 'ru' ? 'Задача находится в очереди.' : 'Your task is queued.');
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setPollError(
+            error instanceof Error ? error.message : (language === 'ru' ? 'Ошибка получения статуса' : 'Не удалось получить статус генерации')
+          );
+        }
+      }
+
+      if (!cancelled) {
+        pollTimer.current = setTimeout(poll, 3000);
+      }
+    };
+
+    pollTimer.current = setTimeout(poll, 1500);
+
+    return () => {
+      cancelled = true;
+
+      if (pollTimer.current) {
+        clearTimeout(pollTimer.current);
+      }
+    };
+  }, [jobId, jobStatus, language, authToken]);
+
+  const handleChooseImage = async () => {
+    try {
+      const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!permission.granted) {
+        Alert.alert(
+          language === 'ru' ? 'Нужен доступ к фотографиям' : 'Photo access required',
+          language === 'ru' ? 'Разреши приложению выбрать исходное изображение.' : 'Allow access so the app can select a source image.'
+        );
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        allowsEditing: false,
+        quality: 0.95,
+      });
+      if (result.canceled || !result.assets?.length) return;
+      const asset = result.assets[0];
+      const fileName = (asset.fileName || asset.uri).toLowerCase();
+      const mime = asset.mimeType || (fileName.endsWith('.png') ? 'image/png' : 'image/jpeg');
+      if (!['image/jpeg', 'image/png'].includes(mime)) {
+        Alert.alert(
+          language === 'ru' ? 'Неподдерживаемый формат' : 'Unsupported format',
+          language === 'ru' ? 'Выбери изображение JPEG или PNG.' : 'Choose a JPEG or PNG image.'
+        );
+        return;
+      }
+      if (asset.fileSize && asset.fileSize > 10 * 1024 * 1024) {
+        Alert.alert(
+          language === 'ru' ? 'Файл слишком большой' : 'File is too large',
+          language === 'ru' ? 'Максимальный размер изображения — 10 МБ.' : 'Maximum image size is 10 MB.'
+        );
+        return;
+      }
+      setSourceImage({ ...asset, mimeType: mime });
+    } catch (error) {
+      Alert.alert(
+        language === 'ru' ? 'Не удалось выбрать изображение' : 'Не удалось выбрать изображение',
+        error instanceof Error ? error.message : 'Неизвестная ошибка'
+      );
+    }
+  };
+
+
+  const handleEnhancePrompt = async () => {
+    if (!authToken || !authUser) {
+      Alert.alert(language === 'ru' ? 'Нужен аккаунт' : 'Account required', language === 'ru' ? 'Войди, чтобы улучшить промпт.' : 'Sign in to enhance your prompt.');
+      setTab('Profile');
+      return;
+    }
+    const sourcePrompt = prompt.trim();
+    if (sourcePrompt.length < 10 || sourcePrompt.length > 2000) {
+      Alert.alert(language === 'ru' ? 'Проверь описание сцены' : 'Check your prompt', language === 'ru' ? 'Для улучшения нужно от 10 до 2000 символов.' : 'Prompt must contain 10 to 2000 characters.');
+      return;
+    }
+    if (promptEnhancing || submitting || ['queued', 'starting', 'generating', 'uploading'].includes(jobStatus)) return;
+    setPromptEnhancing(true);
+    setEnhancedPrompt('');
+    try {
+      const startResponse = await fetch(`${API_BASE_URL}/api/prompts/enhance`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ prompt: sourcePrompt }),
+      });
+      const startData = await readResponse(startResponse);
+      if (!startResponse.ok) throw new Error(startData.detail || 'Не удалось отправить промпт на улучшение');
+      if (typeof startData.task_id !== 'string') throw new Error('Backend не вернул идентификатор задачи улучшения');
+      const deadline = Date.now() + 300000;
+      while (Date.now() < deadline) {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        const statusResponse = await fetch(`${API_BASE_URL}/api/prompts/enhance/${encodeURIComponent(startData.task_id)}`, {
+          headers: { Accept: 'application/json', Authorization: `Bearer ${authToken}` },
+        });
+        const statusData = await readResponse(statusResponse);
+        if (!statusResponse.ok) throw new Error(statusData.detail || 'Не удалось получить результат улучшения');
+        if (statusData.status === 'completed' && typeof statusData.result === 'string') {
+          setEnhancedPrompt(statusData.result);
+          return;
+        }
+        if (statusData.status === 'failed') {
+          throw new Error(statusData.error || 'Gemma 4 E2B не смогла улучшить промпт');
+        }
+      }
+      throw new Error(language === 'ru' ? 'Истекло время ожидания Gemma 4 E2B.' : 'Timed out waiting for Gemma 4 E2B.');
+    } catch (error) {
+      Alert.alert(
+        language === 'ru' ? 'Не удалось улучшить промпт' : 'Prompt enhancement failed',
+        error instanceof Error ? error.message : 'Неизвестная ошибка'
+      );
+    } finally {
+      setPromptEnhancing(false);
+    }
+  };
+
+  const handleCreate = async () => {
+    if (!authToken || !authUser) {
+      Alert.alert(language === 'ru' ? 'Нужен аккаунт' : 'Account required', language === 'ru' ? 'Войди или зарегистрируйся, чтобы создавать видео.' : 'Sign in or create an account to generate videos.');
+      setTab('Profile');
+      return;
+    }
+    const cleanPrompt = prompt.trim();
+
+    if (cleanPrompt.length < 10) {
+      Alert.alert(
+        language === 'ru' ? 'Промпт слишком короткий' : 'Prompt is too short',
+        language === 'ru' ? 'Опиши сцену на английском языке. Минимум 10 символов.' : 'Describe the scene in English. At least 10 characters.'
+      );
+      return;
+    }
+
+    if (cleanPrompt.length > 2000) {
+      Alert.alert(
+        language === 'ru' ? 'Слишком длинный промпт' : 'Prompt is too long',
+        language === 'ru' ? 'Максимум 2000 символов.' : 'Maximum 2000 characters.'
+      );
+      return;
+    }
+
+    if (generationType === 'i2v' && !sourceImage) {
+      Alert.alert(
+        language === 'ru' ? 'Добавь исходное изображение' : 'Add a source image',
+        language === 'ru' ? 'Для режима «Изображение в видео» нужно выбрать JPEG или PNG.' : 'Select a JPEG or PNG image for Image to Video.'
+      );
+      return;
+    }
+
+    if (['queued', 'starting', 'generating', 'uploading'].includes(jobStatus) || submitting) {
+      Alert.alert(
+        language === 'ru' ? 'Генерация уже выполняется' : 'Generation is already running',
+        language === 'ru' ? 'Дождись завершения текущей задачи.' : 'Wait for the current task to finish.'
+      );
+      return;
+    }
+
+    setSubmitting(true);
+    setJobId(null);
+    setJobStatus('idle');
+    setVideoUrl(null);
+    setJobMessage('');
+    setPollError('');
+
+    try {
+      let response: Response;
+      if (generationType === 'i2v' && sourceImage) {
+        const form = new FormData();
+        form.append('prompt', cleanPrompt);
+        form.append('duration', String(duration));
+        form.append('aspect_ratio', ratio);
+        form.append('model', 'kandinsky-6');
+        form.append('audio_enabled', 'true');
+        form.append('audio_profile', 'prompt-driven');
+        const extension = sourceImage.mimeType === 'image/png' ? 'png' : 'jpg';
+        const imageFile = new ExpoFile(sourceImage.uri);
+        form.append(
+          'image',
+          imageFile,
+          sourceImage.fileName || `neuroscene-source.${extension}`
+        );
+        response = await fetch(`${API_BASE_URL}/api/generations/i2v`, {
+          method: 'POST',
+          headers: { Accept: 'application/json', Authorization: `Bearer ${authToken}` },
+          body: form,
+        });
+      } else {
+        response = await fetch(`${API_BASE_URL}/api/generations`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify({
+            prompt: cleanPrompt,
+            model: 'kandinsky-6',
+            generation_type: 't2v',
+            duration,
+            aspect_ratio: ratio,
+            audio_enabled: true,
+            audio_profile: 'prompt-driven',
+          }),
+        });
+      }
+
+      const data = await readResponse(response);
+
+      if (!response.ok) {
+        throw new Error(
+          data.detail || data.message || `Backend вернул HTTP ${response.status}`
+        );
+      }
+
+      const newJobId = readJobId(data);
+
+      if (!newJobId) {
+        throw new Error(
+          'Backend ответил, но в ответе не найден job_id. Ответ: ' +
+          JSON.stringify(data)
+        );
+      }
+
+      setJobId(newJobId);
+      setJobStatus('queued');
+      setJobMessage(language === 'ru' ? 'Задача отправлена в очередь.' : 'Your task has been added to the queue.');
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Неизвестная ошибка';
+
+      Alert.alert(
+        language === 'ru' ? 'Не удалось запустить генерацию' : 'Не удалось запустить генерацию',
+        language === 'ru' ? `${message}\n\nПроверь подключение телефона к локальной сети.` : `${message}\n\nCheck the phone connection to the local network.`
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const resetGeneration = () => {
+    setJobId(null);
+    setJobStatus('idle');
+    setJobMessage('');
+    setVideoUrl(null);
+    setPollError('');
+  };
+
+  const openVideo = () => {
+    if (!videoUrl) return;
+    setTab('Gallery');
+  };
+
+  const regenerateFromGallery = (item: any) => {
+    setPrompt(String(item?.prompt || ''));
+    setGenerationType(item?.generation_type === 'i2v' ? 'i2v' : 't2v');
+    setSourceImage(null);
+    setTab('Create');
+    if (item?.generation_type === 'i2v') {
+      Alert.alert(
+        language === 'ru' ? 'Добавь исходное изображение' : 'Add the source image',
+        language === 'ru'
+          ? 'Исходное изображение удаляется после обработки. Выбери его заново, чтобы повторить эту I2V-генерацию.'
+          : 'The source image is deleted after processing. Select it again to repeat this Image to Video generation.'
+      );
+    }
+  };
+
+  const copyGalleryPrompt = async (value: string) => {
+    try {
+      await Clipboard.setStringAsync(value);
+      Alert.alert(language === 'ru' ? 'Скопировано' : 'Copied', language === 'ru' ? 'Исходный промпт скопирован.' : 'Original prompt copied.');
+    } catch (error) {
+      Alert.alert(language === 'ru' ? 'Не удалось скопировать' : 'Не удалось скопировать', error instanceof Error ? error.message : 'Буфер обмена недоступен');
+    }
+  };
+
+  const exportGalleryVideo = async (url: string, jobId: string) => {
+    let downloaded: ExpoFile | null = null;
+    try {
+      if (!(await Sharing.isAvailableAsync())) {
+        throw new Error(language === 'ru' ? 'На этом устройстве недоступно меню отправки файлов.' : 'File sharing is not available on this device.');
+      }
+      const destination = new ExpoFile(ExpoPaths.cache, `neuroscene-${jobId}-${Date.now()}.mp4`);
+      downloaded = await ExpoFile.downloadFileAsync(url, destination);
+      await Sharing.shareAsync(downloaded.uri, {
+        mimeType: 'video/mp4',
+        dialogTitle: language === 'ru' ? 'Сохранить или отправить видео' : 'Save or share video',
+        UTI: 'public.mpeg-4',
+      });
+    } catch (error) {
+      Alert.alert(
+        language === 'ru' ? 'Не удалось экспортировать видео' : 'Не удалось экспортировать видео',
+        error instanceof Error ? error.message : (language === 'ru' ? 'Неизвестная ошибка' : 'Неизвестная ошибка')
+      );
+    } finally {
+      try { downloaded?.delete(); } catch { /* temporary export cleanup is best-effort */ }
+    }
+  };
+
+  const showTab = () => {
+    if (showAdminPanel && !showFaq) {
+      return (
+        <AdminScreen
+          language={language}
+          users={adminUsers}
+          audit={adminAudit}
+          generations={adminGenerations}
+          workers={adminWorkers}
+          analytics={adminAnalytics}
+          loading={adminLoading}
+          onSetPriority={setAdminGenerationPriority}
+          onCancelGeneration={cancelAdminGeneration}
+          onRetryGeneration={retryAdminGeneration}
+          error={adminError}
+          isOwner={authUser?.role === 'owner'}
+          onBack={() => setShowAdminPanel(false)}
+          onRefresh={loadAdminPanel}
+          onAdjust={adjustUserCredits}
+          onChangeRole={changeUserRole}
+          onOpenFaq={() => { setShowFaq(true); void loadFaq(); }}
+        />
+      );
+    }
+    if (showNotifications) {
+      return (
+        <NotificationScreen
+          language={language}
+          items={notifications}
+          unreadCount={unreadNotifications}
+          loading={notificationsLoading}
+          onBack={() => setShowNotifications(false)}
+          onRefresh={loadNotifications}
+          onRead={markNotificationRead}
+          onReadAll={markAllNotificationsRead}
+        />
+      );
+    }
+    if (showFaq) {
+      return (
+        <FAQScreen
+          language={language}
+          items={faqItems}
+          loading={faqLoading}
+          error={faqError}
+          isAdmin={!!authToken && ['owner', 'admin'].includes(authUser?.role)}
+          onBack={() => setShowFaq(false)}
+          onRefresh={loadFaq}
+          onSave={saveFaqEntry}
+        />
+      );
+    }
+    if (showSupport) {
+      return (
+        <SupportScreen
+          language={language}
+          authenticated={!!authToken}
+          staffRole={authUser?.role || 'user'}
+          filter={supportFilter}
+          setFilter={setSupportFilter}
+          onCloseTicket={closeSupportTicket}
+          tickets={supportTickets}
+          selectedTicket={selectedSupportTicket}
+          loading={supportLoading}
+          busy={supportBusy}
+          error={supportError}
+          category={supportCategory}
+          setCategory={setSupportCategory}
+          description={supportDescription}
+          setDescription={setSupportDescription}
+          message={supportMessage}
+          setMessage={setSupportMessage}
+          files={supportFiles}
+          onChooseFiles={chooseSupportFiles}
+          onRemoveFile={(index) => setSupportFiles((current) => current.filter((_, itemIndex) => itemIndex !== index))}
+          onBack={() => { setShowSupport(false); setSelectedSupportTicket(null); setSupportFiles([]); }}
+          onBackToList={() => { setSelectedSupportTicket(null); setSupportFiles([]); void loadSupportTickets(); }}
+          onSignIn={() => { setShowSupport(false); setTab('Profile'); }}
+          onRefresh={loadSupportTickets}
+          onCreate={createSupportTicket}
+          onOpen={openSupportTicket}
+          onOpenAttachment={openSupportAttachment}
+          onSend={sendSupportMessage}
+        />
+      );
+    }
+    if (tab === 'Create') {
+      return (
+        <CreateScreen
+          language={language}
+          creditsBalance={creditsBalance}
+          creditsLoading={creditsLoading}
+          generationType={generationType}
+          setGenerationType={setGenerationType}
+          sourceImage={sourceImage}
+          onChooseImage={handleChooseImage}
+          onRemoveImage={() => setSourceImage(null)}
+          duration={duration}
+          setDuration={setDuration}
+          ratio={ratio}
+          setRatio={setRatio}
+          prompt={prompt}
+          setPrompt={(value) => { setPrompt(value); setEnhancedPrompt(''); }}
+          enhancedPrompt={enhancedPrompt}
+          setEnhancedPrompt={setEnhancedPrompt}
+          promptEnhancing={promptEnhancing}
+          onEnhancePrompt={handleEnhancePrompt}
+          onCreate={handleCreate}
+          submitting={submitting}
+          jobStatus={jobStatus}
+          jobId={jobId}
+          jobMessage={jobMessage}
+          pollError={pollError}
+          videoUrl={videoUrl}
+          onOpenVideo={openVideo}
+          onReset={resetGeneration}
+        />
+      );
+    }
+
+    if (tab === 'Gallery') {
+      return (
+        <GalleryScreen
+          items={galleryItems}
+          language={language}
+          loading={galleryLoading}
+          error={galleryError}
+          onRefresh={loadGallery}
+          onCopyPrompt={copyGalleryPrompt}
+          onRegenerate={regenerateFromGallery}
+          onExport={exportGalleryVideo}
+          onDelete={async (jobId: string) => {
+            try {
+              const response = await fetch(
+                `${API_BASE_URL}/api/generations/${encodeURIComponent(jobId)}`,
+                { method: 'DELETE', headers: authToken ? { Authorization: `Bearer ${authToken}` } : {} }
+              );
+              const data = await readResponse(response);
+              if (!response.ok) {
+                throw new Error(data.detail || `HTTP ${response.status}`);
+              }
+              await loadGallery();
+            } catch (error) {
+              Alert.alert(
+                language === 'ru' ? 'Не удалось удалить видео' : 'Не удалось удалить видео',
+                error instanceof Error ? error.message : (language === 'ru' ? 'Неизвестная ошибка' : 'Неизвестная ошибка')
+              );
+            }
+          }}
+          onCreate={() => setTab('Create')}
+        />
+      );
+    }
+
+    if (tab === 'Credits') {
+      return (
+        <View style={[styles.screen, styles.creditsScreen]}>
+          <View style={styles.creditsHeader}>
+            <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
+            <View style={styles.creditsTitleGlow} />
+          </View>
+
+          <View style={styles.creditTopRow}>
+            <View style={styles.creditBalanceCard}>
+              <Image
+                source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
+                resizeMode="stretch"
+                style={styles.creditCoinsReferenceCrop}
+              />
+              <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
+            </View>
+            <View style={styles.creditPackageColumn}>
+              <View style={styles.creditPackagesList}>
+                {[500, 1500, 5000].map((amount) => (
+                  <View style={styles.packageCard} key={amount}>
+                    <View style={styles.packageIconWrap}><View style={styles.packageCoin}><Text style={styles.packageCoinGlyph}>✦</Text></View></View>
+                    <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')}</Text>
+                    <View style={styles.packageRight}><View style={styles.packagePriceChip}><Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text></View></View>
+                  </View>
+                ))}
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.creditWelcomeBonus}>
+            <View style={styles.creditBonusGift}><View style={styles.creditBonusRibbonV} /><View style={styles.creditBonusRibbonH} /><View style={styles.creditBonusBowLeft} /><View style={styles.creditBonusBowRight} /></View>
+            <View style={styles.creditBonusCopy}><Text style={styles.creditBonusTitle}>Приветственный бонус</Text><Text style={styles.creditBonusText}>500 кредитов при первом запуске!</Text></View>
+            <Text style={styles.creditBonusArrow}>›</Text>
+          </View>
+          <View style={styles.creditExpiryNote}><View style={styles.creditInfoIcon}><Text style={styles.creditInfoGlyph}>i</Text></View><Text style={styles.creditExpiryText}>Кредиты не сгорают и не имеют срока действия</Text></View>
+          <View style={styles.creditBenefits}>
+            <Text style={styles.creditBenefit}>✓  Кредиты не сгорают</Text>
+            <Text style={styles.creditBenefit}>✓  Без подписок</Text>
+            <Text style={styles.creditBenefit}>✓  Без рекламы</Text>
+          </View>
+
+          <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
+            <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
+          </TouchableOpacity>
+
+          <View style={styles.creditHistorySection}>
+            <View style={styles.creditHistoryHeader}>
+              <Text style={styles.creditHistoryTitle}>История операций</Text>
+              <Text style={styles.creditHistoryCount}>{creditHistory.length}</Text>
+            </View>
+            {creditHistory.length > 0 ? creditHistory.map((entry, index) => {
+              const rawAmount = entry?.amount ?? entry?.delta ?? entry?.credits ?? entry?.change ?? 0;
+              const amount = Number(rawAmount);
+              const validAmount = Number.isFinite(amount);
+              const rawDate = entry?.created_at ?? entry?.createdAt ?? entry?.timestamp;
+              const parsedDate = rawDate
+                ? new Date(typeof rawDate === 'number' && rawDate < 1000000000000 ? rawDate * 1000 : rawDate)
+                : null;
+              const dateLabel = parsedDate && !Number.isNaN(parsedDate.getTime())
+                ? parsedDate.toLocaleString('ru-RU')
+                : '';
+              const title = String(entry?.description ?? entry?.reason ?? entry?.title ?? entry?.type ?? 'Операция');
+              return (
+                <View key={String(entry?.id ?? entry?.transaction_id ?? `${rawDate ?? 'operation'}-${index}`)} style={styles.creditHistoryRow}>
+                  <View style={styles.creditHistoryIcon}>
+                    <Text style={styles.creditHistoryIconText}>{validAmount && amount < 0 ? '−' : '+'}</Text>
+                  </View>
+                  <View style={styles.creditHistoryCopy}>
+                    <Text style={styles.creditHistoryItemTitle} numberOfLines={2}>{title}</Text>
+                    {!!dateLabel && <Text style={styles.creditHistoryDate}>{dateLabel}</Text>}
+                  </View>
+                  <Text style={[styles.creditHistoryAmount, { color: validAmount && amount < 0 ? '#FF9C9C' : '#8BE7BD' }]}>
+                    {validAmount ? `${amount > 0 ? '+' : ''}${amount.toLocaleString('ru-RU')}` : '—'}
+                  </Text>
+                </View>
+              );
+            }) : (
+              <View style={styles.creditHistoryEmpty}>
+                <Text style={styles.creditHistoryEmptyIcon}>↻</Text>
+                <Text style={styles.creditHistoryEmptyTitle}>Пока нет операций</Text>
+                <Text style={styles.creditHistoryEmptyText}>Здесь будут отображаться начисления и списания кредитов</Text>
+              </View>
+            )}
+          </View>
+        </View>
+      );
+    }
+
+    return (
+      <View style={[styles.screen, styles.profileScreen]}>
+        <View style={styles.profileHeader}>
+          <View style={styles.profileTitleGroup}>
+            <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
+            <View style={styles.profileTitleUnderline} />
+          </View>
+        </View>
+        <View style={styles.profileIdentity}>
+          <View style={styles.profileGuestAvatar}>
+            <Image
+              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
+              resizeMode="stretch"
+              style={styles.profileAvatarReferenceCrop}
+            />
+          </View>
+          <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
+          {!!authUser?.email && <Text style={styles.profileGuestStatus}>{authUser.email}</Text>}
+        </View>
+        {authUser ? (
+          <>
+            <View style={[styles.profileCard, { display: 'none' }]}>
+              <View style={styles.avatar}><Text style={styles.avatarText}>Н+С</Text></View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.profileName}>{uiText(language, 'YOUR ACCOUNT', 'ВАШ АККАУНТ')}</Text>
+                <Text style={styles.mutedText}>{authUser.email}</Text>
+              </View>
+            </View>
+            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={logoutAllDevices} disabled={authBusy}>
+              <Text style={styles.authSecondaryText}>{uiText(language, 'Sign out all devices', 'Выйти со всех устройств')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={deleteAccount} disabled={authBusy}>
+              <Text style={[styles.authSecondaryText, { color: '#FF7777' }]}>{uiText(language, 'Delete account and personal data', 'Удалить аккаунт и личные данные')}</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <>
+          <View style={styles.loginScreen}>
+            <Text style={styles.loginTagline}>Войдите, чтобы сохранить ваши видео и получить больше возможностей</Text>
+          <TouchableOpacity activeOpacity={0.86} style={styles.profileVkButton} onPress={handleVkLogin} disabled={authBusy}>
+            <Text style={styles.profileVkMark}>vk</Text>
+            <Text style={styles.profileVkText}>Войти через VK ID</Text>
+          </TouchableOpacity>
+          <View style={styles.profileSecurityCard}>
+            <View style={styles.profileSecurityIcon}><Text style={styles.profileSecurityCheck}>✓</Text></View>
+            <View style={styles.profileSecurityCopy}><Text style={styles.profileSecurityTitle}>Ваши данные в безопасности</Text><Text style={styles.profileSecurityText}>Мы не передаём их третьим лицам</Text></View>
+          </View>
+          <TouchableOpacity activeOpacity={0.86} style={styles.profileEmailButton> onPress={() => setProfileEmailOpen((value) => !value)}>
+            <Text style={styles.profileEmailButtonText}>{profileEmailOpen ? 'Скрыть вход по email' : 'Войти по email'}</Text>
+          </TouchableOpacity>
+                    <Text style={styles.loginLegalText}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
+          </View>
+          {profileEmailOpen && <View style={styles.authCard}>
+            <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
+            <Text style={styles.authBrandTitle}>Нейро{ '\n' }Сцена</Text>
+            <Text style={styles.sectionTitle}>{uiText(language, 'SIGN IN OR REGISTER', 'ВХОД ПО EMAIL')}</Text>
+            <TextInput
+              style={styles.authInput}
+              value={authEmail}
+              onChangeText={setAuthEmail}
+              placeholder="Электронная почта"
+              placeholderTextColor="#687386"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={!authBusy}
+            />
+            <TextInput
+              style={styles.authInput}
+              value={authPassword}
+              onChangeText={setAuthPassword}
+              placeholder={uiText(language, 'Password (12+ characters)', 'Пароль (от 12 символов)')}
+              placeholderTextColor="#687386"
+              secureTextEntry
+              autoCapitalize="none"
+              editable={!authBusy}
+            />
+            <TouchableOpacity activeOpacity={0.86} style={[styles.authAction, authBusy && styles.disabledButton]} onPress={handleAuthSubmit} disabled={authBusy}>
+              {authBusy ? <ActivityIndicator color={WHITE} /> : <Text style={styles.createButtonText}>{authMode === 'login' ? (uiText(language, 'SIGN IN WITH EMAIL', 'ВОЙТИ ПО EMAIL')) : (uiText(language, 'CREATE ACCOUNT', 'СОЗДАТЬ АККАУНТ'))}</Text>}
+            </TouchableOpacity>
+            {authMode === 'login' && (
+              <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={requestEmailLoginLink} disabled={authBusy}>
+                <Text style={styles.authLinkText}>{uiText(language, 'Sign in with an email link', 'Войти по ссылке на email')}</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={() => { setAuthMode(authMode === 'login' ? 'register' : 'login'); setAuthNotice(''); }}>
+              <Text style={styles.authLinkText}>{authMode === 'login' ? (uiText(language, 'No account? Register', 'Нет аккаунта? Зарегистрироваться')) : (uiText(language, 'Already registered? Sign in', 'Уже есть аккаунт? Войти'))}</Text>
+            </TouchableOpacity>
+            {!!pendingEmail && (
+              <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={resendVerification} disabled={authBusy}>
+                <Text style={styles.authLinkText}>{uiText(language, 'Resend verification email', 'Отправить письмо подтверждения повторно')}</Text>
+              </TouchableOpacity>
+            )}
+            {!!authNotice && <Text style={styles.authNotice}>{authNotice}</Text>}
+            <Text style={styles.note}>{uiText(language, 'Email verification is required after registration.', 'После регистрации нужно подтвердить email по ссылке из письма.')}</Text>
+            <Text style={styles.authLegalText}>Продолжая, вы подтверждаете, что ознакомились с правилами использования приложения и политикой конфиденциальности.</Text>
+          </View>}
+          </>
+        )}
+        <View style={styles.profileMenuCard}>
+        {['My videos', 'Notifications', 'Settings', 'About', 'Help / FAQ', 'Support'].map((key, menuIndex) => uiText(language, key, ({
+          'My videos': 'Мои видео', 'Notifications': 'Уведомления', 'Settings': 'Настройки',
+          'About': 'О приложении', 'Help / FAQ': 'Помощь / FAQ', 'Support': 'Поддержка',
+        } as Record<string, string>)[key] || key)).map((item, menuIndex) => (
+          <TouchableOpacity activeOpacity={0.86}
+            key={item}
+            style={[styles.menuItem, menuIndex === 5 && styles.menuItemLast]}
+            onPress={() => {
+              if (item === 'Мои видео') {
+                setTab('Gallery');
+              } else if (item === 'О приложении') {
+                Alert.alert('НейроСцена', 'Твоя творческая студия на компьютере.');
+              } else if (item === 'Настройки' || item === 'Settings') {
+                Alert.alert('Настройки', 'Настройки приложения');
+              } else if (item === (uiText(language, 'Help / FAQ', 'Помощь / FAQ'))) {
+                setShowSupport(false);
+                setShowNotifications(false);
+                setShowFaq(true);
+                void loadFaq();
+              } else if (item === (uiText(language, 'Support', 'Поддержка'))) {
+                setSelectedSupportTicket(null);
+                setShowNotifications(false);
+                setShowSupport(true);
+                void loadSupportTickets();
+              } else if (item === (uiText(language, 'Notifications', 'Уведомления'))) {
+                setShowSupport(false);
+                setShowNotifications(true);
+                void loadNotifications();
+              } else {
+                Alert.alert(item, uiText(language, 'This section will be connected in a later stage.', 'Этот раздел будет подключён на следующем этапе.'));
+              }
+            }}
+          >
+            <Text style={styles.menuIcon}>{['▣', '♧', '⚙', 'ⓘ', '?', '◌'][menuIndex]}</Text>
+            <Text style={styles.menuText}>{item}</Text>
+            {item === 'Уведомления' && unreadNotifications > 0 && <View style={styles.menuNotificationBadge}><Text style={styles.menuNotificationText}>{Math.min(unreadNotifications, 9)}</Text></View>}
+            <Text style={styles.menuArrow}>›</Text>
+          </TouchableOpacity>
+        ))}
+        </View>
+        {authToken && ['owner', 'admin'].includes(authUser?.role) && (
+          <TouchableOpacity activeOpacity={0.86}
+            style={[styles.menuItem, { marginTop: 12, borderBottomColor: BLUE }]}
+            onPress={() => { setShowAdminPanel(true); void loadAdminPanel(); }}
+          >
+            <Text style={[styles.menuText, { color: '#83B7FF' }]}>{uiText(language, 'Admin panel', 'Панель администратора')}</Text>
+            <Text style={styles.menuArrow}>›</Text>
+          </TouchableOpacity>
+        )}
+        <Text style={styles.version}>НЕЙРОСЦЕНА · {uiText(language, 'VERSION 1.0', 'ВЕРСИЯ 1.0')}</Text>
+      </View>
+    );
+  };
+
+  const activeScreenKey = showAdminPanel ? 'admin' : showNotifications ? 'notifications' : showFaq ? 'faq' : showSupport ? 'support' : tab;
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View pointerEvents="none" style={styles.ambientBackdrop}>
+        {!showIntro && (
+          <Image
+            source={require('./assets/Штормовое море под электрическим небом-1.png')}
+            
             resizeMode="cover"
             style={{
               ...StyleSheet.absoluteFill,
               width: '100%',
               height: '100%',
-              opacity: 0.92,
+              opacity: 1,
             }}
           />
         )}
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.24)' }]} />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.10)' }]} />
         <View style={[styles.ambientBackdropTint, tab === 'Gallery' ? styles.ambientTintGallery : tab === 'Credits' ? styles.ambientTintCredits : tab === 'Profile' ? styles.ambientTintProfile : null]} />
         <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
         <View style={[styles.ambientGlowBottom, tab === 'Gallery' ? styles.ambientGlowBottomGallery : tab === 'Credits' ? styles.ambientGlowBottomCredits : tab === 'Profile' ? styles.ambientGlowBottomProfile : null]} />
@@ -2068,12 +4063,7 @@ export default function App() {
             style={styles.notificationButton}
             onPress={() => { setShowNotifications(true); void loadNotifications(); }}
           >
-            <View style={styles.notificationBell}>
-              <View style={styles.notificationBellDome} />
-              <View style={styles.notificationBellBase} />
-              <View style={styles.notificationBellClapper} />
-            </View>
-            {unreadNotifications > 0 && <View style={styles.notificationBadge}><Text style={styles.notificationBadgeText}>{unreadNotifications > 9 ? '9+' : unreadNotifications}</Text></View>}
+            <Text style={styles.headerSettingsIcon}>⚙</Text>
           </TouchableOpacity>
         </View>
       </View>}
@@ -2090,7 +4080,7 @@ export default function App() {
         {authReady ? <ScreenTransition key={activeScreenKey} direction={transitionDirection}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
-      <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', alignSelf: 'stretch', flexShrink: 0, height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 20 }]}>
+      <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: 'auto', marginHorizontal: 4, alignSelf: 'stretch', flexShrink: 0, height: 82, minHeight: 82, maxHeight: 82, paddingTop: 4, paddingBottom: 9 }]}>
         {([
           { id: 'Create', icon: 'film', label: 'Создать' },
           { id: 'Gallery', icon: 'grid', label: 'Галерея' },
@@ -2619,9 +4609,7 @@ function GalleryScreen({
               style={styles.galleryReferenceArtwork}
             />
           </View>
-          <TouchableOpacity activeOpacity={0.86} style={styles.galleryEmptyActionButton} onPress={onCreate}>
-            <Text style={styles.secondaryButtonText}>Создать видео</Text>
-          </TouchableOpacity>
+          <Text style={styles.galleryEmptyCopy}>Здесь появятся ваши сгенерированные видео</Text>
         </View>
       )}
 
@@ -6269,6 +8257,17 @@ const FINAL_UI_REFERENCE_ARTWORK_V49 = {
   profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
 };
 
+const FINAL_UI_REFERENCE_MATCH_V50 = {
+ headerSettingsIcon:{color:'#DDF6FF',fontSize:27,lineHeight:34,textShadowColor:'#168BFF',textShadowRadius:12},
+ bottomNav:{height:82,minHeight:82,maxHeight:82,marginHorizontal:4,marginBottom:4,paddingTop:4,paddingBottom:9,paddingHorizontal:8,backgroundColor:'rgba(2,9,28,0.94)',borderWidth:1,borderColor:'rgba(90,190,255,0.66)',borderRadius:25,shadowColor:'#087DFF',shadowOpacity:0.58,shadowRadius:20,shadowOffset:{width:0,height:-3},elevation:18},
+ navItem:{minHeight:62,paddingTop:0,paddingBottom:2,gap:2},navActiveIndicator:{bottom:0,width:'54%',height:2.5},navCreateIcon:{width:30,height:30,minHeight:30},navGalleryIcon:{width:30,height:30,minHeight:30},navCoinStack:{width:30,height:30,minHeight:30},navPerson:{width:30,height:30,minHeight:30},navLabel:{fontSize:11,lineHeight:14},navLabelActive:{fontSize:11,lineHeight:14},
+ galleryReferenceHeader:{marginTop:4,marginBottom:14,paddingBottom:0,borderBottomWidth:0},galleryReferenceTitle:{color:'#F4FAFF',fontSize:26,lineHeight:33,textShadowColor:'#168BFF',textShadowRadius:14},galleryReferenceUnderline:{display:'flex',width:'72%',height:2,marginTop:8,backgroundColor:'#28C8FF',shadowColor:'#168BFF',shadowOpacity:1,shadowRadius:12,elevation:8},galleryEmptyReferenceState:{width:'86%',maxWidth:360,minHeight:258,alignSelf:'center',alignItems:'center',justifyContent:'center',paddingHorizontal:18,paddingVertical:18,gap:10,borderRadius:18,borderWidth:1,borderColor:'rgba(82,174,255,0.62)',backgroundColor:'rgba(3,20,54,0.78)',shadowColor:'#087BFF',shadowOpacity:0.38,shadowRadius:18,elevation:8},galleryReferenceImage:{width:210,height:150,maxWidth:'100%',alignSelf:'center',overflow:'hidden',borderRadius:0},galleryEmptyCopy:{width:'100%',color:'#E3EEFF',fontFamily:'Manrope',fontSize:14,lineHeight:19,fontWeight:'600',textAlign:'center'},galleryEmptyActionButton:{display:'none'},
+ creditsHeader:{marginBottom:14,paddingBottom:0,borderBottomWidth:0},creditsTitle:{color:'#F4FAFF',fontSize:26,lineHeight:33,textShadowColor:'#168BFF',textShadowRadius:14},creditsTitleGlow:{width:'72%',height:2,backgroundColor:'#28C8FF',shadowColor:'#168BFF',shadowOpacity:1,shadowRadius:12,elevation:8},creditTopRow:{alignItems:'center',gap:10,marginBottom:12},creditBalanceCard:{width:'40%',maxWidth:'40%',height:174,minHeight:174,padding:0,borderWidth:0,borderRadius:0,backgroundColor:'transparent',shadowOpacity:0,elevation:0,justifyContent:'center'},creditBalanceHeroValue:{position:'absolute',bottom:4,color:'#FFFFFF',fontSize:13,lineHeight:16,fontWeight:'800',textShadowColor:'#087BFF',textShadowRadius:8},creditBalanceHeroLabel:{display:'none'},creditPackageColumn:{width:'60%',flex:1,minWidth:0,justifyContent:'center'},creditPackagesTitle:{display:'none'},creditPackagesList:{gap:7},packageCard:{minHeight:47,height:47,marginTop:0,paddingVertical:5,paddingHorizontal:8,borderRadius:11,borderWidth:1,borderColor:'rgba(69,157,235,0.58)',backgroundColor:'rgba(3,18,47,0.88)',shadowColor:'#087BFF',shadowOpacity:0.22,shadowRadius:9,elevation:4},packageIconWrap:{width:22,minWidth:22,marginRight:5,alignItems:'center',justifyContent:'center'},packageCoin:{width:18,height:18,borderRadius:9,borderWidth:1.5,borderColor:'#FFC95B',backgroundColor:'#A96B12',alignItems:'center',justifyContent:'center',shadowColor:'#FFB52E',shadowOpacity:0.8,shadowRadius:5,elevation:3},packageCoinGlyph:{color:'#FFF0B4',fontSize:10,lineHeight:12,fontWeight:'900'},packageAmount:{flex:1,color:'#F5F8FF',fontSize:14,lineHeight:18,fontWeight:'800'},packageRight:{width:60,minWidth:60,maxWidth:60,alignItems:'flex-end',justifyContent:'center'},packagePriceChip:{minWidth:54,height:30,paddingHorizontal:7,borderRadius:10,borderWidth:1,borderColor:'#65DFFF',backgroundColor:'#0879F5',alignItems:'center',justifyContent:'center',shadowColor:'#00AFFF',shadowOpacity:0.62,shadowRadius:9,elevation:5},packagePrice:{color:'#FFFFFF',fontFamily:'Manrope',fontSize:13,lineHeight:17,fontWeight:'900'},
+ creditWelcomeBonus:{minHeight:72,width:'100%',flexDirection:'row',alignItems:'center',paddingHorizontal:14,paddingVertical:10,gap:12,borderRadius:15,borderWidth:1,borderColor:'rgba(86,157,255,0.68)',backgroundColor:'rgba(5,25,62,0.86)',shadowColor:'#087BFF',shadowOpacity:0.32,shadowRadius:14,elevation:6},creditBonusGift:{width:40,height:38,borderWidth:2,borderColor:'#FFD36E',borderRadius:6,backgroundColor:'rgba(178,104,20,0.38)',alignItems:'center',justifyContent:'center',shadowColor:'#FFB52E',shadowOpacity:0.85,shadowRadius:10,elevation:5},creditBonusRibbonV:{position:'absolute',top:0,bottom:0,width:7,backgroundColor:'#FFD36E'},creditBonusRibbonH:{position:'absolute',left:0,right:0,top:12,height:6,backgroundColor:'#FFD36E'},creditBonusBowLeft:{position:'absolute',top:-9,left:7,width:12,height:9,borderWidth:2,borderColor:'#FFD36E',borderRadius:8,transform:[{rotate:'-24deg'}]},creditBonusBowRight:{position:'absolute',top:-9,right:7,width:12,height:9,borderWidth:2,borderColor:'#FFD36E',borderRadius:8,transform:[{rotate:'24deg'}]},creditBonusCopy:{flex:1,minWidth:0,gap:2},creditBonusTitle:{color:'#FFF4D5',fontFamily:'Manrope',fontSize:14,lineHeight:18,fontWeight:'900'},creditBonusText:{color:'#E6D7B7',fontFamily:'Manrope',fontSize:12,lineHeight:16,fontWeight:'600'},creditBonusArrow:{color:'#8DDCFF',fontSize:29,lineHeight:34,fontWeight:'300'},creditExpiryNote:{flexDirection:'row',alignItems:'center',justifyContent:'center',gap:9,marginTop:12,marginBottom:8,paddingHorizontal:4},creditInfoIcon:{width:20,height:20,borderRadius:10,borderWidth:1.5,borderColor:'#A7DFFF',alignItems:'center',justifyContent:'center'},creditInfoGlyph:{color:'#C7E9FF',fontSize:13,lineHeight:16,fontWeight:'800'},creditExpiryText:{color:'#AFC7E6',fontFamily:'Manrope',fontSize:11,lineHeight:15,fontWeight:'600'},creditBenefits:{display:'none'},buyCreditsButton:{display:'none'},
+ profileHeader:{width:'100%',minHeight:48,flexDirection:'row',alignItems:'center',justifyContent:'center',marginBottom:14,paddingBottom:0,borderBottomWidth:0},profileTitleGroup:{width:'100%',flex:1,alignItems:'center',justifyContent:'center',marginRight:0},screenTitle:{color:'#F4FAFF',fontSize:26,lineHeight:33,textShadowColor:'#168BFF',textShadowRadius:14},profileTitleUnderline:{display:'flex',width:'72%',height:2,marginTop:8,backgroundColor:'#28C8FF',shadowColor:'#168BFF',shadowOpacity:1,shadowRadius:12,elevation:8},profileSettingsButton:{display:'none'},profileIdentity:{marginTop:6,marginBottom:12,paddingTop:0,paddingBottom:4},profileGuestAvatar:{width:104,height:104,borderRadius:52,overflow:'hidden',borderWidth:0,backgroundColor:'transparent',shadowColor:'#00AFFF',shadowOpacity:0.82,shadowRadius:22,elevation:9},profileGuestName:{color:'#F4FAFF',fontSize:18,lineHeight:23,marginTop:4,textShadowColor:'#168BFF',textShadowRadius:9},loginScreen:{width:'100%',alignItems:'center',justifyContent:'center',paddingHorizontal:8,paddingTop:0,paddingBottom:12},loginTagline:{color:'#DCEBFF',fontSize:13,lineHeight:18,marginBottom:12,textShadowColor:'rgba(22,139,255,0.34)',textShadowRadius:7},profileVkButton:{width:'76%',minHeight:50,height:50,borderRadius:25,borderWidth:1.4,borderColor:'#9BEAFF',backgroundColor:'#0879F5',shadowColor:'#00AFFF',shadowOpacity:0.68,shadowRadius:18,elevation:9},profileVkMark:{color:'#0879F5',backgroundColor:'#FFFFFF',width:22,height:22,borderRadius:6,textAlign:'center',textAlignVertical:'center',fontSize:13,lineHeight:18,fontWeight:'900',overflow:'hidden'},profileVkText:{color:'#FFFFFF',fontSize:15,lineHeight:20,fontWeight:'900'},profileSecurityCard:{width:'100%',minHeight:60,flexDirection:'row',alignItems:'center',paddingHorizontal:12,paddingVertical:9,gap:10,marginTop:10,marginBottom:5,borderRadius:13,borderWidth:1,borderColor:'rgba(76,158,255,0.52)',backgroundColor:'rgba(5,24,58,0.84)'},profileSecurityIcon:{width:30,height:30,borderRadius:8,borderWidth:1.6,borderColor:'#8EDCFF',alignItems:'center',justifyContent:'center'},profileSecurityCheck:{color:'#C8F2FF',fontSize:18,lineHeight:22,fontWeight:'900'},profileSecurityCopy:{flex:1,minWidth:0,gap:1},profileSecurityTitle:{color:'#EAF6FF',fontFamily:'Manrope',fontSize:12,lineHeight:16,fontWeight:'800'},profileSecurityText:{color:'#B8CDE8',fontFamily:'Manrope',fontSize:11,lineHeight:15,fontWeight:'500'},profileEmailButton:{width:'auto',minHeight:30,paddingHorizontal:8,marginTop:3,borderWidth:0,borderRadius:0,backgroundColor:'transparent'},profileEmailButtonText:{color:'#A9D8FF',fontFamily:'Manrope',fontSize:12,fontWeight:'700'},loginLegalText:{width:'100%',color:'#8FA9C8',fontFamily:'Manrope',fontSize:9,lineHeight:13,textAlign:'center',marginTop:4,paddingHorizontal:4,paddingVertical:4,borderWidth:0,backgroundColor:'transparent'},
+ ambientBackdropTint:{backgroundColor:'rgba(2,20,52,0.06)'},ambientTintGallery:{backgroundColor:'rgba(4,24,62,0.06)'},ambientTintCredits:{backgroundColor:'rgba(5,22,56,0.05)'},ambientTintProfile:{backgroundColor:'rgba(3,24,58,0.06)'},
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -6689,6 +8688,7 @@ const styles = StyleSheet.create({
   featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 9, lineHeight: 11, fontWeight: '700', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
   featureSubtitle: { display: 'none' },
   ...FINAL_UI_REFERENCE_ARTWORK_V49,
+  ...FINAL_UI_REFERENCE_MATCH_V50,
 
 });
 
