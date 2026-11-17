@@ -36,6 +36,11 @@ jobs:
       - name: Install Android platform and NDK
         run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
       - run: npm ci
+      - name: Prepare transparent splash logo from approved reference
+        run: |
+          python3 -m venv .venv
+          .venv/bin/pip install Pillow
+          .venv/bin/python scripts/process-splash-logo.py
       - name: Fit launcher logo inside Android safe area
         run: |
           python3 -m venv .venv
@@ -81,17 +86,19 @@ jobs:
           arch: x86_64
           profile: pixel_6
           emulator-options: -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect -camera-back none -camera-front none
-          disable-animations: true
           emulator-boot-timeout: 600
           script: |
             set -eu
             adb wait-for-device
             mkdir -p artifacts/diagnostics
             adb logcat -c
-            adb install -r artifacts/app-release.apk
+            if ! adb install -r artifacts/app-release.apk > artifacts/diagnostics/install.txt 2>&1; then
+              adb logcat -d -v threadtime > artifacts/diagnostics/android-logcat.txt || true
+              exit 1
+            fi
             adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 1 > artifacts/diagnostics/launch.txt 2>&1 || true
             sleep 8
-            adb logcat -d -v threadtime > artifacts/diagnostics/android-logcat.txt
+            adb logcat -d -v threadtime > artifacts/diagnostics/android-logcat.txt || true
             adb shell pidof com.neuroscene.app > artifacts/diagnostics/app-pid.txt 2>&1 || true
             python3 scripts/capture-android-screens.py
       - uses: actions/upload-artifact@v4
