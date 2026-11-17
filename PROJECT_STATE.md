@@ -1,3 +1,13 @@
+### 2026-11-17 — диагностика запуска #158 и устранение опасной ссылки в StyleSheet
+- Ветка: `ui/full-visual-redesign`.
+- Диагностический запуск: [GitHub Actions #158](https://github.com/stasaygustov-lab/neuroscene-mobile-public/actions/runs/44169033996), SHA запуска `492c85c28e9fff15d7eb4c5634113cc9fb0d631d`.
+- Результат CI: TypeScript step был отмечен как success из-за `continue-on-error: true`, но фактически сообщил 258 диагностик; среди них `FINAL_UI_FIXES_V36` не объявлен, а его spread выполнялся при создании StyleSheet. Это может вызвать ReferenceError при загрузке модуля и является подтверждённым дефектом исходного кода с высокой вероятностью объяснить вылет при старте.
+- Также обнаружены четыре обращения к отсутствующему в типах RN 0.88.1 `StyleSheet.absoluteFillObject`; заменены на явные абсолютные стили.
+- Исправление App.tsx: удалён несуществующий spread `FINAL_UI_FIXES_V36`; четыре использования `absoluteFillObject` заменены явными стилями. Коммит: `7057ad87077fcef79561e6be8af1c80a0d091384`.
+- Отдельная причина провала Gradle в run #158: не разрешился артефакт плагина `org.gradle.toolchains.foojay-resolver-convention:1.0.0` из Gradle Plugin Portal; до компиляции APK дело не дошло. Это не связано с тайм-аутом. JDK 17 уже устанавливается workflow, поэтому Foojay auto-provisioning потенциально можно отключить/обойти после проверки.
+- Что осталось: повторно проверить TypeScript после исправления; разобраться с Gradle dependency resolution; получить новый APK и пройти эмуляторный запуск/Logcat. Причина вылета пока не подтверждена запуском.
+- Сборка: run #158 запускался пользователем; APK не создан. После коммита `7057ad8` новую сборку не запускать без отдельного разрешения.
+
 ### 2026-11-17 — увеличен лимит времени Android APK build после отмены run #157
 - Ветка: `ui/full-visual-redesign`.
 - Run #157: https://github.com/stasaygustov-lab/neuroscene-mobile-public/actions/runs/44161787580; SHA сборки: `045f974bd9f2af499795516fc9b13e84e79493a5`.
