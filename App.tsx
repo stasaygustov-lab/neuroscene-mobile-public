@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, PanResponder } from 'react-native';
+import { Animated, Easing, Modal, PanResponder } from 'react-native';
 import { useEvent } from 'expo';
 import { useFonts } from 'expo-font';
 import {
@@ -5787,7 +5787,7 @@ const FINAL_UI_FIXES_V34 = {
 };
 
 const FINAL_UI_FIXES_V37 = {
-  // The intro is rendered in a native full-screen Modal, outside SafeAreaView.
+  // The intro overlay is positioned inside the app window to avoid a second Android window.
   introOverlay: { flex: 1, width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#020817', alignItems: 'center', justifyContent: 'center' },
   introBrandLockup: { position: 'absolute', top: '30%', left: 0, right: 0, height: 220, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, backgroundColor: 'transparent' },
   splashLogoImage: { width: '84%', maxWidth: 380, height: 220, backgroundColor: 'transparent', alignSelf: 'center' },
