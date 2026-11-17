@@ -5431,8 +5431,8 @@ const FINAL_UI_FIXES_V27 = {
 
 const FINAL_UI_FIXES_V28 = {
   // Render the approved standalone brand artwork on both the Create header and splash.
-  brandLogoArtwork: { width: 184, height: 92, alignSelf: 'center', resizeMode: 'contain', backgroundColor: 'transparent' },
-  splashBrandArtwork: { width: 252, height: 190, alignSelf: 'center', resizeMode: 'contain', backgroundColor: 'transparent' },
+  brandLogoArtwork: { width: 184, height: 92, alignSelf: 'center', backgroundColor: 'transparent' },
+  splashBrandArtwork: { width: 252, height: 190, alignSelf: 'center', backgroundColor: 'transparent' },
   referenceCenteredHeader: { width: '100%', minHeight: 102, marginTop: 0, marginBottom: 4, paddingTop: 4, paddingBottom: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderBottomWidth: 0 },
   brandRowCentered: { width: '100%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', margin: 0, padding: 0, backgroundColor: 'transparent' },
   introBrandLockup: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, backgroundColor: 'transparent' },
