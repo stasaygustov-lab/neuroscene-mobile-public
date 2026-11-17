@@ -1987,7 +1987,7 @@ export default function App() {
               }
             }}
           >
-            <Text style={styles.menuIcon}>{item === 'Мои видео' ? '▣' : item === 'Уведомления' ? '♧' : item === 'Настройки' ? '⚙' : item === 'О приложении' ? 'ⓘ' : item === 'Помощь / FAQ' ? '?' : '◌'}</Text>
+            <Text style={styles.menuIcon}>{['▣', '♧', '⚙', 'ⓘ', '?', '◌'][menuIndex]}</Text>
             <Text style={styles.menuText}>{item}</Text>
             {item === 'Уведомления' && unreadNotifications > 0 && <View style={styles.menuNotificationBadge}><Text style={styles.menuNotificationText}>{Math.min(unreadNotifications, 9)}</Text></View>}
             <Text style={styles.menuArrow}>›</Text>
