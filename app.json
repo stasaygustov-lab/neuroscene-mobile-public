@@ -27,8 +27,10 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#050914",
-          "resizeMode": "contain"
+          "backgroundColor": "#020817",
+          "resizeMode": "contain",
+          "image": "./assets/neuroscene-splash.png",
+          "imageWidth": 240
         }
       ]
     ],
