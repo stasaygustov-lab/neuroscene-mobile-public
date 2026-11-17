@@ -36,6 +36,17 @@ jobs:
       - name: Install Android platform and NDK
         run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
       - run: npm ci
+      - name: Disable optional Foojay JDK resolver in React Native Gradle plugin
+        run: |
+          SETTINGS="node_modules/@react-native/gradle-plugin/settings.gradle.kts"
+          test -f "$SETTINGS"
+          grep -n "foojay-resolver-convention" "$SETTINGS"
+          sed -i '/foojay-resolver-convention/d' "$SETTINGS"
+          if grep -q "foojay-resolver-convention" "$SETTINGS"; then
+            echo "Foojay resolver reference was not removed" >&2
+            exit 1
+          fi
+          echo "Using the JDK 17 installed by actions/setup-java"
       - name: TypeScript validation (report typing issues)
         run: npx tsc --noEmit
         continue-on-error: true
