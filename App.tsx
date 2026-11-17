@@ -2268,10 +2268,7 @@ function CreateScreen({
 
   return (
     <View>
-      <View style={styles.createTitleWrap}>
-        <Text style={styles.createScreenTitle}>Создать</Text>
-        <View style={styles.createTitleUnderline} />
-      </View>
+      <View style={styles.createTopSpacer} />
       {!showComposer && (
         <View style={styles.createReferenceImageFrame} accessibilityLabel="Пейзаж из утверждённого референса экрана Создать">
           <Image
@@ -2284,8 +2281,9 @@ function CreateScreen({
       )}
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
-          <View style={styles.referencePlayCircle}><Text style={styles.referencePlay}>▶</Text></View>
+          <Text style={styles.referenceSparkle} accessibilityElementsHidden>✦</Text>
           <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
+          <Text style={styles.referenceArrow} accessibilityElementsHidden>›</Text>
         </TouchableOpacity>
       </Animated.View>
 
@@ -6621,6 +6619,13 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V41,
   ...FINAL_UI_FIXES_V42,
   ...FINAL_UI_FIXES_V43,
+  createTopSpacer: { height: 40, width: '100%' },
+  createReferenceImageFrame: { width: '100%', height: 154, alignSelf: 'center', marginTop: 0, marginBottom: 14, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(99,193,255,0.68)', backgroundColor: 'rgba(3,16,42,0.78)', shadowColor: '#168BFF', shadowOpacity: 0.52, shadowRadius: 18, elevation: 9 },
+  createReferenceArtwork: { position: 'absolute', width: 956, height: 1025, left: -119, top: -129 },
+  referenceCreateGlow: { width: '92%', alignSelf: 'center', marginTop: 0, marginBottom: 18, shadowColor: '#11BFFF', shadowOpacity: 0.92, shadowRadius: 22, elevation: 12 },
+  referenceCreateButton: { width: '100%', height: 58, minHeight: 58, borderRadius: 29, borderWidth: 1.5, borderColor: '#72E5FF', backgroundColor: '#087CF4', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 26, gap: 10, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 20, elevation: 12 },
+  referenceSparkle: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 27, lineHeight: 30, fontWeight: '800', textShadowColor: '#DDF8FF', textShadowRadius: 9 },
+  referenceArrow: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 32, lineHeight: 34, fontWeight: '300', textShadowColor: '#DDF8FF', textShadowRadius: 7 },
   featureSection: { width: '100%', marginTop: 0, marginBottom: 12, backgroundColor: 'transparent' },
   featureHeadingRow: { width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', columnGap: 10, marginBottom: 12 },
   featureHeadingLine: { flex: 1, height: 2, borderRadius: 2, backgroundColor: '#168BFF', shadowColor: '#00AFFF', shadowOpacity: 0.95, shadowRadius: 7, elevation: 5 },
@@ -6628,11 +6633,11 @@ const styles = StyleSheet.create({
   featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'flex-start', columnGap: 2, rowGap: 0 },
   featureTile: { width: '24.5%', minWidth: 0, minHeight: 72, paddingHorizontal: 1, paddingVertical: 0, borderRadius: 0, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0, alignItems: 'center', justifyContent: 'flex-start' },
   featureTileActive: { backgroundColor: 'transparent', borderColor: 'transparent', shadowOpacity: 0, elevation: 0 },
-  featureIconImage: { width: 38, height: 38, marginBottom: 3 },
+  featureIconImage: { width: 32, height: 32, marginBottom: 3 },
   featureIconSquare: { width: 0, height: 0, marginBottom: 0, backgroundColor: 'transparent', borderWidth: 0 },
   featureIconSquareActive: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
   featureIcon: { display: 'none' },
-  featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 12, fontWeight: '700', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
+  featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 9, lineHeight: 11, fontWeight: '700', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
   featureSubtitle: { display: 'none' },
 });
 
