@@ -2046,13 +2046,12 @@ export default function App() {
 
       {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
-          <View style={styles.brandLockup} accessible accessibilityLabel="Логотип НейроСцена">
-            <View style={styles.brandPlayMark} />
-            <View style={styles.brandLockupWordmark}>
-              <Text style={styles.brandWordmarkLine}>Нейро</Text>
-              <Text style={[styles.brandWordmarkLine, styles.brandWordmarkAccent]}>Сцена</Text>
-            </View>
-          </View>
+          <Image
+            source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
+            resizeMode="contain"
+            style={styles.brandLogoArtwork}
+            accessibilityLabel="Логотип НейроСцена"
+          />
         </View>
 
         <View style={styles.headerActions}>
@@ -2137,13 +2136,12 @@ export default function App() {
           />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup}>
-            <View style={styles.splashBrandLockup} accessible accessibilityLabel="Логотип НейроСцена">
-              <View style={styles.splashBrandPlayMark} />
-              <View style={styles.splashBrandWordmark}>
-                <Text style={styles.splashBrandWordmarkLine}>Нейро</Text>
-                <Text style={[styles.splashBrandWordmarkLine, styles.splashBrandWordmarkAccent]}>Сцена</Text>
-              </View>
-            </View>
+            <Image
+              source={require('./assets/Неоновая иконка «НейроСцена».jpg')}
+              resizeMode="contain"
+              style={styles.splashBrandArtwork}
+              accessibilityLabel="Логотип НейроСцена"
+            />
           </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
@@ -5431,6 +5429,15 @@ const FINAL_UI_FIXES_V27 = {
   secondaryButton: { width: '78%', minHeight: 58, marginTop: 330, borderRadius: 18, backgroundColor: '#087CF4', borderColor: '#64DFFF', borderWidth: 1.5, shadowColor: '#16B9FF', shadowOpacity: 0.36, shadowRadius: 18, elevation: 7 },
 };
 
+const FINAL_UI_FIXES_V28 = {
+  // Render the approved standalone brand artwork on both the Create header and splash.
+  brandLogoArtwork: { width: 184, height: 92, alignSelf: 'center', resizeMode: 'contain', backgroundColor: 'transparent' },
+  splashBrandArtwork: { width: 252, height: 190, alignSelf: 'center', resizeMode: 'contain', backgroundColor: 'transparent' },
+  referenceCenteredHeader: { width: '100%', minHeight: 102, marginTop: 0, marginBottom: 4, paddingTop: 4, paddingBottom: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderBottomWidth: 0 },
+  brandRowCentered: { width: '100%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', margin: 0, padding: 0, backgroundColor: 'transparent' },
+  introBrandLockup: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, backgroundColor: 'transparent' },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5789,5 +5796,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V25,
   ...FINAL_REFERENCE_REDESIGN_V26,
   ...FINAL_UI_FIXES_V27,
+  ...FINAL_UI_FIXES_V28,
 });
 
