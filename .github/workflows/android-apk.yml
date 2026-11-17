@@ -86,9 +86,21 @@ jobs:
           script: |
             set -eu
             adb wait-for-device
+            mkdir -p artifacts/diagnostics
+            adb logcat -c
             adb install -r artifacts/app-release.apk
-            adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 1
+            adb shell monkey -p com.neuroscene.app -c android.intent.category.LAUNCHER 1 > artifacts/diagnostics/launch.txt 2>&1 || true
+            sleep 8
+            adb logcat -d -v threadtime > artifacts/diagnostics/android-logcat.txt
+            adb shell pidof com.neuroscene.app > artifacts/diagnostics/app-pid.txt 2>&1 || true
             python3 scripts/capture-android-screens.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: neurosScene-android-diagnostics
+          path: artifacts/diagnostics/*
+          if-no-files-found: warn
+          retention-days: 7
       - uses: actions/upload-artifact@v4
         with:
           name: neurosScene-visual-screenshots
