@@ -472,3 +472,9 @@
 - Сборка: не запускалась / запущена по прямому разрешению пользователя.
 
 ---
+
+## 2026-11-18 — V51 build syntax correction
+- GitHub Actions run #160 (`44190780508`) on `ui/full-visual-redesign` / `1e645855790faa2ef2377c82d40288d07b1bbb2a` failed during Metro JS bundling: malformed JSX in the profile email toggle at `App.tsx:1897` (`style={styles.profileEmailButton>` placed before `onPress`).
+- Corrected the tag to `style={styles.profileEmailButton} onPress={...}` only; no handler or application logic changed.
+- Fix commit: `e447561116ce9b15d930cb0ff97f98cc69053edc`.
+- No new build has been started yet; a fresh explicit build authorization is required for this updated commit.
