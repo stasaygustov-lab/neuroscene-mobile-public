@@ -5892,7 +5892,7 @@ const FINAL_UI_FIXES_V38 = {
   galleryReferenceTitle: { fontSize: 25, lineHeight: 32, fontWeight: '900', color: '#F8F2FF', textShadowColor: '#A64DFF', textShadowRadius: 18 },
   galleryReferenceUnderline: { width: '68%', height: 2, marginTop: 7, backgroundColor: '#C18BFF', shadowColor: '#A64DFF', shadowOpacity: 1, shadowRadius: 12 },
   galleryEmptyReferenceState: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingTop: 4, paddingBottom: 8 },
-  galleryReferenceImage: { width: 190, height: 128, maxWidth: 220, alignSelf: 'center', overflow: 'hidden', borderRadius: 16, backgroundColor: 'rgba(8,14,35,0.45)' },
+  galleryReferenceImage: { width: 190, height: 128, maxWidth: 220, alignSelf: 'center', overflow: 'hidden', borderRadius: 16, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent' },
   galleryReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -741, top: -160 },
   galleryEmptyActionButton: { width: '78%', minHeight: 48, marginTop: 12, borderRadius: 24, backgroundColor: 'rgba(115,56,190,0.72)', borderWidth: 1, borderColor: 'rgba(207,165,255,0.72)' },
   galleryCard: { width: '100%', marginTop: 12, borderRadius: 18, padding: 12, backgroundColor: 'rgba(9,13,34,0.78)', borderColor: 'rgba(175,116,255,0.58)', shadowColor: '#A64DFF', shadowOpacity: 0.22, shadowRadius: 16, elevation: 6 },
