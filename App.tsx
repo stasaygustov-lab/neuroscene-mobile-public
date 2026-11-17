@@ -5598,6 +5598,56 @@ const FINAL_UI_FIXES_V31 = {
   },
 };
  
+const FINAL_UI_FIXES_V32 = {
+  // Restore a readable two-column feature grid on narrow mobile screens.
+  featureGrid: {
+    width: '100%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    columnGap: 0,
+    rowGap: 12,
+  },
+  featureTile: {
+    width: '48.5%',
+    minWidth: 0,
+    minHeight: 116,
+    height: 'auto',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(54,155,235,0.55)',
+    backgroundColor: 'rgba(4,18,43,0.64)',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
+  featureIconSquare: {
+    width: 34,
+    height: 34,
+    marginBottom: 5,
+  },
+  featureIcon: {
+    fontSize: 25,
+    lineHeight: 31,
+  },
+  featureTitle: {
+    fontSize: 14,
+    lineHeight: 19,
+    textAlign: 'left',
+  },
+  featureSubtitle: {
+    display: 'flex',
+    color: '#AFCBE7',
+    fontFamily: 'Manrope',
+    fontSize: 12,
+    lineHeight: 17,
+    marginTop: 3,
+    textAlign: 'left',
+  },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5963,53 +6013,4 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V32,
 });
 
-const FINAL_UI_FIXES_V32 = {
-  // Restore a readable two-column feature grid on narrow mobile screens.
-  featureGrid: {
-    width: '100%',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
-    columnGap: 0,
-    rowGap: 12,
-  },
-  featureTile: {
-    width: '48.5%',
-    minWidth: 0,
-    minHeight: 116,
-    height: 'auto',
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(54,155,235,0.55)',
-    backgroundColor: 'rgba(4,18,43,0.64)',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-  },
-  featureIconSquare: {
-    width: 34,
-    height: 34,
-    marginBottom: 5,
-  },
-  featureIcon: {
-    fontSize: 25,
-    lineHeight: 31,
-  },
-  featureTitle: {
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'left',
-  },
-  featureSubtitle: {
-    display: 'flex',
-    color: '#AFCBE7',
-    fontFamily: 'Manrope',
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 3,
-    textAlign: 'left',
-  },
-};
 
