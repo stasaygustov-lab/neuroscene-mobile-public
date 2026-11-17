@@ -2108,16 +2108,16 @@ export default function App() {
                 <View style={styles.navHomeBody}><View style={styles.navHomeDoor} /></View>
               </View>
             ) : item.id === 'Gallery' ? (
-              <View style={[styles.navGalleryIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Галерея">
+              <View style={[styles.navGalleryIcon, tab === item.id && styles.navGlyphActive, tab === item.id && styles.navGlyphActiveGallery]} accessibilityLabel="Галерея">
                 <View style={styles.navGalleryClapperTop}><View style={styles.navGalleryClapperStripe} /><View style={styles.navGalleryClapperStripe} /><View style={styles.navGalleryClapperStripe} /></View>
                 <View style={styles.navGalleryClapperBody}><View style={styles.navGalleryPlay} /></View>
               </View>
             ) : item.id === 'Credits' ? (
-              <View style={[styles.navCoinStack, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Стопка золотых монет">
+              <View style={[styles.navCoinStack, tab === item.id && styles.navGlyphActive, tab === item.id && styles.navCoinActive]} accessibilityLabel="Стопка золотых монет">
                 <View style={styles.navCoinLayer} /><View style={styles.navCoinLayer} /><View style={styles.navCoinLayer} />
               </View>
             ) : (
-              <View style={styles.navPerson} accessibilityLabel="Человечек">
+              <View style={[styles.navPerson, tab === item.id && styles.navPersonActive]} accessibilityLabel="Профиль">
                 <View style={styles.navPersonHead} />
                 <View style={styles.navPersonBody} />
               </View>
@@ -5955,7 +5955,7 @@ const FINAL_UI_FIXES_V38 = {
 const FINAL_UI_FIXES_V39 = {
   // Navigation pictograms: crisp outlined home, clapperboard, coin stack and profile.
   navItem: { minHeight: 68, paddingTop: 4, paddingBottom: 5, gap: 4, borderRadius: 14 },
-  navItemActive: { backgroundColor: 'rgba(24,151,255,0.075)', borderWidth: 1, borderColor: 'rgba(105,218,255,0.22)', shadowColor: '#39CFFF', shadowOpacity: 0.34, shadowRadius: 12, elevation: 4 },
+  navItemActive: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowColor: 'transparent', shadowOpacity: 0, shadowRadius: 0, elevation: 0 },
   navItemActiveGallery: { borderColor: 'rgba(195,139,255,0.28)', shadowColor: '#B76BFF' },
   navItemActiveCredits: { borderColor: 'rgba(255,211,116,0.28)', shadowColor: '#FFBD4A' },
   navItemActiveProfile: { borderColor: 'rgba(85,239,218,0.28)', shadowColor: '#35E5D2' },
@@ -5974,6 +5974,9 @@ const FINAL_UI_FIXES_V39 = {
   navPersonHead: { width: 12, height: 12, borderRadius: 6, borderWidth: 1.8, borderColor: '#B9FFF5', backgroundColor: 'rgba(38,217,199,0.16)', marginBottom: 3 },
   navPersonBody: { width: 25, height: 15, borderTopLeftRadius: 13, borderTopRightRadius: 13, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 1.8, borderBottomWidth: 0, borderColor: '#7AF3E3', backgroundColor: 'rgba(38,217,199,0.12)' },
   navGlyphActive: { shadowColor: '#66E7FF', shadowOpacity: 0.95, shadowRadius: 15, elevation: 9 },
+  navGlyphActiveGallery: { shadowColor: '#C18BFF', shadowOpacity: 0.95, shadowRadius: 15, elevation: 9 },
+  navCoinActive: { shadowColor: '#FFBD4A', shadowOpacity: 1, shadowRadius: 16, elevation: 10 },
+  navPersonActive: { shadowColor: '#35E5D2', shadowOpacity: 1, shadowRadius: 15, elevation: 9 },
   navLabel: { fontSize: 12, lineHeight: 16, fontWeight: '800', letterSpacing: 0.12 },
   navLabelActive: { color: '#E8FBFF', fontSize: 12, fontWeight: '900', textShadowColor: '#39D5FF', textShadowRadius: 11 },
   navLabelActiveGallery: { color: '#F0E2FF', textShadowColor: '#B76BFF' },
