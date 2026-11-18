@@ -6295,6 +6295,9 @@ const FINAL_UI_LAYOUT_REPAIR_V51 = {
 };
 
 const FINAL_UI_GLOBAL_BACKDROP_V53 = {
+  // Let the storm artwork remain visible behind the root SafeAreaView and header on every tab.
+  container: { flex: 1, backgroundColor: 'transparent' },
+  header: { backgroundColor: 'transparent', borderBottomColor: 'transparent' },
   ambientBackdrop: { ...StyleSheet.absoluteFillObject, overflow: 'hidden', backgroundColor: 'transparent' },
   ambientBackdropTint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,7,18,0.07)' },
   ambientTintGallery: { backgroundColor: 'transparent' },
