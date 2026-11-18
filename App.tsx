@@ -1769,11 +1769,20 @@ export default function App() {
 
           <View style={styles.creditTopRow}>
             <View style={styles.creditBalanceCard}>
-              <Image
-                source={require('./assets/coins-reference.jpg')}
-                resizeMode="contain"
-                style={styles.creditCoinsArtwork}
-              />
+              <View style={styles.creditCoinsArtwork} accessibilityLabel="Схематичная стопка золотых монет">
+                <View style={styles.creditCoinStackBack}>
+                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
+                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
+                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
+                </View>
+                <View style={styles.creditCoinStackFront}>
+                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
+                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
+                </View>
+                <View style={styles.creditCoinSingle}>
+                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
+                </View>
+              </View>
               <View style={styles.creditBalanceHero}>
                 <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
                 <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
@@ -1867,12 +1876,12 @@ export default function App() {
           </View>
         </View>
         <View style={styles.profileIdentity}>
-          <View style={styles.profileGuestAvatar}>
-            <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-              resizeMode="stretch"
-              style={styles.profileAvatarReferenceCrop}
-            />
+          <View style={styles.profileGuestAvatar} accessibilityLabel="Неоновый схематичный силуэт человека">
+            <View style={styles.profileAvatarOuterRing} />
+            <View style={styles.profileAvatarInnerRing} />
+            <View style={styles.profileAvatarHalo} />
+            <View style={styles.profileGuestHead} />
+            <View style={styles.profileGuestBody} />
           </View>
           <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
           {!!authUser?.email && <Text style={styles.profileGuestStatus}>{authUser.email}</Text>}
@@ -6283,6 +6292,32 @@ const FINAL_UI_LAYOUT_REPAIR_V51 = {
 };
 
 const styles = StyleSheet.create({
+  // V61: hand-built artwork and dimensional neon title beams, no reference screenshot crops.
+  profileIdentity: { width: '100%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: 5, marginBottom: 18 },
+  profileGuestAvatar: {
+    position: 'relative', width: 124, height: 124, borderRadius: 62, alignSelf: 'center',
+    alignItems: 'center', justifyContent: 'center', overflow: 'visible',
+    borderWidth: 1.5, borderColor: 'rgba(83, 207, 255, 0.96)',
+    backgroundColor: 'rgba(2, 23, 57, 0.72)',
+    shadowColor: '#13AFFF', shadowOpacity: 0.95, shadowRadius: 25, elevation: 13
+  },
+  profileAvatarOuterRing: { position: 'absolute', width: 142, height: 142, borderRadius: 71, borderWidth: 1, borderColor: 'rgba(54, 171, 255, 0.38)', shadowColor: '#168BFF', shadowOpacity: 0.78, shadowRadius: 22, elevation: 8 },
+  profileAvatarInnerRing: { position: 'absolute', width: 108, height: 108, borderRadius: 54, borderWidth: 1, borderColor: 'rgba(151, 229, 255, 0.42)', backgroundColor: 'rgba(17, 105, 177, 0.12)' },
+  profileAvatarHalo: { position: 'absolute', width: 86, height: 86, borderRadius: 43, backgroundColor: 'rgba(0, 151, 255, 0.10)', shadowColor: '#00BFFF', shadowOpacity: 0.9, shadowRadius: 20, elevation: 9 },
+  profileGuestHead: { width: 28, height: 28, borderRadius: 14, borderWidth: 2, borderColor: '#D8F7FF', backgroundColor: 'rgba(108, 211, 255, 0.88)', marginBottom: 6, shadowColor: '#26C8FF', shadowOpacity: 0.9, shadowRadius: 12, elevation: 7 },
+  profileGuestBody: { width: 58, height: 34, borderTopLeftRadius: 32, borderTopRightRadius: 32, borderBottomLeftRadius: 15, borderBottomRightRadius: 15, borderWidth: 2, borderBottomWidth: 0, borderColor: '#C8F2FF', backgroundColor: 'rgba(77, 185, 255, 0.72)', shadowColor: '#168BFF', shadowOpacity: 0.8, shadowRadius: 12, elevation: 6 },
+  creditCoinsArtwork: { width: '100%', height: 100, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  creditCoinStackBack: { position: 'absolute', top: 11, left: '26%', alignItems: 'center', justifyContent: 'center' },
+  creditCoinStackFront: { position: 'absolute', top: 32, left: '42%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  creditCoinSingle: { position: 'absolute', top: 51, left: '31%' },
+  creditCoinDisc: { width: 37, height: 17, borderRadius: 10, marginTop: -5, borderWidth: 1.5, borderColor: '#FFF0A5', backgroundColor: '#E9A92F', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB52E', shadowOpacity: 0.9, shadowRadius: 9, elevation: 6 },
+  creditCoinInner: { width: 25, height: 7, borderRadius: 5, borderWidth: 1, borderColor: 'rgba(255,245,185,0.88)', backgroundColor: '#FFD76A' },
+  // Volumetric blue title beam: soft outer bloom, diffuse middle, crisp luminous core.
+  creditsTitleGlow: { position: 'absolute', bottom: -1, width: '78%', height: 4, borderRadius: 8, backgroundColor: 'rgba(73, 204, 255, 0.72)', shadowColor: '#12AFFF', shadowOpacity: 1, shadowRadius: 23, elevation: 13, overflow: 'visible' },
+  galleryReferenceUnderline: { height: 4, borderRadius: 8, backgroundColor: 'rgba(92, 203, 255, 0.76)', shadowColor: '#149EFF', shadowOpacity: 1, shadowRadius: 22, elevation: 12 },
+  profileTitleUnderline: { width: '76%', height: 4, marginTop: 5, borderRadius: 8, backgroundColor: 'rgba(92, 203, 255, 0.78)', shadowColor: '#149EFF', shadowOpacity: 1, shadowRadius: 22, elevation: 12 },
+  featureHeadingLine: { height: 3, borderRadius: 6, backgroundColor: 'rgba(73, 204, 255, 0.72)', shadowColor: '#12AFFF', shadowOpacity: 1, shadowRadius: 20, elevation: 11 },
+  featureSectionTitle: { color: '#E8F7FF', textShadowColor: '#168BFF', textShadowRadius: 16, textShadowOffset: { width: 0, height: 1 } },
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
   ambientGlowTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: 20, right: -240, backgroundColor: '#075CEB', opacity: 0.26 },
