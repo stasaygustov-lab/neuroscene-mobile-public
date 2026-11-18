@@ -6698,6 +6698,12 @@ const styles = StyleSheet.create({
   ...FINAL_UI_REFERENCE_ARTWORK_V49,
   ...FINAL_UI_REFERENCE_MATCH_V50,
   ...FINAL_UI_LAYOUT_REPAIR_V51,
+  // V56: keep the complete two-line wordmark visible beside the approved logo and lower the lockup.
+  brandRowCentered: { position: 'relative', top: 8, left: 0, right: undefined, width: 'auto', height: 56, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent', flexShrink: 0 },
+  brandLogoArtwork: { width: 190, minWidth: 190, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8, alignSelf: 'flex-start', flexShrink: 0, margin: 0, padding: 0, backgroundColor: 'transparent' },
+  brandLogoImage: { width: 43, height: 43, flexShrink: 0, backgroundColor: 'transparent' },
+  brandLockupWordmark: { width: 132, minWidth: 132, flexShrink: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
+  brandWordmarkLine: { width: 132, flexShrink: 0, color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 20, fontWeight: '900', letterSpacing: -0.3, textShadowColor: '#168BFF', textShadowRadius: 10, includeFontPadding: false },
   // Preserve full-screen flex after legacy visual layers that redefine container.
   container: { flex: 1, backgroundColor: '#030817' },
 
