@@ -1037,3 +1037,12 @@
 - Запуск выполняется только для ветки `ui/full-visual-redesign`; `main` и контрольная ветка не затрагиваются.
 - Временный push-триггер используется однократно для старта существующего workflow и будет удалён сразу после постановки сборки в очередь.
 - APK build ещё не подтверждён; ожидаются Gradle assembleRelease, проверка APK и загрузка артефакта.
+
+### 2026-11-18 — Android preview APK успешно собран
+- Run: `44393534071` (`success`), commit `f757b693c3fbfc7c6ad687f1182f4d403c305b3f`.
+- `Gradle assembleRelease`, проверка APK и загрузка GitHub Actions artifact завершились успешно.
+- Artifact: `neurosScene-preview-apk`, ID `14467929846`, размер ZIP `33,360,825` bytes; APK `73,784,391` bytes.
+- SHA-256 APK: `3a0a39ef3b4bd2f13a05e9cd27ab646bf60299682c318a031218b09f825218ab`.
+- APK архив проверен локально: ZIP integrity OK, `AndroidManifest.xml` и `assets/index.android.bundle` присутствуют.
+- Временный push-триггер удалён; workflow снова запускается только вручную. `main` и контрольная ветка не затронуты.
+- Runtime-проверка на реальном Android-устройстве не выполнялась.
