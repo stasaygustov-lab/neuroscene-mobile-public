@@ -3376,8 +3376,8 @@ function FeatureGlyph({ type }: { type: string }) {
   }
   const labels: Record<string, string> = { text: 'Кинематографическая хлопушка', image: 'Изображение и пейзаж', sound: 'Звуковая дорожка', prompt: 'Волшебная палочка улучшения' };
   return (
-    <View style={styles.featureGlyphAura} accessibilityLabel={labels[type] || 'Возможность НейроСцены'}>
-      <View pointerEvents="none" style={styles.featureGlyphAuraOuter} />
+    <View style={[styles.featureGlyphAura, type === 'text' && { backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0 }]} accessibilityLabel={labels[type] || 'Возможность НейроСцены'}>
+      {type !== 'text' && <View pointerEvents="none" style={styles.featureGlyphAuraOuter} />}
       {type === 'text' ? artwork : <View style={styles.featureGlyphFrame}>{artwork}</View>}
     </View>
   );
