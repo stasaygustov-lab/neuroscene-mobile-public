@@ -1824,7 +1824,13 @@ export default function App() {
         </View>
         <View style={styles.profileIdentity}>
           <View style={[styles.profileGuestAvatar, { borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0 }]} accessibilityLabel="Объёмный голографический аватар">
-            <PanelArtworkCrop quadrant="avatar" width={112} height={112} />
+            <View style={styles.schematicAvatar} accessibilityLabel="Схематический неоновый аватар">
+              <View style={styles.schematicAvatarHalo} />
+              <View style={styles.schematicAvatarHead} />
+              <View style={styles.schematicAvatarNeck} />
+              <View style={styles.schematicAvatarShoulders} />
+              <View style={styles.schematicAvatarCore} />
+            </View>
           </View>
           <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
           {!!authUser?.email && <Text style={styles.profileGuestStatus}>{authUser.email}</Text>}
@@ -2134,8 +2140,6 @@ type CreateScreenProps = {
 
 function CreateScreen({
   language,
-  creditsBalance,
-  creditsLoading,
   generationType,
   setGenerationType,
   sourceImage,
@@ -7641,5 +7645,37 @@ const styles = StyleSheet.create({
   navDatabaseBottom: { borderColor: '#BDEEFF', opacity: 1 },
   navPersonHead: { borderColor: '#BDEEFF', backgroundColor: '#BDEEFF', opacity: 1 },
   navPersonBody: { borderColor: '#BDEEFF', opacity: 1 },
+
+  // Unified dimensional glass treatment across every screen.
+  createTopSpacer: { height: 8 },
+  createScreenLayout: { flex: 1, width: '100%', paddingHorizontal: 2, paddingBottom: 14, gap: 7 },
+  modeSelector: { width: '100%', flexDirection: 'row', gap: 10, marginTop: 4, marginBottom: 8 },
+  modeOption: { flex: 1, minHeight: 76, paddingHorizontal: 9, paddingVertical: 9, borderRadius: 16, alignItems: 'center', justifyContent: 'center', gap: 5, backgroundColor: 'rgba(3,23,55,0.72)', borderWidth: 1.2, borderTopColor: 'rgba(211,249,255,0.72)', borderLeftColor: 'rgba(83,190,255,0.54)', borderRightColor: 'rgba(25,112,205,0.72)', borderBottomWidth: 3, borderBottomColor: '#06366F', shadowColor: '#078BFF', shadowOpacity: 0.5, shadowRadius: 15, shadowOffset: { width: 0, height: 5 }, elevation: 9 },
+  modeOptionActive: { backgroundColor: 'rgba(5,82,150,0.84)', borderTopColor: '#F0FDFF', borderLeftColor: '#A7F0FF', borderRightColor: '#36BFFF', borderBottomColor: '#0754A5', shadowColor: '#00C8FF', shadowOpacity: 0.95, shadowRadius: 22, elevation: 14 },
+  modeOptionText: { color: '#B8D7F2', fontSize: 12, lineHeight: 16, fontWeight: '800', textAlign: 'center' },
+  modeOptionTextActive: { color: '#FFFFFF', textShadowColor: '#25CFFF', textShadowRadius: 10 },
+  engineCard: { backgroundColor: 'rgba(3,25,60,0.72)', borderWidth: 1, borderTopColor: 'rgba(210,249,255,0.62)', borderLeftColor: 'rgba(76,183,255,0.46)', borderRightColor: 'rgba(18,105,198,0.68)', borderBottomWidth: 2, borderBottomColor: '#052F67', borderRadius: 15, shadowColor: '#078BFF', shadowOpacity: 0.4, shadowRadius: 13, shadowOffset: { width: 0, height: 4 }, elevation: 8 },
+  prompt: { minHeight: 116, borderRadius: 16, borderWidth: 1.2, borderTopColor: 'rgba(210,249,255,0.68)', borderLeftColor: 'rgba(80,185,255,0.54)', borderRightColor: 'rgba(18,106,197,0.72)', borderBottomWidth: 3, borderBottomColor: '#052E67', backgroundColor: 'rgba(3,20,49,0.82)', color: '#F3FAFF', shadowColor: '#078BFF', shadowOpacity: 0.38, shadowRadius: 15, shadowOffset: { width: 0, height: 4 }, elevation: 8 },
+  featureSection: { width: '100%', marginTop: 3, marginBottom: 5, backgroundColor: 'transparent' },
+  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'stretch', columnGap: 5 },
+  featureTile: { flex: 1, width: 'auto', minWidth: 0, minHeight: 76, paddingHorizontal: 2, paddingVertical: 5, borderRadius: 13, borderWidth: 1, borderTopColor: 'rgba(218,250,255,0.66)', borderLeftColor: 'rgba(77,184,255,0.46)', borderRightColor: 'rgba(24,108,197,0.66)', borderBottomWidth: 3, borderBottomColor: '#052F68', backgroundColor: 'rgba(3,23,55,0.72)', alignItems: 'center', justifyContent: 'flex-start', shadowColor: '#078BFF', shadowOpacity: 0.48, shadowRadius: 15, shadowOffset: { width: 0, height: 5 }, elevation: 9 },
+  featureTitle: { width: '100%', color: '#EAF8FF', fontSize: 9, lineHeight: 12, fontWeight: '800', textAlign: 'center' },
+  option: { backgroundColor: 'rgba(4,26,62,0.82)', borderTopColor: 'rgba(216,249,255,0.68)', borderLeftColor: 'rgba(78,184,255,0.5)', borderRightColor: 'rgba(19,107,196,0.72)', borderBottomWidth: 3, borderBottomColor: '#05346E', shadowColor: '#078BFF', shadowOpacity: 0.4, shadowRadius: 13, shadowOffset: { width: 0, height: 4 }, elevation: 8 },
+  selectedOption: { backgroundColor: 'rgba(5,81,150,0.92)', borderTopColor: '#F3FDFF', borderBottomColor: '#0754A5', shadowColor: '#00C8FF', shadowOpacity: 0.95, shadowRadius: 19, elevation: 13 },
+  createButton: { minHeight: 58, borderRadius: 18, borderWidth: 1.5, borderTopColor: '#F0FDFF', borderLeftColor: '#A5EFFF', borderRightColor: '#2AB7FF', borderBottomWidth: 4, borderBottomColor: '#064A96', backgroundColor: '#0878E8', shadowColor: '#00BFFF', shadowOpacity: 0.95, shadowRadius: 22, shadowOffset: { width: 0, height: 6 }, elevation: 15 },
+  galleryEmptyReferenceState: { backgroundColor: 'rgba(4,25,59,0.12)', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
+  galleryGalaxyArtwork: { backgroundColor: 'transparent', borderWidth: 0, overflow: 'visible' },
+  creditCoinShowcase: { overflow: 'visible', backgroundColor: 'transparent' },
+  bottomNav: { backgroundColor: 'rgba(4,22,52,0.58)', borderTopWidth: 1.4, borderLeftWidth: 1, borderRightWidth: 1, borderColor: 'rgba(125,218,255,0.74)', shadowColor: '#00AFFF', shadowOpacity: 0.92, shadowRadius: 27, shadowOffset: { width: 0, height: -8 }, elevation: 22, overflow: 'visible' },
+  bottomNavGlass: { ...StyleSheet.absoluteFillObject, top: -8, borderTopLeftRadius: 26, borderTopRightRadius: 26, backgroundColor: 'rgba(12,54,96,0.34)', borderTopWidth: 1, borderTopColor: 'rgba(225,250,255,0.35)' },
+  navActiveGlow: { backgroundColor: 'rgba(0,173,255,0.28)', borderColor: 'rgba(171,241,255,0.88)', borderWidth: 1.4, shadowColor: '#1BCBFF', shadowOpacity: 1, shadowRadius: 26, elevation: 18 },
+  navLabel: { color: '#D9F1FF', textShadowColor: 'rgba(0,166,255,0.62)', textShadowRadius: 8 },
+  navLabelActive: { color: '#FFFFFF', textShadowColor: '#18CFFF', textShadowRadius: 14 },
+  schematicAvatar: { width: 124, height: 124, alignItems: 'center', justifyContent: 'center', position: 'relative', backgroundColor: 'transparent' },
+  schematicAvatarHalo: { position: 'absolute', width: 112, height: 112, borderRadius: 56, borderWidth: 1.5, borderColor: 'rgba(117,225,255,0.72)', backgroundColor: 'rgba(0,125,255,0.10)', shadowColor: '#18BFFF', shadowOpacity: 1, shadowRadius: 24, elevation: 12 },
+  schematicAvatarHead: { position: 'absolute', top: 20, width: 38, height: 42, borderRadius: 20, borderWidth: 2, borderTopColor: '#F0FDFF', borderLeftColor: '#9CEBFF', borderRightColor: '#269FEF', borderBottomColor: '#0873C8', backgroundColor: 'rgba(75,183,245,0.30)', shadowColor: '#30D4FF', shadowOpacity: 0.9, shadowRadius: 13, elevation: 8 },
+  schematicAvatarNeck: { position: 'absolute', top: 59, width: 19, height: 18, borderWidth: 1.5, borderColor: '#8BE8FF', backgroundColor: 'rgba(28,136,208,0.56)' },
+  schematicAvatarShoulders: { position: 'absolute', bottom: 18, width: 78, height: 38, borderTopLeftRadius: 42, borderTopRightRadius: 42, borderWidth: 2, borderBottomWidth: 0, borderTopColor: '#F0FDFF', borderLeftColor: '#8CEBFF', borderRightColor: '#1E9BEA', backgroundColor: 'rgba(23,117,195,0.36)', shadowColor: '#19CFFF', shadowOpacity: 0.95, shadowRadius: 16, elevation: 10 },
+  schematicAvatarCore: { position: 'absolute', bottom: 31, width: 24, height: 17, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(225,251,255,0.88)', backgroundColor: 'rgba(82,198,255,0.42)' },
 
 });
