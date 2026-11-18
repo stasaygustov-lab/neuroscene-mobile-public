@@ -14,12 +14,12 @@
       "package": "com.neuroscene.app",
       "adaptiveIcon": {
         "backgroundColor": "#080B14",
-        "foregroundImage": "./assets/android-icon-foreground.png"
+        "foregroundImage": "./assets/neuroscene-brand.png"
       },
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/neuroscene-brand.png"
     },
     "plugins": [
       "expo-video",
@@ -29,7 +29,7 @@
         {
           "backgroundColor": "#020817",
           "resizeMode": "contain",
-          "image": "./assets/neuroscene-splash.png",
+          "image": "./assets/neuroscene-brand.png",
           "imageWidth": 240
         }
       ]
