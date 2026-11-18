@@ -3432,9 +3432,9 @@ function SupportScreen({
 }
 
 function BrandMonogram({ large = false }: { large?: boolean }) {
-  const scale = large ? 1.72 : 1;
+  const scale = large ? 1.2 : 0.72;
   return (
-    <View style={{ width: 76 * scale, height: 44 * scale, position: 'relative', alignItems: 'center', justifyContent: 'center', shadowColor: '#078BFF', shadowOpacity: 1, shadowRadius: large ? 22 : 12, elevation: large ? 12 : 6 }} accessibilityLabel="Фирменный знак Н+С">
+    <View style={{ width: 106 * scale, height: 44 * scale, position: 'relative', alignItems: 'center', justifyContent: 'center', shadowColor: '#078BFF', shadowOpacity: 1, shadowRadius: large ? 22 : 12, elevation: large ? 12 : 6 }} accessibilityLabel="Фирменный знак Н+С">
       <View style={{ position: 'absolute', left: 2 * scale, top: 1 * scale, width: 10 * scale, height: 42 * scale, borderRadius: 1 * scale, backgroundColor: '#35BFFF', shadowColor: '#16AFFF', shadowOpacity: 1, shadowRadius: 8 * scale, elevation: 5 }} />
       <View style={{ position: 'absolute', left: 27 * scale, top: 1 * scale, width: 10 * scale, height: 42 * scale, borderRadius: 1 * scale, backgroundColor: '#35BFFF', shadowColor: '#16AFFF', shadowOpacity: 1, shadowRadius: 8 * scale, elevation: 5 }} />
       <View style={{ position: 'absolute', left: 10 * scale, top: 17 * scale, width: 19 * scale, height: 8 * scale, backgroundColor: '#35BFFF' }} />
@@ -5669,7 +5669,7 @@ const FINAL_UI_FIXES_V33 = {
   brandPlayMark: { width: 0, height: 0, borderTopWidth: 12, borderBottomWidth: 12, borderLeftWidth: 18, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#48D7FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
   brandLockupWordmark: { alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
   brandWordmarkLine: { color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 15, lineHeight: 17, fontWeight: '900', letterSpacing: -0.25, textShadowColor: '#168BFF', textShadowRadius: 9, includeFontPadding: false },
-  brandWordmarkAccent: { color: '#83E5FF' },
+  brandWordmarkAccent: { color: '#F4FAFF' },
   headerActions: { position: 'relative', right: 0, top: 0, alignItems: 'center', justifyContent: 'center' },
   content: { paddingHorizontal: 18, paddingTop: 12, paddingBottom: 116 },
   createTitleWrap: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 8, marginBottom: 18, paddingBottom: 11, backgroundColor: 'transparent' },
@@ -6360,7 +6360,7 @@ const styles = StyleSheet.create({
   splashNativeMonogram: { color: '#A9F1FF', fontFamily: 'Manrope', fontSize: 58, lineHeight: 72, fontWeight: '900', letterSpacing: -5, textShadowColor: '#168BFF', textShadowRadius: 28, includeFontPadding: false },
   splashNativeWordmark: { alignItems: 'flex-start', justifyContent: 'center' },
   splashNativeWordmarkLine: { color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 36, lineHeight: 39, fontWeight: '900', letterSpacing: -0.8, textShadowColor: '#168BFF', textShadowRadius: 18, includeFontPadding: false },
-  splashNativeWordmarkAccent: { color: '#83E5FF' },
+  splashNativeWordmarkAccent: { color: '#F4FAFF' },
   splashNativeCaption: { marginTop: 30, color: '#9DDFFF', fontFamily: 'Manrope', fontSize: 13, lineHeight: 19, fontWeight: '700', letterSpacing: 1.2, textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 12 },
   splashLogoImage: { display: 'none' },
   featureGlyphFrame: { width: 36, height: 34, marginBottom: 3, alignItems: 'center', justifyContent: 'center', position: 'relative', shadowColor: '#08BFFF', shadowOpacity: 0.9, shadowRadius: 10, elevation: 5 },
@@ -6770,8 +6770,8 @@ const styles = StyleSheet.create({
   brandRowCentered: { position: 'relative', top: 0, left: 0, right: undefined, width: 'auto', height: 48, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent' },
   brandLogoArtwork: { width: 190, minWidth: 190, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8, alignSelf: 'flex-start', flexShrink: 0, margin: 0, padding: 0, backgroundColor: 'transparent' },
   brandLogoImage: { width: 43, height: 43, flexShrink: 0, backgroundColor: 'transparent' },
-  brandLockupWordmark: { width: 132, minWidth: 132, flexShrink: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
-  brandWordmarkLine: { width: 132, flexShrink: 0, color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 20, fontWeight: '900', letterSpacing: -0.3, textShadowColor: '#168BFF', textShadowRadius: 10, includeFontPadding: false },
+  brandLockupWordmark: { width: 106, minWidth: 106, flexShrink: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
+  brandWordmarkLine: { width: 106, flexShrink: 0, color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 20, fontWeight: '900', letterSpacing: -0.3, textShadowColor: '#168BFF', textShadowRadius: 10, includeFontPadding: false },
   notificationButton: { width: 36, height: 36, borderRadius: 18, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', position: 'relative', shadowColor: '#168BFF', shadowOpacity: 0.2, shadowRadius: 7, elevation: 0 },
   notificationBell: { width: 27, height: 30, alignItems: 'center', justifyContent: 'center' },
   notificationBellDome: { width: 18, height: 18, borderTopLeftRadius: 10, borderTopRightRadius: 10, borderBottomLeftRadius: 3, borderBottomRightRadius: 3, borderWidth: 1.8, borderColor: '#EAF8FF', borderBottomWidth: 0 },
