@@ -2190,10 +2190,10 @@ function CreateScreen({
       <View style={styles.createTopSpacer} />
 
       <View style={styles.v74ModeSelector}>
-        <TouchableOpacity activeOpacity={0.86} style={[styles.v74ModeOption, styles.v75GlassButton, generationType === 't2v' && styles.v74ModeOptionActive]} onPress={() => setGenerationType('t2v')} disabled={busy}>
+        <TouchableOpacity activeOpacity={0.86} style={[styles.v74ModeOption, generationType === 't2v' && styles.v74ModeOptionActive, styles.v75GlassButton]} onPress={() => setGenerationType('t2v')} disabled={busy}>
           <Text style={[styles.v74ModeOptionText, generationType === 't2v' && styles.v74ModeOptionTextActive]}>Текст в видео</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.86} style={[styles.v74ModeOption, styles.v75GlassButton, generationType === 'i2v' && styles.v74ModeOptionActive]} onPress={() => setGenerationType('i2v')} disabled={busy}>
+        <TouchableOpacity activeOpacity={0.86} style={[styles.v74ModeOption, generationType === 'i2v' && styles.v74ModeOptionActive, styles.v75GlassButton]} onPress={() => setGenerationType('i2v')} disabled={busy}>
           <Text style={[styles.v74ModeOptionText, generationType === 'i2v' && styles.v74ModeOptionTextActive]}>Изображение в видео</Text>
         </TouchableOpacity>
       </View>
@@ -2245,7 +2245,6 @@ function CreateScreen({
             { id: 'prompt', title: 'Улучшение промпта' },
           ].map((feature) => (
             <View key={feature.id} style={[styles.v74FeatureTile, styles.v75FeatureGlass, { position: 'relative', overflow: 'hidden' }]}>
-              
               <FeatureGlyph type={feature.id} />
               <Text style={[styles.v74FeatureTitle, styles.v75CenteredLabel]}>{feature.title}</Text>
             </View>
@@ -2302,7 +2301,7 @@ function CreateScreen({
       <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
       <View style={styles.v74OptionRow}>
         {[5, 10].map((value) => (
-          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, styles.v75GlassButton, duration === value && styles.v74SelectedPillOption]} onPress={() => setDuration(value)} disabled={busy}>
+          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, duration === value && styles.v74SelectedPillOption, styles.v75GlassButton]} onPress={() => setDuration(value)} disabled={busy}>
             <Text style={[styles.v74OptionMain, duration === value && styles.activeText]}>{value}с</Text>
             <Text style={styles.v74OptionSub}>секунд</Text>
           </TouchableOpacity>
@@ -2313,7 +2312,7 @@ function CreateScreen({
       <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
       <View style={styles.optionRow}>
         {['16:9', '9:16'].map((value) => (
-          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, styles.v75GlassButton, ratio === value && styles.v74SelectedPillOption]} onPress={() => setRatio(value)} disabled={busy}>
+          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, ratio === value && styles.v74SelectedPillOption, styles.v75GlassButton]} onPress={() => setRatio(value)} disabled={busy}>
             <Text style={[styles.v74OptionMain, ratio === value && styles.activeText]}>{value}</Text>
             <Text style={styles.v74OptionSub}>{value === '16:9' ? 'Горизонтальный' : 'Вертикальный'}</Text>
           </TouchableOpacity>
@@ -7576,8 +7575,8 @@ const styles: Record<string, any> = StyleSheet.create({
   // V75: unified centered typography and translucent dimensional controls on Create.
   v75CenteredLabel: { width: '100%', textAlign: 'center', alignSelf: 'center', fontFamily: 'Manrope', includeFontPadding: false, letterSpacing: 0.35 },
   v75ButtonText: { width: '100%', textAlign: 'center', alignSelf: 'center', fontFamily: 'Manrope', fontWeight: '800', includeFontPadding: false, letterSpacing: 0.25 },
-  v75GlassButton: { backgroundColor: 'rgba(5,31,68,0.56)', borderWidth: 1.25, borderTopWidth: 1.8, borderTopColor: 'rgba(240,253,255,0.94)', borderLeftColor: 'rgba(145,224,255,0.82)', borderRightColor: 'rgba(55,147,239,0.86)', borderBottomWidth: 4, borderBottomColor: 'rgba(3,43,94,0.96)', shadowColor: '#12BFFF', shadowOpacity: 0.76, shadowRadius: 21, shadowOffset: { width: 0, height: 6 }, elevation: 13 },
-  v75FeatureGlass: { backgroundColor: 'rgba(5,31,68,0.48)', borderColor: 'rgba(111,205,255,0.78)', borderTopColor: 'rgba(240,253,255,0.94)', borderBottomWidth: 3, borderBottomColor: 'rgba(3,43,94,0.96)', shadowColor: '#12BFFF', shadowOpacity: 0.72, shadowRadius: 20, shadowOffset: { width: 0, height: 5 }, elevation: 12, alignItems: 'center', justifyContent: 'center', gap: 5 },
+  v75GlassButton: { backgroundColor: 'rgba(5,31,68,0.62)', borderWidth: 1, borderColor: 'rgba(91,190,255,0.58)', borderTopWidth: 1, borderTopColor: 'rgba(91,190,255,0.58)', borderLeftColor: 'rgba(91,190,255,0.58)', borderRightColor: 'rgba(91,190,255,0.58)', borderBottomWidth: 1, borderBottomColor: 'rgba(91,190,255,0.58)', shadowColor: '#12BFFF', shadowOpacity: 0.48, shadowRadius: 17, shadowOffset: { width: 0, height: 3 }, elevation: 8 },
+  v75FeatureGlass: { backgroundColor: 'rgba(5,31,68,0.48)', borderWidth: 1, borderColor: 'rgba(91,190,255,0.52)', borderTopWidth: 1, borderTopColor: 'rgba(91,190,255,0.52)', borderBottomWidth: 1, borderBottomColor: 'rgba(91,190,255,0.52)', shadowColor: '#12BFFF', shadowOpacity: 0.42, shadowRadius: 16, shadowOffset: { width: 0, height: 3 }, elevation: 7, alignItems: 'center', justifyContent: 'center', gap: 5 },
 
 
 });
