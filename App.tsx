@@ -1770,7 +1770,7 @@ export default function App() {
 
           <View style={styles.creditReferenceLayout}>
             <View style={styles.creditCoinShowcase} accessibilityLabel="Объёмная композиция золотых монет">
-              <PanelArtworkCrop quadrant="credits" width={150} height={120} />
+              <PanelArtworkCrop quadrant="credits" width={225} height={180} />
               <View style={styles.creditBalanceCaption}>
                 <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
                 <Text style={styles.creditBalanceHeroLabel}>КРЕДИТОВ</Text>
