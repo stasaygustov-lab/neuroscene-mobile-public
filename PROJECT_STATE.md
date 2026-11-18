@@ -509,3 +509,10 @@
 - Что проверено: оба целевых участка найдены и заменены в актуальном `App.tsx`; существующие обработчики вкладок, содержимое экранов и бизнес-логика не менялись.
 - Что осталось: требуется новая APK-сборка и запуск на устройстве для подтверждения визуального результата. По действующим правилам проекта сборка не запускалась без отдельного разрешения.
 - Сборка: не запускалась.
+
+## 2026-11-18 — Bottom navigation layout root cause
+- Reviewed the user-provided device screenshot: the navigation dock was rendered directly below the header, with the rest of the screen empty.
+- Confirmed the root cause in the final style merge: `FINAL_UI_FIXES_V33.container` replaced the base `container: { flex: 1, ... }` with a background-only style. Later style layers did not restore `flex: 1`, so the root `SafeAreaView` could shrink to its content height and leave the remaining Android window blank.
+- Fixed by explicitly restoring `container: { flex: 1, backgroundColor: '#030817' }` after all legacy visual-style spreads in `StyleSheet.create`. This preserves the full-height root layout; the existing header → flex ScrollView → bottom navigation order can then place the dock at the bottom.
+- Scope: UI only. No backend, authentication, generation, or payment logic changed. No APK/EAS/GitHub Actions build was started. Device verification remains pending.
+
