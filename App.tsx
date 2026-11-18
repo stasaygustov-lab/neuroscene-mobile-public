@@ -2064,7 +2064,7 @@ export default function App() {
         {authReady ? <ScreenTransition key={activeScreenKey} direction={transitionDirection}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
-      <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: 'auto', marginHorizontal: 4, alignSelf: 'stretch', flexShrink: 0, height: 82, minHeight: 82, maxHeight: 82, paddingTop: 4, paddingBottom: 9 }]}>
+      <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', marginHorizontal: 0, alignSelf: 'center', flexShrink: 0, height: 86, minHeight: 86, maxHeight: 86, paddingTop: 5, paddingBottom: 10, paddingHorizontal: 8 }]}>
         {([
           { id: 'Create', icon: 'film', label: 'Создать' },
           { id: 'Gallery', icon: 'grid', label: 'Галерея' },
@@ -2073,22 +2073,28 @@ export default function App() {
         ] as const).map((item) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item.id}
-            style={[styles.navItem, { flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: 0, width: '25%', maxWidth: '25%', minWidth: 0, alignSelf: 'auto' }, tab === item.id && styles.navItemActive, tab === item.id && item.id === 'Gallery' && styles.navItemActiveGallery, tab === item.id && item.id === 'Credits' && styles.navItemActiveCredits, tab === item.id && item.id === 'Profile' && styles.navItemActiveProfile]}
+            style={[styles.navItem, { flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: '25%', width: '25%', maxWidth: '25%', minWidth: 0, alignSelf: 'center', alignItems: 'center', justifyContent: 'center' }, tab === item.id && styles.navItemActive, tab === item.id && item.id === 'Gallery' && styles.navItemActiveGallery, tab === item.id && item.id === 'Credits' && styles.navItemActiveCredits, tab === item.id && item.id === 'Profile' && styles.navItemActiveProfile]}
             onPress={() => { const order: Tab[] = ['Create', 'Gallery', 'Credits', 'Profile']; setTransitionDirection(order.indexOf(item.id) >= order.indexOf(tab) ? 1 : -1); setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
+            {tab === item.id && <View pointerEvents="none" style={styles.navActiveGlow} />}
             {item.id === 'Create' ? (
               <View style={[styles.navCreateIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Создать">
                 <View style={styles.navHomeRoof} />
                 <View style={styles.navHomeBody}><View style={styles.navHomeDoor} /></View>
               </View>
             ) : item.id === 'Gallery' ? (
-              <View style={[styles.navGalleryIcon, tab === item.id && styles.navGlyphActive, tab === item.id && styles.navGlyphActiveGallery]} accessibilityLabel="Галерея">
-                <View style={styles.navGalleryClapperTop}><View style={styles.navGalleryClapperStripe} /><View style={styles.navGalleryClapperStripe} /><View style={styles.navGalleryClapperStripe} /></View>
-                <View style={styles.navGalleryClapperBody}><View style={styles.navGalleryPlay} /></View>
+              <View style={[styles.navGalleryIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Галерея">
+                <View style={styles.navGallerySun} />
+                <View style={styles.navGalleryMountainBack} />
+                <View style={styles.navGalleryMountainFront} />
               </View>
             ) : item.id === 'Credits' ? (
-              <View style={[styles.navCoinStack, tab === item.id && styles.navGlyphActive, tab === item.id && styles.navCoinActive]} accessibilityLabel="Стопка золотых монет">
-                <View style={styles.navCoinLayer} /><View style={styles.navCoinLayer} /><View style={styles.navCoinLayer} />
+              <View style={[styles.navDatabaseIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Кредиты">
+                <View style={styles.navDatabaseTop} />
+                <View style={styles.navDatabaseBody}>
+                  <View style={styles.navDatabaseMiddle} />
+                  <View style={styles.navDatabaseBottom} />
+                </View>
               </View>
             ) : (
               <View style={[styles.navPerson, tab === item.id && styles.navPersonActive]} accessibilityLabel="Профиль">
@@ -6697,6 +6703,110 @@ const styles = StyleSheet.create({
   brandLogoImage: { width: 43, height: 43, flexShrink: 0, backgroundColor: 'transparent' },
   brandLockupWordmark: { width: 132, minWidth: 132, flexShrink: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
   brandWordmarkLine: { width: 132, flexShrink: 0, color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 20, fontWeight: '900', letterSpacing: -0.3, textShadowColor: '#168BFF', textShadowRadius: 10, includeFontPadding: false },
+  // V58: reference-matched navy/cyan bottom dock, centered four-column layout and uniform icon strokes.
+  bottomNav: {
+    width: '100%', height: 86, minHeight: 86, maxHeight: 86,
+    flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-evenly',
+    alignItems: 'center', alignSelf: 'center', marginHorizontal: 0, marginBottom: 0,
+    paddingHorizontal: 8, paddingTop: 5, paddingBottom: 10,
+    backgroundColor: 'rgba(2, 10, 30, 0.97)',
+    borderTopWidth: 1.2, borderLeftWidth: 1, borderRightWidth: 1, borderBottomWidth: 0,
+    borderTopLeftRadius: 26, borderTopRightRadius: 26,
+    borderColor: 'rgba(42, 166, 255, 0.68)',
+    shadowColor: '#087DFF', shadowOpacity: 0.62, shadowRadius: 20,
+    shadowOffset: { width: 0, height: -4 }, elevation: 18, overflow: 'visible'
+  },
+  navItem: {
+    flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: '25%', width: '25%', maxWidth: '25%', minWidth: 0,
+    height: 68, minHeight: 68, paddingHorizontal: 0, paddingTop: 2, paddingBottom: 6,
+    gap: 3, alignItems: 'center', justifyContent: 'center', alignSelf: 'center',
+    borderRadius: 0, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', overflow: 'visible'
+  },
+  navItemActive: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0, elevation: 0 },
+  navItemActiveGallery: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
+  navItemActiveCredits: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
+  navItemActiveProfile: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
+  navActiveGlow: {
+    position: 'absolute', top: 1, alignSelf: 'center', width: 58, height: 43, borderRadius: 22,
+    backgroundColor: 'rgba(0, 139, 255, 0.17)', borderWidth: 1, borderColor: 'rgba(76, 202, 255, 0.42)',
+    shadowColor: '#08AFFF', shadowOpacity: 0.9, shadowRadius: 16, shadowOffset: { width: 0, height: 0 }, elevation: 10
+  },
+  navActiveIndicator: {
+    position: 'absolute', bottom: 0, alignSelf: 'center', width: '52%', height: 2.5, borderRadius: 3,
+    backgroundColor: '#29C7FF', shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 12,
+    shadowOffset: { width: 0, height: 0 }, elevation: 10
+  },
+  navCreateIcon: {
+    width: 30, height: 30, minHeight: 30, marginBottom: 0, alignItems: 'center', justifyContent: 'center',
+    backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0,
+    shadowColor: '#16BFFF', shadowOpacity: 0.42, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 4
+  },
+  navHomeRoof: {
+    width: 0, height: 0, borderLeftWidth: 14, borderRightWidth: 14, borderBottomWidth: 12,
+    borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#BDEEFF', marginBottom: -1
+  },
+  navHomeBody: {
+    width: 21, height: 15, borderWidth: 1.7, borderTopWidth: 0, borderColor: '#BDEEFF',
+    backgroundColor: 'rgba(20, 145, 255, 0.08)', alignItems: 'center', justifyContent: 'flex-end'
+  },
+  navHomeDoor: { width: 6, height: 8, borderWidth: 1.1, borderBottomWidth: 0, borderColor: '#BDEEFF', backgroundColor: 'transparent' },
+  navGalleryIcon: {
+    width: 30, height: 30, minHeight: 30, marginBottom: 0, alignItems: 'center', justifyContent: 'center',
+    backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0,
+    shadowColor: '#16BFFF', shadowOpacity: 0.42, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 4
+  },
+  navGallerySun: {
+    position: 'absolute', top: 5, right: 6, width: 6, height: 6, borderRadius: 3,
+    borderWidth: 1.4, borderColor: '#BDEEFF', backgroundColor: 'transparent'
+  },
+  navGalleryMountainBack: {
+    position: 'absolute', left: 4, bottom: 5, width: 17, height: 13,
+    borderTopWidth: 1.7, borderLeftWidth: 1.7, borderColor: '#BDEEFF', transform: [{ rotate: '45deg' }]
+  },
+  navGalleryMountainFront: {
+    position: 'absolute', right: 3, bottom: 5, width: 14, height: 10,
+    borderTopWidth: 1.7, borderLeftWidth: 1.7, borderColor: '#BDEEFF', transform: [{ rotate: '45deg' }]
+  },
+  navDatabaseIcon: {
+    width: 30, height: 30, minHeight: 30, marginBottom: 0, alignItems: 'center', justifyContent: 'center',
+    shadowColor: '#16BFFF', shadowOpacity: 0.42, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 4
+  },
+  navDatabaseTop: {
+    position: 'absolute', top: 4, width: 23, height: 8, borderRadius: 12, borderWidth: 1.7,
+    borderColor: '#BDEEFF', backgroundColor: 'rgba(20, 145, 255, 0.08)', zIndex: 2
+  },
+  navDatabaseBody: {
+    position: 'absolute', top: 7, width: 23, height: 19, borderLeftWidth: 1.7, borderRightWidth: 1.7,
+    borderBottomWidth: 1.7, borderColor: '#BDEEFF', borderBottomLeftRadius: 11, borderBottomRightRadius: 11
+  },
+  navDatabaseMiddle: {
+    position: 'absolute', top: 6, left: 0, width: 20, height: 7,
+    borderBottomWidth: 1.5, borderColor: '#BDEEFF', borderBottomLeftRadius: 10, borderBottomRightRadius: 10
+  },
+  navDatabaseBottom: {
+    position: 'absolute', top: 12, left: 0, width: 20, height: 6,
+    borderBottomWidth: 1.5, borderColor: '#BDEEFF', borderBottomLeftRadius: 10, borderBottomRightRadius: 10
+  },
+  navPerson: {
+    width: 30, height: 30, minHeight: 30, marginBottom: 0, alignItems: 'center', justifyContent: 'center',
+    shadowColor: '#16BFFF', shadowOpacity: 0.42, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 4
+  },
+  navPersonHead: { width: 11, height: 11, borderRadius: 6, borderWidth: 1.7, borderColor: '#BDEEFF', backgroundColor: 'transparent', marginBottom: 3 },
+  navPersonBody: {
+    width: 23, height: 13, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 5, borderBottomRightRadius: 5,
+    borderWidth: 1.7, borderBottomWidth: 0, borderColor: '#BDEEFF', backgroundColor: 'transparent'
+  },
+  navGlyphActive: { shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 10 },
+  navCoinActive: { shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 10 },
+  navPersonActive: { shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 10 },
+  navLabel: {
+    width: '100%', color: '#B7D7F2', fontFamily: 'Manrope', fontSize: 11.5, lineHeight: 15,
+    fontWeight: '800', letterSpacing: 0.1, textAlign: 'center', includeFontPadding: false, flexShrink: 1
+  },
+  navLabelActive: { color: '#F2FBFF', fontFamily: 'Manrope', fontSize: 11.5, lineHeight: 15, fontWeight: '900', textShadowColor: '#18BFFF', textShadowRadius: 10 },
+  navLabelActiveGallery: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
+  navLabelActiveCredits: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
+  navLabelActiveProfile: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
   // Preserve full-screen flex after legacy visual layers that redefine container.
   container: { flex: 1, backgroundColor: '#030817' },
 
