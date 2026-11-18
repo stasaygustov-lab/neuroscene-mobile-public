@@ -1770,7 +1770,11 @@ export default function App() {
 
           <View style={styles.creditReferenceLayout}>
             <View style={styles.creditCoinShowcase} accessibilityLabel="Объёмная композиция золотых монет">
-              <PanelArtworkCrop quadrant="credits" width={225} height={180} />
+              <View style={styles.creditCoinStack}>
+                <View style={[styles.creditLargeCoin, styles.creditLargeCoinBack]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
+                <View style={[styles.creditLargeCoin, styles.creditLargeCoinMiddle]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
+                <View style={[styles.creditLargeCoin, styles.creditLargeCoinFront]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
+              </View>
               <View style={styles.creditBalanceCaption}>
                 <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
                 <Text style={styles.creditBalanceHeroLabel}>КРЕДИТОВ</Text>
@@ -2397,7 +2401,21 @@ function GalleryScreen({
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.galleryEmptyReferenceState}>
           <View style={styles.galleryGalaxyArtwork} accessibilityLabel="Объёмная неоновая галактика">
-            <PanelArtworkCrop quadrant="galaxy" width={250} height={190} />
+            <View style={styles.galleryGalaxyAura} />
+            <View style={styles.galleryGalaxyOrbitOuter} />
+            <View style={styles.galleryGalaxyOrbitInner} />
+            <View style={styles.galleryGalaxyArmOne} />
+            <View style={styles.galleryGalaxyArmTwo} />
+            <View style={styles.galleryGalaxyArmThree} />
+            <View style={styles.galleryGalaxyCore}>
+              <View style={styles.galleryGalaxyCoreHighlight} />
+              <View style={styles.galleryGalaxyCoreFlare} />
+            </View>
+            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarOne]} />
+            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarTwo]} />
+            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarThree]} />
+            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarFour]} />
+            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarFive]} />
           </View>
         </View>
       )}
@@ -3214,28 +3232,6 @@ function SupportScreen({
           ))}
         </View>
       )}
-    </View>
-  );
-}
-
-type PanelArtworkQuadrant = 'clapper' | 'galaxy' | 'credits' | 'avatar';
-
-const PANEL_ARTWORK = require('./assets/Космическая панель технологий.png');
-
-function PanelArtworkCrop({ quadrant, width, height }: { quadrant: PanelArtworkQuadrant; width: number; height: number }) {
-  const size = Math.min(width, height);
-  const right = quadrant === 'galaxy' || quadrant === 'avatar';
-  const bottom = quadrant === 'credits' || quadrant === 'avatar';
-  return (
-    <View style={{ width, height, alignItems: 'center', justifyContent: 'center' }} accessible={false}>
-      <View style={{ width: size, height: size, overflow: 'hidden', backgroundColor: 'transparent', borderRadius: Math.max(12, size * 0.08) }}>
-        <Image
-          source={PANEL_ARTWORK}
-          style={{ position: 'absolute', width: size * 2, height: size * 2, left: right ? -size : 0, top: bottom ? -size : 0 }}
-          resizeMode="stretch"
-          accessible={false}
-        />
-      </View>
     </View>
   );
 }
@@ -7677,5 +7673,17 @@ const styles = StyleSheet.create({
   schematicAvatarNeck: { position: 'absolute', top: 59, width: 19, height: 18, borderWidth: 1.5, borderColor: '#8BE8FF', backgroundColor: 'rgba(28,136,208,0.56)' },
   schematicAvatarShoulders: { position: 'absolute', bottom: 18, width: 78, height: 38, borderTopLeftRadius: 42, borderTopRightRadius: 42, borderWidth: 2, borderBottomWidth: 0, borderTopColor: '#F0FDFF', borderLeftColor: '#8CEBFF', borderRightColor: '#1E9BEA', backgroundColor: 'rgba(23,117,195,0.36)', shadowColor: '#19CFFF', shadowOpacity: 0.95, shadowRadius: 16, elevation: 10 },
   schematicAvatarCore: { position: 'absolute', bottom: 31, width: 24, height: 17, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(225,251,255,0.88)', backgroundColor: 'rgba(82,198,255,0.42)' },
+  creditCoinStack: { width: 225, height: 180, position: 'relative', alignSelf: 'center', overflow: 'visible' },
+  galleryGalaxyArmOne: { position: 'absolute', width: '72%', height: '34%', borderRadius: 100, borderWidth: 13, borderColor: 'rgba(45,153,255,0.22)', transform: [{ rotate: '-28deg' }], shadowColor: '#28BFFF', shadowOpacity: 0.9, shadowRadius: 20, elevation: 12 },
+  galleryGalaxyArmTwo: { position: 'absolute', width: '64%', height: '27%', borderRadius: 100, borderWidth: 9, borderColor: 'rgba(117,92,255,0.22)', transform: [{ rotate: '42deg' }], shadowColor: '#8B6CFF', shadowOpacity: 0.85, shadowRadius: 18, elevation: 10 },
+  galleryGalaxyArmThree: { position: 'absolute', width: '54%', height: '20%', borderRadius: 100, borderWidth: 7, borderColor: 'rgba(34,204,255,0.24)', transform: [{ rotate: '108deg' }], shadowColor: '#21CFFF', shadowOpacity: 0.9, shadowRadius: 17, elevation: 9 },
+  galleryGalaxyCoreFlare: { position: 'absolute', width: 22, height: 22, borderRadius: 11, backgroundColor: '#E8FDFF', shadowColor: '#51DFFF', shadowOpacity: 1, shadowRadius: 26, elevation: 20 },
+  galleryGalaxyStarThree: { top: 126, left: 39, width: 4, height: 4 },
+  galleryGalaxyStarFour: { bottom: 43, right: 55, width: 6, height: 6 },
+  galleryGalaxyStarFive: { top: 52, left: 137, width: 3, height: 3 },
+  bottomNav: { backgroundColor: 'rgba(3,18,43,0.42)', borderTopWidth: 1.4, borderLeftWidth: 1, borderRightWidth: 1, borderColor: 'rgba(125,218,255,0.82)', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 32, shadowOffset: { width: 0, height: -9 }, elevation: 25, overflow: 'visible' },
+  bottomNavGlass: { ...StyleSheet.absoluteFillObject, top: -8, borderTopLeftRadius: 26, borderTopRightRadius: 26, backgroundColor: 'rgba(8,42,82,0.22)', borderTopWidth: 1.4, borderTopColor: 'rgba(225,250,255,0.52)' },
+  bottomNavGlassEdge: { position: 'absolute', left: 12, right: 12, top: 0, height: 1.5, backgroundColor: 'rgba(218,250,255,0.96)', shadowColor: '#23BFFF', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
+  bottomNavGlassBloom: { position: 'absolute', left: '8%', right: '8%', top: -16, height: 38, borderRadius: 28, backgroundColor: 'rgba(0,145,255,0.18)', shadowColor: '#08AFFF', shadowOpacity: 1, shadowRadius: 30, elevation: 16 },
 
 });
