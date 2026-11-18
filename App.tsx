@@ -1974,10 +1974,15 @@ export default function App() {
   const activeScreenKey = showAdminPanel ? 'admin' : showNotifications ? 'notifications' : showFaq ? 'faq' : showSupport ? 'support' : tab;
 
   return (
-    <View style={[styles.container, { flex: 1, backgroundColor: '#020611' }]}>
-      <View pointerEvents="none" style={[styles.ambientBackdrop, { backgroundColor: '#020611' }]}>
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: '#020611' }]} />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(2,8,25,0.22)' }]} />
+    <ImageBackground
+      source={require('./assets/Штормовое море под электрическим небом-1.png')}
+      resizeMode="cover"
+      imageStyle={{ opacity: 0.88 }}
+      style={[styles.container, { flex: 1, backgroundColor: '#020611' }]}
+    >
+      <View pointerEvents="none" style={[styles.ambientBackdrop, { backgroundColor: 'transparent' }]}>
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(2,8,25,0.24)' }]} />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(2,8,25,0.16)' }]} />
         {/* Deep-space nebula layers: soft volumetric clouds at different depths */}
         <View style={{ position: 'absolute', width: 430, height: 250, top: '7%', right: -190, borderRadius: 220, backgroundColor: 'rgba(41,78,196,0.28)', shadowColor: '#477BFF', shadowOpacity: 0.95, shadowRadius: 105, elevation: 10, transform: [{ rotate: '-24deg' }] }} />
         <View style={{ position: 'absolute', width: 390, height: 210, top: '29%', left: -190, borderRadius: 190, backgroundColor: 'rgba(103,43,174,0.22)', shadowColor: '#9A54FF', shadowOpacity: 0.9, shadowRadius: 100, elevation: 9, transform: [{ rotate: '18deg' }] }} />
@@ -2118,7 +2123,7 @@ export default function App() {
           }]} />
         </View>
       )}
-    </View>
+    </ImageBackground>
   );
 }
 
@@ -5511,7 +5516,7 @@ const FINAL_UI_FIXES_V33 = {
   ambientGlowTopProfile: { backgroundColor: '#168BFF', opacity: 0.20 },
   ambientGlowBottomProfile: { backgroundColor: '#087BFF', opacity: 0.16 },
   ambientGlowCenterProfile: { backgroundColor: '#075CEB', opacity: 0.12 },
-  referenceCenteredHeader: { width: '100%', minHeight: 66, height: 66, marginTop: 0, marginBottom: 0, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'transparent', borderBottomWidth: 0 },
+  referenceCenteredHeader: { width: '100%', minHeight: 74, height: 74, marginTop: 8, marginBottom: 0, paddingHorizontal: 18, paddingTop: 8, paddingBottom: 4, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'transparent', borderBottomWidth: 0 },
   brandRowCentered: { width: 'auto', alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent' },
   brandLogoArtwork: { width: 104, height: 54, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8, alignSelf: 'flex-start', margin: 0, padding: 0, backgroundColor: 'transparent' },
   brandPlayMark: { width: 0, height: 0, borderTopWidth: 12, borderBottomWidth: 12, borderLeftWidth: 18, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#48D7FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
@@ -7608,7 +7613,7 @@ const styles = StyleSheet.create({
   modeOptionTextActive: { color: '#FFFFFF', textShadowColor: '#25CFFF', textShadowRadius: 10 },
   engineCard: { backgroundColor: 'rgba(3,25,60,0.72)', borderWidth: 1, borderTopColor: 'rgba(210,249,255,0.62)', borderLeftColor: 'rgba(76,183,255,0.46)', borderRightColor: 'rgba(18,105,198,0.68)', borderBottomWidth: 2, borderBottomColor: '#052F67', borderRadius: 15, shadowColor: '#078BFF', shadowOpacity: 0.4, shadowRadius: 13, shadowOffset: { width: 0, height: 4 }, elevation: 8 },
   prompt: { minHeight: 116, borderRadius: 16, borderWidth: 1.2, borderTopColor: 'rgba(210,249,255,0.68)', borderLeftColor: 'rgba(80,185,255,0.54)', borderRightColor: 'rgba(18,106,197,0.72)', borderBottomWidth: 3, borderBottomColor: '#052E67', backgroundColor: 'rgba(3,20,49,0.82)', color: '#F3FAFF', shadowColor: '#078BFF', shadowOpacity: 0.38, shadowRadius: 15, shadowOffset: { width: 0, height: 4 }, elevation: 8 },
-  featureSection: { width: '100%', marginTop: 3, marginBottom: 5, backgroundColor: 'transparent' },
+  featureSection: { width: '100%', marginTop: 'auto', marginBottom: 2, backgroundColor: 'rgba(2,12,30,0.16)' },
   featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'stretch', columnGap: 5 },
   featureTile: { flex: 1, width: 'auto', minWidth: 0, minHeight: 76, paddingHorizontal: 2, paddingVertical: 5, borderRadius: 13, borderWidth: 1, borderTopColor: 'rgba(218,250,255,0.66)', borderLeftColor: 'rgba(77,184,255,0.46)', borderRightColor: 'rgba(24,108,197,0.66)', borderBottomWidth: 3, borderBottomColor: '#052F68', backgroundColor: 'rgba(3,23,55,0.72)', alignItems: 'center', justifyContent: 'flex-start', shadowColor: '#078BFF', shadowOpacity: 0.48, shadowRadius: 15, shadowOffset: { width: 0, height: 5 }, elevation: 9 },
   featureTitle: { width: '100%', color: '#EAF8FF', fontSize: 9, lineHeight: 12, fontWeight: '800', textAlign: 'center' },
