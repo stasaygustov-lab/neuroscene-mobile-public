@@ -2047,9 +2047,7 @@ export default function App() {
       {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandLogoArtwork} accessibilityLabel="Логотип НейроСцена">
-            <View style={styles.brandMonogram} accessibilityLabel="Монограмма Н плюс С">
-              <Text style={styles.brandMonogramText}>Н+С</Text>
-            </View>
+            <BrandMonogram />
             <View style={styles.brandLockupWordmark}>
               <Text style={styles.brandWordmarkLine}>Нейро</Text>
               <Text style={[styles.brandWordmarkLine, styles.brandWordmarkAccent]}>Сцена</Text>
@@ -2144,7 +2142,7 @@ export default function App() {
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup} accessibilityLabel="Логотип НейроСцена">
             <View style={styles.splashNativeLogo}>
-              <Text style={styles.splashNativeMonogram}>Н+С</Text>
+              <BrandMonogram large />
               <View style={styles.splashNativeWordmark}>
                 <Text style={styles.splashNativeWordmarkLine}>Нейро</Text>
                 <Text style={[styles.splashNativeWordmarkLine, styles.splashNativeWordmarkAccent]}>Сцена</Text>
@@ -3429,6 +3427,20 @@ function SupportScreen({
           ))}
         </View>
       )}
+    </View>
+  );
+}
+
+function BrandMonogram({ large = false }: { large?: boolean }) {
+  const scale = large ? 1.72 : 1;
+  return (
+    <View style={{ width: 76 * scale, height: 44 * scale, position: 'relative', alignItems: 'center', justifyContent: 'center', shadowColor: '#078BFF', shadowOpacity: 1, shadowRadius: large ? 22 : 12, elevation: large ? 12 : 6 }} accessibilityLabel="Фирменный знак Н+С">
+      <View style={{ position: 'absolute', left: 2 * scale, top: 1 * scale, width: 10 * scale, height: 42 * scale, borderRadius: 1 * scale, backgroundColor: '#35BFFF', shadowColor: '#16AFFF', shadowOpacity: 1, shadowRadius: 8 * scale, elevation: 5 }} />
+      <View style={{ position: 'absolute', left: 27 * scale, top: 1 * scale, width: 10 * scale, height: 42 * scale, borderRadius: 1 * scale, backgroundColor: '#35BFFF', shadowColor: '#16AFFF', shadowOpacity: 1, shadowRadius: 8 * scale, elevation: 5 }} />
+      <View style={{ position: 'absolute', left: 10 * scale, top: 17 * scale, width: 19 * scale, height: 8 * scale, backgroundColor: '#35BFFF' }} />
+      <View style={{ position: 'absolute', left: 43 * scale, top: 17 * scale, width: 17 * scale, height: 8 * scale, backgroundColor: '#35BFFF' }} />
+      <View style={{ position: 'absolute', left: 47.5 * scale, top: 12.5 * scale, width: 8 * scale, height: 17 * scale, backgroundColor: '#35BFFF' }} />
+      <View style={{ position: 'absolute', left: 64 * scale, top: 1 * scale, width: 39 * scale, height: 42 * scale, borderWidth: 6 * scale, borderRightWidth: 0, borderColor: '#35BFFF', borderRadius: 23 * scale, shadowColor: '#16AFFF', shadowOpacity: 1, shadowRadius: 8 * scale, elevation: 5 }} />
     </View>
   );
 }
@@ -6337,6 +6349,10 @@ const styles = StyleSheet.create({
   sectionHeadingBeam: { width: '100%', height: 3, marginTop: -6, marginBottom: 10, borderRadius: 8, backgroundColor: 'rgba(38, 157, 255, 0.30)', shadowColor: '#119EFF', shadowOpacity: 1, shadowRadius: 18, elevation: 10, justifyContent: 'center' },
   sectionHeadingBeamCore: { width: '100%', height: 1, borderRadius: 2, backgroundColor: 'rgba(155, 230, 255, 0.88)' },
   featureSectionTitle: { color: '#E8F7FF', textShadowColor: '#168BFF', textShadowRadius: 16, textShadowOffset: { width: 0, height: 1 } },
+  // Brand mark geometry follows the original reference: angular Н, separate plus, open C.
+  brandMonogram: { width: 76, height: 44, alignItems: 'center', justifyContent: 'center' },
+  brandMonogramText: { display: 'none' },
+  splashNativeMonogram: { display: 'none' },
   // Native vector-style artwork replaces raster crops from the presentation reference.
   brandMonogram: { width: 43, height: 43, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' },
   brandMonogramText: { color: '#A9F1FF', fontFamily: 'Manrope', fontSize: 24, lineHeight: 30, fontWeight: '900', letterSpacing: -2, textShadowColor: '#168BFF', textShadowRadius: 15, includeFontPadding: false },
