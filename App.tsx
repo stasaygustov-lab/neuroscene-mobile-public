@@ -14,6 +14,7 @@ import {
   Alert,
   ActivityIndicator,
   Image,
+  ImageBackground,
   Linking,
   useWindowDimensions,
 } from 'react-native';
@@ -2024,17 +2025,15 @@ export default function App() {
   const activeScreenKey = showAdminPanel ? 'admin' : showNotifications ? 'notifications' : showFaq ? 'faq' : showSupport ? 'support' : tab;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ImageBackground
+      source={require('./assets/Штормовое море под электрическим небом-1.png')}
+      resizeMode="cover"
+      imageStyle={{ opacity: 1 }}
+      style={styles.container}
+      accessibilityLabel="Фоновое изображение всех экранов — электрический шторм над океаном"
+    >
       <View pointerEvents="none" style={styles.ambientBackdrop}>
-        <Image
-          source={require('./assets/Штормовое море под электрическим небом-1.png')}
-          blurRadius={0}
-          resizeMode="cover"
-          fadeDuration={0}
-          style={[StyleSheet.absoluteFill, { width: '100%', height: '100%', opacity: 1 }]}
-          accessibilityLabel="Единый фон всех экранов НейроСцены — штормовое море под электрическим небом"
-        />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.07)' }]} />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.035)' }]} />
         <View style={styles.ambientBackdropTint} />
         <View style={styles.ambientGlowTop} />
         <View style={styles.ambientGlowBottom} />
@@ -2182,7 +2181,7 @@ export default function App() {
           }]} />
         </View>
       )}
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
 
