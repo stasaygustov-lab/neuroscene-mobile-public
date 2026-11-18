@@ -3436,7 +3436,7 @@ function SupportScreen({
 function FeatureGlyph({ type }: { type: string }) {
   if (type === 'text') return <View style={styles.featureGlyphFrame} accessibilityLabel="Кинематографическая хлопушка"><View style={styles.featureClapperTop}><View style={styles.featureClapperStripe} /><View style={styles.featureClapperStripe} /><View style={styles.featureClapperStripe} /></View><View style={styles.featureClapperBody}><View style={styles.featureGlyphPlay} /></View></View>;
   if (type === 'image') return <View style={styles.featureGlyphFrame} accessibilityLabel="Изображение и пейзаж"><View style={styles.featureImageSun} /><View style={styles.featureImageMountainBack} /><View style={styles.featureImageMountainFront} /></View>;
-  if (type === 'sound') return <View style={styles.featureGlyphFrame} accessibilityLabel="Звуковая дорожка"><Text style={styles.featureMusicGlyph}>♫</Text><View style={styles.featureSoundWave}><View style={{height:4}} /><View style={{height:8}} /><View style={{height:5}} /><View style={{height:7}} /><View style={{height:3}} /></View></View>;
+  if (type === 'sound') return <View style={styles.featureGlyphFrame} accessibilityLabel="Звуковая дорожка"><Text style={styles.featureMusicGlyph}>♫</Text><View style={styles.featureSoundWave}><View style={[styles.featureSoundWaveBar,{height:4}]} /><View style={[styles.featureSoundWaveBar,{height:8}]} /><View style={[styles.featureSoundWaveBar,{height:5}]} /><View style={[styles.featureSoundWaveBar,{height:7}]} /><View style={[styles.featureSoundWaveBar,{height:3}]} /></View></View>;
   return <View style={styles.featureGlyphFrame} accessibilityLabel="Волшебная палочка улучшения"><View style={styles.featureWandStem} /><Text style={styles.featureWandSpark}>✦</Text><Text style={styles.featureWandSparkSmall}>✧</Text></View>;
 }
 
@@ -6357,6 +6357,7 @@ const styles = StyleSheet.create({
   featureImageMountainFront: { position: 'absolute', right: 3, bottom: 7, width: 14, height: 11, borderTopWidth: 1.8, borderLeftWidth: 1.8, borderColor: '#7BE8FF', transform: [{ rotate: '45deg' }] },
   featureMusicGlyph: { color: '#7BE8FF', fontSize: 29, lineHeight: 32, fontWeight: '700', textShadowColor: '#08BFFF', textShadowRadius: 12 },
   featureSoundWave: { position: 'absolute', bottom: 2, flexDirection: 'row', alignItems: 'center', gap: 2, height: 8 },
+  featureSoundWaveBar: { width: 2, borderRadius: 2, backgroundColor: '#7BE8FF', shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 4 },
   featureWandStem: { width: 4, height: 29, borderRadius: 3, backgroundColor: '#7BE8FF', transform: [{ rotate: '42deg' }], shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 8 },
   featureWandSpark: { position: 'absolute', top: 0, right: 0, color: '#B8F5FF', fontSize: 15, textShadowColor: '#08BFFF', textShadowRadius: 10 },
   featureWandSparkSmall: { position: 'absolute', bottom: 0, left: 1, color: '#7BE8FF', fontSize: 12 },
