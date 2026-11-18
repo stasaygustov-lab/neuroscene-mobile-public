@@ -6659,22 +6659,16 @@ const FINAL_UI_CREATE_HERO_V65: StyleOverrides = {
   }
 };
 
-const styles = StyleSheet.create({
+const styles: Record<string, any> = StyleSheet.create({
   // V61: hand-built artwork and dimensional neon title beams, no reference screenshot crops.
   profileIdentity: { width: '100%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: 5, marginBottom: 18 },
-  profileGuestAvatar: {
-    position: 'relative', width: 124, height: 124, borderRadius: 62, alignSelf: 'center',
-    alignItems: 'center', justifyContent: 'center', overflow: 'visible',
-    borderWidth: 1.5, borderColor: 'rgba(83, 207, 255, 0.96)',
-    backgroundColor: 'rgba(2, 23, 57, 0.72)',
-    shadowColor: '#13AFFF', shadowOpacity: 0.95, shadowRadius: 25, elevation: 13
-  },
+  
   profileAvatarOuterRing: { position: 'absolute', width: 142, height: 142, borderRadius: 71, borderWidth: 1, borderColor: 'rgba(54, 171, 255, 0.38)', shadowColor: '#168BFF', shadowOpacity: 0.78, shadowRadius: 22, elevation: 8 },
   profileAvatarInnerRing: { position: 'absolute', width: 108, height: 108, borderRadius: 54, borderWidth: 1, borderColor: 'rgba(151, 229, 255, 0.42)', backgroundColor: 'rgba(17, 105, 177, 0.12)' },
   profileAvatarHalo: { position: 'absolute', width: 86, height: 86, borderRadius: 43, backgroundColor: 'rgba(0, 151, 255, 0.10)', shadowColor: '#00BFFF', shadowOpacity: 0.9, shadowRadius: 20, elevation: 9 },
   profileGuestHead: { width: 28, height: 28, borderRadius: 14, borderWidth: 2, borderColor: '#D8F7FF', backgroundColor: 'rgba(108, 211, 255, 0.88)', marginBottom: 6, shadowColor: '#26C8FF', shadowOpacity: 0.9, shadowRadius: 12, elevation: 7 },
   profileGuestBody: { width: 58, height: 34, borderTopLeftRadius: 32, borderTopRightRadius: 32, borderBottomLeftRadius: 15, borderBottomRightRadius: 15, borderWidth: 2, borderBottomWidth: 0, borderColor: '#C8F2FF', backgroundColor: 'rgba(77, 185, 255, 0.72)', shadowColor: '#168BFF', shadowOpacity: 0.8, shadowRadius: 12, elevation: 6 },
-  creditCoinsArtwork: { width: '100%', height: 100, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  
   creditCoinStackBack: { position: 'absolute', top: 11, left: '26%', alignItems: 'center', justifyContent: 'center' },
   creditCoinStackFront: { position: 'absolute', top: 32, left: '42%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   creditCoinSingle: { position: 'absolute', top: 51, left: '31%' },
@@ -6682,18 +6676,18 @@ const styles = StyleSheet.create({
   creditCoinInner: { width: 25, height: 7, borderRadius: 5, borderWidth: 1, borderColor: 'rgba(255,245,185,0.88)', backgroundColor: '#FFD76A' },
   // Volumetric blue title beam: soft outer bloom, diffuse middle, crisp luminous core.
   creditsTitleGlow: { position: 'absolute', bottom: -1, width: '78%', height: 4, borderRadius: 8, backgroundColor: 'rgba(73, 204, 255, 0.72)', shadowColor: '#12AFFF', shadowOpacity: 1, shadowRadius: 23, elevation: 13, overflow: 'visible' },
-  galleryReferenceUnderline: { height: 4, borderRadius: 8, backgroundColor: 'rgba(92, 203, 255, 0.76)', shadowColor: '#149EFF', shadowOpacity: 1, shadowRadius: 22, elevation: 12 },
+  
   profileTitleUnderline: { width: '76%', height: 4, marginTop: 5, borderRadius: 8, backgroundColor: 'rgba(92, 203, 255, 0.78)', shadowColor: '#149EFF', shadowOpacity: 1, shadowRadius: 22, elevation: 12 },
-  featureHeadingLine: { height: 3, borderRadius: 6, backgroundColor: 'rgba(73, 204, 255, 0.72)', shadowColor: '#12AFFF', shadowOpacity: 1, shadowRadius: 20, elevation: 11 },
-  featureHeadingBeam: { width: '68%', height: 4, alignSelf: 'center', marginTop: 5, marginBottom: 9, borderRadius: 8, backgroundColor: 'rgba(48, 167, 255, 0.30)', shadowColor: '#129DFF', shadowOpacity: 1, shadowRadius: 21, elevation: 12, alignItems: 'center', justifyContent: 'center' },
+  
+  
   featureHeadingBeamCore: { width: '100%', height: 1, borderRadius: 2, backgroundColor: '#A7EEFF', opacity: 0.94 },
   sectionHeadingBeam: { width: '100%', height: 3, marginTop: -6, marginBottom: 10, borderRadius: 8, backgroundColor: 'rgba(38, 157, 255, 0.30)', shadowColor: '#119EFF', shadowOpacity: 1, shadowRadius: 18, elevation: 10, justifyContent: 'center' },
   sectionHeadingBeamCore: { width: '100%', height: 1, borderRadius: 2, backgroundColor: 'rgba(155, 230, 255, 0.88)' },
-  featureSectionTitle: { color: '#E8F7FF', textShadowColor: '#168BFF', textShadowRadius: 16, textShadowOffset: { width: 0, height: 1 } },
+  
   // Brand mark geometry follows the original reference: angular Н, separate plus, open C.
-  brandMonogram: { width: 76, height: 44, alignItems: 'center', justifyContent: 'center' },
-  brandMonogramText: { display: 'none' },
-  splashNativeMonogram: { display: 'none' },
+  
+  
+  
   // Native vector-style artwork replaces raster crops from the presentation reference.
   brandMonogram: { width: 43, height: 43, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' },
   brandMonogramText: { color: '#A9F1FF', fontFamily: 'Manrope', fontSize: 24, lineHeight: 30, fontWeight: '900', letterSpacing: -2, textShadowColor: '#168BFF', textShadowRadius: 15, includeFontPadding: false },
@@ -6704,7 +6698,7 @@ const styles = StyleSheet.create({
   splashNativeWordmarkAccent: { color: '#F4FAFF' },
   splashNativeCaption: { marginTop: 30, color: '#9DDFFF', fontFamily: 'Manrope', fontSize: 13, lineHeight: 19, fontWeight: '700', letterSpacing: 1.2, textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 12 },
   splashLogoImage: { display: 'none' },
-  featureGlyphFrame: { width: 36, height: 34, marginBottom: 3, alignItems: 'center', justifyContent: 'center', position: 'relative', shadowColor: '#08BFFF', shadowOpacity: 0.9, shadowRadius: 10, elevation: 5 },
+  
   featureClapperTop: { width: 27, height: 8, borderWidth: 1.5, borderColor: '#7BE8FF', borderRadius: 2, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', transform: [{ rotate: '-8deg' }], marginBottom: 1 },
   featureClapperStripe: { width: 4, height: 6, backgroundColor: 'rgba(74,207,255,0.52)', transform: [{ skewX: '-24deg' }] },
   featureClapperBody: { width: 27, height: 19, borderWidth: 1.6, borderColor: '#7BE8FF', borderRadius: 3, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,119,255,0.12)' },
@@ -6718,7 +6712,7 @@ const styles = StyleSheet.create({
   featureWandStem: { width: 4, height: 29, borderRadius: 3, backgroundColor: '#7BE8FF', transform: [{ rotate: '42deg' }], shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 8 },
   featureWandSpark: { position: 'absolute', top: 0, right: 0, color: '#B8F5FF', fontSize: 15, textShadowColor: '#08BFFF', textShadowRadius: 10 },
   featureWandSparkSmall: { position: 'absolute', bottom: 0, left: 1, color: '#7BE8FF', fontSize: 12 },
-  galleryReferenceImage: { width: 250, height: 165, maxWidth: '100%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', overflow: 'visible', backgroundColor: 'transparent' },
+  
   galleryClapperGlow: { position: 'absolute', width: 178, height: 116, borderRadius: 58, backgroundColor: 'rgba(0,123,255,0.18)', shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 35, elevation: 12 },
   galleryClapperTop: { width: 150, height: 34, borderRadius: 8, borderWidth: 2, borderColor: '#7BE8FF', backgroundColor: 'rgba(4,45,94,0.92)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', transform: [{ rotate: '-8deg' }], marginBottom: -2, zIndex: 2, shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
   galleryClapperStripe: { width: 17, height: 28, backgroundColor: 'rgba(40,174,255,0.62)', transform: [{ skewX: '-25deg' }] },
@@ -6726,7 +6720,7 @@ const styles = StyleSheet.create({
   galleryClapperPlay: { width: 0, height: 0, borderTopWidth: 19, borderBottomWidth: 19, borderLeftWidth: 29, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#A9F1FF', marginLeft: 8, shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 12 },
   galleryClapperFilmDots: { position: 'absolute', bottom: 13, left: 65, right: 65, flexDirection: 'row', justifyContent: 'space-between' },
   galleryClapperDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: '#2ABEFF', shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 6 },
-  container: { flex: 1, backgroundColor: '#030817' },
+  
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
   ambientGlowTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: 20, right: -240, backgroundColor: '#075CEB', opacity: 0.26 },
   ambientGlowBottom: { position: 'absolute', width: 390, height: 390, borderRadius: 195, bottom: 20, left: -230, backgroundColor: '#007DBA', opacity: 0.23 },
@@ -6792,7 +6786,7 @@ const styles = StyleSheet.create({
   logoSecond: { color: '#8DBBFF', fontSize: 18, lineHeight: 21, fontWeight: '900', fontFamily: 'Manrope', letterSpacing: 0.2, textShadowColor: '#247DFF', textShadowRadius: 9 },
   logoBlue: { color: BLUE },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 0 },
-  notificationButton: { width: 42, height: 42, borderRadius: 13, borderWidth: 1, borderColor: '#263B5D', backgroundColor: '#101B30', alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  
   notificationIcon: { color: '#9CCBFF', fontSize: 23, fontWeight: '800' },
   notificationBadge: { position: 'absolute', top: -4, right: -4, minWidth: 17, height: 17, borderRadius: 9, backgroundColor: BLUE, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3 },
   notificationBadgeText: { color: WHITE, fontSize: 16, fontWeight: '800' },
@@ -6816,53 +6810,19 @@ const styles = StyleSheet.create({
   eyebrow: { color: BLUE, fontSize: 16, fontWeight: '900', letterSpacing: 2 },
   heading: { color: WHITE, fontSize: 34, fontWeight: '900', fontFamily: 'Manrope', lineHeight: 42, marginTop: 0, letterSpacing: -0.4, textShadowColor: '#3A9DFF', textShadowRadius: 18 },
   description: { color: MUTED, fontSize: 16, lineHeight: 23, marginTop: 13 },
-  engineCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#101B30',
-    borderColor: '#263D65',
-    borderWidth: 1,
-    borderRadius: 14,
-    padding: 15,
-    marginBottom: 27,
-  },
+  
   engineDot: { width: 9, height: 9, borderRadius: 5, backgroundColor: '#4B91FF', marginRight: 12 },
   engineName: { color: WHITE, fontSize: 16, fontWeight: '800' },
   engineDescription: { color: MUTED, fontSize: 16, letterSpacing: 1.1, marginTop: 4 },
   engineStatus: { color: BLUE, fontSize: 16, fontWeight: '900', letterSpacing: 1 },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 11,
-    marginTop: 10,
-  },
-  sectionTitle: { color: '#C9D2E2', fontSize: 16, fontWeight: '800', letterSpacing: 1.25 },
+  
+  
   languageLabel: { color: BLUE, fontSize: 16, fontWeight: '800', letterSpacing: 1.2 },
-  prompt: {
-    fontFamily: 'Manrope',
-    minHeight: 145,
-    backgroundColor: PANEL,
-    borderWidth: 1,
-    borderColor: '#253147',
-    borderRadius: 13,
-    padding: 15,
-    color: WHITE,
-    fontSize: 16,
-    lineHeight: 21,
-  },
+  
   characterCount: { color: '#647188', fontSize: 16, textAlign: 'right', marginTop: 7, marginBottom: 15 },
   optionRow: { flexDirection: 'row', gap: 11, marginBottom: 18 },
-  option: {
-    flex: 1,
-    backgroundColor: PANEL,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#253147',
-    padding: 14,
-    alignItems: 'center',
-  },
-  selectedOption: { borderColor: BLUE, backgroundColor: '#142344' },
+  
+  
   optionMain: { color: WHITE, fontWeight: '800', fontSize: 16 },
   optionSub: { color: MUTED, fontSize: 16, marginTop: 4 },
   activeText: { color: WHITE },
@@ -6881,23 +6841,7 @@ const styles = StyleSheet.create({
   costLabel: { color: MUTED, fontSize: 16, letterSpacing: 1.5, fontWeight: '800' },
   costDescription: { color: WHITE, fontSize: 16, marginTop: 7 },
   costIcon: { color: BLUE, fontSize: 23 },
-  createButton: {
-    backgroundColor: '#2468F5',
-    borderRadius: 15,
-    paddingVertical: 19,
-    paddingHorizontal: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 5,
-    minHeight: 62,
-    borderWidth: 1,
-    borderColor: '#78B5FF',
-    shadowColor: '#167AFF',
-    shadowOpacity: 0.38,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: 5 },
-    elevation: 8,
-  },
+  
   disabledButton: { opacity: 0.55 },
   createButtonText: { color: WHITE, fontSize: 16, fontWeight: '900', fontFamily: 'Manrope', letterSpacing: 0.4 },
   generationModalBackdrop: { flex: 1, backgroundColor: 'rgba(2,7,19,0.88)', alignItems: 'center', justifyContent: 'center', padding: 24 },
@@ -6907,23 +6851,16 @@ const styles = StyleSheet.create({
   generationModalTitle: { color: WHITE, fontSize: 20, lineHeight: 27, fontWeight: '900', textAlign: 'center', marginTop: 20 },
   generationModalDescription: { color: '#A8B7CD', fontSize: 16, lineHeight: 20, textAlign: 'center', marginTop: 10 },
   generationModalHint: { color: '#7189B4', fontSize: 16, textAlign: 'center', marginTop: 15 },
-  statusCard: {
-    backgroundColor: '#101B30',
-    borderWidth: 1,
-    borderColor: '#263D65',
-    borderRadius: 14,
-    padding: 16,
-    marginTop: 20,
-  },
+  
   statusHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   statusTitle: { color: MUTED, fontSize: 16, fontWeight: '800', letterSpacing: 1.4 },
   statusValue: { color: WHITE, fontSize: 18, fontWeight: '800', marginTop: 12 },
   statusSuccess: { color: '#42D992' },
   statusDescription: { color: MUTED, fontSize: 16, lineHeight: 21, marginTop: 6 },progressSegment: { flex: 1, height: 6, borderRadius: 4, backgroundColor: '#263147' },
   progressSegmentActive: { backgroundColor: BLUE },galleryHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  galleryCard: { backgroundColor: PANEL, borderRadius: 14, padding: 12, marginTop: 14, borderWidth: 1, borderColor: '#253147' },
-  videoFrame: { width: '100%', height: 220, backgroundColor: '#000000', borderRadius: 10, overflow: 'hidden', justifyContent: 'center' },
-  videoPlayer: { width: '100%', height: 220, backgroundColor: '#000000' },
+  
+  
+  
   videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
   videoControlButton: { width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(17,24,39,0.88)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#3978FF' },
   videoControlText: { color: WHITE, fontSize: 16, fontWeight: '900' },
@@ -6931,7 +6868,7 @@ const styles = StyleSheet.create({
   galleryDate: { color: MUTED, fontSize: 16, marginTop: 5 },
   galleryPrompt: { color: '#C9D2E2', fontSize: 16, lineHeight: 21, marginTop: 9 },
   galleryActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12, marginBottom: 8 },
-  galleryActionButton: { borderWidth: 1, borderColor: 'rgba(57,120,255,0.45)', backgroundColor: 'rgba(57,120,255,0.10)', borderRadius: 10, paddingVertical: 9, paddingHorizontal: 11 },
+  
   galleryActionText: { color: '#AFCBFF', fontSize: 16, fontWeight: '700' },
   deleteVideoButton: { alignSelf: 'flex-start', paddingVertical: 10, paddingHorizontal: 12, marginTop: 8, borderRadius: 8, backgroundColor: '#351D2A' },
   deleteVideoText: { color: '#FF9AA4', fontSize: 16, fontWeight: '700' },
@@ -6958,37 +6895,25 @@ const styles = StyleSheet.create({
   resetButton: { paddingVertical: 13, alignItems: 'center', marginTop: 8 },
   resetButtonText: { color: BLUE, fontWeight: '800', fontSize: 16 },
   footerNote: { color: MUTED, fontSize: 16, textAlign: 'center', marginTop: 19, marginBottom: 10 },
-  navItem: {
-    flex: 1, alignItems: 'center', justifyContent: 'center', gap: 3,
-    minWidth: 0, minHeight: 66, paddingHorizontal: 3, paddingTop: 2,
-    paddingBottom: 7, borderRadius: 0, borderWidth: 0,
-    borderColor: 'transparent', backgroundColor: 'transparent',
-    overflow: 'visible',
-  },
-  navItemActive: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0, elevation: 0 },
-  navActiveIndicator: {
-    position: 'absolute', bottom: 0, alignSelf: 'center',
-    width: '56%', height: 3, borderRadius: 3,
-    backgroundColor: '#19BFFF', shadowColor: '#16BFFF',
-    shadowOpacity: 1, shadowRadius: 11,
-    shadowOffset: { width: 0, height: 0 }, elevation: 10,
-  },
+  
+  
+  
   navIcon: { fontSize: 27, lineHeight: 33, color: '#A9DFFF' },
   navCoin: { width: 27, height: 27, borderRadius: 14, borderWidth: 2, borderColor: BLUE, backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', padding: 3 },
   navCoinInner: { width: '100%', height: '100%', borderRadius: 10, borderWidth: 1, borderColor: BLUE, alignItems: 'center', justifyContent: 'center' },
   navCoinMark: { color: BLUE, fontSize: 16, lineHeight: 21, fontWeight: '900' },
-  navPerson: { width: 29, height: 31, alignItems: 'center', justifyContent: 'flex-end' },
-  navPersonHead: { width: 10, height: 10, borderRadius: 5, borderWidth: 2, borderColor: BLUE, backgroundColor: 'transparent', marginBottom: 3 },
-  navPersonBody: { width: 23, height: 14, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 2, borderBottomWidth: 0, borderColor: BLUE, backgroundColor: 'transparent' },
-  navLabel: { color: '#A5B2C8', fontSize: 16, lineHeight: 21, fontWeight: '700' },
-  navLabelActive: { color: '#67A0FF', fontWeight: '900' },
-  modeSelector: { flexDirection: 'row', backgroundColor: PANEL, borderRadius: 13, padding: 4, marginBottom: 18, borderWidth: 1, borderColor: '#253147' },
-  modeOption: { flex: 1, paddingVertical: 12, paddingHorizontal: 6, borderRadius: 10, alignItems: 'center' },
-  modeOptionActive: { backgroundColor: '#1B3769', borderWidth: 1, borderColor: BLUE },
-  modeOptionText: { color: MUTED, fontSize: 16, fontWeight: '700', textAlign: 'center' },
-  modeOptionTextActive: { color: WHITE },
-  imageUploadCard: { backgroundColor: PANEL, borderRadius: 13, padding: 14, marginTop: 5, marginBottom: 15, borderWidth: 1, borderColor: '#253147' },
-  chooseImageButton: { borderWidth: 1, borderStyle: 'dashed', borderColor: BLUE, borderRadius: 12, minHeight: 118, alignItems: 'center', justifyContent: 'center', marginTop: 12, backgroundColor: '#101B30' },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   chooseImageIcon: { color: '#67A0FF', fontSize: 30, fontWeight: '300' },
   chooseImageText: { color: WHITE, fontSize: 16, fontWeight: '800', marginTop: 5 },
   imageHint: { color: MUTED, fontSize: 16, marginTop: 5 },
@@ -6997,10 +6922,10 @@ const styles = StyleSheet.create({
   imageFileName: { color: MUTED, fontSize: 16, marginTop: 8 },
   removeImageButton: { alignSelf: 'flex-start', paddingVertical: 8, marginTop: 4 },
   removeImageText: { color: '#FF9AA4', fontSize: 16, fontWeight: '700' },
-  screen: { flex: 1, paddingTop: 28 },
+  
   emptyScreen: { flex: 1, alignItems: 'center', justifyContent: 'center', minHeight: 430, paddingHorizontal: 15 },
   emptyIcon: { color: BLUE, fontSize: 48, marginBottom: 15 },
-  balanceCard: { backgroundColor: '#101B30', borderRadius: 16, borderWidth: 1, borderColor: '#263D65', padding: 22, marginTop: 12, marginBottom: 30 },
+  
   balanceLabel: { color: MUTED, fontSize: 16, letterSpacing: 1.5, fontWeight: '800' },
   bigBalance: { color: WHITE, fontSize: 38, fontWeight: '900', marginTop: 10 },
   creditSymbol: { color: BLUE, fontSize: 27 },
@@ -7009,14 +6934,14 @@ const styles = StyleSheet.create({
   purchaseDisabled: { opacity: 0.48, borderWidth: 1, borderColor: '#33445F' },
   smallActionText: { color: WHITE, fontSize: 16, fontWeight: '800' },
   note: { color: MUTED, fontSize: 16, lineHeight: 21, marginTop: 20 },
-  profileCard: { backgroundColor: PANEL, borderRadius: 14, padding: 15, flexDirection: 'row', alignItems: 'center', marginBottom: 20, borderWidth: 1, borderColor: '#253147' },
+  
   avatar: { width: 43, height: 43, borderRadius: 22, backgroundColor: '#1B3769', alignItems: 'center', justifyContent: 'center', marginRight: 13 },
   avatarText: { color: WHITE, fontSize: 16, fontWeight: '900' },
   profileName: { color: WHITE, fontSize: 16, fontWeight: '800', letterSpacing: 1 },
   menuItem: { minHeight: 56, paddingVertical: 18, borderBottomWidth: 1, borderBottomColor: '#202A3A', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   menuText: { color: '#DCE4F2', fontSize: 16, fontWeight: '600' },
   menuArrow: { color: MUTED, fontSize: 23 },
-  authCard: { backgroundColor: PANEL, borderRadius: 14, padding: 16, marginBottom: 18, borderWidth: 1, borderColor: '#253147' },
+  
   authInput: { fontFamily: 'Manrope', backgroundColor: '#0B1220', borderWidth: 1, borderColor: '#253147', borderRadius: 10, paddingHorizontal: 13, paddingVertical: 13, color: WHITE, fontSize: 16, marginTop: 12 },
   authAction: { backgroundColor: '#2468F5', borderRadius: 13, paddingHorizontal: 15, paddingVertical: 15, minHeight: 50, borderWidth: 1, borderColor: '#78B5FF', alignItems: 'center', justifyContent: 'center', marginTop: 14, shadowColor: '#167AFF', shadowOpacity: 0.22, shadowRadius: 12, elevation: 4 },
   authSecondary: { backgroundColor: '#142344', borderColor: '#3978FF', borderWidth: 1, paddingHorizontal: 14, paddingVertical: 13, minHeight: 50, borderRadius: 12, alignItems: 'center', justifyContent: 'center', marginTop: 10 },
@@ -7026,27 +6951,27 @@ const styles = StyleSheet.create({
   authDivider: { alignItems: 'center', marginTop: 4, marginBottom: 4 },
   authNotice: { color: '#83B7FF', fontSize: 16, lineHeight: 21, marginTop: 12 },
   screenTitle: { color: '#F5F8FF', fontSize: 21, lineHeight: 26, fontWeight: '800', marginTop: 3, marginBottom: 12, textShadowColor: 'rgba(35,145,255,0.40)', textShadowRadius: 10 },
-  creditsTitle: { color: '#F5F8FF', fontSize: 21, lineHeight: 26, fontWeight: '800', textShadowColor: 'rgba(35,145,255,0.40)', textShadowRadius: 10 },
-  creditPackagesTitle: { color: '#F5F8FF', fontSize: 16, fontWeight: '800', marginTop: 3, marginBottom: 5 },
-  packageAmount: { color: '#F7FAFF', fontSize: 16, fontWeight: '800' },
-  packagePrice: { color: '#FFFFFF', fontSize: 16, fontWeight: '900' },
+  
+  
+  
+  
   packagePriceHint: { color: '#FFFFFF', fontSize: 16, fontWeight: '900' },
-  packageCard: { minHeight: 58, paddingVertical: 9, paddingHorizontal: 12, borderRadius: 14, marginTop: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(68,146,222,0.45)', backgroundColor: 'rgba(8,28,58,0.92)', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 12, elevation: 4 },
+  
   packageCardPopular: { borderColor: '#20BFFF', backgroundColor: 'rgba(5,55,105,0.92)', shadowColor: '#00AFFF', shadowOpacity: 0.75, shadowRadius: 16, elevation: 8 },
   creditCoinReferenceCrop: { position: 'absolute', top: 3, left: 0, right: 0, width: 112, height: 67, alignSelf: 'center', overflow: 'hidden', borderRadius: 10 },
-  creditIllustration: { height: 145, marginBottom: 14, borderRadius: 17, backgroundColor: 'rgba(4,19,47,0.93)', borderWidth: 1, borderColor: 'rgba(37,148,255,0.75)', shadowColor: '#087BFF', shadowOpacity: 0.25, shadowRadius: 20, elevation: 8 },
-  creditBalanceHero: { position: 'absolute', bottom: 7, left: 0, right: 0, alignItems: 'center', justifyContent: 'center' },
-  creditBalanceHeroValue: { color: '#FFD66F', fontSize: 31, lineHeight: 34, fontWeight: '900', textShadowColor: '#FF9E22', textShadowRadius: 15 },
-  creditBalanceHeroLabel: { color: '#FFF0C2', fontSize: 16, fontWeight: '800', letterSpacing: 0.7, marginTop: 0 },
-  buyCreditsButton: { minHeight: 52, marginTop: 10, borderRadius: 14, borderWidth: 1, borderColor: '#52D3FF', backgroundColor: '#0877F4', shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 18, elevation: 8, alignItems: 'center', justifyContent: 'center' },
-  featureSectionTitle: { color: '#F5F8FF', fontSize: 16, fontWeight: '800', marginBottom: 10 },
-  featureTile: { width: '48.5%', minHeight: 112, padding: 10, borderRadius: 15, backgroundColor: 'rgba(5,22,51,0.86)', borderWidth: 1, borderColor: 'rgba(57,132,210,0.55)', shadowColor: '#087BFF', shadowOpacity: 0.14, shadowRadius: 10, elevation: 3 },
-  featureTitle: { color: '#F4FAFF', fontSize: 16, fontWeight: '800', lineHeight: 21 },
-  featureSubtitle: { color: '#8FB5DC', fontSize: 16, lineHeight: 21, marginTop: 2 },
-  profileGuestAvatar: { width: 92, height: 92, borderRadius: 46, borderWidth: 2, borderColor: '#00BFFF', backgroundColor: 'rgba(0,91,180,0.18)', shadowColor: '#00AFFF', shadowOpacity: 0.92, shadowRadius: 24, elevation: 12, alignItems: 'center', justifyContent: 'center', overflow: 'visible' },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   galleryTabText: { color: '#9DB8DA', fontSize: 16, fontWeight: '600' },
   galleryTabTextActive: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
-  galleryLimit: { color: '#B4CBE5', fontSize: 16, textAlign: 'center', marginTop: 10 },
+  
   version: { color: '#566176', fontSize: 16, letterSpacing: 1.3, textAlign: 'center', marginTop: 35 },
   ...mergeStyleOverrides(COSMIC_OVERRIDES),
   ...mergeStyleOverrides(REFERENCE_POLISH),
@@ -7096,22 +7021,22 @@ const styles = StyleSheet.create({
   ...mergeStyleOverrides(FINAL_UI_FIXES_V42),
   ...mergeStyleOverrides(FINAL_UI_FIXES_V43),
   referenceCenteredHeader: { width: '100%', minHeight: 66, height: 66, marginTop: 0, marginBottom: 0, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'transparent', borderBottomWidth: 0 },
-  brandRowCentered: { position: 'relative', top: 0, left: 0, right: undefined, width: 'auto', height: 48, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent' },
-  brandLogoArtwork: { width: 190, minWidth: 190, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8, alignSelf: 'flex-start', flexShrink: 0, margin: 0, padding: 0, backgroundColor: 'transparent' },
-  brandLogoImage: { width: 43, height: 43, flexShrink: 0, backgroundColor: 'transparent' },
-  brandLockupWordmark: { width: 106, minWidth: 106, flexShrink: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
-  brandWordmarkLine: { width: 106, flexShrink: 0, color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 20, fontWeight: '900', letterSpacing: -0.3, textShadowColor: '#168BFF', textShadowRadius: 10, includeFontPadding: false },
+  
+  
+  
+  
+  
   notificationButton: { width: 36, height: 36, borderRadius: 18, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', position: 'relative', shadowColor: '#168BFF', shadowOpacity: 0.2, shadowRadius: 7, elevation: 0 },
   notificationBell: { width: 27, height: 30, alignItems: 'center', justifyContent: 'center' },
   notificationBellDome: { width: 18, height: 18, borderTopLeftRadius: 10, borderTopRightRadius: 10, borderBottomLeftRadius: 3, borderBottomRightRadius: 3, borderWidth: 1.8, borderColor: '#EAF8FF', borderBottomWidth: 0 },
   notificationBellBase: { width: 22, height: 2, borderRadius: 1, backgroundColor: '#EAF8FF', marginTop: -1 },
-  createTopSpacer: { height: 40, width: '100%' },
+  
   createReferenceImageFrame: { width: '100%', height: 154, alignSelf: 'center', marginTop: 0, marginBottom: 14, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(99,193,255,0.68)', backgroundColor: 'rgba(3,16,42,0.78)', shadowColor: '#168BFF', shadowOpacity: 0.52, shadowRadius: 18, elevation: 9 },
   createReferenceArtwork: { position: 'absolute', width: 956, height: 1025, left: -119, top: -129 },
-  referenceCreateGlow: { width: '92%', alignSelf: 'center', marginTop: 0, marginBottom: 18, shadowColor: '#11BFFF', shadowOpacity: 0.92, shadowRadius: 22, elevation: 12 },
+  
   // V48: shared visual specification for the three primary actions.
   // Layout remains control-specific; silhouette, fill, border, glow and typography are unified.
-  referenceCreateButton: { width: '100%', height: 58, minHeight: 58, borderRadius: 29, borderWidth: 1.4, borderColor: '#9BEAFF', backgroundColor: '#0879F5', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 22, gap: 10, shadowColor: '#00AFFF', shadowOpacity: 0.68, shadowRadius: 18, shadowOffset: { width: 0, height: 3 }, elevation: 9 },
+  
   referenceCreateButtonText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 23, fontWeight: '900', letterSpacing: 0.15, textAlign: 'center', textShadowColor: 'rgba(0,32,84,0.55)', textShadowRadius: 4 },
   buyCreditsButton: { width: '100%', minHeight: 58, height: 58, marginTop: 10, marginBottom: 12, paddingHorizontal: 20, paddingVertical: 0, borderRadius: 29, borderWidth: 1.4, borderColor: '#9BEAFF', backgroundColor: '#0879F5', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 0.68, shadowRadius: 18, shadowOffset: { width: 0, height: 3 }, elevation: 9 },
   buyCreditsButtonText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 23, fontWeight: '900', letterSpacing: 0.15, textAlign: 'center', textShadowColor: 'rgba(0,32,84,0.55)', textShadowRadius: 4 },
@@ -7120,25 +7045,25 @@ const styles = StyleSheet.create({
   profileVkText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 23, fontWeight: '900', letterSpacing: 0.15, textAlign: 'center', textShadowColor: 'rgba(0,32,84,0.55)', textShadowRadius: 4 },
   referenceSparkle: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 27, lineHeight: 30, fontWeight: '800', textShadowColor: '#DDF8FF', textShadowRadius: 9 },
   referenceArrow: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 32, lineHeight: 34, fontWeight: '300', textShadowColor: '#DDF8FF', textShadowRadius: 7 },
-  featureSection: { width: '100%', marginTop: 0, marginBottom: 12, backgroundColor: 'transparent' },
+  
   featureHeadingRow: { width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', columnGap: 10, marginBottom: 12 },
-  featureHeadingLine: { flex: 1, height: 2, borderRadius: 2, backgroundColor: '#168BFF', shadowColor: '#00AFFF', shadowOpacity: 0.95, shadowRadius: 7, elevation: 5 },
-  featureSectionTitle: { color: '#F5FAFF', fontFamily: 'Manrope', fontSize: 15, lineHeight: 20, fontWeight: '800', textAlign: 'center', marginBottom: 0, letterSpacing: 0.1, textShadowColor: '#168BFF', textShadowRadius: 7 },
-  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'flex-start', columnGap: 2, rowGap: 0 },
-  featureTile: { width: '24.5%', minWidth: 0, minHeight: 72, paddingHorizontal: 1, paddingVertical: 0, borderRadius: 0, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0, alignItems: 'center', justifyContent: 'flex-start' },
-  featureTileActive: { backgroundColor: 'transparent', borderColor: 'transparent', shadowOpacity: 0, elevation: 0 },
+  
+  
+  
+  
+  
   featureIconImage: { width: 32, height: 32, marginBottom: 3 },
   featureIconSquare: { width: 0, height: 0, marginBottom: 0, backgroundColor: 'transparent', borderWidth: 0 },
   featureIconSquareActive: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
   featureIcon: { display: 'none' },
-  featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 9, lineHeight: 11, fontWeight: '700', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
+  
   featureSubtitle: { display: 'none' },
   ...mergeStyleOverrides(FINAL_UI_REFERENCE_ARTWORK_V49),
   ...mergeStyleOverrides(FINAL_UI_REFERENCE_MATCH_V50),
   ...mergeStyleOverrides(FINAL_UI_LAYOUT_REPAIR_V51),
   // V57: remove the Create-screen artwork and anchor the capabilities row closer to the bottom dock.
-  createScreenLayout: { flex: 1, width: '100%' },
-  featureSection: { width: '100%', marginTop: 'auto', marginBottom: 8, backgroundColor: 'transparent' },
+  
+  
   // V56: keep the complete two-line wordmark visible beside the approved logo and lower the lockup.
   brandRowCentered: { position: 'relative', top: 8, left: 0, right: undefined, width: 'auto', height: 56, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent', flexShrink: 0 },
   brandLogoArtwork: { width: 190, minWidth: 190, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8, alignSelf: 'flex-start', flexShrink: 0, margin: 0, padding: 0, backgroundColor: 'transparent' },
@@ -7146,94 +7071,38 @@ const styles = StyleSheet.create({
   brandLockupWordmark: { width: 132, minWidth: 132, flexShrink: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
   brandWordmarkLine: { width: 132, flexShrink: 0, color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 20, fontWeight: '900', letterSpacing: -0.3, textShadowColor: '#168BFF', textShadowRadius: 10, includeFontPadding: false },
   // V58: reference-matched navy/cyan bottom dock, centered four-column layout and uniform icon strokes.
-  navItem: {
-    flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: '25%', width: '25%', maxWidth: '25%', minWidth: 0,
-    height: 68, minHeight: 68, paddingHorizontal: 0, paddingTop: 2, paddingBottom: 6,
-    gap: 3, alignItems: 'center', justifyContent: 'center', alignSelf: 'center',
-    borderRadius: 0, borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', overflow: 'visible'
-  },
+  
   navItemActive: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0, elevation: 0 },
   navItemActiveGallery: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
   navItemActiveCredits: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
   navItemActiveProfile: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
-  navActiveGlow: {
-    position: 'absolute', top: 1, alignSelf: 'center', width: 58, height: 43, borderRadius: 22,
-    backgroundColor: 'rgba(0, 139, 255, 0.17)', borderWidth: 1, borderColor: 'rgba(76, 202, 255, 0.42)',
-    shadowColor: '#08AFFF', shadowOpacity: 0.9, shadowRadius: 16, shadowOffset: { width: 0, height: 0 }, elevation: 10
-  },
+  
   navActiveIndicator: {
     position: 'absolute', bottom: 0, alignSelf: 'center', width: '52%', height: 2.5, borderRadius: 3,
     backgroundColor: '#29C7FF', shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 12,
     shadowOffset: { width: 0, height: 0 }, elevation: 10
   },
-  navCreateIcon: {
-    width: 30, height: 30, minHeight: 30, marginBottom: 0, alignItems: 'center', justifyContent: 'center',
-    backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0,
-    shadowColor: '#16BFFF', shadowOpacity: 0.42, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 4
-  },
-  navHomeRoof: {
-    width: 0, height: 0, borderLeftWidth: 14, borderRightWidth: 14, borderBottomWidth: 12,
-    borderLeftColor: 'transparent', borderRightColor: 'transparent', borderBottomColor: '#BDEEFF', marginBottom: -1
-  },
-  navHomeBody: {
-    width: 21, height: 15, borderWidth: 1.7, borderTopWidth: 0, borderColor: '#BDEEFF',
-    backgroundColor: 'rgba(20, 145, 255, 0.08)', alignItems: 'center', justifyContent: 'flex-end'
-  },
-  navHomeDoor: { width: 6, height: 8, borderWidth: 1.1, borderBottomWidth: 0, borderColor: '#BDEEFF', backgroundColor: 'transparent' },
-  navGalleryIcon: {
-    width: 30, height: 30, minHeight: 30, marginBottom: 0, alignItems: 'center', justifyContent: 'center',
-    backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0,
-    shadowColor: '#16BFFF', shadowOpacity: 0.42, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 4
-  },
-  navGallerySun: {
-    position: 'absolute', top: 5, right: 6, width: 6, height: 6, borderRadius: 3,
-    borderWidth: 1.4, borderColor: '#BDEEFF', backgroundColor: 'transparent'
-  },
-  navGalleryMountainBack: {
-    position: 'absolute', left: 4, bottom: 5, width: 17, height: 13,
-    borderTopWidth: 1.7, borderLeftWidth: 1.7, borderColor: '#BDEEFF', transform: [{ rotate: '45deg' }]
-  },
-  navGalleryMountainFront: {
-    position: 'absolute', right: 3, bottom: 5, width: 14, height: 10,
-    borderTopWidth: 1.7, borderLeftWidth: 1.7, borderColor: '#BDEEFF', transform: [{ rotate: '45deg' }]
-  },
-  navDatabaseIcon: {
-    width: 30, height: 30, minHeight: 30, marginBottom: 0, alignItems: 'center', justifyContent: 'center',
-    shadowColor: '#16BFFF', shadowOpacity: 0.42, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 4
-  },
-  navDatabaseTop: {
-    position: 'absolute', top: 4, width: 23, height: 8, borderRadius: 12, borderWidth: 1.7,
-    borderColor: '#BDEEFF', backgroundColor: 'rgba(20, 145, 255, 0.08)', zIndex: 2
-  },
-  navDatabaseBody: {
-    position: 'absolute', top: 7, width: 23, height: 19, borderLeftWidth: 1.7, borderRightWidth: 1.7,
-    borderBottomWidth: 1.7, borderColor: '#BDEEFF', borderBottomLeftRadius: 11, borderBottomRightRadius: 11
-  },
-  navDatabaseMiddle: {
-    position: 'absolute', top: 6, left: 0, width: 20, height: 7,
-    borderBottomWidth: 1.5, borderColor: '#BDEEFF', borderBottomLeftRadius: 10, borderBottomRightRadius: 10
-  },
-  navDatabaseBottom: {
-    position: 'absolute', top: 12, left: 0, width: 20, height: 6,
-    borderBottomWidth: 1.5, borderColor: '#BDEEFF', borderBottomLeftRadius: 10, borderBottomRightRadius: 10
-  },
-  navPerson: {
-    width: 30, height: 30, minHeight: 30, marginBottom: 0, alignItems: 'center', justifyContent: 'center',
-    shadowColor: '#16BFFF', shadowOpacity: 0.42, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 4
-  },
-  navPersonHead: { width: 11, height: 11, borderRadius: 6, borderWidth: 1.7, borderColor: '#BDEEFF', backgroundColor: 'transparent', marginBottom: 3 },
-  navPersonBody: {
-    width: 23, height: 13, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 5, borderBottomRightRadius: 5,
-    borderWidth: 1.7, borderBottomWidth: 0, borderColor: '#BDEEFF', backgroundColor: 'transparent'
-  },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   navGlyphActive: { shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 10 },
   navCoinActive: { shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 10 },
   navPersonActive: { shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 10 },
-  navLabel: {
-    width: '100%', color: '#B7D7F2', fontFamily: 'Manrope', fontSize: 11.5, lineHeight: 15,
-    fontWeight: '800', letterSpacing: 0.1, textAlign: 'center', includeFontPadding: false, flexShrink: 1
-  },
-  navLabelActive: { color: '#F2FBFF', fontFamily: 'Manrope', fontSize: 11.5, lineHeight: 15, fontWeight: '900', textShadowColor: '#18BFFF', textShadowRadius: 10 },
+  
+  
   navLabelActiveGallery: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
   navLabelActiveCredits: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
   navLabelActiveProfile: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
@@ -7248,75 +7117,36 @@ const styles = StyleSheet.create({
   },
   creditCoinsArtwork: { width: '100%', height: 100, resizeMode: 'contain' },
   creditBalanceHero: { position: 'relative', left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', marginTop: -2 },
-  creditBalanceHeroValue: { color: '#FFD66F', fontFamily: 'Manrope', fontSize: 30, lineHeight: 35, fontWeight: '900', textShadowColor: '#FF9E22', textShadowRadius: 12 },
-  creditBalanceHeroLabel: { color: '#FFF0C2', fontFamily: 'Manrope', fontSize: 13, lineHeight: 17, fontWeight: '700', marginTop: 0 },
-  creditPackageColumn: { flex: 1, minWidth: 0, justifyContent: 'center' },
+  
+  
+  
   creditPackagesTitle: { color: '#F4F8FF', fontFamily: 'Manrope', fontSize: 15, lineHeight: 19, fontWeight: '900', marginBottom: 6 },
-  creditPackagesList: { width: '100%', gap: 7 },
-  packageCard: {
-    position: 'relative', width: '100%', minWidth: 0, minHeight: 48, paddingHorizontal: 8,
-    paddingVertical: 6, borderRadius: 12, flexDirection: 'row', alignItems: 'center',
-    justifyContent: 'space-between', gap: 5, borderWidth: 1,
-    borderColor: 'rgba(70, 126, 183, 0.48)', backgroundColor: 'rgba(8, 28, 59, 0.88)'
-  },
-  packageCardSelected: {
-    borderColor: '#25C7FF', backgroundColor: 'rgba(5, 62, 119, 0.96)',
-    shadowColor: '#13BFFF', shadowOpacity: 0.82, shadowRadius: 12, elevation: 7
-  },
+  
+  
+  
   packageIconWrap: { width: 25, height: 25, minWidth: 25, borderRadius: 8, marginRight: 0, backgroundColor: 'rgba(255, 181, 46, 0.12)', borderColor: 'rgba(255, 198, 82, 0.36)' },
   packageCoin: { width: 18, height: 18, borderRadius: 9, backgroundColor: '#FFBD35', borderWidth: 1, borderColor: '#FFE7A0', alignItems: 'center', justifyContent: 'center' },
   packageCoinGlyph: { color: '#8C5200', fontSize: 12, lineHeight: 14, fontWeight: '900' },
-  packageAmount: { flex: 1, minWidth: 0, color: '#F4F8FF', fontFamily: 'Manrope', fontSize: 12, lineHeight: 15, fontWeight: '800' },
+  
   packageRight: { minWidth: 0, maxWidth: '35%', alignItems: 'flex-end', justifyContent: 'center' },
-  packagePriceChip: { minWidth: 42, paddingHorizontal: 5, paddingVertical: 4, borderRadius: 7, backgroundColor: 'rgba(3, 13, 31, 0.52)' },
-  packagePriceChipSelected: { backgroundColor: 'rgba(0, 125, 224, 0.36)' },
-  packagePrice: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 17, fontWeight: '900' },
-  packageSelectedMark: { position: 'absolute', top: -4, right: -4, width: 15, height: 15, borderRadius: 8, backgroundColor: '#24C8FF', alignItems: 'center', justifyContent: 'center' },
-  packageSelectedMarkText: { color: '#002B4D', fontSize: 10, lineHeight: 12, fontWeight: '900' },
-  creditWelcomeBonus: {
-    width: '100%', minHeight: 58, marginTop: 3, marginBottom: 9, paddingHorizontal: 13,
-    paddingVertical: 9, borderRadius: 13, flexDirection: 'row', alignItems: 'center', gap: 11,
-    borderWidth: 1, borderColor: 'rgba(255, 197, 81, 0.58)',
-    backgroundColor: 'rgba(54, 38, 17, 0.58)', shadowColor: '#FFB52E',
-    shadowOpacity: 0.18, shadowRadius: 10, elevation: 3
-  },
+  
+  
+  
+  
+  
+  
   creditBonusTitle: { color: '#FFE7A8', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900' },
   creditBonusText: { color: '#E7D7B6', fontFamily: 'Manrope', fontSize: 12, lineHeight: 16, fontWeight: '600' },
   creditBonusArrow: { color: '#FFD66F', fontSize: 27, lineHeight: 31, fontWeight: '300' },
   // Preserve full-screen flex after legacy visual layers that redefine container.
   // V59: Gallery previews follow the reference's full-bleed square thumbnails; remove opaque black inner surfaces.
-  galleryCard: {
-    width: '48.5%', marginTop: 10, padding: 5, borderRadius: 14,
-    backgroundColor: 'rgba(5, 24, 53, 0.66)', borderWidth: 1,
-    borderColor: 'rgba(85, 174, 235, 0.46)', shadowColor: '#087BFF',
-    shadowOpacity: 0.20, shadowRadius: 12, elevation: 4
-  },
-  galleryPreview: {
-    width: '100%', aspectRatio: 1, height: undefined, overflow: 'hidden',
-    borderRadius: 10, borderWidth: 1, borderColor: 'rgba(93, 184, 239, 0.34)',
-    backgroundColor: 'rgba(7, 28, 59, 0.42)'
-  },
-  videoFrame: {
-    width: '100%', aspectRatio: 1, height: undefined, overflow: 'hidden',
-    borderRadius: 9, backgroundColor: 'transparent', justifyContent: 'center'
-  },
-  videoPlayer: {
-    width: '100%', aspectRatio: 1, height: undefined, borderRadius: 9,
-    backgroundColor: 'transparent'
-  },
+  
+  
+  
+  
   // The empty-state illustration now scales down as a whole instead of magnifying a tiny crop.
-  galleryEmptyReferenceState: {
-    width: '86%', maxWidth: 360, minHeight: 258, alignSelf: 'center',
-    alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18,
-    paddingVertical: 18, gap: 10, borderRadius: 18, borderWidth: 1,
-    borderColor: 'rgba(82, 174, 255, 0.54)', backgroundColor: 'rgba(3, 20, 54, 0.64)',
-    shadowColor: '#087BFF', shadowOpacity: 0.28, shadowRadius: 16, elevation: 6
-  },
-  galleryReferenceImage: {
-    width: 250, height: 165, maxWidth: '100%', alignSelf: 'center',
-    overflow: 'hidden', borderRadius: 12, backgroundColor: 'transparent',
-    borderWidth: 0
-  },
+  
+  
   galleryReferenceArtwork: {
     position: 'absolute', width: '100%', height: '100%', left: 0, top: 0
   },
@@ -7328,35 +7158,35 @@ const styles = StyleSheet.create({
   ...mergeStyleOverrides(FINAL_UI_CREDITS_REFERENCE_V57),
   ...mergeStyleOverrides(FINAL_UI_RECOVERY_V61),
   ...mergeStyleOverrides(FINAL_UI_RECOVERY_V62),
-  featureSection: { width: '100%', marginTop: 'auto', marginBottom: 8, paddingHorizontal: 2, backgroundColor: 'transparent' },
-  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'stretch', columnGap: 0, rowGap: 9 },
-  featureTile: { width: '48.5%', minWidth: '48.5%', maxWidth: '48.5%', minHeight: 88, paddingHorizontal: 8, paddingVertical: 8, borderRadius: 13, borderWidth: 1, borderColor: 'rgba(74, 166, 255, 0.48)', backgroundColor: 'rgba(3, 18, 43, 0.58)', alignItems: 'center', justifyContent: 'center' },
-  featureGlyphAura: { width: 44, height: 42, marginBottom: 4, alignItems: 'center', justifyContent: 'center', borderRadius: 13, backgroundColor: 'rgba(0, 123, 255, 0.12)', shadowColor: '#0CBFFF', shadowOpacity: 0.78, shadowRadius: 14, elevation: 7 },
-  featureGlyphFrame: { width: 38, height: 38, marginBottom: 2, borderRadius: 11, alignItems: 'center', justifyContent: 'center', position: 'relative', backgroundColor: 'rgba(0, 133, 255, 0.18)', borderWidth: 1, borderColor: 'rgba(115, 218, 255, 0.88)', shadowColor: '#16BFFF', shadowOpacity: 0.96, shadowRadius: 12, elevation: 7 },
-  featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 10.5, lineHeight: 14, fontWeight: '800', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
-  packageCard: { position: 'relative', overflow: 'visible' },
+  
+  
+  
+  
+  
+  
+  
   packagePopularBadge: { position: 'absolute', top: -10, alignSelf: 'center', zIndex: 4, elevation: 5, minHeight: 20, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: '#75E4FF', backgroundColor: '#0879F5', alignItems: 'center', justifyContent: 'center', shadowColor: '#12BFFF', shadowOpacity: 0.8, shadowRadius: 9 },
   packagePopularBadgeText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '900' },
   ...mergeStyleOverrides(FINAL_UI_CREATE_HERO_V65),
   // V67: bring the Gallery screen into the electric-blue neon-galaxy visual system.
-  galleryReferenceHeader: { minHeight: 0, marginTop: 5, marginBottom: 18, paddingTop: 10, paddingBottom: 16, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(71,184,255,0.28)' },
+  
   galleryHeaderEyebrow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 7, paddingHorizontal: 13, paddingVertical: 5, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(70,190,255,0.42)', backgroundColor: 'rgba(4,42,91,0.58)' },
   galleryHeaderPulse: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#65E6FF', shadowColor: '#29C8FF', shadowOpacity: 1, shadowRadius: 8, elevation: 5 },
   galleryHeaderEyebrowText: { color: '#8EDFFF', fontFamily: 'Manrope', fontSize: 10, fontWeight: '900', letterSpacing: 2.1 },
   galleryReferenceTitle: { color: '#F0F9FF', fontFamily: 'Manrope', fontSize: 31, lineHeight: 39, fontWeight: '900', textAlign: 'center', textShadowColor: '#078BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 0 } },
   galleryReferenceUnderline: { width: 116, height: 3, marginTop: 7, marginBottom: 8, borderRadius: 3, backgroundColor: '#48D9FF', shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
   galleryHeaderSubtitle: { color: '#A9D5F5', fontFamily: 'Manrope', fontSize: 12, fontWeight: '600', textAlign: 'center' },
-  galleryStoragePill: { flexDirection: 'row', alignItems: 'center', gap: 9, marginTop: 12, paddingHorizontal: 13, paddingVertical: 6, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(66,178,255,0.5)', backgroundColor: 'rgba(4,28,66,0.78)' },
+  
   galleryStoragePillText: { color: '#78BFEF', fontSize: 9, fontWeight: '900', letterSpacing: 1.6 },
   galleryStoragePillCount: { color: '#E7F8FF', fontSize: 12, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 8 },
-  galleryEmptyReferenceState: { width: '100%', maxWidth: 420, minHeight: 300, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, paddingVertical: 22, gap: 10, borderRadius: 24, borderWidth: 1.2, borderColor: 'rgba(80,190,255,0.62)', backgroundColor: 'rgba(3,23,58,0.72)', shadowColor: '#087BFF', shadowOpacity: 0.38, shadowRadius: 22, elevation: 9, overflow: 'visible' },
+  
   galleryReferenceImage: { width: 250, height: 165, maxWidth: '100%', alignSelf: 'center', overflow: 'visible', borderRadius: 14, backgroundColor: 'transparent', borderWidth: 0 },
   galleryEmptyTitle: { color: '#EAF8FF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 25, fontWeight: '900', textAlign: 'center', textShadowColor: '#078BFF', textShadowRadius: 12, marginTop: 3 },
   galleryEmptyCopy: { color: '#A9CBE9', fontFamily: 'Manrope', fontSize: 13, lineHeight: 19, fontWeight: '600', textAlign: 'center', maxWidth: 285 },
   galleryCreateButton: { minHeight: 48, minWidth: 190, marginTop: 7, paddingHorizontal: 22, paddingVertical: 12, borderRadius: 25, alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderTopColor: '#B5F4FF', borderLeftColor: '#72DFFF', borderRightColor: '#087DEB', borderBottomColor: '#0756B7', backgroundColor: '#087FE8', shadowColor: '#14BFFF', shadowOpacity: 0.8, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 8 },
   galleryCreateButtonText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 14, fontWeight: '900', textShadowColor: '#0759B6', textShadowRadius: 5 },
   galleryGrid: { width: '100%', flexDirection: 'column', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'stretch' },
-  galleryCard: { width: '100%', marginTop: 12, padding: 10, borderRadius: 21, backgroundColor: 'rgba(4,22,53,0.82)', borderWidth: 1.2, borderColor: 'rgba(73,181,255,0.62)', shadowColor: '#087BFF', shadowOpacity: 0.28, shadowRadius: 18, elevation: 7 },
+  
   galleryPreview: { width: '100%', aspectRatio: 16 / 9, height: undefined, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: 'rgba(107,216,255,0.48)', backgroundColor: 'rgba(1,11,31,0.85)' },
   videoFrame: { width: '100%', aspectRatio: 16 / 9, height: undefined, overflow: 'hidden', borderRadius: 14, backgroundColor: '#020817', justifyContent: 'center' },
   videoPlayer: { width: '100%', aspectRatio: 16 / 9, height: undefined, borderRadius: 14, backgroundColor: '#020817' },
@@ -7372,13 +7202,13 @@ const styles = StyleSheet.create({
   creditsScreen: { flex: 1, paddingTop: 17, paddingHorizontal: 2, paddingBottom: 18, backgroundColor: 'transparent' },
   creditsReferenceHeader: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 4, marginBottom: 24, paddingTop: 5, paddingBottom: 12 },
   creditsTitle: { color: '#F0F9FF', fontFamily: 'Manrope', fontSize: 31, lineHeight: 39, fontWeight: '900', textAlign: 'center', textShadowColor: '#078BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 0 } },
-  creditsTitleBeam: { width: 126, height: 4, marginTop: 7, borderRadius: 8, backgroundColor: 'rgba(48,167,255,0.34)', shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 22, shadowOffset: { width: 0, height: 0 }, elevation: 13, alignItems: 'center', justifyContent: 'center' },
+  
   creditsTitleBeamCore: { width: '100%', height: 1.5, borderRadius: 2, backgroundColor: '#B8F4FF', opacity: 0.98 },
   creditReferenceLayout: { width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10, minHeight: 210 },
-  creditCoinShowcase: { width: '42%', minWidth: 0, height: 206, position: 'relative', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 9 },
+  
   creditCoinHalo: { position: 'absolute', top: 14, width: 142, height: 142, maxWidth: '100%', borderRadius: 80, backgroundColor: 'rgba(255,171,42,0.10)', shadowColor: '#FFB52E', shadowOpacity: 0.78, shadowRadius: 32, elevation: 12 },
-  creditLargeCoin: { position: 'absolute', width: 94, height: 94, borderRadius: 47, padding: 5, borderWidth: 2, borderColor: '#FFF1A8', backgroundColor: '#B96B12', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB52E', shadowOpacity: 1, shadowRadius: 17, shadowOffset: { width: 0, height: 2 }, elevation: 12 },
-  creditLargeCoinRim: { width: '100%', height: '100%', borderRadius: 44, borderWidth: 3, borderColor: '#FFE08A', backgroundColor: '#E9A52D', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFF0A5', shadowOpacity: 0.85, shadowRadius: 8, elevation: 7 },
+  
+  
   creditLargeCoinMark: { color: '#9A520B', fontFamily: 'Manrope', fontSize: 35, lineHeight: 42, fontWeight: '900', textShadowColor: '#FFF0A5', textShadowRadius: 5 },
   creditLargeCoinBack: { top: 20, left: '4%', transform: [{ rotate: '-18deg' }], opacity: 0.92 },
   creditLargeCoinMiddle: { top: 8, right: '1%', transform: [{ rotate: '16deg' }] },
@@ -7388,8 +7218,8 @@ const styles = StyleSheet.create({
   creditBalanceHeroLabel: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 9, lineHeight: 13, fontWeight: '900', letterSpacing: 1.5 },
   creditPackageColumn: { flex: 1, minWidth: 0, justifyContent: 'center' },
   creditPackagesList: { width: '100%', gap: 10 },
-  packageCard: { position: 'relative', width: '100%', minWidth: 0, minHeight: 58, paddingHorizontal: 9, paddingVertical: 7, borderRadius: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5, borderWidth: 1.2, borderColor: 'rgba(71,157,226,0.62)', backgroundColor: 'rgba(5,24,55,0.86)' },
-  packageCardSelected: { borderColor: '#9BEAFF', backgroundColor: 'rgba(5,75,139,0.94)', shadowColor: '#16BFFF', shadowOpacity: 0.92, shadowRadius: 17, shadowOffset: { width: 0, height: 0 }, elevation: 11 },
+  
+  
   packageChoiceCopy: { flex: 1, minWidth: 0, alignItems: 'flex-start', justifyContent: 'center' },
   packageAmount: { color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 21, fontWeight: '900' },
   packageChoiceUnit: { color: '#9BCBEF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '700' },
@@ -7398,53 +7228,48 @@ const styles = StyleSheet.create({
   packagePrice: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900' },
   packageSelectedMark: { position: 'absolute', top: -6, right: -5, width: 17, height: 17, borderRadius: 9, backgroundColor: '#9BEAFF', alignItems: 'center', justifyContent: 'center', zIndex: 4, elevation: 5 },
   packageSelectedMarkText: { color: '#003A62', fontSize: 11, lineHeight: 14, fontWeight: '900' },
-  creditWelcomeBonus: { width: '100%', minHeight: 64, marginTop: 25, paddingHorizontal: 15, paddingVertical: 11, borderRadius: 16, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1.2, borderColor: 'rgba(255,208,111,0.78)', backgroundColor: 'rgba(50,34,16,0.74)', shadowColor: '#FFB52E', shadowOpacity: 0.42, shadowRadius: 16, shadowOffset: { width: 0, height: 0 }, elevation: 7 },
+  
 
   // V70: rebuild the empty Gallery composition as native neon-galaxy geometry, without bitmap artwork or CTA.
   galleryReferenceHeader: { minHeight: 0, marginTop: 12, marginBottom: 8, paddingTop: 12, paddingBottom: 13, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(71,184,255,0.28)' },
-  galleryEmptyReferenceState: { width: '100%', minHeight: 390, flex: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12, paddingVertical: 12, backgroundColor: 'transparent' },
-  galleryGalaxyArtwork: { width: 286, maxWidth: '88%', height: 286, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  
+  
   galleryGalaxyAura: { position: 'absolute', width: '82%', height: '82%', borderRadius: 180, backgroundColor: 'rgba(0,119,255,0.10)', shadowColor: '#087BFF', shadowOpacity: 0.9, shadowRadius: 48, elevation: 18 },
-  galleryGalaxyOrbitOuter: { position: 'absolute', width: '96%', height: '54%', borderRadius: 180, borderWidth: 1.5, borderColor: 'rgba(77,195,255,0.74)', transform: [{ rotate: '-28deg' }], shadowColor: '#12AFFF', shadowOpacity: 0.95, shadowRadius: 12, elevation: 8 },
+  
   galleryGalaxyOrbitInner: { position: 'absolute', width: '74%', height: '74%', borderRadius: 180, borderWidth: 1, borderColor: 'rgba(34,137,255,0.66)', transform: [{ rotate: '38deg' }], shadowColor: '#087BFF', shadowOpacity: 0.8, shadowRadius: 14, elevation: 7 },
-  galleryGalaxyCore: { width: 112, height: 112, borderRadius: 56, alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderColor: '#8BE8FF', backgroundColor: 'rgba(8,73,143,0.72)', shadowColor: '#19BFFF', shadowOpacity: 1, shadowRadius: 28, elevation: 16 },
-  galleryGalaxyCoreHighlight: { width: 54, height: 54, borderRadius: 27, borderWidth: 1.5, borderColor: 'rgba(204,248,255,0.92)', backgroundColor: 'rgba(35,174,255,0.30)', shadowColor: '#63E8FF', shadowOpacity: 1, shadowRadius: 20, elevation: 12 },
+  
+  
   galleryGalaxyStar: { position: 'absolute', width: 7, height: 7, borderRadius: 4, backgroundColor: '#C7F7FF', shadowColor: '#27C9FF', shadowOpacity: 1, shadowRadius: 12, elevation: 9 },
   galleryGalaxyStarOne: { top: 38, left: 72 },
   galleryGalaxyStarTwo: { top: 74, right: 38, width: 5, height: 5 },
-  galleryGalaxyStarThree: { bottom: 45, left: 43, width: 5, height: 5 },
-  galleryGalaxyStarFour: { bottom: 66, right: 64, width: 8, height: 8 },
+  
+  
   // V68: lower Create CTA by ~2 cm and the four-feature block by ~1 cm.
-  createTopSpacer: { height: 76, minHeight: 76, flexGrow: 0, flexShrink: 0 },
+  
   referenceCreateGlow: {
     width: '92%', alignSelf: 'center', marginTop: 0, marginBottom: 18,
     transform: [{ translateY: 0 }],
     shadowColor: '#36D9FF', shadowOpacity: 0.95, shadowRadius: 25,
     shadowOffset: { width: 0, height: 5 }, elevation: 14
   },
-  featureSection: { width: '100%', marginTop: 'auto', marginBottom: 8, paddingHorizontal: 2, paddingTop: 38, backgroundColor: 'transparent' },
-  navIconRestore: { width: 36, height: 36, minWidth: 36, minHeight: 36, alignItems: 'center', justifyContent: 'center', opacity: 1, zIndex: 100, elevation: 100, overflow: 'visible', backgroundColor: 'transparent' },
-  navCreateIcon: { opacity: 1, borderWidth: 0, backgroundColor: 'transparent', zIndex: 101, elevation: 101 },
-  navGalleryIcon: { opacity: 1, borderWidth: 0, backgroundColor: 'transparent', zIndex: 101, elevation: 101 },
-  navDatabaseIcon: { opacity: 1, borderWidth: 0, backgroundColor: 'transparent', zIndex: 101, elevation: 101 },
-  navPerson: { opacity: 1, borderWidth: 0, backgroundColor: 'transparent', zIndex: 101, elevation: 101 },
-  navHomeRoof: { borderBottomColor: '#BDEEFF', borderLeftColor: 'transparent', borderRightColor: 'transparent', opacity: 1 },
-  navHomeBody: { borderColor: '#BDEEFF', opacity: 1 },
-  navHomeDoor: { borderColor: '#BDEEFF', opacity: 1 },
-  navGallerySun: { borderColor: '#BDEEFF', opacity: 1 },
-  navGalleryMountainBack: { borderColor: '#BDEEFF', opacity: 1 },
-  navGalleryMountainFront: { borderColor: '#BDEEFF', opacity: 1 },
-  navDatabaseTop: { borderColor: '#BDEEFF', opacity: 1 },
-  navDatabaseBody: { borderColor: '#BDEEFF', opacity: 1 },
-  navPersonHead: { borderColor: '#BDEEFF', backgroundColor: '#BDEEFF', opacity: 1 },
-  navPersonBody: { borderColor: '#BDEEFF', opacity: 1 },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   // V66: keep all four neon navigation glyphs above the glass dock and screen content.
-  navIconRestore: {
-    width: 32, height: 32, minWidth: 32, minHeight: 32,
-    alignItems: 'center', justifyContent: 'center',
-    opacity: 1, zIndex: 30, elevation: 18,
-    overflow: 'visible', backgroundColor: 'transparent'
-  },
+  
   // V71: dimensional glass, beveled metal edges and a reliable foreground layer for all dock glyphs.
   navItem: {
     position: 'relative', zIndex: 120, elevation: 120, overflow: 'visible',
@@ -7452,17 +7277,7 @@ const styles = StyleSheet.create({
     minWidth: 0, height: 68, minHeight: 68, paddingTop: 2, paddingBottom: 6,
     gap: 3, alignItems: 'center', justifyContent: 'center', alignSelf: 'center'
   },
-  navIconRestore: {
-    width: 40, height: 40, minWidth: 40, minHeight: 40,
-    alignItems: 'center', justifyContent: 'center', position: 'relative',
-    zIndex: 140, elevation: 140, opacity: 1, overflow: 'visible',
-    backgroundColor: 'rgba(8,42,82,0.34)', borderRadius: 20,
-    borderWidth: 1, borderTopColor: 'rgba(205,249,255,0.82)',
-    borderLeftColor: 'rgba(92,202,255,0.46)', borderRightColor: 'rgba(45,144,235,0.54)',
-    borderBottomColor: 'rgba(12,76,148,0.88)',
-    shadowColor: '#13BFFF', shadowOpacity: 0.72, shadowRadius: 13,
-    shadowOffset: { width: 0, height: 3 }
-  },
+  
   navGlyphText: {
     color: '#BDEEFF', fontFamily: 'sans-serif', fontSize: 29, lineHeight: 34,
     fontWeight: '700', textAlign: 'center', includeFontPadding: false,
@@ -7490,17 +7305,7 @@ const styles = StyleSheet.create({
     shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 23,
     shadowOffset: { width: 0, height: 7 }, elevation: 14
   },
-  packageCard: {
-    position: 'relative', width: '100%', minWidth: 0, minHeight: 60,
-    paddingHorizontal: 9, paddingVertical: 7, borderRadius: 15,
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5,
-    borderWidth: 1.2, borderTopColor: 'rgba(202,246,255,0.72)',
-    borderLeftColor: 'rgba(77,180,255,0.58)', borderRightColor: 'rgba(39,121,211,0.72)',
-    borderBottomWidth: 2, borderBottomColor: 'rgba(2,47,103,0.96)',
-    backgroundColor: 'rgba(5,26,61,0.94)',
-    shadowColor: '#087BFF', shadowOpacity: 0.32, shadowRadius: 13,
-    shadowOffset: { width: 0, height: 4 }, elevation: 8
-  },
+  
   packageCardSelected: {
     borderTopColor: '#F0FDFF', borderLeftColor: '#9AEFFF',
     borderRightColor: '#2BBAFF', borderBottomColor: '#0752A8',
@@ -7562,46 +7367,21 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 }, elevation: 17
   },
   // V71b: bring the four Create capabilities into the same dimensional glass language.
-  featureTile: {
-    width: '24.5%', minWidth: 0, minHeight: 82, paddingHorizontal: 2, paddingVertical: 6,
-    borderRadius: 15, borderWidth: 1,
-    borderTopColor: 'rgba(207,248,255,0.58)', borderLeftColor: 'rgba(65,171,255,0.38)',
-    borderRightColor: 'rgba(30,111,207,0.52)', borderBottomWidth: 2,
-    borderBottomColor: 'rgba(3,49,104,0.94)',
-    backgroundColor: 'rgba(4,24,57,0.72)', alignItems: 'center', justifyContent: 'flex-start',
-    shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 15,
-    shadowOffset: { width: 0, height: 5 }, elevation: 8
-  },
+  
   featureTileActive: {
     borderTopWidth: 1.5, borderTopColor: '#FFFFFF', borderLeftColor: '#B5F1FF',
     borderRightColor: '#39C4FF', borderBottomWidth: 4, borderBottomColor: '#06468F',
     backgroundColor: 'rgba(5,72,137,0.94)', shadowColor: '#00D4FF',
     shadowOpacity: 1, shadowRadius: 25, shadowOffset: { width: 0, height: 6 }, elevation: 16
   },
-  featureGlyphAura: {
-    width: 48, height: 46, marginBottom: 5, alignItems: 'center', justifyContent: 'center',
-    borderRadius: 15, backgroundColor: 'rgba(0,123,255,0.16)',
-    borderWidth: 1, borderTopColor: 'rgba(221,250,255,0.54)',
-    borderLeftColor: 'rgba(76,190,255,0.36)', borderRightColor: 'rgba(22,111,207,0.50)',
-    borderBottomColor: 'rgba(3,55,112,0.72)',
-    shadowColor: '#0CBFFF', shadowOpacity: 0.9, shadowRadius: 18,
-    shadowOffset: { width: 0, height: 4 }, elevation: 10
-  },
+  
   featureGlyphAuraOuter: {
     position: 'absolute', width: 55, height: 52, borderRadius: 18,
     backgroundColor: 'rgba(0,150,255,0.13)', borderWidth: 1,
     borderColor: 'rgba(94,207,255,0.28)',
     shadowColor: '#00BFFF', shadowOpacity: 1, shadowRadius: 22, elevation: 12
   },
-  featureGlyphFrame: {
-    width: 39, height: 39, marginBottom: 1, borderRadius: 12,
-    alignItems: 'center', justifyContent: 'center', position: 'relative',
-    backgroundColor: 'rgba(0,133,255,0.30)', borderWidth: 1.4,
-    borderTopColor: '#E5FBFF', borderLeftColor: '#8BEAFF',
-    borderRightColor: '#1685E8', borderBottomWidth: 2, borderBottomColor: '#064D98',
-    shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 16,
-    shadowOffset: { width: 0, height: 3 }, elevation: 11
-  },
+  
   featureHeadingLine: {
     flex: 1, height: 3, borderRadius: 3,
     backgroundColor: 'rgba(22,139,255,0.86)',
@@ -7653,15 +7433,15 @@ const styles = StyleSheet.create({
   modeOptionActive: { backgroundColor: 'rgba(7,91,166,0.92)', borderTopWidth: 1.5, borderTopColor: '#FFFFFF', borderLeftColor: '#B7F3FF', borderRightColor: '#42C8FF', borderBottomWidth: 4, borderBottomColor: '#06458E', shadowColor: '#00D4FF', shadowOpacity: 1, shadowRadius: 25, shadowOffset: { width: 0, height: 6 }, elevation: 16 },
   modeOptionText: { color: '#B8D7F2', fontSize: 12, lineHeight: 16, fontWeight: '800', textAlign: 'center' },
   modeOptionTextActive: { color: '#FFFFFF', textShadowColor: '#25CFFF', textShadowRadius: 10 },
-  engineCard: { backgroundColor: 'rgba(3,25,60,0.72)', borderWidth: 1, borderTopColor: 'rgba(210,249,255,0.62)', borderLeftColor: 'rgba(76,183,255,0.46)', borderRightColor: 'rgba(18,105,198,0.68)', borderBottomWidth: 2, borderBottomColor: '#052F67', borderRadius: 15, shadowColor: '#078BFF', shadowOpacity: 0.4, shadowRadius: 13, shadowOffset: { width: 0, height: 4 }, elevation: 8 },
-  prompt: { minHeight: 116, borderRadius: 16, borderWidth: 1.2, borderTopColor: 'rgba(210,249,255,0.68)', borderLeftColor: 'rgba(80,185,255,0.54)', borderRightColor: 'rgba(18,106,197,0.72)', borderBottomWidth: 3, borderBottomColor: '#052E67', backgroundColor: 'rgba(3,20,49,0.82)', color: '#F3FAFF', shadowColor: '#078BFF', shadowOpacity: 0.38, shadowRadius: 15, shadowOffset: { width: 0, height: 4 }, elevation: 8 },
+  
+  
   featureSection: { width: '100%', marginTop: 'auto', marginBottom: 2, backgroundColor: 'rgba(2,12,30,0.16)' },
   featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'stretch', columnGap: 5 },
-  featureTile: { flex: 1, width: 'auto', minWidth: 0, minHeight: 76, paddingHorizontal: 2, paddingVertical: 5, borderRadius: 13, borderWidth: 1, borderTopColor: 'rgba(218,250,255,0.66)', borderLeftColor: 'rgba(77,184,255,0.46)', borderRightColor: 'rgba(24,108,197,0.66)', borderBottomWidth: 3, borderBottomColor: '#052F68', backgroundColor: 'rgba(3,23,55,0.72)', alignItems: 'center', justifyContent: 'flex-start', shadowColor: '#078BFF', shadowOpacity: 0.48, shadowRadius: 15, shadowOffset: { width: 0, height: 5 }, elevation: 9 },
+  
   featureTitle: { width: '100%', color: '#EAF8FF', fontSize: 9, lineHeight: 12, fontWeight: '800', textAlign: 'center' },
-  option: { backgroundColor: 'rgba(4,26,62,0.82)', borderTopColor: 'rgba(216,249,255,0.68)', borderLeftColor: 'rgba(78,184,255,0.5)', borderRightColor: 'rgba(19,107,196,0.72)', borderBottomWidth: 3, borderBottomColor: '#05346E', shadowColor: '#078BFF', shadowOpacity: 0.4, shadowRadius: 13, shadowOffset: { width: 0, height: 4 }, elevation: 8 },
-  selectedOption: { backgroundColor: 'rgba(5,81,150,0.92)', borderTopColor: '#F3FDFF', borderBottomColor: '#0754A5', shadowColor: '#00C8FF', shadowOpacity: 0.95, shadowRadius: 19, elevation: 13 },
-  createButton: { minHeight: 58, borderRadius: 18, borderWidth: 1.8, borderTopWidth: 2, borderTopColor: '#FFFFFF', borderLeftColor: '#B7F2FF', borderRightColor: '#28B8FF', borderBottomWidth: 5, borderBottomColor: '#043D82', backgroundColor: '#0878E8', shadowColor: '#00C8FF', shadowOpacity: 1, shadowRadius: 25, shadowOffset: { width: 0, height: 7 }, elevation: 17 },
+  
+  
+  
   galleryEmptyReferenceState: { backgroundColor: 'rgba(4,25,59,0.12)', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
   galleryGalaxyArtwork: { backgroundColor: 'transparent', borderWidth: 0, overflow: 'visible' },
   creditCoinShowcase: { overflow: 'visible', backgroundColor: 'transparent' },
@@ -7677,19 +7457,19 @@ const styles = StyleSheet.create({
 
   // Shared dimensional glass materials for cards across all four tabs.
   statusCard: { backgroundColor: 'rgba(4,27,63,0.66)', borderWidth: 1.25, borderColor: 'rgba(101,195,255,0.76)', borderTopWidth: 1.7, borderTopColor: 'rgba(235,252,255,0.96)', borderLeftColor: 'rgba(133,218,255,0.72)', borderRightColor: 'rgba(35,131,220,0.82)', borderBottomWidth: 4, borderBottomColor: 'rgba(3,49,104,0.98)', shadowColor: '#078BFF', shadowOpacity: 0.56, shadowRadius: 20, shadowOffset: { width: 0, height: 7 }, elevation: 13 },
-  imageUploadCard: { backgroundColor: 'rgba(4,25,59,0.72)', borderColor: 'rgba(87,183,255,0.72)', borderTopColor: 'rgba(219,249,255,0.82)', borderBottomWidth: 3, borderBottomColor: '#05376F', shadowColor: '#078BFF', shadowOpacity: 0.42, shadowRadius: 17, shadowOffset: { width: 0, height: 5 }, elevation: 10 },
+  
   chooseImageButton: { backgroundColor: 'rgba(4,25,59,0.54)', borderColor: 'rgba(98,207,255,0.9)', borderWidth: 1.4, shadowColor: '#00AFFF', shadowOpacity: 0.55, shadowRadius: 17, elevation: 9 },
   balanceCard: { backgroundColor: 'rgba(4,25,59,0.72)', borderColor: 'rgba(106,196,255,0.78)', borderTopColor: 'rgba(226,251,255,0.88)', borderBottomWidth: 3, borderBottomColor: '#05366F', shadowColor: '#078BFF', shadowOpacity: 0.52, shadowRadius: 23, shadowOffset: { width: 0, height: 7 }, elevation: 13 },
   creditBalanceLine: { backgroundColor: 'rgba(4,27,64,0.66)', borderColor: 'rgba(103,193,255,0.72)', borderTopColor: 'rgba(222,249,255,0.8)', borderBottomWidth: 2, borderBottomColor: '#06376E', shadowColor: '#078BFF', shadowOpacity: 0.4, shadowRadius: 15, shadowOffset: { width: 0, height: 5 }, elevation: 9 },
-  profileCard: { backgroundColor: 'rgba(4,25,59,0.62)', borderWidth: 1.25, borderColor: 'rgba(103,194,255,0.76)', borderTopWidth: 1.7, borderTopColor: 'rgba(238,253,255,0.94)', borderLeftColor: 'rgba(132,219,255,0.68)', borderRightColor: 'rgba(33,127,218,0.8)', borderBottomWidth: 4, borderBottomColor: '#05366F', shadowColor: '#078BFF', shadowOpacity: 0.56, shadowRadius: 22, shadowOffset: { width: 0, height: 7 }, elevation: 14 },
+  
   authCard: { backgroundColor: 'rgba(4,24,57,0.64)', borderWidth: 1.25, borderColor: 'rgba(93,186,255,0.76)', borderTopWidth: 1.7, borderTopColor: 'rgba(238,253,255,0.94)', borderLeftColor: 'rgba(126,213,255,0.68)', borderRightColor: 'rgba(31,123,215,0.8)', borderBottomWidth: 4, borderBottomColor: '#05366F', shadowColor: '#078BFF', shadowOpacity: 0.56, shadowRadius: 21, shadowOffset: { width: 0, height: 7 }, elevation: 13 },
-  galleryCard: { backgroundColor: 'rgba(4,24,57,0.62)', borderWidth: 1.25, borderColor: 'rgba(91,183,255,0.78)', borderTopWidth: 1.7, borderTopColor: 'rgba(238,253,255,0.94)', borderLeftColor: 'rgba(126,213,255,0.68)', borderRightColor: 'rgba(31,123,215,0.82)', borderBottomWidth: 4, borderBottomColor: '#05366F', shadowColor: '#078BFF', shadowOpacity: 0.54, shadowRadius: 21, shadowOffset: { width: 0, height: 7 }, elevation: 13 },
+  
   galleryActionButton: { backgroundColor: 'rgba(3,52,105,0.52)', borderColor: 'rgba(126,214,255,0.78)', borderTopColor: 'rgba(228,251,255,0.84)', borderBottomWidth: 2, borderBottomColor: '#06417E', shadowColor: '#078BFF', shadowOpacity: 0.4, shadowRadius: 12, shadowOffset: { width: 0, height: 4 }, elevation: 7 },
   galleryStoragePill: { backgroundColor: 'rgba(3,48,96,0.48)', borderColor: 'rgba(132,218,255,0.8)', borderTopColor: 'rgba(235,252,255,0.92)', borderBottomWidth: 2, borderBottomColor: '#06417E', shadowColor: '#078BFF', shadowOpacity: 0.45, shadowRadius: 13, elevation: 8 },
-  packageCard: { backgroundColor: 'rgba(4,25,59,0.68)', borderWidth: 1.25, borderColor: 'rgba(105,207,255,0.76)', borderTopWidth: 1.7, borderTopColor: 'rgba(242,253,255,0.96)', borderLeftColor: 'rgba(132,219,255,0.72)', borderRightColor: 'rgba(31,120,218,0.82)', borderBottomWidth: 4, borderBottomColor: '#05366F', shadowColor: '#168BFF', shadowOpacity: 0.5, shadowRadius: 17, shadowOffset: { width: 0, height: 6 }, elevation: 11 },
+  
   creditWelcomeBonus: { backgroundColor: 'rgba(55,37,15,0.56)', borderTopColor: 'rgba(255,239,181,0.9)', borderLeftColor: 'rgba(255,205,103,0.8)', borderRightColor: 'rgba(188,112,24,0.85)', borderBottomWidth: 3, borderBottomColor: '#75400C', shadowColor: '#FFB52E', shadowOpacity: 0.62, shadowRadius: 19, shadowOffset: { width: 0, height: 6 }, elevation: 10 },
   sectionHeader: { borderBottomColor: 'rgba(79,184,255,0.56)' },
-  engineCard: { flexDirection: 'row', alignItems: 'center', minHeight: 70, padding: 15, marginBottom: 22, backgroundColor: 'rgba(3,25,60,0.72)', borderWidth: 1.2, borderTopColor: 'rgba(232,251,255,0.88)', borderLeftColor: 'rgba(105,204,255,0.62)', borderRightColor: 'rgba(34,133,225,0.78)', borderBottomWidth: 3, borderBottomColor: '#052F67', borderRadius: 16, shadowColor: '#078BFF', shadowOpacity: 0.52, shadowRadius: 17, shadowOffset: { width: 0, height: 6 }, elevation: 11 },
+  
 
   creditCoinStack: { width: '100%', maxWidth: 225, height: 180, position: 'relative', alignSelf: 'center', overflow: 'visible' },
   galleryGalaxyArmOne: { position: 'absolute', top: '33%', left: '14%', width: '72%', height: '34%', borderRadius: 100, borderWidth: 13, borderColor: 'rgba(45,153,255,0.22)', transform: [{ rotate: '-28deg' }], shadowColor: '#28BFFF', shadowOpacity: 0.9, shadowRadius: 20, elevation: 12 },
