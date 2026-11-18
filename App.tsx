@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState, type ComponentRef, type RefObject } from 'react';
-import { Animated, Easing, Modal, PanResponder } from 'react-native';
+import { Animated, Easing, Modal, PanResponder   type ImageStyle,
+  type TextStyle,
+  type ViewStyle,
+} from 'react-native';
 import { useEvent } from 'expo';
 import { useFonts } from 'expo-font';
 import {
@@ -29,6 +32,9 @@ import { fetch as expoFetch } from 'expo/fetch';
 import * as SecureStore from 'expo-secure-store';
 import * as WebBrowser from 'expo-web-browser';
 import { faqText, uiText } from './localization';
+
+type StyleOverrides = Record<string, ViewStyle | TextStyle | ImageStyle>;
+const mergeStyleOverrides = (value: StyleOverrides): StyleOverrides => value;
 
 const Text = (props: TextProps) => { const flat = StyleSheet.flatten(props.style) || {}; const c = typeof flat.color === 'string' ? flat.color.toLowerCase() : ''; const dark = c === 'black' || c === '#000' || c === '#000000' || /^#[0-9a-f]{6}$/.test(c) && (() => { const v = [1,3,5].map(i => parseInt(c.slice(i,i+2),16)); return 0.2126*v[0]+0.7152*v[1]+0.0722*v[2] < 31; })(); return <NativeText {...props} style={[{ fontFamily: 'Manrope', color: '#EAF4FF' }, flat, dark ? { color: '#EAF4FF' } : null]} />; };
 
@@ -2058,7 +2064,7 @@ export default function App() {
           intensity={72}
           tint="dark"
           blurMethod="dimezisBlurViewSdk31Plus"
-          style={[StyleSheet.absoluteFillObject, styles.bottomNavGlass]}
+          style={[StyleSheet.absoluteFill, styles.bottomNavGlass]}
         >
           <View style={styles.bottomNavGlassEdge} />
           <View style={styles.bottomNavGlassBloom} />
@@ -2180,7 +2186,7 @@ function GlassBlurLayer({ radius = 18, intensity = 38, targetRef }: { radius?: n
       blurTarget={targetRef}
       tint="dark"
       blurMethod="dimezisBlurViewSdk31Plus"
-      style={[StyleSheet.absoluteFillObject, { borderRadius: radius, overflow: 'hidden' }]}
+      style={[StyleSheet.absoluteFill, { borderRadius: radius, overflow: 'hidden' }]}
     />
   );
 }
@@ -3320,7 +3326,7 @@ function FeatureGlyph({ type }: { type: string }) {
 function BottomNavGlyph({ type, active }: { type: string; active: boolean }) {
   const c = active ? '#E9FCFF' : '#91DFFF';
   const glow = active ? { shadowColor: '#27CFFF', shadowOpacity: 1, shadowRadius: 11, elevation: 10 } : { shadowColor: '#079BFF', shadowOpacity: 0.72, shadowRadius: 7, elevation: 6 };
-  const frame: any = { width: 34, height: 34, alignItems: 'center', justifyContent: 'center', position: 'relative', opacity: 1, zIndex: 200, elevation: 200, overflow: 'visible', ...glow };
+  const frame: any = { width: 34, height: 34, alignItems: 'center', justifyContent: 'center', position: 'relative', opacity: 1, zIndex: 200, overflow: 'visible', ...glow, elevation: 200 };
   const line: any = { borderColor: c, borderWidth: 2.4, backgroundColor: 'rgba(17,119,190,0.22)' };
   if (type === 'Create') return <View style={frame} accessibilityLabel="Создать">
     <View style={{position:'absolute',top:6,width:0,height:0,borderLeftWidth:13,borderRightWidth:13,borderBottomWidth:12,borderLeftColor:'transparent',borderRightColor:'transparent',borderBottomColor:c,shadowColor:'#50D9FF',shadowOpacity:0.9,shadowRadius:5,elevation:5}}/>
@@ -3383,7 +3389,7 @@ function GalleryVideoPlayer({ uri }: { uri: string }) {
 }
 
 
-const COSMIC_OVERRIDES = {
+const COSMIC_OVERRIDES: StyleOverrides = {
   container: { flex: 1, backgroundColor: '#030916' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030916' },
   ambientGlowTop: { position: 'absolute', width: 520, height: 520, borderRadius: 260, top: -125, right: -270, backgroundColor: '#006BFF', opacity: 0.30 },
@@ -3426,10 +3432,10 @@ const COSMIC_OVERRIDES = {
   referencePlay: { color: '#FFFFFF', fontSize: 23, marginRight: 12 },
   referenceCreateButtonText: { color: '#FFFFFF', fontSize: 17, fontWeight: '800' },
   featureSectionHeader: { marginTop: 5, marginBottom: 14 },
-  featureSectionTitle: { color: '#EAF4FF', fontSize: 20, fontWeight: '900', letterSpacing: 0.2 },
-  featureGrid: { rowGap: 13, marginBottom: 20 },
+  
+  
   featureCard: { width: '48.5%', minHeight: 104, paddingVertical: 16, paddingHorizontal: 12, borderRadius: 19, backgroundColor: 'rgba(7,26,58,0.96)', borderWidth: 1, borderColor: 'rgba(52,139,224,0.50)', shadowColor: '#087BFF', shadowOpacity: 0.16, shadowRadius: 14, elevation: 4 },
-  featureIcon: { color: '#62D5FF', fontSize: 29, lineHeight: 34, textShadowColor: '#008CFF', textShadowRadius: 12 },
+  
   featureText: { color: '#EAF4FF', fontSize: 16, lineHeight: 20, fontWeight: '800', textAlign: 'center' },
   composerBack: { alignSelf: 'flex-start', paddingVertical: 11, paddingHorizontal: 16, borderRadius: 14, backgroundColor: 'rgba(6,25,57,0.98)', borderWidth: 1, borderColor: '#246BB0', marginBottom: 17 },
   composerBackText: { color: '#9FD4FF', fontSize: 16, fontWeight: '700' },
@@ -3492,13 +3498,13 @@ const COSMIC_OVERRIDES = {
   galleryTabText: { color: '#A7BBD8', fontSize: 16, fontWeight: '700' },
   galleryTabTextActive: { color: '#FFFFFF' },
   galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', columnGap: 0 },
-  galleryCard: { backgroundColor: 'rgba(5,19,43,0.98)', borderRadius: 18, padding: 9, marginTop: 12, borderWidth: 1, borderColor: 'rgba(53,132,208,0.60)', width: '48.5%', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 15, elevation: 5 },
-  galleryPreview: { position: 'relative' },
-  galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.72)', paddingHorizontal: 6, paddingVertical: 3, borderRadius: 6, fontSize: 16, fontWeight: '700' },
+  
+  
+  
   galleryFavorite: { position: 'absolute', top: 8, right: 8, width: 36, height: 36, borderRadius: 18, backgroundColor: 'rgba(1,8,22,0.88)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(104,194,255,0.75)' },
   galleryFavoriteText: { color: '#73CFFF', fontSize: 23, lineHeight: 27 },
-  videoFrame: { width: '100%', height: 154, backgroundColor: '#020817', borderRadius: 13, overflow: 'hidden', justifyContent: 'center' },
-  videoPlayer: { width: '100%', height: 154, backgroundColor: '#000000', borderRadius: 13 },
+  
+  
   videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
   videoControlButton: { width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(17,24,39,0.88)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#3978FF' },
   videoControlText: { color: '#FFFFFF', fontSize: 16, fontWeight: '900' },
@@ -3523,7 +3529,7 @@ const COSMIC_OVERRIDES = {
   navIcon: { fontSize: 25, lineHeight: 30, color: '#4CAEFF' },
   navCoin: { width: 27, height: 27, borderRadius: 14, borderWidth: 2, borderColor: '#4CAEFF', backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center', padding: 3 },
   navCoinInner: { width: '100%', height: '100%', borderRadius: 10, borderWidth: 1, borderColor: '#4CAEFF', alignItems: 'center', justifyContent: 'center' },
-  navCoinMark: { color: '#4CAEFF', fontSize: 16, lineHeight: 21, fontWeight: '900' },
+  
   navPerson: { width: 29, height: 31, alignItems: 'center', justifyContent: 'flex-end' },
   navPersonHead: { width: 10, height: 10, borderRadius: 5, borderWidth: 2, borderColor: '#4CAEFF', backgroundColor: 'transparent', marginBottom: 3 },
   navPersonBody: { width: 23, height: 14, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 2, borderBottomWidth: 0, borderColor: '#4CAEFF', backgroundColor: 'transparent' },
@@ -3551,46 +3557,46 @@ const COSMIC_OVERRIDES = {
   bigBalance: { color: '#FFFFFF', fontSize: 42, fontWeight: '900', marginTop: 10, textShadowColor: '#147DFF', textShadowRadius: 17 },
   creditSymbol: { color: '#51C9FF', fontSize: 27 },
   mutedText: { color: '#9CB9D8', fontSize: 16, lineHeight: 20, marginTop: 7 },
-  packageCard: { backgroundColor: 'rgba(6,23,51,0.99)', borderRadius: 18, padding: 15, marginTop: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(55,133,208,0.62)', paddingHorizontal: 15, paddingVertical: 15, minHeight: 78, marginBottom: 11, shadowColor: '#006DFF', shadowOpacity: 0.13, shadowRadius: 12, elevation: 3 },
-  packageIconWrap: { width: 43, height: 43, borderRadius: 14, alignItems: 'center', justifyContent: 'center', marginRight: 12, backgroundColor: 'rgba(0,111,255,0.18)', borderWidth: 1, borderColor: 'rgba(68,176,255,0.55)' },
-  packageIcon: { color: '#FFD45E', fontSize: 27, textShadowColor: '#FFB52E', textShadowRadius: 9 },
+  
+  
+  
   packageDiamond: { color: '#53C9FF', textShadowColor: '#168BFF' },
   packageRight: { alignItems: 'flex-end', justifyContent: 'center', gap: 5 },
-  popularBadge: { backgroundColor: '#075DE2', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4, borderWidth: 1, borderColor: '#4CB9FF' },
-  popularBadgeText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
-  packageAmount: { color: '#F3F8FF', fontSize: 17, fontWeight: '800' },
-  packagePrice: { color: '#B7D7FF', fontSize: 16, marginTop: 3 },
+  
+  
+  
+  
   packagePriceHint: { color: '#7598C3', fontSize: 16, textAlign: 'right' },
   creditBalanceLine: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 18, paddingVertical: 15, marginBottom: 14, borderRadius: 17, backgroundColor: 'rgba(5,26,62,0.98)', borderWidth: 1, borderColor: 'rgba(59,137,218,0.68)', shadowColor: '#087BFF', shadowOpacity: 0.18, shadowRadius: 13, elevation: 4 },
   creditBalanceLabel: { color: '#A9C8EA', fontSize: 16, fontWeight: '700', letterSpacing: 1 },
   creditBalanceValue: { color: '#FFFFFF', fontSize: 20, fontWeight: '800', textShadowColor: '#168BFF', textShadowRadius: 10 },
-  creditIllustration: { height: 154, width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 10, position: 'relative', borderRadius: 21, backgroundColor: 'rgba(4,22,54,0.92)', borderWidth: 1, borderColor: 'rgba(51,151,255,0.68)', overflow: 'hidden' },
+  
   creditCoinStack: { position: 'absolute', bottom: 25, alignItems: 'center', justifyContent: 'flex-end' },
-  creditStackLeft: { left: '22%' },
-  creditStackCenter: { left: '42%', bottom: 29 },
-  creditStackRight: { right: '18%' },
-  creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#159BFF', borderWidth: 2, borderColor: '#83E2FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.95, shadowRadius: 13, elevation: 8 },
-  creditCoinInner: { width: 43, height: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(210,244,255,0.85)', color: '#EAFBFF', textAlign: 'center', fontSize: 16, lineHeight: 21, overflow: 'hidden' },
-  creditStarBadge: { position: 'absolute', right: '24%', bottom: 8, width: 46, height: 46, borderRadius: 23, backgroundColor: '#075DE2', borderWidth: 2, borderColor: '#83E2FF', color: '#EAFBFF', textAlign: 'center', textAlignVertical: 'center', fontSize: 26, overflow: 'hidden', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
+  
+  
+  
+  
+  
+  
   creditIntro: { color: '#E2F1FF', fontSize: 16, lineHeight: 23, textAlign: 'center', marginHorizontal: 18, marginTop: 10, marginBottom: 16 },
-  buyCreditsButton: { minHeight: 60, marginTop: 10, marginBottom: 14, borderRadius: 18, backgroundColor: '#086EFF', borderWidth: 1, borderColor: '#70D9FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#008CFF', shadowOpacity: 0.58, shadowRadius: 18, elevation: 9, opacity: 0.72 },
-  buyCreditsButtonText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
-  buyCreditsHint: { color: '#C5E5FF', fontSize: 16, marginTop: 2 },
+  
+  
+  
   creditNeverExpire: { textAlign: 'center', color: '#A9C8EA', fontSize: 16, marginTop: 8, marginBottom: 12 },
   creditsScreen: { paddingTop: 12 },
-  creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 17 },
+  
   creditsBackButton: { width: 38, height: 38, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,58,0.92)', borderWidth: 1, borderColor: '#2467A8', marginRight: 10 },
   creditsBackText: { color: '#D7EBFF', fontSize: 32, lineHeight: 34, marginTop: -3 },
-  creditsTitle: { color: '#FFFFFF', fontSize: 30, fontWeight: '900', fontFamily: 'Manrope', textShadowColor: 'rgba(16,116,255,0.48)', textShadowRadius: 13 },
-  profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
+  
+  
   profileSettingsButton: { width: 46, height: 46, borderRadius: 15, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(69,157,225,0.66)', backgroundColor: 'rgba(5,26,59,0.96)' },
   profileSettingsIcon: { color: '#C5E5FF', fontSize: 22 },
-  profileIdentity: { alignItems: 'center', paddingTop: 14, paddingBottom: 20, marginBottom: 16, borderBottomWidth: 1, borderBottomColor: 'rgba(48,125,194,0.34)' },
-  profileGuestAvatar: { width: 92, height: 92, borderRadius: 46, borderWidth: 2, borderColor: '#52CFFF', backgroundColor: 'rgba(0,91,180,0.18)', shadowColor: '#00AFFF', shadowOpacity: 0.68, shadowRadius: 22, elevation: 9 },
-  profileGuestHead: { width: 26, height: 26, borderRadius: 13, borderColor: '#A6D8FF' },
-  profileGuestBody: { width: 58, height: 33, borderColor: '#A6D8FF' },
-  profileGuestName: { color: '#F3F7FF', fontSize: 20, fontWeight: '900', marginTop: 5 },
-  profileGuestStatus: { color: '#A9BAD4', fontSize: 16, marginTop: 3 },
+  
+  
+  
+  
+  
+  
   profileVkButton: { height: 58, borderRadius: 18, backgroundColor: '#0877FF', borderWidth: 1, borderColor: '#75D7FF', marginBottom: 17, shadowColor: '#008CFF', shadowOpacity: 0.38, shadowRadius: 16, elevation: 8 },
   profileVkMark: { color: '#0877FF', backgroundColor: '#FFFFFF', borderRadius: 5, width: 23, height: 23, textAlign: 'center', textAlignVertical: 'center', fontWeight: '900', fontSize: 16, marginRight: 10, overflow: 'hidden' },
   profileVkText: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
@@ -3598,7 +3604,7 @@ const COSMIC_OVERRIDES = {
   profileEmailButtonText: { color: '#A9D8FF', fontSize: 16, fontWeight: '700' },
   profileCard: { backgroundColor: 'rgba(5,24,57,0.98)', borderRadius: 21, padding: 18, flexDirection: 'row', alignItems: 'center', marginBottom: 17, borderWidth: 1, borderColor: 'rgba(65,158,255,0.62)', shadowColor: '#087BFF', shadowOpacity: 0.20, shadowRadius: 17, elevation: 6 },
   avatar: { width: 52, height: 52, borderRadius: 26, backgroundColor: '#0756B8', alignItems: 'center', justifyContent: 'center', marginRight: 13, borderWidth: 1, borderColor: '#55C9FF', shadowColor: '#168BFF', shadowOpacity: 0.6, shadowRadius: 13, elevation: 6 },
-  profileMenuCard: { marginTop: 7, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(48,125,194,0.62)', backgroundColor: 'rgba(5,19,43,0.97)' },
+  
   menuItem: { minHeight: 60, paddingVertical: 15, borderBottomWidth: 1, borderBottomColor: 'rgba(47,105,161,0.38)', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 17, marginTop: 0, borderRadius: 0, borderWidth: 0, backgroundColor: 'transparent' },
   menuItemLast: { borderBottomWidth: 0 },
   menuIcon: { width: 28, color: '#82C9FF', fontSize: 19, textAlign: 'center', marginRight: 10 },
@@ -3621,12 +3627,12 @@ const COSMIC_OVERRIDES = {
   smallActionText: { color: '#EAF5FF', fontSize: 16, fontWeight: '700' },
   note: { color: '#9CB9D8', fontSize: 16, lineHeight: 22, marginTop: 20 },
   splashReferenceViewport: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#020817' },
-  introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010714', alignItems: 'center', justifyContent: 'center' },
-  introStarField: { ...StyleSheet.absoluteFill },
-  introStar: { position: 'absolute', width: 2, height: 2, borderRadius: 1, backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 0.95, shadowRadius: 5 },
+  
+  
+  
   introWaterGlow: { position: 'absolute', left: '-22%', right: '-22%', bottom: '1%', height: '27%', borderTopWidth: 1, borderTopColor: 'rgba(71,183,255,0.32)', borderRadius: 260, backgroundColor: 'rgba(0,67,125,0.16)', transform: [{ scaleX: 1.15 }] },
-  introNebulaTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: '7%', backgroundColor: '#064AC4', opacity: 0.28, shadowColor: '#078CFF', shadowOpacity: 1, shadowRadius: 80, elevation: 30 },
-  introNebulaBottom: { position: 'absolute', width: 500, height: 260, borderRadius: 250, bottom: '4%', backgroundColor: '#006A9E', opacity: 0.19, shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 75, elevation: 25 },
+  
+  
   introOrbitOuter: { position: 'absolute', width: 292, height: 292, borderRadius: 146, borderWidth: 4, borderColor: 'rgba(46,174,255,0.92)', shadowColor: '#008DFF', shadowOpacity: 1, shadowRadius: 36, elevation: 25 },
   introOrbitInner: { position: 'absolute', width: 252, height: 252, borderRadius: 126, borderWidth: 2, borderColor: 'rgba(105,214,255,0.68)' },
   introLogoHalo: { position: 'absolute', width: 285, height: 235, borderRadius: 120, backgroundColor: '#0756C5', opacity: 0.34, shadowColor: '#2AAFFF', shadowOpacity: 1, shadowRadius: 65, elevation: 30 },
@@ -3635,10 +3641,10 @@ const COSMIC_OVERRIDES = {
   introReelPlay: { color: '#45C6FF', fontSize: 78, lineHeight: 88, fontWeight: '900', letterSpacing: -5, textShadowColor: '#006DFF', textShadowRadius: 30 },
   introAccentLine: { position: 'absolute', bottom: '21%', width: 116, height: 3, borderRadius: 2, backgroundColor: '#48C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 14, elevation: 10 },
   introHorizon: { position: 'absolute', left: 0, right: 0, top: '72%', height: 1, backgroundColor: 'rgba(69,145,255,0.18)' },
-  introTitle: { position: 'absolute', bottom: '24%', color: '#FFFFFF', fontSize: 42, lineHeight: 45, fontWeight: '900', fontFamily: 'Manrope', textAlign: 'center', letterSpacing: 0.4, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 27, elevation: 12 },
+  
   introTagline: { position: 'absolute', bottom: '10%', color: '#B8D9FF', fontSize: 17, lineHeight: 24, textAlign: 'center', fontWeight: '600', textShadowColor: '#168BFF', textShadowRadius: 14 },
-  introProgressTrack: { position: 'absolute', bottom: '5%', width: '86%', maxWidth: 300, height: 4, borderRadius: 2, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
-  introProgressFill: { width: '40%', height: 4, borderRadius: 2, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 8, elevation: 4 },
+  
+  
   ambientHorizon: { position: 'absolute', top: 112, left: 22, right: 22, height: 1, backgroundColor: 'rgba(73,158,255,0.12)' },
   ambientStarOne: { position: 'absolute', top: '18%', left: '17%', width: 4, height: 4, borderRadius: 2, backgroundColor: '#9BEAFF', shadowColor: '#39AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
   ambientStarTwo: { position: 'absolute', top: '43%', right: '13%', width: 3, height: 3, borderRadius: 2, backgroundColor: '#70C9FF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 10, elevation: 7 },
@@ -3739,7 +3745,7 @@ const COSMIC_OVERRIDES = {
   notificationBellClapper: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#A9D9FF', marginTop: 1 },
 };
 
-const REFERENCE_POLISH = {
+const REFERENCE_POLISH: StyleOverrides = {
   container: { flex: 1, backgroundColor: '#010713' },
   content: { paddingHorizontal: 14, paddingTop: 10, paddingBottom: 16 },
   referenceHeroCopy: { position: 'absolute', top: 12, left: 14, width: '42%', marginTop: 0 },
@@ -3960,7 +3966,7 @@ const REFERENCE_POLISH = {
   introReelPlay: { color: '#B7F0FF', fontSize: 62, lineHeight: 90, fontWeight: '900', letterSpacing: -3, textShadowColor: '#006DFF', textShadowRadius: 34 },
 };
 
-const FINAL_UI_FIXES = {
+const FINAL_UI_FIXES: StyleOverrides = {
   container: { flex: 1, backgroundColor: '#010713' },
   header: { paddingTop: 30, paddingBottom: 16 },
   brandRow: { marginTop: 4 },
@@ -4025,7 +4031,7 @@ const FINAL_UI_FIXES = {
   introProgressFill: { height: 5, borderRadius: 3, backgroundColor: '#39D5FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 6 },
 };
 
-const FINAL_UI_FIXES_V2 = {
+const FINAL_UI_FIXES_V2: StyleOverrides = {
  container: {flex:1,backgroundColor:'#010713'},header: {paddingTop:10,paddingBottom:12,minHeight:78},brandRow: {marginTop:2},logo: {fontSize:22,lineHeight:25},logoSecond: {fontSize:22,lineHeight:25},
  content: {paddingHorizontal:16,paddingTop:16,paddingBottom:22},creditsContent: {paddingTop:12,paddingBottom:24},screen: {flex:1,paddingTop:10,paddingBottom:8},
  referenceHero: {height:226,minHeight:226,marginTop:6,marginBottom:15,overflow:'hidden'},referenceHeroCopy: {top:20,left:18,width:'57%'},referenceHeroTitle: {fontSize:25,lineHeight:29,textShadowColor:'#087BFF',textShadowRadius:16},referenceHeroCaption: {fontSize: 16,lineHeight: 21,maxWidth:180},referenceCreateGlow:{width:'100%',marginBottom:13,borderRadius:30,shadowColor:'#00AFFF',shadowOffset: {width:0,height:0},elevation:12},referenceCreateButton: {shadowOpacity:.42,shadowRadius:15,elevation:8,marginBottom:0},
@@ -4042,7 +4048,7 @@ const FINAL_UI_FIXES_V2 = {
 };
 
 
-const FINAL_UI_FIXES_V4 = {
+const FINAL_UI_FIXES_V4: StyleOverrides = {
   referenceHero: { height: 164, minHeight: 164, width: '100%', marginTop: 6, marginBottom: 14 },
   referenceHeroCopy: { top: 14, left: 16, width: '57%' },
   referenceHeroTitle: { fontSize: 22, lineHeight: 26 },
@@ -4055,7 +4061,7 @@ const FINAL_UI_FIXES_V4 = {
   profileIdentity: { alignItems: 'center', justifyContent: 'center' },
 } as const;
 
-const FINAL_UI_FIXES_V3 = {
+const FINAL_UI_FIXES_V3: StyleOverrides = {
   ambientBackdropTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,7,18,0.04)' },
   ambientGlowTop: { backgroundColor: '#075CEB', opacity: 0.34, shadowColor: '#087BFF', shadowOpacity: 1, shadowRadius: 96 },
   ambientGlowBottom: { backgroundColor: '#007DBA', opacity: 0.30, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 90 },
@@ -4131,31 +4137,31 @@ const FINAL_UI_FIXES_V3 = {
   featureSubtitle: { fontSize: 16, lineHeight: 21 },
 };
 
-const FINAL_UI_FIXES_V5 = {
- header: { paddingHorizontal: 18, paddingLeft: 18, paddingRight: 18, overflow: 'visible' },
+const FINAL_UI_FIXES_V5: StyleOverrides = {
+ 
  brandRow: { flexShrink: 1, minWidth: 0, marginLeft: 0, marginRight: 8 }, brandWordmark: { flexShrink: 1, minWidth: 0 },
  logo: { fontSize: 20, lineHeight: 24, includeFontPadding: false }, logoSecond: { fontSize: 20, lineHeight: 24, includeFontPadding: false },
- content: { flexGrow: 1, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 18 }, creditsContent: { flexGrow: 1, paddingTop: 10, paddingBottom: 18 },
- screen: { flexGrow: 1, flexShrink: 0, minHeight: 0, paddingTop: 8, paddingBottom: 12 },
+  
+ 
  
  
   
- referenceHero: { height: 151, minHeight: 151, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 8, marginTop: 4, marginBottom: 12 },
- filmFrame: { width: '43%', height: 116, flexGrow: 0, flexShrink: 0 },
- referenceHeroCopy: { position: 'relative', top: 0, left: 0, width: '52%', flex: 1, minWidth: 0, paddingLeft: 10, paddingRight: 4, justifyContent: 'center' },
- referenceHeroTitle: { color: '#F4FAFF', fontSize: 19, lineHeight: 23, fontWeight: '900' }, referenceHeroCaption: { color: '#CDE7FF', fontSize: 16, lineHeight: 21, maxWidth: '100%', marginTop: 5 },
+ 
+ 
+ 
+  
  referenceCreateGlow: { width: '100%', marginTop: 0, marginBottom: 12 }, referenceCreateButton: { minHeight: 56, marginBottom: 0 },
  featureSection: { marginTop: 2, marginBottom: 14 }, featureGrid: { rowGap: 10, columnGap: 10 },
  featureTile: { width: '48%', minHeight: 112, padding: 12, backgroundColor: 'rgba(4,20,46,0.94)', borderColor: 'rgba(72,157,232,0.72)' },
  featureTitle: { color: '#F0F7FF', fontSize: 16, lineHeight: 21, fontWeight: '800' }, featureSubtitle: { color: '#B7D3F0', fontSize: 16, lineHeight: 21 },
  description: { color: '#E3F0FF', fontSize: 16, lineHeight: 23, textAlign: 'center' },
- popularBadge: { backgroundColor: '#075DE2', borderColor: '#72D9FF' }, popularBadgeText: { color: '#FFFFFF', fontSize: 14, fontWeight: '900' },
- creditIllustration: { height: 152, marginBottom: 14, backgroundColor: 'rgba(4,19,47,0.94)', justifyContent: 'center' },
- creditCoinStack: { position: 'absolute', bottom: 27, alignItems: 'center', justifyContent: 'flex-end' }, creditStackLeft: { left: '12%' }, creditStackCenter: { left: '34%', bottom: 34 }, creditStackRight: { right: '12%' },
+  
+ 
+    
  creditCoin: { width: 58, height: 17, marginTop: -3, borderRadius: 30, backgroundColor: '#D9A63A', borderWidth: 2, borderColor: '#FFF0A8', shadowColor: '#FFCE59', shadowOpacity: 0.8, shadowRadius: 10, elevation: 7 },
- creditStarBadge: { position: 'absolute', right: '17%', bottom: 12, width: 46, height: 46, borderRadius: 23, backgroundColor: '#8D5B12', borderWidth: 2, borderColor: '#FFE18A', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFC94F', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
+ 
  creditStarGlyph: { color: '#FFF4C7', fontSize: 27, lineHeight: 31, fontWeight: '900' },
- profileIdentity: { marginTop: 5, marginBottom: 12, paddingVertical: 14, paddingHorizontal: 15 },
+ 
  loginScreen: { flex: 0, minHeight: 0, paddingHorizontal: 14, paddingTop: 12, paddingBottom: 14, marginTop: 4, overflow: 'visible' },
  profileMenuCard: { marginTop: 12, marginBottom: 14, paddingHorizontal: 12, paddingVertical: 4 }, menuItem: { minHeight: 52, paddingVertical: 12 },
  loginTagline: { color: '#D5E8FF', fontSize: 16, lineHeight: 22 }, loginLegalText: { color: '#B6CDE8', fontSize: 16, lineHeight: 22 },
@@ -4194,7 +4200,7 @@ const FINAL_UI_FIXES_V5 = {
 } as const;
 
 
-const FINAL_UI_FIXES_V6 = () => ({
+const FINAL_UI_FIXES_V6 = (): StyleOverrides => ({
   header: { paddingTop: 16, paddingBottom: 10, minHeight: 78, paddingHorizontal: 18, flexShrink: 0, overflow: 'visible' },
   content: { flexGrow: 1, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 34 },
   creditsContent: { flexGrow: 1, paddingTop: 6, paddingBottom: 30 },
@@ -4233,7 +4239,7 @@ const FINAL_UI_FIXES_V6 = () => ({
   bottomNav: { minHeight: 76, paddingTop: 5, paddingBottom: 7, backgroundColor: 'rgba(2,10,27,0.97)', borderTopColor: 'rgba(73,166,255,0.42)' },
 } as const);
 
-const FINAL_UI_FIXES_V7 = () => ({
+const FINAL_UI_FIXES_V7 = (): StyleOverrides => ({
   introBrandLockup: { position: 'absolute', top: '31%', left: 0, right: 0, alignItems: 'center', justifyContent: 'center', minHeight: 250 },
   introBrandMonogramWrap: { width: 148, height: 148, borderRadius: 74, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(2,16,43,0.92)', borderWidth: 2, borderColor: '#70DFFF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 28, elevation: 20 },
   introBrandMonogram: { color: '#D9F7FF', fontSize: 42, lineHeight: 52, fontWeight: '900', letterSpacing: -2, textShadowColor: '#168CFF', textShadowRadius: 18 },
@@ -4306,7 +4312,7 @@ const FINAL_UI_FIXES_V7 = () => ({
   navPerson: { width: 25, height: 26 },
 } as const);
 
-const FINAL_UI_FIXES_V8 = {
+const FINAL_UI_FIXES_V8: StyleOverrides = {
   // Keep the credits screen inside the same electric-blue galaxy palette.
   creditIllustration: { borderColor: 'rgba(91,207,255,0.78)', backgroundColor: 'rgba(3,18,48,0.94)', shadowColor: '#168BFF', shadowOpacity: 0.48, shadowRadius: 20, elevation: 10 },
   creditIllustrationGlow: { backgroundColor: 'rgba(0,143,255,0.22)', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 36 },
@@ -4334,11 +4340,11 @@ const FINAL_UI_FIXES_V8 = {
   profileMenuCard: { borderColor: 'rgba(73,166,255,0.56)', backgroundColor: 'rgba(4,18,43,0.94)' },
 } as const;
 
-const FINAL_UI_FIXES_V10 = {
+const FINAL_UI_FIXES_V10: StyleOverrides = {
   headerBrandArtwork: { width: 38, height: 38, borderRadius: 10 },
 } as const;
 
-const FINAL_UI_FIXES_V9 = {
+const FINAL_UI_FIXES_V9: StyleOverrides = {
   // Align header actions explicitly to the right; keep the brand lockup centered.
   header: { position: 'relative', minHeight: 88, paddingTop: 32, paddingBottom: 8, paddingHorizontal: 18, width: '100%', flexShrink: 0 },
   headerActions: { position: 'absolute', right: 14, top: 26, zIndex: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 7 },
@@ -4353,7 +4359,7 @@ const FINAL_UI_FIXES_V9 = {
   welcomeBonusText: { color: '#B8D8F4' },
 } as const;
 
-const FINAL_UI_FIXES_V11 = {
+const FINAL_UI_FIXES_V11: StyleOverrides = {
  header:{minHeight:120,height:120,paddingTop:49,paddingBottom:7,paddingHorizontal:14,justifyContent:'flex-start',alignItems:'center',overflow:'visible'},
  brandRowCentered:{position:'absolute',top:48,left:96,right:10,width:undefined,maxWidth:undefined,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',zIndex:2},
  brandMarkSmall:{width:46,height:46,borderRadius:12,marginRight:8,backgroundColor:'rgba(2,14,39,0.88)',borderWidth:1,borderColor:'rgba(125,220,255,0.82)',shadowColor:'#38BFFF',shadowOpacity:0.78,shadowRadius:15,elevation:8,overflow:'hidden'},
@@ -4377,7 +4383,7 @@ const FINAL_UI_FIXES_V11 = {
 } as const;
 
 
-const FINAL_UI_FIXES_V12 = {
+const FINAL_UI_FIXES_V12: StyleOverrides = {
   container: { flex: 1, backgroundColor: '#020817' },
   header: { paddingTop: 30, paddingBottom: 9, paddingHorizontal: 18, minHeight: 86, width: '100%', flexShrink: 0 },
   brandRowCentered: { position: 'absolute', left: 0, right: 0, top: 18, width: '100%', maxWidth: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', zIndex: 1 },
@@ -4522,7 +4528,7 @@ const FINAL_UI_FIXES_V12 = {
   loginLegalText: { color: '#B8CDE4', fontSize: 12, lineHeight: 17, textAlign: 'center', marginTop: 10, paddingHorizontal: 3 }
 } as const;
 
-const FINAL_UI_FIXES_V13 = {
+const FINAL_UI_FIXES_V13: StyleOverrides = {
   header: { minHeight: 120, height: 120, paddingTop: 49, paddingBottom: 7, paddingHorizontal: 14, justifyContent: 'flex-start', alignItems: 'center', overflow: 'visible' },
   brandRowCentered: { position: 'absolute', top: 48, left: 96, right: 10, width: undefined, maxWidth: undefined, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', zIndex: 2 },
   headerActions: { position: 'absolute', left: 14, right: undefined, top: 49, zIndex: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8 },
@@ -4594,7 +4600,7 @@ const FINAL_UI_FIXES_V13 = {
 } as const;
 
 
-const FINAL_UI_FIXES_V14 = {
+const FINAL_UI_FIXES_V14: StyleOverrides = {
   // The supplied galaxy reference is a four-screen UI montage, not a standalone hero image.
   // Build a clean cinematic nebula illustration from native layers instead of rendering the montage.
   referenceHero: { height: 146, minHeight: 146, paddingHorizontal: 18, paddingVertical: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(2,13,37,0.98)', borderColor: 'rgba(104,202,255,0.82)' },
@@ -4658,11 +4664,11 @@ const FINAL_UI_FIXES_V14 = {
   
 } as const;
 
-const FINAL_UI_FIXES_V15 = {
+const FINAL_UI_FIXES_V15: StyleOverrides = {
   creditTopRow: { flexDirection: 'row', alignItems: 'stretch', gap: 9, marginBottom: 10 },
-  creditIllustration: { width: '41%', height: 174, minHeight: 174, marginBottom: 0, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.62, shadowRadius: 22, elevation: 11, overflow: 'hidden' },
-  creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', overflow: 'hidden' },
-  creditReferenceArtwork: { position: 'absolute', width: 1137, height: 1262, left: -154, top: -763 },
+  
+  
+  
   creditPackageColumn: { flex: 1, minWidth: 0, justifyContent: 'center' },
   creditPackagesTitle: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900', marginBottom: 2, textShadowColor: '#D98A20', textShadowRadius: 10 },
   packageCard: { minHeight: 46, paddingVertical: 5, paddingHorizontal: 7, borderRadius: 11, marginTop: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(255,198,91,0.48)', backgroundColor: 'rgba(35,27,21,0.94)', shadowColor: '#FFB52E', shadowOpacity: 0.2, shadowRadius: 8, elevation: 3 },
@@ -4736,7 +4742,7 @@ const FINAL_UI_FIXES_V15 = {
 };
 
 
-const FINAL_UI_FIXES_V16 = {
+const FINAL_UI_FIXES_V16: StyleOverrides = {
   // Header: unframed triangular brand mark, stacked wordmark and notification control on the opposite edge.
   header: { minHeight: 122, height: 122, paddingTop: 0, paddingBottom: 8, paddingHorizontal: 14, justifyContent: 'flex-start', alignItems: 'center', overflow: 'visible', backgroundColor: 'transparent', borderBottomWidth: 0 },
   brandRowCentered: { position: 'absolute', top: 53, left: 14, right: 66, width: undefined, maxWidth: undefined, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', zIndex: 2, gap: 8 },
@@ -4828,7 +4834,7 @@ const FINAL_UI_FIXES_V16 = {
 } as const;
 
 
-const FINAL_UI_FIXES_V17 = {
+const FINAL_UI_FIXES_V17: StyleOverrides = {
   // Brand mark is typography only: no raster tile or image background behind the wordmark.
   brandMarkSmall: { width: 48, height: 48, marginRight: 0, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowColor: '#28BFFF', shadowOpacity: 0.65, shadowRadius: 14, elevation: 0, overflow: 'visible', alignItems: 'center', justifyContent: 'center' },
   headerMonogram: { color: '#8BE9FF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 24, fontWeight: '900', letterSpacing: -1, textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 14, includeFontPadding: false, backgroundColor: 'transparent' },
@@ -4877,7 +4883,7 @@ const FINAL_UI_FIXES_V17 = {
 };
 
 
-const FINAL_UI_FIXES_V18 = {
+const FINAL_UI_FIXES_V18: StyleOverrides = {
   // Clean header: no backing plate behind the brand or bell.
   brandMarkSmall: { backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
   brandWordmark: { backgroundColor: 'transparent' },
@@ -4935,7 +4941,7 @@ const FINAL_UI_FIXES_V18 = {
 };
 
 
-const FINAL_UI_FIXES_V19 = {
+const FINAL_UI_FIXES_V19: StyleOverrides = {
   // Reference brand lockup: centered Russian monogram and two-line wordmark.
   referenceCenteredHeader: { position: 'relative', alignItems: 'center', justifyContent: 'center', minHeight: 72, marginBottom: 8 },
   brandRowCentered: { alignSelf: 'center', alignItems: 'center', justifyContent: 'center', gap: 10 },
@@ -4994,7 +5000,7 @@ const FINAL_UI_FIXES_V19 = {
   profileSettingsIcon: { color: '#A8EFFF', fontSize: 31, lineHeight: 38, textShadowColor: '#168BFF', textShadowRadius: 10 },
 };
 
-const FINAL_UI_FIXES_V23 = {
+const FINAL_UI_FIXES_V23: StyleOverrides = {
   // The supplied composite reference is cropped to its Create-screen hero artwork.
   createHeroCard: { width: '100%', height: 154, minHeight: 154, marginTop: 2, marginBottom: 13, borderRadius: 18, overflow: 'hidden', backgroundColor: 'rgba(3,12,30,0.42)', borderWidth: 1, borderColor: 'rgba(79,177,255,0.52)', shadowColor: '#087BFF', shadowOpacity: 0.24, shadowRadius: 18, elevation: 5, position: 'relative' },
   createHeroArtwork: { position: 'absolute', width: '280%', height: '660%', left: '-35%', top: '-80%' },
@@ -5077,7 +5083,7 @@ const FINAL_UI_FIXES_V23 = {
   // Keep the hand-drawn bell clean; the unwanted detached clapper dot is removed.
   notificationBellClapper: { display: 'none' },
 };
-const FINAL_UI_FIXES_V22 = {
+const FINAL_UI_FIXES_V22: StyleOverrides = {
   // Use the exact supplied NeuroScene logo artwork without a tile, border, or backing shape.
   brandMarkSmall: { width: 48, height: 48, marginRight: 0, borderRadius: 0, backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, shadowRadius: 0, elevation: 0, overflow: 'visible', alignItems: 'center', justifyContent: 'center' },
   brandLogoArtwork: { width: 48, height: 48, backgroundColor: 'transparent' },
@@ -5104,7 +5110,7 @@ const FINAL_UI_FIXES_V22 = {
   authCard: { backgroundColor: 'rgba(4,18,42,0.78)', borderColor: 'rgba(76,157,230,0.42)' },
   notificationButton: { backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0, shadowOpacity: 0, elevation: 0 },
 };
-const FINAL_UI_FIXES_V21 = {
+const FINAL_UI_FIXES_V21: StyleOverrides = {
   // Use the already-approved local cinematic artwork on the Create screen; keep the shared storm-sea background unchanged.
   createHeroCard: {
     width: '100%',
@@ -5167,7 +5173,7 @@ const FINAL_UI_FIXES_V21 = {
   creditHistoryEmptyText: { color: '#A9C4E0', fontFamily: 'Manrope', fontSize: 12, lineHeight: 17, textAlign: 'center', marginTop: 3 },
 };
 
-const FINAL_UI_FIXES_V20 = {
+const FINAL_UI_FIXES_V20: StyleOverrides = {
   // Remove the rectangular active-tab plate; keep the selected icon readable through its own glow.
   
   
@@ -5214,14 +5220,14 @@ const FINAL_UI_FIXES_V20 = {
   menuItem: { minHeight: 50, paddingVertical: 10, borderBottomColor: 'rgba(104,158,205,0.16)' },
 };
 
-const FINAL_UI_FIXES_V24 = {
+const FINAL_UI_FIXES_V24: StyleOverrides = {
   // Keep the popular label on one line in the compact side-by-side credit layout.
   packageRight: { minWidth: 72, maxWidth: 76, flexShrink: 0, alignItems: 'flex-end', justifyContent: 'center', gap: 2 },
   popularBadge: { position: 'relative', top: 0, right: 0, width: 72, minWidth: 72, alignSelf: 'flex-end', alignItems: 'center', paddingHorizontal: 2, paddingVertical: 2, borderRadius: 6 },
   popularBadgeText: { width: '100%', fontSize: 8, lineHeight: 10, textAlign: 'center', includeFontPadding: false },
 };
 
-const FINAL_UI_FIXES_V25 = {
+const FINAL_UI_FIXES_V25: StyleOverrides = {
   // Keep the supplied wordmark fully visible: the two intentional lines must not shrink.
   referenceCenteredHeader: { alignItems: 'stretch', justifyContent: 'flex-start', minHeight: 76, marginBottom: 8 },
   brandRowCentered: { alignSelf: 'flex-start', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', gap: 10, marginLeft: 0, width: 'auto' },
@@ -5246,7 +5252,7 @@ const FINAL_UI_FIXES_V25 = {
   galleryEmptyCard: { backgroundColor: 'rgba(4,20,48,0.62)' },
 };
 
-const FINAL_REFERENCE_REDESIGN_V26 = {
+const FINAL_REFERENCE_REDESIGN_V26: StyleOverrides = {
   // Reference identity: centered standalone monogram, no duplicated or clipped wordmark.
   referenceCenteredHeader: { width: '100%', minHeight: 116, marginTop: 4, marginBottom: 8, alignItems: 'center', justifyContent: 'center' },
   brandRowCentered: { width: '100%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginLeft: 0, marginRight: 0 },
@@ -5306,7 +5312,7 @@ const FINAL_REFERENCE_REDESIGN_V26 = {
 };
 
 
-const FINAL_UI_FIXES_V27 = {
+const FINAL_UI_FIXES_V27: StyleOverrides = {
   // Use the reference's play-mark + two-line Russian wordmark, centered and without a backing plate.
   referenceCenteredHeader: { width: '100%', minHeight: 102, marginTop: 0, marginBottom: 4, paddingTop: 4, paddingBottom: 6, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderBottomWidth: 0 },
   brandRowCentered: { width: '100%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', margin: 0, padding: 0, backgroundColor: 'transparent' },
@@ -5338,7 +5344,7 @@ const FINAL_UI_FIXES_V27 = {
   secondaryButton: { width: '78%', minHeight: 58, marginTop: 330, borderRadius: 18, backgroundColor: '#087CF4', borderColor: '#64DFFF', borderWidth: 1.5, shadowColor: '#16B9FF', shadowOpacity: 0.36, shadowRadius: 18, elevation: 7 },
 };
 
-const FINAL_UI_FIXES_V28 = {
+const FINAL_UI_FIXES_V28: StyleOverrides = {
   // Render the approved standalone brand artwork on both the Create header and splash.
   brandLogoArtwork: { width: 184, height: 92, alignSelf: 'center', backgroundColor: 'transparent' },
   splashBrandArtwork: { width: 252, height: 190, alignSelf: 'center', backgroundColor: 'transparent' },
@@ -5347,7 +5353,7 @@ const FINAL_UI_FIXES_V28 = {
   introBrandLockup: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, backgroundColor: 'transparent' },
 };
 
-const FINAL_UI_FIXES_V29 = {
+const FINAL_UI_FIXES_V29: StyleOverrides = {
   // Gallery empty state: show the complete supplied artwork at a natural size.
   galleryEmptyReferenceState: {
     width: '100%',
@@ -5397,7 +5403,7 @@ const FINAL_UI_FIXES_V29 = {
   },
 };
  
-const FINAL_UI_FIXES_V30 = {
+const FINAL_UI_FIXES_V30: StyleOverrides = {
   // Keep the credits page compact while preserving scroll space for the history list.
   creditsContent: {
     flexGrow: 1,
@@ -5453,7 +5459,7 @@ const FINAL_UI_FIXES_V30 = {
   
 };
  
-const FINAL_UI_FIXES_V31 = {
+const FINAL_UI_FIXES_V31: StyleOverrides = {
   // Reserve enough horizontal space for the "Популярно" chip in the compact
   // side-by-side credit layout; prevent font scaling from wrapping its label.
   packageRight: {
@@ -5486,7 +5492,7 @@ const FINAL_UI_FIXES_V31 = {
   },
 };
  
-const FINAL_UI_FIXES_V32 = {
+const FINAL_UI_FIXES_V32: StyleOverrides = {
   // Restore a readable two-column feature grid on narrow mobile screens.
   featureGrid: {
     width: '100%',
@@ -5536,7 +5542,7 @@ const FINAL_UI_FIXES_V32 = {
   },
 };
 
-const FINAL_UI_FIXES_V33 = {
+const FINAL_UI_FIXES_V33: StyleOverrides = {
   container: { backgroundColor: '#020817' },
   ambientBackdrop: { backgroundColor: '#020817' },
   ambientBackdropTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,7,18,0.08)' },
@@ -5650,7 +5656,7 @@ const FINAL_UI_FIXES_V33 = {
 };
 
 
-const FINAL_UI_FIXES_V34 = {
+const FINAL_UI_FIXES_V34: StyleOverrides = {
   // Use exact artwork from the approved four-screen reference sheet, cropped to each relevant illustration.
   galleryReferenceImage: { width: 224, height: 190, maxWidth: 260, alignSelf: 'center', position: 'relative', overflow: 'hidden', borderRadius: 16, backgroundColor: 'transparent' },
   galleryReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -741, top: -160 },
@@ -5664,7 +5670,7 @@ const FINAL_UI_FIXES_V34 = {
   profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
 };
 
-const FINAL_UI_FIXES_V37 = {
+const FINAL_UI_FIXES_V37: StyleOverrides = {
   // The intro overlay is positioned inside the app window to avoid a second Android window.
   introOverlay: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 100, width: '100%', overflow: 'hidden', backgroundColor: '#020817', alignItems: 'center', justifyContent: 'center' },
   introBrandLockup: { position: 'absolute', top: '30%', left: 0, right: 0, height: 220, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, backgroundColor: 'transparent' },
@@ -5674,7 +5680,7 @@ const FINAL_UI_FIXES_V37 = {
   introProgressSpark: { right: 0, top: -4, width: 9, height: 9, borderRadius: 5, backgroundColor: '#FFFFFF', shadowColor: '#FFFFFF', shadowOpacity: 1, shadowRadius: 14, elevation: 14 },
 };
 
-const FINAL_UI_FIXES_V35 = {
+const FINAL_UI_FIXES_V35: StyleOverrides = {
   // Splash: transparent vector branding, a uniform progress bar and a denser electric spark burst.
   splashVectorBrand: { width: 252, height: 120, justifyContent: 'center', transform: [{ scale: 1.72 }], backgroundColor: 'transparent' },
   splashWordmarkLine: { fontSize: 22, lineHeight: 25, letterSpacing: -0.35 },
@@ -5714,7 +5720,7 @@ const FINAL_UI_FIXES_V35 = {
   
 };
 
-const FINAL_UI_FIXES_V38 = {
+const FINAL_UI_FIXES_V38: StyleOverrides = {
   // Use the approved artwork as the only page backdrop, softened so foreground content stays legible.
   ambientBackdrop: { backgroundColor: '#020817' },
   ambientBackdropTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,7,18,0.16)' },
@@ -5821,7 +5827,7 @@ const FINAL_UI_FIXES_V38 = {
 };
 
 
-const FINAL_UI_FIXES_V39 = {
+const FINAL_UI_FIXES_V39: StyleOverrides = {
   // Navigation pictograms: crisp outlined home, clapperboard, coin stack and profile.
   
   
@@ -5892,7 +5898,7 @@ const FINAL_UI_FIXES_V39 = {
   menuItem: { minHeight: 52, paddingHorizontal: 15 },
   creditHistoryEmptyIcon: { color: '#9CEBFF', textShadowColor: '#168BFF', textShadowRadius: 11 },
 };
-const FINAL_UI_FIXES_V41 = {
+const FINAL_UI_FIXES_V41: StyleOverrides = {
   // Restore the landscape artwork crop from the approved four-screen reference sheet.
   createReferenceImageFrame: { width: '100%', height: 154, alignSelf: 'center', marginTop: 0, marginBottom: 14, borderRadius: 18, overflow: 'hidden', borderWidth: 0, backgroundColor: 'transparent', shadowColor: '#168BFF', shadowOpacity: 0.38, shadowRadius: 18, elevation: 7 },
   createReferenceArtwork: { position: 'absolute', width: 1212, height: 1297, left: -120, top: -150 },
@@ -5907,7 +5913,7 @@ const FINAL_UI_FIXES_V41 = {
   profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
 };
 
-const FINAL_UI_FIXES_V42 = {
+const FINAL_UI_FIXES_V42: StyleOverrides = {
   // Final reference-aligned primary actions. This layer is deliberately last so legacy
   // V1-V41 style overrides cannot change these three controls.
   referenceCreateGlow: {
@@ -5978,7 +5984,7 @@ const FINAL_UI_FIXES_V42 = {
   },
 };
 
-const FINAL_UI_FIXES_V43 = {
+const FINAL_UI_FIXES_V43: StyleOverrides = {
   // Single source of truth for the bottom dock. Earlier navigation declarations
   // were removed from legacy FINAL_UI_FIXES layers to prevent style drift.
   bottomNav: {
@@ -6122,7 +6128,7 @@ const FINAL_UI_FIXES_V43 = {
   navLabelActiveProfile: { color: '#E8FBFF', textShadowColor: '#22BFFF', textShadowRadius: 12 },
 };
 
-const FINAL_UI_FIXES_V40 = {
+const FINAL_UI_FIXES_V40: StyleOverrides = {
   // Reference layout: compact left-aligned brand lockup, centered screen title, no oversized hero panel.
   referenceCenteredHeader: { width: '100%', minHeight: 66, height: 66, marginTop: 0, marginBottom: 0, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'transparent', borderBottomWidth: 0 },
   brandRowCentered: { position: 'relative', top: 0, left: 0, right: undefined, width: 'auto', height: 48, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent' },
@@ -6156,7 +6162,7 @@ const FINAL_UI_FIXES_V40 = {
   profileIdentity: { marginTop: 6, marginBottom: 14, paddingTop: 2, paddingBottom: 8 },
 };
 
-const FINAL_UI_REFERENCE_ARTWORK_V49 = {
+const FINAL_UI_REFERENCE_ARTWORK_V49: StyleOverrides = {
   createReferenceImageFrame: {
     width: '100%', height: 154, alignSelf: 'center', marginTop: 0, marginBottom: 14,
     borderRadius: 18, overflow: 'hidden', borderWidth: 0,
@@ -6173,7 +6179,7 @@ const FINAL_UI_REFERENCE_ARTWORK_V49 = {
   profileAvatarReferenceCrop: { position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 },
 };
 
-const FINAL_UI_REFERENCE_MATCH_V50 = {
+const FINAL_UI_REFERENCE_MATCH_V50: StyleOverrides = {
  headerSettingsIcon:{color:'#DDF6FF',fontSize:27,lineHeight:34,textShadowColor:'#168BFF',textShadowRadius:12},
  bottomNav:{height:82,minHeight:82,maxHeight:82,marginHorizontal:4,marginBottom:4,paddingTop:4,paddingBottom:9,paddingHorizontal:8,backgroundColor:'rgba(2,9,28,0.94)',borderWidth:1,borderColor:'rgba(90,190,255,0.66)',borderRadius:25,shadowColor:'#087DFF',shadowOpacity:0.58,shadowRadius:20,shadowOffset:{width:0,height:-3},elevation:18},
  navItem:{minHeight:62,paddingTop:0,paddingBottom:2,gap:2},navActiveIndicator:{bottom:0,width:'54%',height:2.5},navCreateIcon:{width:30,height:30,minHeight:30},navGalleryIcon:{width:30,height:30,minHeight:30},navCoinStack:{width:30,height:30,minHeight:30},navPerson:{width:30,height:30,minHeight:30},navLabel:{fontSize:11,lineHeight:14},navLabelActive:{fontSize:11,lineHeight:14},
@@ -6184,7 +6190,7 @@ const FINAL_UI_REFERENCE_MATCH_V50 = {
  ambientBackdropTint:{backgroundColor:'rgba(2,20,52,0.06)'},ambientTintGallery:{backgroundColor:'rgba(4,24,62,0.06)'},ambientTintCredits:{backgroundColor:'rgba(5,22,56,0.05)'},ambientTintProfile:{backgroundColor:'rgba(3,24,58,0.06)'},ambientGlowTopGallery:{backgroundColor:'#8065D8',opacity:0.14},ambientGlowBottomGallery:{backgroundColor:'#6954C2',opacity:0.12},ambientGlowCenterGallery:{backgroundColor:'#4A3B91',opacity:0.08},ambientGlowTopCredits:{backgroundColor:'#087BFF',opacity:0.16},ambientGlowBottomCredits:{backgroundColor:'#168BFF',opacity:0.14},ambientGlowCenterCredits:{backgroundColor:'#075CEB',opacity:0.08},ambientGlowTopProfile:{backgroundColor:'#087BFF',opacity:0.16},ambientGlowBottomProfile:{backgroundColor:'#168BFF',opacity:0.14},ambientGlowCenterProfile:{backgroundColor:'#075CEB',opacity:0.08},
 };
 
-const FINAL_UI_LAYOUT_REPAIR_V51 = {
+const FINAL_UI_LAYOUT_REPAIR_V51: StyleOverrides = {
   // Keep the credits title clear of Android's status bar and prevent the two-column
   // balance/packages row from exceeding the available width.
   creditsScreen: { paddingTop: 30, paddingBottom: 24 },
@@ -6207,7 +6213,7 @@ const FINAL_UI_LAYOUT_REPAIR_V51 = {
   menuArrow: { marginLeft: 'auto', color: '#6EBEFF', fontSize: 22 },
 };
 
-const FINAL_UI_LAUNCHER_POLISH_V55 = {
+const FINAL_UI_LAUNCHER_POLISH_V55: StyleOverrides = {
   // Keep the three tab headings on one shared baseline beneath the status area.
   screen: { flex: 1, paddingTop: 10, backgroundColor: 'transparent' },
   galleryReferenceHeader: { minHeight: 48, marginTop: 0, marginBottom: 14, justifyContent: 'center' },
@@ -6229,7 +6235,7 @@ const FINAL_UI_LAUNCHER_POLISH_V55 = {
     shadowOffset: { width: 0, height: -7 }, elevation: 18,
   },
   bottomNavGlass: {
-    ...StyleSheet.absoluteFillObject, top: -8, borderTopLeftRadius: 26, borderTopRightRadius: 26,
+    ...StyleSheet.absoluteFill, top: -8, borderTopLeftRadius: 26, borderTopRightRadius: 26,
     overflow: 'visible', backgroundColor: 'rgba(5, 24, 54, 0.56)',
   },
   bottomNavGlassEdge: {
@@ -6288,12 +6294,12 @@ const FINAL_UI_LAUNCHER_POLISH_V55 = {
   featureSectionTitle: { textShadowColor: '#20CFFF', textShadowRadius: 16 },
 };
 
-const FINAL_UI_GLOBAL_BACKDROP_V53 = {
+const FINAL_UI_GLOBAL_BACKDROP_V53: StyleOverrides = {
   // Let the storm artwork remain visible behind the root SafeAreaView and header on every tab.
   container: { flex: 1, backgroundColor: 'transparent' },
   header: { backgroundColor: 'transparent', borderBottomColor: 'transparent' },
-  ambientBackdrop: { ...StyleSheet.absoluteFillObject, overflow: 'hidden', backgroundColor: 'transparent' },
-  ambientBackdropTint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,7,18,0.07)' },
+  ambientBackdrop: { ...StyleSheet.absoluteFill, overflow: 'hidden', backgroundColor: 'transparent' },
+  ambientBackdropTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,7,18,0.07)' },
   ambientTintGallery: { backgroundColor: 'transparent' },
   ambientTintCredits: { backgroundColor: 'transparent' },
   ambientTintProfile: { backgroundColor: 'transparent' },
@@ -6302,7 +6308,7 @@ const FINAL_UI_GLOBAL_BACKDROP_V53 = {
   screen: { backgroundColor: 'transparent' },
   createScreenLayout: { flex: 1, width: '100%', backgroundColor: 'transparent' },
 };
-const FINAL_UI_NEON_DEPTH_V52 = {
+const FINAL_UI_NEON_DEPTH_V52: StyleOverrides = {
   // Reference finish: layered cyan edge light, restrained blue bloom and a subtle raised face.
   sectionTitle: { color: '#F0F8FF', textShadowColor: '#168BFF', textShadowRadius: 15, textShadowOffset: { width: 0, height: 1 } },
   featureSectionTitle: { color: '#F5FBFF', textShadowColor: '#20BFFF', textShadowRadius: 13, textShadowOffset: { width: 0, height: 1 } },
@@ -6344,7 +6350,7 @@ const FINAL_UI_NEON_DEPTH_V52 = {
   featureTitle: { color: '#F4FAFF', textShadowColor: '#168BFF', textShadowRadius: 8 },
 };
 
-const FINAL_UI_GALLERY_EMPTY_V56 = {
+const FINAL_UI_GALLERY_EMPTY_V56: StyleOverrides = {
   // Gallery empty state: reference-sized cinematic artwork in a translucent neon frame.
   galleryEmptyReferenceState: {
     width: '88%', maxWidth: 370, minHeight: 310, alignSelf: 'center',
@@ -6408,11 +6414,11 @@ const FINAL_UI_GALLERY_EMPTY_V56 = {
   }
 };
 
-const FINAL_UI_RECOVERY_V61 = {
+const FINAL_UI_RECOVERY_V61: StyleOverrides = {
   // Restore the shared cinematic backdrop as a visible, full-window image layer.
   container: { flex: 1, position: 'relative', backgroundColor: 'transparent' },
-  ambientBackdrop: { ...StyleSheet.absoluteFillObject, zIndex: 0, elevation: 0, overflow: 'hidden', backgroundColor: 'transparent' },
-  ambientBackdropTint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1, 7, 18, 0.025)' },
+  ambientBackdrop: { ...StyleSheet.absoluteFill, zIndex: 0, elevation: 0, overflow: 'hidden', backgroundColor: 'transparent' },
+  ambientBackdropTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1, 7, 18, 0.025)' },
   // Keep the fixed dock above the backdrop and make each of its four items a stable hit target.
   bottomNav: {
     width: '100%', height: 86, minHeight: 86, maxHeight: 86,
@@ -6427,7 +6433,7 @@ const FINAL_UI_RECOVERY_V61 = {
     shadowColor: '#087DFF', shadowOpacity: 0.62, shadowRadius: 20,
     shadowOffset: { width: 0, height: -4 }, elevation: 18, overflow: 'visible'
   },
-  bottomNavGlass: { ...StyleSheet.absoluteFillObject, top: -8, zIndex: 0, borderTopLeftRadius: 26, borderTopRightRadius: 26, overflow: 'visible', backgroundColor: 'rgba(5, 24, 54, 0.34)' },
+  bottomNavGlass: { ...StyleSheet.absoluteFill, top: -8, zIndex: 0, borderTopLeftRadius: 26, borderTopRightRadius: 26, overflow: 'visible', backgroundColor: 'rgba(5, 24, 54, 0.34)' },
   navItem: {
     flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: '25%',
     width: '25%', maxWidth: '25%', minWidth: 0, height: 68, minHeight: 68,
@@ -6475,10 +6481,10 @@ const FINAL_UI_RECOVERY_V61 = {
  
 // V62: final Android layout recovery. This layer is deliberately merged last so
 // legacy style declarations cannot replace the backdrop, credits composition or dock.
-const FINAL_UI_RECOVERY_V62 = {
+const FINAL_UI_RECOVERY_V62: StyleOverrides = {
   container: { flex: 1, width: '100%', position: 'relative', backgroundColor: 'transparent' },
-  ambientBackdrop: { ...StyleSheet.absoluteFillObject, zIndex: 0, elevation: 0, backgroundColor: 'transparent', overflow: 'hidden' },
-  ambientBackdropTint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1, 7, 18, 0.035)' },
+  ambientBackdrop: { ...StyleSheet.absoluteFill, zIndex: 0, elevation: 0, backgroundColor: 'transparent', overflow: 'hidden' },
+  ambientBackdropTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1, 7, 18, 0.035)' },
   header: { backgroundColor: 'transparent', borderBottomWidth: 0, zIndex: 2, elevation: 2 },
   scroll: { flex: 1, backgroundColor: 'transparent', zIndex: 1, elevation: 1 },
   content: { flexGrow: 1, backgroundColor: 'transparent', paddingBottom: 112 },
@@ -6531,7 +6537,7 @@ const FINAL_UI_RECOVERY_V62 = {
 };
 
 
-const FINAL_UI_CREDITS_REFERENCE_V57 = {
+const FINAL_UI_CREDITS_REFERENCE_V57: StyleOverrides = {
   // Match the reference credits screen: a full-width cinematic balance card with gold coins.
   creditTopRow: {
     width: '100%', flexDirection: 'column', alignItems: 'stretch',
@@ -6602,7 +6608,7 @@ const FINAL_UI_CREDITS_REFERENCE_V57 = {
   creditPackagesList: { gap: 8 },
 };
 
-const FINAL_UI_CREATE_HERO_V65 = {
+const FINAL_UI_CREATE_HERO_V65: StyleOverrides = {
   // Lower the Create-screen brand lockup by approximately 0.5 cm (19 dp).
   referenceCenteredHeader: {
     width: '100%', minHeight: 85, height: 85, marginTop: 0, marginBottom: 0,
@@ -7042,53 +7048,53 @@ const styles = StyleSheet.create({
   galleryTabTextActive: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
   galleryLimit: { color: '#B4CBE5', fontSize: 16, textAlign: 'center', marginTop: 10 },
   version: { color: '#566176', fontSize: 16, letterSpacing: 1.3, textAlign: 'center', marginTop: 35 },
-  ...COSMIC_OVERRIDES,
-  ...REFERENCE_POLISH,
-  ...FINAL_UI_FIXES,
-  ...FINAL_UI_FIXES_V2,
-  ...FINAL_UI_FIXES_V3,
-  ...FINAL_UI_FIXES_V4,
-  ...FINAL_UI_FIXES_V5,
+  ...mergeStyleOverrides(COSMIC_OVERRIDES),
+  ...mergeStyleOverrides(REFERENCE_POLISH),
+  ...mergeStyleOverrides(FINAL_UI_FIXES),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V2),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V3),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V4),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V5),
   ...FINAL_UI_FIXES_V6(),
   ...FINAL_UI_FIXES_V7(),
-  ...FINAL_UI_FIXES_V8,
-  ...FINAL_UI_FIXES_V9,
-  ...FINAL_UI_FIXES_V10,
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V8),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V9),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V10),
 
 
-  ...FINAL_UI_FIXES_V11,
-  ...FINAL_UI_FIXES_V12,
-  ...FINAL_UI_FIXES_V13,
-  ...FINAL_UI_FIXES_V14,
-  ...FINAL_UI_FIXES_V15,
-  ...FINAL_UI_FIXES_V16,
-  ...FINAL_UI_FIXES_V17,
-  ...FINAL_UI_FIXES_V18,
-  ...FINAL_UI_FIXES_V19,
-  ...FINAL_UI_FIXES_V20,
-  ...FINAL_UI_FIXES_V21,
-  ...FINAL_UI_FIXES_V22,
-  ...FINAL_UI_FIXES_V23,
-  ...FINAL_UI_FIXES_V24,
-  ...FINAL_UI_FIXES_V25,
-  ...FINAL_REFERENCE_REDESIGN_V26,
-  ...FINAL_UI_FIXES_V27,
-  ...FINAL_UI_FIXES_V28,
-  ...FINAL_UI_FIXES_V29,
-  ...FINAL_UI_FIXES_V30,
-  ...FINAL_UI_FIXES_V31,
-  ...FINAL_UI_FIXES_V32,
-  ...FINAL_UI_FIXES_V33,
-  ...FINAL_UI_FIXES_V34,
-  ...FINAL_UI_FIXES_V35,
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V11),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V12),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V13),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V14),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V15),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V16),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V17),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V18),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V19),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V20),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V21),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V22),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V23),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V24),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V25),
+  ...mergeStyleOverrides(FINAL_REFERENCE_REDESIGN_V26),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V27),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V28),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V29),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V30),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V31),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V32),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V33),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V34),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V35),
 
-  ...FINAL_UI_FIXES_V37,
-  ...FINAL_UI_FIXES_V38,
-  ...FINAL_UI_FIXES_V39,
-  ...FINAL_UI_FIXES_V40,
-  ...FINAL_UI_FIXES_V41,
-  ...FINAL_UI_FIXES_V42,
-  ...FINAL_UI_FIXES_V43,
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V37),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V38),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V39),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V40),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V41),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V42),
+  ...mergeStyleOverrides(FINAL_UI_FIXES_V43),
   referenceCenteredHeader: { width: '100%', minHeight: 66, height: 66, marginTop: 0, marginBottom: 0, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', backgroundColor: 'transparent', borderBottomWidth: 0 },
   brandRowCentered: { position: 'relative', top: 0, left: 0, right: undefined, width: 'auto', height: 48, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent' },
   brandLogoArtwork: { width: 190, minWidth: 190, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8, alignSelf: 'flex-start', flexShrink: 0, margin: 0, padding: 0, backgroundColor: 'transparent' },
@@ -7127,9 +7133,9 @@ const styles = StyleSheet.create({
   featureIcon: { display: 'none' },
   featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 9, lineHeight: 11, fontWeight: '700', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
   featureSubtitle: { display: 'none' },
-  ...FINAL_UI_REFERENCE_ARTWORK_V49,
-  ...FINAL_UI_REFERENCE_MATCH_V50,
-  ...FINAL_UI_LAYOUT_REPAIR_V51,
+  ...mergeStyleOverrides(FINAL_UI_REFERENCE_ARTWORK_V49),
+  ...mergeStyleOverrides(FINAL_UI_REFERENCE_MATCH_V50),
+  ...mergeStyleOverrides(FINAL_UI_LAYOUT_REPAIR_V51),
   // V57: remove the Create-screen artwork and anchor the capabilities row closer to the bottom dock.
   createScreenLayout: { flex: 1, width: '100%' },
   featureSection: { width: '100%', marginTop: 'auto', marginBottom: 8, backgroundColor: 'transparent' },
@@ -7315,13 +7321,13 @@ const styles = StyleSheet.create({
     position: 'absolute', width: '100%', height: '100%', left: 0, top: 0
   },
   container: { flex: 1, backgroundColor: '#030817' },
-  ...FINAL_UI_NEON_DEPTH_V52,
-  ...FINAL_UI_GLOBAL_BACKDROP_V53,
-  ...FINAL_UI_LAUNCHER_POLISH_V55,
-  ...FINAL_UI_GALLERY_EMPTY_V56,
-  ...FINAL_UI_CREDITS_REFERENCE_V57,
-  ...FINAL_UI_RECOVERY_V61,
-  ...FINAL_UI_RECOVERY_V62,
+  ...mergeStyleOverrides(FINAL_UI_NEON_DEPTH_V52),
+  ...mergeStyleOverrides(FINAL_UI_GLOBAL_BACKDROP_V53),
+  ...mergeStyleOverrides(FINAL_UI_LAUNCHER_POLISH_V55),
+  ...mergeStyleOverrides(FINAL_UI_GALLERY_EMPTY_V56),
+  ...mergeStyleOverrides(FINAL_UI_CREDITS_REFERENCE_V57),
+  ...mergeStyleOverrides(FINAL_UI_RECOVERY_V61),
+  ...mergeStyleOverrides(FINAL_UI_RECOVERY_V62),
   featureSection: { width: '100%', marginTop: 'auto', marginBottom: 8, paddingHorizontal: 2, backgroundColor: 'transparent' },
   featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'stretch', columnGap: 0, rowGap: 9 },
   featureTile: { width: '48.5%', minWidth: '48.5%', maxWidth: '48.5%', minHeight: 88, paddingHorizontal: 8, paddingVertical: 8, borderRadius: 13, borderWidth: 1, borderColor: 'rgba(74, 166, 255, 0.48)', backgroundColor: 'rgba(3, 18, 43, 0.58)', alignItems: 'center', justifyContent: 'center' },
@@ -7331,7 +7337,7 @@ const styles = StyleSheet.create({
   packageCard: { position: 'relative', overflow: 'visible' },
   packagePopularBadge: { position: 'absolute', top: -10, alignSelf: 'center', zIndex: 4, elevation: 5, minHeight: 20, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: '#75E4FF', backgroundColor: '#0879F5', alignItems: 'center', justifyContent: 'center', shadowColor: '#12BFFF', shadowOpacity: 0.8, shadowRadius: 9 },
   packagePopularBadgeText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '900' },
-  ...FINAL_UI_CREATE_HERO_V65,
+  ...mergeStyleOverrides(FINAL_UI_CREATE_HERO_V65),
   // V67: bring the Gallery screen into the electric-blue neon-galaxy visual system.
   galleryReferenceHeader: { minHeight: 0, marginTop: 5, marginBottom: 18, paddingTop: 10, paddingBottom: 16, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(71,184,255,0.28)' },
   galleryHeaderEyebrow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 7, paddingHorizontal: 13, paddingVertical: 5, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(70,190,255,0.42)', backgroundColor: 'rgba(4,42,91,0.58)' },
@@ -7708,7 +7714,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: -9 },
   },
   bottomNavGlass: {
-    ...StyleSheet.absoluteFillObject, top: -8, zIndex: 0,
+    ...StyleSheet.absoluteFill, top: -8, zIndex: 0,
     borderTopLeftRadius: 26, borderTopRightRadius: 26,
     backgroundColor: 'rgba(8,42,82,0.22)',
     borderTopWidth: 1.4, borderTopColor: 'rgba(225,250,255,0.52)',
