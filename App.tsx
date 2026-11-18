@@ -6171,7 +6171,7 @@ const FINAL_UI_LAUNCHER_POLISH_V55: StyleOverrides = {
   galleryReferenceTitle: { fontSize: 26, lineHeight: 33, includeFontPadding: false },
   creditsHeader: { minHeight: 48, marginTop: 0, marginBottom: 14, alignItems: 'center', justifyContent: 'center' },
   creditsTitle: { fontSize: 26, lineHeight: 33, includeFontPadding: false },
-  profileHeader: { minHeight: 48, marginTop: 0, marginBottom: 14, alignItems: 'center', justifyContent: 'center' },
+  profileHeader: { minHeight: 48, marginTop: 38, marginBottom: 14, alignItems: 'center', justifyContent: 'center' },
   profileTitleGroup: { minHeight: 48, justifyContent: 'center' },
   screenTitle: { fontSize: 26, lineHeight: 33, marginTop: 0, marginBottom: 0, includeFontPadding: false },
   // Simulated frosted-glass dock: translucent layered surfaces and broad, soft blue bloom.
@@ -7150,7 +7150,7 @@ const styles: Record<string, any> = StyleSheet.create({
 
   // V71: compact reference-led Credits composition: coin artwork left, three live choices right.
   creditsScreen: { flex: 1, width: '100%', minWidth: 0, alignSelf: 'stretch', paddingTop: 8, paddingHorizontal: 12, paddingBottom: 18, backgroundColor: 'transparent', justifyContent: 'flex-start' },
-  creditsReferenceHeader: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 8, paddingTop: 0, paddingBottom: 5 },
+  creditsReferenceHeader: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 38, marginBottom: 8, paddingTop: 0, paddingBottom: 5 },
   creditsTitle: { color: '#F0F9FF', fontFamily: 'Manrope', fontSize: 31, lineHeight: 39, fontWeight: '900', textAlign: 'center', textShadowColor: '#078BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 0 } },
   
   creditsTitleBeamCore: { width: '100%', height: 1.5, borderRadius: 2, backgroundColor: '#B8F4FF', opacity: 0.98 },
@@ -7181,7 +7181,7 @@ const styles: Record<string, any> = StyleSheet.create({
   
 
   // V70: rebuild the empty Gallery composition as native neon-galaxy geometry, without bitmap artwork or CTA.
-  galleryReferenceHeader: { minHeight: 0, marginTop: 12, marginBottom: 8, paddingTop: 12, paddingBottom: 13, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(71,184,255,0.28)' },
+  galleryReferenceHeader: { minHeight: 0, marginTop: 50, marginBottom: 8, paddingTop: 12, paddingBottom: 13, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(71,184,255,0.28)' },
   
   
   galleryGalaxyAura: { position: 'absolute', width: '82%', height: '82%', borderRadius: 180, backgroundColor: 'rgba(0,119,255,0.10)', shadowColor: '#087BFF', shadowOpacity: 0.9, shadowRadius: 48, elevation: 18 },
