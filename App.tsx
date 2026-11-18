@@ -2585,8 +2585,11 @@ function GalleryScreen({
   return (
     <View style={styles.screen}>
       <View style={styles.galleryReferenceHeader}>
+        <View style={styles.galleryHeaderEyebrow}><View style={styles.galleryHeaderPulse} /><Text style={styles.galleryHeaderEyebrowText}>НЕОНОВАЯ ГАЛЕРЕЯ</Text></View>
         <Text style={styles.galleryReferenceTitle}>Мои видео</Text>
         <View style={styles.galleryReferenceUnderline} />
+        <Text style={styles.galleryHeaderSubtitle}>Ваши идеи, воплощённые в движении</Text>
+        <View style={styles.galleryStoragePill}><Text style={styles.galleryStoragePillText}>АРХИВ</Text><Text style={styles.galleryStoragePillCount}>{visibleItems.length} / 2</Text></View>
       </View>
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
       {!!error && (
@@ -2611,7 +2614,9 @@ function GalleryScreen({
               <View style={styles.galleryClapperDot} /><View style={styles.galleryClapperDot} />
             </View>
           </View>
-          <Text style={styles.galleryEmptyCopy}>Здесь появятся ваши сгенерированные видео</Text>
+          <Text style={styles.galleryEmptyTitle}>Ваша галерея начинается здесь</Text>
+          <Text style={styles.galleryEmptyCopy}>Создайте первое видео — и оно появится в этом пространстве</Text>
+          <TouchableOpacity activeOpacity={0.88} style={styles.galleryCreateButton} onPress={onCreate}><Text style={styles.galleryCreateButtonText}>＋  Создать видео</Text></TouchableOpacity>
         </View>
       )}
 
@@ -2693,7 +2698,11 @@ function GalleryScreen({
         );
       })}
       </View>
-      <Text style={styles.galleryLimit}>{uiText(language, 'Storage available {count}/2', `Доступно для хранения: ${visibleItems.length}/2`).replace('{count}', String(visibleItems.length))}</Text>
+      <View style={styles.galleryStorageFooter}>
+        <View style={styles.galleryStorageFooterTop}><Text style={styles.galleryLimitLabel}>МЕСТО В ГАЛЕРЕЕ</Text><Text style={styles.galleryLimit}>{visibleItems.length} / 2 видео</Text></View>
+        <View style={styles.galleryStorageTrack}><View style={[styles.galleryStorageFill, { width: `${Math.min(100, visibleItems.length / 2 * 100)}%` }]} /></View>
+        <Text style={styles.galleryStorageHint}>Готовые видео хранятся в вашей личной галерее</Text>
+      </View>
     </View>
   );
 }
@@ -7461,6 +7470,35 @@ const styles = StyleSheet.create({
   packagePopularBadge: { position: 'absolute', top: -10, alignSelf: 'center', zIndex: 4, elevation: 5, minHeight: 20, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: '#75E4FF', backgroundColor: '#0879F5', alignItems: 'center', justifyContent: 'center', shadowColor: '#12BFFF', shadowOpacity: 0.8, shadowRadius: 9 },
   packagePopularBadgeText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '900' },
   ...FINAL_UI_CREATE_HERO_V65,
+  // V67: bring the Gallery screen into the electric-blue neon-galaxy visual system.
+  galleryReferenceHeader: { minHeight: 0, marginTop: 5, marginBottom: 18, paddingTop: 10, paddingBottom: 16, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(71,184,255,0.28)' },
+  galleryHeaderEyebrow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 7, paddingHorizontal: 13, paddingVertical: 5, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(70,190,255,0.42)', backgroundColor: 'rgba(4,42,91,0.58)' },
+  galleryHeaderPulse: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#65E6FF', shadowColor: '#29C8FF', shadowOpacity: 1, shadowRadius: 8, elevation: 5 },
+  galleryHeaderEyebrowText: { color: '#8EDFFF', fontFamily: 'Manrope', fontSize: 10, fontWeight: '900', letterSpacing: 2.1 },
+  galleryReferenceTitle: { color: '#F0F9FF', fontFamily: 'Manrope', fontSize: 31, lineHeight: 39, fontWeight: '900', textAlign: 'center', textShadowColor: '#078BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 0 } },
+  galleryReferenceUnderline: { width: 116, height: 3, marginTop: 7, marginBottom: 8, borderRadius: 3, backgroundColor: '#48D9FF', shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8 },
+  galleryHeaderSubtitle: { color: '#A9D5F5', fontFamily: 'Manrope', fontSize: 12, fontWeight: '600', textAlign: 'center' },
+  galleryStoragePill: { flexDirection: 'row', alignItems: 'center', gap: 9, marginTop: 12, paddingHorizontal: 13, paddingVertical: 6, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(66,178,255,0.5)', backgroundColor: 'rgba(4,28,66,0.78)' },
+  galleryStoragePillText: { color: '#78BFEF', fontSize: 9, fontWeight: '900', letterSpacing: 1.6 },
+  galleryStoragePillCount: { color: '#E7F8FF', fontSize: 12, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 8 },
+  galleryEmptyReferenceState: { width: '100%', maxWidth: 420, minHeight: 300, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, paddingVertical: 22, gap: 10, borderRadius: 24, borderWidth: 1.2, borderColor: 'rgba(80,190,255,0.62)', backgroundColor: 'rgba(3,23,58,0.72)', shadowColor: '#087BFF', shadowOpacity: 0.38, shadowRadius: 22, elevation: 9, overflow: 'visible' },
+  galleryReferenceImage: { width: 250, height: 165, maxWidth: '100%', alignSelf: 'center', overflow: 'visible', borderRadius: 14, backgroundColor: 'transparent', borderWidth: 0 },
+  galleryEmptyTitle: { color: '#EAF8FF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 25, fontWeight: '900', textAlign: 'center', textShadowColor: '#078BFF', textShadowRadius: 12, marginTop: 3 },
+  galleryEmptyCopy: { color: '#A9CBE9', fontFamily: 'Manrope', fontSize: 13, lineHeight: 19, fontWeight: '600', textAlign: 'center', maxWidth: 285 },
+  galleryCreateButton: { minHeight: 48, minWidth: 190, marginTop: 7, paddingHorizontal: 22, paddingVertical: 12, borderRadius: 25, alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderTopColor: '#B5F4FF', borderLeftColor: '#72DFFF', borderRightColor: '#087DEB', borderBottomColor: '#0756B7', backgroundColor: '#087FE8', shadowColor: '#14BFFF', shadowOpacity: 0.8, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 8 },
+  galleryCreateButtonText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 14, fontWeight: '900', textShadowColor: '#0759B6', textShadowRadius: 5 },
+  galleryGrid: { width: '100%', flexDirection: 'column', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'stretch' },
+  galleryCard: { width: '100%', marginTop: 12, padding: 10, borderRadius: 21, backgroundColor: 'rgba(4,22,53,0.82)', borderWidth: 1.2, borderColor: 'rgba(73,181,255,0.62)', shadowColor: '#087BFF', shadowOpacity: 0.28, shadowRadius: 18, elevation: 7 },
+  galleryPreview: { width: '100%', aspectRatio: 16 / 9, height: undefined, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: 'rgba(107,216,255,0.48)', backgroundColor: 'rgba(1,11,31,0.85)' },
+  videoFrame: { width: '100%', aspectRatio: 16 / 9, height: undefined, overflow: 'hidden', borderRadius: 14, backgroundColor: '#020817', justifyContent: 'center' },
+  videoPlayer: { width: '100%', aspectRatio: 16 / 9, height: undefined, borderRadius: 14, backgroundColor: '#020817' },
+  galleryStorageFooter: { width: '100%', marginTop: 17, marginBottom: 12, padding: 13, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(63,153,232,0.4)', backgroundColor: 'rgba(3,20,49,0.68)' },
+  galleryStorageFooterTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
+  galleryLimitLabel: { color: '#7FC9F5', fontFamily: 'Manrope', fontSize: 10, fontWeight: '900', letterSpacing: 1.5 },
+  galleryLimit: { color: '#DDF3FF', fontFamily: 'Manrope', fontSize: 12, fontWeight: '800', textAlign: 'right', marginTop: 0 },
+  galleryStorageTrack: { width: '100%', height: 6, borderRadius: 5, overflow: 'hidden', backgroundColor: 'rgba(45,83,130,0.62)' },
+  galleryStorageFill: { height: 6, borderRadius: 5, backgroundColor: '#24C9FF', shadowColor: '#18BFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 },
+  galleryStorageHint: { color: '#789FC5', fontFamily: 'Manrope', fontSize: 10, textAlign: 'center', marginTop: 8 },
   // V66: keep all four neon navigation glyphs above the glass dock and screen content.
   navIconRestore: {
     width: 32, height: 32, minWidth: 32, minHeight: 32,
