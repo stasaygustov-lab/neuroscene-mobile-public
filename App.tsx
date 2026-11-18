@@ -2047,12 +2047,9 @@ export default function App() {
       {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandLogoArtwork} accessibilityLabel="Логотип НейроСцена">
-            <Image
-              source={require('./assets/neuroscene-splash.png')}
-              resizeMode="contain"
-              style={styles.brandLogoImage}
-              accessibilityLabel="Утверждённая иконка НейроСцена"
-            />
+            <View style={styles.brandMonogram} accessibilityLabel="Монограмма Н плюс С">
+              <Text style={styles.brandMonogramText}>Н+С</Text>
+            </View>
             <View style={styles.brandLockupWordmark}>
               <Text style={styles.brandWordmarkLine}>Нейро</Text>
               <Text style={[styles.brandWordmarkLine, styles.brandWordmarkAccent]}>Сцена</Text>
@@ -2146,12 +2143,14 @@ export default function App() {
           />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup} accessibilityLabel="Логотип НейроСцена">
-            <Image
-              source={require('./assets/neuroscene-splash.png')}
-              resizeMode="contain"
-              style={styles.splashLogoImage}
-              accessibilityLabel="Утверждённый логотип НейроСцена"
-            />
+            <View style={styles.splashNativeLogo}>
+              <Text style={styles.splashNativeMonogram}>Н+С</Text>
+              <View style={styles.splashNativeWordmark}>
+                <Text style={styles.splashNativeWordmarkLine}>Нейро</Text>
+                <Text style={[styles.splashNativeWordmarkLine, styles.splashNativeWordmarkAccent]}>Сцена</Text>
+              </View>
+            </View>
+            <Text style={styles.splashNativeCaption}>ВАШИ ИДЕИ — НА ЭКРАНЕ</Text>
           </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
@@ -2288,10 +2287,10 @@ function CreateScreen({
           <View pointerEvents="none" style={styles.featureHeadingBeam}><View style={styles.featureHeadingBeamCore} /></View>
           <View style={styles.featureGrid}>
             {[
-              { id: 'text', image: require('./assets/feature-wand.png'), title: 'Текст\nв видео' },
-              { id: 'image', image: require('./assets/feature-image.png'), title: 'Изображение\nв видео' },
-              { id: 'sound', image: require('./assets/feature-audio.png'), title: 'Озвучка\nи эффекты' },
-              { id: 'prompt', image: require('./assets/feature-quality.png'), title: 'Профессиональное\nкачество' },
+              { id: 'text', title: 'Текст\nв видео' },
+              { id: 'image', title: 'Изображение\nв видео' },
+              { id: 'sound', title: 'Озвучка\nи эффекты' },
+              { id: 'prompt', title: 'Профессиональное\nкачество' },
             ].map((feature) => (
               <TouchableOpacity key={feature.id} activeOpacity={0.82}
                 onPress={() => {
@@ -2301,7 +2300,7 @@ function CreateScreen({
                 }}
                 style={[styles.featureTile, activeFeature === feature.id && styles.featureTileActive]}
               >
-                <Image source={feature.image} resizeMode="contain" style={styles.featureIconImage} />
+                <FeatureGlyph type={feature.id} />
                 <Text style={styles.featureTitle}>{feature.title}</Text>
               </TouchableOpacity>
             ))}
@@ -2606,12 +2605,17 @@ function GalleryScreen({
       )}
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.galleryEmptyReferenceState}>
-          <View style={styles.galleryReferenceImage} accessibilityLabel="Неоновая кинематографическая хлопушка">
-            <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-              resizeMode="contain"
-              style={styles.galleryReferenceArtwork}
-            />
+          <View style={styles.galleryReferenceImage} accessibilityLabel="Самостоятельно нарисованная неоновая хлопушка">
+            <View style={styles.galleryClapperGlow} />
+            <View style={styles.galleryClapperTop}>
+              <View style={styles.galleryClapperStripe} /><View style={styles.galleryClapperStripe} />
+              <View style={styles.galleryClapperStripe} /><View style={styles.galleryClapperStripe} />
+            </View>
+            <View style={styles.galleryClapperBody}><View style={styles.galleryClapperPlay} /></View>
+            <View style={styles.galleryClapperFilmDots}>
+              <View style={styles.galleryClapperDot} /><View style={styles.galleryClapperDot} />
+              <View style={styles.galleryClapperDot} /><View style={styles.galleryClapperDot} />
+            </View>
           </View>
           <Text style={styles.galleryEmptyCopy}>Здесь появятся ваши сгенерированные видео</Text>
         </View>
@@ -3427,6 +3431,13 @@ function SupportScreen({
       )}
     </View>
   );
+}
+
+function FeatureGlyph({ type }: { type: string }) {
+  if (type === 'text') return <View style={styles.featureGlyphFrame} accessibilityLabel="Кинематографическая хлопушка"><View style={styles.featureClapperTop}><View style={styles.featureClapperStripe} /><View style={styles.featureClapperStripe} /><View style={styles.featureClapperStripe} /></View><View style={styles.featureClapperBody}><View style={styles.featureGlyphPlay} /></View></View>;
+  if (type === 'image') return <View style={styles.featureGlyphFrame} accessibilityLabel="Изображение и пейзаж"><View style={styles.featureImageSun} /><View style={styles.featureImageMountainBack} /><View style={styles.featureImageMountainFront} /></View>;
+  if (type === 'sound') return <View style={styles.featureGlyphFrame} accessibilityLabel="Звуковая дорожка"><Text style={styles.featureMusicGlyph}>♫</Text><View style={styles.featureSoundWave}><View style={{height:4}} /><View style={{height:8}} /><View style={{height:5}} /><View style={{height:7}} /><View style={{height:3}} /></View></View>;
+  return <View style={styles.featureGlyphFrame} accessibilityLabel="Волшебная палочка улучшения"><View style={styles.featureWandStem} /><Text style={styles.featureWandSpark}>✦</Text><Text style={styles.featureWandSparkSmall}>✧</Text></View>;
 }
 
 function ImagePickerPreview({ uri }: { uri: string }) {
@@ -6326,6 +6337,37 @@ const styles = StyleSheet.create({
   sectionHeadingBeam: { width: '100%', height: 3, marginTop: -6, marginBottom: 10, borderRadius: 8, backgroundColor: 'rgba(38, 157, 255, 0.30)', shadowColor: '#119EFF', shadowOpacity: 1, shadowRadius: 18, elevation: 10, justifyContent: 'center' },
   sectionHeadingBeamCore: { width: '100%', height: 1, borderRadius: 2, backgroundColor: 'rgba(155, 230, 255, 0.88)' },
   featureSectionTitle: { color: '#E8F7FF', textShadowColor: '#168BFF', textShadowRadius: 16, textShadowOffset: { width: 0, height: 1 } },
+  // Native vector-style artwork replaces raster crops from the presentation reference.
+  brandMonogram: { width: 43, height: 43, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' },
+  brandMonogramText: { color: '#A9F1FF', fontFamily: 'Manrope', fontSize: 24, lineHeight: 30, fontWeight: '900', letterSpacing: -2, textShadowColor: '#168BFF', textShadowRadius: 15, includeFontPadding: false },
+  splashNativeLogo: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 16, paddingHorizontal: 12 },
+  splashNativeMonogram: { color: '#A9F1FF', fontFamily: 'Manrope', fontSize: 58, lineHeight: 72, fontWeight: '900', letterSpacing: -5, textShadowColor: '#168BFF', textShadowRadius: 28, includeFontPadding: false },
+  splashNativeWordmark: { alignItems: 'flex-start', justifyContent: 'center' },
+  splashNativeWordmarkLine: { color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 36, lineHeight: 39, fontWeight: '900', letterSpacing: -0.8, textShadowColor: '#168BFF', textShadowRadius: 18, includeFontPadding: false },
+  splashNativeWordmarkAccent: { color: '#83E5FF' },
+  splashNativeCaption: { marginTop: 30, color: '#9DDFFF', fontFamily: 'Manrope', fontSize: 13, lineHeight: 19, fontWeight: '700', letterSpacing: 1.2, textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 12 },
+  splashLogoImage: { display: 'none' },
+  featureGlyphFrame: { width: 36, height: 34, marginBottom: 3, alignItems: 'center', justifyContent: 'center', position: 'relative', shadowColor: '#08BFFF', shadowOpacity: 0.9, shadowRadius: 10, elevation: 5 },
+  featureClapperTop: { width: 27, height: 8, borderWidth: 1.5, borderColor: '#7BE8FF', borderRadius: 2, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', transform: [{ rotate: '-8deg' }], marginBottom: 1 },
+  featureClapperStripe: { width: 4, height: 6, backgroundColor: 'rgba(74,207,255,0.52)', transform: [{ skewX: '-24deg' }] },
+  featureClapperBody: { width: 27, height: 19, borderWidth: 1.6, borderColor: '#7BE8FF', borderRadius: 3, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,119,255,0.12)' },
+  featureGlyphPlay: { width: 0, height: 0, borderTopWidth: 5, borderBottomWidth: 5, borderLeftWidth: 8, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#A9F1FF', marginLeft: 2 },
+  featureImageSun: { position: 'absolute', top: 5, right: 6, width: 7, height: 7, borderRadius: 4, borderWidth: 1.5, borderColor: '#7BE8FF' },
+  featureImageMountainBack: { position: 'absolute', left: 5, bottom: 7, width: 17, height: 14, borderTopWidth: 1.8, borderLeftWidth: 1.8, borderColor: '#7BE8FF', transform: [{ rotate: '45deg' }] },
+  featureImageMountainFront: { position: 'absolute', right: 3, bottom: 7, width: 14, height: 11, borderTopWidth: 1.8, borderLeftWidth: 1.8, borderColor: '#7BE8FF', transform: [{ rotate: '45deg' }] },
+  featureMusicGlyph: { color: '#7BE8FF', fontSize: 29, lineHeight: 32, fontWeight: '700', textShadowColor: '#08BFFF', textShadowRadius: 12 },
+  featureSoundWave: { position: 'absolute', bottom: 2, flexDirection: 'row', alignItems: 'center', gap: 2, height: 8 },
+  featureWandStem: { width: 4, height: 29, borderRadius: 3, backgroundColor: '#7BE8FF', transform: [{ rotate: '42deg' }], shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 8 },
+  featureWandSpark: { position: 'absolute', top: 0, right: 0, color: '#B8F5FF', fontSize: 15, textShadowColor: '#08BFFF', textShadowRadius: 10 },
+  featureWandSparkSmall: { position: 'absolute', bottom: 0, left: 1, color: '#7BE8FF', fontSize: 12 },
+  galleryReferenceImage: { width: 250, height: 165, maxWidth: '100%', alignSelf: 'center', alignItems: 'center', justifyContent: 'center', overflow: 'visible', backgroundColor: 'transparent' },
+  galleryClapperGlow: { position: 'absolute', width: 178, height: 116, borderRadius: 58, backgroundColor: 'rgba(0,123,255,0.18)', shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 35, elevation: 12 },
+  galleryClapperTop: { width: 150, height: 34, borderRadius: 8, borderWidth: 2, borderColor: '#7BE8FF', backgroundColor: 'rgba(4,45,94,0.92)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', transform: [{ rotate: '-8deg' }], marginBottom: -2, zIndex: 2, shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
+  galleryClapperStripe: { width: 17, height: 28, backgroundColor: 'rgba(40,174,255,0.62)', transform: [{ skewX: '-25deg' }] },
+  galleryClapperBody: { width: 144, height: 88, borderRadius: 10, borderWidth: 2, borderColor: '#65DFFF', backgroundColor: 'rgba(3,20,52,0.92)', alignItems: 'center', justifyContent: 'center', shadowColor: '#087BFF', shadowOpacity: 0.9, shadowRadius: 22, elevation: 10 },
+  galleryClapperPlay: { width: 0, height: 0, borderTopWidth: 19, borderBottomWidth: 19, borderLeftWidth: 29, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#A9F1FF', marginLeft: 8, shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 12 },
+  galleryClapperFilmDots: { position: 'absolute', bottom: 13, left: 65, right: 65, flexDirection: 'row', justifyContent: 'space-between' },
+  galleryClapperDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: '#2ABEFF', shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 6 },
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
   ambientGlowTop: { position: 'absolute', width: 430, height: 430, borderRadius: 215, top: 20, right: -240, backgroundColor: '#075CEB', opacity: 0.26 },
