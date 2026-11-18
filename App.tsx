@@ -1778,12 +1778,12 @@ export default function App() {
           </View>
 
           <View style={[styles.creditReferenceLayout, styles.v73CreditReferenceLayout]}>
-            <View style={[styles.creditCoinShowcase, { position: 'relative', overflow: 'hidden' }]} accessibilityLabel="Объёмная композиция золотых монет">
+            <View style={[styles.creditCoinShowcase, styles.v73CreditCoinShowcase, { position: 'relative', overflow: 'hidden' }]} accessibilityLabel="Объёмная композиция золотых монет">
               <GlassBlurLayer radius={22} />
-              <View style={styles.creditCoinStack}>
-                <View style={[styles.creditLargeCoin, styles.creditLargeCoinBack]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
-                <View style={[styles.creditLargeCoin, styles.creditLargeCoinMiddle]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
-                <View style={[styles.creditLargeCoin, styles.creditLargeCoinFront]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
+              <View style={[styles.creditCoinStack, styles.v73CreditCoinStack]}>
+                <View style={[styles.creditLargeCoin, styles.creditLargeCoinBack, styles.v73CreditLargeCoin]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
+                <View style={[styles.creditLargeCoin, styles.creditLargeCoinMiddle, styles.v73CreditLargeCoin]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
+                <View style={[styles.creditLargeCoin, styles.creditLargeCoinFront, styles.v73CreditLargeCoin]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
               </View>
               <View style={styles.creditBalanceCaption}>
                 <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
@@ -7583,6 +7583,10 @@ const styles: Record<string, any> = StyleSheet.create({
   v73GalleryEmptyState: { flex: 0, minHeight: 0, marginTop: 8, marginBottom: 8, paddingHorizontal: 8, paddingVertical: 6, gap: 4 },
   v73GalleryGalaxyArtwork: { width: 218, height: 176, maxWidth: '100%', alignSelf: 'center', position: 'relative', backgroundColor: 'transparent', borderWidth: 0, overflow: 'visible' },
   v73CreditReferenceLayout: { minHeight: 174, gap: 8, alignItems: 'center' },
+  v73CreditCoinShowcase: { width: '38%', minWidth: 0, maxWidth: '38%', height: 174, flexShrink: 0, alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' },
+  v73CreditCoinStack: { width: '100%', maxWidth: 142, height: 132, position: 'relative', alignSelf: 'center', overflow: 'hidden' },
+  v73CreditLargeCoin: { width: 66, height: 66, borderRadius: 33 },
+
   v73CreditBalanceCard: { width: '38%', maxWidth: '38%', minWidth: 0, height: 166, minHeight: 166, paddingHorizontal: 4, paddingTop: 8, paddingBottom: 10, overflow: 'hidden' },
   v73CreditCoinsArtwork: { width: '100%', maxWidth: '100%', height: 86, resizeMode: 'contain' },
   v73FeatureSection: { width: '100%', marginTop: 8, marginBottom: 2, backgroundColor: 'rgba(2,12,30,0.16)' },
