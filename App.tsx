@@ -6448,6 +6448,70 @@ const FINAL_UI_NEON_DEPTH_V52 = {
   featureTitle: { color: '#F4FAFF', textShadowColor: '#168BFF', textShadowRadius: 8 },
 };
 
+const FINAL_UI_GALLERY_EMPTY_V56 = {
+  // Gallery empty state: reference-sized cinematic artwork in a translucent neon frame.
+  galleryEmptyReferenceState: {
+    width: '88%', maxWidth: 370, minHeight: 310, alignSelf: 'center',
+    alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16,
+    paddingVertical: 18, gap: 14, borderRadius: 22, borderWidth: 1.25,
+    borderColor: 'rgba(103, 211, 255, 0.48)',
+    backgroundColor: 'rgba(3, 20, 54, 0.24)',
+    shadowColor: '#168BFF', shadowOpacity: 0.34, shadowRadius: 24,
+    shadowOffset: { width: 0, height: 0 }, elevation: 8
+  },
+  galleryReferenceImage: {
+    width: '100%', maxWidth: 310, height: 224, alignSelf: 'center',
+    alignItems: 'center', justifyContent: 'center', overflow: 'visible',
+    borderRadius: 18, borderWidth: 1,
+    borderColor: 'rgba(105, 218, 255, 0.34)',
+    backgroundColor: 'rgba(5, 35, 78, 0.18)'
+  },
+  galleryClapperGlow: {
+    width: 250, height: 205, borderRadius: 110,
+    backgroundColor: 'rgba(0, 119, 255, 0.16)',
+    shadowColor: '#168BFF', shadowOpacity: 0.92, shadowRadius: 48,
+    elevation: 16
+  },
+  galleryClapperTop: {
+    width: 204, height: 42, borderRadius: 9, borderWidth: 1.8,
+    borderColor: 'rgba(133, 235, 255, 0.92)',
+    backgroundColor: 'rgba(4, 65, 125, 0.48)',
+    shadowColor: '#16BFFF', shadowOpacity: 0.92, shadowRadius: 19,
+    elevation: 10
+  },
+  galleryClapperStripe: {
+    width: 22, height: 30, backgroundColor: 'rgba(168, 239, 255, 0.78)',
+    transform: [{ skewX: '-24deg' }], borderRadius: 2
+  },
+  galleryClapperBody: {
+    width: 198, height: 132, marginTop: -2, borderWidth: 1.8,
+    borderColor: 'rgba(89, 219, 255, 0.94)', borderRadius: 12,
+    backgroundColor: 'rgba(2, 31, 79, 0.30)',
+    alignItems: 'center', justifyContent: 'center',
+    shadowColor: '#087BFF', shadowOpacity: 0.88, shadowRadius: 25,
+    elevation: 12
+  },
+  galleryClapperPlay: {
+    borderTopWidth: 27, borderBottomWidth: 27, borderLeftWidth: 40,
+    borderTopColor: 'transparent', borderBottomColor: 'transparent',
+    borderLeftColor: '#9AF2FF', marginLeft: 9,
+    shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 18,
+    elevation: 9
+  },
+  galleryClapperFilmDots: { bottom: 18, left: 25, right: 25 },
+  galleryClapperDot: {
+    width: 6, height: 6, borderRadius: 3,
+    backgroundColor: '#73E8FF', shadowColor: '#08BFFF',
+    shadowOpacity: 1, shadowRadius: 8
+  },
+  galleryEmptyCopy: {
+    width: '100%', color: '#EAF7FF', fontFamily: 'Manrope',
+    fontSize: 15, lineHeight: 21, fontWeight: '700',
+    textAlign: 'center', textShadowColor: 'rgba(22, 139, 255, 0.55)',
+    textShadowRadius: 8
+  }
+};
+
 const styles = StyleSheet.create({
   // V61: hand-built artwork and dimensional neon title beams, no reference screenshot crops.
   profileIdentity: { width: '100%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: 5, marginBottom: 18 },
@@ -7137,6 +7201,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_NEON_DEPTH_V52,
   ...FINAL_UI_GLOBAL_BACKDROP_V53,
   ...FINAL_UI_LAUNCHER_POLISH_V55,
+  ...FINAL_UI_GALLERY_EMPTY_V56,
 
 });
 
