@@ -1770,7 +1770,7 @@ export default function App() {
 
           <View style={styles.creditReferenceLayout}>
             <View style={styles.creditCoinShowcase} accessibilityLabel="Объёмная композиция золотых монет">
-              <ThreeDArtwork type="coins" size={150} />
+              <TechnologyPanelArtwork width={150} height={120} />
               <View style={styles.creditBalanceCaption}>
                 <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
                 <Text style={styles.creditBalanceHeroLabel}>КРЕДИТОВ</Text>
@@ -1824,7 +1824,7 @@ export default function App() {
         </View>
         <View style={styles.profileIdentity}>
           <View style={[styles.profileGuestAvatar, { borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0 }]} accessibilityLabel="Объёмный голографический аватар">
-            <ThreeDArtwork type="avatar" size={112} />
+            <TechnologyPanelArtwork width={112} height={112} />
           </View>
           <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
           {!!authUser?.email && <Text style={styles.profileGuestStatus}>{authUser.email}</Text>}
@@ -2518,7 +2518,7 @@ function GalleryScreen({
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.galleryEmptyReferenceState}>
           <View style={styles.galleryGalaxyArtwork} accessibilityLabel="Объёмная неоновая галактика">
-            <ThreeDArtwork type="galaxy" size={250} />
+            <TechnologyPanelArtwork width={250} height={190} />
           </View>
         </View>
       )}
@@ -3339,85 +3339,29 @@ function SupportScreen({
   );
 }
 
-function ThreeDArtwork({ type, size }: { type: 'clapper' | 'galaxy' | 'coins' | 'avatar' | 'landscape' | 'sound' | 'magic'; size: number }) {
-  const scale = size / 100;
-  const box = (w: number, h: number, extra: any = {}) => ({ width: w * scale, height: h * scale, ...extra });
-  const blue = '#9BEAFF';
-  if (type === 'clapper') return (
-    <View style={box(100, 76, { alignItems: 'center', justifyContent: 'center' })}>
-      <View style={box(88, 48, { position: 'absolute', bottom: 5, borderRadius: 12 * scale, backgroundColor: '#031B4D', borderWidth: 2 * scale, borderColor: '#1679D8', transform: [{ rotate: '-3deg' }], shadowColor: '#08BFFF', shadowOpacity: 0.8, shadowRadius: 12 * scale, elevation: 9 })} />
-      <View style={box(82, 42, { position: 'absolute', bottom: 9, borderRadius: 9 * scale, backgroundColor: '#0754A5', borderWidth: 1.5 * scale, borderColor: blue, alignItems: 'center', justifyContent: 'space-evenly', flexDirection: 'row', transform: [{ rotate: '-3deg' }] })}>
-        {[0,1,2,3].map(n => <View key={n} style={box(9, 5, { borderRadius: 2 * scale, backgroundColor: '#7DE2FF', opacity: 0.95 })} />)}
-      </View>
-      <View style={box(86, 15, { position: 'absolute', top: 8, borderRadius: 4 * scale, backgroundColor: '#0C3F83', borderWidth: 1.5 * scale, borderColor: '#B9F5FF', flexDirection: 'row', overflow: 'hidden', transform: [{ rotate: '-8deg' }], shadowColor: '#24C9FF', shadowOpacity: 0.85, shadowRadius: 7 * scale, elevation: 8 })}>
-        {[0,1,2,3,4,5].map(n => <View key={n} style={{ flex: 1, backgroundColor: n % 2 ? '#1689E8' : '#C5F6FF', transform: [{ skewX: '-24deg' }], marginHorizontal: 1 * scale }} />)}
-      </View>
-      <View style={box(52, 2, { position: 'absolute', bottom: 13, backgroundColor: '#D8FBFF', opacity: 0.65, borderRadius: 2 * scale })} />
-    </View>
-  );
-  if (type === 'galaxy') return (
-    <View style={box(100, 100, { alignItems: 'center', justifyContent: 'center' })}>
-      <View style={box(88, 36, { position: 'absolute', borderWidth: 2 * scale, borderColor: 'rgba(90,205,255,0.9)', borderRadius: 50 * scale, transform: [{ rotate: '-28deg' }], shadowColor: '#18AFFF', shadowOpacity: 1, shadowRadius: 9 * scale, elevation: 8 })} />
-      <View style={box(66, 66, { position: 'absolute', borderWidth: 1.5 * scale, borderColor: 'rgba(92,154,255,0.72)', borderRadius: 50 * scale, transform: [{ rotate: '35deg' }] })} />
-      <View style={box(48, 48, { borderRadius: 30 * scale, backgroundColor: '#0756B7', borderWidth: 2 * scale, borderColor: '#53CFFF', shadowColor: '#078FFF', shadowOpacity: 1, shadowRadius: 14 * scale, elevation: 12, alignItems: 'center', justifyContent: 'center' })}>
-        <View style={box(32, 32, { borderRadius: 20 * scale, backgroundColor: '#1889E9', borderWidth: 2 * scale, borderColor: '#A7EFFF', alignItems: 'center', justifyContent: 'center' })}>
-          <View style={box(17, 17, { borderRadius: 12 * scale, backgroundColor: '#FFF0CB', shadowColor: '#FFF5D6', shadowOpacity: 1, shadowRadius: 12 * scale, elevation: 8 })} />
-        </View>
-      </View>
-      {[[17,28],[78,24],[80,75],[21,76]].map(([x,y],i) => <View key={i} style={box(5,5,{position:'absolute',left:x*scale,top:y*scale,borderRadius:5*scale,backgroundColor:'#D5F8FF',shadowColor:'#5AD9FF',shadowOpacity:1,shadowRadius:5*scale,elevation:5})} />)}
-    </View>
-  );
-  if (type === 'coins') return (
-    <View style={box(100, 82, { alignItems: 'center', justifyContent: 'center' })}>
-      {[[25,52],[48,58],[70,50],[38,35],[61,28]].map(([x,y],i) => (
-        <View key={i} style={box(34, 18, { position: 'absolute', left: (x-17)*scale, top: y*scale, borderRadius: 20*scale, backgroundColor: '#A95B08', borderWidth: 1.5*scale, borderColor: '#E9A52D', transform: [{ rotate: '-8deg' }], shadowColor: '#FFB52E', shadowOpacity: 0.8, shadowRadius: 5*scale, elevation: 5 })}>
-          <View style={box(31, 13, { position: 'absolute', top: -5*scale, left: 0, borderRadius: 18*scale, backgroundColor: '#FFD76A', borderWidth: 1.5*scale, borderColor: '#FFF2B4', alignItems: 'center', justifyContent: 'center' })}>
-            <View style={box(8, 8, { borderRadius: 8*scale, backgroundColor: '#E99A1D', borderWidth: 1*scale, borderColor: '#FFF0AA' })} />
-          </View>
-        </View>
-      ))}
-    </View>
-  );
-  if (type === 'avatar') return (
-    <View style={box(100, 100, { alignItems: 'center', justifyContent: 'center' })}>
-      <View style={box(90,90,{position:'absolute',borderRadius:50*scale,borderWidth:1.5*scale,borderColor:'rgba(79,199,255,0.55)',shadowColor:'#0AAFFF',shadowOpacity:0.9,shadowRadius:12*scale,elevation:9})}/>
-      <View style={box(54,54,{position:'absolute',top:7*scale,borderRadius:32*scale,backgroundColor:'#126AB7',borderWidth:2*scale,borderColor:'#C9F7FF',shadowColor:'#5AD8FF',shadowOpacity:0.9,shadowRadius:9*scale,elevation:8,alignItems:'center',justifyContent:'center'})}>
-        <View style={box(34,40,{borderRadius:22*scale,backgroundColor:'#5BC5F5',opacity:0.7,transform:[{translateX:-5*scale}]})}/>
-      </View>
-      <View style={box(76,39,{position:'absolute',bottom:3,borderTopLeftRadius:45*scale,borderTopRightRadius:45*scale,borderBottomLeftRadius:18*scale,borderBottomRightRadius:18*scale,backgroundColor:'#0756A7',borderWidth:2*scale,borderColor:'#B9F3FF',shadowColor:'#159FFF',shadowOpacity:0.9,shadowRadius:9*scale,elevation:8,alignItems:'center',justifyContent:'flex-start'})}>
-        <View style={box(55,23,{marginTop:2*scale,borderTopLeftRadius:35*scale,borderTopRightRadius:35*scale,backgroundColor:'#3EA9E8',opacity:0.72})}/>
-      </View>
-    </View>
-  );
-  if (type === 'landscape') return (
-    <View style={box(76,76,{alignItems:'center',justifyContent:'center'})}>
-      <View style={box(66,55,{borderRadius:12*scale,backgroundColor:'#063C7A',borderWidth:2*scale,borderColor:'#9BEAFF',shadowColor:'#18BFFF',shadowOpacity:0.9,shadowRadius:9*scale,elevation:7,overflow:'hidden'})}>
-        <View style={box(16,16,{position:'absolute',top:7*scale,right:8*scale,borderRadius:10*scale,backgroundColor:'#FFE9A8',shadowColor:'#FFD66A',shadowOpacity:1,shadowRadius:8*scale})}/>
-        <View style={{position:'absolute',bottom:0,left:2*scale,width:0,height:0,borderLeftWidth:24*scale,borderRightWidth:24*scale,borderBottomWidth:34*scale,borderLeftColor:'transparent',borderRightColor:'transparent',borderBottomColor:'#1678C9'}}/>
-        <View style={{position:'absolute',bottom:0,right:-2*scale,width:0,height:0,borderLeftWidth:28*scale,borderRightWidth:28*scale,borderBottomWidth:25*scale,borderLeftColor:'transparent',borderRightColor:'transparent',borderBottomColor:'#54C9E9'}}/>
-      </View>
-    </View>
-  );
-  if (type === 'sound') return (
-    <View style={box(78,72,{flexDirection:'row',alignItems:'center',justifyContent:'center',gap:5*scale})}>
-      {[18,34,52,40,24,46,16].map((h,i)=><View key={i} style={{width:7*scale,height:h*scale,borderRadius:5*scale,backgroundColor:i%2?'#43BFFF':'#B5F4FF',borderWidth:1*scale,borderColor:'#E0FBFF',shadowColor:'#1BBEFF',shadowOpacity:0.8,shadowRadius:5*scale,elevation:4}}/>)}
-    </View>
-  );
+function TechnologyPanelArtwork({ width, height }: { width: number; height: number }) {
   return (
-    <View style={box(78,78,{alignItems:'center',justifyContent:'center'})}>
-      <View style={{width:13*scale,height:62*scale,borderRadius:8*scale,backgroundColor:'#1C79C8',borderWidth:2*scale,borderColor:'#BDF5FF',transform:[{rotate:'38deg'}],shadowColor:'#26BFFF',shadowOpacity:0.9,shadowRadius:7*scale,elevation:7}}/>
-      <View style={{position:'absolute',top:3*scale,right:8*scale,width:19*scale,height:19*scale,backgroundColor:'#E2FAFF',transform:[{rotate:'45deg'}],borderRadius:4*scale,shadowColor:'#6BE4FF',shadowOpacity:1,shadowRadius:9*scale,elevation:8}}/>
-      <View style={{position:'absolute',bottom:10*scale,left:5*scale,width:9*scale,height:9*scale,borderRadius:9*scale,backgroundColor:'#57CFFF',shadowColor:'#57CFFF',shadowOpacity:1,shadowRadius:7*scale,elevation:7}}/>
-    </View>
+    <Image
+      source={require('./assets/Космическая панель технологий.png')}
+      style={{ width, height }}
+      resizeMode="contain"
+      accessible={false}
+    />
   );
 }
 
 function FeatureGlyph({ type }: { type: string }) {
-  const types: Record<string, any> = { text: 'clapper', image: 'landscape', sound: 'sound', prompt: 'magic' };
-  const labels: Record<string, string> = { text: 'Кинематографическая хлопушка', image: 'Объёмный пейзаж', sound: 'Звуковая дорожка', prompt: 'Объёмная волшебная палочка' };
-  return <View style={{ width: 58, height: 54, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel={labels[type] || 'Возможность НейроСцены'}>
-    <ThreeDArtwork type={types[type] || 'clapper'} size={48} />
-  </View>;
+  const labels: Record<string, string> = {
+    text: 'Космическая панель технологий',
+    image: 'Космическая панель технологий',
+    sound: 'Космическая панель технологий',
+    prompt: 'Космическая панель технологий',
+  };
+  return (
+    <View style={{ width: 58, height: 54, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel={labels[type] || 'Космическая панель технологий'}>
+      <TechnologyPanelArtwork width={58} height={54} />
+    </View>
+  );
 }
 
 function BottomNavGlyph({ type, active }: { type: string; active: boolean }) {
