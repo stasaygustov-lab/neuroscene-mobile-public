@@ -2031,15 +2031,13 @@ export default function App() {
           resizeMode="cover"
           fadeDuration={0}
           style={[StyleSheet.absoluteFill, { width: '100%', height: '100%', opacity: 1 }]}
-          accessibilityLabel="Фоновое изображение интерфейса НейроСцены"
+          accessibilityLabel="Единый фон всех экранов НейроСцены — штормовое море под электрическим небом"
         />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.10)' }]} />
-        <View style={[styles.ambientBackdropTint, tab === 'Gallery' ? styles.ambientTintGallery : tab === 'Credits' ? styles.ambientTintCredits : tab === 'Profile' ? styles.ambientTintProfile : null]} />
-        <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
-        <View style={[styles.ambientGlowBottom, tab === 'Gallery' ? styles.ambientGlowBottomGallery : tab === 'Credits' ? styles.ambientGlowBottomCredits : tab === 'Profile' ? styles.ambientGlowBottomProfile : null]} />
-        <View style={[styles.ambientGlowCenter, tab === 'Gallery' ? styles.ambientGlowCenterGallery : tab === 'Credits' ? styles.ambientGlowCenterCredits : tab === 'Profile' ? styles.ambientGlowCenterProfile : null]} />
-        {/* The blurred storm artwork is the sole environmental backdrop; avoid duplicate synthetic scenery. */}
-
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.07)' }]} />
+        <View style={styles.ambientBackdropTint} />
+        <View style={styles.ambientGlowTop} />
+        <View style={styles.ambientGlowBottom} />
+        <View style={styles.ambientGlowCenter} />
       </View>
       <StatusBar style="light" hidden={showIntro} />
 
@@ -6296,6 +6294,17 @@ const FINAL_UI_LAYOUT_REPAIR_V51 = {
   menuArrow: { marginLeft: 'auto', color: '#6EBEFF', fontSize: 22 },
 };
 
+const FINAL_UI_GLOBAL_BACKDROP_V53 = {
+  ambientBackdrop: { ...StyleSheet.absoluteFillObject, overflow: 'hidden', backgroundColor: 'transparent' },
+  ambientBackdropTint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,7,18,0.07)' },
+  ambientTintGallery: { backgroundColor: 'transparent' },
+  ambientTintCredits: { backgroundColor: 'transparent' },
+  ambientTintProfile: { backgroundColor: 'transparent' },
+  scroll: { flex: 1, backgroundColor: 'transparent' },
+  content: { backgroundColor: 'transparent' },
+  screen: { backgroundColor: 'transparent' },
+  createScreenLayout: { flex: 1, width: '100%', backgroundColor: 'transparent' },
+};
 const FINAL_UI_NEON_DEPTH_V52 = {
   // Reference finish: layered cyan edge light, restrained blue bloom and a subtle raised face.
   sectionTitle: { color: '#F0F8FF', textShadowColor: '#168BFF', textShadowRadius: 15, textShadowOffset: { width: 0, height: 1 } },
@@ -7025,6 +7034,7 @@ const styles = StyleSheet.create({
   },
   container: { flex: 1, backgroundColor: '#030817' },
   ...FINAL_UI_NEON_DEPTH_V52,
+  ...FINAL_UI_GLOBAL_BACKDROP_V53,
 
 });
 
