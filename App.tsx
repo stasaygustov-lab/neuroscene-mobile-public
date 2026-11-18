@@ -7172,7 +7172,7 @@ const styles: Record<string, any> = StyleSheet.create({
   creditBalanceCaption: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingTop: 2 },
   creditBalanceHeroValue: { color: '#FFE08A', fontFamily: 'Manrope', fontSize: 23, lineHeight: 28, fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 13 },
   creditBalanceHeroLabel: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 9, lineHeight: 13, fontWeight: '900', letterSpacing: 1.5 },
-  creditPackageColumn: { flex: 1, minWidth: 0, justifyContent: 'center' },
+  creditPackageColumn: { width: '100%', maxWidth: '100%', flex: 0, minWidth: 0, justifyContent: 'center' },
   creditPackagesList: { width: '100%', gap: 10 },
   
   
@@ -7423,7 +7423,7 @@ const styles: Record<string, any> = StyleSheet.create({
   galleryActionButton: { backgroundColor: 'rgba(3,52,105,0.52)', borderColor: 'rgba(126,214,255,0.78)', borderTopColor: 'rgba(228,251,255,0.84)', borderBottomWidth: 2, borderBottomColor: '#06417E', shadowColor: '#078BFF', shadowOpacity: 0.4, shadowRadius: 12, shadowOffset: { width: 0, height: 4 }, elevation: 7 },
   galleryStoragePill: { backgroundColor: 'rgba(3,48,96,0.48)', borderColor: 'rgba(132,218,255,0.8)', borderTopColor: 'rgba(235,252,255,0.92)', borderBottomWidth: 2, borderBottomColor: '#06417E', shadowColor: '#078BFF', shadowOpacity: 0.45, shadowRadius: 13, elevation: 8 },
   
-  creditWelcomeBonus: { backgroundColor: 'rgba(55,37,15,0.56)', borderTopColor: 'rgba(255,239,181,0.9)', borderLeftColor: 'rgba(255,205,103,0.8)', borderRightColor: 'rgba(188,112,24,0.85)', borderBottomWidth: 3, borderBottomColor: '#75400C', shadowColor: '#FFB52E', shadowOpacity: 0.62, shadowRadius: 19, shadowOffset: { width: 0, height: 6 }, elevation: 10 },
+  creditWelcomeBonus: { minHeight: 66, width: '100%', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 9, gap: 11, borderRadius: 16, borderWidth: 1.2, borderColor: 'rgba(255,211,125,0.72)', borderTopColor: 'rgba(255,239,181,0.92)', borderBottomWidth: 3, borderBottomColor: '#75400C', backgroundColor: 'rgba(35,25,20,0.70)', shadowColor: '#FFB52E', shadowOpacity: 0.36, shadowRadius: 16, shadowOffset: { width: 0, height: 5 }, elevation: 8 },
   sectionHeader: { borderBottomColor: 'rgba(79,184,255,0.56)' },
   
 
@@ -7559,10 +7559,10 @@ const styles: Record<string, any> = StyleSheet.create({
   // V73: compact UI adjustments without changing screen behavior.
   v73GalleryEmptyState: { flex: 0, minHeight: 0, marginTop: 8, marginBottom: 8, paddingHorizontal: 8, paddingVertical: 6, gap: 4 },
   v73GalleryGalaxyArtwork: { width: 218, height: 176, maxWidth: '100%', alignSelf: 'center', position: 'relative', backgroundColor: 'transparent', borderWidth: 0, overflow: 'visible' },
-  v73CreditReferenceLayout: { minHeight: 174, gap: 8, alignItems: 'center' },
-  v73CreditCoinShowcase: { width: '38%', minWidth: 0, maxWidth: '38%', height: 174, flexShrink: 0, alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' },
-  v73CreditCoinStack: { width: '100%', maxWidth: 142, height: 132, position: 'relative', alignSelf: 'center', overflow: 'hidden' },
-  v73CreditLargeCoin: { width: 66, height: 66, borderRadius: 33 },
+  v73CreditReferenceLayout: { width: '100%', minHeight: 0, flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', gap: 12 },
+  v73CreditCoinShowcase: { width: '100%', minWidth: 0, maxWidth: '100%', height: 164, minHeight: 164, flexShrink: 0, alignItems: 'center', justifyContent: 'flex-end', overflow: 'visible', borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,210,125,0.72)', backgroundColor: 'rgba(8,22,48,0.72)', shadowColor: '#FFB52E', shadowOpacity: 0.32, shadowRadius: 20, elevation: 8 },
+  v73CreditCoinStack: { width: 210, maxWidth: '76%', height: 112, position: 'relative', alignSelf: 'center', overflow: 'visible', marginBottom: 2 },
+  v73CreditLargeCoin: { width: 76, height: 76, borderRadius: 38 },
 
   v73CreditBalanceCard: { width: '38%', maxWidth: '38%', minWidth: 0, height: 166, minHeight: 166, paddingHorizontal: 4, paddingTop: 8, paddingBottom: 10, overflow: 'hidden' },
   v73CreditCoinsArtwork: { width: '100%', maxWidth: '100%', height: 86, resizeMode: 'contain' },
