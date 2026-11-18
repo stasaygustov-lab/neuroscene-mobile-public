@@ -2045,9 +2045,12 @@ export default function App() {
 
       {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
-          <View style={[styles.brandLogoArtwork, { width: 190, height: 52, alignItems: 'center', gap: 9 }]} accessibilityLabel="Фирменный логотип НейроСцена">
-            <Image source={require('./assets/neuroscene-brand.png')} style={{ width: 48, height: 48 }} resizeMode="contain" />
-            <Text style={{ color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 19, lineHeight: 24, fontWeight: '900', letterSpacing: -0.45, textShadowColor: '#168BFF', textShadowRadius: 10 }}>НейроСцена</Text>
+          <View style={[styles.brandLogoArtwork, { width: 222, minWidth: 222, height: 58, alignItems: 'center', gap: 9 }]} accessibilityLabel="Фирменный логотип НейроСцена">
+            <Image source={require('./assets/neuroscene-brand.png')} style={{ width: 48, height: 48, flexShrink: 0 }} resizeMode="contain" />
+            <View style={{ width: 150, minWidth: 150, flexShrink: 0, alignItems: 'flex-start', justifyContent: 'center' }}>
+              <Text numberOfLines={1} style={{ width: 150, color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 19, lineHeight: 21, fontWeight: '900', letterSpacing: -0.35, textShadowColor: '#168BFF', textShadowRadius: 10, includeFontPadding: false }}>Нейро</Text>
+              <Text numberOfLines={1} style={{ width: 150, color: '#69D8FF', fontFamily: 'Manrope', fontSize: 19, lineHeight: 21, fontWeight: '900', letterSpacing: -0.35, textShadowColor: '#168BFF', textShadowRadius: 10, includeFontPadding: false }}>Сцена</Text>
+            </View>
           </View>
         </View>
 
