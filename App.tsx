@@ -7400,13 +7400,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_CREDITS_REFERENCE_V57,
   ...FINAL_UI_RECOVERY_V61,
   ...FINAL_UI_RECOVERY_V62,
-  ...FINAL_UI_REFERENCE_MATCH_V63,
-
-});
-
-// V63: align the Create capabilities with the reference's readable 2×2 card grid.
-const FINAL_UI_REFERENCE_MATCH_V63 = {
-  featureSection: { width: '100%', marginTop: 'auto', marginBottom: 8, paddingHorizontal: 2, backgroundColor: 'transparent' },
+  featureSection: { width: '100%', marginginTop: 'auto', marginBottom: 8, paddingHorizontal: 2, backgroundColor: 'transparent' },
   featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'stretch', columnGap: 0, rowGap: 9 },
   featureTile: { width: '48.5%', minWidth: '48.5%', maxWidth: '48.5%', minHeight: 88, paddingHorizontal: 8, paddingVertical: 8, borderRadius: 13, borderWidth: 1, borderColor: 'rgba(74, 166, 255, 0.48)', backgroundColor: 'rgba(3, 18, 43, 0.58)', alignItems: 'center', justifyContent: 'center' },
   featureGlyphAura: { width: 44, height: 42, marginBottom: 4, alignItems: 'center', justifyContent: 'center', borderRadius: 13, backgroundColor: 'rgba(0, 123, 255, 0.12)', shadowColor: '#0CBFFF', shadowOpacity: 0.78, shadowRadius: 14, elevation: 7 },
