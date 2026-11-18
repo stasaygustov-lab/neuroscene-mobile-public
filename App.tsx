@@ -6678,6 +6678,8 @@ const styles = StyleSheet.create({
   featureSubtitle: { display: 'none' },
   ...FINAL_UI_REFERENCE_ARTWORK_V49,
   ...FINAL_UI_REFERENCE_MATCH_V50,
+  // Preserve full-screen flex after legacy visual layers that redefine container.
+  container: { flex: 1, backgroundColor: '#030817' },
 
 });
 
