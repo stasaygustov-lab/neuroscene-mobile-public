@@ -2367,7 +2367,7 @@ function CreateScreen({
           <Text style={[styles.statusValue, jobStatus === 'completed' && styles.statusSuccess]}>
             {busy ? 'НейроСцена создаёт видео' : uncertain ? 'Требуется проверка результата' : jobStatus === 'completed' ? 'Видео готово' : 'Ошибка генерации'}
           </Text>
-          {!busy && <Text style={[styles.statusDescription, (jobStatus === 'completed' || uncertain) && styles.statusSuccess]}>{jobMessage}</Text>}
+          {!busy && <Text style={[styles.statusDescription, jobStatus === 'completed' && styles.statusSuccess]}>{jobMessage}</Text>}
           {jobId && <Text style={styles.jobId}>ID: {jobId}</Text>}
           {pollError !== '' && <Text style={styles.errorText}>Ошибка получения статуса: {pollError}</Text>}
           {jobStatus === 'completed' && videoUrl && (
