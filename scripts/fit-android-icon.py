@@ -1,9 +1,9 @@
 from pathlib import Path
 from PIL import Image, ImageOps
 
-# Generate the two PNG assets referenced by app.json from the approved brand artwork.
+# Generate the two PNG assets referenced by app.json from the approved PNG brand artwork.
 # Keep the adaptive foreground artwork inside Android's safe area.
-SOURCE = Path("assets/Неоновая иконка «НейроСцена».jpg")
+SOURCE = Path("assets/neuroscene-brand.png")
 APP_ICON = Path("assets/neuroscene-brand.png")
 ADAPTIVE_FOREGROUND = Path("assets/android-icon-foreground.png")
 CANVAS_SIZE = (1024, 1024)
@@ -12,7 +12,7 @@ BACKGROUND = (8, 11, 20, 255)
 
 
 if not SOURCE.is_file():
-    raise SystemExit(f"Approved brand icon source not found: {SOURCE}")
+    raise SystemExit(f"Brand icon source not found: {SOURCE}")
 
 source = Image.open(SOURCE).convert("RGBA")
 
