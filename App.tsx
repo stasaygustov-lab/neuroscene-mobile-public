@@ -1770,10 +1770,7 @@ export default function App() {
 
           <View style={styles.creditReferenceLayout}>
             <View style={styles.creditCoinShowcase} accessibilityLabel="Объёмная композиция золотых монет">
-              <View style={styles.creditCoinHalo} />
-              <View style={[styles.creditLargeCoin, styles.creditLargeCoinBack]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>Н</Text></View></View>
-              <View style={[styles.creditLargeCoin, styles.creditLargeCoinMiddle]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>С</Text></View></View>
-              <View style={[styles.creditLargeCoin, styles.creditLargeCoinFront]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
+              <Image source={require('./assets/illustrations/credits-3d.jpg')} style={{ width: 150, height: 150, maxWidth: '100%' }} resizeMode="contain" />
               <View style={styles.creditBalanceCaption}>
                 <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
                 <Text style={styles.creditBalanceHeroLabel}>КРЕДИТОВ</Text>
@@ -1826,12 +1823,8 @@ export default function App() {
           </View>
         </View>
         <View style={styles.profileIdentity}>
-          <View style={styles.profileGuestAvatar} accessibilityLabel="Неоновый схематичный силуэт человека">
-            <View style={styles.profileAvatarOuterRing} />
-            <View style={styles.profileAvatarInnerRing} />
-            <View style={styles.profileAvatarHalo} />
-            <View style={styles.profileGuestHead} />
-            <View style={styles.profileGuestBody} />
+          <View style={styles.profileGuestAvatar} accessibilityLabel="Объёмный голографический аватар">
+            <Image source={require('./assets/illustrations/profile-3d.jpg')} style={{ width: 116, height: 116 }} resizeMode="contain" />
           </View>
           <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
           {!!authUser?.email && <Text style={styles.profileGuestStatus}>{authUser.email}</Text>}
@@ -2548,17 +2541,8 @@ function GalleryScreen({
       )}
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.galleryEmptyReferenceState}>
-          <View style={styles.galleryGalaxyArtwork} accessibilityLabel="Абстрактная неоновая галактика">
-            <View style={styles.galleryGalaxyAura} />
-            <View style={styles.galleryGalaxyOrbitOuter} />
-            <View style={styles.galleryGalaxyOrbitInner} />
-            <View style={styles.galleryGalaxyCore}>
-              <View style={styles.galleryGalaxyCoreHighlight} />
-            </View>
-            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarOne]} />
-            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarTwo]} />
-            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarThree]} />
-            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarFour]} />
+          <View style={styles.galleryGalaxyArtwork} accessibilityLabel="Объёмная неоновая галактика">
+            <Image source={require('./assets/illustrations/gallery-3d.jpg')} style={{ width: 260, height: 260, maxWidth: '100%' }} resizeMode="contain" />
           </View>
         </View>
       )}
