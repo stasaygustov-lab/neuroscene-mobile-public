@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentRef, type RefObject } from 'react';
 import { Animated, Easing, Modal, PanResponder } from 'react-native';
 import { useEvent } from 'expo';
 import { useFonts } from 'expo-font';
@@ -156,7 +156,7 @@ function ScreenTransition({ children, direction = 1 }: { children: any; directio
 }
 
 export default function App() {
-  const bottomBlurTargetRef = useRef<any>(null);
+  const bottomBlurTargetRef = useRef<ComponentRef<typeof View>>(null);
   const [fontsLoaded, fontError] = useFonts({ Manrope: require('./assets/Manrope[wght].ttf') });
   const [tab, setTab] = useState<Tab>('Create');
   const [transitionDirection, setTransitionDirection] = useState<1 | -1>(1);
@@ -2131,9 +2131,11 @@ export default function App() {
   );
 }
 
+type BlurTargetRef = RefObject<ComponentRef<typeof View> | null>;
+
 type CreateScreenProps = {
   language: Language;
-  blurTarget: any;
+  blurTarget: BlurTargetRef;
   creditsBalance: number | null;
   creditsLoading: boolean;
   generationType: GenerationType;
@@ -2164,7 +2166,7 @@ type CreateScreenProps = {
 
 
 
-function GlassBlurLayer({ radius = 18, intensity = 38, targetRef }: { radius?: number; intensity?: number; targetRef: any }) {
+function GlassBlurLayer({ radius = 18, intensity = 38, targetRef }: { radius?: number; intensity?: number; targetRef: BlurTargetRef }) {
   return (
     <BlurView
       pointerEvents="none"
@@ -2411,7 +2413,7 @@ function GalleryScreen({
 }: {
   items: any[];
   language: Language;
-  blurTarget: any;
+  blurTarget: BlurTargetRef;
   loading: boolean;
   error: string;
   onRefresh: () => void;
