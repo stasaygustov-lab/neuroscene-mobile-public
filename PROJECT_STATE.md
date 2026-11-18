@@ -921,3 +921,12 @@
 - Сохранены четыре вкладки, подписи, обработчики переходов, активная подсветка, размеры и расположение нижнего меню.
 - Это изменение кода; реальная работа размытия на устройстве ещё не подтверждена свежим APK. Сборка Preview не запускалась.
 - Backend, авторизация, генерация видео, платежи и API не менялись.
+
+## V83 — Consolidated frosted-glass navigation styles
+- Branch: `ui/full-visual-redesign`.
+- Commit: `15b46772825ade50b434ca1e8d40edc88260d7d2`.
+- Removed all duplicate `bottomNav` and `bottomNavGlass` keys from the final `StyleSheet.create` object and retained one canonical definition of each.
+- Preserved the existing `BlurTargetView` / `BlurView` wiring, dock dimensions supplied by the component, all four tabs, icons, labels, and handlers.
+- Kept the single `bottomNavGlassEdge` and `bottomNavGlassBloom` overlays.
+- Static verification after update: `bottomNav=1`, `bottomNavGlass=1`, `bottomNavGlassEdge=1`, `bottomNavGlassBloom=1` within the final StyleSheet.
+- No APK, Preview workflow, TypeScript build, or Android runtime verification was run. This is a source-level cleanup only.
