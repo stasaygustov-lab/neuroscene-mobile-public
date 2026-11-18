@@ -6257,6 +6257,29 @@ const FINAL_UI_REFERENCE_MATCH_V50 = {
  ambientBackdropTint:{backgroundColor:'rgba(2,20,52,0.06)'},ambientTintGallery:{backgroundColor:'rgba(4,24,62,0.06)'},ambientTintCredits:{backgroundColor:'rgba(5,22,56,0.05)'},ambientTintProfile:{backgroundColor:'rgba(3,24,58,0.06)'},ambientGlowTopGallery:{backgroundColor:'#8065D8',opacity:0.14},ambientGlowBottomGallery:{backgroundColor:'#6954C2',opacity:0.12},ambientGlowCenterGallery:{backgroundColor:'#4A3B91',opacity:0.08},ambientGlowTopCredits:{backgroundColor:'#087BFF',opacity:0.16},ambientGlowBottomCredits:{backgroundColor:'#168BFF',opacity:0.14},ambientGlowCenterCredits:{backgroundColor:'#075CEB',opacity:0.08},ambientGlowTopProfile:{backgroundColor:'#087BFF',opacity:0.16},ambientGlowBottomProfile:{backgroundColor:'#168BFF',opacity:0.14},ambientGlowCenterProfile:{backgroundColor:'#075CEB',opacity:0.08},
 };
 
+const FINAL_UI_LAYOUT_REPAIR_V51 = {
+  // Keep the credits title clear of Android's status bar and prevent the two-column
+  // balance/packages row from exceeding the available width.
+  creditsScreen: { paddingTop: 30, paddingBottom: 24 },
+  creditsHeader: { marginTop: 0, marginBottom: 10, minHeight: 46, alignItems: 'center', justifyContent: 'center' },
+  creditTopRow: { width: '100%', flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
+  creditBalanceCard: { width: '38%', maxWidth: '38%', flex: 0, flexShrink: 0, height: 160, minHeight: 160, overflow: 'hidden' },
+  creditPackageColumn: { width: 0, flex: 1, minWidth: 0, justifyContent: 'center' },
+  creditPackagesList: { width: '100%', gap: 7 },
+  packageCard: { width: '100%', minWidth: 0, flexDirection: 'row', alignItems: 'center' },
+  packageRight: { width: 58, minWidth: 58, maxWidth: 58, alignItems: 'flex-end', justifyContent: 'center' },
+  // Restore the intended horizontal VK button layout after the compact reference layer.
+  profileVkButton: { width: '76%', maxWidth: 350, minHeight: 50, height: 50, marginTop: 3, marginBottom: 9, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9, borderRadius: 25, borderWidth: 1.4, borderColor: '#9BEAFF', backgroundColor: '#0879F5', shadowColor: '#00AFFF', shadowOpacity: 0.68, shadowRadius: 18, elevation: 9 },
+  profileVkMark: { width: 22, height: 22, flexShrink: 0, color: '#0879F5', backgroundColor: '#FFFFFF', borderRadius: 6, textAlign: 'center', textAlignVertical: 'center', fontSize: 13, lineHeight: 18, fontWeight: '900', overflow: 'hidden' },
+  profileVkText: { flexShrink: 1, color: '#FFFFFF', fontSize: 15, lineHeight: 20, fontWeight: '900', textAlign: 'center' },
+  // Keep each profile menu entry as one aligned horizontal row.
+  profileMenuCard: { width: '100%', borderRadius: 18, borderWidth: 1, borderColor: 'rgba(93,190,237,0.42)', backgroundColor: 'rgba(3,18,38,0.72)', overflow: 'hidden' },
+  menuItem: { width: '100%', minHeight: 52, paddingVertical: 10, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', borderBottomWidth: 1, borderBottomColor: 'rgba(112,190,255,0.14)' },
+  menuIcon: { width: 28, flexShrink: 0, textAlign: 'center', color: '#70C9FF', fontSize: 18, marginRight: 10 },
+  menuText: { flex: 1, minWidth: 0, color: '#E4F1FF', fontSize: 15, fontWeight: '700' },
+  menuArrow: { marginLeft: 'auto', color: '#6EBEFF', fontSize: 22 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -6678,6 +6701,7 @@ const styles = StyleSheet.create({
   featureSubtitle: { display: 'none' },
   ...FINAL_UI_REFERENCE_ARTWORK_V49,
   ...FINAL_UI_REFERENCE_MATCH_V50,
+  ...FINAL_UI_LAYOUT_REPAIR_V51,
   // Preserve full-screen flex after legacy visual layers that redefine container.
   container: { flex: 1, backgroundColor: '#030817' },
 
