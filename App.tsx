@@ -2075,14 +2075,8 @@ export default function App() {
       </View>
 
       {showIntro && (
-        <View style={styles.introOverlay}>
-          <Image
-            source={require('./assets/Штормовое море под электрическим небом-1.png')}
-            blurRadius={8}
-            resizeMode="cover"
-            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
-            accessibilityLabel="Кинематографический фон НейроСцены"
-          />
+        <View style={[styles.introOverlay, { backgroundColor: 'transparent' }]}>
+          <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,5,18,0.24)' }]} />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup} accessibilityLabel="Логотип НейроСцена">
             <Image source={require('./assets/neuroscene-brand.png')} style={{ width: 250, height: 250, alignSelf: 'center', shadowColor: '#168BFF', shadowOpacity: 0.8, shadowRadius: 28, elevation: 18 }} resizeMode="contain" accessibilityLabel="Неоновая иконка НейроСцена" />
