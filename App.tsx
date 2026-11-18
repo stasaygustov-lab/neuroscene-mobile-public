@@ -6576,6 +6576,64 @@ const FINAL_UI_RECOVERY_V61 = {
   packagePriceChip: { minWidth: 66, minHeight: 34, paddingHorizontal: 9, borderRadius: 10, backgroundColor: '#0879F5', borderWidth: 1, borderColor: '#65DFFF', alignItems: 'center', justifyContent: 'center' },
   packagePrice: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900' },
 };
+ 
+// V62: final Android layout recovery. This layer is deliberately merged last so
+// legacy style declarations cannot replace the backdrop, credits composition or dock.
+const FINAL_UI_RECOVERY_V62 = {
+  container: { flex: 1, width: '100%', position: 'relative', backgroundColor: 'transparent' },
+  ambientBackdrop: { ...StyleSheet.absoluteFillObject, zIndex: 0, elevation: 0, backgroundColor: 'transparent', overflow: 'hidden' },
+  ambientBackdropTint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1, 7, 18, 0.035)' },
+  header: { backgroundColor: 'transparent', borderBottomWidth: 0, zIndex: 2, elevation: 2 },
+  scroll: { flex: 1, backgroundColor: 'transparent', zIndex: 1, elevation: 1 },
+  content: { flexGrow: 1, backgroundColor: 'transparent', paddingBottom: 112 },
+  screen: { flex: 1, backgroundColor: 'transparent', paddingBottom: 18 },
+  createScreenLayout: { flex: 1, width: '100%', backgroundColor: 'transparent' },
+  createTopSpacer: { height: 26, width: '100%' },
+  referenceCreateGlow: { width: '88%', alignSelf: 'center', marginTop: 0, marginBottom: 16 },
+  referenceCreateButton: { width: '100%', height: 56, minHeight: 56, borderRadius: 28, paddingHorizontal: 20 },
+  featureSection: { width: '100%', marginTop: 'auto', marginBottom: 12, backgroundColor: 'rgba(2, 12, 30, 0.20)' },
+  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-between', alignItems: 'flex-start', columnGap: 4 },
+  featureTile: { width: '24%', minWidth: 0, minHeight: 82, paddingHorizontal: 2, paddingVertical: 5, alignItems: 'center', justifyContent: 'flex-start', backgroundColor: 'rgba(3, 18, 43, 0.60)', borderWidth: 1, borderColor: 'rgba(74, 166, 255, 0.48)', borderRadius: 12 },
+  featureGlyphAura: { width: 48, height: 48, marginBottom: 4, alignItems: 'center', justifyContent: 'center', borderRadius: 14, backgroundColor: 'rgba(0, 123, 255, 0.12)', shadowColor: '#0CBFFF', shadowOpacity: 0.78, shadowRadius: 16, elevation: 7 },
+  featureGlyphFrame: { width: 42, height: 42, marginBottom: 2, borderRadius: 12, alignItems: 'center', justifyContent: 'center', position: 'relative', backgroundColor: 'rgba(0, 133, 255, 0.18)', borderWidth: 1, borderColor: 'rgba(115, 218, 255, 0.88)', shadowColor: '#16BFFF', shadowOpacity: 0.96, shadowRadius: 14, elevation: 8 },
+  featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 9.5, lineHeight: 12, fontWeight: '800', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
+  bottomNav: { width: '100%', height: 82, minHeight: 82, maxHeight: 82, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-evenly', alignSelf: 'stretch', margin: 0, paddingHorizontal: 8, paddingTop: 4, paddingBottom: 8, position: 'relative', zIndex: 5, elevation: 18, backgroundColor: 'rgba(2, 10, 30, 0.94)', borderTopWidth: 1.2, borderLeftWidth: 1, borderRightWidth: 1, borderTopLeftRadius: 24, borderTopRightRadius: 24, borderColor: 'rgba(42, 166, 255, 0.72)', shadowColor: '#087DFF', shadowOpacity: 0.62, shadowRadius: 20, shadowOffset: { width: 0, height: -4 }, overflow: 'visible' },
+  navItem: { flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: '25%', width: '25%', maxWidth: '25%', minWidth: 0, height: 66, minHeight: 66, paddingHorizontal: 0, paddingTop: 2, paddingBottom: 4, gap: 3, alignItems: 'center', justifyContent: 'center', alignSelf: 'center', position: 'relative', zIndex: 2, elevation: 2, borderRadius: 12, overflow: 'visible' },
+  navCreateIcon: { width: 30, height: 30, minHeight: 30, flexShrink: 0, alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2, elevation: 2 },
+  navGalleryIcon: { width: 30, height: 30, minHeight: 30, flexShrink: 0, alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2, elevation: 2 },
+  navDatabaseIcon: { width: 30, height: 30, minHeight: 30, flexShrink: 0, alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2, elevation: 2 },
+  navPerson: { width: 30, height: 30, minHeight: 30, flexShrink: 0, alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2, elevation: 2 },
+  navLabel: { width: '100%', flexShrink: 1, color: '#C6E4FA', fontFamily: 'Manrope', fontSize: 10.5, lineHeight: 14, fontWeight: '800', textAlign: 'center', includeFontPadding: false },
+  navLabelActive: { color: '#F2FBFF', fontWeight: '900', textShadowColor: '#18BFFF', textShadowRadius: 10 },
+  // Restore the approved vertical credits layout after legacy V60 two-column overrides.
+  creditsScreen: { flex: 1, paddingTop: 20, paddingBottom: 24, backgroundColor: 'transparent' },
+  creditsContent: { paddingBottom: 116 },
+  creditTopRow: { width: '100%', flexDirection: 'column', alignItems: 'stretch', gap: 12, marginBottom: 12 },
+  creditBalanceCard: { width: '100%', maxWidth: '100%', flex: 0, flexShrink: 0, height: 214, minHeight: 214, alignSelf: 'stretch', padding: 10, borderRadius: 18, borderWidth: 1.2, borderColor: 'rgba(42, 158, 255, 0.86)', backgroundColor: 'rgba(2, 19, 48, 0.78)', shadowColor: '#087BFF', shadowOpacity: 0.48, shadowRadius: 22, elevation: 10, justifyContent: 'flex-start', overflow: 'hidden' },
+  creditCoinsArtwork: { width: '100%', height: 120, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  creditCoinDisc: { width: 48, height: 22, borderRadius: 24, marginTop: -6, borderWidth: 1.6, borderColor: '#FFF0A5', backgroundColor: '#D99521', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB52E', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
+  creditCoinInner: { width: 33, height: 9, borderRadius: 9, borderWidth: 1, borderColor: 'rgba(255, 245, 185, 0.95)', backgroundColor: '#FFD76A' },
+  creditBalanceHero: { position: 'absolute', bottom: 8, left: 0, right: 0, alignItems: 'center', justifyContent: 'center' },
+  creditBalanceHeroValue: { color: '#FFE08A', fontFamily: 'Manrope', fontSize: 32, lineHeight: 38, fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 15 },
+  creditBalanceHeroLabel: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 14, lineHeight: 19, fontWeight: '800', marginTop: 0 },
+  creditPackageColumn: { width: '100%', maxWidth: '100%', flex: 0, minWidth: 0, justifyContent: 'center' },
+  creditPackagesTitle: { display: 'flex', color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 24, fontWeight: '900', marginBottom: 8, textShadowColor: 'rgba(25, 132, 255, 0.55)', textShadowRadius: 10 },
+  creditPackagesList: { width: '100%', gap: 8 },
+  packageCard: { width: '100%', minWidth: 0, minHeight: 54, paddingVertical: 8, paddingHorizontal: 12, marginTop: 0, borderRadius: 13, borderWidth: 1, borderColor: 'rgba(70, 126, 183, 0.66)', backgroundColor: 'rgba(8, 28, 59, 0.92)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  packageIconWrap: { width: 30, minWidth: 30, marginRight: 6, alignItems: 'center', justifyContent: 'center' },
+  packageCoin: { width: 20, height: 20, borderRadius: 10, backgroundColor: '#FFBD35', borderWidth: 1, borderColor: '#FFE7A0', alignItems: 'center', justifyContent: 'center' },
+  packageAmount: { flex: 1, minWidth: 0, color: '#F4F8FF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 19, fontWeight: '800' },
+  packageRight: { width: 78, minWidth: 78, maxWidth: 78, alignItems: 'flex-end', justifyContent: 'center', flexShrink: 0 },
+  packagePriceChip: { minWidth: 66, minHeight: 34, paddingHorizontal: 9, borderRadius: 10, backgroundColor: '#0879F5', borderWidth: 1, borderColor: '#65DFFF', alignItems: 'center', justifyContent: 'center' },
+  packagePrice: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900' },
+  profileScreen: { flex: 1, paddingTop: 20, paddingBottom: 24, backgroundColor: 'transparent' },
+  profileIdentity: { width: '100%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: 12, marginBottom: 20 },
+  profileGuestAvatar: { position: 'relative', width: 112, height: 112, borderRadius: 56, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', overflow: 'visible', borderWidth: 1.5, borderColor: 'rgba(83, 207, 255, 0.96)', backgroundColor: 'rgba(2, 23, 57, 0.78)', shadowColor: '#13AFFF', shadowOpacity: 0.95, shadowRadius: 25, elevation: 13 },
+  loginScreen: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8, paddingTop: 4, paddingBottom: 16 },
+  profileVkButton: { width: '92%', maxWidth: 360, minHeight: 54, height: 54, alignSelf: 'center', marginTop: 6, marginBottom: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, borderRadius: 27, borderWidth: 1.5, borderColor: '#9BEAFF', backgroundColor: '#0879F5', shadowColor: '#00AFFF', shadowOpacity: 0.78, shadowRadius: 18, elevation: 10 },
+  authCard: { width: '100%', borderRadius: 16, padding: 16, marginBottom: 18, backgroundColor: 'rgba(5, 24, 58, 0.88)', borderWidth: 1, borderColor: 'rgba(76, 158, 255, 0.58)' },
+};
+
 
 const FINAL_UI_CREDITS_REFERENCE_V57 = {
   // Match the reference credits screen: a full-width cinematic balance card with gold coins.
@@ -7340,6 +7398,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_GALLERY_EMPTY_V56,
   ...FINAL_UI_CREDITS_REFERENCE_V57,
   ...FINAL_UI_RECOVERY_V61,
+  ...FINAL_UI_RECOVERY_V62,
 
 });
 
