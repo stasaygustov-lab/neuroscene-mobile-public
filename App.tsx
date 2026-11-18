@@ -2328,8 +2328,8 @@ function CreateScreen({
       <View style={styles.optionRow}>
         {['16:9', '9:16'].map((value) => (
           <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, ratio === value && styles.v74SelectedPillOption]} onPress={() => setRatio(value)} disabled={busy}>
-            <Text style={[styles.optionMain, ratio === value && styles.activeText]}>{value}</Text>
-            <Text style={styles.optionSub}>{value === '16:9' ? 'Горизонтальный' : 'Вертикальный'}</Text>
+            <Text style={[styles.v74OptionMain, ratio === value && styles.activeText]}>{value}</Text>
+            <Text style={styles.v74OptionSub}>{value === '16:9' ? 'Горизонтальный' : 'Вертикальный'}</Text>
           </TouchableOpacity>
         ))}
       </View>
