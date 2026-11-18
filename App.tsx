@@ -1777,10 +1777,10 @@ export default function App() {
           </View>
 
           <View style={[styles.creditReferenceLayout, styles.v73CreditReferenceLayout]}>
-            <View style={[styles.creditCoinShowcase, { width: '100%', height: 176, minHeight: 176, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0, overflow: 'visible' }]} accessibilityLabel="Иллюстрация золотых монет">
+            <View style={[styles.creditCoinShowcase, { width: '100%', height: 'auto', minHeight: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0, overflow: 'visible', paddingTop: 0, paddingBottom: 0 }]} accessibilityLabel="Иллюстрация золотых монет">
               <Image
                 source={require('./assets/Космическая панель технологий.png')}
-                style={{ width: '100%', height: 146, alignSelf: 'center', backgroundColor: 'transparent' }}
+                style={{ width: '100%', height: 132, alignSelf: 'center', backgroundColor: 'transparent' }}
                 resizeMode="contain"
                 accessibilityLabel="Монеты из иллюстрации Космическая панель технологий"
               />
@@ -1790,14 +1790,14 @@ export default function App() {
               </View>
             </View>
 
-            <View style={styles.creditPackageColumn}>
-              <View style={styles.creditPackagesList}>
+            <View style={[styles.creditPackageColumn, { width: "100%", maxWidth: "100%", flex: 0, minWidth: 0, alignSelf: "stretch" }]}>
+              <View style={[styles.creditPackagesList, { width: "100%", gap: 8, alignSelf: "stretch" }]}>
                 {[500, 1500, 5000].map((amount) => (
                   <TouchableOpacity
                     key={amount}
                     activeOpacity={0.78}
                     onPress={() => setSelectedCreditPackage(amount)}
-                    style={[styles.packageCard, selectedCreditPackage === amount && styles.packageCardSelected, { position: 'relative', overflow: 'hidden' }]}
+                    style={[styles.packageCard, selectedCreditPackage === amount && styles.packageCardSelected, { width: '100%', minWidth: 0, height: 60, minHeight: 60, marginTop: 0, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', position: 'relative', overflow: 'hidden' }]}
                     accessibilityRole="button"
                     accessibilityState={{ selected: selectedCreditPackage === amount }}
                   >
@@ -1816,7 +1816,7 @@ export default function App() {
             </View>
           </View>
 
-          <View style={styles.creditWelcomeBonus}>
+          <View style={[styles.creditWelcomeBonus, { width: "100%", minHeight: 64, marginTop: 12, alignSelf: "stretch" }]}>
             <View style={styles.creditBonusGift}><View style={styles.creditBonusRibbonV} /><View style={styles.creditBonusRibbonH} /><View style={styles.creditBonusBowLeft} /><View style={styles.creditBonusBowRight} /></View>
             <View style={styles.creditBonusCopy}>
               <Text style={styles.creditBonusTitle}>Приветственный бонус</Text>
@@ -7155,8 +7155,8 @@ const styles: Record<string, any> = StyleSheet.create({
   galleryStorageHint: { color: '#789FC5', fontFamily: 'Manrope', fontSize: 10, textAlign: 'center', marginTop: 8 },
 
   // V71: compact reference-led Credits composition: coin artwork left, three live choices right.
-  creditsScreen: { flex: 1, paddingTop: 17, paddingHorizontal: 2, paddingBottom: 18, backgroundColor: 'transparent' },
-  creditsReferenceHeader: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 4, marginBottom: 24, paddingTop: 5, paddingBottom: 12 },
+  creditsScreen: { flex: 1, width: '100%', minWidth: 0, alignSelf: 'stretch', paddingTop: 8, paddingHorizontal: 12, paddingBottom: 18, backgroundColor: 'transparent', justifyContent: 'flex-start' },
+  creditsReferenceHeader: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 0, marginBottom: 8, paddingTop: 0, paddingBottom: 5 },
   creditsTitle: { color: '#F0F9FF', fontFamily: 'Manrope', fontSize: 31, lineHeight: 39, fontWeight: '900', textAlign: 'center', textShadowColor: '#078BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 0 } },
   
   creditsTitleBeamCore: { width: '100%', height: 1.5, borderRadius: 2, backgroundColor: '#B8F4FF', opacity: 0.98 },
@@ -7559,7 +7559,7 @@ const styles: Record<string, any> = StyleSheet.create({
   // V73: compact UI adjustments without changing screen behavior.
   v73GalleryEmptyState: { flex: 0, minHeight: 0, marginTop: 8, marginBottom: 8, paddingHorizontal: 8, paddingVertical: 6, gap: 4 },
   v73GalleryGalaxyArtwork: { width: 218, height: 176, maxWidth: '100%', alignSelf: 'center', position: 'relative', backgroundColor: 'transparent', borderWidth: 0, overflow: 'visible' },
-  v73CreditReferenceLayout: { width: '100%', minHeight: 0, flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', gap: 12 },
+  v73CreditReferenceLayout: { width: '100%', minHeight: 0, flexDirection: 'column', alignItems: 'stretch', justifyContent: 'flex-start', gap: 8 },
   v73CreditCoinShowcase: { width: '100%', minWidth: 0, maxWidth: '100%', height: 164, minHeight: 164, flexShrink: 0, alignItems: 'center', justifyContent: 'flex-end', overflow: 'visible', borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,210,125,0.72)', backgroundColor: 'rgba(8,22,48,0.72)', shadowColor: '#FFB52E', shadowOpacity: 0.32, shadowRadius: 20, elevation: 8 },
   v73CreditCoinStack: { width: 210, maxWidth: '76%', height: 112, position: 'relative', alignSelf: 'center', overflow: 'visible', marginBottom: 2 },
   v73CreditLargeCoin: { width: 76, height: 76, borderRadius: 38 },
