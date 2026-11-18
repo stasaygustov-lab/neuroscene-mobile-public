@@ -960,3 +960,10 @@
 - UI-only change; no navigation, callbacks, generation, backend, API, authentication, or payment logic changed.
 - Source-level update only. No TypeScript validation, APK build, or Android-device visual verification was performed.
 - Commit: `42d85c5b2e031a3c053eb03a685d7d8f08c8f704`.
+
+## V88 — Primary action button bevel polish (2026-11-18)
+- Refined final visual styles for the Create Video CTA, authentication action, VK sign-in action, and credit purchase CTA.
+- Added stronger upper specular rims, differentiated side reflections, deeper lower bevels, and matching ambient shadows. Credit purchase retains its gold visual identity; blue actions retain the electric-blue palette.
+- Preserved button dimensions, labels, enabled/disabled state behavior, handlers, navigation, and all business logic.
+- UI source-only change; no TypeScript validation, APK build, or Android-device visual verification was performed.
+- Commit: `17768ac98877487c2565a3bf6acf23712b00941a`.
