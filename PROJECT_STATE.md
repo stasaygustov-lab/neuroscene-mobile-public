@@ -856,3 +856,11 @@
 - Removed the incorrect use of the full «Космическая панель технологий» image from those four glyph positions.
 - Bottom navigation glyphs and app behavior were not changed.
 - The requested visual reference «Неоновая галактика интерфейса НейроСцены-3.png» is not present in the current branch assets tree. A faithful full-screen 3D redesign against that reference remains pending receipt/access to the exact reference image; do not substitute the unrelated «Космическая панель технологий» asset or invent a different layout.
+
+## UI V76 — четыре отдельных фрагмента исходной панели по внешнему URL (2026-11-18)
+- Ветка: `ui/full-visual-redesign`.
+- Вместо локального полного файла `assets/Космическая панель технологий.png` интерфейс использует исходное изображение по прямому URL ImgBB: `https://i.ibb.co/prvqQP7F/image.png`; файл не скачивался и не добавлялся в репозиторий.
+- Из одного изображения отображаются четыре независимые обрезанные области: хлопушка — в основной кнопке экрана «Создать»; галактика — в пустом состоянии «Галереи»; золотые монеты — на экране «Кредиты»; аватар — на экране «Профиль».
+- Иконки четырёх плиток «Возможности» и все иконки нижней навигации не менялись.
+- Визуальные обрезки выполняются контейнерами React Native с `overflow: hidden`; внешний хостинг должен оставаться доступным устройству. При недоступности ImgBB изображения не загрузятся.
+- Изменён только UI в `App.tsx`; API, авторизация, генерация, платежи и backend не менялись. APK/Android runtime-проверка не выполнялась.
