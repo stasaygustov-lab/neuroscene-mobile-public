@@ -848,3 +848,11 @@
 - Удалены четыре устаревших файла `assets/illustrations/create-3d.jpg`, `gallery-3d.jpg`, `credits-3d.jpg`, `profile-3d.jpg` (коммит удаления: `5a4de7748c6d61f4fd500eca9a28c010fd9dde82`).
 - Изменения ограничены UI и файлами изображений. API, авторизация, генерация, платежи и бизнес-логика не менялись.
 - Проверка исходника и состава Git tree: все ссылки на `ThreeDArtwork` и старые JPEG удалены; новый PNG присутствует в assets. APK и фактическое отображение на Android после замены ещё не проверены.
+
+
+## UI correction — restore Create capability glyphs (2026-11-18)
+
+- Restored the original four capability glyphs under «Возможности» on the Create screen from the pre-replacement App.tsx implementation.
+- Removed the incorrect use of the full «Космическая панель технологий» image from those four glyph positions.
+- Bottom navigation glyphs and app behavior were not changed.
+- The requested visual reference «Неоновая галактика интерфейса НейроСцены-3.png» is not present in the current branch assets tree. A faithful full-screen 3D redesign against that reference remains pending receipt/access to the exact reference image; do not substitute the unrelated «Космическая панель технологий» asset or invent a different layout.
