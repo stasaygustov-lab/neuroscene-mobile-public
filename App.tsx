@@ -2585,7 +2585,7 @@ function GalleryScreen({
           <View style={styles.galleryReferenceImage} accessibilityLabel="Неоновая кинематографическая хлопушка">
             <Image
               source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-              resizeMode="stretch"
+              resizeMode="contain"
               style={styles.galleryReferenceArtwork}
             />
           </View>
@@ -3423,7 +3423,7 @@ function GalleryVideoPlayer({ uri }: { uri: string }) {
         player={player}
         style={styles.videoPlayer}
         nativeControls={false}
-        contentFit="contain"
+        contentFit="cover"
       />
       <View style={styles.videoControls}>
         <TouchableOpacity activeOpacity={0.86}
@@ -6808,6 +6808,42 @@ const styles = StyleSheet.create({
   navLabelActiveCredits: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
   navLabelActiveProfile: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
   // Preserve full-screen flex after legacy visual layers that redefine container.
+  // V59: Gallery previews follow the reference's full-bleed square thumbnails; remove opaque black inner surfaces.
+  galleryCard: {
+    width: '48.5%', marginTop: 10, padding: 5, borderRadius: 14,
+    backgroundColor: 'rgba(5, 24, 53, 0.66)', borderWidth: 1,
+    borderColor: 'rgba(85, 174, 235, 0.46)', shadowColor: '#087BFF',
+    shadowOpacity: 0.20, shadowRadius: 12, elevation: 4
+  },
+  galleryPreview: {
+    width: '100%', aspectRatio: 1, height: undefined, overflow: 'hidden',
+    borderRadius: 10, borderWidth: 1, borderColor: 'rgba(93, 184, 239, 0.34)',
+    backgroundColor: 'rgba(7, 28, 59, 0.42)'
+  },
+  videoFrame: {
+    width: '100%', aspectRatio: 1, height: undefined, overflow: 'hidden',
+    borderRadius: 9, backgroundColor: 'transparent', justifyContent: 'center'
+  },
+  videoPlayer: {
+    width: '100%', aspectRatio: 1, height: undefined, borderRadius: 9,
+    backgroundColor: 'transparent'
+  },
+  // The empty-state illustration now scales down as a whole instead of magnifying a tiny crop.
+  galleryEmptyReferenceState: {
+    width: '86%', maxWidth: 360, minHeight: 258, alignSelf: 'center',
+    alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18,
+    paddingVertical: 18, gap: 10, borderRadius: 18, borderWidth: 1,
+    borderColor: 'rgba(82, 174, 255, 0.54)', backgroundColor: 'rgba(3, 20, 54, 0.64)',
+    shadowColor: '#087BFF', shadowOpacity: 0.28, shadowRadius: 16, elevation: 6
+  },
+  galleryReferenceImage: {
+    width: 250, height: 165, maxWidth: '100%', alignSelf: 'center',
+    overflow: 'hidden', borderRadius: 12, backgroundColor: 'transparent',
+    borderWidth: 0
+  },
+  galleryReferenceArtwork: {
+    position: 'absolute', width: '100%', height: '100%', left: 0, top: 0
+  },
   container: { flex: 1, backgroundColor: '#030817' },
 
 });
