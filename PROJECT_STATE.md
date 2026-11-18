@@ -953,3 +953,10 @@
 - Preserved all control labels, layout, selection state logic, and callbacks. No navigation, generation, backend, API, authentication, or payment behavior changed.
 - Source-level update only. No TypeScript validation, APK build, or Android-device visual verification was performed.
 - Commit: `5b06a578f886fc50d5cd3246dddc27f5b7a0f856`.
+
+## V87 — Glass card material refinement (2026-11-18)
+- Refined the final shared styles for generation status, profile, authentication, gallery, and credit package cards.
+- Added a clearer frosted-blue face, brighter upper metallic rim, differentiated cyan side reflections, deeper lower bevel, and slightly stronger ambient elevation while preserving existing dimensions, spacing, content, and behavior.
+- UI-only change; no navigation, callbacks, generation, backend, API, authentication, or payment logic changed.
+- Source-level update only. No TypeScript validation, APK build, or Android-device visual verification was performed.
+- Commit: `42d85c5b2e031a3c053eb03a685d7d8f08c8f704`.
