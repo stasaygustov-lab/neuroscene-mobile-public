@@ -2242,18 +2242,8 @@ function CreateScreen({
   }, [ctaGlow]);
 
   return (
-    <View>
+    <View style={styles.createScreenLayout}>
       <View style={styles.createTopSpacer} />
-      {!showComposer && (
-        <View style={styles.createReferenceImageFrame} accessibilityLabel="Пейзаж из утверждённого референса экрана Создать">
-          <Image
-            source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-            resizeMode="stretch"
-            style={styles.createReferenceArtwork}
-          />
-          <View pointerEvents="none" style={styles.createReferenceImageShade} />
-        </View>
-      )}
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
           <Text style={styles.referenceSparkle} accessibilityElementsHidden>✦</Text>
@@ -6698,6 +6688,9 @@ const styles = StyleSheet.create({
   ...FINAL_UI_REFERENCE_ARTWORK_V49,
   ...FINAL_UI_REFERENCE_MATCH_V50,
   ...FINAL_UI_LAYOUT_REPAIR_V51,
+  // V57: remove the Create-screen artwork and anchor the capabilities row closer to the bottom dock.
+  createScreenLayout: { flex: 1, width: '100%' },
+  featureSection: { width: '100%', marginTop: 'auto', marginBottom: 8, backgroundColor: 'transparent' },
   // V56: keep the complete two-line wordmark visible beside the approved logo and lower the lockup.
   brandRowCentered: { position: 'relative', top: 8, left: 0, right: undefined, width: 'auto', height: 56, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start', flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent', flexShrink: 0 },
   brandLogoArtwork: { width: 190, minWidth: 190, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8, alignSelf: 'flex-start', flexShrink: 0, margin: 0, padding: 0, backgroundColor: 'transparent' },
