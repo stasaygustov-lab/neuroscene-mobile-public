@@ -71,6 +71,7 @@ type JobStatus =
   | 'starting'
   | 'generating'
   | 'uploading'
+  | 'uncertain'
   | 'completed'
   | 'failed';
 
@@ -1290,7 +1291,12 @@ export default function App() {
           return;
         }
 
-        if (status === 'uploading') {
+        if (status === 'uncertain') {
+          setJobStatus('uncertain');
+          setJobMessage(language === 'ru'
+            ? 'Результат требует проверки. Задание могло завершиться на компьютере. Повторный запуск заблокирован, чтобы не создавать дубликат.'
+            : 'The result needs review. Processing may have completed on your PC. A retry is blocked to avoid duplicate generation.');
+        } else if (status === 'uploading') {
           setJobStatus('uploading');
           setJobMessage(language === 'ru' ? 'Сохраняем готовое видео.' : 'Saving the completed video.');
         } else if (status === 'starting') {
@@ -1383,7 +1389,7 @@ export default function App() {
       Alert.alert(language === 'ru' ? 'Проверь описание сцены' : 'Check your prompt', language === 'ru' ? 'Для улучшения нужно от 10 до 2000 символов.' : 'Prompt must contain 10 to 2000 characters.');
       return;
     }
-    if (promptEnhancing || submitting || ['queued', 'starting', 'generating', 'uploading'].includes(jobStatus)) return;
+    if (promptEnhancing || submitting || ['queued', 'starting', 'generating', 'uploading', 'uncertain'].includes(jobStatus)) return;
     setPromptEnhancing(true);
     setEnhancedPrompt('');
     try {
@@ -1458,7 +1464,7 @@ export default function App() {
       return;
     }
 
-    if (['queued', 'starting', 'generating', 'uploading'].includes(jobStatus) || submitting) {
+    if (['queued', 'starting', 'generating', 'uploading', 'uncertain'].includes(jobStatus) || submitting) {
       Alert.alert(
         language === 'ru' ? 'Генерация уже выполняется' : 'Generation is already running',
         language === 'ru' ? 'Дождись завершения текущей задачи.' : 'Wait for the current task to finish.'
@@ -2209,6 +2215,7 @@ function CreateScreen({
 }: CreateScreenProps) {
   const busy =
     submitting || promptEnhancing || ['queued', 'starting', 'generating', 'uploading'].includes(jobStatus);
+  const uncertain = jobStatus === 'uncertain';
 
   return (
     <View style={styles.createScreenLayout}>
@@ -2347,8 +2354,8 @@ function CreateScreen({
         ))}
       </View>
 
-      <TouchableOpacity activeOpacity={0.86} style={[styles.createButton, busy && styles.disabledButton]} onPress={onCreate} disabled={busy}>
-        {submitting ? <ActivityIndicator color={WHITE} /> : <Text style={styles.createButtonText}>{busy ? 'ГЕНЕРАЦИЯ ВЫПОЛНЯЕТСЯ' : '✦  СОЗДАТЬ ВИДЕО'}</Text>}
+      <TouchableOpacity activeOpacity={0.86} style={[styles.createButton, (busy || uncertain) && styles.disabledButton]} onPress={onCreate} disabled={busy || uncertain}>
+        {submitting ? <ActivityIndicator color={WHITE} /> : <Text style={styles.createButtonText}>{busy ? 'ГЕНЕРАЦИЯ ВЫПОЛНЯЕТСЯ' : uncertain ? 'ТРЕБУЕТСЯ ПРОВЕРКА' : '✦  СОЗДАТЬ ВИДЕО'}</Text>}
       </TouchableOpacity>
 
       {jobStatus !== 'idle' && (
@@ -2358,9 +2365,9 @@ function CreateScreen({
             {busy && <ActivityIndicator color={BLUE} size="small" />}
           </View>
           <Text style={[styles.statusValue, jobStatus === 'completed' && styles.statusSuccess]}>
-            {busy ? 'НейроСцена создаёт видео' : jobStatus === 'completed' ? 'Видео готово' : 'Ошибка генерации'}
+            {busy ? 'НейроСцена создаёт видео' : uncertain ? 'Требуется проверка результата' : jobStatus === 'completed' ? 'Видео готово' : 'Ошибка генерации'}
           </Text>
-          {!busy && <Text style={[styles.statusDescription, jobStatus === 'completed' && styles.statusSuccess]}>{jobMessage}</Text>}
+          {!busy && <Text style={[styles.statusDescription, (jobStatus === 'completed' || uncertain) && styles.statusSuccess]}>{jobMessage}</Text>}
           {jobId && <Text style={styles.jobId}>ID: {jobId}</Text>}
           {pollError !== '' && <Text style={styles.errorText}>Ошибка получения статуса: {pollError}</Text>}
           {jobStatus === 'completed' && videoUrl && (
