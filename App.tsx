@@ -1777,13 +1777,13 @@ export default function App() {
           </View>
 
           <View style={[styles.creditReferenceLayout, styles.v73CreditReferenceLayout]}>
-            <View style={[styles.creditCoinShowcase, styles.v73CreditCoinShowcase, { position: 'relative', overflow: 'hidden' }]} accessibilityLabel="Объёмная композиция золотых монет">
-              <GlassBlurLayer radius={22} />
-              <View style={[styles.creditCoinStack, styles.v73CreditCoinStack]}>
-                <View style={[styles.creditLargeCoin, styles.creditLargeCoinBack, styles.v73CreditLargeCoin]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
-                <View style={[styles.creditLargeCoin, styles.creditLargeCoinMiddle, styles.v73CreditLargeCoin]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
-                <View style={[styles.creditLargeCoin, styles.creditLargeCoinFront, styles.v73CreditLargeCoin]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
-              </View>
+            <View style={[styles.creditCoinShowcase, { width: '100%', height: 176, minHeight: 176, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0, overflow: 'visible' }]} accessibilityLabel="Иллюстрация золотых монет">
+              <Image
+                source={require('./assets/Космическая панель технологий.png')}
+                style={{ width: '100%', height: 146, alignSelf: 'center', backgroundColor: 'transparent' }}
+                resizeMode="contain"
+                accessibilityLabel="Монеты из иллюстрации Космическая панель технологий"
+              />
               <View style={styles.creditBalanceCaption}>
                 <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
                 <Text style={styles.creditBalanceHeroLabel}>КРЕДИТОВ</Text>
