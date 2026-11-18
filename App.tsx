@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState, type ComponentRef, type RefObject } from 'react';
-import { Animated, Easing, Modal, PanResponder   type ImageStyle,
-  type TextStyle,
-  type ViewStyle,
-} from 'react-native';
+import { Animated, Easing, Modal, PanResponder } from 'react-native';
 import { useEvent } from 'expo';
 import { useFonts } from 'expo-font';
 import {
@@ -20,6 +17,9 @@ import {
   ImageBackground,
   Linking,
   useWindowDimensions,
+  type ImageStyle,
+  type TextStyle,
+  type ViewStyle,
 } from 'react-native';
 import { VideoView, useVideoPlayer } from 'expo-video';
 import { StatusBar } from 'expo-status-bar';
