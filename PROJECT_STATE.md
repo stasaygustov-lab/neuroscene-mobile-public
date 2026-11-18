@@ -979,3 +979,12 @@
 - TypeScript check remains diagnostic/non-blocking (`continue-on-error: true`); no claim is made that it passes. `npm ci`, Expo prebuild, Gradle build, and device verification have not been executed in this session. The workflow is prepared for a manual build, but successful APK production is not yet verified.
 - No backend, API, authentication, video generation, payment, ComfyUI, or main-branch files were changed.
 - Commits: `ae27cf54547f0236d3a986ede1aae5021254273f` (adaptive icon path), `77655b9283ca7b71eb743cac895668adbe9cee98` (JDK and asset preflight), `105b4445dd5df5e078635e1a4249480f571f89f8` (single-pass launcher preparation and PNG dimension validation).
+
+
+### 2026-11-18 — восстановлен фон и скорректирована компоновка главного экрана
+- Ветка: `ui/full-visual-redesign`.
+- Коммит: `08a0262ee17241319dc29ef1f276d646356c4100`.
+- Причина исчезновения фона: в корневом контейнере был удалён `ImageBackground`, а новый декоративный слой перекрывал экран непрозрачной заливкой `#020611`.
+- Возвращён утверждённый файл `assets/Штормовое море под электрическим небом-1.png` как полноэкранный фон; поверх него оставлены полупрозрачное затемнение и мягкие световые слои для читаемости текста.
+- Шапка экрана «Создать» немного опущена; секция «Возможности» прижата к нижней части контента и сокращён зазор до нижней навигации. Полноэкранная hero-иллюстрация на «Создать» не добавлялась.
+- Структура вкладок, обработчики, генерация, API и авторизация не менялись. Preview build и проверка на Android не запускались.
