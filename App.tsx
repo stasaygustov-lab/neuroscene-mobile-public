@@ -1823,7 +1823,7 @@ export default function App() {
           </View>
         </View>
         <View style={styles.profileIdentity}>
-          <View style={styles.profileGuestAvatar} accessibilityLabel="Объёмный голографический аватар">
+          <View style={[styles.profileGuestAvatar, { borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0 }]} accessibilityLabel="Объёмный голографический аватар">
             <Image source={require('./assets/illustrations/profile-3d.jpg')} style={{ width: 116, height: 116 }} resizeMode="contain" />
           </View>
           <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
@@ -3378,7 +3378,7 @@ function FeatureGlyph({ type }: { type: string }) {
   return (
     <View style={styles.featureGlyphAura} accessibilityLabel={labels[type] || 'Возможность НейроСцены'}>
       <View pointerEvents="none" style={styles.featureGlyphAuraOuter} />
-      <View style={styles.featureGlyphFrame}>{artwork}</View>
+      {type === 'text' ? artwork : <View style={styles.featureGlyphFrame}>{artwork}</View>}
     </View>
   );
 }
