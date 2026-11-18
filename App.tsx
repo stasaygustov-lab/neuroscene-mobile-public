@@ -1776,28 +1776,36 @@ export default function App() {
             <View style={styles.creditsTitleBeam}><View style={styles.creditsTitleBeamCore} /></View>
           </View>
 
-          <View style={[styles.creditReferenceLayout, styles.v73CreditReferenceLayout]}>
-            <View style={[styles.creditCoinShowcase, { width: '100%', height: 'auto', minHeight: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0, shadowOpacity: 0, elevation: 0, overflow: 'visible', paddingTop: 0, paddingBottom: 0 }]} accessibilityLabel="Иллюстрация золотых монет">
-              <Image
-                source={require('./assets/Космическая панель технологий.png')}
-                style={{ width: '100%', height: 132, alignSelf: 'center', backgroundColor: 'transparent' }}
-                resizeMode="contain"
-                accessibilityLabel="Монеты из иллюстрации Космическая панель технологий"
-              />
-              <View style={styles.creditBalanceCaption}>
+          <View style={[styles.creditReferenceLayout, styles.v73CreditReferenceLayout, styles.v76CreditReferenceLayout]}>
+            <View style={[styles.creditCoinShowcase, styles.v76CreditCoinShowcase]} accessibilityLabel="Жёлтые объёмные золотые монеты">
+              <View style={styles.creditCoinsArtwork}>
+                <View style={styles.creditCoinStackBack}>
+                  {[0, 1, 2].map((coin) => <View key={coin} style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>)}
+                </View>
+                <View style={styles.creditCoinStackFront}>
+                  {[0, 1, 2, 3].map((coin) => <View key={coin} style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>)}
+                </View>
+                <View style={styles.creditCoinSingle}>
+                  <View style={[styles.creditCoinDisc, styles.v76CreditHeroCoin]}><View style={styles.creditCoinInner} /></View>
+                </View>
+              </View>
+              <View style={styles.v76CoinGlow} />
+            </View>
+
+            <View style={[styles.creditPackageColumn, styles.v76CreditInfoColumn]}>
+              <View style={styles.v76BalanceInfo}>
+                <Text style={styles.v76BalanceCaption}>ВАШ БАЛАНС</Text>
                 <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
                 <Text style={styles.creditBalanceHeroLabel}>КРЕДИТОВ</Text>
               </View>
-            </View>
-
-            <View style={[styles.creditPackageColumn, { width: "100%", maxWidth: "100%", flex: 0, minWidth: 0, alignSelf: "stretch" }]}>
-              <View style={[styles.creditPackagesList, { width: "100%", gap: 8, alignSelf: "stretch" }]}>
+              <Text style={styles.v76PackagesTitle}>Пополнить баланс</Text>
+              <View style={[styles.creditPackagesList, styles.v76CreditPackagesList]}>
                 {[500, 1500, 5000].map((amount) => (
                   <TouchableOpacity
                     key={amount}
                     activeOpacity={0.78}
                     onPress={() => setSelectedCreditPackage(amount)}
-                    style={[styles.packageCard, selectedCreditPackage === amount && styles.packageCardSelected, { width: '100%', minWidth: 0, height: 60, minHeight: 60, marginTop: 0, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', position: 'relative', overflow: 'hidden' }]}
+                    style={[styles.packageCard, styles.v76CreditPackageButton, selectedCreditPackage === amount && styles.v76CreditPackageSelected, { width: '100%', minWidth: 0, height: 54, minHeight: 54, marginTop: 0, paddingHorizontal: 12, paddingVertical: 7, borderRadius: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', position: 'relative', overflow: 'hidden' }]}
                     accessibilityRole="button"
                     accessibilityState={{ selected: selectedCreditPackage === amount }}
                   >
@@ -1806,7 +1814,7 @@ export default function App() {
                       <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')}</Text>
                       <Text style={styles.packageChoiceUnit}>кредитов</Text>
                     </View>
-                    <View style={[styles.packagePriceChip, selectedCreditPackage === amount && styles.packagePriceChipSelected]}>
+                    <View style={[styles.packagePriceChip, styles.v76CreditPriceChip, selectedCreditPackage === amount && styles.v76CreditPackageSelected]}>
                       <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
                     </View>
                     {selectedCreditPackage === amount && <View style={styles.packageSelectedMark}><Text style={styles.packageSelectedMarkText}>✓</Text></View>}
@@ -7575,6 +7583,27 @@ const styles: Record<string, any> = StyleSheet.create({
   v75ButtonText: { width: '100%', textAlign: 'center', alignSelf: 'center', fontFamily: 'Manrope', fontWeight: '800', includeFontPadding: false, letterSpacing: 0.25 },
   v75GlassButton: { backgroundColor: 'rgba(5,31,68,0.62)', borderWidth: 1, borderColor: 'rgba(91,190,255,0.58)', borderTopWidth: 1, borderTopColor: 'rgba(91,190,255,0.58)', borderLeftColor: 'rgba(91,190,255,0.58)', borderRightColor: 'rgba(91,190,255,0.58)', borderBottomWidth: 1, borderBottomColor: 'rgba(91,190,255,0.58)', shadowColor: '#12BFFF', shadowOpacity: 0.48, shadowRadius: 17, shadowOffset: { width: 0, height: 3 }, elevation: 8 },
   v75FeatureGlass: { backgroundColor: 'rgba(5,31,68,0.48)', borderWidth: 1, borderColor: 'rgba(91,190,255,0.52)', borderTopWidth: 1, borderTopColor: 'rgba(91,190,255,0.52)', borderBottomWidth: 1, borderBottomColor: 'rgba(91,190,255,0.52)', shadowColor: '#12BFFF', shadowOpacity: 0.42, shadowRadius: 16, shadowOffset: { width: 0, height: 3 }, elevation: 7, alignItems: 'center', justifyContent: 'center', gap: 5 },
+  // V76: restore the Credits screen's two-column composition and clean transparent coin artwork.
+  v76CreditReferenceLayout: { width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginTop: 8, marginBottom: 12 },
+  v76CreditCoinShowcase: { width: '37%', maxWidth: '37%', minWidth: 0, height: 184, minHeight: 184, flex: 0, alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'visible', backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0, elevation: 0 },
+  creditCoinsArtwork: { width: '100%', height: 154, alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'visible' },
+  creditCoinStackBack: { position: 'absolute', top: 20, left: '12%', alignItems: 'center', justifyContent: 'center', transform: [{ rotate: '-12deg' }] },
+  creditCoinStackFront: { position: 'absolute', top: 65, left: '28%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', transform: [{ rotate: '8deg' }] },
+  creditCoinSingle: { position: 'absolute', top: 102, left: '8%', transform: [{ rotate: '-5deg' }] },
+  creditCoinDisc: { width: 43, height: 19, borderRadius: 24, marginTop: -7, borderWidth: 1.5, borderColor: '#FFE9A0', backgroundColor: '#E8A72A', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB72E', shadowOpacity: 1, shadowRadius: 15, shadowOffset: { width: 0, height: 2 }, elevation: 10 },
+  creditCoinInner: { width: 29, height: 8, borderRadius: 8, borderWidth: 1, borderColor: 'rgba(255,247,205,0.96)', backgroundColor: '#FFD96C' },
+  v76CreditHeroCoin: { width: 50, height: 22, borderRadius: 26, backgroundColor: '#F4BD43', borderColor: '#FFF2BC', shadowRadius: 20, elevation: 13 },
+  v76CoinGlow: { position: 'absolute', width: 118, height: 118, borderRadius: 60, backgroundColor: 'rgba(255,184,48,0.10)', shadowColor: '#FFB52E', shadowOpacity: 0.9, shadowRadius: 35, elevation: 12, zIndex: -1 },
+  v76CreditInfoColumn: { flex: 1, minWidth: 0, width: '63%', maxWidth: '63%', alignSelf: 'stretch', justifyContent: 'center', gap: 6 },
+  v76BalanceInfo: { width: '100%', alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 2, paddingBottom: 3 },
+  v76BalanceCaption: { color: '#A9DFFF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '900', letterSpacing: 1.1 },
+  v76PackagesTitle: { color: '#EAF7FF', fontFamily: 'Manrope', fontSize: 12, lineHeight: 16, fontWeight: '900', marginTop: 2 },
+  v76CreditPackagesList: { width: '100%', gap: 7, alignSelf: 'stretch' },
+  v76CreditPackageButton: { backgroundColor: 'rgba(5,31,68,0.68)', borderWidth: 1, borderColor: 'rgba(91,190,255,0.58)', borderTopWidth: 1, borderTopColor: 'rgba(91,190,255,0.58)', borderLeftColor: 'rgba(91,190,255,0.58)', borderRightColor: 'rgba(91,190,255,0.58)', borderBottomWidth: 1, borderBottomColor: 'rgba(91,190,255,0.58)', shadowColor: '#12BFFF', shadowOpacity: 0.48, shadowRadius: 17, shadowOffset: { width: 0, height: 0 }, elevation: 8 },
+  v76CreditPackageSelected: { backgroundColor: 'rgba(8,91,153,0.82)', borderColor: 'rgba(113,220,255,0.86)', shadowColor: '#18CFFF', shadowOpacity: 0.72, shadowRadius: 20, elevation: 10 },
+  v76CreditPriceChip: { minWidth: 56, minHeight: 32, paddingHorizontal: 8, borderRadius: 11, backgroundColor: 'rgba(6,91,159,0.72)', borderWidth: 1, borderColor: 'rgba(91,190,255,0.58)', shadowColor: '#12BFFF', shadowOpacity: 0.35, shadowRadius: 12, elevation: 5 },
+  creditWelcomeBonus: { backgroundColor: 'rgba(5,31,68,0.62)', borderWidth: 1, borderColor: 'rgba(91,190,255,0.52)', borderTopWidth: 1, borderTopColor: 'rgba(91,190,255,0.52)', borderBottomWidth: 1, borderBottomColor: 'rgba(91,190,255,0.52)', shadowColor: '#12BFFF', shadowOpacity: 0.38, shadowRadius: 16, shadowOffset: { width: 0, height: 0 }, elevation: 7 },
+
 
 
 });
