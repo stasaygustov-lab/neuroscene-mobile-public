@@ -7499,6 +7499,31 @@ const styles = StyleSheet.create({
   galleryStorageTrack: { width: '100%', height: 6, borderRadius: 5, overflow: 'hidden', backgroundColor: 'rgba(45,83,130,0.62)' },
   galleryStorageFill: { height: 6, borderRadius: 5, backgroundColor: '#24C9FF', shadowColor: '#18BFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 },
   galleryStorageHint: { color: '#789FC5', fontFamily: 'Manrope', fontSize: 10, textAlign: 'center', marginTop: 8 },
+  // V68: lower Create CTA by ~2 cm and the four-feature block by ~1 cm.
+  createTopSpacer: { height: 76, minHeight: 76, flexGrow: 0, flexShrink: 0 },
+  referenceCreateGlow: {
+    width: '92%', alignSelf: 'center', marginTop: 0, marginBottom: 18,
+    transform: [{ translateY: 0 }],
+    shadowColor: '#36D9FF', shadowOpacity: 0.95, shadowRadius: 25,
+    shadowOffset: { width: 0, height: 5 }, elevation: 14
+  },
+  featureSection: { width: '100%', marginTop: 'auto', marginBottom: 8, paddingHorizontal: 2, paddingTop: 38, backgroundColor: 'transparent' },
+  navIconRestore: { width: 36, height: 36, minWidth: 36, minHeight: 36, alignItems: 'center', justifyContent: 'center', opacity: 1, zIndex: 100, elevation: 100, overflow: 'visible', backgroundColor: 'transparent' },
+  navCreateIcon: { opacity: 1, borderWidth: 0, backgroundColor: 'transparent', zIndex: 101, elevation: 101 },
+  navGalleryIcon: { opacity: 1, borderWidth: 0, backgroundColor: 'transparent', zIndex: 101, elevation: 101 },
+  navDatabaseIcon: { opacity: 1, borderWidth: 0, backgroundColor: 'transparent', zIndex: 101, elevation: 101 },
+  navPerson: { opacity: 1, borderWidth: 0, backgroundColor: 'transparent', zIndex: 101, elevation: 101 },
+  navHomeRoof: { borderBottomColor: '#BDEEFF', borderLeftColor: 'transparent', borderRightColor: 'transparent', opacity: 1 },
+  navHomeBody: { borderColor: '#BDEEFF', opacity: 1 },
+  navHomeDoor: { borderColor: '#BDEEFF', opacity: 1 },
+  navGallerySun: { borderColor: '#BDEEFF', opacity: 1 },
+  navGalleryMountainBack: { borderColor: '#BDEEFF', opacity: 1 },
+  navGalleryMountainFront: { borderColor: '#BDEEFF', opacity: 1 },
+  navDatabaseTop: { borderColor: '#BDEEFF', opacity: 1 },
+  navDatabaseBody: { borderColor: '#BDEEFF', opacity: 1 },
+  navPersonHead: { borderColor: '#BDEEFF', backgroundColor: '#BDEEFF', opacity: 1 },
+  navPersonBody: { borderColor: '#BDEEFF', opacity: 1 },
+  bottomNav: { position: 'relative', zIndex: 100, elevation: 100, overflow: 'visible' },
   // V66: keep all four neon navigation glyphs above the glass dock and screen content.
   navIconRestore: {
     width: 32, height: 32, minWidth: 32, minHeight: 32,
