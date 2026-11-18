@@ -2203,12 +2203,12 @@ function CreateScreen({
     <View style={styles.createScreenLayout}>
       <View style={styles.createTopSpacer} />
 
-      <View style={styles.modeSelector}>
-        <TouchableOpacity activeOpacity={0.86} style={[styles.modeOption, generationType === 't2v' && styles.modeOptionActive]} onPress={() => setGenerationType('t2v')} disabled={busy}>
-          <Text style={[styles.modeOptionText, generationType === 't2v' && styles.modeOptionTextActive]}>Текст в видео</Text>
+      <View style={styles.v74ModeSelector}>
+        <TouchableOpacity activeOpacity={0.86} style={[styles.v74ModeOption, generationType === 't2v' && styles.v74ModeOptionActive]} onPress={() => setGenerationType('t2v')} disabled={busy}>
+          <Text style={[styles.v74ModeOptionText, generationType === 't2v' && styles.v74ModeOptionTextActive]}>Текст в видео</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.86} style={[styles.modeOption, generationType === 'i2v' && styles.modeOptionActive]} onPress={() => setGenerationType('i2v')} disabled={busy}>
-          <Text style={[styles.modeOptionText, generationType === 'i2v' && styles.modeOptionTextActive]}>Изображение в видео</Text>
+        <TouchableOpacity activeOpacity={0.86} style={[styles.v74ModeOption, generationType === 'i2v' && styles.v74ModeOptionActive]} onPress={() => setGenerationType('i2v')} disabled={busy}>
+          <Text style={[styles.v74ModeOptionText, generationType === 'i2v' && styles.v74ModeOptionTextActive]}>Изображение в видео</Text>
         </TouchableOpacity>
       </View>
 
@@ -2244,24 +2244,24 @@ function CreateScreen({
       />
       <Text style={styles.characterCount}>{prompt.length} / 2000</Text>
 
-      <View style={[styles.featureSection, styles.v73FeatureSection]}>
+      <View style={[styles.featureSection, styles.v74FeatureSection]}>
         <View style={styles.featureHeadingRow}>
           <View pointerEvents="none" style={styles.featureHeadingLine} />
           <Text style={styles.featureSectionTitle}>Возможности</Text>
           <View pointerEvents="none" style={styles.featureHeadingLine} />
         </View>
         <View pointerEvents="none" style={styles.featureHeadingBeam}><View style={styles.featureHeadingBeamCore} /></View>
-        <View style={styles.featureGrid}>
+        <View style={styles.v74FeatureGrid}>
           {[
             { id: 'text', title: 'Текст в видео' },
             { id: 'image', title: 'Изображение в видео' },
             { id: 'sound', title: 'Озвучка и эффекты' },
             { id: 'prompt', title: 'Улучшение промпта' },
           ].map((feature) => (
-            <View key={feature.id} style={[styles.featureTile, { position: 'relative', overflow: 'hidden' }]}>
+            <View key={feature.id} style={[styles.v74FeatureTile, { position: 'relative', overflow: 'hidden' }]}>
               <GlassBlurLayer radius={15} />
               <FeatureGlyph type={feature.id} />
-              <Text style={styles.featureTitle}>{feature.title}</Text>
+              <Text style={styles.v74FeatureTitle}>{feature.title}</Text>
             </View>
           ))}
         </View>
@@ -2314,11 +2314,11 @@ function CreateScreen({
 
       <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>ДЛИТЕЛЬНОСТЬ</Text></View>
       <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
-      <View style={styles.optionRow}>
+      <View style={styles.v74OptionRow}>
         {[5, 10].map((value) => (
-          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, duration === value && styles.selectedOption]} onPress={() => setDuration(value)} disabled={busy}>
-            <Text style={[styles.optionMain, duration === value && styles.activeText]}>{value}с</Text>
-            <Text style={styles.optionSub}>секунд</Text>
+          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, duration === value && styles.v74SelectedPillOption]} onPress={() => setDuration(value)} disabled={busy}>
+            <Text style={[styles.v74OptionMain, duration === value && styles.activeText]}>{value}с</Text>
+            <Text style={styles.v74OptionSub}>секунд</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -2327,7 +2327,7 @@ function CreateScreen({
       <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
       <View style={styles.optionRow}>
         {['16:9', '9:16'].map((value) => (
-          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, ratio === value && styles.selectedOption]} onPress={() => setRatio(value)} disabled={busy}>
+          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, ratio === value && styles.v74SelectedPillOption]} onPress={() => setRatio(value)} disabled={busy}>
             <Text style={[styles.optionMain, ratio === value && styles.activeText]}>{value}</Text>
             <Text style={styles.optionSub}>{value === '16:9' ? 'Горизонтальный' : 'Вертикальный'}</Text>
           </TouchableOpacity>
@@ -7579,35 +7579,22 @@ const styles: Record<string, any> = StyleSheet.create({
   v73CreditCoinsArtwork: { width: '100%', maxWidth: '100%', height: 86, resizeMode: 'contain' },
   v73FeatureSection: { width: '100%', marginTop: 8, marginBottom: 2, backgroundColor: 'rgba(2,12,30,0.16)' },
   v73Prompt: { color: '#EAF4FF', fontSize: 16, lineHeight: 23, backgroundColor: 'rgba(4,18,47,0.72)' },
-  // V74: one typography system, restrained capability panel and soft dimensional contours.
-  modeSelector: { width: '100%', flexDirection: 'row', gap: 10, marginTop: 4, marginBottom: 7, alignItems: 'stretch' },
-  modeOption: { flex: 1, minHeight: 58, height: 58, paddingHorizontal: 8, paddingVertical: 7, borderRadius: 18, alignItems: 'center', justifyContent: 'center', gap: 0, backgroundColor: 'rgba(3,23,55,0.78)', borderWidth: 1.2, borderTopColor: 'rgba(220,249,255,0.88)', borderLeftColor: 'rgba(105,202,255,0.70)', borderRightColor: 'rgba(35,130,220,0.78)', borderBottomWidth: 3, borderBottomColor: '#06366F', shadowColor: '#18BFFF', shadowOpacity: 0.68, shadowRadius: 19, shadowOffset: { width: 0, height: 5 }, elevation: 10 },
-  modeOptionActive: { backgroundColor: 'rgba(7,91,166,0.94)', borderTopColor: '#FFFFFF', borderLeftColor: '#C4F5FF', borderRightColor: '#48CCFF', borderBottomColor: '#06458E', shadowColor: '#00D4FF', shadowOpacity: 1, shadowRadius: 25, elevation: 16 },
-  modeOptionText: { color: '#D8EFFF', fontFamily: 'Manrope', fontSize: 13, lineHeight: 18, fontWeight: '800', textAlign: 'center', includeFontPadding: false, letterSpacing: 0 },
-  modeOptionTextActive: { color: '#FFFFFF', textShadowColor: '#25CFFF', textShadowRadius: 10 },
+  // V74: consistent typography, compact capability panel and rounded dimensional selectors.
+  v74ModeSelector: { width: '100%', flexDirection: 'row', gap: 10, marginTop: 4, marginBottom: 7, alignItems: 'stretch' },
+  v74ModeOption: { flex: 1, minHeight: 58, height: 58, paddingHorizontal: 8, paddingVertical: 7, borderRadius: 18, alignItems: 'center', justifyContent: 'center', gap: 0, backgroundColor: 'rgba(3,23,55,0.78)', borderWidth: 1.2, borderTopColor: 'rgba(220,249,255,0.88)', borderLeftColor: 'rgba(105,202,255,0.70)', borderRightColor: 'rgba(35,130,220,0.78)', borderBottomWidth: 3, borderBottomColor: '#06366F', shadowColor: '#18BFFF', shadowOpacity: 0.68, shadowRadius: 19, shadowOffset: { width: 0, height: 5 }, elevation: 10 },
+  v74ModeOptionActive: { backgroundColor: 'rgba(7,91,166,0.94)', borderTopColor: '#FFFFFF', borderLeftColor: '#C4F5FF', borderRightColor: '#48CCFF', borderBottomColor: '#06458E', shadowColor: '#00D4FF', shadowOpacity: 1, shadowRadius: 25, elevation: 16 },
+  v74ModeOptionText: { color: '#D8EFFF', fontFamily: 'Manrope', fontSize: 13, lineHeight: 18, fontWeight: '800', textAlign: 'center', includeFontPadding: false, letterSpacing: 0 },
+  v74ModeOptionTextActive: { color: '#FFFFFF', textShadowColor: '#25CFFF', textShadowRadius: 10 },
   v74PromptInput: { fontFamily: 'Manrope', fontSize: 15, lineHeight: 22, includeFontPadding: false, textAlignVertical: 'top' },
-  v73FeatureSection: { width: '100%', marginTop: 3, marginBottom: 0, paddingTop: 2, paddingBottom: 2, backgroundColor: 'rgba(2,12,30,0.08)' },
-  featureHeadingRow: { marginBottom: 1 },
-  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'stretch', columnGap: 5, rowGap: 5 },
-  featureTile: { width: '48.5%', minWidth: '48.5%', maxWidth: '48.5%', minHeight: 64, paddingHorizontal: 7, paddingVertical: 6, borderRadius: 14, borderWidth: 1.2, borderTopWidth: 1.6, borderTopColor: 'rgba(239,253,255,0.92)', borderLeftColor: 'rgba(124,215,255,0.76)', borderRightColor: 'rgba(44,129,225,0.82)', borderBottomWidth: 3, borderBottomColor: 'rgba(3,43,94,0.98)', backgroundColor: 'rgba(4,24,59,0.46)', shadowColor: '#0AAEFF', shadowOpacity: 0.72, shadowRadius: 22, shadowOffset: { width: 0, height: 5 }, elevation: 12 },
-  featureTitle: { color: '#EAF8FF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 13, fontWeight: '800', textAlign: 'center', includeFontPadding: false },
+  v74FeatureSection: { width: '100%', marginTop: 3, marginBottom: 0, paddingTop: 2, paddingBottom: 2, backgroundColor: 'rgba(2,12,30,0.08)' },
+  v74FeatureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'stretch', columnGap: 5, rowGap: 5 },
+  v74FeatureTile: { width: '48.5%', minWidth: '48.5%', maxWidth: '48.5%', minHeight: 64, paddingHorizontal: 7, paddingVertical: 6, borderRadius: 14, borderWidth: 1.2, borderTopWidth: 1.6, borderTopColor: 'rgba(239,253,255,0.92)', borderLeftColor: 'rgba(124,215,255,0.76)', borderRightColor: 'rgba(44,129,225,0.82)', borderBottomWidth: 3, borderBottomColor: 'rgba(3,43,94,0.98)', backgroundColor: 'rgba(4,24,59,0.46)', shadowColor: '#0AAEFF', shadowOpacity: 0.72, shadowRadius: 22, shadowOffset: { width: 0, height: 5 }, elevation: 12 },
+  v74FeatureTitle: { color: '#EAF8FF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 13, fontWeight: '800', textAlign: 'center', includeFontPadding: false },
   v74PillOption: { minHeight: 56, height: 56, paddingHorizontal: 18, paddingVertical: 7, borderRadius: 30, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(4,24,59,0.68)', borderWidth: 1.3, borderTopWidth: 1.8, borderTopColor: 'rgba(239,253,255,0.98)', borderLeftColor: 'rgba(151,228,255,0.88)', borderRightColor: 'rgba(66,141,255,0.90)', borderBottomWidth: 4, borderBottomColor: 'rgba(3,39,92,0.98)', shadowColor: '#13BFFF', shadowOpacity: 0.82, shadowRadius: 23, shadowOffset: { width: 0, height: 6 }, elevation: 14 },
-  selectedOption: { backgroundColor: 'rgba(7,104,188,0.88)', borderTopColor: '#FFFFFF', borderLeftColor: '#D4FAFF', borderRightColor: '#61D7FF', borderBottomColor: '#0752A0', shadowColor: '#19D5FF', shadowOpacity: 1, shadowRadius: 27, shadowOffset: { width: 0, height: 7 }, elevation: 17 },
-  optionMain: { fontFamily: 'Manrope', fontSize: 16, lineHeight: 20, fontWeight: '900', includeFontPadding: false, textAlign: 'center' },
-  optionSub: { fontFamily: 'Manrope', fontSize: 10, lineHeight: 13, fontWeight: '700', includeFontPadding: false, textAlign: 'center' },
-  optionRow: { flexDirection: 'row', gap: 12, justifyContent: 'space-between', alignItems: 'center' },
-  engineCard: { borderRadius: 17, shadowColor: '#18BFFF', shadowOpacity: 0.78, shadowRadius: 24, shadowOffset: { width: 0, height: 6 }, elevation: 14 },
-  prompt: { shadowColor: '#18BFFF', shadowOpacity: 0.68, shadowRadius: 22, shadowOffset: { width: 0, height: 6 }, elevation: 12 },
-  imageUploadCard: { borderRadius: 18, shadowColor: '#18BFFF', shadowOpacity: 0.72, shadowRadius: 24, shadowOffset: { width: 0, height: 7 }, elevation: 14 },
-  statusCard: { borderRadius: 18, shadowColor: '#18BFFF', shadowOpacity: 0.72, shadowRadius: 24, shadowOffset: { width: 0, height: 7 }, elevation: 14 },
-  profileCard: { borderRadius: 18, shadowColor: '#18BFFF', shadowOpacity: 0.72, shadowRadius: 24, shadowOffset: { width: 0, height: 7 }, elevation: 14 },
-  galleryCard: { borderRadius: 18, shadowColor: '#18BFFF', shadowOpacity: 0.72, shadowRadius: 24, shadowOffset: { width: 0, height: 7 }, elevation: 14 },
-  packageCard: { borderRadius: 18, shadowColor: '#FFBD4A', shadowOpacity: 0.62, shadowRadius: 25, shadowOffset: { width: 0, height: 7 }, elevation: 14 },
-  authCard: { borderRadius: 18, shadowColor: '#18BFFF', shadowOpacity: 0.72, shadowRadius: 24, shadowOffset: { width: 0, height: 7 }, elevation: 14 },
-  balanceCard: { borderRadius: 18, shadowColor: '#18BFFF', shadowOpacity: 0.72, shadowRadius: 24, shadowOffset: { width: 0, height: 7 }, elevation: 14 },
-  chooseImageButton: { borderRadius: 30, shadowColor: '#18BFFF', shadowOpacity: 0.82, shadowRadius: 22, shadowOffset: { width: 0, height: 6 }, elevation: 13 },
-  galleryActionButton: { borderRadius: 30, shadowColor: '#18BFFF', shadowOpacity: 0.72, shadowRadius: 20, shadowOffset: { width: 0, height: 5 }, elevation: 12 },
-  authSecondary: { borderRadius: 30, shadowColor: '#18BFFF', shadowOpacity: 0.72, shadowRadius: 22, shadowOffset: { width: 0, height: 6 }, elevation: 13 },
+  v74SelectedPillOption: { backgroundColor: 'rgba(7,104,188,0.88)', borderTopColor: '#FFFFFF', borderLeftColor: '#D4FAFF', borderRightColor: '#61D7FF', borderBottomColor: '#0752A0', shadowColor: '#19D5FF', shadowOpacity: 1, shadowRadius: 27, shadowOffset: { width: 0, height: 7 }, elevation: 17 },
+  v74OptionMain: { fontFamily: 'Manrope', fontSize: 16, lineHeight: 20, fontWeight: '900', includeFontPadding: false, textAlign: 'center' },
+  v74OptionSub: { fontFamily: 'Manrope', fontSize: 10, lineHeight: 13, fontWeight: '700', includeFontPadding: false, textAlign: 'center' },
+  v74OptionRow: { flexDirection: 'row', gap: 12, justifyContent: 'space-between', alignItems: 'center' },
 
 
 });
