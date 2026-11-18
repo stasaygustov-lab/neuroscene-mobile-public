@@ -6296,6 +6296,48 @@ const FINAL_UI_LAYOUT_REPAIR_V51 = {
   menuArrow: { marginLeft: 'auto', color: '#6EBEFF', fontSize: 22 },
 };
 
+const FINAL_UI_NEON_DEPTH_V52 = {
+  // Reference finish: layered cyan edge light, restrained blue bloom and a subtle raised face.
+  sectionTitle: { color: '#F0F8FF', textShadowColor: '#168BFF', textShadowRadius: 15, textShadowOffset: { width: 0, height: 1 } },
+  featureSectionTitle: { color: '#F5FBFF', textShadowColor: '#20BFFF', textShadowRadius: 13, textShadowOffset: { width: 0, height: 1 } },
+  featureHeadingLine: { height: 2.5, borderRadius: 3, backgroundColor: '#64DFFF', shadowColor: '#00BFFF', shadowOpacity: 1, shadowRadius: 11, shadowOffset: { width: 0, height: 0 }, elevation: 8 },
+  galleryReferenceUnderline: { height: 2.5, borderRadius: 3, backgroundColor: '#66E5FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 13, shadowOffset: { width: 0, height: 0 }, elevation: 9 },
+  creditsTitleGlow: { height: 2.5, borderRadius: 3, backgroundColor: '#66E5FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 13, shadowOffset: { width: 0, height: 0 }, elevation: 9 },
+  profileTitleUnderline: { height: 2.5, borderRadius: 3, backgroundColor: '#66E5FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 13, shadowOffset: { width: 0, height: 0 }, elevation: 9 },
+  referenceCreateGlow: { shadowColor: '#18CFFF', shadowOpacity: 1, shadowRadius: 29, shadowOffset: { width: 0, height: 0 }, elevation: 18 },
+  referenceCreateButton: { borderWidth: 1.8, borderColor: '#C0F5FF', backgroundColor: '#087FFB', shadowColor: '#00C8FF', shadowOpacity: 0.92, shadowRadius: 21, shadowOffset: { width: 0, height: 2 }, elevation: 13 },
+  referenceCreateButtonText: { textShadowColor: '#B7F2FF', textShadowRadius: 8, textShadowOffset: { width: 0, height: 0 } },
+  createButton: { borderWidth: 1.8, borderColor: '#B9F0FF', shadowColor: '#00BFFF', shadowOpacity: 0.9, shadowRadius: 22, shadowOffset: { width: 0, height: 2 }, elevation: 13 },
+  authAction: { borderWidth: 1.5, borderColor: '#A9E9FF', shadowColor: '#00AFFF', shadowOpacity: 0.78, shadowRadius: 18, shadowOffset: { width: 0, height: 2 }, elevation: 10 },
+  buyCreditsButton: { borderWidth: 1.8, borderColor: '#C0F5FF', shadowColor: '#00C8FF', shadowOpacity: 0.92, shadowRadius: 22, shadowOffset: { width: 0, height: 2 }, elevation: 13 },
+  profileVkButton: { borderWidth: 1.8, borderColor: '#C0F5FF', shadowColor: '#00C8FF', shadowOpacity: 0.92, shadowRadius: 22, shadowOffset: { width: 0, height: 2 }, elevation: 13 },
+  packageCard: { borderWidth: 1.25, borderColor: 'rgba(105,207,255,0.82)', shadowColor: '#168BFF', shadowOpacity: 0.38, shadowRadius: 13, shadowOffset: { width: 0, height: 1 }, elevation: 7 },
+  packagePriceChip: { borderWidth: 1.2, borderColor: '#A9F0FF', shadowColor: '#00BFFF', shadowOpacity: 0.82, shadowRadius: 12, shadowOffset: { width: 0, height: 0 }, elevation: 8 },
+  creditWelcomeBonus: { borderWidth: 1.3, borderColor: 'rgba(255,211,115,0.82)', shadowColor: '#FFB52E', shadowOpacity: 0.38, shadowRadius: 15, elevation: 8 },
+  galleryCard: { borderWidth: 1.35, borderColor: 'rgba(105,198,255,0.78)', shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 16, shadowOffset: { width: 0, height: 2 }, elevation: 8 },
+  galleryPreview: { borderWidth: 1.3, borderColor: 'rgba(127,220,255,0.66)', shadowColor: '#168BFF', shadowOpacity: 0.48, shadowRadius: 11, elevation: 5 },
+  notificationButton: { borderWidth: 1, borderColor: 'rgba(112,213,255,0.48)', backgroundColor: 'rgba(5,37,77,0.56)', shadowColor: '#00BFFF', shadowOpacity: 0.72, shadowRadius: 13, elevation: 7 },
+  headerSettingsIcon: { color: '#E9FAFF', textShadowColor: '#20BFFF', textShadowRadius: 17, textShadowOffset: { width: 0, height: 0 } },
+  navCreateIcon: { shadowColor: '#28CFFF', shadowOpacity: 0.9, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 9 },
+  navGalleryIcon: { shadowColor: '#28CFFF', shadowOpacity: 0.9, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 9 },
+  navDatabaseIcon: { shadowColor: '#28CFFF', shadowOpacity: 0.9, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 9 },
+  navPerson: { shadowColor: '#28CFFF', shadowOpacity: 0.9, shadowRadius: 15, shadowOffset: { width: 0, height: 0 }, elevation: 9 },
+  navHomeRoof: { borderBottomColor: '#D8F8FF' },
+  navHomeBody: { borderColor: '#8BE7FF', backgroundColor: 'rgba(24,155,255,0.2)' },
+  navHomeDoor: { borderColor: '#E9FBFF', backgroundColor: 'rgba(112,223,255,0.2)' },
+  navGallerySun: { borderColor: '#E4FAFF', backgroundColor: 'rgba(89,207,255,0.3)' },
+  navGalleryMountainBack: { borderColor: '#8BE7FF' },
+  navGalleryMountainFront: { borderColor: '#D7F7FF' },
+  navDatabaseTop: { borderColor: '#D8F8FF', backgroundColor: 'rgba(24,155,255,0.22)' },
+  navDatabaseBody: { borderColor: '#8BE7FF' },
+  navDatabaseMiddle: { borderColor: '#BDEEFF' },
+  navDatabaseBottom: { borderColor: '#BDEEFF' },
+  navPersonHead: { borderColor: '#E4FAFF', backgroundColor: 'rgba(89,207,255,0.18)' },
+  navPersonBody: { borderColor: '#8BE7FF', backgroundColor: 'rgba(24,155,255,0.14)' },
+  featureIconImage: { shadowColor: '#20BFFF', shadowOpacity: 0.9, shadowRadius: 12, elevation: 8 },
+  featureTitle: { color: '#F4FAFF', textShadowColor: '#168BFF', textShadowRadius: 8 },
+};
+
 const styles = StyleSheet.create({
   // V61: hand-built artwork and dimensional neon title beams, no reference screenshot crops.
   profileIdentity: { width: '100%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: 5, marginBottom: 18 },
@@ -6982,6 +7024,7 @@ const styles = StyleSheet.create({
     position: 'absolute', width: '100%', height: '100%', left: 0, top: 0
   },
   container: { flex: 1, backgroundColor: '#030817' },
+  ...FINAL_UI_NEON_DEPTH_V52,
 
 });
 
