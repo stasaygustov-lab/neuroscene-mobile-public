@@ -2285,6 +2285,7 @@ function CreateScreen({
             <Text style={styles.featureSectionTitle}>Возможности</Text>
             <View pointerEvents="none" style={styles.featureHeadingLine} />
           </View>
+          <View pointerEvents="none" style={styles.featureHeadingBeam}><View style={styles.featureHeadingBeamCore} /></View>
           <View style={styles.featureGrid}>
             {[
               { id: 'text', image: require('./assets/feature-wand.png'), title: 'Текст\nв видео' },
@@ -6317,6 +6318,8 @@ const styles = StyleSheet.create({
   galleryReferenceUnderline: { height: 4, borderRadius: 8, backgroundColor: 'rgba(92, 203, 255, 0.76)', shadowColor: '#149EFF', shadowOpacity: 1, shadowRadius: 22, elevation: 12 },
   profileTitleUnderline: { width: '76%', height: 4, marginTop: 5, borderRadius: 8, backgroundColor: 'rgba(92, 203, 255, 0.78)', shadowColor: '#149EFF', shadowOpacity: 1, shadowRadius: 22, elevation: 12 },
   featureHeadingLine: { height: 3, borderRadius: 6, backgroundColor: 'rgba(73, 204, 255, 0.72)', shadowColor: '#12AFFF', shadowOpacity: 1, shadowRadius: 20, elevation: 11 },
+  featureHeadingBeam: { width: '68%', height: 4, alignSelf: 'center', marginTop: 5, marginBottom: 9, borderRadius: 8, backgroundColor: 'rgba(48, 167, 255, 0.30)', shadowColor: '#129DFF', shadowOpacity: 1, shadowRadius: 21, elevation: 12, alignItems: 'center', justifyContent: 'center' },
+  featureHeadingBeamCore: { width: '100%', height: 1, borderRadius: 2, backgroundColor: '#A7EEFF', opacity: 0.94 },
   featureSectionTitle: { color: '#E8F7FF', textShadowColor: '#168BFF', textShadowRadius: 16, textShadowOffset: { width: 0, height: 1 } },
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
