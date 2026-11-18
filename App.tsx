@@ -1801,6 +1801,7 @@ export default function App() {
                     <View style={styles.packageIconWrap}><View style={styles.packageCoin}><Text style={styles.packageCoinGlyph}>✦</Text></View></View>
                     <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')} кредитов</Text>
                     <View style={styles.packageRight}><View style={[styles.packagePriceChip, selectedCreditPackage === amount && styles.packagePriceChipSelected]}><Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text></View></View>
+                    {amount === 1500 && <View pointerEvents="none" style={styles.packagePopularBadge}><Text style={styles.packagePopularBadgeText}>Популярный</Text></View>}
                     {selectedCreditPackage === amount && <View style={styles.packageSelectedMark}><Text style={styles.packageSelectedMarkText}>✓</Text></View>}
                   </TouchableOpacity>
                 ))}
@@ -7399,8 +7400,22 @@ const styles = StyleSheet.create({
   ...FINAL_UI_CREDITS_REFERENCE_V57,
   ...FINAL_UI_RECOVERY_V61,
   ...FINAL_UI_RECOVERY_V62,
+  ...FINAL_UI_REFERENCE_MATCH_V63,
 
 });
+
+// V63: align the Create capabilities with the reference's readable 2×2 card grid.
+const FINAL_UI_REFERENCE_MATCH_V63 = {
+  featureSection: { width: '100%', marginTop: 'auto', marginBottom: 8, paddingHorizontal: 2, backgroundColor: 'transparent' },
+  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'stretch', columnGap: 0, rowGap: 9 },
+  featureTile: { width: '48.5%', minWidth: '48.5%', maxWidth: '48.5%', minHeight: 88, paddingHorizontal: 8, paddingVertical: 8, borderRadius: 13, borderWidth: 1, borderColor: 'rgba(74, 166, 255, 0.48)', backgroundColor: 'rgba(3, 18, 43, 0.58)', alignItems: 'center', justifyContent: 'center' },
+  featureGlyphAura: { width: 44, height: 42, marginBottom: 4, alignItems: 'center', justifyContent: 'center', borderRadius: 13, backgroundColor: 'rgba(0, 123, 255, 0.12)', shadowColor: '#0CBFFF', shadowOpacity: 0.78, shadowRadius: 14, elevation: 7 },
+  featureGlyphFrame: { width: 38, height: 38, marginBottom: 2, borderRadius: 11, alignItems: 'center', justifyContent: 'center', position: 'relative', backgroundColor: 'rgba(0, 133, 255, 0.18)', borderWidth: 1, borderColor: 'rgba(115, 218, 255, 0.88)', shadowColor: '#16BFFF', shadowOpacity: 0.96, shadowRadius: 12, elevation: 7 },
+  featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 10.5, lineHeight: 14, fontWeight: '800', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
+  packageCard: { position: 'relative', overflow: 'visible' },
+  packagePopularBadge: { position: 'absolute', top: -10, alignSelf: 'center', zIndex: 4, elevation: 5, minHeight: 20, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: '#75E4FF', backgroundColor: '#0879F5', alignItems: 'center', justifyContent: 'center', shadowColor: '#12BFFF', shadowOpacity: 0.8, shadowRadius: 9 },
+  packagePopularBadgeText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '900' },
+};
 
 
 
