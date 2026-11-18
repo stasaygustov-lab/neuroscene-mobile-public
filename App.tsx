@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ComponentRef, type RefObject } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, Modal, PanResponder } from 'react-native';
 import { useEvent } from 'expo';
 import { useFonts } from 'expo-font';
@@ -23,7 +23,7 @@ import {
 } from 'react-native';
 import { VideoView, useVideoPlayer } from 'expo-video';
 import { StatusBar } from 'expo-status-bar';
-import { BlurTargetView, BlurView } from 'expo-blur';
+
 import * as ImagePicker from 'expo-image-picker';
 import { File as ExpoFile, Paths as ExpoPaths } from 'expo-file-system';
 import * as Clipboard from 'expo-clipboard';
@@ -163,7 +163,6 @@ function ScreenTransition({ children, direction = 1 }: { children: any; directio
 }
 
 export default function App() {
-  const bottomBlurTargetRef = useRef<ComponentRef<typeof View>>(null);
   const [fontsLoaded, fontError] = useFonts({ Manrope: require('./assets/Manrope[wght].ttf') });
   const [tab, setTab] = useState<Tab>('Create');
   const [transitionDirection, setTransitionDirection] = useState<1 | -1>(1);
@@ -1706,7 +1705,6 @@ export default function App() {
       return (
         <CreateScreen
           language={language}
-          blurTarget={bottomBlurTargetRef}
           creditsBalance={creditsBalance}
           creditsLoading={creditsLoading}
           generationType={generationType}
@@ -1742,7 +1740,6 @@ export default function App() {
         <GalleryScreen
           items={galleryItems}
           language={language}
-          blurTarget={bottomBlurTargetRef}
           loading={galleryLoading}
           error={galleryError}
           onRefresh={loadGallery}
@@ -1782,7 +1779,7 @@ export default function App() {
 
           <View style={styles.creditReferenceLayout}>
             <View style={[styles.creditCoinShowcase, { position: 'relative', overflow: 'hidden' }]} accessibilityLabel="Объёмная композиция золотых монет">
-              <GlassBlurLayer radius={22} intensity={36} targetRef={bottomBlurTargetRef} />
+              <GlassBlurLayer radius={22} />
               <View style={styles.creditCoinStack}>
                 <View style={[styles.creditLargeCoin, styles.creditLargeCoinBack]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
                 <View style={[styles.creditLargeCoin, styles.creditLargeCoinMiddle]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
@@ -1805,7 +1802,7 @@ export default function App() {
                     accessibilityRole="button"
                     accessibilityState={{ selected: selectedCreditPackage === amount }}
                   >
-                    <GlassBlurLayer radius={17} intensity={38} targetRef={bottomBlurTargetRef} />
+                    <GlassBlurLayer radius={17} />
                     <View style={styles.packageChoiceCopy}>
                       <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')}</Text>
                       <Text style={styles.packageChoiceUnit}>кредитов</Text>
@@ -2043,7 +2040,7 @@ export default function App() {
         </View>
       </View>}
 
-      <BlurTargetView ref={bottomBlurTargetRef} style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         <ScrollView
           style={styles.scroll}
           contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent, { flexGrow: 1 }]}
@@ -2055,20 +2052,13 @@ export default function App() {
         >
           {authReady ? <ScreenTransition key={activeScreenKey} direction={transitionDirection}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
         </ScrollView>
-      </BlurTargetView>
+      </View>
 
       <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', marginHorizontal: 0, alignSelf: 'center', flexShrink: 0, height: 86, minHeight: 86, maxHeight: 86, paddingTop: 5, paddingBottom: 10, paddingHorizontal: 8 }]}>
-        <BlurView
-          pointerEvents="none"
-          blurTarget={bottomBlurTargetRef}
-          intensity={72}
-          tint="dark"
-          blurMethod="dimezisBlurViewSdk31Plus"
-          style={[StyleSheet.absoluteFill, styles.bottomNavGlass]}
-        >
+        <View pointerEvents="none" style={[StyleSheet.absoluteFill, styles.bottomNavGlass]}>
           <View style={styles.bottomNavGlassEdge} />
           <View style={styles.bottomNavGlassBloom} />
-        </BlurView>
+        </View>
         {([
           { id: 'Create', icon: 'film', label: 'Создать' },
           { id: 'Gallery', icon: 'grid', label: 'Галерея' },
@@ -2143,11 +2133,8 @@ export default function App() {
   );
 }
 
-type BlurTargetRef = RefObject<ComponentRef<typeof View> | null>;
-
 type CreateScreenProps = {
   language: Language;
-  blurTarget: BlurTargetRef;
   creditsBalance: number | null;
   creditsLoading: boolean;
   generationType: GenerationType;
@@ -2178,22 +2165,17 @@ type CreateScreenProps = {
 
 
 
-function GlassBlurLayer({ radius = 18, intensity = 38, targetRef }: { radius?: number; intensity?: number; targetRef: BlurTargetRef }) {
+function GlassBlurLayer({ radius = 18 }: { radius?: number }) {
   return (
-    <BlurView
+    <View
       pointerEvents="none"
-      intensity={intensity}
-      blurTarget={targetRef}
-      tint="dark"
-      blurMethod="dimezisBlurViewSdk31Plus"
-      style={[StyleSheet.absoluteFill, { borderRadius: radius, overflow: 'hidden' }]}
+      style={[StyleSheet.absoluteFill, { borderRadius: radius, overflow: 'hidden', backgroundColor: 'rgba(9, 22, 48, 0.30)' }]}
     />
   );
 }
 
 function CreateScreen({
   language,
-  blurTarget,
   generationType,
   setGenerationType,
   sourceImage,
@@ -2239,7 +2221,7 @@ function CreateScreen({
       </View>
 
       <View style={[styles.engineCard, { position: 'relative', overflow: 'hidden' }]}>
-        <GlassBlurLayer radius={16} intensity={42} targetRef={blurTarget} />
+        <GlassBlurLayer radius={16} />
         <View style={styles.engineDot} />
         <View style={{ flex: 1 }}>
           <Text style={styles.engineName}>НейроСцена</Text>
@@ -2285,7 +2267,7 @@ function CreateScreen({
             { id: 'prompt', title: 'Улучшение промпта' },
           ].map((feature) => (
             <View key={feature.id} style={[styles.featureTile, { position: 'relative', overflow: 'hidden' }]}>
-              <GlassBlurLayer radius={15} intensity={34} targetRef={blurTarget} />
+              <GlassBlurLayer radius={15} />
               <FeatureGlyph type={feature.id} />
               <Text style={styles.featureTitle}>{feature.title}</Text>
             </View>
@@ -2304,7 +2286,7 @@ function CreateScreen({
 
       {!!enhancedPrompt && (
         <View style={[styles.imageUploadCard, { position: 'relative', overflow: 'hidden' }]}>
-          <GlassBlurLayer radius={18} intensity={42} targetRef={blurTarget} />
+          <GlassBlurLayer radius={18} />
           <Text style={styles.sectionTitle}>УЛУЧШЕННЫЙ ПРОМПТ</Text>
           <TextInput style={styles.prompt} value={enhancedPrompt} onChangeText={setEnhancedPrompt} multiline textAlignVertical="top" maxLength={4000} editable={!busy} />
           <Text style={styles.note}>Проверь и отредактируй результат. Он не будет использован, пока ты его не применишь.</Text>
@@ -2414,7 +2396,6 @@ function CreateScreen({
 function GalleryScreen({
   items,
   language,
-  blurTarget,
   loading,
   error,
   onRefresh,
@@ -2426,7 +2407,6 @@ function GalleryScreen({
 }: {
   items: any[];
   language: Language;
-  blurTarget: BlurTargetRef;
   loading: boolean;
   error: string;
   onRefresh: () => void;
@@ -2489,7 +2469,7 @@ function GalleryScreen({
             : '';
         return (
           <View key={item.job_id} style={[styles.galleryCard, { position: 'relative', overflow: 'hidden' }]}>
-            <GlassBlurLayer radius={18} intensity={38} targetRef={blurTarget} />
+            <GlassBlurLayer radius={18} />
             <View style={styles.galleryPreview}>
               <GalleryVideoPlayer uri={url} />
               {!!durationLabel && <Text style={styles.galleryDuration}>{durationLabel}</Text>}
