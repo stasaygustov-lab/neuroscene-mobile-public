@@ -2043,7 +2043,7 @@ export default function App() {
       <View style={{ flex: 1 }}>
         <ScrollView
           style={styles.scroll}
-          contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent, { flexGrow: 1 }]}
+          contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent, { flexGrow: 1, paddingBottom: 132 }]}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
           automaticallyAdjustKeyboardInsets
@@ -7578,4 +7578,29 @@ const styles: Record<string, any> = StyleSheet.create({
     backgroundColor: '#087FEF', shadowColor: '#13D5FF', shadowOpacity: 1,
     shadowRadius: 29, shadowOffset: { width: 0, height: 8 }, elevation: 19,
   },
+  // V73: keep every screen's last controls clear of the fixed 86px navigation dock.
+  content: { paddingBottom: 132 },
+  creditsContent: { paddingBottom: 132 },
+  profileScreen: { flex: 1, paddingTop: 20, paddingBottom: 32 },
+  // V73: compact empty-gallery artwork; the storage footer stays visible without a giant void.
+  galleryEmptyReferenceState: { flex: 0, minHeight: 0, marginTop: 8, marginBottom: 8, paddingHorizontal: 8, paddingVertical: 6, gap: 4 },
+  galleryGalaxyArtwork: { width: 218, height: 176, maxWidth: '100%', alignSelf: 'center', position: 'relative', backgroundColor: 'transparent', borderWidth: 0, overflow: 'visible' },
+  // V73: reduce the credit hero footprint and keep the coin artwork inside its column.
+  creditsReferenceHeader: { marginBottom: 12, paddingTop: 2, paddingBottom: 8 },
+  creditReferenceLayout: { minHeight: 174, gap: 8, alignItems: 'center' },
+  creditBalanceCard: { width: '38%', maxWidth: '38%', minWidth: 0, height: 166, minHeight: 166, paddingHorizontal: 4, paddingTop: 8, paddingBottom: 10, overflow: 'hidden' },
+  creditCoinsArtwork: { width: '100%', maxWidth: '100%', height: 86, resizeMode: 'contain' },
+  creditCoinStack: { width: '100%', maxWidth: 150, height: 142, alignSelf: 'center', overflow: 'hidden' },
+  // V73: bring the capabilities block directly after the prompt, not to the bottom edge.
+  featureSection: { width: '100%', marginTop: 8, marginBottom: 2, backgroundColor: 'rgba(2,12,30,0.16)' },
+  prompt: {
+    color: '#EAF4FF', fontSize: 16, lineHeight: 23,
+    backgroundColor: 'rgba(4,18,47,0.72)', borderWidth: 1.35,
+    borderTopColor: 'rgba(233,251,255,0.92)', borderLeftColor: 'rgba(124,211,255,0.78)',
+    borderRightColor: 'rgba(43,130,230,0.82)', borderBottomWidth: 3,
+    borderBottomColor: 'rgba(3,43,94,0.98)', borderRadius: 17,
+    shadowColor: '#078BFF', shadowOpacity: 0.42, shadowRadius: 18,
+    shadowOffset: { width: 0, height: 6 }, elevation: 9,
+  },
+
 });
