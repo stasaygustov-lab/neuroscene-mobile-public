@@ -150,7 +150,7 @@ function ScreenTransition({ children, direction = 1 }: { children: any; directio
     animation.start();
     return () => { animation.stop(); opacity.stopAnimation(); translateX.stopAnimation(); scale.stopAnimation(); };
   }, [direction, entryOffset, opacity, scale, translateX]);
-  return <Animated.View style={{ flexGrow: 1, flexShrink: 0, opacity, transform: [{ translateX }, { scale }] }}>{children}</Animated.View>;
+  return <Animated.View style={{ width: '100%', flexGrow: 1, flexShrink: 0, opacity, transform: [{ translateX }, { scale }] }}>{children}</Animated.View>;
 }
 
 export default function App() {
@@ -2059,7 +2059,7 @@ export default function App() {
 
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent]}
+        contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent, { flexGrow: 1 }]}
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
         automaticallyAdjustKeyboardInsets
