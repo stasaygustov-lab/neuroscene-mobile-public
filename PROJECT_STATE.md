@@ -930,3 +930,11 @@
 - Kept the single `bottomNavGlassEdge` and `bottomNavGlassBloom` overlays.
 - Static verification after update: `bottomNav=1`, `bottomNavGlass=1`, `bottomNavGlassEdge=1`, `bottomNavGlassBloom=1` within the final StyleSheet.
 - No APK, Preview workflow, TypeScript build, or Android runtime verification was run. This is a source-level cleanup only.
+
+## V84 — Layered deep-space shared backdrop
+- Branch: `ui/full-visual-redesign`.
+- App.tsx commit: `5bf56500443322ade1bc4aa274aada2a404f8187`.
+- Replaced the shared storm-at-sea root wallpaper with a native layered deep-space backdrop: multiple blue/violet nebula cloud volumes, a distant planet with atmospheric rim and orbital ring, and a varied star field.
+- Preserved the existing screen tree, four-tab navigation, screen content, actions, and intro artwork. No paid assets, generation services, or new dependencies were added.
+- This is a code-level visual implementation using native React Native layers; it is not claimed to be a photorealistic generated nebula image. APK build, TypeScript validation, and Android-device visual verification have not yet been run.
+- Backend, API, authentication, video generation, and payments were not changed.
