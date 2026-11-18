@@ -940,3 +940,10 @@
 - Backend, API, authentication, video generation, and payments were not changed.
 
 - Follow-up App.tsx commit: `2f179d9083e4a616006bbc07fe03bb0e9192d68a`; the intro overlay now reveals the same shared cosmic backdrop instead of the old storm-at-sea splash image.
+
+## V85 — Glass engine-card depth polish (2026-11-18)
+- Refined the shared `engineCard` material with a brighter cool-white upper rim, stronger blue side reflections, a deeper lower bevel, and a slightly stronger ambient lift.
+- Restored the card's layout properties (`flexDirection`, `alignItems`, `minHeight`, `padding`, `marginBottom`) in the final style override. This prevents the later duplicate style key from unintentionally discarding the engine-card layout settings defined earlier.
+- UI-only change. No navigation structure, callbacks, generation behavior, backend, API, authentication, or payments changed.
+- Source-level edit only; no TypeScript build, APK build, or Android-device visual verification was performed.
+- Commit: `430f730f8ebf9d54d7f5113ee8df290bb08fc47f`.
