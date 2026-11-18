@@ -274,9 +274,9 @@ export default function App() {
 
   useEffect(() => {
     // Keep the intro visible until session restoration and the app font are ready.
-    // This startup gate existed in the last known-good build; retain the ~2s minimum splash.
+    // The in-app splash must remain visible for at least 3 seconds, including its exit fade.
     if (!authReady || (!fontsLoaded && !fontError)) return;
-    const remaining = Math.max(0, 1600 - (Date.now() - splashStartedAt));
+    const remaining = Math.max(0, 2600 - (Date.now() - splashStartedAt));
     const splashTimer = setTimeout(() => {
       Animated.timing(splashProgress, {
         toValue: 1,
