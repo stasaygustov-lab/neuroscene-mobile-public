@@ -6912,18 +6912,6 @@ const styles = StyleSheet.create({
   resetButton: { paddingVertical: 13, alignItems: 'center', marginTop: 8 },
   resetButtonText: { color: BLUE, fontWeight: '800', fontSize: 16 },
   footerNote: { color: MUTED, fontSize: 16, textAlign: 'center', marginTop: 19, marginBottom: 10 },
-  bottomNav: {
-    flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around',
-    alignItems: 'center', height: 92, minHeight: 92, maxHeight: 92,
-    paddingTop: 5, paddingBottom: 19, paddingHorizontal: 8,
-    backgroundColor: 'rgba(3, 13, 39, 0.94)',
-    borderTopWidth: 1.2, borderLeftWidth: 1, borderRightWidth: 1,
-    borderTopLeftRadius: 27, borderTopRightRadius: 27,
-    borderColor: 'rgba(87, 177, 255, 0.62)', borderBottomWidth: 0,
-    shadowColor: '#087DFF', shadowOpacity: 0.58, shadowRadius: 20,
-    shadowOffset: { width: 0, height: -4 }, elevation: 18,
-    overflow: 'visible',
-  },
   navItem: {
     flex: 1, alignItems: 'center', justifyContent: 'center', gap: 3,
     minWidth: 0, minHeight: 66, paddingHorizontal: 3, paddingTop: 2,
@@ -7112,18 +7100,6 @@ const styles = StyleSheet.create({
   brandLockupWordmark: { width: 132, minWidth: 132, flexShrink: 0, alignItems: 'flex-start', justifyContent: 'center', backgroundColor: 'transparent' },
   brandWordmarkLine: { width: 132, flexShrink: 0, color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 18, lineHeight: 20, fontWeight: '900', letterSpacing: -0.3, textShadowColor: '#168BFF', textShadowRadius: 10, includeFontPadding: false },
   // V58: reference-matched navy/cyan bottom dock, centered four-column layout and uniform icon strokes.
-  bottomNav: {
-    width: '100%', height: 86, minHeight: 86, maxHeight: 86,
-    flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-evenly',
-    alignItems: 'center', alignSelf: 'center', marginHorizontal: 0, marginBottom: 0,
-    paddingHorizontal: 8, paddingTop: 5, paddingBottom: 10,
-    backgroundColor: 'rgba(2, 10, 30, 0.97)',
-    borderTopWidth: 1.2, borderLeftWidth: 1, borderRightWidth: 1, borderBottomWidth: 0,
-    borderTopLeftRadius: 26, borderTopRightRadius: 26,
-    borderColor: 'rgba(42, 166, 255, 0.68)',
-    shadowColor: '#087DFF', shadowOpacity: 0.62, shadowRadius: 20,
-    shadowOffset: { width: 0, height: -4 }, elevation: 18, overflow: 'visible'
-  },
   navItem: {
     flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: '25%', width: '25%', maxWidth: '25%', minWidth: 0,
     height: 68, minHeight: 68, paddingHorizontal: 0, paddingTop: 2, paddingBottom: 6,
@@ -7416,23 +7392,12 @@ const styles = StyleSheet.create({
   navDatabaseBody: { borderColor: '#BDEEFF', opacity: 1 },
   navPersonHead: { borderColor: '#BDEEFF', backgroundColor: '#BDEEFF', opacity: 1 },
   navPersonBody: { borderColor: '#BDEEFF', opacity: 1 },
-  bottomNav: { position: 'relative', zIndex: 100, elevation: 100, overflow: 'visible' },
   // V66: keep all four neon navigation glyphs above the glass dock and screen content.
   navIconRestore: {
     width: 32, height: 32, minWidth: 32, minHeight: 32,
     alignItems: 'center', justifyContent: 'center',
     opacity: 1, zIndex: 30, elevation: 18,
     overflow: 'visible', backgroundColor: 'transparent'
-  },
-  bottomNav: {
-    position: 'relative', zIndex: 25, elevation: 25,
-    overflow: 'visible',
-    // V69: restore the complete rounded neon frame around the navigation dock.
-    borderWidth: 1.2, borderColor: 'rgba(72, 181, 255, 0.72)',
-    borderBottomWidth: 1.2, borderBottomColor: 'rgba(72, 181, 255, 0.72)',
-    borderRadius: 25, marginHorizontal: 5, marginBottom: 5,
-    shadowColor: '#087DFF', shadowOpacity: 0.68, shadowRadius: 22,
-    shadowOffset: { width: 0, height: -3 }
   },
   // V71: dimensional glass, beveled metal edges and a reliable foreground layer for all dock glyphs.
   navItem: {
@@ -7460,25 +7425,6 @@ const styles = StyleSheet.create({
   navGlyphTextActive: {
     color: '#FFFFFF', textShadowColor: '#55DFFF', textShadowRadius: 18,
     transform: [{ scale: 1.08 }]
-  },
-  bottomNav: {
-    position: 'relative', zIndex: 100, elevation: 100, overflow: 'visible',
-    flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center',
-    backgroundColor: 'rgba(3,15,39,0.98)',
-    borderWidth: 1.2, borderTopColor: 'rgba(205,249,255,0.88)',
-    borderLeftColor: 'rgba(66,174,255,0.72)', borderRightColor: 'rgba(34,121,220,0.78)',
-    borderBottomWidth: 1.2, borderBottomColor: 'rgba(7,63,132,0.96)',
-    borderRadius: 25, marginHorizontal: 5, marginBottom: 5,
-    shadowColor: '#087DFF', shadowOpacity: 0.9, shadowRadius: 25,
-    shadowOffset: { width: 0, height: -4 }
-  },
-  bottomNavGlass: {
-    ...StyleSheet.absoluteFillObject, top: -1, zIndex: 0,
-    borderRadius: 24, overflow: 'hidden',
-    backgroundColor: 'rgba(5,25,57,0.82)',
-    borderWidth: 1, borderTopColor: 'rgba(210,250,255,0.35)',
-    borderLeftColor: 'rgba(55,167,255,0.20)', borderRightColor: 'rgba(31,115,214,0.25)',
-    borderBottomColor: 'rgba(5,47,101,0.72)'
   },
   featureCard: {
     width: '48.5%', minHeight: 104, paddingVertical: 16, paddingHorizontal: 12,
@@ -7673,8 +7619,6 @@ const styles = StyleSheet.create({
   galleryEmptyReferenceState: { backgroundColor: 'rgba(4,25,59,0.12)', borderWidth: 0, shadowOpacity: 0, elevation: 0 },
   galleryGalaxyArtwork: { backgroundColor: 'transparent', borderWidth: 0, overflow: 'visible' },
   creditCoinShowcase: { overflow: 'visible', backgroundColor: 'transparent' },
-  bottomNav: { backgroundColor: 'rgba(4,22,52,0.58)', borderTopWidth: 1.4, borderLeftWidth: 1, borderRightWidth: 1, borderColor: 'rgba(125,218,255,0.74)', shadowColor: '#00AFFF', shadowOpacity: 0.92, shadowRadius: 27, shadowOffset: { width: 0, height: -8 }, elevation: 22, overflow: 'visible' },
-  bottomNavGlass: { ...StyleSheet.absoluteFillObject, top: -8, borderTopLeftRadius: 26, borderTopRightRadius: 26, backgroundColor: 'rgba(12,54,96,0.34)', borderTopWidth: 1, borderTopColor: 'rgba(225,250,255,0.35)' },
   navActiveGlow: { backgroundColor: 'rgba(0,173,255,0.28)', borderColor: 'rgba(171,241,255,0.88)', borderWidth: 1.4, shadowColor: '#1BCBFF', shadowOpacity: 1, shadowRadius: 26, elevation: 18 },
   navLabel: { color: '#D9F1FF', textShadowColor: 'rgba(0,166,255,0.62)', textShadowRadius: 8 },
   navLabelActive: { color: '#FFFFFF', textShadowColor: '#18CFFF', textShadowRadius: 14 },
@@ -7709,9 +7653,25 @@ const styles = StyleSheet.create({
   galleryGalaxyStarThree: { top: 126, left: 39, width: 4, height: 4 },
   galleryGalaxyStarFour: { bottom: 43, right: 55, width: 6, height: 6 },
   galleryGalaxyStarFive: { top: 52, left: 137, width: 3, height: 3 },
-  bottomNav: { backgroundColor: 'rgba(3,18,43,0.42)', borderTopWidth: 1.4, borderLeftWidth: 1, borderRightWidth: 1, borderColor: 'rgba(125,218,255,0.82)', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 32, shadowOffset: { width: 0, height: -9 }, elevation: 25, overflow: 'visible' },
-  bottomNavGlass: { ...StyleSheet.absoluteFillObject, top: -8, borderTopLeftRadius: 26, borderTopRightRadius: 26, backgroundColor: 'rgba(8,42,82,0.22)', borderTopWidth: 1.4, borderTopColor: 'rgba(225,250,255,0.52)' },
   bottomNavGlassEdge: { position: 'absolute', left: 12, right: 12, top: 0, height: 1.5, backgroundColor: 'rgba(218,250,255,0.96)', shadowColor: '#23BFFF', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
   bottomNavGlassBloom: { position: 'absolute', left: '8%', right: '8%', top: -16, height: 38, borderRadius: 28, backgroundColor: 'rgba(0,145,255,0.18)', shadowColor: '#08AFFF', shadowOpacity: 1, shadowRadius: 30, elevation: 16 },
 
+  // Single source of truth for the frosted-glass navigation dock.
+  bottomNav: {
+    position: 'relative', zIndex: 100, elevation: 100, overflow: 'visible',
+    flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center',
+    backgroundColor: 'rgba(3,18,43,0.42)',
+    borderWidth: 1.4, borderTopColor: 'rgba(225,250,255,0.82)',
+    borderLeftColor: 'rgba(125,218,255,0.74)', borderRightColor: 'rgba(125,218,255,0.74)',
+    borderBottomColor: 'rgba(125,218,255,0.82)', borderRadius: 25,
+    shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 32,
+    shadowOffset: { width: 0, height: -9 },
+  },
+  bottomNavGlass: {
+    ...StyleSheet.absoluteFillObject, top: -8, zIndex: 0,
+    borderTopLeftRadius: 26, borderTopRightRadius: 26,
+    backgroundColor: 'rgba(8,42,82,0.22)',
+    borderTopWidth: 1.4, borderTopColor: 'rgba(225,250,255,0.52)',
+    overflow: 'hidden',
+  },
 });
