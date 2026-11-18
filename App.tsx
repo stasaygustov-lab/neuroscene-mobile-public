@@ -6875,7 +6875,6 @@ const styles: Record<string, any> = StyleSheet.create({
   jobId: { color: '#687D9F', fontSize: 16, marginTop: 10 },
   errorText: { color: '#FF8A93', fontSize: 16, marginTop: 10 },
   secondaryButton: {
-    minHeight: 52,
     backgroundColor: '#142344',
     borderColor: '#4A91FF',
     borderWidth: 1,
