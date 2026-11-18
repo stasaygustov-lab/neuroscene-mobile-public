@@ -1,0 +1,41 @@
+name: NeuroScene TypeScript check
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - ui/full-visual-redesign
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - '.github/workflows/typescript-check.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neuroscene-typescript-check
+  cancel-in-progress: true
+
+jobs:
+  typecheck:
+    name: Strict TypeScript validation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout UI branch
+        uses: actions/checkout@v5
+        with:
+          ref: ui/full-visual-redesign
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run strict TypeScript check
+        run: npx tsc --noEmit
