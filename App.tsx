@@ -2190,10 +2190,10 @@ function CreateScreen({
       <View style={styles.createTopSpacer} />
 
       <View style={styles.v74ModeSelector}>
-        <TouchableOpacity activeOpacity={0.86} style={[styles.v74ModeOption, generationType === 't2v' && styles.v74ModeOptionActive]} onPress={() => setGenerationType('t2v')} disabled={busy}>
+        <TouchableOpacity activeOpacity={0.86} style={[styles.v74ModeOption, styles.v75GlassButton, generationType === 't2v' && styles.v74ModeOptionActive]} onPress={() => setGenerationType('t2v')} disabled={busy}>
           <Text style={[styles.v74ModeOptionText, generationType === 't2v' && styles.v74ModeOptionTextActive]}>Текст в видео</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.86} style={[styles.v74ModeOption, generationType === 'i2v' && styles.v74ModeOptionActive]} onPress={() => setGenerationType('i2v')} disabled={busy}>
+        <TouchableOpacity activeOpacity={0.86} style={[styles.v74ModeOption, styles.v75GlassButton, generationType === 'i2v' && styles.v74ModeOptionActive]} onPress={() => setGenerationType('i2v')} disabled={busy}>
           <Text style={[styles.v74ModeOptionText, generationType === 'i2v' && styles.v74ModeOptionTextActive]}>Изображение в видео</Text>
         </TouchableOpacity>
       </View>
@@ -2211,8 +2211,8 @@ function CreateScreen({
       </View>
 
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>ОПИСАНИЕ СЦЕНЫ</Text>
-        <Text style={styles.languageLabel}>НА АНГЛИЙСКОМ</Text>
+        <Text style={[styles.sectionTitle, styles.v75CenteredLabel]}>ОПИСАНИЕ СЦЕНЫ</Text>
+        <Text style={[styles.languageLabel, styles.v75CenteredLabel]}>НА АНГЛИЙСКОМ</Text>
       </View>
       <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
 
@@ -2233,7 +2233,7 @@ function CreateScreen({
       <View style={[styles.featureSection, styles.v74FeatureSection]}>
         <View style={styles.featureHeadingRow}>
           <View pointerEvents="none" style={styles.featureHeadingLine} />
-          <Text style={styles.featureSectionTitle}>Возможности</Text>
+          <Text style={[styles.featureSectionTitle, styles.v75CenteredLabel]}>Возможности</Text>
           <View pointerEvents="none" style={styles.featureHeadingLine} />
         </View>
         <View pointerEvents="none" style={styles.featureHeadingBeam}><View style={styles.featureHeadingBeamCore} /></View>
@@ -2244,10 +2244,10 @@ function CreateScreen({
             { id: 'sound', title: 'Озвучка и эффекты' },
             { id: 'prompt', title: 'Улучшение промпта' },
           ].map((feature) => (
-            <View key={feature.id} style={[styles.v74FeatureTile, { position: 'relative', overflow: 'hidden' }]}>
-              <GlassBlurLayer radius={15} />
+            <View key={feature.id} style={[styles.v74FeatureTile, styles.v75FeatureGlass, { position: 'relative', overflow: 'hidden' }]}>
+              
               <FeatureGlyph type={feature.id} />
-              <Text style={styles.v74FeatureTitle}>{feature.title}</Text>
+              <Text style={[styles.v74FeatureTitle, styles.v75CenteredLabel]}>{feature.title}</Text>
             </View>
           ))}
         </View>
@@ -2255,11 +2255,11 @@ function CreateScreen({
 
       <TouchableOpacity
         activeOpacity={0.86}
-        style={[styles.authSecondary, (busy || prompt.trim().length < 10) && styles.disabledButton]}
+        style={[styles.authSecondary, styles.v75GlassButton, (busy || prompt.trim().length < 10) && styles.disabledButton]}
         onPress={onEnhancePrompt}
         disabled={busy || prompt.trim().length < 10}
       >
-        {promptEnhancing ? <ActivityIndicator color={WHITE} /> : <Text style={styles.authSecondaryText}>✨ УЛУЧШИТЬ ПРОМПТ</Text>}
+        {promptEnhancing ? <ActivityIndicator color={WHITE} /> : <Text style={[styles.authSecondaryText, styles.v75ButtonText]}>✨ УЛУЧШИТЬ ПРОМПТ</Text>}
       </TouchableOpacity>
 
       {!!enhancedPrompt && (
@@ -2279,17 +2279,17 @@ function CreateScreen({
 
       {generationType === 'i2v' && (
         <View style={styles.imageUploadCard}>
-          <Text style={styles.sectionTitle}>ИСХОДНОЕ ИЗОБРАЖЕНИЕ</Text>
+          <Text style={[styles.sectionTitle, styles.v75CenteredLabel]}>ИСХОДНОЕ ИЗОБРАЖЕНИЕ</Text>
           {sourceImage ? (
             <View>
               <ImagePickerPreview uri={sourceImage.uri} />
               <Text style={styles.imageFileName} numberOfLines={1}>{sourceImage.fileName || 'Выбранное изображение'}</Text>
-              <TouchableOpacity activeOpacity={0.86} style={styles.removeImageButton} onPress={onRemoveImage} disabled={busy}>
+              <TouchableOpacity activeOpacity={0.86} style={[styles.removeImageButton, styles.v75GlassButton]} onPress={onRemoveImage} disabled={busy}>
                 <Text style={styles.removeImageText}>Удалить изображение</Text>
               </TouchableOpacity>
             </View>
           ) : (
-            <TouchableOpacity activeOpacity={0.86} style={styles.chooseImageButton} onPress={onChooseImage} disabled={busy}>
+            <TouchableOpacity activeOpacity={0.86} style={[styles.chooseImageButton, styles.v75GlassButton]} onPress={onChooseImage} disabled={busy}>
               <Text style={styles.chooseImageIcon}>＋</Text>
               <Text style={styles.chooseImageText}>Выбрать изображение</Text>
               <Text style={styles.imageHint}>JPEG или PNG · до 10 МБ</Text>
@@ -2298,22 +2298,22 @@ function CreateScreen({
         </View>
       )}
 
-      <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>ДЛИТЕЛЬНОСТЬ</Text></View>
+      <View style={styles.sectionHeader}><Text style={[styles.sectionTitle, styles.v75CenteredLabel]}>ДЛИТЕЛЬНОСТЬ</Text></View>
       <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
       <View style={styles.v74OptionRow}>
         {[5, 10].map((value) => (
-          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, duration === value && styles.v74SelectedPillOption]} onPress={() => setDuration(value)} disabled={busy}>
+          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, styles.v75GlassButton, duration === value && styles.v74SelectedPillOption]} onPress={() => setDuration(value)} disabled={busy}>
             <Text style={[styles.v74OptionMain, duration === value && styles.activeText]}>{value}с</Text>
             <Text style={styles.v74OptionSub}>секунд</Text>
           </TouchableOpacity>
         ))}
       </View>
 
-      <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>ФОРМАТ КАДРА</Text></View>
+      <View style={styles.sectionHeader}><Text style={[styles.sectionTitle, styles.v75CenteredLabel]}>ФОРМАТ КАДРА</Text></View>
       <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
       <View style={styles.optionRow}>
         {['16:9', '9:16'].map((value) => (
-          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, ratio === value && styles.v74SelectedPillOption]} onPress={() => setRatio(value)} disabled={busy}>
+          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, styles.v74PillOption, styles.v75GlassButton, ratio === value && styles.v74SelectedPillOption]} onPress={() => setRatio(value)} disabled={busy}>
             <Text style={[styles.v74OptionMain, ratio === value && styles.activeText]}>{value}</Text>
             <Text style={styles.v74OptionSub}>{value === '16:9' ? 'Горизонтальный' : 'Вертикальный'}</Text>
           </TouchableOpacity>
@@ -2333,13 +2333,13 @@ function CreateScreen({
           {jobId && <Text style={styles.jobId}>ID: {jobId}</Text>}
           {pollError !== '' && <Text style={styles.errorText}>Ошибка получения статуса: {pollError}</Text>}
           {jobStatus === 'completed' && videoUrl && (
-            <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onOpenVideo}>
+            <TouchableOpacity activeOpacity={0.86} style={[styles.secondaryButton, styles.v75GlassButton]} onPress={onOpenVideo}>
               <Text style={styles.secondaryButtonText}>Открыть готовое видео</Text>
             </TouchableOpacity>
           )}
           {jobStatus === 'completed' && !videoUrl && <Text style={styles.note}>Задача завершена. Ссылка на видео не найдена в ответе Backend.</Text>}
           {(jobStatus === 'completed' || jobStatus === 'failed') && (
-            <TouchableOpacity activeOpacity={0.86} style={styles.resetButton} onPress={onReset}>
+            <TouchableOpacity activeOpacity={0.86} style={[styles.resetButton, styles.v75GlassButton]} onPress={onReset}>
               <Text style={styles.resetButtonText}>Новая генерация</Text>
             </TouchableOpacity>
           )}
@@ -7572,6 +7572,12 @@ const styles: Record<string, any> = StyleSheet.create({
   v74OptionMain: { fontFamily: 'Manrope', fontSize: 16, lineHeight: 20, fontWeight: '900', includeFontPadding: false, textAlign: 'center' },
   v74OptionSub: { fontFamily: 'Manrope', fontSize: 10, lineHeight: 13, fontWeight: '700', includeFontPadding: false, textAlign: 'center' },
   v74OptionRow: { flexDirection: 'row', gap: 12, justifyContent: 'space-between', alignItems: 'center' },
+
+  // V75: unified centered typography and translucent dimensional controls on Create.
+  v75CenteredLabel: { width: '100%', textAlign: 'center', alignSelf: 'center', fontFamily: 'Manrope', includeFontPadding: false, letterSpacing: 0.35 },
+  v75ButtonText: { width: '100%', textAlign: 'center', alignSelf: 'center', fontFamily: 'Manrope', fontWeight: '800', includeFontPadding: false, letterSpacing: 0.25 },
+  v75GlassButton: { backgroundColor: 'rgba(5,31,68,0.56)', borderWidth: 1.25, borderTopWidth: 1.8, borderTopColor: 'rgba(240,253,255,0.94)', borderLeftColor: 'rgba(145,224,255,0.82)', borderRightColor: 'rgba(55,147,239,0.86)', borderBottomWidth: 4, borderBottomColor: 'rgba(3,43,94,0.96)', shadowColor: '#12BFFF', shadowOpacity: 0.76, shadowRadius: 21, shadowOffset: { width: 0, height: 6 }, elevation: 13 },
+  v75FeatureGlass: { backgroundColor: 'rgba(5,31,68,0.48)', borderColor: 'rgba(111,205,255,0.78)', borderTopColor: 'rgba(240,253,255,0.94)', borderBottomWidth: 3, borderBottomColor: 'rgba(3,43,94,0.96)', shadowColor: '#12BFFF', shadowOpacity: 0.72, shadowRadius: 20, shadowOffset: { width: 0, height: 5 }, elevation: 12, alignItems: 'center', justifyContent: 'center', gap: 5 },
 
 
 });
