@@ -6512,6 +6512,71 @@ const FINAL_UI_GALLERY_EMPTY_V56 = {
   }
 };
 
+const FINAL_UI_RECOVERY_V61 = {
+  // Restore the shared cinematic backdrop as a visible, full-window image layer.
+  container: { flex: 1, position: 'relative', backgroundColor: 'transparent' },
+  ambientBackdrop: { ...StyleSheet.absoluteFillObject, zIndex: 0, elevation: 0, overflow: 'hidden', backgroundColor: 'transparent' },
+  ambientBackdropTint: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1, 7, 18, 0.025)' },
+  // Keep the fixed dock above the backdrop and make each of its four items a stable hit target.
+  bottomNav: {
+    width: '100%', height: 86, minHeight: 86, maxHeight: 86,
+    flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center',
+    justifyContent: 'space-evenly', alignSelf: 'stretch',
+    marginHorizontal: 0, marginBottom: 0, paddingHorizontal: 8,
+    paddingTop: 5, paddingBottom: 10, position: 'relative', zIndex: 5,
+    backgroundColor: 'rgba(2, 10, 30, 0.90)',
+    borderTopWidth: 1.2, borderLeftWidth: 1, borderRightWidth: 1,
+    borderTopLeftRadius: 26, borderTopRightRadius: 26,
+    borderColor: 'rgba(42, 166, 255, 0.68)',
+    shadowColor: '#087DFF', shadowOpacity: 0.62, shadowRadius: 20,
+    shadowOffset: { width: 0, height: -4 }, elevation: 18, overflow: 'visible'
+  },
+  bottomNavGlass: { ...StyleSheet.absoluteFillObject, top: -8, zIndex: 0, borderTopLeftRadius: 26, borderTopRightRadius: 26, overflow: 'visible', backgroundColor: 'rgba(5, 24, 54, 0.34)' },
+  navItem: {
+    flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: '25%',
+    width: '25%', maxWidth: '25%', minWidth: 0, height: 68, minHeight: 68,
+    paddingHorizontal: 0, paddingTop: 2, paddingBottom: 6, gap: 3,
+    alignItems: 'center', justifyContent: 'center', alignSelf: 'center',
+    position: 'relative', zIndex: 2, borderRadius: 12, overflow: 'visible'
+  },
+  navCreateIcon: { width: 30, height: 30, minHeight: 30, flexShrink: 0, alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2 },
+  navGalleryIcon: { width: 30, height: 30, minHeight: 30, flexShrink: 0, alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2 },
+  navDatabaseIcon: { width: 30, height: 30, minHeight: 30, flexShrink: 0, alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2 },
+  navPerson: { width: 30, height: 30, minHeight: 30, flexShrink: 0, alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2 },
+  navLabel: { width: '100%', flexShrink: 1, color: '#C6E4FA', fontFamily: 'Manrope', fontSize: 11, lineHeight: 15, fontWeight: '800', textAlign: 'center', includeFontPadding: false },
+  navLabelActive: { color: '#F2FBFF', fontWeight: '900', textShadowColor: '#18BFFF', textShadowRadius: 10 },
+  navActiveGlow: { position: 'absolute', top: 1, alignSelf: 'center', width: 58, height: 43, borderRadius: 22, zIndex: -1, backgroundColor: 'rgba(0, 139, 255, 0.17)', borderWidth: 1, borderColor: 'rgba(76, 202, 255, 0.42)', shadowColor: '#08AFFF', shadowOpacity: 0.9, shadowRadius: 16, elevation: 10 },
+  navActiveIndicator: { position: 'absolute', bottom: 0, alignSelf: 'center', width: '52%', height: 2.5, borderRadius: 3, backgroundColor: '#29C7FF', shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 10 },
+  // Re-enable native-drawn feature artwork; the previous global hide rule suppressed legacy glyphs.
+  featureIcon: { display: 'flex' },
+  featureGlyphAura: { width: 58, height: 54, marginBottom: 3, alignItems: 'center', justifyContent: 'center', borderRadius: 18, backgroundColor: 'rgba(0, 123, 255, 0.08)', shadowColor: '#0CBFFF', shadowOpacity: 0.78, shadowRadius: 20, elevation: 8 },
+  featureGlyphFrame: { width: 48, height: 46, marginBottom: 5, borderRadius: 14, alignItems: 'center', justifyContent: 'center', position: 'relative', backgroundColor: 'rgba(0, 133, 255, 0.14)', borderWidth: 1, borderColor: 'rgba(115, 218, 255, 0.82)', shadowColor: '#16BFFF', shadowOpacity: 0.96, shadowRadius: 18, elevation: 9 },
+  featureTile: { width: '24.5%', minWidth: 0, minHeight: 76, paddingHorizontal: 1, paddingVertical: 2, alignItems: 'center', justifyContent: 'flex-start', backgroundColor: 'rgba(3, 18, 43, 0.50)', borderWidth: 1, borderColor: 'rgba(74, 166, 255, 0.42)', borderRadius: 12 },
+  featureTitle: { width: '100%', color: '#F1F7FF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 13, fontWeight: '800', textAlign: 'center', backgroundColor: 'transparent', padding: 0, margin: 0 },
+  // Credits: the approved reference uses a full-width balance/coin hero, then a vertical package list.
+  creditTopRow: { width: '100%', flexDirection: 'column', alignItems: 'stretch', gap: 12, marginBottom: 12 },
+  creditBalanceCard: { width: '100%', maxWidth: '100%', flex: 0, flexShrink: 0, height: 218, minHeight: 218, alignSelf: 'stretch', padding: 10, borderRadius: 18, borderWidth: 1.2, borderColor: 'rgba(42, 158, 255, 0.82)', backgroundColor: 'rgba(2, 19, 48, 0.72)', shadowColor: '#087BFF', shadowOpacity: 0.48, shadowRadius: 22, elevation: 10, justifyContent: 'flex-start', overflow: 'hidden' },
+  creditCoinsArtwork: { width: '100%', height: 126, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  creditCoinStackBack: { position: 'absolute', top: 17, left: '37%', alignItems: 'center', justifyContent: 'center' },
+  creditCoinStackFront: { position: 'absolute', top: 43, left: '47%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  creditCoinSingle: { position: 'absolute', top: 63, left: '39%' },
+  creditCoinDisc: { width: 49, height: 21, borderRadius: 25, marginTop: -6, borderWidth: 1.6, borderColor: '#FFF0A5', backgroundColor: '#D99521', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB52E', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
+  creditCoinInner: { width: 34, height: 9, borderRadius: 9, borderWidth: 1, borderColor: 'rgba(255, 245, 185, 0.95)', backgroundColor: '#FFD76A' },
+  creditBalanceHero: { position: 'relative', left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', marginTop: 0 },
+  creditBalanceHeroValue: { color: '#FFE08A', fontSize: 34, lineHeight: 39, fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 15 },
+  creditBalanceHeroLabel: { color: '#FFF0C5', fontSize: 14, lineHeight: 19, fontWeight: '800', marginTop: 0 },
+  creditPackageColumn: { width: '100%', maxWidth: '100%', flex: 0, minWidth: 0, justifyContent: 'center' },
+  creditPackagesTitle: { display: 'flex', color: '#F4FAFF', fontSize: 19, lineHeight: 25, fontWeight: '900', marginBottom: 8, textShadowColor: 'rgba(25, 132, 255, 0.55)', textShadowRadius: 10 },
+  creditPackagesList: { width: '100%', gap: 8 },
+  packageCard: { width: '100%', minWidth: 0, minHeight: 58, paddingVertical: 8, paddingHorizontal: 12, marginTop: 0, borderRadius: 13, borderWidth: 1, borderColor: 'rgba(70, 126, 183, 0.58)', backgroundColor: 'rgba(8, 28, 59, 0.88)', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  packageIconWrap: { width: 30, minWidth: 30, marginRight: 6, alignItems: 'center', justifyContent: 'center' },
+  packageCoin: { width: 20, height: 20, borderRadius: 10, backgroundColor: '#FFBD35', borderWidth: 1, borderColor: '#FFE7A0', alignItems: 'center', justifyContent: 'center' },
+  packageAmount: { flex: 1, minWidth: 0, color: '#F4F8FF', fontSize: 15, lineHeight: 20, fontWeight: '800' },
+  packageRight: { width: 78, minWidth: 78, maxWidth: 78, alignItems: 'flex-end', justifyContent: 'center', flexShrink: 0 },
+  packagePriceChip: { minWidth: 66, minHeight: 34, paddingHorizontal: 9, borderRadius: 10, backgroundColor: '#0879F5', borderWidth: 1, borderColor: '#65DFFF', alignItems: 'center', justifyContent: 'center' },
+  packagePrice: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900' },
+};
+
 const FINAL_UI_CREDITS_REFERENCE_V57 = {
   // Match the reference credits screen: a full-width cinematic balance card with gold coins.
   creditTopRow: {
@@ -7274,6 +7339,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_LAUNCHER_POLISH_V55,
   ...FINAL_UI_GALLERY_EMPTY_V56,
   ...FINAL_UI_CREDITS_REFERENCE_V57,
+  ...FINAL_UI_RECOVERY_V61,
 
 });
 
