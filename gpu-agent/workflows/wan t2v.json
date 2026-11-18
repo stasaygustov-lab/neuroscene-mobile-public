@@ -1,0 +1,204 @@
+{
+  "3": {
+    "inputs": {
+      "seed": 50046644386168,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "102",
+        0
+      ],
+      "positive": [
+        "6",
+        0
+      ],
+      "negative": [
+        "7",
+        0
+      ],
+      "latent_image": [
+        "55",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.45"
+    }
+  },
+  "6": {
+    "inputs": {
+      "text": "A young woman with short red hair in a beige linen dress walks through a crowded evening market, carrying a woven basket with fresh oranges in her right hand. She keeps looking straight ahead while lifting her left hand to brush hair from her face. Static camera at eye level, medium shot, shallow depth of field. Warm lantern light from stalls reflects on wet cobblestones, people pass by in the blurred background. She keeps her natural walking pace, dress and hair move with the wind, cinematic realistic style, stable consistent face throughout the shot.\n",
+      "clip": [
+        "38",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Positive Prompt)",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.45"
+    }
+  },
+  "7": {
+    "inputs": {
+      "text": "",
+      "clip": [
+        "38",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Negative Prompt)",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.45"
+    }
+  },
+  "37": {
+    "inputs": {
+      "unet_name": "Wan2_2-TI2V-5B-Turbo_fp16.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Загрузить модель диффузии",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.45"
+    }
+  },
+  "38": {
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Загрузить CLIP",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.45"
+    }
+  },
+  "39": {
+    "inputs": {
+      "vae_name": "wan2.2_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Загрузить VAE",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.45"
+    }
+  },
+  "48": {
+    "inputs": {
+      "shift": 8,
+      "model": [
+        "37",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3",
+    "_meta": {
+      "title": "Выборка модели SD3",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.45"
+    }
+  },
+  "55": {
+    "inputs": {
+      "width": 1280,
+      "height": 704,
+      "length": 121,
+      "batch_size": 1,
+      "vae": [
+        "39",
+        0
+      ]
+    },
+    "class_type": "Wan22ImageToVideoLatent",
+    "_meta": {
+      "title": "Wan22ImageToVideoLatent",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.45"
+    }
+  },
+  "57": {
+    "inputs": {
+      "fps": 24,
+      "bit_depth": "auto",
+      "color_space": "sRGB",
+      "chroma_subsampling": "auto",
+      "codec": "h264",
+      "images": [
+        "97",
+        0
+      ]
+    },
+    "class_type": "CreateVideo",
+    "_meta": {
+      "title": "Создать видео",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.45"
+    }
+  },
+  "58": {
+    "inputs": {
+      "filename_prefix": "video/ComfyUI",
+      "format": "auto",
+      "format.codec": "auto",
+      "codec": "auto",
+      "video-preview": "",
+      "video": [
+        "57",
+        0
+      ]
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "Сохранить видео",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.45"
+    }
+  },
+  "97": {
+    "inputs": {
+      "samples": [
+        "3",
+        0
+      ],
+      "vae": [
+        "39",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "Декодировать VAE",
+      "cnr_id": "comfy-core",
+      "ver": "0.45.5"
+    }
+  },
+  "102": {
+    "inputs": {
+      "enable_fp16_accumulation": true,
+      "model": [
+        "48",
+        0
+      ]
+    },
+    "class_type": "ModelPatchTorchSettings",
+    "_meta": {
+      "title": "Model Patch Torch Settings",
+      "cnr_id": "comfyui-kjnodes",
+      "ver": "1.5.4"
+    }
+  }
+}
