@@ -1809,7 +1809,6 @@ export default function App() {
                     accessibilityRole="button"
                     accessibilityState={{ selected: selectedCreditPackage === amount }}
                   >
-                    <GlassBlurLayer radius={17} />
                     <View style={styles.packageChoiceCopy}>
                       <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')}</Text>
                       <Text style={styles.packageChoiceUnit}>кредитов</Text>
