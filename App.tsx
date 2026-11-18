@@ -1767,7 +1767,8 @@ export default function App() {
           </View>
 
           <View style={styles.creditReferenceLayout}>
-            <View style={styles.creditCoinShowcase} accessibilityLabel="Объёмная композиция золотых монет">
+            <View style={[styles.creditCoinShowcase, { position: 'relative', overflow: 'hidden' }]} accessibilityLabel="Объёмная композиция золотых монет">
+              <GlassBlurLayer radius={22} intensity={36} />
               <View style={styles.creditCoinStack}>
                 <View style={[styles.creditLargeCoin, styles.creditLargeCoinBack]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
                 <View style={[styles.creditLargeCoin, styles.creditLargeCoinMiddle]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
@@ -1786,10 +1787,11 @@ export default function App() {
                     key={amount}
                     activeOpacity={0.78}
                     onPress={() => setSelectedCreditPackage(amount)}
-                    style={[styles.packageCard, selectedCreditPackage === amount && styles.packageCardSelected]}
+                    style={[styles.packageCard, selectedCreditPackage === amount && styles.packageCardSelected, { position: 'relative', overflow: 'hidden' }]}
                     accessibilityRole="button"
                     accessibilityState={{ selected: selectedCreditPackage === amount }}
                   >
+                    <GlassBlurLayer radius={17} intensity={38} />
                     <View style={styles.packageChoiceCopy}>
                       <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')}</Text>
                       <Text style={styles.packageChoiceUnit}>кредитов</Text>
@@ -2157,6 +2159,20 @@ type CreateScreenProps = {
   onReset: () => void;
 };
 
+
+
+function GlassBlurLayer({ radius = 18, intensity = 38 }: { radius?: number; intensity?: number }) {
+  return (
+    <BlurView
+      pointerEvents="none"
+      intensity={intensity}
+      tint="dark"
+      blurMethod="dimezisBlurViewSdk31Plus"
+      style={[StyleSheet.absoluteFillObject, { borderRadius: radius, overflow: 'hidden' }]}
+    />
+  );
+}
+
 function CreateScreen({
   language,
   generationType,
@@ -2202,7 +2218,8 @@ function CreateScreen({
         </TouchableOpacity>
       </View>
 
-      <View style={styles.engineCard}>
+      <View style={[styles.engineCard, { position: 'relative', overflow: 'hidden' }]}>
+        <GlassBlurLayer radius={16} intensity={42} />
         <View style={styles.engineDot} />
         <View style={{ flex: 1 }}>
           <Text style={styles.engineName}>НейроСцена</Text>
@@ -2247,7 +2264,8 @@ function CreateScreen({
             { id: 'sound', title: 'Озвучка и эффекты' },
             { id: 'prompt', title: 'Улучшение промпта' },
           ].map((feature) => (
-            <View key={feature.id} style={styles.featureTile}>
+            <View key={feature.id} style={[styles.featureTile, { position: 'relative', overflow: 'hidden' }]}>
+              <GlassBlurLayer radius={15} intensity={34} />
               <FeatureGlyph type={feature.id} />
               <Text style={styles.featureTitle}>{feature.title}</Text>
             </View>
@@ -2265,7 +2283,8 @@ function CreateScreen({
       </TouchableOpacity>
 
       {!!enhancedPrompt && (
-        <View style={styles.imageUploadCard}>
+        <View style={[styles.imageUploadCard, { position: 'relative', overflow: 'hidden' }]}>
+          <GlassBlurLayer radius={18} intensity={42} />
           <Text style={styles.sectionTitle}>УЛУЧШЕННЫЙ ПРОМПТ</Text>
           <TextInput style={styles.prompt} value={enhancedPrompt} onChangeText={setEnhancedPrompt} multiline textAlignVertical="top" maxLength={4000} editable={!busy} />
           <Text style={styles.note}>Проверь и отредактируй результат. Он не будет использован, пока ты его не применишь.</Text>
@@ -2447,7 +2466,8 @@ function GalleryScreen({
             ? `${String(Math.floor(durationSeconds / 60)).padStart(2, '0')}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}`
             : '';
         return (
-          <View key={item.job_id} style={styles.galleryCard}>
+          <View key={item.job_id} style={[styles.galleryCard, { position: 'relative', overflow: 'hidden' }]}>
+            <GlassBlurLayer radius={18} intensity={38} />
             <View style={styles.galleryPreview}>
               <GalleryVideoPlayer uri={url} />
               {!!durationLabel && <Text style={styles.galleryDuration}>{durationLabel}</Text>}
