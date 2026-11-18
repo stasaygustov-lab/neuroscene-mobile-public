@@ -53,13 +53,10 @@ jobs:
       - name: TypeScript validation (report existing app typing issues)
         run: npx tsc --noEmit
         continue-on-error: true
-      - name: Prepare transparent splash logo from approved reference
+      - name: Set up Pillow for launcher artwork
         run: |
           python3 -m venv .venv
           .venv/bin/pip install Pillow
-          .venv/bin/python scripts/process-splash-logo.py
-      - name: Prepare launcher and adaptive brand artwork
-        run: .venv/bin/python scripts/prepare-brand-assets.py
       - name: Fit launcher logo inside Android safe area
         run: .venv/bin/python scripts/fit-android-icon.py
       - name: Validate Expo launcher and splash assets
@@ -80,11 +77,17 @@ jobs:
             if (!fs.existsSync(assetPath)) {
               throw new Error('Expo asset is missing: ' + reference);
             }
-            const signature = fs.readFileSync(assetPath).subarray(0, 8).toString('hex');
+            const image = fs.readFileSync(assetPath);
+            const signature = image.subarray(0, 8).toString('hex');
             if (signature !== '89504e470d0a1a0a') {
               throw new Error('Expo asset is not a valid PNG: ' + reference);
             }
-            console.log('Validated ' + reference);
+            const width = image.readUInt32BE(16);
+            const height = image.readUInt32BE(20);
+            if (width !== 1024 || height !== 1024) {
+              throw new Error('Expo launcher artwork must be 1024x1024: ' + reference + ' (' + width + 'x' + height + ')');
+            }
+            console.log('Validated ' + reference + ' (' + width + 'x' + height + ')');
           }
           if (!config.android?.adaptiveIcon?.foregroundImage?.endsWith('android-icon-foreground.png')) {
             throw new Error('Adaptive icon must use the generated safe-area foreground asset');
