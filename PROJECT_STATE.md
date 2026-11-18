@@ -938,3 +938,5 @@
 - Preserved the existing screen tree, four-tab navigation, screen content, actions, and intro artwork. No paid assets, generation services, or new dependencies were added.
 - This is a code-level visual implementation using native React Native layers; it is not claimed to be a photorealistic generated nebula image. APK build, TypeScript validation, and Android-device visual verification have not yet been run.
 - Backend, API, authentication, video generation, and payments were not changed.
+
+- Follow-up App.tsx commit: `2f179d9083e4a616006bbc07fe03bb0e9192d68a`; the intro overlay now reveals the same shared cosmic backdrop instead of the old storm-at-sea splash image.
