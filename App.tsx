@@ -2041,15 +2041,31 @@ export default function App() {
             onPress={() => { const order: Tab[] = ['Create', 'Gallery', 'Credits', 'Profile']; setTransitionDirection(order.indexOf(item.id) >= order.indexOf(tab) ? 1 : -1); setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
             {tab === item.id && <View pointerEvents="none" style={styles.navActiveGlow} />}
-            <View
-              style={[styles.navIconRestore, tab === item.id && styles.navGlyphActive]}
-              accessibilityLabel={item.label}
-              accessibilityRole="image"
-            >
-              <Text style={[styles.navGlyphText, tab === item.id && styles.navGlyphTextActive]}>
-                {item.id === 'Create' ? '⌂' : item.id === 'Gallery' ? '▧' : item.id === 'Credits' ? '◉' : '♙'}
-              </Text>
-            </View>
+            {item.id === 'Create' ? (
+              <View style={[styles.navCreateIcon, styles.navIconRestore, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Создать">
+                <View style={styles.navHomeRoof} />
+                <View style={styles.navHomeBody}><View style={styles.navHomeDoor} /></View>
+              </View>
+            ) : item.id === 'Gallery' ? (
+              <View style={[styles.navGalleryIcon, styles.navIconRestore, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Галерея">
+                <View style={styles.navGallerySun} />
+                <View style={styles.navGalleryMountainBack} />
+                <View style={styles.navGalleryMountainFront} />
+              </View>
+            ) : item.id === 'Credits' ? (
+              <View style={[styles.navDatabaseIcon, styles.navIconRestore, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Кредиты">
+                <View style={styles.navDatabaseTop} />
+                <View style={styles.navDatabaseBody}>
+                  <View style={styles.navDatabaseMiddle} />
+                  <View style={styles.navDatabaseBottom} />
+                </View>
+              </View>
+            ) : (
+              <View style={[styles.navPerson, styles.navIconRestore, tab === item.id && styles.navPersonActive]} accessibilityLabel="Профиль">
+                <View style={styles.navPersonHead} />
+                <View style={styles.navPersonBody} />
+              </View>
+            )}
             <Text
               numberOfLines={1}
               adjustsFontSizeToFit
@@ -7715,4 +7731,23 @@ const styles = StyleSheet.create({
     borderRightWidth: 1, borderRightColor: 'rgba(70,190,255,0.42)'
   },
   creditsContent: { paddingBottom: 12 },
+  // V72: restore the original four native navigation glyphs; the dock frame remains unchanged.
+  navIconRestore: { width: 36, height: 36, minWidth: 36, minHeight: 36, alignItems: 'center', justifyContent: 'center', opacity: 1, zIndex: 110, elevation: 110, overflow: 'visible', backgroundColor: 'transparent', borderWidth: 0 },
+  navCreateIcon: { opacity: 1, backgroundColor: 'transparent', borderWidth: 0, zIndex: 111, elevation: 111 },
+  navGalleryIcon: { opacity: 1, backgroundColor: 'transparent', borderWidth: 0, zIndex: 111, elevation: 111 },
+  navDatabaseIcon: { opacity: 1, backgroundColor: 'transparent', borderWidth: 0, zIndex: 111, elevation: 111 },
+  navPerson: { opacity: 1, backgroundColor: 'transparent', borderWidth: 0, zIndex: 111, elevation: 111 },
+  navHomeRoof: { borderBottomColor: '#BDEEFF', opacity: 1 },
+  navHomeBody: { borderColor: '#BDEEFF', opacity: 1 },
+  navHomeDoor: { borderColor: '#BDEEFF', opacity: 1 },
+  navGallerySun: { borderColor: '#BDEEFF', opacity: 1 },
+  navGalleryMountainBack: { borderColor: '#BDEEFF', opacity: 1 },
+  navGalleryMountainFront: { borderColor: '#BDEEFF', opacity: 1 },
+  navDatabaseTop: { borderColor: '#BDEEFF', opacity: 1 },
+  navDatabaseBody: { borderColor: '#BDEEFF', opacity: 1 },
+  navDatabaseMiddle: { borderColor: '#BDEEFF', opacity: 1 },
+  navDatabaseBottom: { borderColor: '#BDEEFF', opacity: 1 },
+  navPersonHead: { borderColor: '#BDEEFF', backgroundColor: '#BDEEFF', opacity: 1 },
+  navPersonBody: { borderColor: '#BDEEFF', opacity: 1 },
+
 });
