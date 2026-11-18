@@ -820,3 +820,11 @@
 - Растровые изображения с экрана кредитов не используются: монеты отрисованы нативными слоями React Native, чтобы сохранить чёткость на разных плотностях экранов.
 - Существующие значения пакетов, цены и обработчик выбора пакета сохранены; API, авторизация, генерация, платежная логика и backend не менялись.
 - Статические проверки JSX-якорей и ключевых элементов пройдены. APK/Android runtime-визуальная проверка не выполнялась.
+
+
+## UI V73 — Generated 3D artwork and bottom navigation recovery (2026-11-18)
+- Restored the four native bottom-navigation glyphs (Create/home, Gallery/image, Credits/database, Profile/person); removed the temporary text-symbol glyph rendering. The existing rounded neon dock frame is retained.
+- Added the generated 3D clapperboard artwork to the Create screen's first feature tile, and replaced the native flat empty-state galaxy, credit-coin composition, and profile silhouette with separate generated 3D image assets.
+- New assets: `assets/illustrations/create-3d.jpg`, `gallery-3d.jpg`, `credits-3d.jpg`, `profile-3d.jpg`.
+- Only presentation code and image assets were changed; backend, authentication, generation, payments, and business logic were not intentionally modified.
+- Static source verification only. Android rendering/build has not yet been verified in a fresh APK; inspect the four screens and bottom navigation on-device after the next preview build.
