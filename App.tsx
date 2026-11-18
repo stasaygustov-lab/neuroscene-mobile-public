@@ -2094,18 +2094,18 @@ export default function App() {
           >
             {tab === item.id && <View pointerEvents="none" style={styles.navActiveGlow} />}
             {item.id === 'Create' ? (
-              <View style={[styles.navCreateIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Создать">
+              <View style={[styles.navCreateIcon, styles.navIconRestore, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Создать">
                 <View style={styles.navHomeRoof} />
                 <View style={styles.navHomeBody}><View style={styles.navHomeDoor} /></View>
               </View>
             ) : item.id === 'Gallery' ? (
-              <View style={[styles.navGalleryIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Галерея">
+              <View style={[styles.navGalleryIcon, styles.navIconRestore, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Галерея">
                 <View style={styles.navGallerySun} />
                 <View style={styles.navGalleryMountainBack} />
                 <View style={styles.navGalleryMountainFront} />
               </View>
             ) : item.id === 'Credits' ? (
-              <View style={[styles.navDatabaseIcon, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Кредиты">
+              <View style={[styles.navDatabaseIcon, styles.navIconRestore, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Кредиты">
                 <View style={styles.navDatabaseTop} />
                 <View style={styles.navDatabaseBody}>
                   <View style={styles.navDatabaseMiddle} />
@@ -2113,7 +2113,7 @@ export default function App() {
                 </View>
               </View>
             ) : (
-              <View style={[styles.navPerson, tab === item.id && styles.navPersonActive]} accessibilityLabel="Профиль">
+              <View style={[styles.navPerson, styles.navIconRestore, tab === item.id && styles.navPersonActive]} accessibilityLabel="Профиль">
                 <View style={styles.navPersonHead} />
                 <View style={styles.navPersonBody} />
               </View>
@@ -7461,4 +7461,15 @@ const styles = StyleSheet.create({
   packagePopularBadge: { position: 'absolute', top: -10, alignSelf: 'center', zIndex: 4, elevation: 5, minHeight: 20, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: '#75E4FF', backgroundColor: '#0879F5', alignItems: 'center', justifyContent: 'center', shadowColor: '#12BFFF', shadowOpacity: 0.8, shadowRadius: 9 },
   packagePopularBadgeText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '900' },
   ...FINAL_UI_CREATE_HERO_V65,
+  // V66: keep all four neon navigation glyphs above the glass dock and screen content.
+  navIconRestore: {
+    width: 32, height: 32, minWidth: 32, minHeight: 32,
+    alignItems: 'center', justifyContent: 'center',
+    opacity: 1, zIndex: 30, elevation: 18,
+    overflow: 'visible', backgroundColor: 'transparent'
+  },
+  bottomNav: {
+    position: 'relative', zIndex: 25, elevation: 25,
+    overflow: 'visible'
+  },
 });
