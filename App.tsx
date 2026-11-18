@@ -2006,19 +2006,14 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
-        {!showIntro && (
-          <Image
-            source={require('./assets/Штормовое море под электрическим небом-1.png')}
-            blurRadius={0}
-            resizeMode="cover"
-            style={{
-              ...StyleSheet.absoluteFill,
-              width: '100%',
-              height: '100%',
-              opacity: 1,
-            }}
-          />
-        )}
+        <Image
+          source={require('./assets/Штормовое море под электрическим небом-1.png')}
+          blurRadius={0}
+          resizeMode="cover"
+          fadeDuration={0}
+          style={[StyleSheet.absoluteFill, { width: '100%', height: '100%', opacity: 1 }]}
+          accessibilityLabel="Фоновое изображение интерфейса НейроСцены"
+        />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.10)' }]} />
         <View style={[styles.ambientBackdropTint, tab === 'Gallery' ? styles.ambientTintGallery : tab === 'Credits' ? styles.ambientTintCredits : tab === 'Profile' ? styles.ambientTintProfile : null]} />
         <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
