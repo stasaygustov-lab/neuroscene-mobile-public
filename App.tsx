@@ -1694,6 +1694,7 @@ export default function App() {
       return (
         <CreateScreen
           language={language}
+          blurTarget={bottomBlurTargetRef}
           creditsBalance={creditsBalance}
           creditsLoading={creditsLoading}
           generationType={generationType}
@@ -1729,6 +1730,7 @@ export default function App() {
         <GalleryScreen
           items={galleryItems}
           language={language}
+          blurTarget={bottomBlurTargetRef}
           loading={galleryLoading}
           error={galleryError}
           onRefresh={loadGallery}
@@ -1768,7 +1770,7 @@ export default function App() {
 
           <View style={styles.creditReferenceLayout}>
             <View style={[styles.creditCoinShowcase, { position: 'relative', overflow: 'hidden' }]} accessibilityLabel="Объёмная композиция золотых монет">
-              <GlassBlurLayer radius={22} intensity={36} />
+              <GlassBlurLayer radius={22} intensity={36} targetRef={bottomBlurTargetRef} />
               <View style={styles.creditCoinStack}>
                 <View style={[styles.creditLargeCoin, styles.creditLargeCoinBack]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
                 <View style={[styles.creditLargeCoin, styles.creditLargeCoinMiddle]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
@@ -1791,7 +1793,7 @@ export default function App() {
                     accessibilityRole="button"
                     accessibilityState={{ selected: selectedCreditPackage === amount }}
                   >
-                    <GlassBlurLayer radius={17} intensity={38} />
+                    <GlassBlurLayer radius={17} intensity={38} targetRef={bottomBlurTargetRef} />
                     <View style={styles.packageChoiceCopy}>
                       <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')}</Text>
                       <Text style={styles.packageChoiceUnit}>кредитов</Text>
@@ -2131,6 +2133,7 @@ export default function App() {
 
 type CreateScreenProps = {
   language: Language;
+  blurTarget: any;
   creditsBalance: number | null;
   creditsLoading: boolean;
   generationType: GenerationType;
@@ -2161,11 +2164,12 @@ type CreateScreenProps = {
 
 
 
-function GlassBlurLayer({ radius = 18, intensity = 38 }: { radius?: number; intensity?: number }) {
+function GlassBlurLayer({ radius = 18, intensity = 38, targetRef }: { radius?: number; intensity?: number; targetRef: any }) {
   return (
     <BlurView
       pointerEvents="none"
       intensity={intensity}
+      blurTarget={targetRef}
       tint="dark"
       blurMethod="dimezisBlurViewSdk31Plus"
       style={[StyleSheet.absoluteFillObject, { borderRadius: radius, overflow: 'hidden' }]}
@@ -2175,6 +2179,7 @@ function GlassBlurLayer({ radius = 18, intensity = 38 }: { radius?: number; inte
 
 function CreateScreen({
   language,
+  blurTarget,
   generationType,
   setGenerationType,
   sourceImage,
@@ -2219,7 +2224,7 @@ function CreateScreen({
       </View>
 
       <View style={[styles.engineCard, { position: 'relative', overflow: 'hidden' }]}>
-        <GlassBlurLayer radius={16} intensity={42} />
+        <GlassBlurLayer radius={16} intensity={42} targetRef={blurTarget} />
         <View style={styles.engineDot} />
         <View style={{ flex: 1 }}>
           <Text style={styles.engineName}>НейроСцена</Text>
@@ -2265,7 +2270,7 @@ function CreateScreen({
             { id: 'prompt', title: 'Улучшение промпта' },
           ].map((feature) => (
             <View key={feature.id} style={[styles.featureTile, { position: 'relative', overflow: 'hidden' }]}>
-              <GlassBlurLayer radius={15} intensity={34} />
+              <GlassBlurLayer radius={15} intensity={34} targetRef={blurTarget} />
               <FeatureGlyph type={feature.id} />
               <Text style={styles.featureTitle}>{feature.title}</Text>
             </View>
@@ -2284,7 +2289,7 @@ function CreateScreen({
 
       {!!enhancedPrompt && (
         <View style={[styles.imageUploadCard, { position: 'relative', overflow: 'hidden' }]}>
-          <GlassBlurLayer radius={18} intensity={42} />
+          <GlassBlurLayer radius={18} intensity={42} targetRef={blurTarget} />
           <Text style={styles.sectionTitle}>УЛУЧШЕННЫЙ ПРОМПТ</Text>
           <TextInput style={styles.prompt} value={enhancedPrompt} onChangeText={setEnhancedPrompt} multiline textAlignVertical="top" maxLength={4000} editable={!busy} />
           <Text style={styles.note}>Проверь и отредактируй результат. Он не будет использован, пока ты его не применишь.</Text>
@@ -2394,6 +2399,7 @@ function CreateScreen({
 function GalleryScreen({
   items,
   language,
+  blurTarget,
   loading,
   error,
   onRefresh,
@@ -2405,6 +2411,7 @@ function GalleryScreen({
 }: {
   items: any[];
   language: Language;
+  blurTarget: any;
   loading: boolean;
   error: string;
   onRefresh: () => void;
@@ -2467,7 +2474,7 @@ function GalleryScreen({
             : '';
         return (
           <View key={item.job_id} style={[styles.galleryCard, { position: 'relative', overflow: 'hidden' }]}>
-            <GlassBlurLayer radius={18} intensity={38} />
+            <GlassBlurLayer radius={18} intensity={38} targetRef={blurTarget} />
             <View style={styles.galleryPreview}>
               <GalleryVideoPlayer uri={url} />
               {!!durationLabel && <Text style={styles.galleryDuration}>{durationLabel}</Text>}
