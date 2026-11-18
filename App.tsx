@@ -1974,16 +1974,25 @@ export default function App() {
   const activeScreenKey = showAdminPanel ? 'admin' : showNotifications ? 'notifications' : showFaq ? 'faq' : showSupport ? 'support' : tab;
 
   return (
-    <ImageBackground
-      source={require('./assets/Штормовое море под электрическим небом-1.png')}
-      resizeMode="cover"
-      imageStyle={{ opacity: 1 }}
-      style={styles.container}
-      accessibilityLabel="Фоновое изображение всех экранов — электрический шторм над океаном"
-    >
-      <View pointerEvents="none" style={styles.ambientBackdrop}>
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.035)' }]} />
-        <View style={styles.ambientBackdropTint} />
+    <View style={[styles.container, { flex: 1, backgroundColor: '#020611' }]}>
+      <View pointerEvents="none" style={[styles.ambientBackdrop, { backgroundColor: '#020611' }]}>
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: '#020611' }]} />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(2,8,25,0.22)' }]} />
+        {/* Deep-space nebula layers: soft volumetric clouds at different depths */}
+        <View style={{ position: 'absolute', width: 430, height: 250, top: '7%', right: -190, borderRadius: 220, backgroundColor: 'rgba(41,78,196,0.28)', shadowColor: '#477BFF', shadowOpacity: 0.95, shadowRadius: 105, elevation: 10, transform: [{ rotate: '-24deg' }] }} />
+        <View style={{ position: 'absolute', width: 390, height: 210, top: '29%', left: -190, borderRadius: 190, backgroundColor: 'rgba(103,43,174,0.22)', shadowColor: '#9A54FF', shadowOpacity: 0.9, shadowRadius: 100, elevation: 9, transform: [{ rotate: '18deg' }] }} />
+        <View style={{ position: 'absolute', width: 460, height: 230, bottom: '13%', right: -220, borderRadius: 220, backgroundColor: 'rgba(0,105,171,0.24)', shadowColor: '#12B8FF', shadowOpacity: 0.9, shadowRadius: 110, elevation: 10, transform: [{ rotate: '-17deg' }] }} />
+        <View style={{ position: 'absolute', width: 300, height: 160, bottom: '34%', left: '12%', borderRadius: 150, backgroundColor: 'rgba(57,54,153,0.18)', shadowColor: '#7565FF', shadowOpacity: 0.85, shadowRadius: 90, elevation: 8 }} />
+        {/* Distant planet with atmospheric rim and orbital plane */}
+        <View style={{ position: 'absolute', width: 138, height: 138, top: '11%', right: -30, borderRadius: 69, backgroundColor: '#142D61', borderWidth: 1, borderColor: 'rgba(151,204,255,0.5)', shadowColor: '#438DFF', shadowOpacity: 0.95, shadowRadius: 38, elevation: 16 }}>
+          <View style={{ position: 'absolute', top: 9, left: 14, width: 106, height: 106, borderRadius: 53, borderLeftWidth: 2, borderTopWidth: 1, borderColor: 'rgba(185,224,255,0.35)', backgroundColor: 'rgba(3,14,42,0.34)' }} />
+        </View>
+        <View style={{ position: 'absolute', width: 250, height: 76, top: '16%', right: -82, borderRadius: 125, borderWidth: 1.2, borderColor: 'rgba(106,185,255,0.35)', transform: [{ rotate: '-24deg' }] }} />
+        {/* Distant star field */}
+        {Array.from({ length: 34 }, (_, i) => (
+          <View key={`cosmic-star-${i}`} style={{ position: 'absolute', top: `${(i * 37 + 9) % 94}%`, left: `${(i * 61 + 7) % 96}%`, width: i % 7 === 0 ? 3 : i % 3 === 0 ? 2 : 1.5, height: i % 7 === 0 ? 3 : i % 3 === 0 ? 2 : 1.5, borderRadius: 3, backgroundColor: i % 5 === 0 ? '#D6C8FF' : '#B8E8FF', opacity: 0.35 + (i % 5) * 0.12, shadowColor: '#69BFFF', shadowOpacity: 0.9, shadowRadius: i % 7 === 0 ? 9 : 4 }} />
+        ))}
+        <View style={[styles.ambientBackdropTint, { backgroundColor: 'rgba(1,5,18,0.12)' }]} />
         <View style={styles.ambientGlowTop} />
         <View style={styles.ambientGlowBottom} />
         <View style={styles.ambientGlowCenter} />
@@ -2115,7 +2124,7 @@ export default function App() {
           }]} />
         </View>
       )}
-    </ImageBackground>
+    </View>
   );
 }
 
