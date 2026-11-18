@@ -6624,9 +6624,9 @@ const styles: Record<string, any> = StyleSheet.create({
   profileTitleUnderline: { width: '76%', height: 4, marginTop: 5, borderRadius: 8, backgroundColor: 'rgba(92, 203, 255, 0.78)', shadowColor: '#149EFF', shadowOpacity: 1, shadowRadius: 22, elevation: 12 },
   
   
-  featureHeadingBeamCore: { width: '100%', height: 1, borderRadius: 2, backgroundColor: '#A7EEFF', opacity: 0.94 },
-  sectionHeadingBeam: { width: '100%', height: 3, marginTop: -6, marginBottom: 10, borderRadius: 8, backgroundColor: 'rgba(38, 157, 255, 0.30)', shadowColor: '#119EFF', shadowOpacity: 1, shadowRadius: 18, elevation: 10, justifyContent: 'center' },
-  sectionHeadingBeamCore: { width: '100%', height: 1, borderRadius: 2, backgroundColor: 'rgba(155, 230, 255, 0.88)' },
+  featureHeadingBeamCore: { width: '100%', height: 2, borderRadius: 4, backgroundColor: 'rgba(105,220,255,0.22)', opacity: 0.72, shadowColor: '#20CFFF', shadowOpacity: 1, shadowRadius: 16, elevation: 8 },
+  sectionHeadingBeam: { width: '100%', height: 8, marginTop: -6, marginBottom: 10, borderRadius: 12, backgroundColor: 'rgba(18,145,255,0.10)', shadowColor: '#08AFFF', shadowOpacity: 1, shadowRadius: 30, shadowOffset: { width: 0, height: 0 }, elevation: 16, justifyContent: 'center', overflow: 'visible' },
+  sectionHeadingBeamCore: { width: '100%', height: 3, borderRadius: 6, backgroundColor: 'rgba(100,210,255,0.16)', shadowColor: '#20CFFF', shadowOpacity: 1, shadowRadius: 18, shadowOffset: { width: 0, height: 0 }, elevation: 10 },
   
   // Brand mark geometry follows the original reference: angular Н, separate plus, open C.
   
@@ -7326,19 +7326,17 @@ const styles: Record<string, any> = StyleSheet.create({
   },
   
   featureHeadingLine: {
-    flex: 1, height: 3, borderRadius: 3,
-    backgroundColor: 'rgba(22,139,255,0.86)',
-    borderTopWidth: 1, borderTopColor: 'rgba(220,250,255,0.94)',
-    shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 12,
-    shadowOffset: { width: 0, height: 2 }, elevation: 8
+    flex: 1, height: 7, borderRadius: 12,
+    backgroundColor: 'rgba(18,145,255,0.10)',
+    shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 25,
+    shadowOffset: { width: 0, height: 0 }, elevation: 15, opacity: 0.92
   },
   featureHeadingBeam: {
-    width: '72%', height: 5, alignSelf: 'center', marginTop: 5, marginBottom: 10,
-    borderRadius: 8, backgroundColor: 'rgba(48,167,255,0.48)',
-    borderTopWidth: 1, borderTopColor: 'rgba(225,251,255,0.94)',
-    shadowColor: '#129DFF', shadowOpacity: 1, shadowRadius: 24,
-    shadowOffset: { width: 0, height: 3 }, elevation: 15,
-    alignItems: 'center', justifyContent: 'center'
+    width: '72%', height: 9, alignSelf: 'center', marginTop: 5, marginBottom: 10,
+    borderRadius: 14, backgroundColor: 'rgba(18,145,255,0.12)',
+    shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 32,
+    shadowOffset: { width: 0, height: 0 }, elevation: 18,
+    alignItems: 'center', justifyContent: 'center', opacity: 0.96
   },
   referenceCreateButtonHighlight: {
     position: 'absolute', top: 2, left: 3, right: 3, height: 27,
