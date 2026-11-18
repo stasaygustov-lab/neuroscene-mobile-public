@@ -828,3 +828,13 @@
 - New assets: `assets/illustrations/create-3d.jpg`, `gallery-3d.jpg`, `credits-3d.jpg`, `profile-3d.jpg`.
 - Only presentation code and image assets were changed; backend, authentication, generation, payments, and business logic were not intentionally modified.
 - Static source verification only. Android rendering/build has not yet been verified in a fresh APK; inspect the four screens and bottom navigation on-device after the next preview build.
+
+
+## UI V74 — исправление 3D-иллюстраций и нижней навигации (2026-11-18)
+- Ветка: `ui/full-visual-redesign`; коммит `d77736b779fd19b349001ea2a0ab50e2eef75edc`.
+- По свежим Android-скриншотам обнаружено: предыдущие JPEG-иллюстрации имели чёрные прямоугольные поля/низкое качество, аватар отображался с артефактами, а нижние иконки не были видны.
+- Удалены все ссылки на четыре низкокачественных JPEG из `App.tsx`. Вместо них используются масштабируемые нативные 3D-стилизованные композиции React Native: хлопушка, галактика, золотые монеты и голографический аватар. Прозрачный фон, без растровой чёрной подложки и рамки; рендеринг остаётся чётким на разных плотностях экранов.
+- Четыре плитки «Возможности» на экране «Создать» теперь имеют собственные объёмные пиктограммы: хлопушка, пейзаж, звуковой эквалайзер и волшебная палочка. Большая центральная иллюстрация на «Создать» не возвращалась.
+- Нижняя навигация переведена на отдельный компонент `BottomNavGlyph` с явно заданными размерами, контрастными контурами, заливками и свечением для всех четырёх вкладок. Это обходит конфликтующие исторические переопределения StyleSheet, которые ранее скрывали значки.
+- Изменён только UI в `App.tsx`; сетевые вызовы, авторизация, генерация, платежи, API и бизнес-логика не менялись.
+- Статически подтверждено: ссылки на `create-3d.jpg`, `gallery-3d.jpg`, `credits-3d.jpg`, `profile-3d.jpg` отсутствуют; используются компоненты `ThreeDArtwork` и `BottomNavGlyph`. APK/Android runtime-проверка ещё не выполнена.
