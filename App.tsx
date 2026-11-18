@@ -3427,10 +3427,23 @@ function SupportScreen({
 }
 
 function FeatureGlyph({ type }: { type: string }) {
-  if (type === 'text') return <View style={styles.featureGlyphFrame} accessibilityLabel="Кинематографическая хлопушка"><View style={styles.featureClapperTop}><View style={styles.featureClapperStripe} /><View style={styles.featureClapperStripe} /><View style={styles.featureClapperStripe} /></View><View style={styles.featureClapperBody}><View style={styles.featureGlyphPlay} /></View></View>;
-  if (type === 'image') return <View style={styles.featureGlyphFrame} accessibilityLabel="Изображение и пейзаж"><View style={styles.featureImageSun} /><View style={styles.featureImageMountainBack} /><View style={styles.featureImageMountainFront} /></View>;
-  if (type === 'sound') return <View style={styles.featureGlyphFrame} accessibilityLabel="Звуковая дорожка"><Text style={styles.featureMusicGlyph}>♫</Text><View style={styles.featureSoundWave}><View style={[styles.featureSoundWaveBar,{height:4}]} /><View style={[styles.featureSoundWaveBar,{height:8}]} /><View style={[styles.featureSoundWaveBar,{height:5}]} /><View style={[styles.featureSoundWaveBar,{height:7}]} /><View style={[styles.featureSoundWaveBar,{height:3}]} /></View></View>;
-  return <View style={styles.featureGlyphFrame} accessibilityLabel="Волшебная палочка улучшения"><View style={styles.featureWandStem} /><Text style={styles.featureWandSpark}>✦</Text><Text style={styles.featureWandSparkSmall}>✧</Text></View>;
+  let artwork: any;
+  if (type === 'text') {
+    artwork = <><View style={styles.featureClapperTop}><View style={styles.featureClapperStripe} /><View style={styles.featureClapperStripe} /><View style={styles.featureClapperStripe} /></View><View style={styles.featureClapperBody}><View style={styles.featureGlyphPlay} /></View></>;
+  } else if (type === 'image') {
+    artwork = <><View style={styles.featureImageSun} /><View style={styles.featureImageMountainBack} /><View style={styles.featureImageMountainFront} /></>;
+  } else if (type === 'sound') {
+    artwork = <><Text style={styles.featureMusicGlyph}>♫</Text><View style={styles.featureSoundWave}><View style={[styles.featureSoundWaveBar,{height:4}]} /><View style={[styles.featureSoundWaveBar,{height:8}]} /><View style={[styles.featureSoundWaveBar,{height:5}]} /><View style={[styles.featureSoundWaveBar,{height:7}]} /><View style={[styles.featureSoundWaveBar,{height:3}]} /></View></>;
+  } else {
+    artwork = <><View style={styles.featureWandStem} /><Text style={styles.featureWandSpark}>✦</Text><Text style={styles.featureWandSparkSmall}>✧</Text></>;
+  }
+  const labels: Record<string, string> = { text: 'Кинематографическая хлопушка', image: 'Изображение и пейзаж', sound: 'Звуковая дорожка', prompt: 'Волшебная палочка улучшения' };
+  return (
+    <View style={styles.featureGlyphAura} accessibilityLabel={labels[type] || 'Возможность НейроСцены'}>
+      <View pointerEvents="none" style={styles.featureGlyphAuraOuter} />
+      <View style={styles.featureGlyphFrame}>{artwork}</View>
+    </View>
+  );
 }
 
 function ImagePickerPreview({ uri }: { uri: string }) {
