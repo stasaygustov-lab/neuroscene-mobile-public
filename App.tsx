@@ -3364,7 +3364,17 @@ function PanelArtworkCrop({ quadrant, width, height }: { quadrant: PanelArtworkQ
 function FeatureGlyph({ type }: { type: string }) {
   let artwork: any;
   if (type === 'text') {
-    artwork = <Image source={require('./assets/illustrations/create-3d.jpg')} style={{ width: 42, height: 42 }} resizeMode="contain" />;
+    artwork = (
+      <View style={{ width: 42, height: 42, alignItems: 'center', justifyContent: 'center' }} accessible={false}>
+        <View style={{ position: 'absolute', bottom: 2, width: 38, height: 22, borderRadius: 5, backgroundColor: '#031B4D', borderWidth: 1.2, borderColor: '#1679D8', transform: [{ rotate: '-3deg' }], shadowColor: '#08BFFF', shadowOpacity: 0.8, shadowRadius: 5, elevation: 4 }} />
+        <View style={{ position: 'absolute', bottom: 4, width: 35, height: 19, borderRadius: 4, backgroundColor: '#0754A5', borderWidth: 1, borderColor: '#9BEAFF', alignItems: 'center', justifyContent: 'space-evenly', flexDirection: 'row', transform: [{ rotate: '-3deg' }] }}>
+          {[0,1,2,3].map(n => <View key={n} style={{ width: 4, height: 2.5, borderRadius: 1, backgroundColor: '#7DE2FF' }} />)}
+        </View>
+        <View style={{ position: 'absolute', top: 5, width: 37, height: 7, borderRadius: 2, backgroundColor: '#0C3F83', borderWidth: 1, borderColor: '#B9F5FF', flexDirection: 'row', overflow: 'hidden', transform: [{ rotate: '-8deg' }], shadowColor: '#24C9FF', shadowOpacity: 0.85, shadowRadius: 4, elevation: 4 }}>
+          {[0,1,2,3,4,5].map(n => <View key={n} style={{ flex: 1, backgroundColor: n % 2 ? '#1689E8' : '#C5F6FF', transform: [{ skewX: '-24deg' }], marginHorizontal: 0.5 }} />)}
+        </View>
+      </View>
+    );
   } else if (type === 'image') {
     artwork = <><View style={styles.featureImageSun} /><View style={styles.featureImageMountainBack} /><View style={styles.featureImageMountainFront} /></>;
   } else if (type === 'sound') {
