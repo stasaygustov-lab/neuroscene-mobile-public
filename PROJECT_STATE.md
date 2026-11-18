@@ -967,3 +967,15 @@
 - Preserved button dimensions, labels, enabled/disabled state behavior, handlers, navigation, and all business logic.
 - UI source-only change; no TypeScript validation, APK build, or Android-device visual verification was performed.
 - Commit: `17768ac98877487c2565a3bf6acf23712b00941a`.
+
+## V89 — APK preview build preflight hardening (2026-11-18)
+- Branch: `ui/full-visual-redesign`.
+- `app.json` now points Android adaptive icon foreground to `assets/android-icon-foreground.png`, generated at build time by `scripts/fit-android-icon.py` inside the Android safe area. The regular launcher icon, splash image, and web favicon continue to use the approved `assets/neuroscene-brand.png`.
+- `.github/workflows/android-apk-preview.yml` now applies the existing Foojay resolver workaround used by the other Android workflow, avoiding an unnecessary JDK resolver download when Java 17 is already provisioned.
+- Simplified launcher preparation to one source-preserving generation step. Removed redundant steps that rewrote the source logo before the safe-area foreground was generated.
+- Added a pre-build Node check that verifies every Expo icon/splash asset reference exists, is a valid PNG, and is 1024×1024; it also confirms the adaptive foreground uses the generated safe-area asset.
+- Static source audit: `app.json`, `package.json`, and `package-lock.json` parse as JSON; every production dependency has a matching lock entry; all static `require('./assets/...')` references in `App.tsx` exist. No missing static asset references were found.
+- Preview workflow remains manually dispatched, checks out `ui/full-visual-redesign`, runs `npm ci`, Expo prebuild, Gradle `assembleRelease`, APK/bundle verification, and uploads the APK artifact. It does not start an EAS cloud build or emulator.
+- TypeScript check remains diagnostic/non-blocking (`continue-on-error: true`); no claim is made that it passes. `npm ci`, Expo prebuild, Gradle build, and device verification have not been executed in this session. The workflow is prepared for a manual build, but successful APK production is not yet verified.
+- No backend, API, authentication, video generation, payment, ComfyUI, or main-branch files were changed.
+- Commits: `ae27cf54547f0236d3a986ede1aae5021254273f` (adaptive icon path), `77655b9283ca7b71eb743cac895668adbe9cee98` (JDK and asset preflight), `105b4445dd5df5e078635e1a4249480f571f89f8` (single-pass launcher preparation and PNG dimension validation).
