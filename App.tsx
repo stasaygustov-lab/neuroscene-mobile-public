@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import { VideoView, useVideoPlayer } from 'expo-video';
 import { StatusBar } from 'expo-status-bar';
+import { BlurTargetView, BlurView } from 'expo-blur';
 import * as ImagePicker from 'expo-image-picker';
 import { File as ExpoFile, Paths as ExpoPaths } from 'expo-file-system';
 import * as Clipboard from 'expo-clipboard';
@@ -155,6 +156,7 @@ function ScreenTransition({ children, direction = 1 }: { children: any; directio
 }
 
 export default function App() {
+  const bottomBlurTargetRef = useRef<any>(null);
   const [fontsLoaded, fontError] = useFonts({ Manrope: require('./assets/Manrope[wght].ttf') });
   const [tab, setTab] = useState<Tab>('Create');
   const [transitionDirection, setTransitionDirection] = useState<1 | -1>(1);
@@ -2015,23 +2017,32 @@ export default function App() {
         </View>
       </View>}
 
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent, { flexGrow: 1 }]}
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
-        automaticallyAdjustKeyboardInsets
-        showsVerticalScrollIndicator={false}
-        {...swipeResponder.panHandlers}
-      >
-        {authReady ? <ScreenTransition key={activeScreenKey} direction={transitionDirection}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
-      </ScrollView>
+      <BlurTargetView ref={bottomBlurTargetRef} style={{ flex: 1 }}>
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent, { flexGrow: 1 }]}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          automaticallyAdjustKeyboardInsets
+          showsVerticalScrollIndicator={false}
+          {...swipeResponder.panHandlers}
+        >
+          {authReady ? <ScreenTransition key={activeScreenKey} direction={transitionDirection}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
+        </ScrollView>
+      </BlurTargetView>
 
       <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', marginHorizontal: 0, alignSelf: 'center', flexShrink: 0, height: 86, minHeight: 86, maxHeight: 86, paddingTop: 5, paddingBottom: 10, paddingHorizontal: 8 }]}>
-        <View pointerEvents="none" style={styles.bottomNavGlass}>
+        <BlurView
+          pointerEvents="none"
+          blurTarget={bottomBlurTargetRef}
+          intensity={72}
+          tint="dark"
+          blurMethod="dimezisBlurViewSdk31Plus"
+          style={[StyleSheet.absoluteFillObject, styles.bottomNavGlass]}
+        >
           <View style={styles.bottomNavGlassEdge} />
           <View style={styles.bottomNavGlassBloom} />
-        </View>
+        </BlurView>
         {([
           { id: 'Create', icon: 'film', label: 'Создать' },
           { id: 'Gallery', icon: 'grid', label: 'Галерея' },
