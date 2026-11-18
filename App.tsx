@@ -2161,297 +2161,173 @@ function CreateScreen({
   onOpenVideo,
   onReset,
 }: CreateScreenProps) {
-  const ru = language === 'ru';
-  const [showComposer, setShowComposer] = useState(false);
-  const [activeFeature, setActiveFeature] = useState<string | null>(null);
   const busy =
     submitting || promptEnhancing || ['queued', 'starting', 'generating', 'uploading'].includes(jobStatus);
-  const ctaGlow = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    const pulse = Animated.loop(Animated.sequence([
-      Animated.timing(ctaGlow, { toValue: 1, duration: 1750, useNativeDriver: false }),
-      Animated.timing(ctaGlow, { toValue: 0, duration: 1750, useNativeDriver: false }),
-    ]));
-    pulse.start();
-    return () => pulse.stop();
-  }, [ctaGlow]);
 
   return (
     <View style={styles.createScreenLayout}>
       <View style={styles.createTopSpacer} />
-      <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
-        <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
-          <View pointerEvents="none" style={styles.referenceCreateButtonHighlight} />
-          <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
-          <Text style={styles.referenceArrow} accessibilityElementsHidden>›</Text>
-        </TouchableOpacity>
-      </Animated.View>
 
-      {!showComposer && (
-        <View style={styles.featureSection}>
-          <View style={styles.featureHeadingRow}>
-            <View pointerEvents="none" style={styles.featureHeadingLine} />
-            <Text style={styles.featureSectionTitle}>Возможности</Text>
-            <View pointerEvents="none" style={styles.featureHeadingLine} />
-          </View>
-          <View pointerEvents="none" style={styles.featureHeadingBeam}><View style={styles.featureHeadingBeamCore} /></View>
-          <View style={styles.featureGrid}>
-            {[
-              { id: 'text', title: 'Текст\nв видео' },
-              { id: 'image', title: 'Изображение\nв видео' },
-              { id: 'sound', title: 'Озвучка\nи эффекты' },
-              { id: 'prompt', title: 'Профессиональное\nкачество' },
-            ].map((feature) => (
-              <TouchableOpacity key={feature.id} activeOpacity={0.82}
-                onPress={() => {
-                  setActiveFeature(feature.id);
-                  if (feature.id === 'text' || feature.id === 'prompt') setGenerationType('t2v');
-                  if (feature.id === 'image') setGenerationType('i2v');
-                }}
-                style={[styles.featureTile, activeFeature === feature.id && styles.featureTileActive]}
-              >
-                <FeatureGlyph type={feature.id} />
-                <Text style={styles.featureTitle}>{feature.title}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-      )}
-
-      {showComposer && (
-      <>
-      <TouchableOpacity activeOpacity={0.86} style={styles.composerBack} onPress={() => setShowComposer(false)}>
-        <Text style={styles.composerBackText}>‹ Назад к сцене</Text>
-      </TouchableOpacity>
       <View style={styles.modeSelector}>
         <TouchableOpacity activeOpacity={0.86} style={[styles.modeOption, generationType === 't2v' && styles.modeOptionActive]} onPress={() => setGenerationType('t2v')} disabled={busy}>
-          <Text style={[styles.modeOptionText, generationType === 't2v' && styles.modeOptionTextActive]}>{uiText(language, 'Text to Video', 'Текст в видео')}</Text>
+          <FeatureGlyph type="text" />
+          <Text style={[styles.modeOptionText, generationType === 't2v' && styles.modeOptionTextActive]}>Текст в видео</Text>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.86} style={[styles.modeOption, generationType === 'i2v' && styles.modeOptionActive]} onPress={() => setGenerationType('i2v')} disabled={busy}>
-          <Text style={[styles.modeOptionText, generationType === 'i2v' && styles.modeOptionTextActive]}>{uiText(language, 'Image to Video', 'Изображение в видео')}</Text>
+          <FeatureGlyph type="image" />
+          <Text style={[styles.modeOptionText, generationType === 'i2v' && styles.modeOptionTextActive]}>Изображение в видео</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.engineCard}>
         <View style={styles.engineDot} />
         <View style={{ flex: 1 }}>
-          <Text style={styles.engineName}>{uiText(language, 'NeuroScene', 'НейроСцена')}</Text>
+          <Text style={styles.engineName}>НейроСцена</Text>
           <Text style={styles.engineDescription}>
-            {generationType === 'i2v' ? (uiText(language, 'IMAGE TO VIDEO', 'ИЗОБРАЖЕНИЕ В ВИДЕО')) : (uiText(language, 'TEXT TO VIDEO', 'ТЕКСТ В ВИДЕО'))} · {uiText(language, 'LOCAL GENERATION', 'ЛОКАЛЬНАЯ ГЕНЕРАЦИЯ')}
+            {generationType === 'i2v' ? 'ИЗОБРАЖЕНИЕ В ВИДЕО' : 'ТЕКСТ В ВИДЕО'} · ЛОКАЛЬНАЯ ГЕНЕРАЦИЯ
           </Text>
         </View>
         <Text style={styles.engineStatus}>{generationType.toUpperCase()}</Text>
       </View>
 
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>{uiText(language, 'YOUR PROMPT', 'ОПИСАНИЕ СЦЕНЫ')}</Text>
-        <Text style={styles.languageLabel}>{uiText(language, 'ENGLISH', 'НА АНГЛИЙСКОМ')}</Text>
+        <Text style={styles.sectionTitle}>ОПИСАНИЕ СЦЕНЫ</Text>
+        <Text style={styles.languageLabel}>НА АНГЛИЙСКОМ</Text>
       </View>
       <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
 
       <TextInput
         style={styles.prompt}
-        placeholder={uiText(language, 'Describe your scene in English. Put spoken dialogue in quotes; Russian lines are kept as written.', 'Опишите сцену на английском. Реплики заключайте в кавычки — русский текст сохранится без перевода.')}
-        placeholderTextColor="#687386"
+        placeholder="Опишите сцену на английском. Реплики заключайте в кавычки — русский текст сохранится без перевода."
+        placeholderTextColor="#9AB4D0"
         multiline
         textAlignVertical="top"
         value={prompt}
         onChangeText={setPrompt}
         selectTextOnFocus
         maxLength={2000}
-        editable={!busy && !promptEnhancing}
+        editable={!busy}
       />
-
       <Text style={styles.characterCount}>{prompt.length} / 2000</Text>
 
-      <TouchableOpacity activeOpacity={0.86}
-        style={[styles.authSecondary, (busy || promptEnhancing || prompt.trim().length < 10) && styles.disabledButton]}
+      <View style={styles.featureSection}>
+        <View style={styles.featureHeadingRow}>
+          <View pointerEvents="none" style={styles.featureHeadingLine} />
+          <Text style={styles.featureSectionTitle}>Возможности</Text>
+          <View pointerEvents="none" style={styles.featureHeadingLine} />
+        </View>
+        <View pointerEvents="none" style={styles.featureHeadingBeam}><View style={styles.featureHeadingBeamCore} /></View>
+        <View style={styles.featureGrid}>
+          {[
+            { id: 'text', title: 'Текст в видео' },
+            { id: 'image', title: 'Изображение в видео' },
+            { id: 'sound', title: 'Озвучка и эффекты' },
+            { id: 'prompt', title: 'Улучшение промпта' },
+          ].map((feature) => (
+            <View key={feature.id} style={styles.featureTile}>
+              <FeatureGlyph type={feature.id} />
+              <Text style={styles.featureTitle}>{feature.title}</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <TouchableOpacity
+        activeOpacity={0.86}
+        style={[styles.authSecondary, (busy || prompt.trim().length < 10) && styles.disabledButton]}
         onPress={onEnhancePrompt}
-        disabled={busy || promptEnhancing || prompt.trim().length < 10}
+        disabled={busy || prompt.trim().length < 10}
       >
-        {promptEnhancing
-          ? <ActivityIndicator color={WHITE} />
-          : <Text style={styles.authSecondaryText}>{uiText(language, '✨ ENHANCE WITH GEMMA 4 E2B', '✨ УЛУЧШИТЬ ЧЕРЕЗ GEMMA 4 E2B')}</Text>}
+        {promptEnhancing ? <ActivityIndicator color={WHITE} /> : <Text style={styles.authSecondaryText}>✨ УЛУЧШИТЬ ПРОМПТ</Text>}
       </TouchableOpacity>
-      {promptEnhancing && (
-        <Text style={styles.note}>{uiText(language, 'Gemma is running locally on your PC. This may take a moment.', 'Gemma работает локально на твоём ПК. Это может занять некоторое время.')}</Text>
-      )}
+
       {!!enhancedPrompt && (
         <View style={styles.imageUploadCard}>
-          <Text style={styles.sectionTitle}>{uiText(language, 'IMPROVED PROMPT · GEMMA 4 E2B', 'УЛУЧШЕННЫЙ ПРОМПТ · GEMMA 4 E2B')}</Text>
-          <TextInput
-            style={styles.prompt}
-            value={enhancedPrompt}
-            onChangeText={setEnhancedPrompt}
-            multiline
-            textAlignVertical="top"
-            maxLength={4000}
-            editable={!busy && !promptEnhancing}
-          />
-          <Text style={styles.note}>{uiText(language, 'Review and edit the result. It will not be used until you apply it.', 'Проверь и отредактируй результат. Он не будет использован, пока ты его не применишь.')}</Text>
-          <TouchableOpacity activeOpacity={0.86}
-            style={styles.authAction}
-            onPress={() => { setPrompt(enhancedPrompt); setEnhancedPrompt(''); }}
-            disabled={busy || promptEnhancing}
-          >
-            <Text style={styles.createButtonText}>{uiText(language, 'USE IMPROVED PROMPT', 'ИСПОЛЬЗОВАТЬ УЛУЧШЕННЫЙ ПРОМПТ')}</Text>
+          <Text style={styles.sectionTitle}>УЛУЧШЕННЫЙ ПРОМПТ</Text>
+          <TextInput style={styles.prompt} value={enhancedPrompt} onChangeText={setEnhancedPrompt} multiline textAlignVertical="top" maxLength={4000} editable={!busy} />
+          <Text style={styles.note}>Проверь и отредактируй результат. Он не будет использован, пока ты его не применишь.</Text>
+          <TouchableOpacity activeOpacity={0.86} style={styles.authAction} onPress={() => { setPrompt(enhancedPrompt); setEnhancedPrompt(''); }} disabled={busy}>
+            <Text style={styles.createButtonText}>ИСПОЛЬЗОВАТЬ УЛУЧШЕННЫЙ ПРОМПТ</Text>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={() => setEnhancedPrompt('')} disabled={promptEnhancing}>
-            <Text style={styles.authLinkText}>{uiText(language, 'Discard result', 'Отклонить результат')}</Text>
+          <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={() => setEnhancedPrompt('')} disabled={busy}>
+            <Text style={styles.authLinkText}>Отклонить результат</Text>
           </TouchableOpacity>
         </View>
       )}
 
       {generationType === 'i2v' && (
         <View style={styles.imageUploadCard}>
-          <Text style={styles.sectionTitle}>{uiText(language, 'SOURCE IMAGE', 'ИСХОДНОЕ ИЗОБРАЖЕНИЕ')}</Text>
+          <Text style={styles.sectionTitle}>ИСХОДНОЕ ИЗОБРАЖЕНИЕ</Text>
           {sourceImage ? (
             <View>
               <ImagePickerPreview uri={sourceImage.uri} />
-              <Text style={styles.imageFileName} numberOfLines={1}>{sourceImage.fileName || (uiText(language, 'Selected image', 'Выбранное изображение'))}</Text>
+              <Text style={styles.imageFileName} numberOfLines={1}>{sourceImage.fileName || 'Выбранное изображение'}</Text>
               <TouchableOpacity activeOpacity={0.86} style={styles.removeImageButton} onPress={onRemoveImage} disabled={busy}>
-                <Text style={styles.removeImageText}>{uiText(language, 'Remove image', 'Удалить изображение')}</Text>
+                <Text style={styles.removeImageText}>Удалить изображение</Text>
               </TouchableOpacity>
             </View>
           ) : (
             <TouchableOpacity activeOpacity={0.86} style={styles.chooseImageButton} onPress={onChooseImage} disabled={busy}>
               <Text style={styles.chooseImageIcon}>＋</Text>
-              <Text style={styles.chooseImageText}>{uiText(language, 'Choose image', 'Выбрать изображение')}</Text>
-              <Text style={styles.imageHint}>{uiText(language, 'JPEG or PNG · up to 10 MB', 'JPEG или PNG · до 10 МБ')}</Text>
+              <Text style={styles.chooseImageText}>Выбрать изображение</Text>
+              <Text style={styles.imageHint}>JPEG или PNG · до 10 МБ</Text>
             </TouchableOpacity>
           )}
         </View>
       )}
 
-
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>{uiText(language, 'DURATION', 'ДЛИТЕЛЬНОСТЬ')}</Text>
-      </View>
+      <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>ДЛИТЕЛЬНОСТЬ</Text></View>
       <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
-
       <View style={styles.optionRow}>
         {[5, 10].map((value) => (
-          <TouchableOpacity activeOpacity={0.86}
-            key={value}
-            style={[
-              styles.option,
-              duration === value && styles.selectedOption,
-            ]}
-            onPress={() => setDuration(value)}
-            disabled={busy}
-          >
-            <Text style={[styles.optionMain, duration === value && styles.activeText]}>
-              {value}s
-            </Text>
-            <Text style={styles.optionSub}>{uiText(language, 'seconds', 'секунд')}</Text>
+          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, duration === value && styles.selectedOption]} onPress={() => setDuration(value)} disabled={busy}>
+            <Text style={[styles.optionMain, duration === value && styles.activeText]}>{value}с</Text>
+            <Text style={styles.optionSub}>секунд</Text>
           </TouchableOpacity>
         ))}
       </View>
 
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>{uiText(language, 'ASPECT RATIO', 'ФОРМАТ КАДРА')}</Text>
-      </View>
+      <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>ФОРМАТ КАДРА</Text></View>
       <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
-
       <View style={styles.optionRow}>
         {['16:9', '9:16'].map((value) => (
-          <TouchableOpacity activeOpacity={0.86}
-            key={value}
-            style={[
-              styles.option,
-              ratio === value && styles.selectedOption,
-            ]}
-            onPress={() => setRatio(value)}
-            disabled={busy}
-          >
-            <Text style={[styles.optionMain, ratio === value && styles.activeText]}>
-              {value}
-            </Text>
-            <Text style={styles.optionSub}>
-              {value === '16:9' ? (uiText(language, 'Landscape', 'Горизонтальный')) : (uiText(language, 'Portrait', 'Вертикальный'))}
-            </Text>
+          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.option, ratio === value && styles.selectedOption]} onPress={() => setRatio(value)} disabled={busy}>
+            <Text style={[styles.optionMain, ratio === value && styles.activeText]}>{value}</Text>
+            <Text style={styles.optionSub}>{value === '16:9' ? 'Горизонтальный' : 'Вертикальный'}</Text>
           </TouchableOpacity>
         ))}
       </View>
 
-      <View style={styles.costCard}>
-        <View style={{ flex: 1, minWidth: 0 }}>
-          <Text style={styles.costLabel}>{uiText(language, 'GENERATION COST', 'СТОИМОСТЬ ГЕНЕРАЦИИ')}</Text>
-          <Text style={styles.costDescription}>
-            {uiText(language, 'Generation pricing is not configured yet', 'Расчёт стоимости ещё не подключён')}
-          </Text>
-        </View>
-        <View style={styles.costBalance}>
-          <Text style={styles.costBalanceLabel}>БАЛАНС</Text>
-          <Text style={styles.costBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
-        </View>
-        <Text style={styles.costIcon}>✦</Text>
-      </View>
-
-      <TouchableOpacity activeOpacity={0.86}
-        style={[styles.createButton, busy && styles.disabledButton]}
-        onPress={onCreate}
-        disabled={busy}
-      >
-        {submitting ? (
-          <ActivityIndicator color={WHITE} />
-        ) : (
-          <Text style={styles.createButtonText}>
-            {busy ? (uiText(language, 'GENERATION IN PROGRESS', 'ГЕНЕРАЦИЯ ВЫПОЛНЯЕТСЯ')) : (uiText(language, '✦  CREATE VIDEO', '✦  СОЗДАТЬ ВИДЕО'))}
-          </Text>
-        )}
+      <TouchableOpacity activeOpacity={0.86} style={[styles.createButton, busy && styles.disabledButton]} onPress={onCreate} disabled={busy}>
+        {submitting ? <ActivityIndicator color={WHITE} /> : <Text style={styles.createButtonText}>{busy ? 'ГЕНЕРАЦИЯ ВЫПОЛНЯЕТСЯ' : '✦  СОЗДАТЬ ВИДЕО'}</Text>}
       </TouchableOpacity>
 
       {jobStatus !== 'idle' && (
         <View style={styles.statusCard}>
           <View style={styles.statusHeader}>
-            <Text style={styles.statusTitle}>{uiText(language, 'GENERATION STATUS', 'СТАТУС ГЕНЕРАЦИИ')}</Text>
+            <Text style={styles.statusTitle}>СТАТУС ГЕНЕРАЦИИ</Text>
             {busy && <ActivityIndicator color={BLUE} size="small" />}
           </View>
-
           <Text style={[styles.statusValue, jobStatus === 'completed' && styles.statusSuccess]}>
-            {busy
-              ? (uiText(language, 'NeuroScene is creating your video', 'НейроСцена создаёт видео'))
-              : jobStatus === 'completed'
-                ? (uiText(language, 'Video ready', 'Видео готово'))
-                : (uiText(language, 'Generation error', 'Ошибка генерации'))}
-          </Text>{!busy && <Text style={[styles.statusDescription, jobStatus === 'completed' && styles.statusSuccess]}>{jobMessage}</Text>}
-
-          {jobId && (
-            <Text style={styles.jobId}>ID: {jobId}</Text>
-          )}
-
-          {pollError !== '' && (
-            <Text style={styles.errorText}>
-              {uiText(language, 'Status error:', 'Ошибка получения статуса:')} {pollError}
-            </Text>
-          )}
-
+            {busy ? 'НейроСцена создаёт видео' : jobStatus === 'completed' ? 'Видео готово' : 'Ошибка генерации'}
+          </Text>
+          {!busy && <Text style={[styles.statusDescription, jobStatus === 'completed' && styles.statusSuccess]}>{jobMessage}</Text>}
+          {jobId && <Text style={styles.jobId}>ID: {jobId}</Text>}
+          {pollError !== '' && <Text style={styles.errorText}>Ошибка получения статуса: {pollError}</Text>}
           {jobStatus === 'completed' && videoUrl && (
             <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onOpenVideo}>
-              <Text style={styles.secondaryButtonText}>{uiText(language, 'Open completed video', 'Открыть готовое видео')}</Text>
+              <Text style={styles.secondaryButtonText}>Открыть готовое видео</Text>
             </TouchableOpacity>
           )}
-
-          {jobStatus === 'completed' && !videoUrl && (
-            <Text style={styles.note}>
-              {uiText(language, 'The job is complete, but the Backend did not return a video link.', 'Задача завершена. Ссылка на видео не найдена в ответе Backend.')}
-            </Text>
-          )}
-
+          {jobStatus === 'completed' && !videoUrl && <Text style={styles.note}>Задача завершена. Ссылка на видео не найдена в ответе Backend.</Text>}
           {(jobStatus === 'completed' || jobStatus === 'failed') && (
             <TouchableOpacity activeOpacity={0.86} style={styles.resetButton} onPress={onReset}>
-              <Text style={styles.resetButtonText}>{uiText(language, 'New generation', 'Новая генерация')}</Text>
+              <Text style={styles.resetButtonText}>Новая генерация</Text>
             </TouchableOpacity>
           )}
         </View>
       )}
 
-      <Text style={styles.footerNote}>
-        {uiText(language, 'Your imagination. Your frame. Your story.', 'ТВОЯ ИДЕЯ. ТВОЙ КАДР. ТВОЯ ИСТОРИЯ.')}
-      </Text>
-      </>
-      )}
       <Modal
         visible={submitting || ['queued', 'starting', 'generating', 'uploading'].includes(jobStatus)}
         transparent
