@@ -2425,10 +2425,10 @@ function GalleryScreen({
       {!loading && !error && visibleItems.length === 0 && (
         <View style={[styles.galleryEmptyReferenceState, styles.v73GalleryEmptyState]}>
           <Image
-            source={require('./assets/Штормовое море под электрическим небом-1.png')}
+            source={{ uri: 'https://raw.githubusercontent.com/stasaygustov-lab/neuroscene-mobile-public/0dea464c693faac5c2e58fbb4f0b60434f09fb6f/assets/illustrations/create-3d.jpg' }}
             style={{ width: '100%', height: 236, alignSelf: 'stretch', borderRadius: 18 }}
-            resizeMode="cover"
-            accessibilityLabel="Штормовое море под электрическим небом"
+            resizeMode="contain"
+            accessibilityLabel="Неоновая 3D-хлопушка из референса НейроСцены"
           />
         </View>
       )}
