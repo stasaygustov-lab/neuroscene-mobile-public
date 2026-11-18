@@ -3366,7 +3366,7 @@ function SupportScreen({
 function FeatureGlyph({ type }: { type: string }) {
   let artwork: any;
   if (type === 'text') {
-    artwork = <><View style={styles.featureClapperTop}><View style={styles.featureClapperStripe} /><View style={styles.featureClapperStripe} /><View style={styles.featureClapperStripe} /></View><View style={styles.featureClapperBody}><View style={styles.featureGlyphPlay} /></View></>;
+    artwork = <Image source={require('./assets/illustrations/create-3d.jpg')} style={{ width: 42, height: 42 }} resizeMode="contain" />;
   } else if (type === 'image') {
     artwork = <><View style={styles.featureImageSun} /><View style={styles.featureImageMountainBack} /><View style={styles.featureImageMountainFront} /></>;
   } else if (type === 'sound') {
