@@ -6512,6 +6512,77 @@ const FINAL_UI_GALLERY_EMPTY_V56 = {
   }
 };
 
+const FINAL_UI_CREDITS_REFERENCE_V57 = {
+  // Match the reference credits screen: a full-width cinematic balance card with gold coins.
+  creditTopRow: {
+    width: '100%', flexDirection: 'column', alignItems: 'stretch',
+    gap: 14, marginBottom: 12
+  },
+  creditBalanceCard: {
+    width: '100%', maxWidth: '100%', height: 218, minHeight: 218,
+    alignSelf: 'stretch', padding: 12, borderRadius: 18,
+    borderWidth: 1.2, borderColor: 'rgba(42, 158, 255, 0.82)',
+    backgroundColor: 'rgba(2, 19, 48, 0.74)',
+    shadowColor: '#087BFF', shadowOpacity: 0.48, shadowRadius: 22,
+    shadowOffset: { width: 0, height: 0 }, elevation: 10,
+    justifyContent: 'flex-start', overflow: 'hidden'
+  },
+  creditCoinsArtwork: {
+    width: '100%', height: 126, alignItems: 'center',
+    justifyContent: 'center', position: 'relative'
+  },
+  creditCoinStackBack: {
+    position: 'absolute', top: 17, left: '37%',
+    alignItems: 'center', justifyContent: 'center'
+  },
+  creditCoinStackFront: {
+    position: 'absolute', top: 43, left: '47%',
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center'
+  },
+  creditCoinSingle: { position: 'absolute', top: 63, left: '39%' },
+  creditCoinDisc: {
+    width: 49, height: 21, borderRadius: 25, marginTop: -6,
+    borderWidth: 1.6, borderColor: '#FFF0A5',
+    backgroundColor: '#D99521', alignItems: 'center',
+    justifyContent: 'center', shadowColor: '#FFB52E',
+    shadowOpacity: 1, shadowRadius: 13, elevation: 8
+  },
+  creditCoinInner: {
+    width: 34, height: 9, borderRadius: 9, borderWidth: 1,
+    borderColor: 'rgba(255, 245, 185, 0.95)',
+    backgroundColor: '#FFD76A'
+  },
+  creditStarBadge: {
+    backgroundColor: '#087BFF', borderColor: '#A8EDFF',
+    shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 19,
+    elevation: 13
+  },
+  creditBalanceHero: {
+    position: 'absolute', bottom: 12, left: 0, right: 0,
+    alignItems: 'center', justifyContent: 'center'
+  },
+  creditBalanceHeroValue: {
+    color: '#FFE08A', fontSize: 34, lineHeight: 39,
+    fontWeight: '900', textShadowColor: '#FFB52E',
+    textShadowRadius: 15
+  },
+  creditBalanceHeroLabel: {
+    color: '#FFF0C5', fontSize: 14, lineHeight: 19,
+    fontWeight: '800', letterSpacing: 1.1, marginTop: 0
+  },
+  creditPackageColumn: {
+    width: '100%', maxWidth: '100%', flex: 1,
+    minWidth: 0, justifyContent: 'center'
+  },
+  creditPackagesTitle: {
+    display: 'flex', color: '#F4FAFF', fontSize: 19,
+    lineHeight: 25, fontWeight: '900', marginBottom: 8,
+    textShadowColor: 'rgba(25, 132, 255, 0.55)',
+    textShadowRadius: 10
+  },
+  creditPackagesList: { gap: 8 },
+};
+
 const styles = StyleSheet.create({
   // V61: hand-built artwork and dimensional neon title beams, no reference screenshot crops.
   profileIdentity: { width: '100%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: 5, marginBottom: 18 },
@@ -7202,6 +7273,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_GLOBAL_BACKDROP_V53,
   ...FINAL_UI_LAUNCHER_POLISH_V55,
   ...FINAL_UI_GALLERY_EMPTY_V56,
+  ...FINAL_UI_CREDITS_REFERENCE_V57,
 
 });
 
