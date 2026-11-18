@@ -2424,23 +2424,12 @@ function GalleryScreen({
       )}
       {!loading && !error && visibleItems.length === 0 && (
         <View style={[styles.galleryEmptyReferenceState, styles.v73GalleryEmptyState]}>
-          <View style={[styles.galleryGalaxyArtwork, styles.v73GalleryGalaxyArtwork]} accessibilityLabel="Объёмная неоновая галактика">
-            <View style={styles.galleryGalaxyAura} />
-            <View style={styles.galleryGalaxyOrbitOuter} />
-            <View style={styles.galleryGalaxyOrbitInner} />
-            <View style={styles.galleryGalaxyArmOne} />
-            <View style={styles.galleryGalaxyArmTwo} />
-            <View style={styles.galleryGalaxyArmThree} />
-            <View style={styles.galleryGalaxyCore}>
-              <View style={styles.galleryGalaxyCoreHighlight} />
-              <View style={styles.galleryGalaxyCoreFlare} />
-            </View>
-            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarOne]} />
-            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarTwo]} />
-            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarThree]} />
-            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarFour]} />
-            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarFive]} />
-          </View>
+          <Image
+            source={require('./assets/Штормовое море под электрическим небом-1.png')}
+            style={{ width: '100%', height: 236, alignSelf: 'stretch', borderRadius: 18 }}
+            resizeMode="cover"
+            accessibilityLabel="Штормовое море под электрическим небом"
+          />
         </View>
       )}
 
