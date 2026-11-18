@@ -1988,7 +1988,13 @@ export default function App() {
   return (
     <View style={[styles.container, { flex: 1, backgroundColor: '#020611' }]}>
       <View pointerEvents="none" style={[styles.ambientBackdrop, { backgroundColor: 'transparent' }]}>
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(2,8,25,0.24)' }]} />
+        <Image
+          source={require('./assets/Штормовое море под электрическим небом-1.png')}
+          style={StyleSheet.absoluteFill}
+          resizeMode="cover"
+          accessibilityLabel="Штормовое море под электрическим небом"
+        />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(2,8,25,0.34)' }]} />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(2,8,25,0.16)' }]} />
         {/* Deep-space nebula layers: soft volumetric clouds at different depths */}
         <View style={{ position: 'absolute', width: 430, height: 250, top: '7%', right: -190, borderRadius: 220, backgroundColor: 'rgba(41,78,196,0.28)', shadowColor: '#477BFF', shadowOpacity: 0.95, shadowRadius: 105, elevation: 10, transform: [{ rotate: '-24deg' }] }} />
@@ -2424,12 +2430,14 @@ function GalleryScreen({
       )}
       {!loading && !error && visibleItems.length === 0 && (
         <View style={[styles.galleryEmptyReferenceState, styles.v73GalleryEmptyState]}>
-          <Image
-            source={{ uri: 'https://raw.githubusercontent.com/stasaygustov-lab/neuroscene-mobile-public/0dea464c693faac5c2e58fbb4f0b60434f09fb6f/assets/illustrations/create-3d.jpg' }}
-            style={{ width: '100%', height: 236, alignSelf: 'stretch', borderRadius: 18 }}
-            resizeMode="contain"
-            accessibilityLabel="Неоновая 3D-хлопушка из референса НейроСцены"
-          />
+          <View style={{ width: 250, height: 190, alignSelf: 'center', overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
+            <Image
+              source={require('./assets/Космическая панель технологий.png')}
+              style={{ width: 250, height: 190 }}
+              resizeMode="cover"
+              accessibilityLabel="Хлопушка из иллюстрации Космическая панель технологий"
+            />
+          </View>
         </View>
       )}
 
