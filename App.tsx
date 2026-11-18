@@ -3351,15 +3351,21 @@ function TechnologyPanelArtwork({ width, height }: { width: number; height: numb
 }
 
 function FeatureGlyph({ type }: { type: string }) {
-  const labels: Record<string, string> = {
-    text: 'Космическая панель технологий',
-    image: 'Космическая панель технологий',
-    sound: 'Космическая панель технологий',
-    prompt: 'Космическая панель технологий',
-  };
+  let artwork: any;
+  if (type === 'text') {
+    artwork = <Image source={require('./assets/illustrations/create-3d.jpg')} style={{ width: 42, height: 42 }} resizeMode="contain" />;
+  } else if (type === 'image') {
+    artwork = <><View style={styles.featureImageSun} /><View style={styles.featureImageMountainBack} /><View style={styles.featureImageMountainFront} /></>;
+  } else if (type === 'sound') {
+    artwork = <><Text style={styles.featureMusicGlyph}>♫</Text><View style={styles.featureSoundWave}><View style={[styles.featureSoundWaveBar,{height:4}]} /><View style={[styles.featureSoundWaveBar,{height:8}]} /><View style={[styles.featureSoundWaveBar,{height:5}]} /><View style={[styles.featureSoundWaveBar,{height:7}]} /><View style={[styles.featureSoundWaveBar,{height:3}]} /></View></>;
+  } else {
+    artwork = <><View style={styles.featureWandStem} /><Text style={styles.featureWandSpark}>✦</Text><Text style={styles.featureWandSparkSmall}>✧</Text></>;
+  }
+  const labels: Record<string, string> = { text: 'Кинематографическая хлопушка', image: 'Изображение и пейзаж', sound: 'Звуковая дорожка', prompt: 'Волшебная палочка улучшения' };
   return (
-    <View style={{ width: 58, height: 54, alignItems: 'center', justifyContent: 'center' }} accessibilityLabel={labels[type] || 'Космическая панель технологий'}>
-      <TechnologyPanelArtwork width={58} height={54} />
+    <View style={styles.featureGlyphAura} accessibilityLabel={labels[type] || 'Возможность НейроСцены'}>
+      <View pointerEvents="none" style={styles.featureGlyphAuraOuter} />
+      <View style={styles.featureGlyphFrame}>{artwork}</View>
     </View>
   );
 }
