@@ -1014,3 +1014,11 @@
 - Исправлена интеграция V91: все шесть локальных BlurView теперь получают `blurTarget={bottomBlurTargetRef}` (напрямую для экрана кредитов и через props для экранов создания и галереи).
 - Это связывает размытие с содержимым основного ScrollView, которое обёрнуто в BlurTargetView; без этой ссылки локальные панели не были явно привязаны к целевому слою.
 - Статически проверены все шесть вызовов GlassBlurLayer, передача ref в CreateScreen/GalleryScreen, установленная версия expo-blur и сохранность основных callbacks. Runtime/Android-сборка не запускались.
+
+
+## TypeScript / expo-blur strict refs
+- Проверена связка Expo SDK 58.0.23 / expo-blur 58.0.6 / React Native 0.88.1.
+- Убраны небезопасные `any` у ref для `BlurTargetView` и `BlurView`: используется `ComponentRef<typeof View>` и общий `BlurTargetRef`.
+- Это соответствует изменению типов expo-blur 58.0.4: начиная с React Native 0.87 ref должен быть `ComponentRef<typeof View>`; обычный ref, типизированный как `View | null`, может не пройти строгую проверку.
+- Изменения ограничены типизацией UI; поведение экранов и callbacks не менялось.
+- Полный `npx tsc --noEmit` пока не запускался: доступный GitHub workflow объединён с APK build, а APK build без отдельного разрешения не запускается. Статическая сверка API выполнена; runtime и полная компиляция ещё не подтверждены.
