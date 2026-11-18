@@ -1777,19 +1777,13 @@ export default function App() {
           </View>
 
           <View style={[styles.creditReferenceLayout, styles.v73CreditReferenceLayout, styles.v76CreditReferenceLayout]}>
-            <View style={[styles.creditCoinShowcase, styles.v76CreditCoinShowcase]} accessibilityLabel="Жёлтые объёмные золотые монеты">
-              <View style={styles.creditCoinsArtwork}>
-                <View style={styles.creditCoinStackBack}>
-                  {[0, 1, 2].map((coin) => <View key={coin} style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>)}
-                </View>
-                <View style={styles.creditCoinStackFront}>
-                  {[0, 1, 2, 3].map((coin) => <View key={coin} style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>)}
-                </View>
-                <View style={styles.creditCoinSingle}>
-                  <View style={[styles.creditCoinDisc, styles.v76CreditHeroCoin]}><View style={styles.creditCoinInner} /></View>
-                </View>
-              </View>
-              <View style={styles.v76CoinGlow} />
+            <View style={[styles.creditCoinShowcase, styles.v76CreditCoinShowcase]} accessibilityLabel="Оригинальная иллюстрация золотых монет из референса">
+              <Image
+                source={require('./assets/Космическая панель технологий.png')}
+                style={{ position: 'absolute', width: 1212, height: 1297, left: -210, top: -795 }}
+                resizeMode="stretch"
+                accessibilityLabel="Золотые монеты из утверждённого референса"
+              />
             </View>
 
             <View style={[styles.creditPackageColumn, styles.v76CreditInfoColumn]}>
@@ -1844,14 +1838,13 @@ export default function App() {
           </View>
         </View>
         <View style={styles.profileIdentity}>
-          <View style={[styles.profileGuestAvatar, { borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0 }]} accessibilityLabel="Объёмный голографический аватар">
-            <View style={styles.schematicAvatar} accessibilityLabel="Схематический неоновый аватар">
-              <View style={styles.schematicAvatarHalo} />
-              <View style={styles.schematicAvatarHead} />
-              <View style={styles.schematicAvatarNeck} />
-              <View style={styles.schematicAvatarShoulders} />
-              <View style={styles.schematicAvatarCore} />
-            </View>
+          <View style={[styles.profileGuestAvatar, { borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0 }]} accessibilityLabel="Аватар из утверждённого референса">
+            <Image
+              source={require('./assets/Космическая панель технологий.png')}
+              style={{ position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 }}
+              resizeMode="stretch"
+              accessibilityLabel="Голографический аватар из референса"
+            />
           </View>
           <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
           {!!authUser?.email && <Text style={styles.profileGuestStatus}>{authUser.email}</Text>}
@@ -2419,9 +2412,9 @@ function GalleryScreen({
           <View style={{ width: 250, height: 190, alignSelf: 'center', overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
             <Image
               source={require('./assets/Космическая панель технологий.png')}
-              style={{ width: 250, height: 190 }}
-              resizeMode="cover"
-              accessibilityLabel="Хлопушка из иллюстрации Космическая панель технологий"
+              style={{ position: 'absolute', width: 1212, height: 1297, left: -741, top: -160 }}
+              resizeMode="stretch"
+              accessibilityLabel="Кинематографическая хлопушка из утверждённого референса"
             />
           </View>
         </View>
