@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a transparent splash rendition from the approved JPG logo.
+"""Create a transparent splash rendition from the approved PNG brand icon.
 
 The source reference is never modified. Near-black JPEG background pixels are
 converted to alpha while the neon artwork and its colored glow are retained.
@@ -8,7 +8,7 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "assets" / "Неоновая иконка «НейроСцена».jpg"
+SOURCE = ROOT / "assets" / "neuroscene-brand.png"
 OUTPUT = ROOT / "assets" / "neuroscene-splash.png"
 
 if not SOURCE.is_file():
