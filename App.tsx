@@ -7533,6 +7533,12 @@ const styles = StyleSheet.create({
   },
   bottomNav: {
     position: 'relative', zIndex: 25, elevation: 25,
-    overflow: 'visible'
+    overflow: 'visible',
+    // V69: restore the complete rounded neon frame around the navigation dock.
+    borderWidth: 1.2, borderColor: 'rgba(72, 181, 255, 0.72)',
+    borderBottomWidth: 1.2, borderBottomColor: 'rgba(72, 181, 255, 0.72)',
+    borderRadius: 25, marginHorizontal: 5, marginBottom: 5,
+    shadowColor: '#087DFF', shadowOpacity: 0.68, shadowRadius: 22,
+    shadowOffset: { width: 0, height: -3 }
   },
 });
