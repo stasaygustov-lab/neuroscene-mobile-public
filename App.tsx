@@ -137,15 +137,15 @@ async function readResponse(response: Response): Promise<any> {
 
 function ScreenTransition({ children, direction = 1 }: { children: any; direction?: 1 | -1 }) {
   const { width } = useWindowDimensions();
-  const entryOffset = Math.max(84, Math.min(width * 0.28, 124));
-  const opacity = useRef(new Animated.Value(0.72)).current;
+  const entryOffset = Math.max(56, Math.min(width * 0.20, 96));
+  const opacity = useRef(new Animated.Value(0.82)).current;
   const translateX = useRef(new Animated.Value(direction * entryOffset)).current;
-  const scale = useRef(new Animated.Value(0.992)).current;
+  const scale = useRef(new Animated.Value(0.986)).current;
   useEffect(() => {
     const animation = Animated.parallel([
-      Animated.timing(opacity, { toValue: 1, duration: 210, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
-      Animated.timing(translateX, { toValue: 0, duration: 270, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
-      Animated.timing(scale, { toValue: 1, duration: 270, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
+      Animated.timing(opacity, { toValue: 1, duration: 300, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
+      Animated.spring(translateX, { toValue: 0, stiffness: 190, damping: 25, mass: 0.82, useNativeDriver: false }),
+      Animated.spring(scale, { toValue: 1, stiffness: 190, damping: 25, mass: 0.82, useNativeDriver: false }),
     ]);
     animation.start();
     return () => { animation.stop(); opacity.stopAnimation(); translateX.stopAnimation(); scale.stopAnimation(); };
@@ -165,7 +165,7 @@ export default function App() {
       Math.abs(gesture.dx) > 22 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35,
     onPanResponderTerminationRequest: () => false,
     onPanResponderRelease: (_event, gesture) => {
-      if (Math.abs(gesture.dx) < 52) return;
+      if (Math.abs(gesture.dx) < 52 && Math.abs(gesture.vx) < 0.48) return;
       setTransitionDirection(gesture.dx < 0 ? 1 : -1);
       const order: Tab[] = ['Create', 'Gallery', 'Credits', 'Profile'];
       setTab((currentTab) => {
@@ -2077,6 +2077,10 @@ export default function App() {
       </ScrollView>
 
       <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', marginHorizontal: 0, alignSelf: 'center', flexShrink: 0, height: 86, minHeight: 86, maxHeight: 86, paddingTop: 5, paddingBottom: 10, paddingHorizontal: 8 }]}>
+        <View pointerEvents="none" style={styles.bottomNavGlass}>
+          <View style={styles.bottomNavGlassEdge} />
+          <View style={styles.bottomNavGlassBloom} />
+        </View>
         {([
           { id: 'Create', icon: 'film', label: 'Создать' },
           { id: 'Gallery', icon: 'grid', label: 'Галерея' },
@@ -6294,6 +6298,86 @@ const FINAL_UI_LAYOUT_REPAIR_V51 = {
   menuArrow: { marginLeft: 'auto', color: '#6EBEFF', fontSize: 22 },
 };
 
+const FINAL_UI_LAUNCHER_POLISH_V55 = {
+  // Keep the three tab headings on one shared baseline beneath the status area.
+  screen: { flex: 1, paddingTop: 10, backgroundColor: 'transparent' },
+  galleryReferenceHeader: { minHeight: 48, marginTop: 0, marginBottom: 14, justifyContent: 'center' },
+  galleryReferenceTitle: { fontSize: 26, lineHeight: 33, includeFontPadding: false },
+  creditsHeader: { minHeight: 48, marginTop: 0, marginBottom: 14, alignItems: 'center', justifyContent: 'center' },
+  creditsTitle: { fontSize: 26, lineHeight: 33, includeFontPadding: false },
+  profileHeader: { minHeight: 48, marginTop: 0, marginBottom: 14, alignItems: 'center', justifyContent: 'center' },
+  profileTitleGroup: { minHeight: 48, justifyContent: 'center' },
+  screenTitle: { fontSize: 26, lineHeight: 33, marginTop: 0, marginBottom: 0, includeFontPadding: false },
+  // Simulated frosted-glass dock: translucent layered surfaces and broad, soft blue bloom.
+  bottomNav: {
+    position: 'relative', overflow: 'visible',
+    backgroundColor: 'rgba(3, 13, 31, 0.72)',
+    borderTopWidth: 1.2, borderTopColor: 'rgba(100, 207, 255, 0.64)',
+    borderLeftWidth: 1, borderRightWidth: 1,
+    borderLeftColor: 'rgba(62, 157, 255, 0.22)', borderRightColor: 'rgba(62, 157, 255, 0.22)',
+    borderTopLeftRadius: 24, borderTopRightRadius: 24,
+    shadowColor: '#087BFF', shadowOpacity: 0.48, shadowRadius: 25,
+    shadowOffset: { width: 0, height: -7 }, elevation: 18,
+  },
+  bottomNavGlass: {
+    ...StyleSheet.absoluteFillObject, top: -8, borderTopLeftRadius: 26, borderTopRightRadius: 26,
+    overflow: 'visible', backgroundColor: 'rgba(5, 24, 54, 0.56)',
+  },
+  bottomNavGlassEdge: {
+    position: 'absolute', left: 12, right: 12, top: 0, height: 1,
+    backgroundColor: 'rgba(174, 235, 255, 0.9)',
+    shadowColor: '#23BFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 8,
+  },
+  bottomNavGlassBloom: {
+    position: 'absolute', left: '12%', right: '12%', top: -13, height: 32,
+    borderRadius: 24, backgroundColor: 'rgba(0, 135, 255, 0.13)',
+    shadowColor: '#08AFFF', shadowOpacity: 0.95, shadowRadius: 24, elevation: 12,
+  },
+  navActiveGlow: {
+    top: -2, width: 66, height: 50, borderRadius: 25,
+    backgroundColor: 'rgba(0, 157, 255, 0.22)',
+    borderColor: 'rgba(123, 226, 255, 0.72)', borderWidth: 1.2,
+    shadowColor: '#13BFFF', shadowOpacity: 1, shadowRadius: 25,
+    shadowOffset: { width: 0, height: 0 }, elevation: 16,
+  },
+  navActiveIndicator: {
+    bottom: -1, width: '58%', height: 2.5, borderRadius: 4,
+    backgroundColor: '#8BEAFF', shadowColor: '#19CFFF',
+    shadowOpacity: 1, shadowRadius: 17, elevation: 14,
+  },
+  navGlyphActive: {
+    shadowColor: '#32D6FF', shadowOpacity: 1, shadowRadius: 21,
+    shadowOffset: { width: 0, height: 0 }, elevation: 14,
+  },
+  featureGlyphFrame: {
+    width: 48, height: 46, marginBottom: 5, borderRadius: 14,
+    backgroundColor: 'rgba(0, 133, 255, 0.10)',
+    borderWidth: 1, borderColor: 'rgba(115, 218, 255, 0.68)',
+    shadowColor: '#16BFFF', shadowOpacity: 0.96, shadowRadius: 18,
+    shadowOffset: { width: 0, height: 0 }, elevation: 9,
+  },
+  featureGlyphAura: {
+    width: 58, height: 54, marginBottom: 3, alignItems: 'center', justifyContent: 'center',
+    borderRadius: 18, backgroundColor: 'rgba(0, 123, 255, 0.07)',
+    shadowColor: '#0CBFFF', shadowOpacity: 0.78, shadowRadius: 20, elevation: 8,
+  },
+  featureGlyphAuraOuter: {
+    position: 'absolute', width: 52, height: 48, borderRadius: 17,
+    backgroundColor: 'rgba(0, 150, 255, 0.10)',
+    shadowColor: '#00BFFF', shadowOpacity: 0.9, shadowRadius: 20, elevation: 8,
+  },
+  featureTile: {
+    borderColor: 'rgba(103, 198, 255, 0.68)',
+    backgroundColor: 'rgba(4, 25, 57, 0.72)',
+    shadowColor: '#087BFF', shadowOpacity: 0.34, shadowRadius: 17, elevation: 7,
+  },
+  featureTileActive: {
+    borderColor: '#B7F2FF', backgroundColor: 'rgba(5, 70, 130, 0.78)',
+    shadowColor: '#00BFFF', shadowOpacity: 1, shadowRadius: 25, elevation: 12,
+  },
+  featureSectionTitle: { textShadowColor: '#20CFFF', textShadowRadius: 16 },
+};
+
 const FINAL_UI_GLOBAL_BACKDROP_V53 = {
   // Let the storm artwork remain visible behind the root SafeAreaView and header on every tab.
   container: { flex: 1, backgroundColor: 'transparent' },
@@ -7038,6 +7122,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ...FINAL_UI_NEON_DEPTH_V52,
   ...FINAL_UI_GLOBAL_BACKDROP_V53,
+  ...FINAL_UI_LAUNCHER_POLISH_V55,
 
 });
 
