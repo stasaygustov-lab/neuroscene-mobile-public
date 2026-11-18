@@ -1763,46 +1763,41 @@ export default function App() {
     if (tab === 'Credits') {
       return (
         <View style={[styles.screen, styles.creditsScreen]}>
-          <View style={styles.creditsHeader}>
+          <View style={styles.creditsReferenceHeader}>
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text>
-            <View style={styles.creditsTitleGlow} />
+            <View style={styles.creditsTitleBeam}><View style={styles.creditsTitleBeamCore} /></View>
           </View>
 
-          <View style={styles.creditTopRow}>
-            <View style={styles.creditBalanceCard}>
-              <View style={styles.creditCoinsArtwork} accessibilityLabel="Схематичная стопка золотых монет">
-                <View style={styles.creditCoinStackBack}>
-                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
-                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
-                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
-                </View>
-                <View style={styles.creditCoinStackFront}>
-                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
-                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
-                </View>
-                <View style={styles.creditCoinSingle}>
-                  <View style={styles.creditCoinDisc}><View style={styles.creditCoinInner} /></View>
-                </View>
-              </View>
-              <View style={styles.creditBalanceHero}>
+          <View style={styles.creditReferenceLayout}>
+            <View style={styles.creditCoinShowcase} accessibilityLabel="Объёмная композиция золотых монет">
+              <View style={styles.creditCoinHalo} />
+              <View style={[styles.creditLargeCoin, styles.creditLargeCoinBack]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>Н</Text></View></View>
+              <View style={[styles.creditLargeCoin, styles.creditLargeCoinMiddle]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>С</Text></View></View>
+              <View style={[styles.creditLargeCoin, styles.creditLargeCoinFront]}><View style={styles.creditLargeCoinRim}><Text style={styles.creditLargeCoinMark}>✦</Text></View></View>
+              <View style={styles.creditBalanceCaption}>
                 <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
-                <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
+                <Text style={styles.creditBalanceHeroLabel}>КРЕДИТОВ</Text>
               </View>
             </View>
+
             <View style={styles.creditPackageColumn}>
-              <Text style={styles.creditPackagesTitle}>Пакеты кредитов</Text>
               <View style={styles.creditPackagesList}>
                 {[500, 1500, 5000].map((amount) => (
                   <TouchableOpacity
                     key={amount}
-                    activeOpacity={0.82}
+                    activeOpacity={0.78}
                     onPress={() => setSelectedCreditPackage(amount)}
                     style={[styles.packageCard, selectedCreditPackage === amount && styles.packageCardSelected]}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: selectedCreditPackage === amount }}
                   >
-                    <View style={styles.packageIconWrap}><View style={styles.packageCoin}><Text style={styles.packageCoinGlyph}>✦</Text></View></View>
-                    <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')} кредитов</Text>
-                    <View style={styles.packageRight}><View style={[styles.packagePriceChip, selectedCreditPackage === amount && styles.packagePriceChipSelected]}><Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text></View></View>
-                    {amount === 1500 && <View pointerEvents="none" style={styles.packagePopularBadge}><Text style={styles.packagePopularBadgeText}>Популярный</Text></View>}
+                    <View style={styles.packageChoiceCopy}>
+                      <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')}</Text>
+                      <Text style={styles.packageChoiceUnit}>кредитов</Text>
+                    </View>
+                    <View style={[styles.packagePriceChip, selectedCreditPackage === amount && styles.packagePriceChipSelected]}>
+                      <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
+                    </View>
                     {selectedCreditPackage === amount && <View style={styles.packageSelectedMark}><Text style={styles.packageSelectedMarkText}>✓</Text></View>}
                   </TouchableOpacity>
                 ))}
@@ -1812,58 +1807,11 @@ export default function App() {
 
           <View style={styles.creditWelcomeBonus}>
             <View style={styles.creditBonusGift}><View style={styles.creditBonusRibbonV} /><View style={styles.creditBonusRibbonH} /><View style={styles.creditBonusBowLeft} /><View style={styles.creditBonusBowRight} /></View>
-            <View style={styles.creditBonusCopy}><Text style={styles.creditBonusTitle}>Приветственный бонус</Text><Text style={styles.creditBonusText}>500 кредитов при первом запуске!</Text></View>
-            <Text style={styles.creditBonusArrow}>›</Text>
-          </View>
-          <View style={styles.creditExpiryNote}><View style={styles.creditInfoIcon}><Text style={styles.creditInfoGlyph}>i</Text></View><Text style={styles.creditExpiryText}>Кредиты не сгорают и не имеют срока действия</Text></View>
-          <View style={styles.creditBenefits}>
-            <Text style={styles.creditBenefit}>✓  Кредиты не сгорают</Text>
-            <Text style={styles.creditBenefit}>✓  Без подписок</Text>
-            <Text style={styles.creditBenefit}>✓  Без рекламы</Text>
-          </View>
-
-          <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
-            <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
-          </TouchableOpacity>
-
-          <View style={styles.creditHistorySection}>
-            <View style={styles.creditHistoryHeader}>
-              <Text style={styles.creditHistoryTitle}>История операций</Text>
-              <Text style={styles.creditHistoryCount}>{creditHistory.length}</Text>
+            <View style={styles.creditBonusCopy}>
+              <Text style={styles.creditBonusTitle}>Приветственный бонус</Text>
+              <Text style={styles.creditBonusText}>500 кредитов при первом запуске!</Text>
             </View>
-            {creditHistory.length > 0 ? creditHistory.map((entry, index) => {
-              const rawAmount = entry?.amount ?? entry?.delta ?? entry?.credits ?? entry?.change ?? 0;
-              const amount = Number(rawAmount);
-              const validAmount = Number.isFinite(amount);
-              const rawDate = entry?.created_at ?? entry?.createdAt ?? entry?.timestamp;
-              const parsedDate = rawDate
-                ? new Date(typeof rawDate === 'number' && rawDate < 1000000000000 ? rawDate * 1000 : rawDate)
-                : null;
-              const dateLabel = parsedDate && !Number.isNaN(parsedDate.getTime())
-                ? parsedDate.toLocaleString('ru-RU')
-                : '';
-              const title = String(entry?.description ?? entry?.reason ?? entry?.title ?? entry?.type ?? 'Операция');
-              return (
-                <View key={String(entry?.id ?? entry?.transaction_id ?? `${rawDate ?? 'operation'}-${index}`)} style={styles.creditHistoryRow}>
-                  <View style={styles.creditHistoryIcon}>
-                    <Text style={styles.creditHistoryIconText}>{validAmount && amount < 0 ? '−' : '+'}</Text>
-                  </View>
-                  <View style={styles.creditHistoryCopy}>
-                    <Text style={styles.creditHistoryItemTitle} numberOfLines={2}>{title}</Text>
-                    {!!dateLabel && <Text style={styles.creditHistoryDate}>{dateLabel}</Text>}
-                  </View>
-                  <Text style={[styles.creditHistoryAmount, { color: validAmount && amount < 0 ? '#FF9C9C' : '#8BE7BD' }]}>
-                    {validAmount ? `${amount > 0 ? '+' : ''}${amount.toLocaleString('ru-RU')}` : '—'}
-                  </Text>
-                </View>
-              );
-            }) : (
-              <View style={styles.creditHistoryEmpty}>
-                <Text style={styles.creditHistoryEmptyIcon}>↻</Text>
-                <Text style={styles.creditHistoryEmptyTitle}>Пока нет операций</Text>
-                <Text style={styles.creditHistoryEmptyText}>Здесь будут отображаться начисления и списания кредитов</Text>
-              </View>
-            )}
+            <Text style={styles.creditBonusArrow}>›</Text>
           </View>
         </View>
       );
@@ -7494,6 +7442,39 @@ const styles = StyleSheet.create({
   galleryStorageTrack: { width: '100%', height: 6, borderRadius: 5, overflow: 'hidden', backgroundColor: 'rgba(45,83,130,0.62)' },
   galleryStorageFill: { height: 6, borderRadius: 5, backgroundColor: '#24C9FF', shadowColor: '#18BFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 },
   galleryStorageHint: { color: '#789FC5', fontFamily: 'Manrope', fontSize: 10, textAlign: 'center', marginTop: 8 },
+
+  // V71: compact reference-led Credits composition: coin artwork left, three live choices right.
+  creditsScreen: { flex: 1, paddingTop: 17, paddingHorizontal: 2, paddingBottom: 18, backgroundColor: 'transparent' },
+  creditsReferenceHeader: { width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 4, marginBottom: 24, paddingTop: 5, paddingBottom: 12 },
+  creditsTitle: { color: '#F0F9FF', fontFamily: 'Manrope', fontSize: 31, lineHeight: 39, fontWeight: '900', textAlign: 'center', textShadowColor: '#078BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 0 } },
+  creditsTitleBeam: { width: 126, height: 4, marginTop: 7, borderRadius: 8, backgroundColor: 'rgba(48,167,255,0.34)', shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 22, shadowOffset: { width: 0, height: 0 }, elevation: 13, alignItems: 'center', justifyContent: 'center' },
+  creditsTitleBeamCore: { width: '100%', height: 1.5, borderRadius: 2, backgroundColor: '#B8F4FF', opacity: 0.98 },
+  creditReferenceLayout: { width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10, minHeight: 210 },
+  creditCoinShowcase: { width: '42%', minWidth: 0, height: 206, position: 'relative', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 9 },
+  creditCoinHalo: { position: 'absolute', top: 14, width: 142, height: 142, maxWidth: '100%', borderRadius: 80, backgroundColor: 'rgba(255,171,42,0.10)', shadowColor: '#FFB52E', shadowOpacity: 0.78, shadowRadius: 32, elevation: 12 },
+  creditLargeCoin: { position: 'absolute', width: 94, height: 94, borderRadius: 47, padding: 5, borderWidth: 2, borderColor: '#FFF1A8', backgroundColor: '#B96B12', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB52E', shadowOpacity: 1, shadowRadius: 17, shadowOffset: { width: 0, height: 2 }, elevation: 12 },
+  creditLargeCoinRim: { width: '100%', height: '100%', borderRadius: 44, borderWidth: 3, borderColor: '#FFE08A', backgroundColor: '#E9A52D', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFF0A5', shadowOpacity: 0.85, shadowRadius: 8, elevation: 7 },
+  creditLargeCoinMark: { color: '#9A520B', fontFamily: 'Manrope', fontSize: 35, lineHeight: 42, fontWeight: '900', textShadowColor: '#FFF0A5', textShadowRadius: 5 },
+  creditLargeCoinBack: { top: 20, left: '4%', transform: [{ rotate: '-18deg' }], opacity: 0.92 },
+  creditLargeCoinMiddle: { top: 8, right: '1%', transform: [{ rotate: '16deg' }] },
+  creditLargeCoinFront: { top: 76, left: '25%', width: 78, height: 78, borderRadius: 39, transform: [{ rotate: '-7deg' }] },
+  creditBalanceCaption: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingTop: 2 },
+  creditBalanceHeroValue: { color: '#FFE08A', fontFamily: 'Manrope', fontSize: 23, lineHeight: 28, fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 13 },
+  creditBalanceHeroLabel: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 9, lineHeight: 13, fontWeight: '900', letterSpacing: 1.5 },
+  creditPackageColumn: { flex: 1, minWidth: 0, justifyContent: 'center' },
+  creditPackagesList: { width: '100%', gap: 10 },
+  packageCard: { position: 'relative', width: '100%', minWidth: 0, minHeight: 58, paddingHorizontal: 9, paddingVertical: 7, borderRadius: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5, borderWidth: 1.2, borderColor: 'rgba(71,157,226,0.62)', backgroundColor: 'rgba(5,24,55,0.86)' },
+  packageCardSelected: { borderColor: '#9BEAFF', backgroundColor: 'rgba(5,75,139,0.94)', shadowColor: '#16BFFF', shadowOpacity: 0.92, shadowRadius: 17, shadowOffset: { width: 0, height: 0 }, elevation: 11 },
+  packageChoiceCopy: { flex: 1, minWidth: 0, alignItems: 'flex-start', justifyContent: 'center' },
+  packageAmount: { color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 17, lineHeight: 21, fontWeight: '900' },
+  packageChoiceUnit: { color: '#9BCBEF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '700' },
+  packagePriceChip: { minWidth: 54, minHeight: 35, paddingHorizontal: 7, borderRadius: 10, borderWidth: 1, borderColor: 'rgba(104,186,255,0.6)', backgroundColor: 'rgba(4,39,83,0.9)', alignItems: 'center', justifyContent: 'center' },
+  packagePriceChipSelected: { borderColor: '#C4F7FF', backgroundColor: '#087FE8', shadowColor: '#25CFFF', shadowOpacity: 0.85, shadowRadius: 10, elevation: 7 },
+  packagePrice: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900' },
+  packageSelectedMark: { position: 'absolute', top: -6, right: -5, width: 17, height: 17, borderRadius: 9, backgroundColor: '#9BEAFF', alignItems: 'center', justifyContent: 'center', zIndex: 4, elevation: 5 },
+  packageSelectedMarkText: { color: '#003A62', fontSize: 11, lineHeight: 14, fontWeight: '900' },
+  creditWelcomeBonus: { width: '100%', minHeight: 64, marginTop: 25, paddingHorizontal: 15, paddingVertical: 11, borderRadius: 16, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1.2, borderColor: 'rgba(255,208,111,0.78)', backgroundColor: 'rgba(50,34,16,0.74)', shadowColor: '#FFB52E', shadowOpacity: 0.42, shadowRadius: 16, shadowOffset: { width: 0, height: 0 }, elevation: 7 },
+
   // V70: rebuild the empty Gallery composition as native neon-galaxy geometry, without bitmap artwork or CTA.
   galleryReferenceHeader: { minHeight: 0, marginTop: 12, marginBottom: 8, paddingTop: 12, paddingBottom: 13, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(71,184,255,0.28)' },
   galleryEmptyReferenceState: { width: '100%', minHeight: 390, flex: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12, paddingVertical: 12, backgroundColor: 'transparent' },
