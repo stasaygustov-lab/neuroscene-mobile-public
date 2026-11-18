@@ -38,6 +38,18 @@ jobs:
         run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
       - name: Install dependencies
         run: npm ci
+      - name: Disable optional Foojay JDK resolver in React Native Gradle plugin
+        run: |
+          SETTINGS="node_modules/@react-native/gradle-plugin/settings.gradle.kts"
+          test -f "$SETTINGS"
+          if grep -q "foojay-resolver-convention" "$SETTINGS"; then
+            sed -i '/foojay-resolver-convention/d' "$SETTINGS"
+          fi
+          if grep -q "foojay-resolver-convention" "$SETTINGS"; then
+            echo "Foojay resolver reference was not removed" >&2
+            exit 1
+          fi
+          echo "Using the JDK 17 installed by actions/setup-java"
       - name: TypeScript validation (report existing app typing issues)
         run: npx tsc --noEmit
         continue-on-error: true
@@ -50,6 +62,34 @@ jobs:
         run: .venv/bin/python scripts/prepare-brand-assets.py
       - name: Fit launcher logo inside Android safe area
         run: .venv/bin/python scripts/fit-android-icon.py
+      - name: Validate Expo launcher and splash assets
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const config = JSON.parse(fs.readFileSync('app.json', 'utf8')).expo;
+          const splash = config.plugins.find((plugin) => Array.isArray(plugin) && plugin[0] === 'expo-splash-screen');
+          const references = [
+            config.icon,
+            config.android?.adaptiveIcon?.foregroundImage,
+            splash?.[1]?.image,
+            config.web?.favicon,
+          ].filter(Boolean);
+          for (const reference of references) {
+            const assetPath = path.resolve(reference.replace(/^\.\//, ''));
+            if (!fs.existsSync(assetPath)) {
+              throw new Error('Expo asset is missing: ' + reference);
+            }
+            const signature = fs.readFileSync(assetPath).subarray(0, 8).toString('hex');
+            if (signature !== '89504e470d0a1a0a') {
+              throw new Error('Expo asset is not a valid PNG: ' + reference);
+            }
+            console.log('Validated ' + reference);
+          }
+          if (!config.android?.adaptiveIcon?.foregroundImage?.endsWith('android-icon-foreground.png')) {
+            throw new Error('Adaptive icon must use the generated safe-area foreground asset');
+          }
+          NODE
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install --clean
       - name: Build standalone installable APK
