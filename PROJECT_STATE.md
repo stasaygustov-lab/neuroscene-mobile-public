@@ -641,3 +641,12 @@
 - Fixed by explicitly restoring `container: { flex: 1, backgroundColor: '#030817' }` after all legacy visual-style spreads in `StyleSheet.create`. This preserves the full-height root layout; the existing header → flex ScrollView → bottom navigation order can then place the dock at the bottom.
 - Scope: UI only. No backend, authentication, generation, or payment logic changed. No APK/EAS/GitHub Actions build was started. Device verification remains pending.
 
+
+
+### 2026-11-18 — исправлена привязка бренд-иконки в Android CI
+- Ветка: `ui/full-visual-redesign`.
+- По логам Actions run `44219416495` сборка остановилась на `process-splash-logo.py`: скрипт искал отсутствующий JPG `assets/Неоновая иконка «НейроСцена».jpg`, тогда как утверждённый актив в ветке хранится как `assets/neuroscene-brand.png`.
+- Исправлены три подготовительных скрипта (`process-splash-logo.py`, `prepare-brand-assets.py`, `fit-android-icon.py`): все используют единый PNG-источник `assets/neuroscene-brand.png`.
+- Проверено по репозиторию: PNG существует в рабочей ветке; его blob SHA `ac34bc96310e3cbbd84a2e40bb2a21cf4d8c3518`.
+- TypeScript-шаг в Actions продолжает завершаться с ошибками, но настроен как `continue-on-error`; он не был непосредственной причиной остановки этого запуска. Отдельно остаётся технический долг по дублирующимся свойствам и типам стилей в `App.tsx`.
+- APK пока не создан; требуется повторный запуск workflow после этого исправления.
