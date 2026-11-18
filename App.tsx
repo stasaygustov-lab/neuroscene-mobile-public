@@ -6256,7 +6256,7 @@ const FINAL_UI_NEON_DEPTH_V52: StyleOverrides = {
   // Reference finish: layered cyan edge light, restrained blue bloom and a subtle raised face.
   sectionTitle: { color: '#F0F8FF', textShadowColor: '#168BFF', textShadowRadius: 15, textShadowOffset: { width: 0, height: 1 } },
   featureSectionTitle: { color: '#F5FBFF', textShadowColor: '#20BFFF', textShadowRadius: 13, textShadowOffset: { width: 0, height: 1 } },
-  featureHeadingLine: { height: 2.5, borderRadius: 3, backgroundColor: '#64DFFF', shadowColor: '#00BFFF', shadowOpacity: 1, shadowRadius: 11, shadowOffset: { width: 0, height: 0 }, elevation: 8 },
+  featureHeadingLine: { height: 7, borderRadius: 12, backgroundColor: 'rgba(18,145,255,0.10)', shadowColor: '#08BFFF', shadowOpacity: 1, shadowRadius: 25, shadowOffset: { width: 0, height: 0 }, elevation: 15, opacity: 0.92 },
   galleryReferenceUnderline: { height: 2.5, borderRadius: 3, backgroundColor: '#66E5FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 13, shadowOffset: { width: 0, height: 0 }, elevation: 9 },
   creditsTitleGlow: { height: 2.5, borderRadius: 3, backgroundColor: '#66E5FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 13, shadowOffset: { width: 0, height: 0 }, elevation: 9 },
   profileTitleUnderline: { height: 2.5, borderRadius: 3, backgroundColor: '#66E5FF', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 13, shadowOffset: { width: 0, height: 0 }, elevation: 9 },
