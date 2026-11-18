@@ -947,3 +947,9 @@
 - UI-only change. No navigation structure, callbacks, generation behavior, backend, API, authentication, or payments changed.
 - Source-level edit only; no TypeScript build, APK build, or Android-device visual verification was performed.
 - Commit: `430f730f8ebf9d54d7f5113ee8df290bb08fc47f`.
+
+## V86 — Raised neon selection controls (2026-11-18)
+- Increased the dimensional contrast of selected video-mode and capability tiles: brighter upper bevel, cooler cyan side reflections, deeper lower edge, and stronger blue-cyan ambient lift.
+- Preserved all control labels, layout, selection state logic, and callbacks. No navigation, generation, backend, API, authentication, or payment behavior changed.
+- Source-level update only. No TypeScript validation, APK build, or Android-device visual verification was performed.
+- Commit: `5b06a578f886fc50d5cd3246dddc27f5b7a0f856`.
