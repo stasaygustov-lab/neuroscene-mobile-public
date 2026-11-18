@@ -7526,10 +7526,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 }, elevation: 8
   },
   featureTileActive: {
-    borderTopColor: '#F0FDFF', borderLeftColor: '#9BEAFF',
-    borderRightColor: '#32B9FF', borderBottomColor: '#0752A8',
-    backgroundColor: 'rgba(5,67,125,0.90)', shadowColor: '#00C8FF',
-    shadowOpacity: 0.95, shadowRadius: 22, shadowOffset: { width: 0, height: 5 }, elevation: 13
+    borderTopWidth: 1.5, borderTopColor: '#FFFFFF', borderLeftColor: '#B5F1FF',
+    borderRightColor: '#39C4FF', borderBottomWidth: 4, borderBottomColor: '#06468F',
+    backgroundColor: 'rgba(5,72,137,0.94)', shadowColor: '#00D4FF',
+    shadowOpacity: 1, shadowRadius: 25, shadowOffset: { width: 0, height: 6 }, elevation: 16
   },
   featureGlyphAura: {
     width: 48, height: 46, marginBottom: 5, alignItems: 'center', justifyContent: 'center',
@@ -7603,7 +7603,7 @@ const styles = StyleSheet.create({
   createScreenLayout: { flex: 1, width: '100%', paddingHorizontal: 2, paddingBottom: 14, gap: 7 },
   modeSelector: { width: '100%', flexDirection: 'row', gap: 10, marginTop: 4, marginBottom: 8 },
   modeOption: { flex: 1, minHeight: 76, paddingHorizontal: 9, paddingVertical: 9, borderRadius: 16, alignItems: 'center', justifyContent: 'center', gap: 5, backgroundColor: 'rgba(3,23,55,0.72)', borderWidth: 1.2, borderTopColor: 'rgba(211,249,255,0.72)', borderLeftColor: 'rgba(83,190,255,0.54)', borderRightColor: 'rgba(25,112,205,0.72)', borderBottomWidth: 3, borderBottomColor: '#06366F', shadowColor: '#078BFF', shadowOpacity: 0.5, shadowRadius: 15, shadowOffset: { width: 0, height: 5 }, elevation: 9 },
-  modeOptionActive: { backgroundColor: 'rgba(5,82,150,0.84)', borderTopColor: '#F0FDFF', borderLeftColor: '#A7F0FF', borderRightColor: '#36BFFF', borderBottomColor: '#0754A5', shadowColor: '#00C8FF', shadowOpacity: 0.95, shadowRadius: 22, elevation: 14 },
+  modeOptionActive: { backgroundColor: 'rgba(7,91,166,0.92)', borderTopWidth: 1.5, borderTopColor: '#FFFFFF', borderLeftColor: '#B7F3FF', borderRightColor: '#42C8FF', borderBottomWidth: 4, borderBottomColor: '#06458E', shadowColor: '#00D4FF', shadowOpacity: 1, shadowRadius: 25, shadowOffset: { width: 0, height: 6 }, elevation: 16 },
   modeOptionText: { color: '#B8D7F2', fontSize: 12, lineHeight: 16, fontWeight: '800', textAlign: 'center' },
   modeOptionTextActive: { color: '#FFFFFF', textShadowColor: '#25CFFF', textShadowRadius: 10 },
   engineCard: { backgroundColor: 'rgba(3,25,60,0.72)', borderWidth: 1, borderTopColor: 'rgba(210,249,255,0.62)', borderLeftColor: 'rgba(76,183,255,0.46)', borderRightColor: 'rgba(18,105,198,0.68)', borderBottomWidth: 2, borderBottomColor: '#052F67', borderRadius: 15, shadowColor: '#078BFF', shadowOpacity: 0.4, shadowRadius: 13, shadowOffset: { width: 0, height: 4 }, elevation: 8 },
