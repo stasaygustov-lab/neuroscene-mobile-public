@@ -2,7 +2,7 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path("assets")
-SOURCE = ROOT / "Неоновая иконка «НейроСцена».jpg"
+SOURCE = ROOT / "neuroscene-brand.png"
 ICON = ROOT / "neuroscene-brand.png"
 FOREGROUND = ROOT / "android-icon-foreground.png"
 SIZE = (1024, 1024)
