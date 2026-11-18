@@ -2182,7 +2182,6 @@ function CreateScreen({
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
           <View pointerEvents="none" style={styles.referenceCreateButtonHighlight} />
-          <PanelArtworkCrop quadrant="clapper" width={34} height={34} />
           <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
           <Text style={styles.referenceArrow} accessibilityElementsHidden>›</Text>
         </TouchableOpacity>
@@ -3341,7 +3340,7 @@ function SupportScreen({
 
 type PanelArtworkQuadrant = 'clapper' | 'galaxy' | 'credits' | 'avatar';
 
-const PANEL_ARTWORK_URI = 'https://i.ibb.co/rfG93tjr/image.png';
+const PANEL_ARTWORK = require('./assets/Космическая панель технологий.png');
 
 function PanelArtworkCrop({ quadrant, width, height }: { quadrant: PanelArtworkQuadrant; width: number; height: number }) {
   const size = Math.min(width, height);
@@ -3349,9 +3348,9 @@ function PanelArtworkCrop({ quadrant, width, height }: { quadrant: PanelArtworkQ
   const bottom = quadrant === 'credits' || quadrant === 'avatar';
   return (
     <View style={{ width, height, alignItems: 'center', justifyContent: 'center' }} accessible={false}>
-      <View style={{ width: size, height: size, overflow: 'hidden', backgroundColor: 'transparent' }}>
+      <View style={{ width: size, height: size, overflow: 'hidden', backgroundColor: 'transparent', borderRadius: Math.max(12, size * 0.08) }}>
         <Image
-          source={{ uri: PANEL_ARTWORK_URI }}
+          source={PANEL_ARTWORK}
           style={{ position: 'absolute', width: size * 2, height: size * 2, left: right ? -size : 0, top: bottom ? -size : 0 }}
           resizeMode="stretch"
           accessible={false}
@@ -7608,7 +7607,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5, borderTopColor: '#E5FCFF', borderLeftColor: '#8CEBFF',
     borderRightColor: '#1687F5', borderBottomWidth: 3, borderBottomColor: '#034DAD',
     backgroundColor: '#0879F5', flexDirection: 'row', alignItems: 'center',
-    justifyContent: 'space-between', paddingHorizontal: 22, gap: 10,
+    justifyContent: 'center', paddingHorizontal: 48, gap: 10,
     shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 23,
     shadowOffset: { width: 0, height: 7 }, elevation: 14
   },
