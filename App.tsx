@@ -2041,31 +2041,15 @@ export default function App() {
             onPress={() => { const order: Tab[] = ['Create', 'Gallery', 'Credits', 'Profile']; setTransitionDirection(order.indexOf(item.id) >= order.indexOf(tab) ? 1 : -1); setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
             {tab === item.id && <View pointerEvents="none" style={styles.navActiveGlow} />}
-            {item.id === 'Create' ? (
-              <View style={[styles.navCreateIcon, styles.navIconRestore, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Создать">
-                <View style={styles.navHomeRoof} />
-                <View style={styles.navHomeBody}><View style={styles.navHomeDoor} /></View>
-              </View>
-            ) : item.id === 'Gallery' ? (
-              <View style={[styles.navGalleryIcon, styles.navIconRestore, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Галерея">
-                <View style={styles.navGallerySun} />
-                <View style={styles.navGalleryMountainBack} />
-                <View style={styles.navGalleryMountainFront} />
-              </View>
-            ) : item.id === 'Credits' ? (
-              <View style={[styles.navDatabaseIcon, styles.navIconRestore, tab === item.id && styles.navGlyphActive]} accessibilityLabel="Кредиты">
-                <View style={styles.navDatabaseTop} />
-                <View style={styles.navDatabaseBody}>
-                  <View style={styles.navDatabaseMiddle} />
-                  <View style={styles.navDatabaseBottom} />
-                </View>
-              </View>
-            ) : (
-              <View style={[styles.navPerson, styles.navIconRestore, tab === item.id && styles.navPersonActive]} accessibilityLabel="Профиль">
-                <View style={styles.navPersonHead} />
-                <View style={styles.navPersonBody} />
-              </View>
-            )}
+            <View
+              style={[styles.navIconRestore, tab === item.id && styles.navGlyphActive]}
+              accessibilityLabel={item.label}
+              accessibilityRole="image"
+            >
+              <Text style={[styles.navGlyphText, tab === item.id && styles.navGlyphTextActive]}>
+                {item.id === 'Create' ? '⌂' : item.id === 'Gallery' ? '▧' : item.id === 'Credits' ? '◉' : '♙'}
+              </Text>
+            </View>
             <Text
               numberOfLines={1}
               adjustsFontSizeToFit
@@ -7531,4 +7515,140 @@ const styles = StyleSheet.create({
     shadowColor: '#087DFF', shadowOpacity: 0.68, shadowRadius: 22,
     shadowOffset: { width: 0, height: -3 }
   },
+  // V71: dimensional glass, beveled metal edges and a reliable foreground layer for all dock glyphs.
+  navItem: {
+    position: 'relative', zIndex: 120, elevation: 120, overflow: 'visible',
+    flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: '25%', width: '25%', maxWidth: '25%',
+    minWidth: 0, height: 68, minHeight: 68, paddingTop: 2, paddingBottom: 6,
+    gap: 3, alignItems: 'center', justifyContent: 'center', alignSelf: 'center'
+  },
+  navIconRestore: {
+    width: 40, height: 40, minWidth: 40, minHeight: 40,
+    alignItems: 'center', justifyContent: 'center', position: 'relative',
+    zIndex: 140, elevation: 140, opacity: 1, overflow: 'visible',
+    backgroundColor: 'rgba(8,42,82,0.34)', borderRadius: 20,
+    borderWidth: 1, borderTopColor: 'rgba(205,249,255,0.82)',
+    borderLeftColor: 'rgba(92,202,255,0.46)', borderRightColor: 'rgba(45,144,235,0.54)',
+    borderBottomColor: 'rgba(12,76,148,0.88)',
+    shadowColor: '#13BFFF', shadowOpacity: 0.72, shadowRadius: 13,
+    shadowOffset: { width: 0, height: 3 }
+  },
+  navGlyphText: {
+    color: '#BDEEFF', fontFamily: 'sans-serif', fontSize: 29, lineHeight: 34,
+    fontWeight: '700', textAlign: 'center', includeFontPadding: false,
+    textShadowColor: '#20BFFF', textShadowRadius: 13, textShadowOffset: { width: 0, height: 0 }
+  },
+  navGlyphTextActive: {
+    color: '#FFFFFF', textShadowColor: '#55DFFF', textShadowRadius: 18,
+    transform: [{ scale: 1.08 }]
+  },
+  bottomNav: {
+    position: 'relative', zIndex: 100, elevation: 100, overflow: 'visible',
+    flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center',
+    backgroundColor: 'rgba(3,15,39,0.98)',
+    borderWidth: 1.2, borderTopColor: 'rgba(205,249,255,0.88)',
+    borderLeftColor: 'rgba(66,174,255,0.72)', borderRightColor: 'rgba(34,121,220,0.78)',
+    borderBottomWidth: 1.2, borderBottomColor: 'rgba(7,63,132,0.96)',
+    borderRadius: 25, marginHorizontal: 5, marginBottom: 5,
+    shadowColor: '#087DFF', shadowOpacity: 0.9, shadowRadius: 25,
+    shadowOffset: { width: 0, height: -4 }
+  },
+  bottomNavGlass: {
+    ...StyleSheet.absoluteFillObject, top: -1, zIndex: 0,
+    borderRadius: 24, overflow: 'hidden',
+    backgroundColor: 'rgba(5,25,57,0.82)',
+    borderWidth: 1, borderTopColor: 'rgba(210,250,255,0.35)',
+    borderLeftColor: 'rgba(55,167,255,0.20)', borderRightColor: 'rgba(31,115,214,0.25)',
+    borderBottomColor: 'rgba(5,47,101,0.72)'
+  },
+  featureCard: {
+    width: '48.5%', minHeight: 104, paddingVertical: 16, paddingHorizontal: 12,
+    borderRadius: 19, backgroundColor: 'rgba(7,27,62,0.96)',
+    borderWidth: 1.25, borderTopColor: 'rgba(194,244,255,0.72)',
+    borderLeftColor: 'rgba(72,181,255,0.58)', borderRightColor: 'rgba(31,119,211,0.72)',
+    borderBottomWidth: 2, borderBottomColor: 'rgba(3,48,105,0.98)',
+    shadowColor: '#087BFF', shadowOpacity: 0.48, shadowRadius: 19,
+    shadowOffset: { width: 0, height: 6 }, elevation: 10
+  },
+  referenceCreateButton: {
+    width: '100%', height: 60, minHeight: 60, borderRadius: 30,
+    borderWidth: 1.5, borderTopColor: '#E5FCFF', borderLeftColor: '#8CEBFF',
+    borderRightColor: '#1687F5', borderBottomWidth: 3, borderBottomColor: '#034DAD',
+    backgroundColor: '#0879F5', flexDirection: 'row', alignItems: 'center',
+    justifyContent: 'space-between', paddingHorizontal: 22, gap: 10,
+    shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 23,
+    shadowOffset: { width: 0, height: 7 }, elevation: 14
+  },
+  packageCard: {
+    position: 'relative', width: '100%', minWidth: 0, minHeight: 60,
+    paddingHorizontal: 9, paddingVertical: 7, borderRadius: 15,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5,
+    borderWidth: 1.2, borderTopColor: 'rgba(202,246,255,0.72)',
+    borderLeftColor: 'rgba(77,180,255,0.58)', borderRightColor: 'rgba(39,121,211,0.72)',
+    borderBottomWidth: 2, borderBottomColor: 'rgba(2,47,103,0.96)',
+    backgroundColor: 'rgba(5,26,61,0.94)',
+    shadowColor: '#087BFF', shadowOpacity: 0.32, shadowRadius: 13,
+    shadowOffset: { width: 0, height: 4 }, elevation: 8
+  },
+  packageCardSelected: {
+    borderTopColor: '#F0FDFF', borderLeftColor: '#9AEFFF',
+    borderRightColor: '#2BBAFF', borderBottomColor: '#0752A8',
+    backgroundColor: 'rgba(5,83,151,0.98)', shadowColor: '#16BFFF',
+    shadowOpacity: 0.95, shadowRadius: 20, shadowOffset: { width: 0, height: 5 }, elevation: 14
+  },
+  creditLargeCoin: {
+    position: 'absolute', width: 94, height: 94, borderRadius: 47, padding: 5,
+    borderWidth: 2.5, borderTopColor: '#FFFCE0', borderLeftColor: '#FFE49A',
+    borderRightColor: '#B96B12', borderBottomWidth: 5, borderBottomColor: '#7B3B08',
+    backgroundColor: '#C47A19', alignItems: 'center', justifyContent: 'center',
+    shadowColor: '#FFB52E', shadowOpacity: 1, shadowRadius: 22,
+    shadowOffset: { width: 0, height: 7 }, elevation: 16
+  },
+  creditLargeCoinRim: {
+    width: '100%', height: '100%', borderRadius: 44, borderWidth: 3,
+    borderTopColor: '#FFF6C6', borderLeftColor: '#FFE08A',
+    borderRightColor: '#C17A1D', borderBottomColor: '#A85C10',
+    backgroundColor: '#E9A52D', alignItems: 'center', justifyContent: 'center'
+  },
+  creditsTitleBeam: {
+    width: 142, height: 5, marginTop: 8, borderRadius: 8,
+    backgroundColor: 'rgba(48,167,255,0.50)',
+    borderTopWidth: 1, borderTopColor: 'rgba(223,250,255,0.95)',
+    shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 25,
+    shadowOffset: { width: 0, height: 2 }, elevation: 16,
+    alignItems: 'center', justifyContent: 'center'
+  },
+  galleryGalaxyCore: {
+    width: 118, height: 118, borderRadius: 59, alignItems: 'center', justifyContent: 'center',
+    borderWidth: 2, borderTopColor: '#E8FCFF', borderLeftColor: '#8DEBFF',
+    borderRightColor: '#1686E9', borderBottomWidth: 4, borderBottomColor: '#034D9B',
+    backgroundColor: 'rgba(8,73,143,0.88)',
+    shadowColor: '#19BFFF', shadowOpacity: 1, shadowRadius: 34,
+    shadowOffset: { width: 0, height: 8 }, elevation: 20
+  },
+  galleryGalaxyCoreHighlight: {
+    width: 58, height: 58, borderRadius: 29, borderWidth: 2,
+    borderTopColor: '#FFFFFF', borderLeftColor: '#C9F7FF',
+    borderRightColor: '#48BFFF', borderBottomColor: '#0B69BD',
+    backgroundColor: 'rgba(35,174,255,0.48)',
+    shadowColor: '#63E8FF', shadowOpacity: 1, shadowRadius: 24,
+    shadowOffset: { width: 0, height: 3 }, elevation: 14
+  },
+  galleryGalaxyOrbitOuter: {
+    position: 'absolute', width: '96%', height: '54%', borderRadius: 180,
+    borderWidth: 2, borderTopColor: 'rgba(225,251,255,0.96)',
+    borderLeftColor: 'rgba(90,204,255,0.82)', borderRightColor: 'rgba(33,131,228,0.82)',
+    borderBottomColor: 'rgba(7,65,135,0.78)', transform: [{ rotate: '-28deg' }],
+    shadowColor: '#12AFFF', shadowOpacity: 1, shadowRadius: 18, elevation: 12
+  },
+  profileGuestAvatar: {
+    position: 'relative', width: 124, height: 124, borderRadius: 62, alignSelf: 'center',
+    alignItems: 'center', justifyContent: 'center', overflow: 'visible',
+    borderWidth: 2, borderTopColor: '#E8FCFF', borderLeftColor: '#85E7FF',
+    borderRightColor: '#187FD8', borderBottomWidth: 4, borderBottomColor: '#063E85',
+    backgroundColor: 'rgba(2,23,57,0.88)',
+    shadowColor: '#13AFFF', shadowOpacity: 1, shadowRadius: 30,
+    shadowOffset: { width: 0, height: 8 }, elevation: 17
+  },
+  creditsContent: { paddingBottom: 12 },
 });
