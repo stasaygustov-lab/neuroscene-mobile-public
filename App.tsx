@@ -1770,7 +1770,7 @@ export default function App() {
 
           <View style={styles.creditReferenceLayout}>
             <View style={styles.creditCoinShowcase} accessibilityLabel="Объёмная композиция золотых монет">
-              <TechnologyPanelArtwork width={150} height={120} />
+              <PanelArtworkCrop quadrant="credits" width={150} height={120} />
               <View style={styles.creditBalanceCaption}>
                 <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
                 <Text style={styles.creditBalanceHeroLabel}>КРЕДИТОВ</Text>
@@ -1824,7 +1824,7 @@ export default function App() {
         </View>
         <View style={styles.profileIdentity}>
           <View style={[styles.profileGuestAvatar, { borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0 }]} accessibilityLabel="Объёмный голографический аватар">
-            <TechnologyPanelArtwork width={112} height={112} />
+            <PanelArtworkCrop quadrant="avatar" width={112} height={112} />
           </View>
           <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
           {!!authUser?.email && <Text style={styles.profileGuestStatus}>{authUser.email}</Text>}
@@ -2182,7 +2182,7 @@ function CreateScreen({
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
           <View pointerEvents="none" style={styles.referenceCreateButtonHighlight} />
-          <Text style={styles.referenceSparkle} accessibilityElementsHidden>✦</Text>
+          <PanelArtworkCrop quadrant="clapper" width={34} height={34} />
           <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
           <Text style={styles.referenceArrow} accessibilityElementsHidden>›</Text>
         </TouchableOpacity>
@@ -2518,7 +2518,7 @@ function GalleryScreen({
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.galleryEmptyReferenceState}>
           <View style={styles.galleryGalaxyArtwork} accessibilityLabel="Объёмная неоновая галактика">
-            <TechnologyPanelArtwork width={250} height={190} />
+            <PanelArtworkCrop quadrant="galaxy" width={250} height={190} />
           </View>
         </View>
       )}
@@ -3339,14 +3339,25 @@ function SupportScreen({
   );
 }
 
-function TechnologyPanelArtwork({ width, height }: { width: number; height: number }) {
+type PanelArtworkQuadrant = 'clapper' | 'galaxy' | 'credits' | 'avatar';
+
+const PANEL_ARTWORK_URI = 'https://i.ibb.co/prvqQP7F/image.png';
+
+function PanelArtworkCrop({ quadrant, width, height }: { quadrant: PanelArtworkQuadrant; width: number; height: number }) {
+  const size = Math.min(width, height);
+  const right = quadrant === 'galaxy' || quadrant === 'avatar';
+  const bottom = quadrant === 'credits' || quadrant === 'avatar';
   return (
-    <Image
-      source={require('./assets/Космическая панель технологий.png')}
-      style={{ width, height }}
-      resizeMode="contain"
-      accessible={false}
-    />
+    <View style={{ width, height, alignItems: 'center', justifyContent: 'center' }} accessible={false}>
+      <View style={{ width: size, height: size, overflow: 'hidden', backgroundColor: 'transparent' }}>
+        <Image
+          source={{ uri: PANEL_ARTWORK_URI }}
+          style={{ position: 'absolute', width: size * 2, height: size * 2, left: right ? -size : 0, top: bottom ? -size : 0 }}
+          resizeMode="stretch"
+          accessible={false}
+        />
+      </View>
+    </View>
   );
 }
 
