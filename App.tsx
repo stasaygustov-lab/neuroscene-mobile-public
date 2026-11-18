@@ -2585,10 +2585,8 @@ function GalleryScreen({
   return (
     <View style={styles.screen}>
       <View style={styles.galleryReferenceHeader}>
-        <View style={styles.galleryHeaderEyebrow}><View style={styles.galleryHeaderPulse} /><Text style={styles.galleryHeaderEyebrowText}>НЕОНОВАЯ ГАЛЕРЕЯ</Text></View>
         <Text style={styles.galleryReferenceTitle}>Мои видео</Text>
         <View style={styles.galleryReferenceUnderline} />
-        <Text style={styles.galleryHeaderSubtitle}>Ваши идеи, воплощённые в движении</Text>
         <View style={styles.galleryStoragePill}><Text style={styles.galleryStoragePillText}>АРХИВ</Text><Text style={styles.galleryStoragePillCount}>{visibleItems.length} / 2</Text></View>
       </View>
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
@@ -2602,21 +2600,18 @@ function GalleryScreen({
       )}
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.galleryEmptyReferenceState}>
-          <View style={styles.galleryReferenceImage} accessibilityLabel="Самостоятельно нарисованная неоновая хлопушка">
-            <View style={styles.galleryClapperGlow} />
-            <View style={styles.galleryClapperTop}>
-              <View style={styles.galleryClapperStripe} /><View style={styles.galleryClapperStripe} />
-              <View style={styles.galleryClapperStripe} /><View style={styles.galleryClapperStripe} />
+          <View style={styles.galleryGalaxyArtwork} accessibilityLabel="Абстрактная неоновая галактика">
+            <View style={styles.galleryGalaxyAura} />
+            <View style={styles.galleryGalaxyOrbitOuter} />
+            <View style={styles.galleryGalaxyOrbitInner} />
+            <View style={styles.galleryGalaxyCore}>
+              <View style={styles.galleryGalaxyCoreHighlight} />
             </View>
-            <View style={styles.galleryClapperBody}><View style={styles.galleryClapperPlay} /></View>
-            <View style={styles.galleryClapperFilmDots}>
-              <View style={styles.galleryClapperDot} /><View style={styles.galleryClapperDot} />
-              <View style={styles.galleryClapperDot} /><View style={styles.galleryClapperDot} />
-            </View>
+            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarOne]} />
+            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarTwo]} />
+            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarThree]} />
+            <View style={[styles.galleryGalaxyStar, styles.galleryGalaxyStarFour]} />
           </View>
-          <Text style={styles.galleryEmptyTitle}>Ваша галерея начинается здесь</Text>
-          <Text style={styles.galleryEmptyCopy}>Создайте первое видео — и оно появится в этом пространстве</Text>
-          <TouchableOpacity activeOpacity={0.88} style={styles.galleryCreateButton} onPress={onCreate}><Text style={styles.galleryCreateButtonText}>＋  Создать видео</Text></TouchableOpacity>
         </View>
       )}
 
@@ -7499,6 +7494,20 @@ const styles = StyleSheet.create({
   galleryStorageTrack: { width: '100%', height: 6, borderRadius: 5, overflow: 'hidden', backgroundColor: 'rgba(45,83,130,0.62)' },
   galleryStorageFill: { height: 6, borderRadius: 5, backgroundColor: '#24C9FF', shadowColor: '#18BFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 },
   galleryStorageHint: { color: '#789FC5', fontFamily: 'Manrope', fontSize: 10, textAlign: 'center', marginTop: 8 },
+  // V70: rebuild the empty Gallery composition as native neon-galaxy geometry, without bitmap artwork or CTA.
+  galleryReferenceHeader: { minHeight: 0, marginTop: 12, marginBottom: 8, paddingTop: 12, paddingBottom: 13, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: 'rgba(71,184,255,0.28)' },
+  galleryEmptyReferenceState: { width: '100%', minHeight: 390, flex: 1, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12, paddingVertical: 12, backgroundColor: 'transparent' },
+  galleryGalaxyArtwork: { width: 286, maxWidth: '88%', height: 286, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  galleryGalaxyAura: { position: 'absolute', width: '82%', height: '82%', borderRadius: 180, backgroundColor: 'rgba(0,119,255,0.10)', shadowColor: '#087BFF', shadowOpacity: 0.9, shadowRadius: 48, elevation: 18 },
+  galleryGalaxyOrbitOuter: { position: 'absolute', width: '96%', height: '54%', borderRadius: 180, borderWidth: 1.5, borderColor: 'rgba(77,195,255,0.74)', transform: [{ rotate: '-28deg' }], shadowColor: '#12AFFF', shadowOpacity: 0.95, shadowRadius: 12, elevation: 8 },
+  galleryGalaxyOrbitInner: { position: 'absolute', width: '74%', height: '74%', borderRadius: 180, borderWidth: 1, borderColor: 'rgba(34,137,255,0.66)', transform: [{ rotate: '38deg' }], shadowColor: '#087BFF', shadowOpacity: 0.8, shadowRadius: 14, elevation: 7 },
+  galleryGalaxyCore: { width: 112, height: 112, borderRadius: 56, alignItems: 'center', justifyContent: 'center', borderWidth: 1.5, borderColor: '#8BE8FF', backgroundColor: 'rgba(8,73,143,0.72)', shadowColor: '#19BFFF', shadowOpacity: 1, shadowRadius: 28, elevation: 16 },
+  galleryGalaxyCoreHighlight: { width: 54, height: 54, borderRadius: 27, borderWidth: 1.5, borderColor: 'rgba(204,248,255,0.92)', backgroundColor: 'rgba(35,174,255,0.30)', shadowColor: '#63E8FF', shadowOpacity: 1, shadowRadius: 20, elevation: 12 },
+  galleryGalaxyStar: { position: 'absolute', width: 7, height: 7, borderRadius: 4, backgroundColor: '#C7F7FF', shadowColor: '#27C9FF', shadowOpacity: 1, shadowRadius: 12, elevation: 9 },
+  galleryGalaxyStarOne: { top: 38, left: 72 },
+  galleryGalaxyStarTwo: { top: 74, right: 38, width: 5, height: 5 },
+  galleryGalaxyStarThree: { bottom: 45, left: 43, width: 5, height: 5 },
+  galleryGalaxyStarFour: { bottom: 66, right: 64, width: 8, height: 8 },
   // V68: lower Create CTA by ~2 cm and the four-feature block by ~1 cm.
   createTopSpacer: { height: 76, minHeight: 76, flexGrow: 0, flexShrink: 0 },
   referenceCreateGlow: {
