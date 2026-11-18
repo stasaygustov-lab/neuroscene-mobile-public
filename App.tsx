@@ -7650,5 +7650,69 @@ const styles = StyleSheet.create({
     shadowColor: '#13AFFF', shadowOpacity: 1, shadowRadius: 30,
     shadowOffset: { width: 0, height: 8 }, elevation: 17
   },
+  // V71b: bring the four Create capabilities into the same dimensional glass language.
+  featureTile: {
+    width: '24.5%', minWidth: 0, minHeight: 82, paddingHorizontal: 2, paddingVertical: 6,
+    borderRadius: 15, borderWidth: 1,
+    borderTopColor: 'rgba(207,248,255,0.58)', borderLeftColor: 'rgba(65,171,255,0.38)',
+    borderRightColor: 'rgba(30,111,207,0.52)', borderBottomWidth: 2,
+    borderBottomColor: 'rgba(3,49,104,0.94)',
+    backgroundColor: 'rgba(4,24,57,0.72)', alignItems: 'center', justifyContent: 'flex-start',
+    shadowColor: '#087BFF', shadowOpacity: 0.42, shadowRadius: 15,
+    shadowOffset: { width: 0, height: 5 }, elevation: 8
+  },
+  featureTileActive: {
+    borderTopColor: '#F0FDFF', borderLeftColor: '#9BEAFF',
+    borderRightColor: '#32B9FF', borderBottomColor: '#0752A8',
+    backgroundColor: 'rgba(5,67,125,0.90)', shadowColor: '#00C8FF',
+    shadowOpacity: 0.95, shadowRadius: 22, shadowOffset: { width: 0, height: 5 }, elevation: 13
+  },
+  featureGlyphAura: {
+    width: 48, height: 46, marginBottom: 5, alignItems: 'center', justifyContent: 'center',
+    borderRadius: 15, backgroundColor: 'rgba(0,123,255,0.16)',
+    borderWidth: 1, borderTopColor: 'rgba(221,250,255,0.54)',
+    borderLeftColor: 'rgba(76,190,255,0.36)', borderRightColor: 'rgba(22,111,207,0.50)',
+    borderBottomColor: 'rgba(3,55,112,0.72)',
+    shadowColor: '#0CBFFF', shadowOpacity: 0.9, shadowRadius: 18,
+    shadowOffset: { width: 0, height: 4 }, elevation: 10
+  },
+  featureGlyphAuraOuter: {
+    position: 'absolute', width: 55, height: 52, borderRadius: 18,
+    backgroundColor: 'rgba(0,150,255,0.13)', borderWidth: 1,
+    borderColor: 'rgba(94,207,255,0.28)',
+    shadowColor: '#00BFFF', shadowOpacity: 1, shadowRadius: 22, elevation: 12
+  },
+  featureGlyphFrame: {
+    width: 39, height: 39, marginBottom: 1, borderRadius: 12,
+    alignItems: 'center', justifyContent: 'center', position: 'relative',
+    backgroundColor: 'rgba(0,133,255,0.30)', borderWidth: 1.4,
+    borderTopColor: '#E5FBFF', borderLeftColor: '#8BEAFF',
+    borderRightColor: '#1685E8', borderBottomWidth: 2, borderBottomColor: '#064D98',
+    shadowColor: '#16BFFF', shadowOpacity: 1, shadowRadius: 16,
+    shadowOffset: { width: 0, height: 3 }, elevation: 11
+  },
+  featureHeadingLine: {
+    flex: 1, height: 3, borderRadius: 3,
+    backgroundColor: 'rgba(22,139,255,0.86)',
+    borderTopWidth: 1, borderTopColor: 'rgba(220,250,255,0.94)',
+    shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 12,
+    shadowOffset: { width: 0, height: 2 }, elevation: 8
+  },
+  featureHeadingBeam: {
+    width: '72%', height: 5, alignSelf: 'center', marginTop: 5, marginBottom: 10,
+    borderRadius: 8, backgroundColor: 'rgba(48,167,255,0.48)',
+    borderTopWidth: 1, borderTopColor: 'rgba(225,251,255,0.94)',
+    shadowColor: '#129DFF', shadowOpacity: 1, shadowRadius: 24,
+    shadowOffset: { width: 0, height: 3 }, elevation: 15,
+    alignItems: 'center', justifyContent: 'center'
+  },
+  referenceCreateButtonHighlight: {
+    position: 'absolute', top: 2, left: 3, right: 3, height: 27,
+    borderTopLeftRadius: 28, borderTopRightRadius: 28,
+    backgroundColor: 'rgba(220,250,255,0.32)',
+    borderTopWidth: 1.2, borderTopColor: 'rgba(255,255,255,0.96)',
+    borderLeftWidth: 1, borderLeftColor: 'rgba(218,249,255,0.35)',
+    borderRightWidth: 1, borderRightColor: 'rgba(70,190,255,0.42)'
+  },
   creditsContent: { paddingBottom: 12 },
 });
