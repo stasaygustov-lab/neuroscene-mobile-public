@@ -1889,7 +1889,7 @@ export default function App() {
         {authUser ? (
           <>
             <View style={[styles.profileCard, { display: 'none' }]}>
-              <View style={styles.avatar}><Text style={styles.avatarText}>Н+С</Text></View>
+              <Image source={require('./assets/neuroscene-brand.png')} style={{ width: 42, height: 42 }} resizeMode="contain" accessibilityLabel="Иконка НейроСцена" />
               <View style={{ flex: 1 }}>
                 <Text style={styles.profileName}>{uiText(language, 'YOUR ACCOUNT', 'ВАШ АККАУНТ')}</Text>
                 <Text style={styles.mutedText}>{authUser.email}</Text>
@@ -1920,8 +1920,7 @@ export default function App() {
                     <Text style={styles.loginLegalText}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
           </View>
           {profileEmailOpen && <View style={styles.authCard}>
-            <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
-            <Text style={styles.authBrandTitle}>Нейро{ '\n' }Сцена</Text>
+            <Image source={require('./assets/neuroscene-brand.png')} style={{ width: 112, height: 112, alignSelf: 'center', marginBottom: 12 }} resizeMode="contain" accessibilityLabel="Логотип НейроСцена" />
             <Text style={styles.sectionTitle}>{uiText(language, 'SIGN IN OR REGISTER', 'ВХОД ПО EMAIL')}</Text>
             <TextInput
               style={styles.authInput}
@@ -2046,12 +2045,9 @@ export default function App() {
 
       {tab === 'Create' && <View style={[styles.header, styles.referenceCenteredHeader, { width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
-          <View style={styles.brandLogoArtwork} accessibilityLabel="Логотип НейроСцена">
-            <BrandMonogram />
-            <View style={styles.brandLockupWordmark}>
-              <Text style={styles.brandWordmarkLine}>Нейро</Text>
-              <Text style={[styles.brandWordmarkLine, styles.brandWordmarkAccent]}>Сцена</Text>
-            </View>
+          <View style={[styles.brandLogoArtwork, { width: 190, height: 52, alignItems: 'center', gap: 9 }]} accessibilityLabel="Фирменный логотип НейроСцена">
+            <Image source={require('./assets/neuroscene-brand.png')} style={{ width: 48, height: 48 }} resizeMode="contain" />
+            <Text style={{ color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 19, lineHeight: 24, fontWeight: '900', letterSpacing: -0.45, textShadowColor: '#168BFF', textShadowRadius: 10 }}>НейроСцена</Text>
           </View>
         </View>
 
@@ -2141,13 +2137,7 @@ export default function App() {
           />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup} accessibilityLabel="Логотип НейроСцена">
-            <View style={styles.splashNativeLogo}>
-              <BrandMonogram large />
-              <View style={styles.splashNativeWordmark}>
-                <Text style={styles.splashNativeWordmarkLine}>Нейро</Text>
-                <Text style={[styles.splashNativeWordmarkLine, styles.splashNativeWordmarkAccent]}>Сцена</Text>
-              </View>
-            </View>
+            <Image source={require('./assets/neuroscene-brand.png')} style={{ width: 250, height: 250, alignSelf: 'center', shadowColor: '#168BFF', shadowOpacity: 0.8, shadowRadius: 28, elevation: 18 }} resizeMode="contain" accessibilityLabel="Неоновая иконка НейроСцена" />
             <Text style={styles.splashNativeCaption}>ВАШИ ИДЕИ — НА ЭКРАНЕ</Text>
           </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
@@ -2549,7 +2539,7 @@ function CreateScreen({
       >
         <View style={styles.generationModalBackdrop}>
           <View style={styles.generationModalCard}>
-            <View style={styles.generationModalMark}><Text style={styles.generationModalMarkText}>Н+С</Text></View>
+            <Image source={require('./assets/neuroscene-brand.png')} style={{ width: 92, height: 92, alignSelf: 'center' }} resizeMode="contain" accessibilityLabel="Логотип НейроСцена" />
             <ActivityIndicator color={BLUE} size="large" style={{ marginTop: 22 }} />
             <Text style={styles.generationModalTitle}>НейроСцена создаёт видео</Text>
             <Text style={styles.generationModalDescription}>{jobMessage || 'Подготавливаем генерацию. Пожалуйста, подождите.'}</Text>
@@ -3427,20 +3417,6 @@ function SupportScreen({
           ))}
         </View>
       )}
-    </View>
-  );
-}
-
-function BrandMonogram({ large = false }: { large?: boolean }) {
-  const scale = large ? 1.2 : 0.72;
-  return (
-    <View style={{ width: 106 * scale, height: 44 * scale, position: 'relative', alignItems: 'center', justifyContent: 'center', shadowColor: '#078BFF', shadowOpacity: 1, shadowRadius: large ? 22 : 12, elevation: large ? 12 : 6 }} accessibilityLabel="Фирменный знак Н+С">
-      <View style={{ position: 'absolute', left: 2 * scale, top: 1 * scale, width: 10 * scale, height: 42 * scale, borderRadius: 1 * scale, backgroundColor: '#35BFFF', shadowColor: '#16AFFF', shadowOpacity: 1, shadowRadius: 8 * scale, elevation: 5 }} />
-      <View style={{ position: 'absolute', left: 27 * scale, top: 1 * scale, width: 10 * scale, height: 42 * scale, borderRadius: 1 * scale, backgroundColor: '#35BFFF', shadowColor: '#16AFFF', shadowOpacity: 1, shadowRadius: 8 * scale, elevation: 5 }} />
-      <View style={{ position: 'absolute', left: 10 * scale, top: 17 * scale, width: 19 * scale, height: 8 * scale, backgroundColor: '#35BFFF' }} />
-      <View style={{ position: 'absolute', left: 43 * scale, top: 17 * scale, width: 17 * scale, height: 8 * scale, backgroundColor: '#35BFFF' }} />
-      <View style={{ position: 'absolute', left: 47.5 * scale, top: 12.5 * scale, width: 8 * scale, height: 17 * scale, backgroundColor: '#35BFFF' }} />
-      <View style={{ position: 'absolute', left: 64 * scale, top: 1 * scale, width: 39 * scale, height: 42 * scale, borderWidth: 6 * scale, borderRightWidth: 0, borderColor: '#35BFFF', borderRadius: 23 * scale, shadowColor: '#16AFFF', shadowOpacity: 1, shadowRadius: 8 * scale, elevation: 5 }} />
     </View>
   );
 }
@@ -4344,7 +4320,6 @@ const FINAL_UI_FIXES_V6 = () => ({
 } as const);
 
 const FINAL_UI_FIXES_V7 = () => ({
-  // Use the current Н+С brand lockup instead of the obsolete raster logo on splash.
   introBrandLockup: { position: 'absolute', top: '31%', left: 0, right: 0, alignItems: 'center', justifyContent: 'center', minHeight: 250 },
   introBrandMonogramWrap: { width: 148, height: 148, borderRadius: 74, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(2,16,43,0.92)', borderWidth: 2, borderColor: '#70DFFF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 28, elevation: 20 },
   introBrandMonogram: { color: '#D9F7FF', fontSize: 42, lineHeight: 52, fontWeight: '900', letterSpacing: -2, textShadowColor: '#168CFF', textShadowRadius: 18 },
