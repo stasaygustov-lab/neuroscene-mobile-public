@@ -2264,6 +2264,7 @@ function CreateScreen({
       <View style={styles.createTopSpacer} />
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
+          <View pointerEvents="none" style={styles.referenceCreateButtonHighlight} />
           <Text style={styles.referenceSparkle} accessibilityElementsHidden>✦</Text>
           <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
           <Text style={styles.referenceArrow} accessibilityElementsHidden>›</Text>
@@ -6706,6 +6707,57 @@ const FINAL_UI_CREDITS_REFERENCE_V57 = {
   creditPackagesList: { gap: 8 },
 };
 
+const FINAL_UI_CREATE_HERO_V65 = {
+  // Lower the Create-screen brand lockup by approximately 0.5 cm (19 dp).
+  referenceCenteredHeader: {
+    width: '100%', minHeight: 85, height: 85, marginTop: 0, marginBottom: 0,
+    paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4,
+    alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row',
+    backgroundColor: 'transparent', borderBottomWidth: 0, overflow: 'visible'
+  },
+  brandRowCentered: {
+    position: 'relative', top: 27, left: 0, right: undefined, width: 'auto',
+    height: 56, alignSelf: 'auto', alignItems: 'center', justifyContent: 'flex-start',
+    flexDirection: 'row', margin: 0, padding: 0, backgroundColor: 'transparent', flexShrink: 0
+  },
+  // Centered, pill-shaped, dimensional cyan/blue CTA inspired by the approved neon-galaxy reference.
+  referenceCreateGlow: {
+    width: '92%', alignSelf: 'center', marginTop: 0, marginBottom: 18,
+    shadowColor: '#36D9FF', shadowOpacity: 0.95, shadowRadius: 25,
+    shadowOffset: { width: 0, height: 5 }, elevation: 14
+  },
+  referenceCreateButton: {
+    position: 'relative', width: '100%', height: 64, minHeight: 64,
+    borderRadius: 32, borderWidth: 2, borderTopColor: '#E0FAFF',
+    borderLeftColor: '#9DEEFF', borderRightColor: '#4ABFFF', borderBottomColor: '#0875D8',
+    backgroundColor: '#087FE8', flexDirection: 'row', alignItems: 'center',
+    justifyContent: 'center', paddingHorizontal: 24, gap: 0, overflow: 'hidden',
+    shadowColor: '#00C8FF', shadowOpacity: 0.92, shadowRadius: 18,
+    shadowOffset: { width: 0, height: 4 }, elevation: 12
+  },
+  referenceCreateButtonHighlight: {
+    position: 'absolute', top: 2, left: 3, right: 3, height: 25,
+    borderTopLeftRadius: 28, borderTopRightRadius: 28,
+    backgroundColor: 'rgba(190, 246, 255, 0.23)',
+    borderTopWidth: 1, borderTopColor: 'rgba(245, 255, 255, 0.72)'
+  },
+  referenceCreateButtonText: {
+    zIndex: 2, color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 18,
+    lineHeight: 24, fontWeight: '900', letterSpacing: 0.2, textAlign: 'center',
+    textShadowColor: 'rgba(0,35,90,0.72)', textShadowRadius: 6
+  },
+  referenceSparkle: {
+    position: 'absolute', left: 23, top: 14, zIndex: 3,
+    color: '#E7FBFF', fontFamily: 'Manrope', fontSize: 27, lineHeight: 30,
+    fontWeight: '800', textShadowColor: '#DDF8FF', textShadowRadius: 11
+  },
+  referenceArrow: {
+    position: 'absolute', right: 23, top: 12, zIndex: 3,
+    color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 32, lineHeight: 34,
+    fontWeight: '300', textShadowColor: '#DDF8FF', textShadowRadius: 9
+  }
+};
+
 const styles = StyleSheet.create({
   // V61: hand-built artwork and dimensional neon title beams, no reference screenshot crops.
   profileIdentity: { width: '100%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', marginTop: 5, marginBottom: 18 },
@@ -7408,4 +7460,5 @@ const styles = StyleSheet.create({
   packageCard: { position: 'relative', overflow: 'visible' },
   packagePopularBadge: { position: 'absolute', top: -10, alignSelf: 'center', zIndex: 4, elevation: 5, minHeight: 20, paddingHorizontal: 12, borderRadius: 10, borderWidth: 1, borderColor: '#75E4FF', backgroundColor: '#0879F5', alignItems: 'center', justifyContent: 'center', shadowColor: '#12BFFF', shadowOpacity: 0.8, shadowRadius: 9 },
   packagePopularBadgeText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 10, lineHeight: 14, fontWeight: '900' },
+  ...FINAL_UI_CREATE_HERO_V65,
 });
