@@ -3341,7 +3341,7 @@ function SupportScreen({
 
 type PanelArtworkQuadrant = 'clapper' | 'galaxy' | 'credits' | 'avatar';
 
-const PANEL_ARTWORK_URI = 'https://i.ibb.co/prvqQP7F/image.png';
+const PANEL_ARTWORK_URI = 'https://i.ibb.co/rfG93tjr/image.png';
 
 function PanelArtworkCrop({ quadrant, width, height }: { quadrant: PanelArtworkQuadrant; width: number; height: number }) {
   const size = Math.min(width, height);
