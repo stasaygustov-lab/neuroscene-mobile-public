@@ -6364,6 +6364,7 @@ const FINAL_UI_LAUNCHER_POLISH_V55 = {
   },
   featureGlyphFrame: {
     width: 48, height: 46, marginBottom: 5, borderRadius: 14,
+    alignItems: 'center', justifyContent: 'center', position: 'relative',
     backgroundColor: 'rgba(0, 133, 255, 0.10)',
     borderWidth: 1, borderColor: 'rgba(115, 218, 255, 0.68)',
     shadowColor: '#16BFFF', shadowOpacity: 0.96, shadowRadius: 18,
