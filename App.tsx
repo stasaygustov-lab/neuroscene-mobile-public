@@ -1777,11 +1777,11 @@ export default function App() {
           </View>
 
           <View style={[styles.creditReferenceLayout, styles.v73CreditReferenceLayout, styles.v76CreditReferenceLayout]}>
-            <View style={[styles.creditCoinShowcase, styles.v76CreditCoinShowcase]} accessibilityLabel="Оригинальная иллюстрация золотых монет из референса">
+            <View style={[styles.creditCoinShowcase, styles.v76CreditCoinShowcase]} accessibilityLabel="Оригинальная иллюстрация золотых монет">
               <Image
-                source={require('./assets/Космическая панель технологий.png')}
-                style={{ position: 'absolute', width: 1212, height: 1297, left: -210, top: -795 }}
-                resizeMode="stretch"
+                source={require('./assets/coins-reference.jpg')}
+                style={{ width: '100%', height: '100%' }}
+                resizeMode="contain"
                 accessibilityLabel="Золотые монеты из утверждённого референса"
               />
             </View>
@@ -1818,7 +1818,7 @@ export default function App() {
           </View>
 
           <View style={[styles.creditWelcomeBonus, { width: "100%", minHeight: 64, marginTop: 12, alignSelf: "stretch" }]}>
-            <View style={styles.creditBonusGift}><View style={styles.creditBonusRibbonV} /><View style={styles.creditBonusRibbonH} /><View style={styles.creditBonusBowLeft} /><View style={styles.creditBonusBowRight} /></View>
+            <Image source={require('./assets/coins-reference.jpg')} style={{ width: 44, height: 42 }} resizeMode="contain" accessibilityLabel="Монеты приветственного бонуса из референса" />
             <View style={styles.creditBonusCopy}>
               <Text style={styles.creditBonusTitle}>Приветственный бонус</Text>
               <Text style={styles.creditBonusText}>500 кредитов при первом запуске!</Text>
@@ -1840,10 +1840,10 @@ export default function App() {
         <View style={styles.profileIdentity}>
           <View style={[styles.profileGuestAvatar, { borderWidth: 0, borderColor: 'transparent', backgroundColor: 'transparent', shadowOpacity: 0, elevation: 0 }]} accessibilityLabel="Аватар из утверждённого референса">
             <Image
-              source={require('./assets/Космическая панель технологий.png')}
+              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
               style={{ position: 'absolute', width: 1212, height: 1297, left: -790, top: -792 }}
               resizeMode="stretch"
-              accessibilityLabel="Голографический аватар из референса"
+              accessibilityLabel="Голографический аватар из утверждённого референса"
             />
           </View>
           <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
@@ -2411,7 +2411,7 @@ function GalleryScreen({
         <View style={[styles.galleryEmptyReferenceState, styles.v73GalleryEmptyState]}>
           <View style={{ width: 250, height: 190, alignSelf: 'center', overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
             <Image
-              source={require('./assets/Космическая панель технологий.png')}
+              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
               style={{ position: 'absolute', width: 1212, height: 1297, left: -741, top: -160 }}
               resizeMode="stretch"
               accessibilityLabel="Кинематографическая хлопушка из утверждённого референса"
@@ -3238,31 +3238,25 @@ function SupportScreen({
 }
 
 function FeatureGlyph({ type }: { type: string }) {
-  let artwork: any;
-  if (type === 'text') {
-    artwork = (
-      <View style={{ width: 42, height: 42, alignItems: 'center', justifyContent: 'center' }} accessible={false}>
-        <View style={{ position: 'absolute', bottom: 2, width: 38, height: 22, borderRadius: 5, backgroundColor: '#031B4D', borderWidth: 1.2, borderColor: '#1679D8', transform: [{ rotate: '-3deg' }], shadowColor: '#08BFFF', shadowOpacity: 0.8, shadowRadius: 5, elevation: 4 }} />
-        <View style={{ position: 'absolute', bottom: 4, width: 35, height: 19, borderRadius: 4, backgroundColor: '#0754A5', borderWidth: 1, borderColor: '#9BEAFF', alignItems: 'center', justifyContent: 'space-evenly', flexDirection: 'row', transform: [{ rotate: '-3deg' }] }}>
-          {[0,1,2,3].map(n => <View key={n} style={{ width: 4, height: 2.5, borderRadius: 1, backgroundColor: '#7DE2FF' }} />)}
-        </View>
-        <View style={{ position: 'absolute', top: 5, width: 37, height: 7, borderRadius: 2, backgroundColor: '#0C3F83', borderWidth: 1, borderColor: '#B9F5FF', flexDirection: 'row', overflow: 'hidden', transform: [{ rotate: '-8deg' }], shadowColor: '#24C9FF', shadowOpacity: 0.85, shadowRadius: 4, elevation: 4 }}>
-          {[0,1,2,3,4,5].map(n => <View key={n} style={{ flex: 1, backgroundColor: n % 2 ? '#1689E8' : '#C5F6FF', transform: [{ skewX: '-24deg' }], marginHorizontal: 0.5 }} />)}
-        </View>
-      </View>
-    );
-  } else if (type === 'image') {
-    artwork = <><View style={styles.featureImageSun} /><View style={styles.featureImageMountainBack} /><View style={styles.featureImageMountainFront} /></>;
-  } else if (type === 'sound') {
-    artwork = <><Text style={styles.featureMusicGlyph}>♫</Text><View style={styles.featureSoundWave}><View style={[styles.featureSoundWaveBar,{height:4}]} /><View style={[styles.featureSoundWaveBar,{height:8}]} /><View style={[styles.featureSoundWaveBar,{height:5}]} /><View style={[styles.featureSoundWaveBar,{height:7}]} /><View style={[styles.featureSoundWaveBar,{height:3}]} /></View></>;
-  } else {
-    artwork = <><View style={styles.featureWandStem} /><Text style={styles.featureWandSpark}>✦</Text><Text style={styles.featureWandSparkSmall}>✧</Text></>;
-  }
-  const labels: Record<string, string> = { text: 'Кинематографическая хлопушка', image: 'Изображение и пейзаж', sound: 'Звуковая дорожка', prompt: 'Волшебная палочка улучшения' };
+  const artwork = type === 'text'
+    ? require('./assets/feature-wand.png')
+    : type === 'image'
+      ? require('./assets/feature-image.png')
+      : type === 'sound'
+        ? require('./assets/feature-audio.png')
+        : require('./assets/feature-quality.png');
+  const labels: Record<string, string> = {
+    text: 'Оригинальная иллюстрация текстового режима',
+    image: 'Оригинальная иллюстрация изображения',
+    sound: 'Оригинальная иллюстрация звука',
+    prompt: 'Оригинальная иллюстрация качества',
+  };
   return (
-    <View style={styles.featureGlyphAura} accessibilityLabel={labels[type] || 'Возможность НейроСцены'}>
+    <View style={styles.featureGlyphAura} accessibilityLabel={labels[type] || 'Иллюстрация возможности НейроСцены'}>
       <View pointerEvents="none" style={styles.featureGlyphAuraOuter} />
-      <View style={styles.featureGlyphFrame}>{artwork}</View>
+      <View style={styles.featureGlyphFrame}>
+        <Image source={artwork} resizeMode="contain" style={{ width: 42, height: 42 }} />
+      </View>
     </View>
   );
 }
