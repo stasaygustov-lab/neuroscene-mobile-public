@@ -2338,6 +2338,7 @@ function CreateScreen({
         <Text style={styles.sectionTitle}>{uiText(language, 'YOUR PROMPT', 'ОПИСАНИЕ СЦЕНЫ')}</Text>
         <Text style={styles.languageLabel}>{uiText(language, 'ENGLISH', 'НА АНГЛИЙСКОМ')}</Text>
       </View>
+      <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
 
       <TextInput
         style={styles.prompt}
@@ -2417,6 +2418,7 @@ function CreateScreen({
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>{uiText(language, 'DURATION', 'ДЛИТЕЛЬНОСТЬ')}</Text>
       </View>
+      <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
 
       <View style={styles.optionRow}>
         {[5, 10].map((value) => (
@@ -2440,6 +2442,7 @@ function CreateScreen({
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>{uiText(language, 'ASPECT RATIO', 'ФОРМАТ КАДРА')}</Text>
       </View>
+      <View pointerEvents="none" style={styles.sectionHeadingBeam}><View style={styles.sectionHeadingBeamCore} /></View>
 
       <View style={styles.optionRow}>
         {['16:9', '9:16'].map((value) => (
@@ -6320,6 +6323,8 @@ const styles = StyleSheet.create({
   featureHeadingLine: { height: 3, borderRadius: 6, backgroundColor: 'rgba(73, 204, 255, 0.72)', shadowColor: '#12AFFF', shadowOpacity: 1, shadowRadius: 20, elevation: 11 },
   featureHeadingBeam: { width: '68%', height: 4, alignSelf: 'center', marginTop: 5, marginBottom: 9, borderRadius: 8, backgroundColor: 'rgba(48, 167, 255, 0.30)', shadowColor: '#129DFF', shadowOpacity: 1, shadowRadius: 21, elevation: 12, alignItems: 'center', justifyContent: 'center' },
   featureHeadingBeamCore: { width: '100%', height: 1, borderRadius: 2, backgroundColor: '#A7EEFF', opacity: 0.94 },
+  sectionHeadingBeam: { width: '100%', height: 3, marginTop: -6, marginBottom: 10, borderRadius: 8, backgroundColor: 'rgba(38, 157, 255, 0.30)', shadowColor: '#119EFF', shadowOpacity: 1, shadowRadius: 18, elevation: 10, justifyContent: 'center' },
+  sectionHeadingBeamCore: { width: '100%', height: 1, borderRadius: 2, backgroundColor: 'rgba(155, 230, 255, 0.88)' },
   featureSectionTitle: { color: '#E8F7FF', textShadowColor: '#168BFF', textShadowRadius: 16, textShadowOffset: { width: 0, height: 1 } },
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
