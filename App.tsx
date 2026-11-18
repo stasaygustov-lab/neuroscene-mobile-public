@@ -209,6 +209,7 @@ export default function App() {
   const [galleryLoading, setGalleryLoading] = useState(false);
   const [galleryError, setGalleryError] = useState('');
   const [creditsBalance, setCreditsBalance] = useState<number | null>(null);
+  const [selectedCreditPackage, setSelectedCreditPackage] = useState<number>(1500);
   const [creditHistory, setCreditHistory] = useState<any[]>([]);
   const [creditsLoading, setCreditsLoading] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
@@ -1769,20 +1770,30 @@ export default function App() {
           <View style={styles.creditTopRow}>
             <View style={styles.creditBalanceCard}>
               <Image
-                source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-                resizeMode="stretch"
-                style={styles.creditCoinsReferenceCrop}
+                source={require('./assets/coins-reference.jpg')}
+                resizeMode="contain"
+                style={styles.creditCoinsArtwork}
               />
-              <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
+              <View style={styles.creditBalanceHero}>
+                <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
+                <Text style={styles.creditBalanceHeroLabel}>Кредитов</Text>
+              </View>
             </View>
             <View style={styles.creditPackageColumn}>
+              <Text style={styles.creditPackagesTitle}>Пакеты кредитов</Text>
               <View style={styles.creditPackagesList}>
                 {[500, 1500, 5000].map((amount) => (
-                  <View style={styles.packageCard} key={amount}>
+                  <TouchableOpacity
+                    key={amount}
+                    activeOpacity={0.82}
+                    onPress={() => setSelectedCreditPackage(amount)}
+                    style={[styles.packageCard, selectedCreditPackage === amount && styles.packageCardSelected]}
+                  >
                     <View style={styles.packageIconWrap}><View style={styles.packageCoin}><Text style={styles.packageCoinGlyph}>✦</Text></View></View>
-                    <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')}</Text>
-                    <View style={styles.packageRight}><View style={styles.packagePriceChip}><Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text></View></View>
-                  </View>
+                    <Text style={styles.packageAmount} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.78}>{amount.toLocaleString('ru-RU')} кредитов</Text>
+                    <View style={styles.packageRight}><View style={[styles.packagePriceChip, selectedCreditPackage === amount && styles.packagePriceChipSelected]}><Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text></View></View>
+                    {selectedCreditPackage === amount && <View style={styles.packageSelectedMark}><Text style={styles.packageSelectedMarkText}>✓</Text></View>}
+                  </TouchableOpacity>
                 ))}
               </View>
             </View>
@@ -6807,6 +6818,52 @@ const styles = StyleSheet.create({
   navLabelActiveGallery: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
   navLabelActiveCredits: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
   navLabelActiveProfile: { color: '#F2FBFF', textShadowColor: '#18BFFF', textShadowRadius: 10 },
+  // V60: rebuild the Credits hero and selectable package controls from the approved reference.
+  creditTopRow: { width: '100%', flexDirection: 'row', alignItems: 'stretch', gap: 10, marginBottom: 12 },
+  creditBalanceCard: {
+    width: '41%', flex: 0, maxWidth: '41%', minWidth: 0, height: 184, minHeight: 184,
+    borderRadius: 18, borderWidth: 1.3, borderColor: 'rgba(27, 157, 255, 0.9)',
+    backgroundColor: 'rgba(3, 20, 48, 0.88)', overflow: 'hidden',
+    alignItems: 'center', justifyContent: 'flex-start', paddingTop: 10,
+    shadowColor: '#087BFF', shadowOpacity: 0.28, shadowRadius: 16, elevation: 6
+  },
+  creditCoinsArtwork: { width: '100%', height: 100, resizeMode: 'contain' },
+  creditBalanceHero: { position: 'relative', left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', marginTop: -2 },
+  creditBalanceHeroValue: { color: '#FFD66F', fontFamily: 'Manrope', fontSize: 30, lineHeight: 35, fontWeight: '900', textShadowColor: '#FF9E22', textShadowRadius: 12 },
+  creditBalanceHeroLabel: { color: '#FFF0C2', fontFamily: 'Manrope', fontSize: 13, lineHeight: 17, fontWeight: '700', marginTop: 0 },
+  creditPackageColumn: { flex: 1, minWidth: 0, justifyContent: 'center' },
+  creditPackagesTitle: { color: '#F4F8FF', fontFamily: 'Manrope', fontSize: 15, lineHeight: 19, fontWeight: '900', marginBottom: 6 },
+  creditPackagesList: { width: '100%', gap: 7 },
+  packageCard: {
+    position: 'relative', width: '100%', minWidth: 0, minHeight: 48, paddingHorizontal: 8,
+    paddingVertical: 6, borderRadius: 12, flexDirection: 'row', alignItems: 'center',
+    justifyContent: 'space-between', gap: 5, borderWidth: 1,
+    borderColor: 'rgba(70, 126, 183, 0.48)', backgroundColor: 'rgba(8, 28, 59, 0.88)'
+  },
+  packageCardSelected: {
+    borderColor: '#25C7FF', backgroundColor: 'rgba(5, 62, 119, 0.96)',
+    shadowColor: '#13BFFF', shadowOpacity: 0.82, shadowRadius: 12, elevation: 7
+  },
+  packageIconWrap: { width: 25, height: 25, minWidth: 25, borderRadius: 8, marginRight: 0, backgroundColor: 'rgba(255, 181, 46, 0.12)', borderColor: 'rgba(255, 198, 82, 0.36)' },
+  packageCoin: { width: 18, height: 18, borderRadius: 9, backgroundColor: '#FFBD35', borderWidth: 1, borderColor: '#FFE7A0', alignItems: 'center', justifyContent: 'center' },
+  packageCoinGlyph: { color: '#8C5200', fontSize: 12, lineHeight: 14, fontWeight: '900' },
+  packageAmount: { flex: 1, minWidth: 0, color: '#F4F8FF', fontFamily: 'Manrope', fontSize: 12, lineHeight: 15, fontWeight: '800' },
+  packageRight: { minWidth: 0, maxWidth: '35%', alignItems: 'flex-end', justifyContent: 'center' },
+  packagePriceChip: { minWidth: 42, paddingHorizontal: 5, paddingVertical: 4, borderRadius: 7, backgroundColor: 'rgba(3, 13, 31, 0.52)' },
+  packagePriceChipSelected: { backgroundColor: 'rgba(0, 125, 224, 0.36)' },
+  packagePrice: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 14, lineHeight: 17, fontWeight: '900' },
+  packageSelectedMark: { position: 'absolute', top: -4, right: -4, width: 15, height: 15, borderRadius: 8, backgroundColor: '#24C8FF', alignItems: 'center', justifyContent: 'center' },
+  packageSelectedMarkText: { color: '#002B4D', fontSize: 10, lineHeight: 12, fontWeight: '900' },
+  creditWelcomeBonus: {
+    width: '100%', minHeight: 58, marginTop: 3, marginBottom: 9, paddingHorizontal: 13,
+    paddingVertical: 9, borderRadius: 13, flexDirection: 'row', alignItems: 'center', gap: 11,
+    borderWidth: 1, borderColor: 'rgba(255, 197, 81, 0.58)',
+    backgroundColor: 'rgba(54, 38, 17, 0.58)', shadowColor: '#FFB52E',
+    shadowOpacity: 0.18, shadowRadius: 10, elevation: 3
+  },
+  creditBonusTitle: { color: '#FFE7A8', fontFamily: 'Manrope', fontSize: 14, lineHeight: 18, fontWeight: '900' },
+  creditBonusText: { color: '#E7D7B6', fontFamily: 'Manrope', fontSize: 12, lineHeight: 16, fontWeight: '600' },
+  creditBonusArrow: { color: '#FFD66F', fontSize: 27, lineHeight: 31, fontWeight: '300' },
   // Preserve full-screen flex after legacy visual layers that redefine container.
   // V59: Gallery previews follow the reference's full-bleed square thumbnails; remove opaque black inner surfaces.
   galleryCard: {
