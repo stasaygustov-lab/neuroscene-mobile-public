@@ -2,11 +2,6 @@ name: NeuroScene Android APK preview (no emulator)
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - ui/full-visual-redesign
-    paths:
-      - 'PROJECT_STATE.md'
 
 permissions:
   contents: read
