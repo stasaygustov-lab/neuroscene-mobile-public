@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: neuroscene-android-apk-preview
@@ -39,6 +39,17 @@ jobs:
           accept-android-sdk-licenses: true
       - name: Install Android platform and NDK
         run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
+      - name: Update lockfile for native SVG support
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Commit generated lockfile
+        run: |
+          if ! git diff --quiet -- package-lock.json; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add package-lock.json
+            git commit -m 'Update lockfile for SVG artwork'
+            git push
+          fi
       - name: Install dependencies
         run: npm ci
       - name: TypeScript validation
