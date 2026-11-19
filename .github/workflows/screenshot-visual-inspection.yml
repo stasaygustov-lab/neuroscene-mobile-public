@@ -25,7 +25,7 @@ jobs:
           from PIL import Image, ImageOps, ImageDraw
           from pathlib import Path
           import io, base64
-          files = sorted(Path("screenshots").glob("Screenshot-*.jpg"))
+          files = sorted(Path("screenshots").glob("Screenshot_*.jpg"))
           if not files:
               raise SystemExit("No screenshots found in screenshots/")
           tile_w, tile_h, gap, header = 420, 820, 18, 34
