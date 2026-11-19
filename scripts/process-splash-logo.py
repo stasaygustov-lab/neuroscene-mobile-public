@@ -8,7 +8,7 @@ from pathlib import Path
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "assets" / "neuroscene-brand.png"
+SOURCE = ROOT / "assets" / "Неоновая иконка «НейроСцена».jpg"
 OUTPUT = ROOT / "assets" / "neuroscene-splash.png"
 
 if not SOURCE.is_file():
