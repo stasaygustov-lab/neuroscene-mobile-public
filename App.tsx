@@ -1842,7 +1842,7 @@ export default function App() {
         showsVerticalScrollIndicator={false}
         {...swipeResponder.panHandlers}
       >
-              {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }]}>
+              {tab === 'Create' && <View style={[styles.header, { minHeight: 66, height: 66, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, backgroundColor: 'transparent', borderBottomWidth: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', overflow: 'visible' }]}>
         <View style={[styles.brandRow, { alignItems: 'center', marginTop: 4 }]}>
           <Image
             source={require('./assets/neuroscene-brand.png')}
@@ -1852,7 +1852,7 @@ export default function App() {
           />
         </View>
 
-        <View style={styles.headerActions}>
+        <View style={[styles.headerActions, { position: 'relative', left: undefined, right: undefined, top: undefined, marginTop: 0 }]}>
           <TouchableOpacity activeOpacity={0.86}
             accessibilityRole="button"
             accessibilityLabel="Уведомления"
@@ -2020,6 +2020,7 @@ function CreateScreen({
   onReset,
 }: CreateScreenProps) {
   const ru = language === 'ru';
+  const { height: windowHeight } = useWindowDimensions();
   const [showComposer, setShowComposer] = useState(false);
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
   const busy =
@@ -2037,7 +2038,7 @@ function CreateScreen({
   return (
     <View>
       {!showComposer && (
-        <View style={{ gap: 20 }}>
+        <View style={{ gap: 20, minHeight: Math.max(560, windowHeight - 245), justifyContent: 'space-between', paddingBottom: 10 }}>
           <View style={{ height: 214, borderRadius: 26, overflow: 'hidden', backgroundColor: 'rgba(1,7,19,0.76)', borderWidth: 1, borderColor: 'rgba(91,177,255,0.56)', shadowColor: '#087BFF', shadowOpacity: 0.26, shadowRadius: 22, elevation: 10 }}>
             {videoUrl ? <HomeVideoPlayer uri={videoUrl} /> : (
               <TouchableOpacity activeOpacity={0.86} onPress={() => setShowComposer(true)} accessibilityLabel="Открыть плеер последнего видео" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
