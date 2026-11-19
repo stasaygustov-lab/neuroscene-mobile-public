@@ -1813,11 +1813,11 @@ export default function App() {
       <View pointerEvents="none" style={styles.ambientBackdrop}>
         <Image
           source={require('./assets/neuroscene-cinematic-bg-small.jpg')}
-          style={StyleSheet.absoluteFillObject}
+          style={StyleSheet.absoluteFill}
           resizeMode="cover"
           fadeDuration={0}
         />
-        <View style={[StyleSheet.absoluteFillObject, { backgroundColor: 'rgba(1, 7, 20, 0.34)' }]} />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1, 7, 20, 0.34)' }]} />
       </View>
       <StatusBar style="light" hidden={showIntro} />
 
