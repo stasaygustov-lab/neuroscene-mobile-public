@@ -7576,12 +7576,6 @@ const styles: Record<string, any> = StyleSheet.create({
   // V76: restore the Credits screen's two-column composition and clean transparent coin artwork.
   v76CreditReferenceLayout: { width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginTop: 8, marginBottom: 12 },
   v76CreditCoinShowcase: { width: '37%', maxWidth: '37%', minWidth: 0, height: 184, minHeight: 184, flex: 0, alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'visible', backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0, elevation: 0 },
-  creditCoinsArtwork: { width: '100%', height: 154, alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'visible' },
-  creditCoinStackBack: { position: 'absolute', top: 20, left: '12%', alignItems: 'center', justifyContent: 'center', transform: [{ rotate: '-12deg' }] },
-  creditCoinStackFront: { position: 'absolute', top: 65, left: '28%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', transform: [{ rotate: '8deg' }] },
-  creditCoinSingle: { position: 'absolute', top: 102, left: '8%', transform: [{ rotate: '-5deg' }] },
-  creditCoinDisc: { width: 43, height: 19, borderRadius: 24, marginTop: -7, borderWidth: 1.5, borderColor: '#FFE9A0', backgroundColor: '#E8A72A', alignItems: 'center', justifyContent: 'center', shadowColor: '#FFB72E', shadowOpacity: 1, shadowRadius: 15, shadowOffset: { width: 0, height: 2 }, elevation: 10 },
-  creditCoinInner: { width: 29, height: 8, borderRadius: 8, borderWidth: 1, borderColor: 'rgba(255,247,205,0.96)', backgroundColor: '#FFD96C' },
   v76CreditHeroCoin: { width: 50, height: 22, borderRadius: 26, backgroundColor: '#F4BD43', borderColor: '#FFF2BC', shadowRadius: 20, elevation: 13 },
   v76CoinGlow: { position: 'absolute', width: 118, height: 118, borderRadius: 60, backgroundColor: 'rgba(255,184,48,0.10)', shadowColor: '#FFB52E', shadowOpacity: 0.9, shadowRadius: 35, elevation: 12, zIndex: -1 },
   v76CreditInfoColumn: { flex: 1, minWidth: 0, width: '63%', maxWidth: '63%', alignSelf: 'stretch', justifyContent: 'center', gap: 6 },
@@ -7592,7 +7586,6 @@ const styles: Record<string, any> = StyleSheet.create({
   v76CreditPackageButton: { backgroundColor: 'rgba(5,31,68,0.68)', borderWidth: 1, borderColor: 'rgba(91,190,255,0.58)', borderTopWidth: 1, borderTopColor: 'rgba(91,190,255,0.58)', borderLeftColor: 'rgba(91,190,255,0.58)', borderRightColor: 'rgba(91,190,255,0.58)', borderBottomWidth: 1, borderBottomColor: 'rgba(91,190,255,0.58)', shadowColor: '#12BFFF', shadowOpacity: 0.48, shadowRadius: 17, shadowOffset: { width: 0, height: 0 }, elevation: 8 },
   v76CreditPackageSelected: { backgroundColor: 'rgba(8,91,153,0.82)', borderColor: 'rgba(113,220,255,0.86)', shadowColor: '#18CFFF', shadowOpacity: 0.72, shadowRadius: 20, elevation: 10 },
   v76CreditPriceChip: { minWidth: 56, minHeight: 32, paddingHorizontal: 8, borderRadius: 11, backgroundColor: 'rgba(6,91,159,0.72)', borderWidth: 1, borderColor: 'rgba(91,190,255,0.58)', shadowColor: '#12BFFF', shadowOpacity: 0.35, shadowRadius: 12, elevation: 5 },
-  creditWelcomeBonus: { backgroundColor: 'rgba(5,31,68,0.62)', borderWidth: 1, borderColor: 'rgba(91,190,255,0.52)', borderTopWidth: 1, borderTopColor: 'rgba(91,190,255,0.52)', borderBottomWidth: 1, borderBottomColor: 'rgba(91,190,255,0.52)', shadowColor: '#12BFFF', shadowOpacity: 0.38, shadowRadius: 16, shadowOffset: { width: 0, height: 0 }, elevation: 7 },
 
 
 
