@@ -1758,237 +1758,61 @@ export default function App() {
 
     if (tab === 'Credits') {
       return (
-        <View style={[styles.screen, styles.creditsScreen]}>
-          <View style={styles.creditsHeader}>
-            <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text><View style={styles.creditsTitleGlow} />
+        <View style={{flex:1,paddingTop:8,gap:16}}>
+          <View><Text style={{color:'#F4F8FF',fontSize:27,fontWeight:'900'}}>Кредиты</Text><Text style={{color:'#89AACA',fontSize:12,marginTop:5}}>Энергия для создания твоих видео</Text></View>
+          <View style={{borderRadius:22,padding:19,backgroundColor:'rgba(7,30,66,0.92)',borderWidth:1,borderColor:'rgba(78,161,238,0.48)',shadowColor:'#168BFF',shadowOpacity:0.2,shadowRadius:20}}>
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><View><Text style={{color:'#9CC4E9',fontSize:11,fontWeight:'900',letterSpacing:1.6}}>ВАШ БАЛАНС</Text><Text style={{color:'#FFFFFF',fontSize:36,fontWeight:'900',marginTop:8}}>{creditsLoading?'…':creditsBalance===null?'—':creditsBalance.toLocaleString('ru-RU')}</Text><Text style={{color:'#8DBCEB',fontSize:13,marginTop:2}}>кредитов</Text></View><View style={{width:74,height:74,borderRadius:24,backgroundColor:'rgba(17,94,171,0.35)',borderWidth:1,borderColor:'rgba(113,206,255,0.6)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FFE29A',fontSize:38,textShadowColor:'#FFB52E',textShadowRadius:15}}>✦</Text></View></View>
+            {creditsBalance===null&&!creditsLoading&&<Text style={{color:'#A5C0DE',fontSize:11,marginTop:12}}>Войдите в профиль, чтобы увидеть баланс</Text>}
           </View>
-          <Text style={{color:'#91B4D8',fontSize:13,lineHeight:19,marginTop:-5,marginBottom:14}}>Кредиты — это ваша энергия для создания видео</Text>
-          <View style={styles.creditTopRow}>
-            <View style={styles.creditIllustration} accessibilityLabel="Высокодетализированные золотые монеты из референса">
-              <View pointerEvents="none" style={styles.creditIllustrationGlow} />
-              <View style={styles.creditReferenceArtworkCrop} pointerEvents="none">
-                <View style={{flexDirection:'row',alignItems:'flex-end',justifyContent:'center',gap:9}}>
-                  {[0,1,2].map((stack)=><View key={stack} style={{alignItems:'center',justifyContent:'flex-end',height:76}}>
-                    {Array.from({length:stack+2}).map((_,coin)=><View key={coin} style={{width:42,height:12,marginTop:-3,borderRadius:7,borderWidth:1,borderColor:'#FFE39A',backgroundColor:coin%2===0?'#D99A35':'#F3C86B',shadowColor:'#FFB72E',shadowOpacity:0.65,shadowRadius:7,elevation:4}}/> )}
-                  </View>)}
-                </View>
-                <Text style={{color:'#FFE7A8',fontSize:16,fontWeight:'900',marginTop:4}}>✦  КРЕДИТЫ</Text>
-              </View>
-              <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
-            </View>
-            <View style={styles.creditPackageColumn}>
-              <Text style={styles.creditPackagesTitle}>Пакеты кредитов</Text>
-              {[500, 1500, 5000].map((amount) => (
-                <View style={[styles.packageCard, amount === 1500 && styles.packageCardPopular]} key={amount}>
-                  <View style={styles.packageIconWrap}>
-                    <Text style={[styles.packageIcon, amount === 5000 && styles.packageDiamond]}>{amount === 500 ? '★' : amount === 1500 ? '♛' : '◆'}</Text>
-                  </View>
-                  <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text style={styles.packageAmount}>{amount.toLocaleString('ru-RU')}</Text>
-                    <Text style={styles.packagePrice}>{amount === 500 ? '₽99' : amount === 1500 ? '₽249' : '₽749'}</Text>
-                  </View>
-                  <View style={styles.packageRight}>
-                    {amount === 1500 && <View style={styles.popularBadge}><Text style={styles.popularBadgeText}>Популярно</Text></View>}
-                    <Text style={styles.packageIncluded}>Без подписки</Text>
-                  </View>
-                </View>
-              ))}
-            </View>
+          <View style={{gap:10}}>
+            <Text style={{color:'#DCEEFF',fontSize:15,fontWeight:'900'}}>Пакеты кредитов</Text>
+            {[500,1500,5000].map((amount)=><View key={amount} style={{minHeight:72,borderRadius:16,paddingHorizontal:14,paddingVertical:11,flexDirection:'row',alignItems:'center',gap:12,backgroundColor:amount===1500?'rgba(8,57,109,0.94)':'rgba(6,24,51,0.88)',borderWidth:1,borderColor:amount===1500?'#2DBEFF':'rgba(78,145,210,0.34)'}}>
+              <View style={{width:42,height:42,borderRadius:14,backgroundColor:'rgba(26,100,174,0.28)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#8FDFFF',fontSize:20}}>{amount===500?'★':amount===1500?'♛':'◆'}</Text></View>
+              <View style={{flex:1}}><Text style={{color:'#F0F7FF',fontSize:16,fontWeight:'900'}}>{amount.toLocaleString('ru-RU')} кредитов</Text><Text style={{color:'#8EACCC',fontSize:11,marginTop:3}}>Без подписки</Text></View>
+              <View style={{alignItems:'flex-end'}}>{amount===1500&&<Text style={{color:'#72D7FF',fontSize:9,fontWeight:'900',marginBottom:4}}>ПОПУЛЯРНЫЙ</Text>}<Text style={{color:'#FFFFFF',fontSize:17,fontWeight:'900'}}>{amount===500?'₽99':amount===1500?'₽249':'₽749'}</Text></View>
+            </View>)}
           </View>
-          <View style={styles.welcomeBonusCard}>
-            <View style={styles.welcomeBonusIcon}><Text style={styles.welcomeBonusGlyph}>✧</Text></View>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.welcomeBonusTitle}>Приветственный бонус</Text>
-              <Text style={styles.welcomeBonusText}>Одна пробная генерация — начните создавать свой первый фильм</Text>
-            </View>
+          <View style={{borderRadius:16,padding:14,flexDirection:'row',alignItems:'center',gap:12,backgroundColor:'rgba(7,36,72,0.76)',borderWidth:1,borderColor:'rgba(70,146,216,0.3)'}}><Text style={{color:'#8FE0FF',fontSize:26}}>✧</Text><View style={{flex:1}}><Text style={{color:'#E5F3FF',fontSize:13,fontWeight:'900'}}>Приветственный бонус</Text><Text style={{color:'#91B0D0',fontSize:11,lineHeight:16,marginTop:3}}>Одна пробная генерация — начните создавать свой первый фильм</Text></View></View>
+          <View style={{borderRadius:17,padding:14,backgroundColor:'rgba(5,20,44,0.78)',borderWidth:1,borderColor:'rgba(76,139,204,0.28)'}}>
+            <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginBottom:8}}><Text style={{color:'#D8EBFF',fontSize:13,fontWeight:'900',letterSpacing:1}}>ИСТОРИЯ ОПЕРАЦИЙ</Text><Text style={{color:'#7FAEDB',fontSize:12}}>{creditHistory.length}</Text></View>
+            {creditsLoading?<View style={{alignItems:'center',padding:14}}><ActivityIndicator color={BLUE}/><Text style={{color:'#91ACCA',fontSize:11,marginTop:8}}>Загружаем историю операций…</Text></View>:creditHistory.length>0?creditHistory.map((entry)=><View key={entry.entry_id} style={{paddingVertical:10,borderTopWidth:1,borderTopColor:'rgba(98,145,194,0.14)',flexDirection:'row',alignItems:'center',gap:10}}><View style={{width:30,height:30,borderRadius:10,backgroundColor:'rgba(23,83,142,0.35)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#8EDBFF'}}>✦</Text></View><View style={{flex:1}}><Text numberOfLines={2} style={{color:'#E5F1FF',fontSize:12,fontWeight:'700'}}>{entry.reason}</Text><Text style={{color:'#7898BA',fontSize:10,marginTop:3}}>{entry.created_at?new Date(entry.created_at).toLocaleString('ru-RU'):''}</Text></View><Text style={{color:entry.amount>0?'#65E6B0':'#FF9AA4',fontSize:13,fontWeight:'900'}}>{entry.amount>0?'+':''}{entry.amount} ✦</Text></View>):<View style={{alignItems:'center',padding:15}}><Text style={{color:'#7FAEDB',fontSize:23}}>◷</Text><Text style={{color:'#E1EEFC',fontSize:13,fontWeight:'800',marginTop:7}}>Операций пока нет</Text><Text style={{color:'#91ACCA',fontSize:11,textAlign:'center',marginTop:4}}>Здесь будут отображаться начисления и списания кредитов</Text></View>}
           </View>
-          <View style={styles.creditBalancePanel}>
-            <Text style={styles.creditBalanceEyebrow}>ВАШ БАЛАНС</Text>
-            <Text style={styles.creditBalanceHeroValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
-            <Text style={styles.creditBalanceHeroLabel}>{creditsBalance === null && !creditsLoading ? 'Войдите, чтобы увидеть баланс' : 'кредитов'}</Text>
-          </View>
-          <View style={styles.creditHistorySection}>
-            <View style={styles.creditHistoryHeader}>
-              <Text style={styles.sectionTitle}>{uiText(language, 'CREDIT ACTIVITY', 'ИСТОРИЯ ОПЕРАЦИЙ')}</Text>
-              <Text style={styles.creditHistoryCount}>{creditHistory.length}</Text>
-            </View>
-            {creditsLoading ? (
-              <View style={styles.creditHistoryEmpty}><ActivityIndicator color={BLUE} /><Text style={styles.mutedText}>Загружаем историю операций…</Text></View>
-            ) : creditHistory.length > 0 ? (
-              creditHistory.map((entry) => (
-                <View key={entry.entry_id} style={styles.creditHistoryRow}>
-                  <View style={styles.creditHistoryIcon}><Text style={styles.creditHistoryIconText}>✦</Text></View>
-                  <View style={{ flex: 1, minWidth: 0 }}>
-                    <Text style={styles.packageAmount} numberOfLines={2}>{entry.reason}</Text>
-                    <Text style={styles.mutedText}>{entry.created_at ? new Date(entry.created_at).toLocaleString('ru-RU') : ''}</Text>
-                  </View>
-                  <Text style={[styles.creditHistoryAmount, { color: entry.amount > 0 ? '#65E6B0' : '#FF9AA4' }]}>
-                    {entry.amount > 0 ? '+' : ''}{entry.amount} ✦
-                  </Text>
-                </View>
-              ))
-            ) : (
-              <View style={styles.creditHistoryEmpty}>
-                <Text style={styles.creditHistoryEmptyIcon}>◷</Text>
-                <Text style={styles.creditHistoryEmptyTitle}>Операций пока нет</Text>
-                <Text style={styles.mutedText}>Здесь будут отображаться начисления и списания кредитов</Text>
-              </View>
-            )}
-          </View>
-          <Text style={styles.creditNeverExpire}>∞  Кредиты не сгорают</Text>
-          <TouchableOpacity activeOpacity={0.65} style={styles.buyCreditsButton} disabled>
-            <Text style={styles.buyCreditsButtonText}>Купить кредиты</Text>
-            <Text style={styles.buyCreditsHint}>Без подписки · Кредиты не сгорают</Text>
-          </TouchableOpacity>
+          <Text style={{color:'#A9C8E9',fontSize:12,textAlign:'center'}}>∞  Кредиты не сгорают · Без подписок</Text>
+          <TouchableOpacity activeOpacity={0.7} disabled style={{minHeight:54,borderRadius:15,backgroundColor:'#1479F8',borderWidth:1,borderColor:'#62C8FF',alignItems:'center',justifyContent:'center',opacity:0.52}}><Text style={{color:'#FFFFFF',fontSize:15,fontWeight:'900'}}>Купить кредиты</Text><Text style={{color:'#D6ECFF',fontSize:10,marginTop:2}}>Покупка пока не подключена</Text></TouchableOpacity>
         </View>
       );
     }
 
     return (
-      <View style={styles.screen}>
-        <View style={styles.profileHeader}>
-          <Text style={styles.screenTitle}>{uiText(language, 'Profile', 'Профиль')}</Text>
-          <View style={styles.profileTitleUnderline} />
-          <TouchableOpacity style={styles.profileSettingsButton} onPress={() => Alert.alert('Настройки', 'Настройки профиля')} accessibilityRole="button" accessibilityLabel="Настройки профиля">
-            <Text style={styles.profileSettingsIcon}>⚙</Text>
-          </TouchableOpacity>
+      <View style={{flex:1,paddingTop:8,gap:15}}>
+        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><View><Text style={{color:'#F4F8FF',fontSize:27,fontWeight:'900'}}>Профиль</Text><Text style={{color:'#86A9D0',fontSize:12,marginTop:4}}>Твой аккаунт и настройки приложения</Text></View><TouchableOpacity onPress={()=>Alert.alert('Настройки','Настройки приложения')} style={{width:42,height:42,borderRadius:14,backgroundColor:'rgba(10,37,75,0.86)',borderWidth:1,borderColor:'rgba(86,157,232,0.38)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#A8D9FF',fontSize:20}}>⚙</Text></TouchableOpacity></View>
+        <View style={{borderRadius:20,padding:18,alignItems:'center',backgroundColor:'rgba(7,27,57,0.84)',borderWidth:1,borderColor:'rgba(83,151,219,0.34)'}}>
+          <View style={{width:82,height:82,borderRadius:41,backgroundColor:'rgba(14,63,119,0.48)',borderWidth:1.5,borderColor:'rgba(87,189,255,0.7)',alignItems:'center',justifyContent:'center'}}><View style={{width:23,height:23,borderRadius:12,borderWidth:2,borderColor:'#9BDFFF',marginBottom:5}}/><View style={{width:42,height:22,borderTopLeftRadius:22,borderTopRightRadius:22,borderWidth:2,borderBottomWidth:0,borderColor:'#9BDFFF'}}/></View>
+          <Text style={{color:'#F2F8FF',fontSize:19,fontWeight:'900',marginTop:12}}>{authUser?.name||authUser?.email?.split('@')[0]||'Гость'}</Text><Text style={{color:'#91B2D5',fontSize:12,marginTop:5,textAlign:'center'}}>{authUser?.email||'Войдите, чтобы открыть все возможности'}</Text>
         </View>
-        <View style={styles.profileIdentity}>
-          <View style={styles.profileGuestAvatar}>
-            <View style={styles.profileAvatarHalo} />
-            <View style={styles.profileGuestHead} />
-            <View style={styles.profileGuestBody} />
-          </View>
-          <Text style={styles.profileGuestName}>{authUser?.name || authUser?.email?.split('@')[0] || 'Гость'}</Text>
-          <Text style={styles.profileGuestStatus}>{authUser?.email || 'Войдите, чтобы открыть все возможности'}</Text>
-        </View>
-        {authUser ? (
-          <>
-            <View style={[styles.profileCard, { display: 'none' }]}>
-              <View style={styles.avatar}><Text style={styles.avatarText}>Н+С</Text></View>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.profileName}>{uiText(language, 'YOUR ACCOUNT', 'ВАШ АККАУНТ')}</Text>
-                <Text style={styles.mutedText}>{authUser.email}</Text>
-              </View>
-            </View>
-            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={logoutAllDevices} disabled={authBusy}>
-              <Text style={styles.authSecondaryText}>{uiText(language, 'Sign out all devices', 'Выйти со всех устройств')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={deleteAccount} disabled={authBusy}>
-              <Text style={[styles.authSecondaryText, { color: '#FF7777' }]}>{uiText(language, 'Delete account and personal data', 'Удалить аккаунт и личные данные')}</Text>
-            </TouchableOpacity>
-          </>
-        ) : (
-          <>
-          <View style={styles.loginScreen}>
-            <Text style={styles.loginTagline}>Войдите, чтобы сохранять свои видео и получать больше возможностей</Text>
-          <TouchableOpacity activeOpacity={0.86} style={styles.profileVkButton} onPress={handleVkLogin} disabled={authBusy}>
-            <Text style={styles.profileVkMark}>ᴠκ</Text>
-            <Text style={styles.profileVkText}>Войти через VK ID</Text>
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.86} style={styles.profileEmailButton} onPress={() => setProfileEmailOpen((value) => !value)}>
-            <Text style={styles.profileEmailButtonText}>{profileEmailOpen ? 'Скрыть вход по email' : 'Войти по email'}</Text>
-          </TouchableOpacity>
-                    <Text style={styles.loginLegalText}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
-          </View>
-          {profileEmailOpen && <View style={styles.authCard}>
-            <View style={styles.authBrandMark}><Text style={styles.authBrandMarkText}>Н+С</Text></View>
-            <Text style={styles.authBrandTitle}>Нейро{ '\n' }Сцена</Text>
-            <Text style={styles.sectionTitle}>{uiText(language, 'SIGN IN OR REGISTER', 'ВХОД ПО EMAIL')}</Text>
-            <TextInput
-              style={styles.authInput}
-              value={authEmail}
-              onChangeText={setAuthEmail}
-              placeholder="Электронная почта"
-              placeholderTextColor="#687386"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              editable={!authBusy}
-            />
-            <TextInput
-              style={styles.authInput}
-              value={authPassword}
-              onChangeText={setAuthPassword}
-              placeholder={uiText(language, 'Password (12+ characters)', 'Пароль (от 12 символов)')}
-              placeholderTextColor="#687386"
-              secureTextEntry
-              autoCapitalize="none"
-              editable={!authBusy}
-            />
-            <TouchableOpacity activeOpacity={0.86} style={[styles.authAction, authBusy && styles.disabledButton]} onPress={handleAuthSubmit} disabled={authBusy}>
-              {authBusy ? <ActivityIndicator color={WHITE} /> : <Text style={styles.createButtonText}>{authMode === 'login' ? (uiText(language, 'SIGN IN WITH EMAIL', 'ВОЙТИ ПО EMAIL')) : (uiText(language, 'CREATE ACCOUNT', 'СОЗДАТЬ АККАУНТ'))}</Text>}
-            </TouchableOpacity>
-            {authMode === 'login' && (
-              <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={requestEmailLoginLink} disabled={authBusy}>
-                <Text style={styles.authLinkText}>{uiText(language, 'Sign in with an email link', 'Войти по ссылке на email')}</Text>
-              </TouchableOpacity>
-            )}
-            <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={() => { setAuthMode(authMode === 'login' ? 'register' : 'login'); setAuthNotice(''); }}>
-              <Text style={styles.authLinkText}>{authMode === 'login' ? (uiText(language, 'No account? Register', 'Нет аккаунта? Зарегистрироваться')) : (uiText(language, 'Already registered? Sign in', 'Уже есть аккаунт? Войти'))}</Text>
-            </TouchableOpacity>
-            {!!pendingEmail && (
-              <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={resendVerification} disabled={authBusy}>
-                <Text style={styles.authLinkText}>{uiText(language, 'Resend verification email', 'Отправить письмо подтверждения повторно')}</Text>
-              </TouchableOpacity>
-            )}
-            {!!authNotice && <Text style={styles.authNotice}>{authNotice}</Text>}
-            <Text style={styles.note}>{uiText(language, 'Email verification is required after registration.', 'После регистрации нужно подтвердить email по ссылке из письма.')}</Text>
-            <Text style={styles.authLegalText}>Продолжая, вы подтверждаете, что ознакомились с правилами использования приложения и политикой конфиденциальности.</Text>
+        {!authUser?<View style={{borderRadius:18,padding:15,backgroundColor:'rgba(6,23,50,0.8)',borderWidth:1,borderColor:'rgba(79,145,211,0.3)'}}>
+          <Text style={{color:'#B1CBE7',fontSize:12,lineHeight:18,textAlign:'center',marginBottom:13}}>Войдите, чтобы сохранять свои видео и пользоваться всеми возможностями НейроСцены</Text>
+          <TouchableOpacity activeOpacity={0.86} onPress={handleVkLogin} disabled={authBusy} style={{minHeight:50,borderRadius:14,backgroundColor:'#1479F8',borderWidth:1,borderColor:'#75C9FF',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:9}}>{authBusy?<ActivityIndicator color={WHITE}/>:<><Text style={{color:'#FFFFFF',fontSize:16,fontWeight:'900'}}>ᴠκ</Text><Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Войти через VK ID</Text></>}</TouchableOpacity>
+          <TouchableOpacity onPress={()=>setProfileEmailOpen((v)=>!v)} style={{minHeight:46,marginTop:9,borderRadius:13,backgroundColor:'rgba(15,45,82,0.7)',borderWidth:1,borderColor:'rgba(90,156,220,0.35)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#C7E3FF',fontSize:13,fontWeight:'800'}}>{profileEmailOpen?'Скрыть вход по email':'Войти по email'}</Text></TouchableOpacity>
+          {profileEmailOpen&&<View style={{marginTop:12}}>
+            <TextInput style={styles.authInput} value={authEmail} onChangeText={setAuthEmail} placeholder="Электронная почта" placeholderTextColor="#7890AD" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} editable={!authBusy}/>
+            <TextInput style={styles.authInput} value={authPassword} onChangeText={setAuthPassword} placeholder="Пароль (от 12 символов)" placeholderTextColor="#7890AD" secureTextEntry autoCapitalize="none" editable={!authBusy}/>
+            <TouchableOpacity onPress={handleAuthSubmit} disabled={authBusy} style={{minHeight:48,borderRadius:13,backgroundColor:'#1479F8',alignItems:'center',justifyContent:'center',marginTop:12}}>{authBusy?<ActivityIndicator color={WHITE}/>:<Text style={{color:'#FFFFFF',fontWeight:'900'}}>{authMode==='login'?'ВОЙТИ ПО EMAIL':'СОЗДАТЬ АККАУНТ'}</Text>}</TouchableOpacity>
+            {authMode==='login'&&<TouchableOpacity onPress={requestEmailLoginLink} disabled={authBusy} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>Войти по ссылке на email</Text></TouchableOpacity>}
+            <TouchableOpacity onPress={()=>{setAuthMode(authMode==='login'?'register':'login');setAuthNotice('');}} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>{authMode==='login'?'Нет аккаунта? Зарегистрироваться':'Уже зарегистрированы? Войти'}</Text></TouchableOpacity>
+            {!!pendingEmail&&<TouchableOpacity onPress={resendVerification} disabled={authBusy} style={{padding:8,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12}}>Отправить письмо подтверждения повторно</Text></TouchableOpacity>}
+            {!!authNotice&&<Text style={{color:'#83B7FF',fontSize:12,marginTop:8}}>{authNotice}</Text>}
           </View>}
-          </>
-        )}
-        <View style={styles.profileMenuCard}>
-        {['My videos', 'Notifications', 'Settings', 'About', 'Help / FAQ', 'Support'].map((key, menuIndex) => uiText(language, key, ({
-          'My videos': 'Мои видео', 'Notifications': 'Уведомления', 'Settings': 'Настройки',
-          'About': 'О приложении', 'Help / FAQ': 'Помощь / FAQ', 'Support': 'Поддержка',
-        } as Record<string, string>)[key] || key)).map((item, menuIndex) => (
-          <TouchableOpacity activeOpacity={0.86}
-            key={item}
-            style={[styles.menuItem, menuIndex === 5 && styles.menuItemLast]}
-            onPress={() => {
-              if (item === 'Мои видео') {
-                setTab('Gallery');
-              } else if (item === 'О приложении') {
-                Alert.alert('НейроСцена', 'Твоя творческая студия на компьютере.');
-              } else if (item === 'Настройки' || item === 'Settings') {
-                Alert.alert('Настройки', 'Настройки приложения');
-              } else if (item === (uiText(language, 'Help / FAQ', 'Помощь / FAQ'))) {
-                setShowSupport(false);
-                setShowNotifications(false);
-                setShowFaq(true);
-                void loadFaq();
-              } else if (item === (uiText(language, 'Support', 'Поддержка'))) {
-                setSelectedSupportTicket(null);
-                setShowNotifications(false);
-                setShowSupport(true);
-                void loadSupportTickets();
-              } else if (item === (uiText(language, 'Notifications', 'Уведомления'))) {
-                setShowSupport(false);
-                setShowNotifications(true);
-                void loadNotifications();
-              } else {
-                Alert.alert(item, uiText(language, 'This section will be connected in a later stage.', 'Этот раздел будет подключён на следующем этапе.'));
-              }
-            }}
-          >
-            <Text style={styles.menuIcon}>{item === 'Мои видео' ? '▣' : item === 'Уведомления' ? '♧' : item === 'Настройки' ? '⚙' : item === 'О приложении' ? 'ⓘ' : item === 'Помощь / FAQ' ? '?' : '◌'}</Text>
-            <Text style={styles.menuText}>{item}</Text>
-            {item === 'Уведомления' && unreadNotifications > 0 && <View style={styles.menuNotificationBadge}><Text style={styles.menuNotificationText}>{Math.min(unreadNotifications, 9)}</Text></View>}
-            <Text style={styles.menuArrow}>›</Text>
-          </TouchableOpacity>
-        ))}
+          <Text style={{color:'#7897BA',fontSize:10,lineHeight:15,textAlign:'center',marginTop:12}}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
+        </View>:<View style={{gap:9}}>
+          <TouchableOpacity onPress={logoutAllDevices} disabled={authBusy} style={{minHeight:48,borderRadius:13,backgroundColor:'rgba(16,48,91,0.82)',borderWidth:1,borderColor:'rgba(83,160,239,0.4)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#E2F0FF',fontSize:13,fontWeight:'800'}}>Выйти со всех устройств</Text></TouchableOpacity>
+          <TouchableOpacity onPress={deleteAccount} disabled={authBusy} style={{minHeight:48,borderRadius:13,backgroundColor:'rgba(91,24,42,0.34)',borderWidth:1,borderColor:'rgba(255,120,145,0.36)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FF9EAD',fontSize:13,fontWeight:'800'}}>Удалить аккаунт и личные данные</Text></TouchableOpacity>
+        </View>}
+        <View style={{borderRadius:18,paddingHorizontal:14,backgroundColor:'rgba(6,21,46,0.84)',borderWidth:1,borderColor:'rgba(83,151,219,0.3)'}}>
+          {[{label:'Мои видео',icon:'▣',action:()=>setTab('Gallery')},{label:'Уведомления',icon:'♧',action:()=>{setShowSupport(false);setShowNotifications(true);void loadNotifications();}},{label:'Настройки',icon:'⚙',action:()=>Alert.alert('Настройки','Настройки приложения')},{label:'О приложении',icon:'ⓘ',action:()=>Alert.alert('НейроСцена','Твоя творческая студия на компьютере.')},{label:'Помощь / FAQ',icon:'?',action:()=>{setShowSupport(false);setShowNotifications(false);setShowFaq(true);void loadFaq();}},{label:'Поддержка',icon:'◌',action:()=>{setSelectedSupportTicket(null);setShowNotifications(false);setShowSupport(true);void loadSupportTickets();}}].map((item,index)=><TouchableOpacity key={item.label} onPress={item.action} activeOpacity={0.84} style={{minHeight:54,flexDirection:'row',alignItems:'center',gap:12,borderBottomWidth:index===5?0:1,borderBottomColor:'rgba(107,155,205,0.16)'}}><Text style={{color:'#7CCBFF',fontSize:18,width:26,textAlign:'center'}}>{item.icon}</Text><Text style={{color:'#DCEBFA',fontSize:13,fontWeight:'700',flex:1}}>{item.label}</Text>{item.label==='Уведомления'&&unreadNotifications>0&&<View style={{minWidth:20,height:20,borderRadius:10,backgroundColor:'#E84C70',alignItems:'center',justifyContent:'center',paddingHorizontal:5}}><Text style={{color:'#FFFFFF',fontSize:10,fontWeight:'900'}}>{Math.min(unreadNotifications,9)}</Text></View>}<Text style={{color:'#7FA9D2',fontSize:22}}>›</Text></TouchableOpacity>)}
         </View>
-        {authToken && ['owner', 'admin'].includes(authUser?.role) && (
-          <TouchableOpacity activeOpacity={0.86}
-            style={[styles.menuItem, { marginTop: 12, borderBottomColor: BLUE }]}
-            onPress={() => { setShowAdminPanel(true); void loadAdminPanel(); }}
-          >
-            <Text style={[styles.menuText, { color: '#83B7FF' }]}>{uiText(language, 'Admin panel', 'Панель администратора')}</Text>
-            <Text style={styles.menuArrow}>›</Text>
-          </TouchableOpacity>
-        )}
-        <Text style={styles.version}>НЕЙРОСЦЕНА · {uiText(language, 'VERSION 1.0', 'ВЕРСИЯ 1.0')}</Text>
+        {authToken&&['owner','admin'].includes(authUser?.role)&&<TouchableOpacity onPress={()=>{setShowAdminPanel(true);void loadAdminPanel();}} style={{minHeight:50,borderRadius:13,borderWidth:1,borderColor:'rgba(74,145,255,0.42)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#83B7FF',fontWeight:'900'}}>Панель администратора  ›</Text></TouchableOpacity>}
+        <Text style={{color:'#6C89AC',fontSize:10,letterSpacing:1.2,textAlign:'center',marginTop:4}}>НЕЙРОСЦЕНА · ВЕРСИЯ 1.0</Text>
       </View>
     );
   };
