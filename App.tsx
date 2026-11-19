@@ -14,6 +14,7 @@ import {
   Alert,
   ActivityIndicator,
   Image,
+  ImageBackground,
   Linking,
   useWindowDimensions,
 } from 'react-native';
@@ -1817,44 +1818,38 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View pointerEvents="none" style={styles.ambientBackdrop}>
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: '#020817' }]} />
-        <View pointerEvents="none" style={{ position: 'absolute', width: 420, height: 420, borderRadius: 210, top: -210, right: -210, backgroundColor: 'rgba(16,91,190,0.22)' }} />
-        <View pointerEvents="none" style={{ position: 'absolute', width: 360, height: 360, borderRadius: 180, bottom: -210, left: -190, backgroundColor: 'rgba(0,132,190,0.15)' }} />
-        <View style={[styles.ambientBackdropTint, tab === 'Gallery' ? styles.ambientTintGallery : tab === 'Credits' ? styles.ambientTintCredits : tab === 'Profile' ? styles.ambientTintProfile : null]} />
-        <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
-        <View style={[styles.ambientGlowBottom, tab === 'Gallery' ? styles.ambientGlowBottomGallery : tab === 'Credits' ? styles.ambientGlowBottomCredits : tab === 'Profile' ? styles.ambientGlowBottomProfile : null]} />
-        <View style={[styles.ambientGlowCenter, tab === 'Gallery' ? styles.ambientGlowCenterGallery : tab === 'Credits' ? styles.ambientGlowCenterCredits : tab === 'Profile' ? styles.ambientGlowCenterProfile : null]} />
-        <View style={styles.ambientCloudOne} />
-        <View style={styles.ambientCloudTwo} />
-        <View style={styles.ambientCloudThree} />
-        <View style={styles.ambientCloudFour} />
-        <View style={styles.ambientLightningOne} />
-        <View style={styles.ambientLightningTwo} />
-        <View style={styles.ambientWaterReflection} />
-        <View style={styles.ambientWaterRippleOne} />
-        <View style={styles.ambientWaterRippleTwo} />
-        <View style={styles.ambientRing} />
-        <View style={styles.ambientRingFar} />
-        <View style={styles.ambientHorizon} />
-
-      </View>
+      <ImageBackground
+        source={{ uri: 'https://images.unsplash.com/photo-1776875097847-49bd9bcf1eca?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=85&w=2400' }}
+        resizeMode="cover"
+        style={styles.ambientBackdrop}
+        imageStyle={{ opacity: 0.36 }}
+      >
+        <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,20,0.76)' }]} />
+        <View pointerEvents="none" style={{ position: 'absolute', width: 330, height: 330, borderRadius: 165, top: '24%', alignSelf: 'center', backgroundColor: 'rgba(0,112,255,0.10)', borderWidth: 1, borderColor: 'rgba(90,185,255,0.12)' }} />
+        <View pointerEvents="none" style={{ position: 'absolute', width: 205, height: 205, borderRadius: 103, top: '30%', alignSelf: 'center', borderWidth: 1, borderColor: 'rgba(110,203,255,0.10)' }} />
+        <View pointerEvents="none" style={{ position: 'absolute', top: '43%', alignSelf: 'center', opacity: 0.055 }}>
+          <Text style={{ color: '#8BDFFF', fontSize: 112, fontWeight: '900', letterSpacing: -12 }}>НС</Text>
+        </View>
+      </ImageBackground>
       <StatusBar style="light" hidden={showIntro} />
 
-      {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }]}>
-        <View style={[styles.brandRow, styles.brandRowCentered]}>
-          <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
-            <Image
-              source={require('./assets/neuroscene-brand.png')}
-              resizeMode="contain"
-              style={styles.headerBrandArtwork}
-              accessibilityLabel="Неоновый знак НейроСцены"
-            />
-          </View>
-          <View style={styles.brandWordmark}>
-            <Text style={styles.logo}>Нейро</Text>
-            <Text style={styles.logo}>Сцена</Text>
-          </View>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent]}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        automaticallyAdjustKeyboardInsets
+        showsVerticalScrollIndicator={false}
+        {...swipeResponder.panHandlers}
+      >
+              {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }]}>
+        <View style={[styles.brandRow, { alignItems: 'center', marginTop: 4 }]}>
+          <Image
+            source={require('./assets/neuroscene-brand.png')}
+            resizeMode="contain"
+            style={{ width: 54, height: 54, backgroundColor: 'transparent' }}
+            accessibilityLabel="Логотип НейроСцены"
+          />
         </View>
 
         <View style={styles.headerActions}>
@@ -1873,16 +1868,6 @@ export default function App() {
           </TouchableOpacity>
         </View>
       </View>}
-
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={[styles.content, tab === 'Credits' && styles.creditsContent]}
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode="on-drag"
-        automaticallyAdjustKeyboardInsets
-        showsVerticalScrollIndicator={false}
-        {...swipeResponder.panHandlers}
-      >
         {authReady ? <ScreenTransition key={activeScreenKey} direction={transitionDirection}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
@@ -2053,21 +2038,14 @@ function CreateScreen({
     <View>
       {!showComposer && (
         <View style={{ gap: 20 }}>
-          <View style={{ height: 214, borderRadius: 26, overflow: 'hidden', backgroundColor: '#06152E', borderWidth: 1, borderColor: 'rgba(81,166,255,0.52)', shadowColor: '#087BFF', shadowOpacity: 0.32, shadowRadius: 24, elevation: 12 }}>
-            <View pointerEvents="none" style={{ position: 'absolute', width: 250, height: 250, borderRadius: 125, backgroundColor: '#123C82', opacity: 0.55, top: -145, right: -40 }} />
-            <View pointerEvents="none" style={{ position: 'absolute', width: 210, height: 210, borderRadius: 105, borderWidth: 1, borderColor: 'rgba(110,196,255,0.34)', top: -110, right: -15 }} />
-            <View pointerEvents="none" style={{ position: 'absolute', width: 150, height: 150, borderRadius: 75, borderWidth: 1, borderColor: 'rgba(92,169,255,0.24)', bottom: -104, left: -22 }} />
-            <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 72, backgroundColor: 'rgba(0,8,23,0.65)', borderTopWidth: 1, borderTopColor: 'rgba(113,184,255,0.16)' }} />
-            <View pointerEvents="none" style={{ position: 'absolute', left: '12%', top: 28, width: 4, height: 4, borderRadius: 2, backgroundColor: '#B7E9FF', shadowColor: '#50B9FF', shadowOpacity: 1, shadowRadius: 10 }} />
-            <View pointerEvents="none" style={{ position: 'absolute', right: '19%', top: 52, width: 3, height: 3, borderRadius: 2, backgroundColor: '#B7E9FF', shadowColor: '#50B9FF', shadowOpacity: 1, shadowRadius: 10 }} />
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 8 }}>
-              <View style={{ width: 94, height: 94, borderRadius: 47, borderWidth: 1, borderColor: 'rgba(95,193,255,0.65)', backgroundColor: 'rgba(12,55,112,0.52)', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.72, shadowRadius: 24 }}>
-                <View style={{ width: 66, height: 66, borderRadius: 33, borderWidth: 1, borderColor: 'rgba(134,220,255,0.45)', alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: '#D7F5FF', fontSize: 34, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 16 }}>▶</Text></View>
-              </View>
-              <Text style={{ color: '#EAF6FF', fontSize: 15, fontWeight: '800', letterSpacing: 1.7, marginTop: 13 }}>ТВОЯ ИДЕЯ — ТВОЁ КИНО</Text>
-              <Text style={{ color: '#8FBDEB', fontSize: 12, marginTop: 5 }}>Преврати воображение в движение</Text>
-            </View>
-            <TouchableOpacity activeOpacity={0.86} onPress={() => videoUrl ? onOpenVideo() : setShowComposer(true)} style={{ position: 'absolute', right: 13, bottom: 12, width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(28,111,220,0.24)', borderWidth: 1, borderColor: 'rgba(111,194,255,0.62)', alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: '#DDF6FF', fontSize: 17 }}>▶</Text></TouchableOpacity>
+          <View style={{ height: 214, borderRadius: 26, overflow: 'hidden', backgroundColor: 'rgba(1,7,19,0.76)', borderWidth: 1, borderColor: 'rgba(91,177,255,0.56)', shadowColor: '#087BFF', shadowOpacity: 0.26, shadowRadius: 22, elevation: 10 }}>
+            {videoUrl ? <HomeVideoPlayer uri={videoUrl} /> : (
+              <TouchableOpacity activeOpacity={0.86} onPress={() => setShowComposer(true)} accessibilityLabel="Открыть плеер последнего видео" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13,89,173,0.28)', borderWidth: 1, borderColor: 'rgba(125,213,255,0.62)', shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 18, elevation: 8 }}>
+                  <Text style={{ color: '#EAF8FF', fontSize: 27, marginLeft: 4 }}>▶</Text>
+                </View>
+              </TouchableOpacity>
+            )}
           </View>
           <Animated.View style={{ shadowColor: '#168BFF', shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.34,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [12,24] }), shadowOffset: { width: 0, height: 7 }, elevation: 10, borderRadius: 20 }}>
             <TouchableOpacity activeOpacity={0.9} onPress={() => setShowComposer(true)} style={{ minHeight: 62, borderRadius: 20, paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, backgroundColor: '#1479F8', borderWidth: 1, borderColor: '#70C9FF' }}>
@@ -3125,6 +3103,24 @@ function SupportScreen({
 
 function ImagePickerPreview({ uri }: { uri: string }) {
   return <Image source={{ uri }} style={styles.imagePreview} resizeMode="cover" />;
+}
+
+function HomeVideoPlayer({ uri }: { uri: string }) {
+  const player = useVideoPlayer(uri, (instance) => { instance.loop = false; });
+  const { isPlaying } = useEvent(player, 'playingChange', { isPlaying: player.playing });
+  return (
+    <View style={{ flex: 1, backgroundColor: '#010611' }}>
+      <VideoView player={player} style={{ width: '100%', height: '100%' }} nativeControls={false} contentFit="contain" />
+      <TouchableOpacity
+        activeOpacity={0.86}
+        accessibilityLabel={isPlaying ? 'Приостановить видео' : 'Воспроизвести видео'}
+        onPress={() => isPlaying ? player.pause() : player.play()}
+        style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Text style={{ color: '#FFFFFF', fontSize: 38, textShadowColor: '#168BFF', textShadowRadius: 18 }}>▶</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }
 
 function GalleryVideoPlayer({ uri }: { uri: string }) {
@@ -4507,7 +4503,7 @@ const FINAL_UI_FIXES_V15 : any = {
   ambientGlowTopProfile: { backgroundColor: '#58DCCB', opacity: 0.18 },
   ambientGlowBottomProfile: { backgroundColor: '#79E8D7', opacity: 0.15 },
   ambientGlowCenterProfile: { backgroundColor: '#48CDBB', opacity: 0.1 },
-  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopWidth: 1, borderTopColor: 'rgba(100,192,255,0.42)' },
+  bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingHorizontal: 12, paddingTop: 5, paddingBottom: 19, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(2,10,27,0.98)', borderTopWidth: 1, borderTopColor: 'rgba(100,192,255,0.42)' },
   navItem: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4, minWidth: 0, minHeight: 66, paddingHorizontal: 2, paddingTop: 2, borderRadius: 18, borderWidth: 1, borderColor: 'transparent', backgroundColor: 'transparent', overflow: 'hidden' },
   navItemActive: { backgroundColor: 'rgba(0,126,255,0.11)', borderColor: 'rgba(77,195,255,0.48)', borderWidth: 1, borderRadius: 18, shadowColor: '#00AFFF', shadowOpacity: 0.35, shadowRadius: 13, elevation: 3 },
   navLabel: { color: '#A5B2C8', fontSize: 14, lineHeight: 18, fontWeight: '800', width: '100%', textAlign: 'center', includeFontPadding: false, letterSpacing: 0 },
@@ -4618,9 +4614,9 @@ const FINAL_UI_FIXES_V16 : any = {
 const HTML_REBUILD : any = {
   container:{flex:1,backgroundColor:'#020817'},
   ambientBackdrop:{backgroundColor:'#020817'},
-  header:{paddingHorizontal:20,paddingVertical:13,backgroundColor:'rgba(4,13,30,0.88)',borderBottomColor:'rgba(95,157,220,0.18)'},
+  header:{paddingHorizontal:20,paddingTop:7,paddingBottom:8,backgroundColor:'transparent',borderBottomWidth:0,borderBottomColor:'transparent'},
   brandRow:{gap:11},
-  brandMarkSmall:{width:42,height:42,borderRadius:13,overflow:'hidden',backgroundColor:'rgba(12,48,95,0.7)',borderColor:'rgba(90,183,255,0.55)'},
+  brandMarkSmall:{width:54,height:54,borderRadius:0,overflow:'visible',backgroundColor:'transparent',borderWidth:0,borderColor:'transparent'},
   headerBrandArtwork:{width:40,height:40},
   logo:{color:'#F4FAFF',fontSize:18,lineHeight:20,letterSpacing:0.4,textShadowColor:'#168BFF',textShadowRadius:12},
   notificationButton:{width:42,height:42,borderRadius:14,backgroundColor:'rgba(14,39,76,0.82)',borderColor:'rgba(91,164,232,0.34)'},
