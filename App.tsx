@@ -1812,7 +1812,7 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
         <Image
-          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
+          source={require('./assets/neuroscene-cinematic-bg-small.jpg')}
           style={StyleSheet.absoluteFill}
           resizeMode="cover"
           fadeDuration={0}
