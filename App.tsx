@@ -2122,7 +2122,7 @@ export default function App() {
                 source={require('./assets/neuroscene-brand.png')}
                 resizeMode="contain"
                 style={styles.splashIdentityArtwork}
-                accessibilityLabel="Неоновая айдентика НейроСцены"
+                accessibilityLabel="Фирменный знак НейроСцены"
               />
             </View>
             <Text style={styles.introBrandName}>НейроСцена</Text>
@@ -4837,6 +4837,35 @@ const HTML_REBUILD = {
   engineCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
   imageUploadCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
   costCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15}
+  profileHeader:{minHeight:46,flexDirection:'row',alignItems:'center',justifyContent:'space-between'},
+  screenTitle:{color:'#F4F8FF',fontSize:27,lineHeight:34,fontWeight:'900',marginTop:0,marginBottom:14,textShadowColor:'rgba(35,145,255,0.5)',textShadowRadius:12},
+  profileSettingsButton:{width:42,height:42,borderRadius:14,backgroundColor:'rgba(10,37,75,0.86)',borderWidth:1,borderColor:'rgba(86,157,232,0.38)',alignItems:'center',justifyContent:'center'},
+  profileSettingsIcon:{color:'#A8D9FF',fontSize:20},
+  profileGuestName:{color:'#F2F8FF',fontSize:20,fontWeight:'900',marginTop:12},
+  profileGuestStatus:{color:'#91B2D5',fontSize:12,marginTop:5,textAlign:'center'},
+  profileGuestAvatar:{width:88,height:88,borderRadius:44,backgroundColor:'rgba(14,63,119,0.45)',borderColor:'rgba(87,189,255,0.7)'},
+  loginScreen:{borderRadius:18,padding:16,backgroundColor:'rgba(6,23,50,0.78)',borderWidth:1,borderColor:'rgba(79,145,211,0.3)',marginBottom:15},
+  loginTagline:{color:'#B1CBE7',fontSize:13,lineHeight:20,textAlign:'center',marginBottom:14},
+  profileVkButton:{minHeight:52,borderRadius:14,backgroundColor:'#1479F8',borderWidth:1,borderColor:'#75C9FF',flexDirection:'row',alignItems:'center',justifyContent:'center'},
+  profileVkText:{color:'#FFFFFF',fontSize:15,fontWeight:'900'},
+  profileEmailButton:{minHeight:48,marginTop:10,borderRadius:13,backgroundColor:'rgba(15,45,82,0.7)',borderWidth:1,borderColor:'rgba(90,156,220,0.35)',alignItems:'center',justifyContent:'center'},
+  profileEmailButtonText:{color:'#C7E3FF',fontSize:14,fontWeight:'800'},
+  loginLegalText:{color:'#7897BA',fontSize:10,lineHeight:15,textAlign:'center',marginTop:12},
+  menuIcon:{color:'#7CCBFF',fontSize:18,width:28,textAlign:'center'},
+  menuText:{color:'#DCEBFA',fontSize:14,fontWeight:'700',flex:1},
+  menuArrow:{color:'#7FA9D2',fontSize:23},
+  menuNotificationBadge:{minWidth:20,height:20,borderRadius:10,backgroundColor:'#E84C70',alignItems:'center',justifyContent:'center',marginRight:9},
+  version:{color:'#6C89AC',fontSize:10,letterSpacing:1.2,textAlign:'center',marginTop:22,marginBottom:8},
+  sectionTitle:{color:'#D8EBFF',fontSize:13,fontWeight:'900',letterSpacing:1.1},
+  eyebrow:{color:'#64BFFF',fontSize:11,fontWeight:'900',letterSpacing:1.7},
+  smallAction:{backgroundColor:'rgba(13,49,91,0.86)',borderColor:'rgba(82,159,231,0.42)',borderRadius:12},
+  secondaryButton:{backgroundColor:'rgba(15,75,143,0.85)',borderColor:'rgba(105,193,255,0.62)',borderRadius:14},
+  note:{color:'#91ACCA',fontSize:12,lineHeight:19},
+  mutedText:{color:'#91ACCA',fontSize:12,lineHeight:18},
+  packageAmount:{color:'#F1F7FF',fontSize:15,fontWeight:'900'},
+  packagePrice:{color:'#FFFFFF',fontSize:15,fontWeight:'900'},
+  welcomeBonusCard:{borderRadius:16,backgroundColor:'rgba(7,35,72,0.8)',borderWidth:1,borderColor:'rgba(77,160,232,0.3)',padding:13},
+  creditHistoryRow:{borderBottomWidth:1,borderBottomColor:'rgba(98,145,194,0.14)',paddingVertical:10},
 };
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
