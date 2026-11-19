@@ -14,11 +14,11 @@ import {
   Alert,
   ActivityIndicator,
   Image,
-  ImageBackground,
   Linking,
   useWindowDimensions,
 } from 'react-native';
 import { VideoView, useVideoPlayer } from 'expo-video';
+import Svg, { Circle, Defs, G, LinearGradient, Path, Rect, Stop } from 'react-native-svg';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
 import { File as ExpoFile, Paths as ExpoPaths } from 'expo-file-system';
@@ -1818,19 +1818,9 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        source={{ uri: 'https://images.unsplash.com/photo-1776875097847-49bd9bcf1eca?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=85&w=2400' }}
-        resizeMode="cover"
-        style={styles.ambientBackdrop}
-        imageStyle={{ opacity: 0.36 }}
-      >
-        <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,20,0.76)' }]} />
-        <View pointerEvents="none" style={{ position: 'absolute', width: 330, height: 330, borderRadius: 165, top: '24%', alignSelf: 'center', backgroundColor: 'rgba(0,112,255,0.10)', borderWidth: 1, borderColor: 'rgba(90,185,255,0.12)' }} />
-        <View pointerEvents="none" style={{ position: 'absolute', width: 205, height: 205, borderRadius: 103, top: '30%', alignSelf: 'center', borderWidth: 1, borderColor: 'rgba(110,203,255,0.10)' }} />
-        <View pointerEvents="none" style={{ position: 'absolute', top: '43%', alignSelf: 'center', opacity: 0.055 }}>
-          <Text style={{ color: '#8BDFFF', fontSize: 112, fontWeight: '900', letterSpacing: -12 }}>НС</Text>
-        </View>
-      </ImageBackground>
+      <View pointerEvents="none" style={styles.ambientBackdrop}>
+        <NeuroSceneBackdrop />
+      </View>
       <StatusBar style="light" hidden={showIntro} />
 
       <ScrollView
@@ -1844,12 +1834,7 @@ export default function App() {
       >
               {tab === 'Create' && <View style={[styles.header, { minHeight: 66, height: 66, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, backgroundColor: 'transparent', borderBottomWidth: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', overflow: 'visible' }]}>
         <View style={[styles.brandRow, { alignItems: 'center', marginTop: 4 }]}>
-          <Image
-            source={require('./assets/neuroscene-brand.png')}
-            resizeMode="contain"
-            style={{ width: 54, height: 54, backgroundColor: 'transparent' }}
-            accessibilityLabel="Логотип НейроСцены"
-          />
+          <BrandMarkSvg size={54} />
         </View>
 
         <View style={[styles.headerActions, { position: 'relative', left: undefined, right: undefined, top: undefined, marginTop: 0 }]}>
@@ -1923,12 +1908,7 @@ export default function App() {
           <View style={styles.introBrandLockup}>
             <View style={styles.introBrandMonogramWrap}>
               <View style={styles.brandMarkHalo} />
-              <Image
-                source={require('./assets/neuroscene-brand.png')}
-                resizeMode="contain"
-                style={styles.splashIdentityArtwork}
-                accessibilityLabel="Фирменный знак НейроСцены"
-              />
+              <BrandMarkSvg size={112} />
             </View>
             <Text style={styles.introBrandName}>НейроСцена</Text>
             <Text style={styles.introBrandCaption}>СТУДИЯ СОЗДАНИЯ ВИДЕО</Text>
@@ -2057,7 +2037,7 @@ function CreateScreen({
           <View style={{ flexDirection: 'row', borderRadius: 19, overflow: 'hidden', backgroundColor: 'rgba(6,22,48,0.82)', borderWidth: 1, borderColor: 'rgba(81,151,222,0.34)', paddingVertical: 15, paddingHorizontal: 5 }}>
             {[{id:'text',icon:'T',title:'Текст',subtitle:'в видео'},{id:'image',icon:'▧',title:'Изображение',subtitle:'в видео'},{id:'sound',icon:'♫',title:'Озвучка',subtitle:'и эффекты'},{id:'quality',icon:'✧',title:'Проф.',subtitle:'качество'}].map((feature,index) => (
               <TouchableOpacity key={feature.id} activeOpacity={0.8} onPress={() => { if(feature.id==='text'){setGenerationType('t2v');setShowComposer(true);} else if(feature.id==='image'){setGenerationType('i2v');setShowComposer(true);} else if(feature.id==='sound') Alert.alert('Озвучка и эффекты','Звуковое оформление будет доступно в отдельном разделе создания.'); else Alert.alert('Профессиональное качество','Настройки качества доступны при создании видео.'); }} style={{ flex: 1, minWidth: 0, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, borderRightWidth: index===3 ? 0 : 1, borderRightColor: 'rgba(100,164,225,0.18)' }}>
-                <View style={{ width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(29,105,190,0.2)', borderWidth: 1, borderColor: 'rgba(86,171,255,0.42)' }}><Text style={{ color: '#83D9FF', fontSize: 18, fontWeight: '900' }}>{feature.icon}</Text></View>
+                <View style={{ width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(29,105,190,0.2)', borderWidth: 1, borderColor: 'rgba(86,171,255,0.42)' }}><FeatureIconSvg kind={feature.id} /></View>
                 <Text numberOfLines={1} adjustsFontSizeToFit style={{ color: '#E5F2FF', fontSize: 10, fontWeight: '800', marginTop: 8, textAlign: 'center' }}>{feature.title}</Text><Text numberOfLines={1} adjustsFontSizeToFit style={{ color: '#8FB5DC', fontSize: 9, marginTop: 2, textAlign: 'center' }}>{feature.subtitle}</Text>
               </TouchableOpacity>
             ))}
@@ -3099,6 +3079,70 @@ function SupportScreen({
         </View>
       )}
     </View>
+  );
+}
+
+
+function BrandMarkSvg({ size = 54 }: { size?: number }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 64 64" accessibilityLabel="Логотип НейроСцены">
+      <Defs>
+        <LinearGradient id="brandStroke" x1="0" y1="0" x2="1" y2="1">
+          <Stop offset="0" stopColor="#E5FBFF" />
+          <Stop offset="0.42" stopColor="#54D8FF" />
+          <Stop offset="1" stopColor="#2878FF" />
+        </LinearGradient>
+        <LinearGradient id="brandFill" x1="0" y1="0" x2="0.9" y2="1">
+          <Stop offset="0" stopColor="#153E78" stopOpacity="0.34" />
+          <Stop offset="1" stopColor="#06152F" stopOpacity="0.08" />
+        </LinearGradient>
+      </Defs>
+      <Circle cx="32" cy="32" r="28" fill="url(#brandFill)" stroke="#50CFFF" strokeOpacity="0.24" strokeWidth="1.1" />
+      <Path d="M13 45V19L32 43V19" fill="none" stroke="url(#brandStroke)" strokeWidth="5.2" strokeLinecap="round" strokeLinejoin="round" />
+      <Path d="M51 22C46 16 34 17 31 25C27 36 38 47 49 41" fill="none" stroke="url(#brandStroke)" strokeWidth="5.2" strokeLinecap="round" />
+      <Path d="M14 50H50" stroke="#8DEBFF" strokeOpacity="0.65" strokeWidth="1.2" strokeLinecap="round" />
+      <Circle cx="32" cy="9" r="1.8" fill="#B9F7FF" />
+    </Svg>
+  );
+}
+
+function NeuroSceneBackdrop() {
+  return (
+    <Svg width="100%" height="100%" viewBox="0 0 420 900" preserveAspectRatio="xMidYMid slice">
+      <Defs>
+        <LinearGradient id="sceneBg" x1="0" y1="0" x2="1" y2="1">
+          <Stop offset="0" stopColor="#071A38" />
+          <Stop offset="0.52" stopColor="#030D21" />
+          <Stop offset="1" stopColor="#010713" />
+        </LinearGradient>
+        <LinearGradient id="sceneBeam" x1="0" y1="0" x2="1" y2="1">
+          <Stop offset="0" stopColor="#008BFF" stopOpacity="0.2" />
+          <Stop offset="1" stopColor="#00D8FF" stopOpacity="0" />
+        </LinearGradient>
+      </Defs>
+      <Rect width="420" height="900" fill="url(#sceneBg)" />
+      <Circle cx="210" cy="390" r="215" fill="url(#sceneBeam)" />
+      <Circle cx="210" cy="390" r="164" fill="none" stroke="#168BFF" strokeOpacity="0.13" strokeWidth="1.2" />
+      <Circle cx="210" cy="390" r="132" fill="none" stroke="#53CFFF" strokeOpacity="0.11" strokeWidth="1" />
+      <Circle cx="210" cy="390" r="99" fill="none" stroke="#168BFF" strokeOpacity="0.09" strokeWidth="1" />
+      <Path d="M-40 560C70 470 130 500 210 420S360 300 470 340" fill="none" stroke="#168BFF" strokeOpacity="0.13" strokeWidth="1.5" />
+      <Path d="M-30 620C85 530 150 560 230 480S360 370 460 400" fill="none" stroke="#42D6FF" strokeOpacity="0.08" strokeWidth="1" />
+      <Circle cx="55" cy="210" r="2" fill="#7BDFFF" opacity="0.45" />
+      <Circle cx="350" cy="270" r="2" fill="#7BDFFF" opacity="0.4" />
+      <Circle cx="310" cy="620" r="1.6" fill="#7BDFFF" opacity="0.38" />
+    </Svg>
+  );
+}
+
+function FeatureIconSvg({ kind }: { kind: string }) {
+  const common = { stroke: "#83D9FF", strokeWidth: 2.2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, fill: "none" as const };
+  return (
+    <Svg width="23" height="23" viewBox="0 0 24 24">
+      {kind === "text" ? <G {...common}><Path d="M4 6h16M12 6v13M8 19h8" /></G>
+        : kind === "image" ? <G {...common}><Rect x="3" y="4" width="18" height="16" rx="2.5" /><Circle cx="8.5" cy="9" r="1.5" /><Path d="m4 17 5-5 3 3 2-2 6 5" /></G>
+        : kind === "sound" ? <G {...common}><Path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 10v4" /></G>
+        : <G {...common}><Path d="m12 2 2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5L12 2Z" /><Path d="m19 16 1 2.5 2 1-2 1L19 23l-1-2.5-2-1 2-1 1-2.5Z" /></G>}
+    </Svg>
   );
 }
 
