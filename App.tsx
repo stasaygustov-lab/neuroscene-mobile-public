@@ -153,6 +153,24 @@ function ScreenTransition({ children, direction = 1 }: { children: any; directio
   return <Animated.View style={{ flexGrow: 1, flexShrink: 0, opacity, transform: [{ translateX }, { scale }] }}>{children}</Animated.View>;
 }
 
+function CosmicBackdrop({ variant = 'main' }: { variant?: 'main' | 'splash' }) {
+  const stars = [[7,9,2],[17,18,1],[29,7,2],[42,15,1],[57,8,2],[72,17,1],[88,9,2],[94,29,1],[12,37,1],[23,48,2],[37,33,1],[51,43,2],[67,35,1],[81,48,2],[91,59,1],[5,67,1],[18,78,2],[34,65,1],[49,83,2],[62,70,1],[77,79,2],[91,88,1],[28,91,1],[43,57,1],[58,25,1],[74,61,1],[85,22,1],[10,53,1]];
+  return (
+    <View pointerEvents="none" style={[StyleSheet.absoluteFill, { overflow: 'hidden', backgroundColor: '#030714' }]}>
+      <View style={{ position: 'absolute', width: '150%', height: '70%', left: '-25%', top: '8%', borderRadius: 999, backgroundColor: 'rgba(31,44,122,0.18)', transform: [{ rotate: '-18deg' }], shadowColor: '#426BFF', shadowOpacity: 0.65, shadowRadius: 90, elevation: 8 }} />
+      <View style={{ position: 'absolute', width: '115%', height: '44%', left: '-20%', top: '26%', borderRadius: 999, backgroundColor: 'rgba(0,132,183,0.15)', transform: [{ rotate: '24deg' }], shadowColor: '#00B9F2', shadowOpacity: 0.72, shadowRadius: 70, elevation: 7 }} />
+      <View style={{ position: 'absolute', width: 260, height: 260, right: -105, top: variant === 'splash' ? '14%' : '9%', borderRadius: 130, backgroundColor: '#101C43', borderWidth: 1, borderColor: 'rgba(122,174,255,0.55)', shadowColor: '#477CFF', shadowOpacity: 0.95, shadowRadius: 48, elevation: 18 }}>
+        <View style={{ position: 'absolute', left: 14, right: 14, top: 20, height: 1, backgroundColor: 'rgba(184,221,255,0.55)', transform: [{ rotate: '-24deg' }] }} />
+        <View style={{ position: 'absolute', left: 22, right: 8, top: 62, height: 2, backgroundColor: 'rgba(79,137,255,0.35)', transform: [{ rotate: '-24deg' }] }} />
+      </View>
+      <View style={{ position: 'absolute', width: 210, height: 210, left: -112, bottom: '8%', borderRadius: 105, backgroundColor: 'rgba(0,96,155,0.18)', shadowColor: '#00B9F2', shadowOpacity: 0.9, shadowRadius: 60, elevation: 12 }} />
+      <View style={{ position: 'absolute', left: '-20%', right: '-20%', bottom: '-8%', height: '28%', borderTopWidth: 1, borderTopColor: 'rgba(87,174,255,0.26)', backgroundColor: 'rgba(5,16,44,0.52)', borderTopLeftRadius: 240, borderTopRightRadius: 240 }} />
+      {stars.map(([x,y,s], index) => <View key={index} style={{ position: 'absolute', left: x + '%', top: y + '%', width: s, height: s, borderRadius: s, backgroundColor: '#D9F3FF', opacity: index % 3 === 0 ? 0.95 : 0.56, shadowColor: '#70CFFF', shadowOpacity: 1, shadowRadius: 5, elevation: 3 }} />)}
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: variant === 'splash' ? 'rgba(1,5,18,0.22)' : 'rgba(1,5,18,0.42)' }]} />
+    </View>
+  );
+}
+
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({ Manrope: require('./assets/Manrope[wght].ttf') });
   const [tab, setTab] = useState<Tab>('Create');
@@ -1996,48 +2014,15 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View pointerEvents="none" style={styles.ambientBackdrop}>
-        <Image
-          source={require('./assets/Штормовое море под электрическим небом-1.png')}
-          resizeMode="cover"
-          blurRadius={2}
-          style={{
-            ...StyleSheet.absoluteFill,
-            width: '100%',
-            height: '100%',
-            opacity: 0.96,
-          }}
-        />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.48)' }]} />
-        <View style={[styles.ambientBackdropTint, tab === 'Gallery' ? styles.ambientTintGallery : tab === 'Credits' ? styles.ambientTintCredits : tab === 'Profile' ? styles.ambientTintProfile : null]} />
-        <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
-        <View style={[styles.ambientGlowBottom, tab === 'Gallery' ? styles.ambientGlowBottomGallery : tab === 'Credits' ? styles.ambientGlowBottomCredits : tab === 'Profile' ? styles.ambientGlowBottomProfile : null]} />
-        <View style={[styles.ambientGlowCenter, tab === 'Gallery' ? styles.ambientGlowCenterGallery : tab === 'Credits' ? styles.ambientGlowCenterCredits : tab === 'Profile' ? styles.ambientGlowCenterProfile : null]} />
-        <View style={styles.ambientCloudOne} />
-        <View style={styles.ambientCloudTwo} />
-        <View style={styles.ambientCloudThree} />
-        <View style={styles.ambientCloudFour} />
-        <View style={styles.ambientLightningOne} />
-        <View style={styles.ambientLightningTwo} />
-        <View style={styles.ambientWaterReflection} />
-        <View style={styles.ambientWaterRippleOne} />
-        <View style={styles.ambientWaterRippleTwo} />
-        <View style={styles.ambientRing} />
-        <View style={styles.ambientRingFar} />
-        <View style={styles.ambientHorizon} />
-
-      </View>
+      <View pointerEvents="none" style={styles.ambientBackdrop}><CosmicBackdrop /></View>
       <StatusBar style="light" hidden={showIntro} />
 
       {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
-            <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
-              resizeMode="stretch"
-              style={styles.headerBrandArtwork}
-              accessibilityLabel="Неоновый знак НейроСцены"
-            />
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#07152F' }}>
+              <Text style={{ color: '#E9F8FF', fontSize: 19, lineHeight: 23, fontWeight: '900', letterSpacing: -2, textShadowColor: '#00BFFF', textShadowRadius: 14 }}>Н+С</Text>
+            </View>
           </View>
           <View style={styles.brandWordmark}>
             <Text style={styles.logo}>Нейро</Text>
@@ -2120,22 +2105,12 @@ export default function App() {
 
       {showIntro && (
         <View style={styles.introOverlay}>
-          <Image
-            source={require('./assets/Штормовое море под электрическим небом-1.png')}
-            resizeMode="cover"
-            style={StyleSheet.absoluteFill}
-            accessibilityLabel="Кинематографический фон НейроСцены"
-          />
+          <CosmicBackdrop variant="splash" />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup}>
             <View style={styles.introBrandMonogramWrap}>
               <View style={styles.brandMarkHalo} />
-              <Image
-                source={require('./assets/Неоновая айдентика «НейроСцена».jpg')}
-                resizeMode="contain"
-                style={styles.splashIdentityArtwork}
-                accessibilityLabel="Неоновая айдентика НейроСцены"
-              />
+              <Text style={{ color: '#EAF8FF', fontSize: 48, lineHeight: 58, fontWeight: '900', letterSpacing: -5, textShadowColor: '#00BFFF', textShadowRadius: 24 }}>Н+С</Text>
             </View>
             <Text style={styles.introBrandName}>НейроСцена</Text>
             <Text style={styles.introBrandCaption}>СТУДИЯ СОЗДАНИЯ ВИДЕО</Text>
@@ -5244,6 +5219,31 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V13,
   ...FINAL_UI_FIXES_V14,
   ...FINAL_UI_FIXES_V15,
+  // Deep-space rebuild: cohesive glass surfaces and luminous typography, implemented with free native React Native primitives.
+  container: { flex: 1, backgroundColor: '#030714' },
+  ambientBackdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: '#030714' },
+  content: { flexGrow: 1, paddingHorizontal: 17, paddingTop: 10, paddingBottom: 26 },
+  screen: { width: '100%', flexGrow: 1, flexShrink: 0, minHeight: 0, paddingTop: 7, paddingBottom: 16 },
+  bottomNav: { height: 84, minHeight: 84, maxHeight: 84, paddingTop: 7, paddingBottom: 12, backgroundColor: 'rgba(3,9,27,0.97)', borderTopWidth: 1, borderTopColor: 'rgba(102,192,255,0.42)' },
+  navItem: { minHeight: 62, borderRadius: 15, backgroundColor: 'rgba(11,24,54,0.42)', borderWidth: 1, borderColor: 'rgba(115,177,255,0.10)', alignItems: 'center', justifyContent: 'center', gap: 4 },
+  navItemActive: { backgroundColor: 'rgba(17,64,111,0.62)', borderColor: 'rgba(106,220,255,0.88)', shadowColor: '#21BFFF', shadowOpacity: 0.58, shadowRadius: 18, elevation: 9 },
+  navLabel: { color: '#A9C1E4', fontSize: 13, lineHeight: 17, fontWeight: '800' },
+  navLabelActive: { color: '#F1FBFF', textShadowColor: '#27C8FF', textShadowRadius: 10 },
+  authCard: { backgroundColor: 'rgba(8,18,43,0.88)', borderRadius: 22, padding: 17, marginBottom: 16, borderWidth: 1, borderColor: 'rgba(104,171,255,0.36)', shadowColor: '#276DFF', shadowOpacity: 0.22, shadowRadius: 22, elevation: 8 },
+  galleryCard: { backgroundColor: 'rgba(8,18,43,0.84)', borderRadius: 20, padding: 15, marginBottom: 12, borderWidth: 1, borderColor: 'rgba(119,170,255,0.28)', shadowColor: '#416BFF', shadowOpacity: 0.18, shadowRadius: 16, elevation: 5 },
+  profileMenuCard: { marginTop: 8, marginBottom: 14, paddingHorizontal: 12, paddingVertical: 5, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(110,179,255,0.32)', backgroundColor: 'rgba(7,17,41,0.84)' },
+  menuItem: { minHeight: 50, paddingVertical: 11, paddingHorizontal: 10, borderBottomColor: 'rgba(113,168,231,0.16)' },
+  authInput: { backgroundColor: 'rgba(3,11,29,0.92)', borderWidth: 1, borderColor: 'rgba(112,176,255,0.40)', borderRadius: 14, paddingHorizontal: 14, paddingVertical: 14, color: '#F3F8FF', fontSize: 16, marginTop: 11 },
+  authAction: { backgroundColor: '#1267C9', borderRadius: 15, borderWidth: 1, borderColor: '#78DFFF', shadowColor: '#20BFFF', shadowOpacity: 0.54, shadowRadius: 18, elevation: 9 },
+  authSecondary: { backgroundColor: 'rgba(13,37,76,0.92)', borderColor: 'rgba(107,193,255,0.72)', borderRadius: 14 },
+  packageCard: { backgroundColor: 'rgba(8,19,43,0.90)', borderColor: 'rgba(105,171,255,0.36)', borderRadius: 18, shadowColor: '#267AFF', shadowOpacity: 0.22, shadowRadius: 16, elevation: 5 },
+  packageCardPopular: { backgroundColor: 'rgba(29,54,80,0.95)', borderColor: '#F5D58B', shadowColor: '#F6B94C', shadowOpacity: 0.55, shadowRadius: 18, elevation: 8 },
+  screenTitle: { color: '#F4F9FF', fontSize: 28, lineHeight: 35, fontWeight: '900', textShadowColor: '#318CFF', textShadowRadius: 17, marginBottom: 14 },
+  featureSectionTitle: { color: '#F4F9FF', fontSize: 20, lineHeight: 26, fontWeight: '900', textShadowColor: '#318CFF', textShadowRadius: 14 },
+  featureTile: { backgroundColor: 'rgba(7,20,48,0.88)', borderColor: 'rgba(107,179,255,0.38)', borderRadius: 18, shadowColor: '#267AFF', shadowOpacity: 0.24, shadowRadius: 14, elevation: 5 },
+  introOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: '#030714' },
+  introBrandMonogramWrap: { width: 152, height: 152, borderRadius: 76, backgroundColor: 'rgba(8,24,58,0.94)', borderColor: 'rgba(123,222,255,0.92)', borderWidth: 2, shadowColor: '#1ABFFF', shadowOpacity: 1, shadowRadius: 34, elevation: 20 },
+  introBrandName: { color: '#F4FAFF', fontSize: 32, lineHeight: 40, fontWeight: '900', textShadowColor: '#1BAFFF', textShadowRadius: 20 },
   ...FINAL_UI_FIXES_V16,
 });
 
