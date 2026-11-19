@@ -2023,7 +2023,7 @@ function CreateScreen({
             {videoUrl ? <HomeVideoPlayer uri={videoUrl} /> : (
               <TouchableOpacity activeOpacity={0.86} onPress={() => setShowComposer(true)} accessibilityLabel="Открыть плеер последнего видео" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13,89,173,0.28)', borderWidth: 1, borderColor: 'rgba(125,213,255,0.62)', shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 18, elevation: 8 }}>
-                  <Text style={{ color: '#EAF8FF', fontSize: 27, marginLeft: 4 }}>▶</Text>
+                  <PlayIconSvg size={25} />
                 </View>
               </TouchableOpacity>
             )}
@@ -3134,6 +3134,14 @@ function NeuroSceneBackdrop() {
   );
 }
 
+function PlayIconSvg({ size = 32 }: { size?: number }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 32 32">
+      <Path d="M10 6.8C10 5.7 11.2 5 12.2 5.6L26 13.8C27 14.4 27 15.9 26 16.5L12.2 24.7C11.2 25.3 10 24.6 10 23.5V6.8Z" fill="#F2FBFF" stroke="#8BE5FF" strokeWidth="1.1" strokeLinejoin="round" />
+    </Svg>
+  );
+}
+
 function FeatureIconSvg({ kind }: { kind: string }) {
   const common = { stroke: "#83D9FF", strokeWidth: 2.2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, fill: "none" as const };
   return (
@@ -3162,7 +3170,7 @@ function HomeVideoPlayer({ uri }: { uri: string }) {
         onPress={() => isPlaying ? player.pause() : player.play()}
         style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}
       >
-        <Text style={{ color: '#FFFFFF', fontSize: 38, textShadowColor: '#168BFF', textShadowRadius: 18 }}>▶</Text>
+        <PlayIconSvg size={38} />
       </TouchableOpacity>
     </View>
   );
