@@ -3,7 +3,7 @@ name: NeuroScene Android APK preview (no emulator)
 on:
   push:
     branches:
-      - ui/full-visual-redesign
+      - ui/full-screen-rebuild-html-reference
   workflow_dispatch:
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ui/full-visual-redesign
+          ref: ${{ github.ref }}
       - uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -41,9 +41,8 @@ jobs:
         run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
       - name: Install dependencies
         run: npm ci
-      - name: TypeScript validation (report existing app typing issues)
+      - name: TypeScript validation
         run: npx tsc --noEmit
-        continue-on-error: true
       - name: Prepare launcher and adaptive brand artwork
         run: |
           python3 -m venv .venv
@@ -74,6 +73,3 @@ jobs:
 
 # UI branch validation includes TypeScript and standalone APK packaging.
 
-# Build and package the current UI branch revision.
-
-# Final corrected UI revision.
