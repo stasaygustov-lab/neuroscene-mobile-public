@@ -1997,18 +1997,9 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
-        <Image
-          source={require('./assets/Штормовое море под электрическим небом-1.png')}
-          resizeMode="cover"
-          blurRadius={2}
-          style={{
-            ...StyleSheet.absoluteFill,
-            width: '100%',
-            height: '100%',
-            opacity: 0.96,
-          }}
-        />
-        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.48)' }]} />
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: '#020817' }]} />
+        <View pointerEvents="none" style={{ position: 'absolute', width: 420, height: 420, borderRadius: 210, top: -210, right: -210, backgroundColor: 'rgba(16,91,190,0.22)' }} />
+        <View pointerEvents="none" style={{ position: 'absolute', width: 360, height: 360, borderRadius: 180, bottom: -210, left: -190, backgroundColor: 'rgba(0,132,190,0.15)' }} />
         <View style={[styles.ambientBackdropTint, tab === 'Gallery' ? styles.ambientTintGallery : tab === 'Credits' ? styles.ambientTintCredits : tab === 'Profile' ? styles.ambientTintProfile : null]} />
         <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
         <View style={[styles.ambientGlowBottom, tab === 'Gallery' ? styles.ambientGlowBottomGallery : tab === 'Credits' ? styles.ambientGlowBottomCredits : tab === 'Profile' ? styles.ambientGlowBottomProfile : null]} />
@@ -2033,8 +2024,8 @@ export default function App() {
         <View style={[styles.brandRow, styles.brandRowCentered]}>
           <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
             <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
-              resizeMode="stretch"
+              source={require('./assets/neuroscene-brand.png')}
+              resizeMode="contain"
               style={styles.headerBrandArtwork}
               accessibilityLabel="Неоновый знак НейроСцены"
             />
@@ -2120,18 +2111,14 @@ export default function App() {
 
       {showIntro && (
         <View style={styles.introOverlay}>
-          <Image
-            source={require('./assets/Штормовое море под электрическим небом-1.png')}
-            resizeMode="cover"
-            style={StyleSheet.absoluteFill}
-            accessibilityLabel="Кинематографический фон НейроСцены"
-          />
+          <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: '#010817' }]} />
+          <View pointerEvents="none" style={{ position: 'absolute', width: 420, height: 420, borderRadius: 210, top: '12%', backgroundColor: 'rgba(0,80,190,0.2)' }} />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View style={styles.introBrandLockup}>
             <View style={styles.introBrandMonogramWrap}>
               <View style={styles.brandMarkHalo} />
               <Image
-                source={require('./assets/Неоновая айдентика «НейроСцена».jpg')}
+                source={require('./assets/neuroscene-brand.png')}
                 resizeMode="contain"
                 style={styles.splashIdentityArtwork}
                 accessibilityLabel="Неоновая айдентика НейроСцены"
@@ -2243,47 +2230,40 @@ function CreateScreen({
 
   return (
     <View>
-      <View style={styles.createTitleWrap}>
-        <Text style={styles.createScreenTitle}>Создать</Text>
-        <View style={styles.createTitleUnderline} />
-      </View>
-      <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
-        <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
-          <View style={styles.referencePlayCircle}><Text style={styles.referencePlay}>▶</Text></View>
-          <Text style={styles.referenceCreateButtonText}>Создать видео</Text>
-        </TouchableOpacity>
-      </Animated.View>
-
       {!showComposer && (
-        <View style={styles.featureSection}>
-          <Text style={styles.featureSectionTitle}>Возможности</Text>
-          <View style={styles.featureGrid}>
-            {[
-              { id: 'text', icon: '▶', title: 'Текст в видео', subtitle: 'Создание по описанию' },
-              { id: 'image', icon: '▧', title: 'Изображение в видео', subtitle: 'Оживление изображения' },
-              { id: 'sound', icon: '♫', title: 'Добавить звук', subtitle: 'Звуковое оформление' },
-              { id: 'prompt', icon: '✧', title: 'Улучшить промпт', subtitle: 'Точнее описать сцену' },
-            ].map((feature) => (
-              <TouchableOpacity key={feature.id} activeOpacity={0.82}
-                onPress={() => {
-                  setActiveFeature(feature.id);
-                  if (feature.id === 'text' || feature.id === 'prompt') setGenerationType('t2v');
-                  if (feature.id === 'image') setGenerationType('i2v');
-                }}
-                style={[styles.featureTile, activeFeature === feature.id && styles.featureTileActive]}
-              >
-                <View style={[styles.featureIconSquare, activeFeature === feature.id && styles.featureIconSquareActive]}>
-                  <Text style={styles.featureIcon}>{feature.icon}</Text>
-                </View>
-                <Text style={styles.featureTitle}>{feature.title}</Text>
-                <Text style={styles.featureSubtitle}>{feature.subtitle}</Text>
+        <View style={{ gap: 20 }}>
+          <View style={{ height: 214, borderRadius: 26, overflow: 'hidden', backgroundColor: '#06152E', borderWidth: 1, borderColor: 'rgba(81,166,255,0.52)', shadowColor: '#087BFF', shadowOpacity: 0.32, shadowRadius: 24, elevation: 12 }}>
+            <View pointerEvents="none" style={{ position: 'absolute', width: 250, height: 250, borderRadius: 125, backgroundColor: '#123C82', opacity: 0.55, top: -145, right: -40 }} />
+            <View pointerEvents="none" style={{ position: 'absolute', width: 210, height: 210, borderRadius: 105, borderWidth: 1, borderColor: 'rgba(110,196,255,0.34)', top: -110, right: -15 }} />
+            <View pointerEvents="none" style={{ position: 'absolute', width: 150, height: 150, borderRadius: 75, borderWidth: 1, borderColor: 'rgba(92,169,255,0.24)', bottom: -104, left: -22 }} />
+            <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 72, backgroundColor: 'rgba(0,8,23,0.65)', borderTopWidth: 1, borderTopColor: 'rgba(113,184,255,0.16)' }} />
+            <View pointerEvents="none" style={{ position: 'absolute', left: '12%', top: 28, width: 4, height: 4, borderRadius: 2, backgroundColor: '#B7E9FF', shadowColor: '#50B9FF', shadowOpacity: 1, shadowRadius: 10 }} />
+            <View pointerEvents="none" style={{ position: 'absolute', right: '19%', top: 52, width: 3, height: 3, borderRadius: 2, backgroundColor: '#B7E9FF', shadowColor: '#50B9FF', shadowOpacity: 1, shadowRadius: 10 }} />
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 8 }}>
+              <View style={{ width: 94, height: 94, borderRadius: 47, borderWidth: 1, borderColor: 'rgba(95,193,255,0.65)', backgroundColor: 'rgba(12,55,112,0.52)', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.72, shadowRadius: 24 }}>
+                <View style={{ width: 66, height: 66, borderRadius: 33, borderWidth: 1, borderColor: 'rgba(134,220,255,0.45)', alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: '#D7F5FF', fontSize: 34, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 16 }}>▶</Text></View>
+              </View>
+              <Text style={{ color: '#EAF6FF', fontSize: 15, fontWeight: '800', letterSpacing: 1.7, marginTop: 13 }}>ТВОЯ ИДЕЯ — ТВОЁ КИНО</Text>
+              <Text style={{ color: '#8FBDEB', fontSize: 12, marginTop: 5 }}>Преврати воображение в движение</Text>
+            </View>
+            <TouchableOpacity activeOpacity={0.86} onPress={() => videoUrl ? onOpenVideo() : setShowComposer(true)} style={{ position: 'absolute', right: 13, bottom: 12, width: 38, height: 38, borderRadius: 19, backgroundColor: 'rgba(28,111,220,0.24)', borderWidth: 1, borderColor: 'rgba(111,194,255,0.62)', alignItems: 'center', justifyContent: 'center' }}><Text style={{ color: '#DDF6FF', fontSize: 17 }}>▶</Text></TouchableOpacity>
+          </View>
+          <Animated.View style={{ shadowColor: '#168BFF', shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.34,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [12,24] }), shadowOffset: { width: 0, height: 7 }, elevation: 10, borderRadius: 20 }}>
+            <TouchableOpacity activeOpacity={0.9} onPress={() => setShowComposer(true)} style={{ minHeight: 62, borderRadius: 20, paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, backgroundColor: '#1479F8', borderWidth: 1, borderColor: '#70C9FF' }}>
+              <Text style={{ color: '#FFFFFF', fontSize: 21, fontWeight: '900' }}>✦</Text><Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: '900' }}>Создать видео</Text><Text style={{ color: '#DDF5FF', fontSize: 21, fontWeight: '700' }}>›</Text>
+            </TouchableOpacity>
+          </Animated.View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 2 }}><View style={{ flex: 1, height: 1, backgroundColor: 'rgba(104,173,255,0.28)' }} /><Text style={{ color: '#DCEEFF', fontSize: 15, fontWeight: '800', letterSpacing: 1.1 }}>ВОЗМОЖНОСТИ</Text><View style={{ flex: 1, height: 1, backgroundColor: 'rgba(104,173,255,0.28)' }} /></View>
+          <View style={{ flexDirection: 'row', borderRadius: 19, overflow: 'hidden', backgroundColor: 'rgba(6,22,48,0.82)', borderWidth: 1, borderColor: 'rgba(81,151,222,0.34)', paddingVertical: 15, paddingHorizontal: 5 }}>
+            {[{id:'text',icon:'T',title:'Текст',subtitle:'в видео'},{id:'image',icon:'▧',title:'Изображение',subtitle:'в видео'},{id:'sound',icon:'♫',title:'Озвучка',subtitle:'и эффекты'},{id:'quality',icon:'✧',title:'Проф.',subtitle:'качество'}].map((feature,index) => (
+              <TouchableOpacity key={feature.id} activeOpacity={0.8} onPress={() => { if(feature.id==='text'){setGenerationType('t2v');setShowComposer(true);} else if(feature.id==='image'){setGenerationType('i2v');setShowComposer(true);} else if(feature.id==='sound') Alert.alert('Озвучка и эффекты','Звуковое оформление будет доступно в отдельном разделе создания.'); else Alert.alert('Профессиональное качество','Настройки качества доступны при создании видео.'); }} style={{ flex: 1, minWidth: 0, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, borderRightWidth: index===3 ? 0 : 1, borderRightColor: 'rgba(100,164,225,0.18)' }}>
+                <View style={{ width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(29,105,190,0.2)', borderWidth: 1, borderColor: 'rgba(86,171,255,0.42)' }}><Text style={{ color: '#83D9FF', fontSize: 18, fontWeight: '900' }}>{feature.icon}</Text></View>
+                <Text numberOfLines={1} adjustsFontSizeToFit style={{ color: '#E5F2FF', fontSize: 10, fontWeight: '800', marginTop: 8, textAlign: 'center' }}>{feature.title}</Text><Text numberOfLines={1} adjustsFontSizeToFit style={{ color: '#8FB5DC', fontSize: 9, marginTop: 2, textAlign: 'center' }}>{feature.subtitle}</Text>
               </TouchableOpacity>
             ))}
           </View>
         </View>
-      )}
-
-      {showComposer && (
+      )}      {showComposer && (
       <>
       <TouchableOpacity activeOpacity={0.86} style={styles.composerBack} onPress={() => setShowComposer(false)}>
         <Text style={styles.composerBackText}>‹ Назад к сцене</Text>
@@ -4898,6 +4878,49 @@ const FINAL_UI_FIXES_V16 = {
   navPersonBody: { width: 17, height: 10, borderWidth: 1.5, borderColor: '#75CFFF', borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomWidth: 0, marginTop: 2 },
 } as const;
 
+const HTML_REBUILD = {
+  container:{flex:1,backgroundColor:'#020817'},
+  ambientBackdrop:{backgroundColor:'#020817'},
+  header:{paddingHorizontal:20,paddingVertical:13,backgroundColor:'rgba(4,13,30,0.88)',borderBottomColor:'rgba(95,157,220,0.18)'},
+  brandRow:{gap:11},
+  brandMarkSmall:{width:42,height:42,borderRadius:13,overflow:'hidden',backgroundColor:'rgba(12,48,95,0.7)',borderColor:'rgba(90,183,255,0.55)'},
+  headerBrandArtwork:{width:40,height:40},
+  logo:{color:'#F4FAFF',fontSize:18,lineHeight:20,letterSpacing:0.4,textShadowColor:'#168BFF',textShadowRadius:12},
+  notificationButton:{width:42,height:42,borderRadius:14,backgroundColor:'rgba(14,39,76,0.82)',borderColor:'rgba(91,164,232,0.34)'},
+  content:{paddingHorizontal:18,paddingTop:18,paddingBottom:24},
+  bottomNav:{minHeight:78,height:78,maxHeight:78,paddingTop:7,paddingBottom:10,backgroundColor:'rgba(3,12,29,0.96)',borderTopColor:'rgba(88,151,220,0.2)'},
+  navItem:{minHeight:58,borderRadius:15,gap:2},
+  navItemActive:{backgroundColor:'rgba(20,83,157,0.32)',borderColor:'rgba(72,160,255,0.34)'},
+  navLabel:{color:'#86A6CA',fontSize:11,lineHeight:15,fontWeight:'700'},
+  navLabelActive:{color:'#8ED7FF',fontWeight:'900'},
+  screen:{flex:1,paddingTop:8},
+  creditsScreen:{paddingTop:8},
+  creditsContent:{paddingTop:14},
+  creditsHeader:{marginBottom:14},
+  creditsTitle:{fontSize:27,lineHeight:33,color:'#F4F8FF'},
+  packageCard:{minHeight:66,borderRadius:15,backgroundColor:'rgba(7,27,57,0.9)',borderColor:'rgba(83,151,219,0.38)',paddingHorizontal:12},
+  packageCardPopular:{backgroundColor:'rgba(7,56,108,0.92)',borderColor:'#29B8FF'},
+  creditBalancePanel:{borderRadius:19,backgroundColor:'rgba(7,28,61,0.88)',borderColor:'rgba(79,156,232,0.45)',padding:18},
+  creditHistorySection:{marginTop:17,borderRadius:17,padding:14,backgroundColor:'rgba(5,20,44,0.78)',borderWidth:1,borderColor:'rgba(76,139,204,0.28)'},
+  buyCreditsButton:{borderRadius:16,minHeight:58,marginTop:16},
+  profileHeader:{marginBottom:16},
+  profileIdentity:{borderRadius:20,paddingVertical:20,paddingHorizontal:16,backgroundColor:'rgba(7,27,57,0.82)',borderWidth:1,borderColor:'rgba(83,151,219,0.32)',marginBottom:16},
+  profileMenuCard:{borderRadius:18,paddingHorizontal:15,backgroundColor:'rgba(6,21,46,0.84)',borderWidth:1,borderColor:'rgba(83,151,219,0.3)'},
+  menuItem:{minHeight:56,paddingVertical:14,borderBottomColor:'rgba(107,155,205,0.16)'},
+  authCard:{borderRadius:18,backgroundColor:'rgba(6,24,52,0.94)',borderColor:'rgba(87,158,230,0.36)'},
+  authInput:{backgroundColor:'rgba(2,11,27,0.86)',borderColor:'rgba(92,149,207,0.34)',borderRadius:12},
+  authAction:{borderRadius:14,backgroundColor:'#1479F8'},
+  authSecondary:{borderRadius:13,backgroundColor:'rgba(16,48,91,0.82)',borderColor:'rgba(83,160,239,0.4)'},
+  statusCard:{borderRadius:17,backgroundColor:'rgba(7,26,56,0.88)',borderColor:'rgba(78,145,213,0.35)'},
+  introOverlay:{backgroundColor:'#010817'},
+  prompt:{backgroundColor:'rgba(5,20,44,0.94)',borderColor:'rgba(84,147,210,0.38)',borderRadius:16},
+  option:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:14},
+  selectedOption:{backgroundColor:'rgba(17,86,160,0.52)',borderColor:'#35B6FF'},
+  modeSelector:{backgroundColor:'rgba(5,20,44,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
+  engineCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
+  imageUploadCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
+  costCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15}
+};
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5245,5 +5268,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V14,
   ...FINAL_UI_FIXES_V15,
   ...FINAL_UI_FIXES_V16,
+  ...HTML_REBUILD,
 });
 
