@@ -1998,14 +1998,14 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
         <Image
-          source={require('./assets/Штормовое море под электрическим небом-1.png')}
+          source={require('./assets/neuroscene-cosmic-background.webp')}
           resizeMode="cover"
-          blurRadius={2}
+          blurRadius={0}
           style={{
             ...StyleSheet.absoluteFill,
             width: '100%',
             height: '100%',
-            opacity: 0.96,
+            opacity: 0.94,
           }}
         />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1,7,18,0.48)' }]} />
@@ -2013,18 +2013,6 @@ export default function App() {
         <View style={[styles.ambientGlowTop, tab === 'Gallery' ? styles.ambientGlowTopGallery : tab === 'Credits' ? styles.ambientGlowTopCredits : tab === 'Profile' ? styles.ambientGlowTopProfile : null]} />
         <View style={[styles.ambientGlowBottom, tab === 'Gallery' ? styles.ambientGlowBottomGallery : tab === 'Credits' ? styles.ambientGlowBottomCredits : tab === 'Profile' ? styles.ambientGlowBottomProfile : null]} />
         <View style={[styles.ambientGlowCenter, tab === 'Gallery' ? styles.ambientGlowCenterGallery : tab === 'Credits' ? styles.ambientGlowCenterCredits : tab === 'Profile' ? styles.ambientGlowCenterProfile : null]} />
-        <View style={styles.ambientCloudOne} />
-        <View style={styles.ambientCloudTwo} />
-        <View style={styles.ambientCloudThree} />
-        <View style={styles.ambientCloudFour} />
-        <View style={styles.ambientLightningOne} />
-        <View style={styles.ambientLightningTwo} />
-        <View style={styles.ambientWaterReflection} />
-        <View style={styles.ambientWaterRippleOne} />
-        <View style={styles.ambientWaterRippleTwo} />
-        <View style={styles.ambientRing} />
-        <View style={styles.ambientRingFar} />
-        <View style={styles.ambientHorizon} />
 
       </View>
       <StatusBar style="light" hidden={showIntro} />
@@ -4898,6 +4886,53 @@ const FINAL_UI_FIXES_V16 = {
   navPersonBody: { width: 17, height: 10, borderWidth: 1.5, borderColor: '#75CFFF', borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomWidth: 0, marginTop: 2 },
 } as const;
 
+
+const DEEP_SPACE_3D = {
+  container: { flex: 1, backgroundColor: '#030414' },
+  ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030414' },
+  ambientGlowTop: { position: 'absolute', width: 360, height: 360, borderRadius: 180, top: -150, right: -220, backgroundColor: '#6750D8', opacity: 0.14 },
+  ambientGlowBottom: { position: 'absolute', width: 330, height: 330, borderRadius: 165, bottom: -170, left: -200, backgroundColor: '#087DDB', opacity: 0.16 },
+  ambientGlowCenter: { position: 'absolute', width: 260, height: 260, borderRadius: 130, top: '34%', left: '22%', backgroundColor: '#4B39A8', opacity: 0.08 },
+  header: { backgroundColor: 'rgba(5,8,28,0.20)', borderBottomWidth: 1, borderBottomColor: 'rgba(161,194,255,0.12)' },
+  notificationButton: { backgroundColor: 'rgba(12,22,52,0.48)', borderColor: 'rgba(133,205,255,0.62)', borderWidth: 1, shadowColor: '#4BCBFF', shadowOpacity: 0.5, shadowRadius: 18, elevation: 9 },
+  referenceHero: { backgroundColor: 'rgba(10,18,48,0.42)', borderColor: 'rgba(148,205,255,0.70)', borderWidth: 1.2, shadowColor: '#6B8CFF', shadowOpacity: 0.45, shadowRadius: 28, elevation: 12 },
+  referenceHeroCopy: { backgroundColor: 'rgba(4,8,28,0.20)' },
+  referenceCreateButton: { backgroundColor: '#087DEB', borderColor: '#B5F1FF', borderWidth: 1.5, shadowColor: '#31BFFF', shadowOpacity: 0.86, shadowRadius: 25, elevation: 15 },
+  createButton: { backgroundColor: '#087DEB', borderColor: '#B5F1FF', borderWidth: 1.5, shadowColor: '#31BFFF', shadowOpacity: 0.86, shadowRadius: 25, elevation: 15 },
+  featureTile: { backgroundColor: 'rgba(12,20,52,0.48)', borderColor: 'rgba(144,192,255,0.34)', borderWidth: 1, shadowColor: '#6B8CFF', shadowOpacity: 0.22, shadowRadius: 20, elevation: 8 },
+  featureCard: { backgroundColor: 'rgba(12,20,52,0.48)', borderColor: 'rgba(144,192,255,0.34)', borderWidth: 1, shadowColor: '#6B8CFF', shadowOpacity: 0.22, shadowRadius: 20, elevation: 8 },
+  engineCard: { backgroundColor: 'rgba(9,16,43,0.58)', borderColor: 'rgba(133,191,255,0.34)', borderWidth: 1, shadowColor: '#648EFF', shadowOpacity: 0.2, shadowRadius: 22, elevation: 8 },
+  costCard: { backgroundColor: 'rgba(9,16,43,0.58)', borderColor: 'rgba(133,191,255,0.38)', borderWidth: 1, shadowColor: '#648EFF', shadowOpacity: 0.2, shadowRadius: 22, elevation: 8 },
+  statusCard: { backgroundColor: 'rgba(10,18,48,0.58)', borderColor: 'rgba(133,191,255,0.42)', borderWidth: 1, shadowColor: '#648EFF', shadowOpacity: 0.25, shadowRadius: 22, elevation: 8 },
+  galleryCard: { backgroundColor: 'rgba(10,16,42,0.56)', borderColor: 'rgba(151,192,255,0.38)', borderWidth: 1, shadowColor: '#6B8CFF', shadowOpacity: 0.22, shadowRadius: 20, elevation: 8 },
+  imageUploadCard: { backgroundColor: 'rgba(10,18,48,0.52)', borderColor: 'rgba(133,191,255,0.38)', borderWidth: 1, shadowColor: '#648EFF', shadowOpacity: 0.2, shadowRadius: 18, elevation: 7 },
+  chooseImageButton: { backgroundColor: 'rgba(7,14,38,0.52)', borderColor: 'rgba(102,205,255,0.72)', borderWidth: 1.2, shadowColor: '#35BFFF', shadowOpacity: 0.22, shadowRadius: 16, elevation: 5 },
+  languageCard: { backgroundColor: 'rgba(10,18,48,0.54)', borderColor: 'rgba(133,191,255,0.35)', borderWidth: 1 },
+  balanceCard: { backgroundColor: 'rgba(10,18,48,0.56)', borderColor: 'rgba(133,191,255,0.46)', borderWidth: 1, shadowColor: '#648EFF', shadowOpacity: 0.28, shadowRadius: 24, elevation: 9 },
+  packageCard: { backgroundColor: 'rgba(31,25,33,0.62)', borderColor: 'rgba(255,211,126,0.58)', borderWidth: 1, shadowColor: '#E5A84B', shadowOpacity: 0.22, shadowRadius: 18, elevation: 7 },
+  packageCardPopular: { backgroundColor: 'rgba(48,35,34,0.72)', borderColor: 'rgba(255,222,147,0.90)', shadowColor: '#FFC65E', shadowOpacity: 0.55, shadowRadius: 22, elevation: 11 },
+  creditIllustration: { backgroundColor: 'rgba(25,20,42,0.58)', borderColor: 'rgba(255,206,120,0.55)', shadowColor: '#E9A84C', shadowOpacity: 0.30, shadowRadius: 23, elevation: 10 },
+  buyCreditsButton: { backgroundColor: '#B87926', borderColor: '#FFE3A2', borderWidth: 1.5, shadowColor: '#FFBF55', shadowOpacity: 0.70, shadowRadius: 22, elevation: 12 },
+  profileCard: { backgroundColor: 'rgba(10,18,48,0.54)', borderColor: 'rgba(133,191,255,0.38)', borderWidth: 1, shadowColor: '#648EFF', shadowOpacity: 0.20, shadowRadius: 20, elevation: 8 },
+  profileMenuCard: { backgroundColor: 'rgba(10,18,48,0.50)', borderColor: 'rgba(133,191,255,0.34)', borderWidth: 1 },
+  authCard: { backgroundColor: 'rgba(10,18,48,0.60)', borderColor: 'rgba(133,191,255,0.42)', borderWidth: 1, shadowColor: '#648EFF', shadowOpacity: 0.26, shadowRadius: 24, elevation: 9 },
+  authInput: { backgroundColor: 'rgba(4,9,29,0.66)', borderColor: 'rgba(122,190,255,0.48)', borderWidth: 1, borderRadius: 15, color: '#FFFFFF' },
+  authAction: { backgroundColor: '#087DEB', borderColor: '#B5F1FF', shadowColor: '#31BFFF', shadowOpacity: 0.75, shadowRadius: 20, elevation: 11 },
+  authSecondary: { backgroundColor: 'rgba(15,31,70,0.66)', borderColor: 'rgba(122,190,255,0.55)' },
+  secondaryButton: { backgroundColor: 'rgba(15,31,70,0.62)', borderColor: 'rgba(122,190,255,0.58)', borderWidth: 1, shadowColor: '#31BFFF', shadowOpacity: 0.26, shadowRadius: 14, elevation: 6 },
+  generationModalBackdrop: { backgroundColor: 'rgba(2,4,20,0.88)' },
+  generationModalCard: { backgroundColor: 'rgba(10,18,48,0.94)', borderColor: 'rgba(139,206,255,0.72)', shadowColor: '#3BBEFF', shadowOpacity: 0.58, shadowRadius: 32, elevation: 16 },
+  bottomNav: { backgroundColor: 'rgba(4,7,24,0.80)', borderTopColor: 'rgba(141,195,255,0.34)', borderTopWidth: 1, shadowColor: '#328EFF', shadowOpacity: 0.30, shadowRadius: 22, elevation: 15 },
+  navItemActive: { backgroundColor: 'rgba(53,116,214,0.20)', borderColor: 'rgba(117,207,255,0.60)', borderWidth: 1, shadowColor: '#48C9FF', shadowOpacity: 0.48, shadowRadius: 15, elevation: 7 },
+  screenTitle: { color: '#F7FAFF', textShadowColor: '#7B9DFF', textShadowRadius: 19 },
+  createScreenTitle: { color: '#F8FBFF', textShadowColor: '#5FCBFF', textShadowRadius: 26 },
+  featureSectionTitle: { color: '#F7FAFF', textShadowColor: '#7BB8FF', textShadowRadius: 17 },
+  sectionTitle: { color: '#EAF4FF', textShadowColor: '#5EAFFF', textShadowRadius: 15 },
+  galleryTitle: { color: '#F6F3FF', textShadowColor: '#A58CFF', textShadowRadius: 23 },
+  creditsTitle: { color: '#FFE7B0', textShadowColor: '#F0A63B', textShadowRadius: 22 },
+  profileGuestAvatar: { backgroundColor: 'rgba(26,78,144,0.36)', borderColor: '#9BEAFF', shadowColor: '#5BCBFF', shadowOpacity: 0.9, shadowRadius: 28, elevation: 14 },
+};
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#030817' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030817' },
@@ -5245,5 +5280,6 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V14,
   ...FINAL_UI_FIXES_V15,
   ...FINAL_UI_FIXES_V16,
+  ...DEEP_SPACE_3D,
 });
 
