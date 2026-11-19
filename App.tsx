@@ -1781,7 +1781,7 @@ export default function App() {
         </View>
         {!authUser?<View style={{borderRadius:18,padding:15,backgroundColor:'rgba(6,23,50,0.8)',borderWidth:1,borderColor:'rgba(79,145,211,0.3)'}}>
           <Text style={{color:'#B1CBE7',fontSize:12,lineHeight:18,textAlign:'center',marginBottom:13}}>Войдите, чтобы сохранять свои видео и пользоваться всеми возможностями НейроСцены</Text>
-          <TouchableOpacity activeOpacity={0.86} onPress={handleVkLogin} disabled={authBusy} style={{minHeight:50,borderRadius:14,backgroundColor:'#1479F8',borderWidth:1,borderColor:'#75C9FF',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:9}}>{authBusy?<ActivityIndicator color={WHITE}/>:<><Text style={{color:'#FFFFFF',fontSize:16,fontWeight:'900'}}>ᴠκ</Text><Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Войти через VK ID</Text></>}</TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.86} onPress={handleVkLogin} disabled={authBusy} style={{minHeight:50,borderRadius:14,backgroundColor:'rgba(20,121,248,0.5)',borderWidth:1,borderColor:'rgba(117,201,255,0.5)',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:9}}>{authBusy?<ActivityIndicator color={WHITE}/>:<><Text style={{color:'#FFFFFF',fontSize:16,fontWeight:'900'}}>ᴠκ</Text><Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Войти через VK ID</Text></>}</TouchableOpacity>
           <TouchableOpacity onPress={()=>setProfileEmailOpen((v)=>!v)} style={{minHeight:46,marginTop:9,borderRadius:13,backgroundColor:'rgba(15,45,82,0.7)',borderWidth:1,borderColor:'rgba(90,156,220,0.35)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#C7E3FF',fontSize:13,fontWeight:'800'}}>{profileEmailOpen?'Скрыть вход по email':'Войти по email'}</Text></TouchableOpacity>
           {profileEmailOpen&&<View style={{marginTop:12}}>
             <TextInput style={styles.authInput} value={authEmail} onChangeText={setAuthEmail} placeholder="Электронная почта" placeholderTextColor="#7890AD" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} editable={!authBusy}/>
@@ -1812,7 +1812,7 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
         <Image
-          source={require('./assets/neuroscene-cinematic-bg-small.jpg')}
+          source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
           style={StyleSheet.absoluteFill}
           resizeMode="cover"
           fadeDuration={0}
@@ -2027,7 +2027,7 @@ function CreateScreen({
             )}
           </View>
           <Animated.View style={{ shadowColor: '#168BFF', shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.34,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [12,24] }), shadowOffset: { width: 0, height: 7 }, elevation: 10, borderRadius: 20 }}>
-            <TouchableOpacity activeOpacity={0.9} onPress={() => setShowComposer(true)} style={{ minHeight: 62, borderRadius: 20, paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, backgroundColor: '#1479F8', borderWidth: 1, borderColor: '#70C9FF' }}>
+            <TouchableOpacity activeOpacity={0.9} onPress={() => setShowComposer(true)} style={{ minHeight: 62, borderRadius: 20, paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, backgroundColor: 'rgba(20,121,248,0.5)', borderWidth: 1, borderColor: 'rgba(112,201,255,0.5)' }}>
               <Text style={{ color: '#FFFFFF', fontSize: 21, fontWeight: '900' }}>✦</Text><Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: '900' }}>Создать видео</Text><Text style={{ color: '#DDF5FF', fontSize: 21, fontWeight: '700' }}>›</Text>
             </TouchableOpacity>
           </Animated.View>
@@ -3317,7 +3317,7 @@ const COSMIC_OVERRIDES : any = {
   storageProgress: { height: 5, borderRadius: 3, backgroundColor: '#079BFF', shadowColor: '#18B9FF', shadowOpacity: 0.9, shadowRadius: 8 },
   galleryTabs: { flexDirection: 'row', padding: 5, borderRadius: 16, backgroundColor: 'rgba(5,18,43,0.98)', borderWidth: 1, borderColor: '#245080', marginBottom: 12 },
   galleryTab: { flex: 1, minHeight: 43, paddingVertical: 11, alignItems: 'center', justifyContent: 'center', borderRadius: 12 },
-  galleryTabActive: { backgroundColor: '#096CE8', shadowColor: '#168BFF', shadowOpacity: 0.42, shadowRadius: 12, elevation: 5 },
+  galleryTabActive: { backgroundColor: 'rgba(9,108,232,0.5)', shadowColor: '#168BFF', shadowOpacity: 0.42, shadowRadius: 12, elevation: 5 },
   galleryTabText: { color: '#A7BBD8', fontSize: 16, fontWeight: '700' },
   galleryTabTextActive: { color: '#FFFFFF' },
   galleryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', columnGap: 0 },
@@ -3561,7 +3561,7 @@ const COSMIC_OVERRIDES : any = {
   ...({ profileGuestStatus: { color: '#A9BAD4', fontSize: 16, marginTop: 4, textAlign: 'center' } } as any),
   ...({ profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 } } as any),
   ...({ profileMenuCard: { marginTop: 9, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(48,125,194,0.62)', backgroundColor: 'rgba(5,19,43,0.97)' } } as any),
-  navCreateIcon: { width: 27, height: 27, borderRadius: 8, borderWidth: 2, borderColor: '#68BFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 5 },
+  navCreateIcon: { width: 27, height: 27, transform: [{ scale: 2 }], borderRadius: 8, borderWidth: 2, borderColor: '#68BFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 5 },
   navCreateTriangle: { width: 0, height: 0, marginLeft: 3, borderTopWidth: 7, borderBottomWidth: 7, borderLeftWidth: 10, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#68BFFF' },
   navGalleryIcon: { width: 27, height: 27, flexDirection: 'row', flexWrap: 'wrap', gap: 3, padding: 2, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#68BFFF', borderRadius: 7, backgroundColor: 'rgba(22,139,255,0.08)' },
   navGalleryCell: { width: 10, height: 10, borderRadius: 2, borderWidth: 1.8, borderColor: '#68BFFF', backgroundColor: 'rgba(22,139,255,0.10)' },
@@ -4561,14 +4561,14 @@ const FINAL_UI_FIXES_V15 : any = {
   navLabel: { color: '#A5B2C8', fontSize: 14, lineHeight: 18, fontWeight: '800', width: '100%', textAlign: 'center', includeFontPadding: false, letterSpacing: 0 },
   navLabelActive: { color: '#C8F5FF', fontWeight: '900', textShadowColor: '#00AFFF', textShadowRadius: 11 },
   navCreateIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#37C8FF', shadowOpacity: 0.7, shadowRadius: 13, elevation: 6 },
-  navGalleryIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  navGalleryIcon: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', position: 'relative', transform: [{ scale: 2 }] },
   navGalleryClapperTop: { position: 'absolute', top: 3, width: 23, height: 7, borderWidth: 1.2, borderColor: '#BDEBFF', borderRadius: 2, backgroundColor: 'rgba(0,149,255,0.38)', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' },
   navGalleryClapperStripe: { width: 3, height: 5, backgroundColor: '#8CE6FF', transform: [{ skewX: '-24deg' }] },
   navGalleryClapperBody: { position: 'absolute', top: 9, width: 22, height: 16, borderWidth: 1.4, borderColor: '#72D9FF', borderRadius: 3, backgroundColor: 'rgba(0,115,220,0.24)', alignItems: 'center', justifyContent: 'center' },
   navGalleryPlay: { width: 0, height: 0, borderTopWidth: 4, borderBottomWidth: 4, borderLeftWidth: 6, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#C8F5FF', marginLeft: 2 },
-  navCoinStack: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', gap: 1 },
+  navCoinStack: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', gap: 1, transform: [{ scale: 2 }] },
   navCoinLayer: { width: 23, height: 7, borderRadius: 5, borderWidth: 1.3, borderColor: '#FFD77A', backgroundColor: '#B98225', shadowColor: '#FFC34D', shadowOpacity: 0.85, shadowRadius: 6, elevation: 4 },
-  navPerson: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center' },
+  navPerson: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center', transform: [{ scale: 2 }] },
 };
 
 
@@ -4673,10 +4673,10 @@ const HTML_REBUILD : any = {
   logo:{color:'#F4FAFF',fontSize:18,lineHeight:20,letterSpacing:0.4,textShadowColor:'#168BFF',textShadowRadius:12},
   notificationButton:{width:42,height:42,borderRadius:14,backgroundColor:'rgba(14,39,76,0.82)',borderColor:'rgba(91,164,232,0.34)'},
   content:{paddingHorizontal:18,paddingTop:18,paddingBottom:24},
-  bottomNav:{minHeight:78,height:78,maxHeight:78,paddingTop:7,paddingBottom:10,backgroundColor:'rgba(3,12,29,0.96)',borderTopColor:'rgba(88,151,220,0.2)'},
-  navItem:{minHeight:58,borderRadius:15,gap:2},
+  bottomNav:{minHeight:78,height:78,maxHeight:78,paddingTop:7,paddingBottom:10,backgroundColor:'rgba(3,12,29,0.30)',borderTopColor:'rgba(88,151,220,0.2)'},
+  navItem:{minHeight:58,borderRadius:15,gap:6,alignItems:'center',justifyContent:'center'},
   navItemActive:{backgroundColor:'rgba(20,83,157,0.32)',borderColor:'rgba(72,160,255,0.34)'},
-  navLabel:{color:'#86A6CA',fontSize:11,lineHeight:15,fontWeight:'700'},
+  navLabel:{color:'#86A6CA',fontSize:11,lineHeight:15,fontWeight:'700',textAlign:'center',alignSelf:'center'},
   navLabelActive:{color:'#8ED7FF',fontWeight:'900'},
   screen:{flex:1,paddingTop:8},
   creditsScreen:{paddingTop:8},
