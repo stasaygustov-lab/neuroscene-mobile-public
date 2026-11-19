@@ -1341,7 +1341,8 @@ export default function App() {
         );
         return;
       }
-      if (asset.fileSize && asset.fileSize > 10 * 1024 * 1024) {
+      const imageSize = asset.fileSize ?? new ExpoFile(asset.uri).size;
+      if (typeof imageSize === 'number' && imageSize > 10 * 1024 * 1024) {
         Alert.alert(
           language === 'ru' ? 'Файл слишком большой' : 'File is too large',
           language === 'ru' ? 'Максимальный размер изображения — 10 МБ.' : 'Maximum image size is 10 MB.'
@@ -2078,6 +2079,7 @@ function CreateScreen({
       />
 
       <Text style={styles.characterCount}>{prompt.length} / 2000</Text>
+      <Text style={styles.note}>Эталонный промпт Wan 2.2. Для T2V и I2V используется одна утверждённая формулировка.</Text>
 
       <TouchableOpacity activeOpacity={0.86}
         style={[styles.authSecondary, (busy || promptEnhancing || prompt.trim().length < 10) && styles.disabledButton]}
