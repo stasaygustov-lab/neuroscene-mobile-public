@@ -1,1 +1,0 @@
-Temporary trigger for the screenshot inspection workflow. This file can be removed after the inspection.
