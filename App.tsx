@@ -1783,13 +1783,17 @@ export default function App() {
           <View style={styles.creditTopRow}>
             <View style={styles.creditIllustration} accessibilityLabel="Высокодетализированные золотые монеты из референса">
               <View pointerEvents="none" style={styles.creditIllustrationGlow} />
-              <View style={styles.creditReferenceArtworkCrop} pointerEvents="none">
-                <Image
-                  source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
-                  resizeMode="stretch"
-                  style={styles.creditReferenceArtwork}
-                  accessibilityLabel="Золотые монеты"
-                />
+              <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ position: 'absolute', width: 150, height: 74, borderRadius: 90, backgroundColor: 'rgba(255,190,64,0.10)', shadowColor: '#FFC64F', shadowOpacity: 1, shadowRadius: 36, elevation: 12 }} />
+                <View style={{ position: 'absolute', left: '16%', bottom: 24, alignItems: 'center' }}>
+                  {[0,1,2].map((n) => <View key={n} style={{ width: 48, height: 13, marginTop: -3, borderRadius: 12, backgroundColor: '#B87919', borderWidth: 2, borderColor: '#FFE6A0', shadowColor: '#FFC34D', shadowOpacity: 0.9, shadowRadius: 10, elevation: 7 }} />)}
+                </View>
+                <View style={{ position: 'absolute', left: '43%', bottom: 30, alignItems: 'center' }}>
+                  {[0,1,2,3].map((n) => <View key={n} style={{ width: 55, height: 15, marginTop: -4, borderRadius: 14, backgroundColor: '#D89A2B', borderWidth: 2, borderColor: '#FFF1B8', shadowColor: '#FFC34D', shadowOpacity: 1, shadowRadius: 12, elevation: 9 }} />)}
+                </View>
+                <View style={{ position: 'absolute', right: '12%', bottom: 24, alignItems: 'center' }}>
+                  {[0,1,2].map((n) => <View key={n} style={{ width: 45, height: 12, marginTop: -3, borderRadius: 12, backgroundColor: '#A96814', borderWidth: 2, borderColor: '#FFE6A0', shadowColor: '#FFC34D', shadowOpacity: 0.9, shadowRadius: 10, elevation: 7 }} />)}
+                </View>
               </View>
               <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
             </View>
