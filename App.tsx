@@ -2559,12 +2559,14 @@ function GalleryScreen({
       {!loading && !error && visibleItems.length === 0 && (
         <View style={styles.emptyScreen}>
           <View style={styles.galleryEmptyArtwork} accessibilityLabel="Неоновая хлопушка из референса НейроСцены">
-            <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
-              resizeMode="stretch"
-              style={styles.galleryReferenceArtwork}
-              accessibilityLabel="Неоновая кинематографическая хлопушка"
-            />
+            <View style={{ width: 88, height: 70, alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: 78, height: 17, borderRadius: 5, backgroundColor: '#51427D', borderWidth: 1.5, borderColor: '#DCCBFF', transform: [{ rotate: '-9deg' }], flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                {[0,1,2,3].map(n => <View key={n} style={{ width: 8, height: 12, backgroundColor: '#DCCBFF', opacity: 0.9, transform: [{ skewX: '-18deg' }] }} />)}
+              </View>
+              <View style={{ width: 73, height: 48, marginTop: -1, borderRadius: 8, backgroundColor: 'rgba(29,22,66,0.96)', borderWidth: 1.5, borderColor: '#B9A4FF', alignItems: 'center', justifyContent: 'center', shadowColor: '#9B69FF', shadowOpacity: 0.95, shadowRadius: 20, elevation: 12 }}>
+                <Text style={{ color: '#F4ECFF', fontSize: 28, lineHeight: 32, textShadowColor: '#A56BFF', textShadowRadius: 14 }}>▶</Text>
+              </View>
+            </View>
           </View>
           <Text style={styles.galleryEmptyTitle}>Ваша галерея ждёт первый фильм</Text>
           <Text style={styles.description}>{uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
