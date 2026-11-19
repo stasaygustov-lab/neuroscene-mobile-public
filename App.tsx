@@ -2023,9 +2023,9 @@ export default function App() {
 
       {tab === 'Create' && <View style={[styles.header, { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }]}>
         <View style={[styles.brandRow, styles.brandRowCentered]}>
-          <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены">
+          <View style={styles.brandMarkSmall} accessibilityLabel="Логотип НейроСцены — место под фирменный SVG-глиф">
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#07152F' }}>
-              <Text style={{ color: '#E9F8FF', fontSize: 19, lineHeight: 23, fontWeight: '900', letterSpacing: -2, textShadowColor: '#00BFFF', textShadowRadius: 14 }}>Н+С</Text>
+              <Text style={{ color: '#E9F8FF', fontSize: 20, lineHeight: 24, fontWeight: '900', textShadowColor: '#00BFFF', textShadowRadius: 14 }}>▶</Text>
             </View>
           </View>
           <View style={styles.brandWordmark}>
@@ -2034,7 +2034,16 @@ export default function App() {
           </View>
         </View>
 
-        <View style={styles.headerActions}>
+        <View style={[styles.headerActions, { flexDirection: 'row', alignItems: 'center', gap: 8 }]}>
+          <TouchableOpacity
+            activeOpacity={0.86}
+            accessibilityRole="button"
+            accessibilityLabel="Настройки"
+            onPress={() => { setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab('Profile'); }}
+            style={{ width: 42, height: 42, borderRadius: 21, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(120,190,255,0.35)', backgroundColor: 'rgba(20,34,68,0.48)' }}
+          >
+            <Text style={{ color: '#EAF4FF', fontSize: 21, lineHeight: 25 }}>⚙</Text>
+          </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.86}
             accessibilityRole="button"
             accessibilityLabel="Уведомления"
@@ -2222,9 +2231,30 @@ function CreateScreen({
 
   return (
     <View>
-      <View style={styles.createTitleWrap}>
-        <Text style={styles.createScreenTitle}>Создать</Text>
-        <View style={styles.createTitleUnderline} />
+      <View style={{ marginBottom: 17 }}>
+        <View style={{ height: 210, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(120,190,255,0.38)', backgroundColor: '#0A1737', shadowColor: '#38B6FF', shadowOpacity: 0.32, shadowRadius: 22, elevation: 9 }}>
+          <View pointerEvents="none" style={{ ...StyleSheet.absoluteFillObject, backgroundColor: '#0B1C42' }} />
+          <View pointerEvents="none" style={{ position: 'absolute', width: 250, height: 250, right: -66, top: -116, borderRadius: 125, backgroundColor: 'rgba(100,83,225,0.36)', shadowColor: '#806DFF', shadowOpacity: 1, shadowRadius: 42, elevation: 12 }} />
+          <View pointerEvents="none" style={{ position: 'absolute', width: 190, height: 190, left: -70, top: 48, borderRadius: 95, backgroundColor: 'rgba(0,155,220,0.24)', shadowColor: '#38B6FF', shadowOpacity: 0.9, shadowRadius: 38, elevation: 10 }} />
+          <View pointerEvents="none" style={{ position: 'absolute', right: '17%', top: 25, width: 66, height: 66, borderRadius: 33, backgroundColor: '#9CCEFF', borderWidth: 1, borderColor: 'rgba(235,249,255,0.85)', shadowColor: '#65C8FF', shadowOpacity: 1, shadowRadius: 25, elevation: 12 }} />
+          {[[12,18],[25,36],[42,14],[58,29],[74,13],[88,40],[34,65],[67,56],[9,74],[82,72]].map(([x,y], index) => (
+            <View key={index} pointerEvents="none" style={{ position: 'absolute', left: x + '%', top: y + '%', width: index % 3 === 0 ? 3 : 2, height: index % 3 === 0 ? 3 : 2, borderRadius: 2, backgroundColor: '#EAF7FF', opacity: 0.85, shadowColor: '#8BDFFF', shadowOpacity: 1, shadowRadius: 5 }} />
+          ))}
+          <View pointerEvents="none" style={{ position: 'absolute', left: -24, right: -24, bottom: -65, height: 135, borderRadius: 100, backgroundColor: '#102B58', borderTopWidth: 1, borderColor: 'rgba(104,190,255,0.38)', transform: [{ rotate: '-7deg' }] }} />
+          <View pointerEvents="none" style={{ position: 'absolute', left: '30%', right: -30, bottom: -83, height: 132, borderRadius: 100, backgroundColor: '#08172F', borderTopWidth: 1, borderColor: 'rgba(95,159,232,0.32)', transform: [{ rotate: '8deg' }] }} />
+          <View pointerEvents="none" style={{ position: 'absolute', left: 15, bottom: 13 }}>
+            <Text style={{ color: 'rgba(218,239,255,0.78)', fontSize: 12, fontWeight: '700', letterSpacing: 1.1 }}>ВАША СЛЕДУЮЩАЯ ИСТОРИЯ</Text>
+          </View>
+          <TouchableOpacity
+            activeOpacity={0.82}
+            accessibilityRole="button"
+            accessibilityLabel="Воспроизвести превью"
+            onPress={() => videoUrl ? onOpenVideo() : Alert.alert('Превью', 'Здесь будет воспроизводиться ваше видео.')}
+            style={{ position: 'absolute', alignSelf: 'center', top: 73, width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(8,20,47,0.72)', borderWidth: 1, borderColor: 'rgba(164,218,255,0.72)', shadowColor: '#38B6FF', shadowOpacity: 0.9, shadowRadius: 20, elevation: 12 }}
+          >
+            <Text style={{ color: '#FFFFFF', fontSize: 23, lineHeight: 27, marginLeft: 3 }}>▶</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <Animated.View style={[styles.referenceCreateGlow, { shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.3,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [10,22] }) }]}>
         <TouchableOpacity activeOpacity={0.9} style={styles.referenceCreateButton} onPress={() => setShowComposer(true)}>
@@ -2234,28 +2264,33 @@ function CreateScreen({
       </Animated.View>
 
       {!showComposer && (
-        <View style={styles.featureSection}>
-          <Text style={styles.featureSectionTitle}>Возможности</Text>
-          <View style={styles.featureGrid}>
+        <View style={{ marginTop: 21, marginBottom: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 13 }}>
+            <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(91,190,255,0.52)' }} />
+            <Text style={{ color: '#AFC8E8', fontSize: 13, fontWeight: '800', letterSpacing: 1.8 }}>ВОЗМОЖНОСТИ</Text>
+            <View style={{ flex: 1, height: 1, backgroundColor: 'rgba(91,190,255,0.52)' }} />
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between', paddingHorizontal: 8, paddingVertical: 13, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(120,190,255,0.34)', backgroundColor: 'rgba(20,34,68,0.42)', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 18, elevation: 5 }}>
             {[
-              { id: 'text', icon: '▶', title: 'Текст в видео', subtitle: 'Создание по описанию' },
-              { id: 'image', icon: '▧', title: 'Изображение в видео', subtitle: 'Оживление изображения' },
-              { id: 'sound', icon: '♫', title: 'Добавить звук', subtitle: 'Звуковое оформление' },
-              { id: 'prompt', icon: '✧', title: 'Улучшить промпт', subtitle: 'Точнее описать сцену' },
+              { id: 'text', icon: '✏️', title: 'Текст\nв видео' },
+              { id: 'image', icon: '🖼️', title: 'Изображение\nв видео' },
+              { id: 'sound', icon: '🔊', title: 'Озвучка\nи эффекты' },
+              { id: 'quality', icon: '⭐', title: 'Проф.\nкачество' },
             ].map((feature) => (
               <TouchableOpacity key={feature.id} activeOpacity={0.82}
                 onPress={() => {
                   setActiveFeature(feature.id);
-                  if (feature.id === 'text' || feature.id === 'prompt') setGenerationType('t2v');
-                  if (feature.id === 'image') setGenerationType('i2v');
+                  if (feature.id === 'text') { setGenerationType('t2v'); setShowComposer(true); }
+                  if (feature.id === 'image') { setGenerationType('i2v'); setShowComposer(true); }
+                  if (feature.id === 'sound') Alert.alert('Озвучка и эффекты', 'Звуковое оформление будет подключено в отдельном этапе.');
+                  if (feature.id === 'quality') Alert.alert('Профессиональное качество', 'Доступны настройки длительности и формата кадра на экране создания видео.');
                 }}
-                style={[styles.featureTile, activeFeature === feature.id && styles.featureTileActive]}
+                style={{ width: '24%', minHeight: 104, alignItems: 'center', justifyContent: 'flex-start', paddingHorizontal: 2, paddingTop: 2, borderRadius: 14, backgroundColor: activeFeature === feature.id ? 'rgba(56,182,255,0.10)' : 'transparent' }}
               >
-                <View style={[styles.featureIconSquare, activeFeature === feature.id && styles.featureIconSquareActive]}>
-                  <Text style={styles.featureIcon}>{feature.icon}</Text>
+                <View style={{ width: 48, height: 48, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(56,182,255,0.20)', borderWidth: 1, borderColor: 'rgba(120,190,255,0.42)', shadowColor: '#38B6FF', shadowOpacity: 0.28, shadowRadius: 12, elevation: 4 }}>
+                  <Text style={{ fontSize: 22 }}>{feature.icon}</Text>
                 </View>
-                <Text style={styles.featureTitle}>{feature.title}</Text>
-                <Text style={styles.featureSubtitle}>{feature.subtitle}</Text>
+                <Text numberOfLines={2} style={{ marginTop: 7, color: '#AFC8E8', fontSize: 10.5, lineHeight: 13, textAlign: 'center', fontWeight: '700' }}>{feature.title}</Text>
               </TouchableOpacity>
             ))}
           </View>
