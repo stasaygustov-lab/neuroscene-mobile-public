@@ -1777,12 +1777,12 @@ export default function App() {
           </View>
 
           <View style={[styles.creditReferenceLayout, styles.v73CreditReferenceLayout, styles.v76CreditReferenceLayout]}>
-            <View style={[styles.creditCoinShowcase, styles.v76CreditCoinShowcase]} accessibilityLabel="Оригинальная иллюстрация золотых монет">
+            <View style={[styles.creditCoinShowcase, styles.v76CreditCoinShowcase]} accessibilityLabel="Фрагмент утверждённого референса НейроСцены">
               <Image
-                source={require('./assets/coins-reference.jpg')}
+                source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
                 style={{ width: '100%', height: '100%' }}
                 resizeMode="contain"
-                accessibilityLabel="Золотые монеты из утверждённого референса"
+                accessibilityLabel="Изображение из утверждённого референса НейроСцены"
               />
             </View>
 
@@ -1818,7 +1818,7 @@ export default function App() {
           </View>
 
           <View style={[styles.creditWelcomeBonus, { width: "100%", minHeight: 64, marginTop: 12, alignSelf: "stretch" }]}>
-            <Image source={require('./assets/coins-reference.jpg')} style={{ width: 44, height: 42 }} resizeMode="contain" accessibilityLabel="Монеты приветственного бонуса из референса" />
+            <Image source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')} style={{ width: 44, height: 42 }} resizeMode="contain" accessibilityLabel="Фрагмент утверждённого референса НейроСцены" />
             <View style={styles.creditBonusCopy}>
               <Text style={styles.creditBonusTitle}>Приветственный бонус</Text>
               <Text style={styles.creditBonusText}>500 кредитов при первом запуске!</Text>
