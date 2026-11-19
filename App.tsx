@@ -2109,7 +2109,7 @@ export default function App() {
       {showIntro && (
         <View style={styles.introOverlay}>
           <Image
-            source={require('./assets/Штормовое море под электрическим небом-1.png')}
+            source={require('./assets/neuroscene-cosmic-background.webp')}
             resizeMode="cover"
             style={StyleSheet.absoluteFill}
             accessibilityLabel="Кинематографический фон НейроСцены"
