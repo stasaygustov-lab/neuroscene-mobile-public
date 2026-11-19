@@ -3164,7 +3164,7 @@ function GalleryVideoPlayer({ uri }: { uri: string }) {
 }
 
 
-const COSMIC_OVERRIDES = {
+const COSMIC_OVERRIDES : any = {
   container: { flex: 1, backgroundColor: '#030916' },
   ambientBackdrop: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, overflow: 'hidden', backgroundColor: '#030916' },
   ambientGlowTop: { position: 'absolute', width: 520, height: 520, borderRadius: 260, top: -125, right: -270, backgroundColor: '#006BFF', opacity: 0.30 },
@@ -3441,13 +3441,13 @@ const COSMIC_OVERRIDES = {
   ambientCloudTwo: { position: 'absolute', width: 420, height: 230, borderRadius: 210, top: '39%', right: -235, backgroundColor: '#0077C8', opacity: 0.11, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 80, elevation: 22 },
   ambientCloudThree: { position: 'absolute', width: 310, height: 180, borderRadius: 155, bottom: '13%', left: '8%', backgroundColor: '#153F9A', opacity: 0.13, shadowColor: '#176BFF', shadowOpacity: 1, shadowRadius: 65, elevation: 18 },
   ambientCloudFour: { position: 'absolute', width: 260, height: 140, borderRadius: 130, top: '65%', right: '5%', backgroundColor: '#006B9E', opacity: 0.10, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 60, elevation: 16 },
-  introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010714', alignItems: 'center', justifyContent: 'center' },
-  introNebulaTop: { position: 'absolute', width: 460, height: 460, borderRadius: 230, top: '7%', alignSelf: 'center', backgroundColor: '#064AC4', opacity: 0.28, shadowColor: '#078CFF', shadowOpacity: 1, shadowRadius: 90, elevation: 28 },
-  introNebulaBottom: { position: 'absolute', width: 500, height: 280, borderRadius: 250, bottom: '1%', alignSelf: 'center', backgroundColor: '#006A9E', opacity: 0.20, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 85, elevation: 25 },
+  ...{ introOverlay: { position: 'absolute', top: -48, right: 0, bottom: -52, left: 0, zIndex: 100, overflow: 'hidden', backgroundColor: '#010714', alignItems: 'center', justifyContent: 'center' } },
+  ...{ introNebulaTop: { position: 'absolute', width: 460, height: 460, borderRadius: 230, top: '7%', alignSelf: 'center', backgroundColor: '#064AC4', opacity: 0.28, shadowColor: '#078CFF', shadowOpacity: 1, shadowRadius: 90, elevation: 28 } },
+  ...{ introNebulaBottom: { position: 'absolute', width: 500, height: 280, borderRadius: 250, bottom: '1%', alignSelf: 'center', backgroundColor: '#006A9E', opacity: 0.20, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 85, elevation: 25 } },
   introCloudLeft: { position: 'absolute', width: 290, height: 170, borderRadius: 145, top: '34%', left: -150, backgroundColor: '#064A9E', opacity: 0.22, shadowColor: '#078CFF', shadowOpacity: 1, shadowRadius: 65 },
   introCloudRight: { position: 'absolute', width: 320, height: 190, borderRadius: 160, top: '46%', right: -170, backgroundColor: '#006B9E', opacity: 0.18, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 65 },
-  introStarField: { ...StyleSheet.absoluteFill },
-  introStar: { position: 'absolute', width: 2, height: 2, borderRadius: 1, backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 0.95, shadowRadius: 5 },
+  ...{ introStarField: { ...StyleSheet.absoluteFill } },
+  ...{ introStar: { position: 'absolute', width: 2, height: 2, borderRadius: 1, backgroundColor: '#BDEBFF', shadowColor: '#3EAFFF', shadowOpacity: 0.95, shadowRadius: 5 } },
   splashArtwork: { width: 292, height: 300, alignItems: 'center', justifyContent: 'center', marginTop: -55 },
   splashFilmStrip: { position: 'absolute', width: 275, height: 66, borderRadius: 13, borderWidth: 8, borderColor: '#153B68', backgroundColor: 'rgba(4,22,48,0.92)', transform: [{ rotate: '-28deg' }], shadowColor: '#087BFF', shadowOpacity: 0.9, shadowRadius: 30, elevation: 18 },
   splashFilmPerforations: { flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', paddingHorizontal: 3 },
@@ -3461,72 +3461,72 @@ const COSMIC_OVERRIDES = {
   splashReelHoleFour: { position: 'absolute', right: 13, width: 30, height: 30, borderRadius: 15, backgroundColor: '#020A1B', borderWidth: 2, borderColor: '#62C9FF' },
   splashReelHub: { width: 92, height: 92, borderRadius: 46, borderWidth: 4, borderColor: '#B6EDFF', backgroundColor: '#04152D', alignItems: 'center', justifyContent: 'center', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 22 },
   splashPlayTriangle: { width: 0, height: 0, marginLeft: 8, borderTopWidth: 22, borderBottomWidth: 22, borderLeftWidth: 34, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#6AD9FF' },
-  introTitle: { color: '#FFFFFF', fontSize: 40, lineHeight: 48, fontWeight: '900', fontFamily: 'Manrope', textAlign: 'center', letterSpacing: 0.3, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 28, marginTop: -2 },
+  ...{ introTitle: { color: '#FFFFFF', fontSize: 40, lineHeight: 48, fontWeight: '900', fontFamily: 'Manrope', textAlign: 'center', letterSpacing: 0.3, textShadowColor: 'rgba(53,126,255,0.95)', textShadowRadius: 28, marginTop: -2 } },
   splashTagline: { color: '#B8D9FF', fontSize: 16, lineHeight: 21, textAlign: 'center', fontWeight: '800', letterSpacing: 3, marginTop: 13, textShadowColor: '#168BFF', textShadowRadius: 14 },
-  introProgressTrack: { position: 'absolute', bottom: '6%', width: '84%', maxWidth: 320, height: 5, borderRadius: 3, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' },
-  introProgressFill: { width: '72%', height: 5, borderRadius: 3, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 },
+  ...{ introProgressTrack: { position: 'absolute', bottom: '6%', width: '84%', maxWidth: 320, height: 5, borderRadius: 3, backgroundColor: 'rgba(62,122,190,0.34)', overflow: 'hidden' } },
+  ...{ introProgressFill: { width: '72%', height: 5, borderRadius: 3, backgroundColor: '#00B8FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 9, elevation: 5 } },
   featureSection: { marginTop: 4, marginBottom: 14 },
-  featureSectionTitle: { color: '#F3F8FF', fontSize: 20, fontWeight: '900', marginBottom: 12, textShadowColor: 'rgba(25,132,255,0.40)', textShadowRadius: 10 },
-  featureGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 11 },
+  ...{ featureSectionTitle: { color: '#F3F8FF', fontSize: 20, fontWeight: '900', marginBottom: 12, textShadowColor: 'rgba(25,132,255,0.40)', textShadowRadius: 10 } },
+  ...{ featureGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 11 } },
   featureTile: { width: '48.5%', minHeight: 124, padding: 13, borderRadius: 18, backgroundColor: 'rgba(5,22,51,0.86)', borderWidth: 1, borderColor: 'rgba(57,132,210,0.55)', shadowColor: '#087BFF', shadowOpacity: 0.14, shadowRadius: 10, elevation: 3 },
   featureTileActive: { borderColor: '#72DFFF', backgroundColor: 'rgba(5,65,125,0.88)', shadowColor: '#00AFFF', shadowOpacity: 0.92, shadowRadius: 20, elevation: 10 },
   featureIconSquare: { width: 42, height: 42, borderRadius: 12, borderWidth: 1, borderColor: 'rgba(75,175,255,0.72)', backgroundColor: 'rgba(0,105,220,0.18)', alignItems: 'center', justifyContent: 'center', marginBottom: 9 },
   featureIconSquareActive: { borderColor: '#B7F1FF', backgroundColor: 'rgba(0,139,255,0.36)', shadowColor: '#00B8FF', shadowOpacity: 1, shadowRadius: 15, elevation: 8 },
-  featureIcon: { color: '#82D9FF', fontSize: 22, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 9 },
+  ...{ featureIcon: { color: '#82D9FF', fontSize: 22, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 9 } },
   featureTitle: { color: '#F4FAFF', fontSize: 16, fontWeight: '900', lineHeight: 21 },
   featureSubtitle: { color: '#8FB5DC', fontSize: 16, lineHeight: 21, marginTop: 3 },
-  galleryCard: { backgroundColor: 'rgba(5,19,43,0.98)', borderRadius: 20, padding: 10, marginTop: 14, borderWidth: 1, borderColor: 'rgba(53,132,208,0.60)', width: '100%', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 15, elevation: 5 },
-  galleryPreview: { borderRadius: 16, overflow: 'hidden', backgroundColor: '#020A18', borderWidth: 1, borderColor: 'rgba(65,152,224,0.42)', aspectRatio: 16 / 9 },
-  videoFrame: { width: '100%', aspectRatio: 16 / 9, height: undefined, backgroundColor: '#020817', borderRadius: 16, overflow: 'hidden', justifyContent: 'center' },
-  videoPlayer: { width: '100%', aspectRatio: 16 / 9, height: undefined, backgroundColor: '#000000', borderRadius: 16 },
-  galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.76)', paddingHorizontal: 7, paddingVertical: 4, borderRadius: 7, fontSize: 16, fontWeight: '800' },
-  creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 15 },
+  ...{ galleryCard: { backgroundColor: 'rgba(5,19,43,0.98)', borderRadius: 20, padding: 10, marginTop: 14, borderWidth: 1, borderColor: 'rgba(53,132,208,0.60)', width: '100%', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 15, elevation: 5 } },
+  ...{ galleryPreview: { borderRadius: 16, overflow: 'hidden', backgroundColor: '#020A18', borderWidth: 1, borderColor: 'rgba(65,152,224,0.42)', aspectRatio: 16 / 9 } },
+  ...{ videoFrame: { width: '100%', aspectRatio: 16 / 9, height: undefined, backgroundColor: '#020817', borderRadius: 16, overflow: 'hidden', justifyContent: 'center' } },
+  ...{ videoPlayer: { width: '100%', aspectRatio: 16 / 9, height: undefined, backgroundColor: '#000000', borderRadius: 16 } },
+  ...{ galleryDuration: { position: 'absolute', right: 7, bottom: 7, color: '#FFFFFF', backgroundColor: 'rgba(0,0,0,0.76)', paddingHorizontal: 7, paddingVertical: 4, borderRadius: 7, fontSize: 16, fontWeight: '800' } },
+  ...{ creditsHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 15 } },
   creditsHeaderIcon: { color: '#FFD56B', fontSize: 25, marginRight: 11, textShadowColor: '#FFB52E', textShadowRadius: 13 },
-  creditsTitle: { color: '#FFFFFF', fontSize: 29, fontWeight: '900', fontFamily: 'Manrope', textShadowColor: 'rgba(16,116,255,0.48)', textShadowRadius: 13 },
-  creditIllustration: { height: 245, marginBottom: 17, borderRadius: 23, backgroundColor: 'rgba(4,19,47,0.93)', borderWidth: 1, borderColor: 'rgba(255,197,81,0.42)', shadowColor: '#FFB52E', shadowOpacity: 0.17, shadowRadius: 22, elevation: 8 },
+  ...{ creditsTitle: { color: '#FFFFFF', fontSize: 29, fontWeight: '900', fontFamily: 'Manrope', textShadowColor: 'rgba(16,116,255,0.48)', textShadowRadius: 13 } },
+  ...{ creditIllustration: { height: 245, marginBottom: 17, borderRadius: 23, backgroundColor: 'rgba(4,19,47,0.93)', borderWidth: 1, borderColor: 'rgba(255,197,81,0.42)', shadowColor: '#FFB52E', shadowOpacity: 0.17, shadowRadius: 22, elevation: 8 } },
   creditIllustrationGlow: { width: 245, height: 155, borderRadius: 123, top: 4, backgroundColor: '#B87918', opacity: 0.18, shadowColor: '#FFC64D', shadowOpacity: 1, shadowRadius: 55, elevation: 16 },
-  creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#B97A1B', borderWidth: 2, borderColor: '#FFE18A', shadowColor: '#FFC94F', shadowOpacity: 0.95, shadowRadius: 13, elevation: 8 },
-  creditCoinInner: { borderColor: 'rgba(255,241,185,0.95)', color: '#FFF4C7' },
-  creditStarBadge: { backgroundColor: '#8D5B12', borderColor: '#FFE18A', color: '#FFF4C7', shadowColor: '#FFC94F', shadowOpacity: 1, shadowRadius: 16, elevation: 12 },
-  creditStackLeft: { bottom: 112 }, creditStackCenter: { bottom: 116 }, creditStackRight: { bottom: 108 },
+  ...{ creditCoin: { width: 65, height: 18, marginTop: -3, borderRadius: 33, backgroundColor: '#B97A1B', borderWidth: 2, borderColor: '#FFE18A', shadowColor: '#FFC94F', shadowOpacity: 0.95, shadowRadius: 13, elevation: 8 } },
+  ...{ creditCoinInner: { borderColor: 'rgba(255,241,185,0.95)', color: '#FFF4C7' } },
+  ...{ creditStarBadge: { backgroundColor: '#8D5B12', borderColor: '#FFE18A', color: '#FFF4C7', shadowColor: '#FFC94F', shadowOpacity: 1, shadowRadius: 16, elevation: 12 } },
+  ...{ creditStackLeft: { bottom: 112 } }, ...{ creditStackCenter: { bottom: 116 } }, ...{ creditStackRight: { bottom: 108 } },
   creditBalanceHero: { position: 'absolute', bottom: 15, left: 0, right: 0, alignItems: 'center', justifyContent: 'center' },
   creditBalanceHeroValue: { color: '#FFD66F', fontSize: 37, lineHeight: 42, fontWeight: '900', textShadowColor: '#FF9E22', textShadowRadius: 18 },
   creditBalanceHeroLabel: { color: '#FFE8AB', fontSize: 16, fontWeight: '800', letterSpacing: 1.5, marginTop: 1 },
   creditPackagesTitle: { color: '#F5FAFF', fontSize: 19, fontWeight: '900', marginBottom: 7, marginTop: 1, textShadowColor: 'rgba(25,132,255,0.38)', textShadowRadius: 9 },
-  packageCard: { minHeight: 77, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(255,197,81,0.56)', backgroundColor: 'rgba(25,22,28,0.72)', shadowColor: '#FFB52E', shadowOpacity: 0.18, shadowRadius: 13, elevation: 4 },
+  ...{ packageCard: { minHeight: 77, borderRadius: 17, borderWidth: 1, borderColor: 'rgba(255,197,81,0.56)', backgroundColor: 'rgba(25,22,28,0.72)', shadowColor: '#FFB52E', shadowOpacity: 0.18, shadowRadius: 13, elevation: 4 } },
   packageCardPopular: { borderColor: '#FFE08A', backgroundColor: 'rgba(71,48,14,0.42)', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 19, elevation: 8 },
-  packageIconWrap: { backgroundColor: 'rgba(171,111,24,0.20)', borderColor: 'rgba(255,210,104,0.62)' },
-  packageIcon: { color: '#FFD66F', textShadowColor: '#FFB52E', textShadowRadius: 10 },
-  packageAmount: { color: '#FFD66F', fontSize: 19, fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 9 },
-  packagePrice: { color: '#D7BE88', fontSize: 16, marginTop: 3 },
-  popularBadge: { backgroundColor: '#8D5B12', borderColor: '#FFE08A' },
-  popularBadgeText: { color: '#FFF1C2' },
-  buyCreditsButton: { minHeight: 60, borderRadius: 18, borderColor: '#FFE08A', backgroundColor: '#8B5A12', shadowColor: '#FFB52E', shadowOpacity: 0.42, shadowRadius: 18, elevation: 9, opacity: 0.78 },
-  buyCreditsButtonText: { color: '#FFF7DD', fontSize: 16, fontWeight: '900' },
-  buyCreditsHint: { color: '#F3DCA9', fontSize: 16, marginTop: 3 },
-  profileIdentity: { alignItems: 'center', paddingTop: 8, paddingBottom: 19, marginBottom: 14, borderBottomWidth: 1, borderBottomColor: 'rgba(48,125,194,0.34)' },
-  profileGuestAvatar: { width: 100, height: 100, borderRadius: 50, borderWidth: 2, borderColor: '#62D7FF', backgroundColor: 'rgba(0,91,180,0.18)', shadowColor: '#00AFFF', shadowOpacity: 0.82, shadowRadius: 25, elevation: 12, alignItems: 'center', justifyContent: 'center', overflow: 'visible' },
+  ...{ packageIconWrap: { backgroundColor: 'rgba(171,111,24,0.20)', borderColor: 'rgba(255,210,104,0.62)' } },
+  ...{ packageIcon: { color: '#FFD66F', textShadowColor: '#FFB52E', textShadowRadius: 10 } },
+  ...{ packageAmount: { color: '#FFD66F', fontSize: 19, fontWeight: '900', textShadowColor: '#FFB52E', textShadowRadius: 9 } },
+  ...{ packagePrice: { color: '#D7BE88', fontSize: 16, marginTop: 3 } },
+  ...{ popularBadge: { backgroundColor: '#8D5B12', borderColor: '#FFE08A' } },
+  ...{ popularBadgeText: { color: '#FFF1C2' } },
+  ...{ buyCreditsButton: { minHeight: 60, borderRadius: 18, borderColor: '#FFE08A', backgroundColor: '#8B5A12', shadowColor: '#FFB52E', shadowOpacity: 0.42, shadowRadius: 18, elevation: 9, opacity: 0.78 } },
+  ...{ buyCreditsButtonText: { color: '#FFF7DD', fontSize: 16, fontWeight: '900' } },
+  ...{ buyCreditsHint: { color: '#F3DCA9', fontSize: 16, marginTop: 3 } },
+  ...{ profileIdentity: { alignItems: 'center', paddingTop: 8, paddingBottom: 19, marginBottom: 14, borderBottomWidth: 1, borderBottomColor: 'rgba(48,125,194,0.34)' } },
+  ...{ profileGuestAvatar: { width: 100, height: 100, borderRadius: 50, borderWidth: 2, borderColor: '#62D7FF', backgroundColor: 'rgba(0,91,180,0.18)', shadowColor: '#00AFFF', shadowOpacity: 0.82, shadowRadius: 25, elevation: 12, alignItems: 'center', justifyContent: 'center', overflow: 'visible' } },
   profileAvatarHalo: { position: 'absolute', width: 118, height: 118, borderRadius: 59, borderWidth: 1, borderColor: 'rgba(70,190,255,0.38)', shadowColor: '#00AFFF', shadowOpacity: 0.9, shadowRadius: 23 },
-  profileGuestHead: { width: 26, height: 26, borderRadius: 13, borderWidth: 2, borderColor: '#BCEBFF', backgroundColor: 'rgba(188,235,255,0.10)', marginBottom: 7 },
-  profileGuestBody: { width: 58, height: 33, borderTopLeftRadius: 30, borderTopRightRadius: 30, borderWidth: 2, borderBottomWidth: 0, borderColor: '#BCEBFF', backgroundColor: 'rgba(188,235,255,0.08)' },
-  profileGuestName: { color: '#F3F7FF', fontSize: 18, fontWeight: '900', marginTop: 12, textAlign: 'center' },
-  profileGuestStatus: { color: '#A9BAD4', fontSize: 16, marginTop: 4, textAlign: 'center' },
-  profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 },
-  profileMenuCard: { marginTop: 9, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(48,125,194,0.62)', backgroundColor: 'rgba(5,19,43,0.97)' },
+  ...{ profileGuestHead: { width: 26, height: 26, borderRadius: 13, borderWidth: 2, borderColor: '#BCEBFF', backgroundColor: 'rgba(188,235,255,0.10)', marginBottom: 7 } },
+  ...{ profileGuestBody: { width: 58, height: 33, borderTopLeftRadius: 30, borderTopRightRadius: 30, borderWidth: 2, borderBottomWidth: 0, borderColor: '#BCEBFF', backgroundColor: 'rgba(188,235,255,0.08)' } },
+  ...{ profileGuestName: { color: '#F3F7FF', fontSize: 18, fontWeight: '900', marginTop: 12, textAlign: 'center' } },
+  ...{ profileGuestStatus: { color: '#A9BAD4', fontSize: 16, marginTop: 4, textAlign: 'center' } },
+  ...{ profileHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 } },
+  ...{ profileMenuCard: { marginTop: 9, borderRadius: 20, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(48,125,194,0.62)', backgroundColor: 'rgba(5,19,43,0.97)' } },
   navCreateIcon: { width: 27, height: 27, borderRadius: 8, borderWidth: 2, borderColor: '#68BFFF', alignItems: 'center', justifyContent: 'center', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 5 },
   navCreateTriangle: { width: 0, height: 0, marginLeft: 3, borderTopWidth: 7, borderBottomWidth: 7, borderLeftWidth: 10, borderTopColor: 'transparent', borderBottomColor: 'transparent', borderLeftColor: '#68BFFF' },
   navGalleryIcon: { width: 27, height: 27, flexDirection: 'row', flexWrap: 'wrap', gap: 3, padding: 2, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#68BFFF', borderRadius: 7, backgroundColor: 'rgba(22,139,255,0.08)' },
   navGalleryCell: { width: 10, height: 10, borderRadius: 2, borderWidth: 1.8, borderColor: '#68BFFF', backgroundColor: 'rgba(22,139,255,0.10)' },
   navGlyphActive: { borderColor: '#B9F0FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 13, elevation: 8 },
   navCoinActive: { borderColor: '#FFE08A', shadowColor: '#FFB52E', shadowOpacity: 0.95, shadowRadius: 14, elevation: 8 },
-  navCoinMark: { color: '#FFD66F', fontSize: 16, lineHeight: 21, fontWeight: '900' },
+  ...{ navCoinMark: { color: '#FFD66F', fontSize: 16, lineHeight: 21, fontWeight: '900' } },
   notificationBell: { width: 22, height: 24, alignItems: 'center', justifyContent: 'center' },
   notificationBellDome: { width: 15, height: 15, borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomLeftRadius: 3, borderBottomRightRadius: 3, borderWidth: 1.8, borderColor: '#A9D9FF', borderBottomWidth: 0 },
   notificationBellBase: { width: 19, height: 2, borderRadius: 1, backgroundColor: '#A9D9FF', marginTop: -1 },
   notificationBellClapper: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#A9D9FF', marginTop: 1 },
 };
 
-const REFERENCE_POLISH = {
+const REFERENCE_POLISH : any = {
   container: { flex: 1, backgroundColor: '#010713' },
   content: { paddingHorizontal: 14, paddingTop: 10, paddingBottom: 16 },
   referenceHeroCopy: { position: 'absolute', top: 12, left: 14, width: '42%', marginTop: 0 },
@@ -3747,7 +3747,7 @@ const REFERENCE_POLISH = {
   introReelPlay: { color: '#B7F0FF', fontSize: 62, lineHeight: 90, fontWeight: '900', letterSpacing: -3, textShadowColor: '#006DFF', textShadowRadius: 34 },
 };
 
-const FINAL_UI_FIXES = {
+const FINAL_UI_FIXES : any = {
   container: { flex: 1, backgroundColor: '#010713' },
   header: { paddingTop: 30, paddingBottom: 16 },
   brandRow: { marginTop: 4 },
@@ -3812,7 +3812,7 @@ const FINAL_UI_FIXES = {
   introProgressFill: { height: 5, borderRadius: 3, backgroundColor: '#39D5FF', shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 6 },
 };
 
-const FINAL_UI_FIXES_V2 = {
+const FINAL_UI_FIXES_V2 : any = {
  container: {flex:1,backgroundColor:'#010713'},header: {paddingTop:10,paddingBottom:12,minHeight:78},brandRow: {marginTop:2},logo: {fontSize:22,lineHeight:25},logoSecond: {fontSize:22,lineHeight:25},
  content: {paddingHorizontal:16,paddingTop:16,paddingBottom:22},creditsContent: {paddingTop:12,paddingBottom:24},screen: {flex:1,paddingTop:10,paddingBottom:8},bottomNav: {paddingTop:6,paddingBottom:6,minHeight:72},navItem: {minHeight:54,paddingTop:2},navItemActive: {shadowColor:'#00AFFF',shadowOpacity:.82,shadowRadius:15,elevation:9},
  referenceHero: {height:226,minHeight:226,marginTop:6,marginBottom:15,overflow:'hidden'},referenceHeroCopy: {top:20,left:18,width:'57%'},referenceHeroTitle: {fontSize:25,lineHeight:29,textShadowColor:'#087BFF',textShadowRadius:16},referenceHeroCaption: {fontSize: 16,lineHeight: 21,maxWidth:180},referenceCreateGlow:{width:'100%',marginBottom:13,borderRadius:30,shadowColor:'#00AFFF',shadowOffset: {width:0,height:0},elevation:12},referenceCreateButton: {shadowOpacity:.42,shadowRadius:15,elevation:8,marginBottom:0},
@@ -3829,7 +3829,7 @@ const FINAL_UI_FIXES_V2 = {
 };
 
 
-const FINAL_UI_FIXES_V4 = {
+const FINAL_UI_FIXES_V4 : any = {
   referenceHero: { height: 164, minHeight: 164, width: '100%', marginTop: 6, marginBottom: 14 },
   referenceHeroCopy: { top: 14, left: 16, width: '57%' },
   referenceHeroTitle: { fontSize: 22, lineHeight: 26 },
@@ -3842,7 +3842,7 @@ const FINAL_UI_FIXES_V4 = {
   profileIdentity: { alignItems: 'center', justifyContent: 'center' },
 } as const;
 
-const FINAL_UI_FIXES_V3 = {
+const FINAL_UI_FIXES_V3 : any = {
   ambientBackdropTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,7,18,0.04)' },
   ambientGlowTop: { backgroundColor: '#075CEB', opacity: 0.34, shadowColor: '#087BFF', shadowOpacity: 1, shadowRadius: 96 },
   ambientGlowBottom: { backgroundColor: '#007DBA', opacity: 0.30, shadowColor: '#00AFFF', shadowOpacity: 1, shadowRadius: 90 },
@@ -3918,7 +3918,7 @@ const FINAL_UI_FIXES_V3 = {
   featureSubtitle: { fontSize: 16, lineHeight: 21 },
 };
 
-const FINAL_UI_FIXES_V5 = {
+const FINAL_UI_FIXES_V5 : any = {
  header: { paddingHorizontal: 18, paddingLeft: 18, paddingRight: 18, overflow: 'visible' },
  brandRow: { flexShrink: 1, minWidth: 0, marginLeft: 0, marginRight: 8 }, brandWordmark: { flexShrink: 1, minWidth: 0 },
  logo: { fontSize: 20, lineHeight: 24, includeFontPadding: false }, logoSecond: { fontSize: 20, lineHeight: 24, includeFontPadding: false },
@@ -3950,21 +3950,21 @@ const FINAL_UI_FIXES_V5 = {
   galleryErrorBox: { width: '100%', alignItems: 'center', padding: 14, borderRadius: 14, borderWidth: 1, borderColor: 'rgba(255,112,112,0.42)', backgroundColor: 'rgba(55,16,30,0.72)', marginTop: 12, marginBottom: 8 },
   galleryRetryButton: { minHeight: 42, paddingHorizontal: 18, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: '#0877F4', borderWidth: 1, borderColor: '#52D3FF', marginTop: 10 },
   galleryRetryText: { color: '#FFFFFF', fontFamily: 'Manrope', fontSize: 16, fontWeight: '800' },
- header: { paddingTop: 22, paddingBottom: 12, minHeight: 88, paddingHorizontal: 18, paddingLeft: 18, paddingRight: 18, overflow: 'visible' },
- referenceHero: { height: 151, minHeight: 151, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 8, marginTop: 4, marginBottom: 12 },
- filmFrame: { width: '42%', height: 116, flexGrow: 0, flexShrink: 0 },
- referenceHeroCopy: { position: 'relative', top: 0, left: 0, width: 'auto', flex: 1, minWidth: 0, paddingLeft: 10, paddingRight: 4, justifyContent: 'center' },
- referenceHeroTitle: { color: '#F4FAFF', fontSize: 17, lineHeight: 21, fontWeight: '900' },
- referenceHeroCaption: { color: '#CDE7FF', fontSize: 15, lineHeight: 20, maxWidth: '100%', marginTop: 5 },
+ ...{ header: { paddingTop: 22, paddingBottom: 12, minHeight: 88, paddingHorizontal: 18, paddingLeft: 18, paddingRight: 18, overflow: 'visible' } },
+ ...{ referenceHero: { height: 151, minHeight: 151, flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 8, marginTop: 4, marginBottom: 12 } },
+ ...{ filmFrame: { width: '42%', height: 116, flexGrow: 0, flexShrink: 0 } },
+ ...{ referenceHeroCopy: { position: 'relative', top: 0, left: 0, width: 'auto', flex: 1, minWidth: 0, paddingLeft: 10, paddingRight: 4, justifyContent: 'center' } },
+ ...{ referenceHeroTitle: { color: '#F4FAFF', fontSize: 17, lineHeight: 21, fontWeight: '900' } },
+ ...{ referenceHeroCaption: { color: '#CDE7FF', fontSize: 15, lineHeight: 20, maxWidth: '100%', marginTop: 5 } },
  profileHeader: { position: 'relative', alignItems: 'center', justifyContent: 'center', minHeight: 50, marginBottom: 12, paddingHorizontal: 48 },
  profileSettingsButton: { position: 'absolute', right: 0, top: 2, width: 42, height: 42, borderRadius: 13, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(69,157,225,0.66)', backgroundColor: 'rgba(5,26,59,0.96)' },
- profileIdentity: { alignItems: 'center', paddingTop: 10, paddingBottom: 14, marginBottom: 10 },
- creditIllustration: { height: 112, minHeight: 112, marginBottom: 10, borderRadius: 18, backgroundColor: 'rgba(4,19,47,0.94)', borderWidth: 1, borderColor: 'rgba(37,148,255,0.75)', overflow: 'hidden', position: 'relative' },
- creditCoinStack: { bottom: 18 },
- creditStackLeft: { left: '13%' },
- creditStackCenter: { left: '42%', bottom: 25 },
- creditStackRight: { right: '13%' },
- creditStarBadge: { right: '22%', bottom: 8, width: 38, height: 38, borderRadius: 19 },
+ ...{ profileIdentity: { alignItems: 'center', paddingTop: 10, paddingBottom: 14, marginBottom: 10 } },
+ ...{ creditIllustration: { height: 112, minHeight: 112, marginBottom: 10, borderRadius: 18, backgroundColor: 'rgba(4,19,47,0.94)', borderWidth: 1, borderColor: 'rgba(37,148,255,0.75)', overflow: 'hidden', position: 'relative' } },
+ ...{ creditCoinStack: { bottom: 18 } },
+ ...{ creditStackLeft: { left: '13%' } },
+ ...{ creditStackCenter: { left: '42%', bottom: 25 } },
+ ...{ creditStackRight: { right: '13%' } },
+ ...{ creditStarBadge: { right: '22%', bottom: 8, width: 38, height: 38, borderRadius: 19 } },
  creditBalancePanel: { width: '100%', alignItems: 'center', justifyContent: 'center', paddingVertical: 10, paddingHorizontal: 14, marginBottom: 12, borderRadius: 15, borderWidth: 1, borderColor: 'rgba(37,148,255,0.52)', backgroundColor: 'rgba(4,22,54,0.94)' },
  creditBalanceEyebrow: { color: '#B9D8F7', fontSize: 14, fontWeight: '900', letterSpacing: 1.1, marginBottom: 2 },
  creditBalanceHeroValue: { color: '#FFD66F', fontSize: 29, lineHeight: 34, fontWeight: '900', textShadowColor: '#FF9E22', textShadowRadius: 12 },
@@ -3972,16 +3972,16 @@ const FINAL_UI_FIXES_V5 = {
  creditPackagesTitle: { color: '#F5F8FF', fontSize: 16, fontWeight: '800', marginTop: 2, marginBottom: 6 },
  packageCard: { minHeight: 64, paddingVertical: 9, paddingHorizontal: 12, borderRadius: 14, marginTop: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(68,146,222,0.45)', backgroundColor: 'rgba(8,28,58,0.92)', shadowColor: '#168BFF', shadowOpacity: 0.18, shadowRadius: 12, elevation: 4 },
  packageRight: { minWidth: 104, maxWidth: '42%', alignItems: 'flex-end', justifyContent: 'center', flexShrink: 0 },
- popularBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8, backgroundColor: '#075DE2', borderWidth: 1, borderColor: '#72D9FF' },
- popularBadgeText: { color: '#FFFFFF', fontSize: 12, lineHeight: 16, fontWeight: '900' },
- content: { flexGrow: 1, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 28 },
- creditsContent: { flexGrow: 1, paddingTop: 10, paddingBottom: 28 },
- screen: { flexGrow: 1, flexShrink: 1, minHeight: 0, paddingTop: 8, paddingBottom: 14 },
+ ...{ popularBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 8, backgroundColor: '#075DE2', borderWidth: 1, borderColor: '#72D9FF' } },
+ ...{ popularBadgeText: { color: '#FFFFFF', fontSize: 12, lineHeight: 16, fontWeight: '900' } },
+ ...{ content: { flexGrow: 1, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 28 } },
+ ...{ creditsContent: { flexGrow: 1, paddingTop: 10, paddingBottom: 28 } },
+ ...{ screen: { flexGrow: 1, flexShrink: 1, minHeight: 0, paddingTop: 8, paddingBottom: 14 } },
 
 } as const;
 
 
-const FINAL_UI_FIXES_V6 = () => ({
+const FINAL_UI_FIXES_V6 : any = () => ({
   header: { paddingTop: 16, paddingBottom: 10, minHeight: 78, paddingHorizontal: 18, flexShrink: 0, overflow: 'visible' },
   content: { flexGrow: 1, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 34 },
   creditsContent: { flexGrow: 1, paddingTop: 6, paddingBottom: 30 },
@@ -4020,7 +4020,7 @@ const FINAL_UI_FIXES_V6 = () => ({
   bottomNav: { minHeight: 76, paddingTop: 5, paddingBottom: 7, backgroundColor: 'rgba(2,10,27,0.97)', borderTopColor: 'rgba(73,166,255,0.42)' },
 } as const);
 
-const FINAL_UI_FIXES_V7 = () => ({
+const FINAL_UI_FIXES_V7 : any = () => ({
   // Use the current Н+С brand lockup instead of the obsolete raster logo on splash.
   introBrandLockup: { position: 'absolute', top: '31%', left: 0, right: 0, alignItems: 'center', justifyContent: 'center', minHeight: 250 },
   introBrandMonogramWrap: { width: 148, height: 148, borderRadius: 74, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(2,16,43,0.92)', borderWidth: 2, borderColor: '#70DFFF', shadowColor: '#168CFF', shadowOpacity: 1, shadowRadius: 28, elevation: 20 },
@@ -4094,7 +4094,7 @@ const FINAL_UI_FIXES_V7 = () => ({
   navPerson: { width: 25, height: 26 },
 } as const);
 
-const FINAL_UI_FIXES_V8 = {
+const FINAL_UI_FIXES_V8 : any = {
   // Keep the credits screen inside the same electric-blue galaxy palette.
   creditIllustration: { borderColor: 'rgba(91,207,255,0.78)', backgroundColor: 'rgba(3,18,48,0.94)', shadowColor: '#168BFF', shadowOpacity: 0.48, shadowRadius: 20, elevation: 10 },
   creditIllustrationGlow: { backgroundColor: 'rgba(0,143,255,0.22)', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 36 },
@@ -4122,11 +4122,11 @@ const FINAL_UI_FIXES_V8 = {
   profileMenuCard: { borderColor: 'rgba(73,166,255,0.56)', backgroundColor: 'rgba(4,18,43,0.94)' },
 } as const;
 
-const FINAL_UI_FIXES_V10 = {
+const FINAL_UI_FIXES_V10 : any = {
   headerBrandArtwork: { width: 38, height: 38, borderRadius: 10 },
 } as const;
 
-const FINAL_UI_FIXES_V9 = {
+const FINAL_UI_FIXES_V9 : any = {
   // Align header actions explicitly to the right; keep the brand lockup centered.
   header: { position: 'relative', minHeight: 88, paddingTop: 32, paddingBottom: 8, paddingHorizontal: 18, width: '100%', flexShrink: 0 },
   headerActions: { position: 'absolute', right: 14, top: 26, zIndex: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 7 },
@@ -4141,7 +4141,7 @@ const FINAL_UI_FIXES_V9 = {
   welcomeBonusText: { color: '#B8D8F4' },
 } as const;
 
-const FINAL_UI_FIXES_V11 = {
+const FINAL_UI_FIXES_V11 : any = {
  header:{minHeight:120,height:120,paddingTop:49,paddingBottom:7,paddingHorizontal:14,justifyContent:'flex-start',alignItems:'center',overflow:'visible'},
  brandRowCentered:{position:'absolute',top:48,left:96,right:10,width:undefined,maxWidth:undefined,flexDirection:'row',alignItems:'center',justifyContent:'flex-start',zIndex:2},
  brandMarkSmall:{width:46,height:46,borderRadius:12,marginRight:8,backgroundColor:'rgba(2,14,39,0.88)',borderWidth:1,borderColor:'rgba(125,220,255,0.82)',shadowColor:'#38BFFF',shadowOpacity:0.78,shadowRadius:15,elevation:8,overflow:'hidden'},
@@ -4165,7 +4165,7 @@ const FINAL_UI_FIXES_V11 = {
 } as const;
 
 
-const FINAL_UI_FIXES_V12 = {
+const FINAL_UI_FIXES_V12 : any = {
   container: { flex: 1, backgroundColor: '#020817' },
   header: { paddingTop: 30, paddingBottom: 9, paddingHorizontal: 18, minHeight: 86, width: '100%', flexShrink: 0 },
   brandRowCentered: { position: 'absolute', left: 0, right: 0, top: 18, width: '100%', maxWidth: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', zIndex: 1 },
@@ -4310,7 +4310,7 @@ const FINAL_UI_FIXES_V12 = {
   loginLegalText: { color: '#B8CDE4', fontSize: 12, lineHeight: 17, textAlign: 'center', marginTop: 10, paddingHorizontal: 3 }
 } as const;
 
-const FINAL_UI_FIXES_V13 = {
+const FINAL_UI_FIXES_V13 : any = {
   header: { minHeight: 120, height: 120, paddingTop: 49, paddingBottom: 7, paddingHorizontal: 14, justifyContent: 'flex-start', alignItems: 'center', overflow: 'visible' },
   brandRowCentered: { position: 'absolute', top: 48, left: 96, right: 10, width: undefined, maxWidth: undefined, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', zIndex: 2 },
   headerActions: { position: 'absolute', left: 14, right: undefined, top: 49, zIndex: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 8 },
@@ -4324,7 +4324,7 @@ const FINAL_UI_FIXES_V13 = {
   createScreenTitle: { fontFamily: 'Manrope', fontSize: 27, lineHeight: 34, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
   referenceHero: { height: 146, minHeight: 146, marginTop: 2, marginBottom: 12, borderRadius: 21, borderWidth: 1.2, borderColor: 'rgba(124,211,255,0.86)', shadowColor: '#168BFF', shadowOpacity: 0.48, shadowRadius: 22, elevation: 11, backgroundColor: 'rgba(3,16,42,0.96)' },
   referenceHeroArtwork: { position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, width: '100%', height: '100%', opacity: 0.82 },
-  referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,27,0.30)' },
+  referenceHeroArtworkShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(2,10,27,0.30)' },
   referenceHeroNebulaOne: { width: 190, height: 190, borderRadius: 95, right: -40, top: -82, backgroundColor: 'rgba(0,125,255,0.25)', shadowColor: '#168BFF', shadowOpacity: 0.9, shadowRadius: 52 },
   referenceHeroNebulaTwo: { width: 155, height: 155, borderRadius: 78, left: -42, bottom: -92, backgroundColor: 'rgba(0,203,255,0.16)', shadowColor: '#00CFFF', shadowOpacity: 0.9, shadowRadius: 46 },
   referenceHeroEyebrow: { fontFamily: 'Manrope', fontSize: 20, lineHeight: 26, fontWeight: '900', letterSpacing: 0.1, color: '#F8FCFF', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
@@ -4382,7 +4382,7 @@ const FINAL_UI_FIXES_V13 = {
 } as const;
 
 
-const FINAL_UI_FIXES_V14 = {
+const FINAL_UI_FIXES_V14 : any = {
   // The supplied galaxy reference is a four-screen UI montage, not a standalone hero image.
   // Build a clean cinematic nebula illustration from native layers instead of rendering the montage.
   referenceHero: { height: 146, minHeight: 146, paddingHorizontal: 18, paddingVertical: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(2,13,37,0.98)', borderColor: 'rgba(104,202,255,0.82)' },
@@ -4393,7 +4393,7 @@ const FINAL_UI_FIXES_V14 = {
   referenceHeroOrbitInner: { position: 'absolute', width: 176, height: 176, borderRadius: 88, right: 4, top: -18, borderWidth: 1, borderColor: 'rgba(95,180,255,0.22)' },
   referenceHeroHorizon: { position: 'absolute', left: 0, right: 0, bottom: 23, height: 1, backgroundColor: 'rgba(92,190,255,0.46)', shadowColor: '#168BFF', shadowOpacity: 1, shadowRadius: 10 },
   referenceHeroLightBeam: { position: 'absolute', width: 2, height: 112, right: '24%', top: 10, backgroundColor: 'rgba(134,224,255,0.48)', shadowColor: '#4FCBFF', shadowOpacity: 1, shadowRadius: 18, transform: [{ rotate: '28deg' }] },
-  referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(1,8,25,0.16)' },
+  referenceHeroArtworkShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(1,8,25,0.16)' },
   referenceHeroEyebrow: { fontFamily: 'Manrope', fontSize: 20, lineHeight: 26, fontWeight: '900', letterSpacing: 0.25, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 18, textShadowOffset: { width: 0, height: 2 } },
   referenceHeroCaption: { fontSize: 14, lineHeight: 19, fontWeight: '700', color: '#D7EEFF', textAlign: 'center', marginTop: 5, textShadowColor: '#087BFF', textShadowRadius: 10 },
 
@@ -4446,7 +4446,7 @@ const FINAL_UI_FIXES_V14 = {
   bottomNav: { height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 19, backgroundColor: 'rgba(2,10,27,0.98)', borderTopColor: 'rgba(100,192,255,0.42)' },
 } as const;
 
-const FINAL_UI_FIXES_V15 = {
+const FINAL_UI_FIXES_V15 : any = {
   creditTopRow: { flexDirection: 'row', alignItems: 'stretch', gap: 9, marginBottom: 10 },
   creditIllustration: { width: '41%', height: 174, minHeight: 174, marginBottom: 0, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.62, shadowRadius: 22, elevation: 11, overflow: 'hidden' },
   creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', overflow: 'hidden' },
@@ -4475,7 +4475,7 @@ const FINAL_UI_FIXES_V15 = {
   createScreenTitle: { fontFamily: 'Manrope', fontSize: 27, lineHeight: 35, fontWeight: '900', color: '#F7FBFF', textShadowColor: '#38AFFF', textShadowRadius: 19, textShadowOffset: { width: 0, height: 3 }, letterSpacing: 0.25 },
   referenceHero: { height: 98, minHeight: 98, marginTop: 2, marginBottom: 12, borderRadius: 19, borderWidth: 1.2, borderColor: 'rgba(124,211,255,0.9)', shadowColor: '#168BFF', shadowOpacity: 0.5, shadowRadius: 22, elevation: 11, backgroundColor: 'rgba(3,16,42,0.96)', overflow: 'hidden' },
   referenceHeroArtwork: { position: 'absolute', width: '296%', height: '1075%', left: '-37.5%', top: '-155%', opacity: 1 },
-  referenceHeroArtworkShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(2,10,27,0.14)' },
+  referenceHeroArtworkShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(2,10,27,0.14)' },
   referenceHeroCopy: { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, width: '100%', paddingHorizontal: 12, paddingVertical: 7, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(2,10,27,0.26)' },
   referenceHeroEyebrow: { fontFamily: 'Manrope', fontSize: 18, lineHeight: 23, fontWeight: '900', letterSpacing: 0.2, color: '#F8FCFF', textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 20, textShadowOffset: { width: 0, height: 2 } },
   referenceHeroCaption: { fontFamily: 'Manrope', fontSize: 12, lineHeight: 16, fontWeight: '800', color: '#E1F3FF', textAlign: 'center', marginTop: 3, textShadowColor: '#087BFF', textShadowRadius: 12 },
@@ -4489,9 +4489,9 @@ const FINAL_UI_FIXES_V15 = {
   galleryReferenceArtwork: { position: 'absolute', width: 805, height: 894, left: -524, top: -116 },
   creditsScreen: { paddingTop: 8, paddingBottom: 10 },
   creditsTitle: { fontFamily: 'Manrope', color: '#FFE7A8', fontSize: 29, lineHeight: 37, fontWeight: '900', textShadowColor: '#D88A20', textShadowRadius: 18, textShadowOffset: { width: 0, height: 3 } },
-  creditIllustration: { width: '100%', height: 154, minHeight: 154, marginBottom: 12, borderRadius: 22, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 26, elevation: 13, overflow: 'hidden' },
-  creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', overflow: 'hidden' },
-  creditReferenceArtwork: { position: 'absolute', width: 1137, height: 1262, left: -154, top: -763 },
+  ...{ creditIllustration: { width: '100%', height: 154, minHeight: 154, marginBottom: 12, borderRadius: 22, borderColor: 'rgba(255,218,135,0.96)', backgroundColor: 'rgba(33,24,18,0.96)', shadowColor: '#FFB52E', shadowOpacity: 0.68, shadowRadius: 26, elevation: 13, overflow: 'hidden' } },
+  ...{ creditReferenceArtworkCrop: { position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', overflow: 'hidden' } },
+  ...{ creditReferenceArtwork: { position: 'absolute', width: 1137, height: 1262, left: -154, top: -763 } },
   creditIllustrationCaption: { position: 'absolute', top: 12, left: 164, right: 4, alignItems: 'center', zIndex: 4 },
   creditIllustrationTitle: { color: '#FFF0C5', fontFamily: 'Manrope', fontSize: 12, lineHeight: 16, fontWeight: '900', letterSpacing: 0.65, textAlign: 'center', textShadowColor: '#D98A20', textShadowRadius: 13 },
   creditIllustrationSub: { color: '#F1D7A2', fontSize: 11, lineHeight: 15, fontWeight: '800' },
@@ -4524,7 +4524,7 @@ const FINAL_UI_FIXES_V15 = {
 };
 
 
-const FINAL_UI_FIXES_V16 = {
+const FINAL_UI_FIXES_V16 : any = {
   // Header: unframed triangular brand mark, stacked wordmark and notification control on the opposite edge.
   header: { minHeight: 122, height: 122, paddingTop: 0, paddingBottom: 8, paddingHorizontal: 14, justifyContent: 'flex-start', alignItems: 'center', overflow: 'visible', backgroundColor: 'transparent', borderBottomWidth: 0 },
   brandRowCentered: { position: 'absolute', top: 53, left: 14, right: 66, width: undefined, maxWidth: undefined, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', zIndex: 2, gap: 8 },
@@ -4615,7 +4615,7 @@ const FINAL_UI_FIXES_V16 = {
   navPersonBody: { width: 17, height: 10, borderWidth: 1.5, borderColor: '#75CFFF', borderTopLeftRadius: 9, borderTopRightRadius: 9, borderBottomWidth: 0, marginTop: 2 },
 } as const;
 
-const HTML_REBUILD = {
+const HTML_REBUILD : any = {
   container:{flex:1,backgroundColor:'#020817'},
   ambientBackdrop:{backgroundColor:'#020817'},
   header:{paddingHorizontal:20,paddingVertical:13,backgroundColor:'rgba(4,13,30,0.88)',borderBottomColor:'rgba(95,157,220,0.18)'},
@@ -4657,7 +4657,7 @@ const HTML_REBUILD = {
   engineCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
   imageUploadCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
   costCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
-  profileHeader:{minHeight:46,flexDirection:'row',alignItems:'center',justifyContent:'space-between'},
+  ...{ profileHeader:{minHeight:46,flexDirection:'row',alignItems:'center',justifyContent:'space-between'} },
   screenTitle:{color:'#F4F8FF',fontSize:27,lineHeight:34,fontWeight:'900',marginTop:0,marginBottom:14,textShadowColor:'rgba(35,145,255,0.5)',textShadowRadius:12},
   profileSettingsButton:{width:42,height:42,borderRadius:14,backgroundColor:'rgba(10,37,75,0.86)',borderWidth:1,borderColor:'rgba(86,157,232,0.38)',alignItems:'center',justifyContent:'center'},
   profileSettingsIcon:{color:'#A8D9FF',fontSize:20},
@@ -5014,26 +5014,26 @@ const styles = StyleSheet.create({
   galleryTabTextActive: { color: '#FFFFFF', fontSize: 16, fontWeight: '800' },
   galleryLimit: { color: '#B4CBE5', fontSize: 16, textAlign: 'center', marginTop: 10 },
   version: { color: '#566176', fontSize: 16, letterSpacing: 1.3, textAlign: 'center', marginTop: 35 },
-  ...COSMIC_OVERRIDES,
-  ...REFERENCE_POLISH,
-  ...FINAL_UI_FIXES,
-  ...FINAL_UI_FIXES_V2,
-  ...FINAL_UI_FIXES_V3,
-  ...FINAL_UI_FIXES_V4,
-  ...FINAL_UI_FIXES_V5,
-  ...FINAL_UI_FIXES_V6(),
+  ...(COSMIC_OVERRIDES as any),
+  ...(REFERENCE_POLISH as any),
+  ...(FINAL_UI_FIXES as any),
+  ...(FINAL_UI_FIXES_V2 as any),
+  ...(FINAL_UI_FIXES_V3 as any),
+  ...(FINAL_UI_FIXES_V4 as any),
+  ...(FINAL_UI_FIXES_V5 as any),
+  ...(FINAL_UI_FIXES_V6() as any),
   ...FINAL_UI_FIXES_V7(),
-  ...FINAL_UI_FIXES_V8,
-  ...FINAL_UI_FIXES_V9,
-  ...FINAL_UI_FIXES_V10,
+  ...(FINAL_UI_FIXES_V8 as any),
+  ...(FINAL_UI_FIXES_V9 as any),
+  ...(FINAL_UI_FIXES_V10 as any),
 
 
-  ...FINAL_UI_FIXES_V11,
-  ...FINAL_UI_FIXES_V12,
-  ...FINAL_UI_FIXES_V13,
-  ...FINAL_UI_FIXES_V14,
-  ...FINAL_UI_FIXES_V15,
-  ...FINAL_UI_FIXES_V16,
-  ...HTML_REBUILD,
+  ...(FINAL_UI_FIXES_V11 as any),
+  ...(FINAL_UI_FIXES_V12 as any),
+  ...(FINAL_UI_FIXES_V13 as any),
+  ...(FINAL_UI_FIXES_V14 as any),
+  ...(FINAL_UI_FIXES_V15 as any),
+  ...(FINAL_UI_FIXES_V16 as any),
+  ...(HTML_REBUILD as any),
 });
 
