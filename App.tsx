@@ -1762,16 +1762,17 @@ export default function App() {
           <View style={styles.creditsHeader}>
             <Text style={styles.creditsTitle}>{uiText(language, 'Credits', 'Кредиты')}</Text><View style={styles.creditsTitleGlow} />
           </View>
+          <Text style={{color:'#91B4D8',fontSize:13,lineHeight:19,marginTop:-5,marginBottom:14}}>Кредиты — это ваша энергия для создания видео</Text>
           <View style={styles.creditTopRow}>
             <View style={styles.creditIllustration} accessibilityLabel="Высокодетализированные золотые монеты из референса">
               <View pointerEvents="none" style={styles.creditIllustrationGlow} />
               <View style={styles.creditReferenceArtworkCrop} pointerEvents="none">
-                <Image
-                  source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
-                  resizeMode="stretch"
-                  style={styles.creditReferenceArtwork}
-                  accessibilityLabel="Золотые монеты"
-                />
+                <View style={{flexDirection:'row',alignItems:'flex-end',justifyContent:'center',gap:9}}>
+                  {[0,1,2].map((stack)=><View key={stack} style={{alignItems:'center',justifyContent:'flex-end',height:76}}>
+                    {Array.from({length:stack+2}).map((_,coin)=><View key={coin} style={{width:42,height:12,marginTop:-3,borderRadius:7,borderWidth:1,borderColor:'#FFE39A',backgroundColor:coin%2===0?'#D99A35':'#F3C86B',shadowColor:'#FFB72E',shadowOpacity:0.65,shadowRadius:7,elevation:4}}/> )}
+                  </View>)}
+                </View>
+                <Text style={{color:'#FFE7A8',fontSize:16,fontWeight:'900',marginTop:4}}>✦  КРЕДИТЫ</Text>
               </View>
               <View style={styles.creditStarBadge}><Text style={styles.creditStarGlyph}>✦</Text></View>
             </View>
