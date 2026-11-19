@@ -3,7 +3,7 @@ from PIL import Image, ImageOps
 
 # Generate the two PNG assets referenced by app.json from the approved PNG brand artwork.
 # Keep the adaptive foreground artwork inside Android's safe area.
-SOURCE = Path("assets/neuroscene-brand.png")
+SOURCE = Path("assets/Неоновая иконка «НейроСцена».jpg")
 APP_ICON = Path("assets/neuroscene-brand.png")
 ADAPTIVE_FOREGROUND = Path("assets/android-icon-foreground.png")
 CANVAS_SIZE = (1024, 1024)
