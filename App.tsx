@@ -2516,147 +2516,63 @@ function CreateScreen({
 }
 
 function GalleryScreen({
-  items,
-  language,
-  loading,
-  error,
-  onRefresh,
-  onCopyPrompt,
-  onRegenerate,
-  onExport,
-  onDelete,
-  onCreate,
+  items, language, loading, error, onRefresh, onCopyPrompt, onRegenerate, onExport, onDelete, onCreate,
 }: {
-  items: any[];
-  language: Language;
-  loading: boolean;
-  error: string;
-  onRefresh: () => void;
-  onCopyPrompt: (prompt: string) => void;
-  onRegenerate: (item: any) => void;
-  onExport: (url: string, jobId: string) => void;
-  onDelete: (jobId: string) => void;
-  onCreate: () => void;
+  items:any[]; language:Language; loading:boolean; error:string; onRefresh:()=>void;
+  onCopyPrompt:(prompt:string)=>void; onRegenerate:(item:any)=>void; onExport:(url:string,jobId:string)=>void;
+  onDelete:(jobId:string)=>void; onCreate:()=>void;
 }) {
-  const ru = language === 'ru';
-  const visibleItems = items.filter((item) => Boolean(readVideoUrl(item)));
+  const [filter,setFilter]=useState<'all'|'favorites'>('all');
+  const [favorites,setFavorites]=useState<string[]>([]);
+  const visible=items.filter((item)=>Boolean(readVideoUrl(item))&&(filter==='all'||favorites.includes(String(item.job_id))));
   return (
-    <View style={styles.screen}>
-      <View style={styles.galleryTitleWrap}>
-        <Text style={styles.galleryTitle}>Мои видео</Text>
-        <View style={styles.galleryTitleGlow} />
-        
+    <View style={{flex:1,paddingTop:8}}>
+      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:18}}>
+        <View><Text style={{color:'#F4F8FF',fontSize:27,fontWeight:'900'}}>Галерея</Text><Text style={{color:'#86A9D0',fontSize:12,marginTop:4}}>Твои готовые видео — в одном месте</Text></View>
+        <TouchableOpacity onPress={onRefresh} style={{width:42,height:42,borderRadius:14,backgroundColor:'rgba(10,37,75,0.86)',borderWidth:1,borderColor:'rgba(86,157,232,0.38)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#A8D9FF',fontSize:20}}>↻</Text></TouchableOpacity>
       </View>
-
-      {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 20 }} />}
-      {!!error && (
-        <View style={styles.galleryErrorBox}>
-          <Text style={styles.errorText}>{error}</Text>
-          <TouchableOpacity activeOpacity={0.86} style={styles.galleryRetryButton} onPress={onRefresh} accessibilityRole="button">
-            <Text style={styles.galleryRetryText}>{uiText(language, 'Try again', 'Повторить загрузку')}</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-      {!loading && !error && visibleItems.length === 0 && (
-        <View style={styles.emptyScreen}>
-          <View style={styles.galleryEmptyArtwork} accessibilityLabel="Неоновая хлопушка из референса НейроСцены">
-            <Image
-              source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.jpg')}
-              resizeMode="stretch"
-              style={styles.galleryReferenceArtwork}
-              accessibilityLabel="Неоновая кинематографическая хлопушка"
-            />
-          </View>
-          <Text style={styles.galleryEmptyTitle}>Ваша галерея ждёт первый фильм</Text>
-          <Text style={styles.description}>{uiText(language, 'Your completed videos will appear here.', 'Здесь появятся ваши видео')}</Text>
-          <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onCreate}><Text style={styles.secondaryButtonText}>{uiText(language, 'Create your first video', 'Создать видео')}</Text></TouchableOpacity>
-        </View>
-      )}
-
-      <View style={styles.galleryGrid}>
-      {visibleItems.map((item) => {
-        const url = readVideoUrl(item);
-        if (!url) return null;
-        const rawDuration = item.duration_seconds ?? item.duration ?? item.duration_sec ?? '';
-        const durationSeconds = Number(rawDuration);
-        const durationLabel = typeof rawDuration === 'string' && /^\d{1,2}:\d{2}$/.test(rawDuration)
-          ? rawDuration
-          : durationSeconds > 0
-            ? `${String(Math.floor(durationSeconds / 60)).padStart(2, '0')}:${String(Math.floor(durationSeconds % 60)).padStart(2, '0')}`
-            : '';
-        return (
-          <View key={item.job_id} style={styles.galleryCard}>
-            <View style={styles.galleryPreview}>
-              <GalleryVideoPlayer uri={url} />
-              {!!durationLabel && <Text style={styles.galleryDuration}>{durationLabel}</Text>}
-
-            </View>
-            <Text style={styles.galleryDate}>
-              {item.created_at
-                ? new Date(item.created_at).toLocaleString('ru-RU')
-                : (uiText(language, 'Date unavailable', 'Дата не указана'))}
-            </Text>
-            {!!item.expires_at && (
-              <Text style={[styles.galleryDate, item.expires_soon && { color: '#FFB36B' }]}>
-                {item.expires_soon
-                  ? (uiText(language, 'Scheduled for deletion: ', 'Скоро удалится: '))
-                  : (uiText(language, 'Auto-delete date: ', 'Удаление через 30 дней: '))}
-                {new Date(item.expires_at).toLocaleDateString('ru-RU')}
-              </Text>
-            )}
-            <Text style={styles.galleryPrompt} numberOfLines={3}>
-              {item.prompt || (uiText(language, 'No prompt', 'Без описания'))}
-            </Text>
-            <View style={styles.galleryActions}>
-              <TouchableOpacity activeOpacity={0.86}
-                style={styles.galleryActionButton}
-                disabled={!item.prompt}
-                onPress={() => onCopyPrompt(String(item.prompt || ''))}
-              >
-                <Text style={styles.galleryActionText}>{uiText(language, 'Copy prompt', 'Копировать промпт')}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.86}
-                style={styles.galleryActionButton}
-                onPress={() => onRegenerate(item)}
-              >
-                <Text style={styles.galleryActionText}>{uiText(language, 'Regenerate', 'Повторить')}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity activeOpacity={0.86}
-                style={styles.galleryActionButton}
-                onPress={() => onExport(url, String(item.job_id))}
-              >
-                <Text style={styles.galleryActionText}>{uiText(language, 'Download / share', 'Скачать / отправить')}</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity activeOpacity={0.86}
-              style={styles.deleteVideoButton}
-              onPress={() =>
-                Alert.alert(
-                  uiText(language, 'Delete video?', 'Удалить видео?'),
-                  uiText(language, 'The video and its file will be permanently deleted.', 'Видео и его файл будут удалены без возможности восстановления.'),
-                  [
-                    { text: uiText(language, 'Cancel', 'Отмена'), style: 'cancel' },
-                    {
-                      text: uiText(language, 'Delete', 'Удалить'),
-                      style: 'destructive',
-                      onPress: () => onDelete(item.job_id),
-                    },
-                  ]
-                )
-              }
-            >
-              <Text style={styles.deleteVideoText}>{uiText(language, 'Delete video', 'Удалить видео')}</Text>
-            </TouchableOpacity>
-          </View>
-        );
-      })}
+      <View style={{flexDirection:'row',padding:4,borderRadius:14,backgroundColor:'rgba(6,21,46,0.82)',borderWidth:1,borderColor:'rgba(82,145,213,0.28)',marginBottom:17}}>
+        <TouchableOpacity onPress={()=>setFilter('all')} style={{flex:1,minHeight:39,borderRadius:10,alignItems:'center',justifyContent:'center',backgroundColor:filter==='all'?'#126DE0':'transparent'}}><Text style={{color:filter==='all'?'#FFFFFF':'#91B0D4',fontSize:13,fontWeight:'800'}}>Мои видео</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>setFilter('favorites')} style={{flex:1,minHeight:39,borderRadius:10,alignItems:'center',justifyContent:'center',backgroundColor:filter==='favorites'?'#126DE0':'transparent'}}><Text style={{color:filter==='favorites'?'#FFFFFF':'#91B0D4',fontSize:13,fontWeight:'800'}}>Избранное</Text></TouchableOpacity>
       </View>
-      <Text style={styles.galleryLimit}>{uiText(language, 'Storage available {count}/2', `Доступно для хранения: ${items.length}/2`).replace('{count}', String(items.length))}</Text>
-      <View style={styles.storageTrack}><View style={[styles.storageProgress, { width: `${Math.min(items.length / 2 * 100, 100)}%` }]} /></View>
+      {loading&&<ActivityIndicator color={BLUE} style={{marginTop:22}}/>}
+      {!!error&&<View style={{borderRadius:16,padding:16,backgroundColor:'rgba(44,15,32,0.72)',borderWidth:1,borderColor:'rgba(255,110,140,0.35)'}}><Text style={{color:'#FFB2C0',fontSize:13}}>{error}</Text><TouchableOpacity onPress={onRefresh} style={{marginTop:12,padding:12,borderRadius:10,backgroundColor:'#153E78',alignItems:'center'}}><Text style={{color:'#FFFFFF',fontWeight:'800'}}>Повторить загрузку</Text></TouchableOpacity></View>}
+      {!loading&&!error&&visible.length===0&&<View style={{minHeight:300,alignItems:'center',justifyContent:'center',paddingHorizontal:24}}>
+        <View style={{width:104,height:104,borderRadius:30,backgroundColor:'rgba(15,67,128,0.34)',borderWidth:1,borderColor:'rgba(89,185,255,0.56)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#91DFFF',fontSize:44}}>▣</Text></View>
+        <Text style={{color:'#E8F3FF',fontSize:19,fontWeight:'900',marginTop:20,textAlign:'center'}}>{filter==='all'?'Твоя галерея ждёт первый фильм':'Избранных видео пока нет'}</Text>
+        <Text style={{color:'#8EACCF',fontSize:13,lineHeight:20,textAlign:'center',marginTop:8}}>{filter==='all'?'Создай видео — и оно появится здесь автоматически.':'Отмечай звёздочкой видео, к которым хочешь быстро возвращаться.'}</Text>
+        {filter==='all'&&<TouchableOpacity onPress={onCreate} style={{marginTop:20,minHeight:48,paddingHorizontal:26,borderRadius:14,backgroundColor:'#1479F8',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FFFFFF',fontWeight:'900'}}>Создать видео</Text></TouchableOpacity>}
+      </View>}
+      <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-between',rowGap:13}}>
+        {visible.map((item)=>{
+          const url=readVideoUrl(item); if(!url)return null; const id=String(item.job_id);
+          const raw=item.duration_seconds??item.duration??item.duration_sec??''; const secs=Number(raw);
+          const duration=typeof raw==='string'&&/^\d{1,2}:\d{2}$/.test(raw)?raw:(secs>0?'00:'+String(secs).padStart(2,'0'):'');
+          const favorite=favorites.includes(id);
+          return <View key={id} style={{width:'48.4%',borderRadius:16,padding:7,backgroundColor:'rgba(7,24,51,0.88)',borderWidth:1,borderColor:'rgba(79,143,208,0.34)'}}>
+            <View style={{height:124,borderRadius:11,overflow:'hidden',backgroundColor:'#020916'}}>
+              <GalleryVideoPlayer uri={url}/>
+              {!!duration&&<View style={{position:'absolute',right:7,bottom:7,paddingHorizontal:7,paddingVertical:3,borderRadius:6,backgroundColor:'rgba(0,0,0,0.72)'}}><Text style={{color:'#FFFFFF',fontSize:10,fontWeight:'800'}}>{duration}</Text></View>}
+              <TouchableOpacity onPress={()=>setFavorites((old)=>favorite?old.filter((x)=>x!==id):[...old,id])} style={{position:'absolute',right:7,top:7,width:28,height:28,borderRadius:14,alignItems:'center',justifyContent:'center',backgroundColor:'rgba(0,0,0,0.58)'}}><Text style={{color:favorite?'#FFD66B':'#DCEEFF',fontSize:17}}>{favorite?'★':'☆'}</Text></TouchableOpacity>
+            </View>
+            <Text numberOfLines={1} style={{color:'#8EACCF',fontSize:10,marginTop:8}}>{item.created_at?new Date(item.created_at).toLocaleDateString('ru-RU'):'Дата не указана'}</Text>
+            <Text numberOfLines={3} style={{color:'#E2EEFC',fontSize:11,lineHeight:15,marginTop:5,minHeight:45}}>{item.prompt||'Без описания'}</Text>
+            <View style={{flexDirection:'row',flexWrap:'wrap',gap:5,marginTop:8}}>
+              <TouchableOpacity onPress={()=>onCopyPrompt(String(item.prompt||''))} disabled={!item.prompt} style={{paddingVertical:6,paddingHorizontal:7,borderRadius:7,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:9,fontWeight:'800'}}>Копировать</Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=>onRegenerate(item)} style={{paddingVertical:6,paddingHorizontal:7,borderRadius:7,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:9,fontWeight:'800'}}>Повторить</Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=>onExport(url,id)} style={{paddingVertical:6,paddingHorizontal:7,borderRadius:7,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:9,fontWeight:'800'}}>Экспорт</Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=>Alert.alert('Удалить видео?','Видео и его файл будут удалены без возможности восстановления.',[{text:'Отмена',style:'cancel'},{text:'Удалить',style:'destructive',onPress:()=>onDelete(id)}])} style={{paddingVertical:6,paddingHorizontal:7,borderRadius:7,backgroundColor:'rgba(120,31,54,0.26)'}}><Text style={{color:'#FFB2C0',fontSize:9,fontWeight:'800'}}>Удалить</Text></TouchableOpacity>
+            </View>
+          </View>;
+        })}
+      </View>
+      <View style={{marginTop:18,padding:14,borderRadius:15,backgroundColor:'rgba(6,23,49,0.8)',borderWidth:1,borderColor:'rgba(77,146,218,0.3)'}}>
+        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={{color:'#B9D3EE',fontSize:12,fontWeight:'700'}}>Доступно для хранения</Text><Text style={{color:'#E9F5FF',fontSize:13,fontWeight:'900'}}>{items.length}/2</Text></View>
+        <View style={{height:6,borderRadius:4,backgroundColor:'rgba(90,135,185,0.2)',overflow:'hidden',marginTop:10}}><View style={{height:6,width:(Math.min(items.length/2*100,100))+'%',backgroundColor:'#168BFF',borderRadius:4}}/></View>
+      </View>
     </View>
   );
 }
-
 function NotificationScreen({
   language,
   items,
