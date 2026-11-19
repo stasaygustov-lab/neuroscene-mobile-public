@@ -4660,7 +4660,7 @@ const HTML_REBUILD = {
   modeSelector:{backgroundColor:'rgba(5,20,44,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
   engineCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
   imageUploadCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
-  costCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15}
+  costCard:{backgroundColor:'rgba(6,22,48,0.9)',borderColor:'rgba(81,144,207,0.32)',borderRadius:15},
   profileHeader:{minHeight:46,flexDirection:'row',alignItems:'center',justifyContent:'space-between'},
   screenTitle:{color:'#F4F8FF',fontSize:27,lineHeight:34,fontWeight:'900',marginTop:0,marginBottom:14,textShadowColor:'rgba(35,145,255,0.5)',textShadowRadius:12},
   profileSettingsButton:{width:42,height:42,borderRadius:14,backgroundColor:'rgba(10,37,75,0.86)',borderWidth:1,borderColor:'rgba(86,157,232,0.38)',alignItems:'center',justifyContent:'center'},
