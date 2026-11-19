@@ -1815,6 +1815,7 @@ export default function App() {
           source={require('./assets/neuroscene-cinematic-bg-small.jpg')}
           style={StyleSheet.absoluteFill}
           resizeMode="cover"
+          blurRadius={50}
           fadeDuration={0}
         />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1, 7, 20, 0.34)' }]} />
