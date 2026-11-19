@@ -48,16 +48,7 @@ const PANEL = '#071A34';
 const MUTED = '#9CB9D8';
 const WHITE = '#FFFFFF';
 
-const RECOMMENDED_PROMPTS = [
-  'A lone astronaut walks through a vast abandoned cathedral on an alien planet, soft shafts of blue light cut through drifting dust, slow cinematic dolly-in, photorealistic, atmospheric science-fiction film.',
-  'A black sports car races through a rain-soaked neon city at night, reflections shimmer across the asphalt, dynamic low tracking shot, realistic motion blur, premium action-film cinematography.',
-  'A medieval warrior stands on a windswept cliff above a stormy sea, cloak moving naturally in the wind, distant lightning illuminates the clouds, slow dramatic camera orbit, photorealistic epic cinema.',
-  'A tiny coastal village at sunrise, warm light slowly spreads across old rooftops, sea mist drifts between the houses, gentle aerial camera movement, natural colors, cinematic realism.',
-  'A secret agent walks calmly through a crowded futuristic train station as the world moves around him, subtle handheld camera, shallow depth of field, tense thriller atmosphere, photorealistic.',
-  'An enormous ancient tree rises from the center of a forgotten city, leaves and hanging roots move in the breeze, camera slowly cranes upward to reveal its scale, magical realism, cinematic detail.',
-  'A helicopter flies between snow-covered mountain peaks at dawn, rotor wash lifts loose snow, wide aerial tracking shot, realistic physics, high-end documentary cinematography.',
-  'A woman in a red coat walks through a quiet Tokyo alley in the rain, glowing signs reflect in puddles, slow side-tracking shot, natural human movement, photorealistic neo-noir film.'
-];
+const APPROVED_WAN_PROMPT = "A young woman with short red hair in a beige linen dress walks through a crowded evening market, carrying a woven basket with fresh oranges in her right hand. She keeps looking straight ahead while lifting her left hand to brush hair from her face. Static camera at eye level, medium shot, shallow depth of field. Warm lantern light from stalls reflects on wet cobblestones, people pass by in the blurred background. She keeps her natural walking pace, dress and hair move with the wind, cinematic realistic style, stable consistent face throughout the shot.";
 
 type Tab = 'Create' | 'Gallery' | 'Credits' | 'Profile';
 type Language = 'ru';
@@ -186,7 +177,7 @@ export default function App() {
   const [sourceImage, setSourceImage] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const [duration, setDuration] = useState(5);
   const [ratio, setRatio] = useState('16:9');
-  const [prompt, setPrompt] = useState(() => RECOMMENDED_PROMPTS[Math.floor(Math.random() * RECOMMENDED_PROMPTS.length)]);
+  const [prompt, setPrompt] = useState(APPROVED_WAN_PROMPT);
   const [enhancedPrompt, setEnhancedPrompt] = useState('');
   const [promptEnhancing, setPromptEnhancing] = useState(false);
   const [authToken, setAuthToken] = useState<string | null>(null);
@@ -292,7 +283,7 @@ export default function App() {
     await SecureStore.setItemAsync(SESSION_STORAGE_KEY, data.access_token);
     setAuthToken(data.access_token);
     setAuthUser(data.user);
-    setPrompt(RECOMMENDED_PROMPTS[Math.floor(Math.random() * RECOMMENDED_PROMPTS.length)]);
+    setPrompt(APPROVED_WAN_PROMPT);
     setAuthPassword('');
     setAuthNotice('');
     setPendingEmail('');
@@ -2060,9 +2051,9 @@ function CreateScreen({
       <View style={styles.engineCard}>
         <View style={styles.engineDot} />
         <View style={{ flex: 1 }}>
-          <Text style={styles.engineName}>{uiText(language, 'NeuroScene', 'НейроСцена')}</Text>
+          <Text style={styles.engineName}>{'Wan 2.2 TI2V 5B Turbo'}</Text>
           <Text style={styles.engineDescription}>
-            {generationType === 'i2v' ? (uiText(language, 'IMAGE TO VIDEO', 'ИЗОБРАЖЕНИЕ В ВИДЕО')) : (uiText(language, 'TEXT TO VIDEO', 'ТЕКСТ В ВИДЕО'))} · {uiText(language, 'LOCAL GENERATION', 'ЛОКАЛЬНАЯ ГЕНЕРАЦИЯ')}
+            {generationType === 'i2v' ? 'I2V · ИЗОБРАЖЕНИЕ В ВИДЕО' : 'T2V · ТЕКСТ В ВИДЕО'} · 720P · ЛОКАЛЬНЫЙ ПК
           </Text>
         </View>
         <Text style={styles.engineStatus}>{generationType.toUpperCase()}</Text>
