@@ -5225,6 +5225,7 @@ const styles = StyleSheet.create({
   ...FINAL_UI_FIXES_V13,
   ...FINAL_UI_FIXES_V14,
   ...FINAL_UI_FIXES_V15,
+  ...FINAL_UI_FIXES_V16,
   // Deep-space rebuild: cohesive glass surfaces and luminous typography, implemented with free native React Native primitives.
   container: { flex: 1, backgroundColor: '#030714' },
   ambientBackdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: '#030714' },
@@ -5250,6 +5251,5 @@ const styles = StyleSheet.create({
   introOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: '#030714' },
   introBrandMonogramWrap: { width: 152, height: 152, borderRadius: 76, backgroundColor: 'rgba(8,24,58,0.94)', borderColor: 'rgba(123,222,255,0.92)', borderWidth: 2, shadowColor: '#1ABFFF', shadowOpacity: 1, shadowRadius: 34, elevation: 20 },
   introBrandName: { color: '#F4FAFF', fontSize: 32, lineHeight: 40, fontWeight: '900', textShadowColor: '#1BAFFF', textShadowRadius: 20 },
-  ...FINAL_UI_FIXES_V16,
 });
 
