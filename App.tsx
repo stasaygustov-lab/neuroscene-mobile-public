@@ -1777,13 +1777,15 @@ export default function App() {
           </View>
 
           <View style={[styles.creditReferenceLayout, styles.v73CreditReferenceLayout, styles.v76CreditReferenceLayout]}>
-            <View style={[styles.creditCoinShowcase, styles.v76CreditCoinShowcase]} accessibilityLabel="Фрагмент утверждённого референса НейроСцены">
-              <Image
-                source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
-                style={{ width: '100%', height: '100%' }}
-                resizeMode="contain"
-                accessibilityLabel="Изображение из утверждённого референса НейроСцены"
-              />
+            <View style={[styles.creditCoinShowcase, styles.v76CreditCoinShowcase]} accessibilityLabel="Монеты, взятые из оригинального референса НейроСцены">
+              <View style={{ width: '100%', height: 104, overflow: 'hidden', position: 'relative' }}>
+                <Image
+                  source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')}
+                  style={{ position: 'absolute', width: 1229, height: 819, left: -816, top: -204 }}
+                  resizeMode="stretch"
+                  accessibilityLabel="Оригинальные золотые монеты из референса"
+                />
+              </View>
             </View>
 
             <View style={[styles.creditPackageColumn, styles.v76CreditInfoColumn]}>
@@ -1818,7 +1820,9 @@ export default function App() {
           </View>
 
           <View style={[styles.creditWelcomeBonus, { width: "100%", minHeight: 64, marginTop: 12, alignSelf: "stretch" }]}>
-            <Image source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')} style={{ width: 44, height: 42 }} resizeMode="contain" accessibilityLabel="Фрагмент утверждённого референса НейроСцены" />
+            <View style={{ width: 44, height: 42, overflow: 'hidden', position: 'relative' }} accessibilityLabel="Монеты из оригинального референса">
+              <Image source={require('./assets/Неоновая галактика интерфейса НейроСцены-3.png')} style={{ position: 'absolute', width: 399, height: 266, left: -265, top: -66 }} resizeMode="stretch" accessibilityLabel="Оригинальные золотые монеты" />
+            </View>
             <View style={styles.creditBonusCopy}>
               <Text style={styles.creditBonusTitle}>Приветственный бонус</Text>
               <Text style={styles.creditBonusText}>500 кредитов при первом запуске!</Text>
