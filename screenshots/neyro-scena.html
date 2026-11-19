@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a1330">
+<title>НейроСцена</title>
+<style>
+  :root {
+    --neon: #38b6ff;
+    --neon-deep: #1e6fd9;
+    --neon-glow: rgba(56, 182, 255, .55);
+    --gold: #ffc14d;
+    --gold-glow: rgba(255, 193, 77, .45);
+    --glass: rgba(20, 34, 68, .42);
+    --glass-border: rgba(120, 190, 255, .35);
+    --text: #eaf4ff;
+    --text-dim: #9fb8dd;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { height:100%; }
+  body {
+    font-family:-apple-system,'Segoe UI',Roboto,sans-serif;
+    color:var(--text);
+    background:#070e24;
+    overflow:hidden;
+  }
+
+  /* ── Живой космический фон ─────────────────── */
+  .bg { position:fixed; inset:0; z-index:0; background:
+      radial-gradient(ellipse at 70% 110%, #1b2a5e 0%, #0a1330 45%, #060b1e 100%); }
+  .bg .nebula {
+    position:absolute; border-radius:50%; filter:blur(60px); opacity:.5;
+    animation:drift 26s ease-in-out infinite alternate;
+  }
+  .nebula.n1 { width:60vw; height:60vw; left:-20vw; top:-10vh;
+    background:radial-gradient(circle, rgba(80,60,220,.5), transparent 70%); }
+  .nebula.n2 { width:70vw; height:70vw; right:-25vw; top:20vh;
+    background:radial-gradient(circle, rgba(30,120,255,.4), transparent 70%);
+    animation-delay:-9s; animation-duration:34s; }
+  .nebula.n3 { width:50vw; height:50vw; left:10vw; bottom:-15vh;
+    background:radial-gradient(circle, rgba(150,80,255,.35), transparent 70%);
+    animation-delay:-17s; animation-duration:30s; }
+  @keyframes drift {
+    from { transform:translate(0,0) scale(1); }
+    to   { transform:translate(6vw,4vh) scale(1.15); }
+  }
+  .stars { position:absolute; inset:0; }
+  .star { position:absolute; width:2px; height:2px; border-radius:50%;
+    background:#fff; opacity:.7; animation:twinkle 4s ease-in-out infinite; }
+  @keyframes twinkle { 0%,100%{opacity:.15} 50%{opacity:.85} }
+
+  .app { position:relative; z-index:1; max-width:430px; height:100%; margin:0 auto;
+    display:flex; flex-direction:column; }
+
+  /* ── Экраны ────────────────────────────────── */
+  .views { flex:1; overflow-y:auto; padding:20px 16px 100px; scrollbar-width:none; }
+  .views::-webkit-scrollbar { display:none; }
+  .view { display:none; animation:appear .35s ease; }
+  .view.on { display:block; }
+  @keyframes appear { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
+
+  /* ── Стекло ────────────────────────────────── */
+  .glass {
+    background:var(--glass);
+    backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    border:1px solid var(--glass-border);
+    border-radius:20px;
+    box-shadow:0 8px 32px rgba(4,10,30,.45), inset 0 1px 0 rgba(255,255,255,.12);
+  }
+
+  /* ── Шапка ─────────────────────────────────── */
+  .header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+  .logo { display:flex; align-items:center; gap:10px; }
+  .logo-icon {
+    width:42px; height:42px; border-radius:12px;
+    background:linear-gradient(135deg,#38b6ff,#1e4fd9);
+    display:grid; place-items:center; font-size:20px; color:#fff;
+    box-shadow:0 0 18px var(--neon-glow), inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .logo-name { font-size:21px; font-weight:700; line-height:1.05;
+    text-shadow:0 0 14px var(--neon-glow); }
+  .icon-btn {
+    width:42px; height:42px; border-radius:50%;
+    border:1px solid var(--glass-border); background:var(--glass);
+    backdrop-filter:blur(12px); display:grid; place-items:center;
+    font-size:17px; color:var(--text); cursor:pointer;
+    transition:box-shadow .2s;
+  }
+  .icon-btn:hover { box-shadow:0 0 16px var(--neon-glow); }
+  .icon-btn.round-ghost { border-color:transparent; background:transparent; }
+  .icon-btn.round-ghost:hover { box-shadow:none; text-shadow:0 0 10px var(--neon-glow); }
+
+  /* ── Кнопки ────────────────────────────────── */
+  .cta {
+    width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
+    padding:17px; border:none; border-radius:999px;
+    font-size:17px; font-weight:700; color:#fff; font-family:inherit;
+    background:linear-gradient(90deg,#2a7fe0,#38b6ff 60%,#57c9ff);
+    box-shadow:0 0 22px var(--neon-glow), inset 0 2px 3px rgba(255,255,255,.45),
+      inset 0 -3px 6px rgba(10,40,90,.5);
+    text-shadow:0 1px 4px rgba(10,40,90,.5); cursor:pointer;
+    transition:transform .15s, box-shadow .15s, filter .15s;
+  }
+  .cta:hover { filter:brightness(1.08); box-shadow:0 0 32px var(--neon-glow),
+    inset 0 2px 3px rgba(255,255,255,.45), inset 0 -3px 6px rgba(10,40,90,.5); }
+  .cta:active { transform:scale(.97); }
+  .cta.gold {
+    background:linear-gradient(90deg,#c98a1e,var(--gold) 60%,#ffdd88);
+    box-shadow:0 0 22px var(--gold-glow), inset 0 2px 3px rgba(255,255,255,.45),
+      inset 0 -3px 6px rgba(90,50,0,.5);
+    text-shadow:0 1px 4px rgba(90,50,0,.5);
+  }
+  .cta[disabled] { filter:grayscale(.7) brightness(.7); cursor:default; }
+  .cta.back-btn { width:auto; padding:10px 20px; font-size:14px; }
+
+  /* ── Главная ───────────────────────────────── */
+  .preview { position:relative; height:210px; overflow:hidden; border-radius:20px;
+    border:1px solid var(--glass-border); box-shadow:0 10px 36px rgba(4,10,30,.55),
+      0 0 24px rgba(56,182,255,.18); }
+  .preview .ph { position:absolute; inset:0; display:grid; place-items:center;
+    background:linear-gradient(160deg, rgba(40,80,180,.35), rgba(10,20,50,.6));
+    color:var(--text-dim); font-size:13px; text-align:center; padding:16px; }
+  .play-btn { position:absolute; inset:0; margin:auto; width:62px; height:62px;
+    border-radius:50%; cursor:pointer; background:rgba(10,20,45,.55);
+    backdrop-filter:blur(8px); border:1px solid var(--glass-border);
+    color:#fff; font-size:20px; box-shadow:0 0 24px var(--neon-glow);
+    animation:pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 18px var(--neon-glow)}
+    50%{box-shadow:0 0 34px var(--neon-glow)} }
+
+  .section-title { text-align:center; font-size:13px; color:var(--text-dim);
+    letter-spacing:.14em; text-transform:uppercase; position:relative; margin:22px 0 14px; }
+  .section-title::before, .section-title::after { content:''; position:absolute; top:50%;
+    width:54px; height:1px; background:linear-gradient(90deg,transparent,var(--neon-glow)); }
+  .section-title::before { left:6%; }
+  .section-title::after { right:6%; transform:scaleX(-1); }
+
+  .features { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding:16px 10px; }
+  .feature { display:flex; flex-direction:column; align-items:center; gap:8px;
+    text-align:center; font-size:11px; color:var(--text-dim); cursor:pointer;
+    transition:transform .2s; }
+  .feature:hover { transform:translateY(-3px); }
+  .feature-icon { width:52px; height:52px; border-radius:16px; display:grid;
+    place-items:center; font-size:22px;
+    background:linear-gradient(160deg, rgba(56,182,255,.28), rgba(20,40,90,.5));
+    border:1px solid var(--glass-border);
+    box-shadow:0 0 14px rgba(56,182,255,.25), inset 0 1px 0 rgba(255,255,255,.2); }
+
+  /* ── Галерея ───────────────────────────────── */
+  .page-title { text-align:center; font-size:24px; font-weight:700;
+    text-shadow:0 0 16px var(--neon-glow); margin:6px 0 22px; }
+  .page-title::after { content:''; display:block; margin:10px auto 0; width:120px; height:2px;
+    background:linear-gradient(90deg,transparent,var(--neon),transparent);
+    box-shadow:0 0 10px var(--neon-glow); }
+  .empty { padding:44px 24px; text-align:center; }
+  .empty-icon { width:96px; height:96px; margin:0 auto 18px; border-radius:28px;
+    display:grid; place-items:center; font-size:42px;
+    background:linear-gradient(160deg, rgba(56,182,255,.22), rgba(20,40,90,.45));
+    border:1px solid var(--glass-border);
+    box-shadow:0 0 26px rgba(56,182,255,.3); animation:hover-float 4s ease-in-out infinite; }
+  @keyframes hover-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+  .empty p { color:var(--text-dim); font-size:15px; line-height:1.5; margin-bottom:22px; }
+
+  /* ── Кредиты ───────────────────────────────── */
+  .coins-scene { position:relative; height:180px; display:grid; place-items:center;
+    overflow:hidden; border-radius:20px; margin-bottom:16px; }
+  .orbit { position:absolute; width:190px; height:70px; border:1px solid rgba(255,193,77,.4);
+    border-radius:50%; transform:rotate(-12deg);
+    box-shadow:0 0 24px rgba(255,193,77,.25), inset 0 0 18px rgba(255,193,77,.2);
+    animation:orbit-spin 9s linear infinite; }
+  .orbit.o2 { width:230px; height:90px; animation-duration:14s; animation-direction:reverse; opacity:.6; }
+  @keyframes orbit-spin { from{transform:rotate(-12deg)} to{transform:rotate(348deg)} }
+  .coin-stack { position:relative; z-index:1; }
+  .coin { position:absolute; width:74px; height:74px; border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, #ffe9a8, #ffc14d 45%, #b97708 90%);
+    box-shadow:inset 0 3px 6px rgba(255,255,255,.7), inset 0 -5px 10px rgba(120,70,0,.6),
+      0 6px 14px rgba(0,0,0,.5), 0 0 22px rgba(255,193,77,.4);
+    display:grid; place-items:center; font-size:26px; color:#8a5a00; font-weight:800; }
+  .coin.c1 { bottom:0; left:0; }
+  .coin.c2 { bottom:0; left:52px; }
+  .coin.c3 { bottom:34px; left:26px; z-index:2;
+    animation:hover-float 3.4s ease-in-out infinite; }
+  .tariff-card { display:flex; align-items:center; gap:12px; padding:14px 16px; margin-bottom:12px; }
+  .tariff-coin { width:44px; height:44px; border-radius:50%; flex:none;
+    background:radial-gradient(circle at 32% 28%, #ffe9a8, #ffc14d 45%, #b97708 90%);
+    box-shadow:inset 0 2px 4px rgba(255,255,255,.7), 0 0 14px var(--gold-glow);
+    display:grid; place-items:center; font-size:18px; color:#8a5a00; font-weight:800; }
+  .tariff-amt { flex:1; font-size:18px; font-weight:700; }
+  .tariff-price { padding:8px 18px; border-radius:999px; font-weight:700; font-size:14px;
+    color:#fff; background:linear-gradient(90deg,#2a7fe0,#57c9ff);
+    box-shadow:0 0 14px var(--neon-glow); cursor:pointer; transition:transform .15s; }
+  .tariff-price:active { transform:scale(.94); }
+  .bonus { display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer;
+    transition:box-shadow .2s; }
+  .bonus:hover { box-shadow:0 8px 32px rgba(4,10,30,.45), 0 0 18px var(--gold-glow); }
+  .bonus-icon { width:44px; height:44px; border-radius:12px; flex:none; display:grid;
+    place-items:center; font-size:20px;
+    background:linear-gradient(160deg, rgba(255,193,77,.35), rgba(120,70,0,.4));
+    border:1px solid rgba(255,193,77,.4); box-shadow:0 0 14px var(--gold-glow); }
+  .bonus b { display:block; font-size:15px; }
+  .bonus small { color:var(--text-dim); }
+  .bonus .chev { margin-left:auto; color:var(--text-dim); }
+  .note { display:flex; gap:8px; align-items:center; justify-content:center;
+    color:var(--text-dim); font-size:12.5px; margin-top:18px; }
+
+  /* ── Профиль ───────────────────────────────── */
+  .avatar { width:110px; height:110px; margin:14px auto 16px; border-radius:50%;
+    display:grid; place-items:center; font-size:48px;
+    background:linear-gradient(160deg, rgba(56,182,255,.3), rgba(20,40,90,.5));
+    border:2px solid var(--glass-border);
+    box-shadow:0 0 34px var(--neon-glow), inset 0 0 24px rgba(56,182,255,.2); }
+  .guest-name { text-align:center; font-size:20px; font-weight:700; margin-bottom:6px; }
+  .guest-hint { text-align:center; color:var(--text-dim); font-size:14px;
+    line-height:1.5; max-width:280px; margin:0 auto 24px; }
+  .secure { display:flex; gap:12px; align-items:center; padding:14px 16px; margin-top:18px; }
+  .secure-icon { width:40px; height:40px; border-radius:12px; flex:none; display:grid;
+    place-items:center; font-size:18px; color:var(--neon);
+    border:1px solid var(--glass-border);
+    background:rgba(56,182,255,.12); }
+  .secure small { color:var(--text-dim); display:block; margin-top:2px; }
+
+  /* ── Экран генерации ───────────────────────── */
+  .gen-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+  .gen-head h2 { font-size:20px; text-shadow:0 0 14px var(--neon-glow); }
+  .seg { display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:6px; margin-bottom:16px; }
+  .seg button { padding:12px; border:none; border-radius:14px; font-family:inherit;
+    font-size:14px; font-weight:600; color:var(--text-dim); background:transparent;
+    cursor:pointer; transition:all .2s; }
+  .seg button.on { color:#fff; background:linear-gradient(90deg,#2a7fe0,#38b6ff);
+    box-shadow:0 0 16px var(--neon-glow), inset 0 1px 2px rgba(255,255,255,.4); }
+  .prompt-box { padding:4px; margin-bottom:16px; transition:box-shadow .25s; }
+  .prompt-box:focus-within { box-shadow:0 8px 32px rgba(4,10,30,.45), 0 0 20px var(--neon-glow),
+    inset 0 1px 0 rgba(255,255,255,.12); }
+  .prompt-box textarea { width:100%; min-height:110px; resize:vertical; border:none;
+    background:transparent; color:var(--text); font-family:inherit; font-size:15px;
+    line-height:1.5; padding:12px 14px; outline:none; }
+  .prompt-box textarea::placeholder { color:var(--text-dim); opacity:.7; }
+  .prompt-meta { display:flex; justify-content:space-between; align-items:center;
+    padding:0 14px 10px; font-size:12px; color:var(--text-dim); }
+  .hint-link { color:var(--neon); cursor:pointer; text-decoration:underline dotted; }
+  .dropzone { display:none; padding:34px 16px; text-align:center; margin-bottom:16px;
+    border:1.5px dashed rgba(120,190,255,.45); cursor:pointer; transition:all .2s; }
+  .dropzone.show { display:block; animation:appear .3s ease; }
+  .dropzone:hover { box-shadow:0 0 20px var(--neon-glow); }
+  .dropzone .dz-icon { font-size:34px; margin-bottom:10px; filter:drop-shadow(0 0 10px var(--neon-glow)); }
+  .dropzone p { font-size:14px; color:var(--text-dim); }
+  .dropzone b { color:var(--text); }
+  .opt-row { margin-bottom:16px; }
+  .opt-label { font-size:13px; color:var(--text-dim); margin-bottom:8px;
+    letter-spacing:.05em; text-transform:uppercase; }
+  .chips { display:flex; gap:8px; flex-wrap:wrap; }
+  .chip { padding:9px 18px; border-radius:999px; font-family:inherit; font-size:13.5px;
+    color:var(--text-dim); background:rgba(20,34,68,.5);
+    border:1px solid var(--glass-border); cursor:pointer; transition:all .2s; }
+  .chip.on { color:#fff; border-color:var(--neon);
+    background:linear-gradient(90deg, rgba(42,127,224,.75), rgba(56,182,255,.75));
+    box-shadow:0 0 14px var(--neon-glow); }
+  .cost { display:flex; justify-content:space-between; align-items:center;
+    padding:14px 16px; margin-bottom:16px; font-size:14.5px; }
+  .cost .sum { font-weight:700; color:var(--gold); text-shadow:0 0 12px var(--gold-glow); }
+  .cost .bal { color:var(--text-dim); font-size:13px; }
+  .result { display:none; margin-top:18px; }
+  .result.show { display:block; animation:appear .4s ease; }
+  .progress { height:10px; border-radius:999px; overflow:hidden; margin-bottom:12px;
+    background:rgba(10,20,50,.6); border:1px solid var(--glass-border); }
+  .progress i { display:block; height:100%; width:0%; border-radius:999px;
+    background:linear-gradient(90deg,#2a7fe0,#57c9ff);
+    box-shadow:0 0 12px var(--neon-glow); transition:width .4s ease; }
+  .status { text-align:center; font-size:13.5px; color:var(--text-dim); margin-bottom:6px; }
+
+  /* ── Навигация ─────────────────────────────── */
+  .nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:430px; z-index:5;
+    display:flex; padding:10px 8px calc(10px + env(safe-area-inset-bottom));
+    border-radius:24px 24px 0 0; border-bottom:none; }
+  .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+    font-size:11px; color:var(--text-dim); text-decoration:none; padding:6px 0;
+    border-radius:12px; transition:color .2s; }
+  .nav-item span:first-child { font-size:20px; }
+  .nav-item.active { color:#fff; text-shadow:0 0 12px var(--neon-glow); }
+  .nav-item.active span:first-child { filter:drop-shadow(0 0 8px var(--neon-glow)); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg">
+  <div class="nebula n1"></div><div class="nebula n2"></div><div class="nebula n3"></div>
+  <div class="stars" id="stars"></div>
+</div>
+
+<div class="app">
+  <div class="views">
+
+    <!-- ГЛАВНАЯ -->
+    <section class="view on" id="view-home">
+      <header class="header">
+        <div class="logo">
+          <div class="logo-icon">▶</div>
+          <div class="logo-name">Нейро<br>Сцена</div>
+        </div>
+        <button class="icon-btn" aria-label="Настройки">⚙</button>
+      </header>
+      <div class="preview">
+        <div class="ph">Здесь будет превью твоего видео</div>
+        <button class="play-btn" aria-label="Смотреть превью">▶</button>
+      </div>
+      <br>
+      <button class="cta" onclick="go('create')">✨ Создать видео</button>
+      <div class="section-title">Возможности</div>
+      <div class="features glass">
+        <div class="feature" onclick="go('create','text')"><div class="feature-icon">✏️</div>Текст<br>в видео</div>
+        <div class="feature" onclick="go('create','image')"><div class="feature-icon">🖼️</div>Изображение<br>в видео</div>
+        <div class="feature"><div class="feature-icon">🔊</div>Озвучка<br>и эффекты</div>
+        <div class="feature"><div class="feature-icon">⭐</div>Проф.<br>качество</div>
+      </div>
+    </section>
+
+    <!-- ГАЛЕРЕЯ -->
+    <section class="view" id="view-gallery">
+      <h1 class="page-title">Мои видео</h1>
+      <div class="empty glass">
+        <div class="empty-icon">🎬</div>
+        <p>Здесь появятся<br>ваши сгенерированные видео</p>
+        <button class="cta" onclick="go('create')">Создать первое видео</button>
+      </div>
+    </section>
+
+    <!-- КРЕДИТЫ -->
+    <section class="view" id="view-credits">
+      <h1 class="page-title">Кредиты</h1>
+      <div class="coins-scene">
+        <div class="orbit"></div><div class="orbit o2"></div>
+        <div class="coin-stack">
+          <div class="coin c1">▶</div><div class="coin c2">▶</div><div class="coin c3">▶</div>
+        </div>
+      </div>
+      <div class="tariff-card glass">
+        <div class="tariff-coin">▶</div><div class="tariff-amt">500</div>
+        <div class="tariff-price">₽99</div>
+      </div>
+      <div class="tariff-card glass">
+        <div class="tariff-coin">▶</div><div class="tariff-amt">1500</div>
+        <div class="tariff-price">₽249</div>
+      </div>
+      <div class="tariff-card glass">
+        <div class="tariff-coin">▶</div><div class="tariff-amt">5000</div>
+        <div class="tariff-price">₽599</div>
+      </div>
+      <div class="bonus glass">
+        <div class="bonus-icon">🎁</div>
+        <div><b>Приветственный бонус</b><small>500 кредитов при первом запуске!</small></div>
+        <div class="chev">›</div>
+      </div>
+      <div class="note">ⓘ Кредиты не сгорают и не имеют срока действия</div>
+    </section>
+
+    <!-- ПРОФИЛЬ -->
+    <section class="view" id="view-profile">
+      <h1 class="page-title">Профиль</h1>
+      <div class="avatar">👤</div>
+      <div class="guest-name">Гость</div>
+      <p class="guest-hint">Войдите, чтобы сохранять ваши видео и получить больше возможностей</p>
+      <button class="cta">Войти через VK</button>
+      <div class="secure glass">
+        <div class="secure-icon">🛡</div>
+        <div><b>Ваши данные в безопасности</b><small>Мы не передаём их третьим лицам</small></div>
+      </div>
+    </section>
+
+    <!-- СОЗДАНИЕ ВИДЕО -->
+    <section class="view" id="view-create">
+      <div class="gen-head">
+        <button class="icon-btn round-ghost" onclick="go('home')" aria-label="Назад">←</button>
+        <h2>Создать видео</h2>
+        <div style="width:42px"></div>
+      </div>
+
+      <div class="seg glass" role="tablist">
+        <button id="mode-text" class="on" onclick="setMode('text')">✏️ Текст → видео</button>
+        <button id="mode-image" onclick="setMode('image')">🖼️ Картинка → видео</button>
+      </div>
+
+      <div class="prompt-box glass">
+        <textarea id="prompt" maxlength="1200"
+          placeholder="Опиши сцену: что происходит, кто герой, какая атмосфера, движение камеры…"></textarea>
+        <div class="prompt-meta">
+          <span class="hint-link" onclick="fillExample()">Вставить пример</span>
+          <span><span id="charCount">0</span> / 1200</span>
+        </div>
+      </div>
+
+      <div class="dropzone glass" id="dropzone">
+        <div class="dz-icon">🖼️</div>
+        <p><b>Загрузите изображение</b><br>оно станет первым кадром видео</p>
+      </div>
+
+      <div class="opt-row">
+        <div class="opt-label">Длительность</div>
+        <div class="chips">
+          <button class="chip on">5 сек</button>
+          <button class="chip">10 сек</button>
+          <button class="chip">15 сек</button>
+        </div>
+      </div>
+
+      <div class="opt-row">
+        <div class="opt-label">Формат</div>
+        <div class="chips">
+          <button class="chip on">9:16</button>
+          <button class="chip">16:9</button>
+          <button class="chip">1:1</button>
+        </div>
+      </div>
+
+      <div class="cost glass">
+        <span>Стоимость генерации</span>
+        <span><span class="sum">100</span> <span class="bal">· баланс: 500</span></span>
+      </div>
+
+      <button class="cta" id="genBtn" onclick="generate()">✨ Генерировать</button>
+
+      <div class="result" id="result">
+        <div class="progress"><i id="bar"></i></div>
+        <div class="status" id="status">Подготовка…</div>
+      </div>
+    </section>
+
+  </div>
+
+  <nav class="nav glass">
+    <a class="nav-item active" data-view="home" onclick="go('home')"><span>🏠</span><span>Создать</span></a>
+    <a class="nav-item" data-view="gallery" onclick="go('gallery')"><span>🎬</span><span>Галерея</span></a>
+    <a class="nav-item" data-view="credits" onclick="go('credits')"><span>🪙</span><span>Кредиты</span></a>
+    <a class="nav-item" data-view="profile" onclick="go('profile')"><span>👤</span><span>Профиль</span></a>
+  </nav>
+</div>
+
+<script>
+  /* Звёзды */
+  const stars = document.getElementById('stars');
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+    s.style.animationDuration = (2.5 + Math.random() * 4).toFixed(2) + 's';
+    const sc = 0.6 + Math.random() * 1.4;
+    s.style.transform = `scale(${sc})`;
+    stars.appendChild(s);
+  }
+
+  /* Переключение экранов */
+  function go(view, mode) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+    document.getElementById('view-' + view).classList.add('on');
+    document.querySelectorAll('.nav-item').forEach(n =>
+      n.classList.toggle('active', n.dataset.view === (view === 'create' ? 'home' : view)));
+    document.querySelector('.views').scrollTop = 0;
+    if (view === 'create' && mode) setMode(mode);
+  }
+
+  /* Режим текст/картинка */
+  function setMode(m) {
+    document.getElementById('mode-text').classList.toggle('on', m === 'text');
+    document.getElementById('mode-image').classList.toggle('on', m === 'image');
+    document.getElementById('dropzone').classList.toggle('show', m === 'image');
+  }
+
+  /* Счётчик и пример промпта */
+  const promptEl = document.getElementById('prompt');
+  promptEl.addEventListener('input', () =>
+    document.getElementById('charCount').textContent = promptEl.value.length);
+  function fillExample() {
+    promptEl.value = 'Девушка с короткими рыжими волосами идёт по вечернему рынку, несёт корзину с апельсинами. Тёплый свет фонарей, мокрая брусчатка, кинематографичный кадр.';
+    document.getElementById('charCount').textContent = promptEl.value.length;
+  }
+
+  /* Чипы */
+  document.querySelectorAll('.chips').forEach(group =>
+    group.addEventListener('click', e => {
+      if (!e.target.classList.contains('chip')) return;
+      group.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+      e.target.classList.add('on');
+    }));
+
+  /* Имитация генерации */
+  let busy = false;
+  function generate() {
+    if (busy) return;
+    const text = promptEl.value.trim();
+    const btn = document.getElementById('genBtn');
+    if (!text) { promptEl.focus(); return; }
+    busy = true; btn.disabled = true;
+    document.getElementById('result').classList.add('show');
+    const bar = document.getElementById('bar'), status = document.getElementById('status');
+    const steps = [[18,'Анализ промпта…'],[42,'Композиция сцены…'],[68,'Генерация кадров…'],[90,'Озвучка и финализация…'],[100,'Готово! 🎬']];
+    let i = 0;
+    (function tick() {
+      if (i >= steps.length) { busy = false; btn.disabled = false; return; }
+      bar.style.width = steps[i][0] + '%';
+      status.textContent = steps[i][1];
+      i++;
+      setTimeout(tick, 1100 + Math.random() * 700);
+    })();
+  }
+</script>
+</body>
+</html>
