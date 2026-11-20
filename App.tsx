@@ -2613,7 +2613,7 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Назад" activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
           <Text style={styles.smallActionText}>{uiText(language, 'Back', 'Назад')}</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh} disabled={loading}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Обновить" activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh} disabled={loading}>
           <Text style={styles.smallActionText}>{uiText(language, 'Refresh', 'Обновить')}</Text>
         </TouchableOpacity>
       </View>
@@ -2681,7 +2681,7 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
 
       <Text style={styles.sectionTitle}>{uiText(language, 'USERS', 'ПОЛЬЗОВАТЕЛИ')} · {users.length}</Text>
       {users.map((user) => (
-        <TouchableOpacity activeOpacity={0.86}
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel={user.email || 'Выбрать пользователя'} accessibilityState={{selected:selectedUserId === user.id}} activeOpacity={0.86}
           key={user.id}
           style={[styles.packageCard, selectedUserId === user.id && { borderColor: BLUE }]}
           onPress={() => setSelectedUserId(user.id)}
@@ -2715,7 +2715,7 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
             placeholder={uiText(language, 'Reason (at least 5 characters)', 'Причина (не менее 5 символов)')}
             placeholderTextColor="#687386"
           />
-          <TouchableOpacity activeOpacity={0.86}
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Подтвердить корректировку баланса" activeOpacity={0.86}
             style={[styles.authAction, (loading || !Number.isSafeInteger(parsedAmount) || parsedAmount === 0 || creditReason.trim().length < 5) && styles.disabledButton]}
             disabled={loading || !Number.isSafeInteger(parsedAmount) || parsedAmount === 0 || creditReason.trim().length < 5}
             onPress={() => {
@@ -2738,7 +2738,7 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
               />
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
                 {(['user', 'admin', 'support'] as const).map((role) => (
-                  <TouchableOpacity activeOpacity={0.86}
+                  <TouchableOpacity accessibilityRole="button" accessibilityLabel={role} accessibilityState={{selected:selectedUser.role === role}} activeOpacity={0.86}
                     key={role}
                     style={[styles.smallAction, { opacity: loading || selectedUser.role === role || roleReason.trim().length < 5 ? 0.5 : 1 }]}
                     disabled={loading || selectedUser.role === role || roleReason.trim().length < 5}
@@ -2763,7 +2763,7 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
             ['queued', uiText(language, 'Queued', 'В очереди')],
             ['failed', uiText(language, 'Failed', 'Ошибки')],
           ] as const).map(([value, label]) => (
-            <TouchableOpacity activeOpacity={0.86}
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel={label} accessibilityState={{selected:queueFilter === value}} activeOpacity={0.86}
               key={value}
               style={[styles.smallAction, queueFilter === value && { borderColor: BLUE, backgroundColor: 'rgba(57,120,255,0.14)' }]}
               onPress={() => setQueueFilter(value)}
@@ -2904,7 +2904,7 @@ function FAQScreen({
         <TouchableOpacity accessibilityRole="button" accessibilityLabel="Назад" activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
           <Text style={styles.smallActionText}>{uiText(language, '‹ Back', '‹ Назад')}</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh} disabled={loading}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Обновить" activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh} disabled={loading}>
           <Text style={styles.smallActionText}>{uiText(language, 'Refresh', 'Обновить')}</Text>
         </TouchableOpacity>
       </View>
@@ -2919,7 +2919,7 @@ function FAQScreen({
       />
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginVertical: 12 }}>
         {categories.map(([value, label]) => (
-          <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.smallAction, category === value && { borderColor: BLUE }]} onPress={() => setCategory(value)}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel={categoryLabels[value]} accessibilityState={{selected:category === value}} activeOpacity={0.86} key={value} style={[styles.smallAction, category === value && { borderColor: BLUE }]} onPress={() => setCategory(value)}>
             <Text style={styles.smallActionText}>{label}</Text>
           </TouchableOpacity>
         ))}
@@ -3085,7 +3085,7 @@ function SupportScreen({
                 {item.created_at ? new Date(item.created_at).toLocaleString('ru-RU') : ''}
               </Text>
               {(item.attachments || []).map((attachment: any) => (
-                <TouchableOpacity activeOpacity={0.86}
+                <TouchableOpacity accessibilityRole="button" accessibilityLabel={attachment.file_name || 'Открыть вложение'} activeOpacity={0.86}
                   key={attachment.attachment_id}
                   style={styles.authTextButton}
                   onPress={() => onOpenAttachment(attachment)}
@@ -3130,7 +3130,7 @@ function SupportScreen({
           <Text style={styles.sectionTitle}>{uiText(language, 'USER TICKETS', 'ОБРАЩЕНИЯ ПОЛЬЗОВАТЕЛЕЙ')}</Text>
           <View style={{ flexDirection: 'row', gap: 8, marginTop: 12, marginBottom: 12 }}>
             {(['new', 'in_progress', 'closed'] as const).map((value) => (
-              <TouchableOpacity activeOpacity={0.86}
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel={statusLabels[value]} accessibilityState={{selected:filter === value}} activeOpacity={0.86}
                 key={value}
                 onPress={() => setFilter(value)}
                 style={{
