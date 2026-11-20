@@ -1807,7 +1807,7 @@ export default function App() {
               </View>
             </View>
             {creditsBalance===null&&!creditsLoading&&<Text style={{color:'#A5C0DE',fontSize:11,lineHeight:16,marginTop:12}}>Войдите в профиль, чтобы загрузить баланс и историю операций.</Text>}
-            {!authToken&&<TouchableOpacity onPress={()=>setTab('Profile')} style={{alignSelf:'flex-start',marginTop:12,paddingHorizontal:13,paddingVertical:9,borderRadius:11,backgroundColor:'rgba(20,121,248,0.2)',borderWidth:1,borderColor:'rgba(98,185,255,0.4)'}}><Text style={{color:'#BCE2FF',fontSize:12,fontWeight:'800'}}>Перейти в профиль для входа ›</Text></TouchableOpacity>}
+            {!authToken&&<TouchableOpacity accessibilityRole="button" accessibilityLabel="Перейти в профиль для входа" onPress={()=>setTab('Profile')} style={{alignSelf:'flex-start',marginTop:12,paddingHorizontal:13,paddingVertical:9,borderRadius:11,backgroundColor:'rgba(20,121,248,0.2)',borderWidth:1,borderColor:'rgba(98,185,255,0.4)'}}><Text style={{color:'#BCE2FF',fontSize:12,fontWeight:'800'}}>Перейти в профиль для входа ›</Text></TouchableOpacity>}
           </View>
 
           <View style={{gap:9}}>
@@ -1879,9 +1879,9 @@ export default function App() {
             <TextInput accessibilityLabel="Электронная почта" style={styles.authInput} value={authEmail} onChangeText={setAuthEmail} placeholder="Электронная почта" placeholderTextColor="#7890AD" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} editable={!authBusy}/>
             <TextInput accessibilityLabel="Пароль" style={styles.authInput} value={authPassword} onChangeText={setAuthPassword} placeholder="Пароль (от 12 символов)" placeholderTextColor="#7890AD" secureTextEntry autoCapitalize="none" editable={!authBusy}/>
             <TouchableOpacity accessibilityRole="button" accessibilityLabel={authMode==='login'?'Войти по электронной почте':'Создать аккаунт по электронной почте'} onPress={handleAuthSubmit} disabled={authBusy} style={{minHeight:48,borderRadius:13,backgroundColor:'#1479F8',alignItems:'center',justifyContent:'center',marginTop:12}}>{authBusy?<ActivityIndicator color={WHITE}/>:<Text style={{color:'#FFFFFF',fontWeight:'900'}}>{authMode==='login'?'ВОЙТИ ПО EMAIL':'СОЗДАТЬ АККАУНТ'}</Text>}</TouchableOpacity>
-            {authMode==='login'&&<TouchableOpacity onPress={requestEmailLoginLink} disabled={authBusy} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>Войти по ссылке на email</Text></TouchableOpacity>}
-            <TouchableOpacity onPress={()=>{setAuthMode(authMode==='login'?'register':'login');setAuthNotice('');}} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>{authMode==='login'?'Нет аккаунта? Зарегистрироваться':'Уже зарегистрированы? Войти'}</Text></TouchableOpacity>
-            {!!pendingEmail&&<TouchableOpacity onPress={resendVerification} disabled={authBusy} style={{padding:8,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12}}>Отправить письмо подтверждения повторно</Text></TouchableOpacity>}
+            {authMode==='login'&&<TouchableOpacity accessibilityRole="button" accessibilityLabel="Войти по ссылке на электронную почту" onPress={requestEmailLoginLink} disabled={authBusy} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>Войти по ссылке на email</Text></TouchableOpacity>}
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel={authMode==='login'?'Зарегистрироваться':'Перейти ко входу'} onPress={()=>{setAuthMode(authMode==='login'?'register':'login');setAuthNotice('');}} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>{authMode==='login'?'Нет аккаунта? Зарегистрироваться':'Уже зарегистрированы? Войти'}</Text></TouchableOpacity>
+            {!!pendingEmail&&<TouchableOpacity accessibilityRole="button" accessibilityLabel="Повторно отправить письмо подтверждения" onPress={resendVerification} disabled={authBusy} style={{padding:8,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12}}>Отправить письмо подтверждения повторно</Text></TouchableOpacity>}
 
           </View>}
           <Text style={{color:'#7897BA',fontSize:10,lineHeight:15,textAlign:'center',marginTop:12}}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
@@ -1892,7 +1892,7 @@ export default function App() {
         <View style={{borderRadius:18,paddingHorizontal:14,backgroundColor:'rgba(6,21,46,0.84)',borderWidth:1,borderColor:'rgba(83,151,219,0.3)'}}>
           {[{label:'Мои видео',icon:'▣',action:()=>setTab('Gallery')},{label:'Уведомления',icon:'♧',action:()=>{setShowSupport(false);setShowNotifications(true);void loadNotifications();}},{label:'Настройки приложения',icon:'⚙',action:()=>setShowSettings(true)},{label:'О приложении',icon:'ⓘ',action:()=>setShowSettings(true)},{label:'Помощь / FAQ',icon:'?',action:()=>{setShowSupport(false);setShowNotifications(false);setShowFaq(true);void loadFaq();}},{label:'Поддержка',icon:'◌',action:()=>{setSelectedSupportTicket(null);setShowNotifications(false);setShowSupport(true);void loadSupportTickets();}}].map((item,index)=><TouchableOpacity key={item.label} accessibilityRole="button" accessibilityLabel={item.label} onPress={item.action} activeOpacity={0.84} style={{minHeight:60,flexDirection:'row',alignItems:'center',gap:13,borderBottomWidth:index===5?0:1,borderBottomColor:'rgba(107,155,205,0.16)'}}><Text style={{color:'#7CCBFF',fontSize:18,width:26,textAlign:'center'}}>{item.icon}</Text><Text style={{color:'#DCEBFA',fontSize:14,fontWeight:'700',flex:1}}>{item.label}</Text>{item.label==='Уведомления'&&unreadNotifications>0&&<View style={{minWidth:20,height:20,borderRadius:10,backgroundColor:'#E84C70',alignItems:'center',justifyContent:'center',paddingHorizontal:5}}><Text style={{color:'#FFFFFF',fontSize:10,fontWeight:'900'}}>{Math.min(unreadNotifications,9)}</Text></View>}<Text style={{color:'#7FA9D2',fontSize:22}}>›</Text></TouchableOpacity>)}
         </View>
-        {authToken&&['owner','admin'].includes(authUser?.role)&&<TouchableOpacity onPress={()=>{setShowAdminPanel(true);void loadAdminPanel();}} style={{minHeight:50,borderRadius:13,borderWidth:1,borderColor:'rgba(74,145,255,0.42)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#83B7FF',fontWeight:'900'}}>Панель администратора  ›</Text></TouchableOpacity>}
+        {authToken&&['owner','admin'].includes(authUser?.role)&&<TouchableOpacity accessibilityRole="button" accessibilityLabel="Открыть панель администратора" onPress={()=>{setShowAdminPanel(true);void loadAdminPanel();}} style={{minHeight:50,borderRadius:13,borderWidth:1,borderColor:'rgba(74,145,255,0.42)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#83B7FF',fontWeight:'900'}}>Панель администратора  ›</Text></TouchableOpacity>}
         <Text style={{color:'#6C89AC',fontSize:10,letterSpacing:1.2,textAlign:'center',marginTop:4}}>НЕЙРОСЦЕНА · ВЕРСИЯ 1.0</Text>
       </View>
     );
@@ -2034,7 +2034,7 @@ export default function App() {
               <Text style={{color:'#7899BC',fontSize:10,marginTop:9}}>Версия интерфейса 1.0 · Без рекламных уведомлений</Text>
             </View>
             </ScrollView>
-            <TouchableOpacity onPress={()=>setShowSettings(false)} activeOpacity={0.86} style={{minHeight:48,marginTop:16,borderRadius:14,backgroundColor:'#1479F8',borderWidth:1,borderColor:'#65C8FF',alignItems:'center',justifyContent:'center'}}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Готово, закрыть настройки" onPress={()=>setShowSettings(false)} activeOpacity={0.86} style={{minHeight:48,marginTop:16,borderRadius:14,backgroundColor:'#1479F8',borderWidth:1,borderColor:'#65C8FF',alignItems:'center',justifyContent:'center'}}>
               <Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Готово</Text>
             </TouchableOpacity>
           </View>
@@ -2176,7 +2176,7 @@ function CreateScreen({
             )}
           </View>
           <Animated.View style={{ shadowColor: '#168BFF', shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.34,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [12,24] }), shadowOffset: { width: 0, height: 7 }, elevation: 10, borderRadius: 20 }}>
-            <TouchableOpacity activeOpacity={0.9} onPress={() => setShowComposer(true)} style={{ minHeight: 62, borderRadius: 20, paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, backgroundColor: 'rgba(20,121,248,0.5)', borderWidth: 1, borderColor: 'rgba(112,201,255,0.5)' }}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Создать видео" activeOpacity={0.9} onPress={() => setShowComposer(true)} style={{ minHeight: 62, borderRadius: 20, paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, backgroundColor: 'rgba(20,121,248,0.5)', borderWidth: 1, borderColor: 'rgba(112,201,255,0.5)' }}>
               <Text style={{ color: '#FFFFFF', fontSize: 21, fontWeight: '900' }}>✦</Text><Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: '900' }}>Создать видео</Text><Text style={{ color: '#DDF5FF', fontSize: 21, fontWeight: '700' }}>›</Text>
             </TouchableOpacity>
           </Animated.View>
@@ -2464,14 +2464,14 @@ function GalleryScreen({
         <TouchableOpacity accessibilityRole="tab" accessibilityLabel="Избранное" accessibilityState={{selected:filter==='favorites'}} onPress={()=>setFilter('favorites')} style={{flex:1,minHeight:39,borderRadius:10,alignItems:'center',justifyContent:'center',backgroundColor:filter==='favorites'?'#126DE0':'transparent'}}><Text style={{color:filter==='favorites'?'#FFFFFF':'#91B0D4',fontSize:13,fontWeight:'800'}}>Избранное</Text></TouchableOpacity>
       </View>
       {loading&&<ActivityIndicator color={BLUE} style={{marginTop:22}}/>}
-      {!!error&&<View style={{borderRadius:16,padding:16,backgroundColor:'rgba(44,15,32,0.72)',borderWidth:1,borderColor:'rgba(255,110,140,0.35)'}}><Text style={{color:'#FFB2C0',fontSize:13}}>{error}</Text><TouchableOpacity onPress={onRefresh} style={{marginTop:12,padding:12,borderRadius:10,backgroundColor:'#153E78',alignItems:'center'}}><Text style={{color:'#FFFFFF',fontWeight:'800'}}>Повторить загрузку</Text></TouchableOpacity></View>}
+      {!!error&&<View style={{borderRadius:16,padding:16,backgroundColor:'rgba(44,15,32,0.72)',borderWidth:1,borderColor:'rgba(255,110,140,0.35)'}}><Text style={{color:'#FFB2C0',fontSize:13}}>{error}</Text><TouchableOpacity accessibilityRole="button" accessibilityLabel="Повторить загрузку галереи" onPress={onRefresh} style={{marginTop:12,padding:12,borderRadius:10,backgroundColor:'#153E78',alignItems:'center'}}><Text style={{color:'#FFFFFF',fontWeight:'800'}}>Повторить загрузку</Text></TouchableOpacity></View>}
       {!loading&&!error&&visible.length===0&&<View style={{minHeight:300,alignItems:'center',justifyContent:'center',paddingHorizontal:24}}>
         <View style={{width:104,height:104,borderRadius:30,backgroundColor:'rgba(15,67,128,0.34)',borderWidth:1,borderColor:'rgba(89,185,255,0.56)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#91DFFF',fontSize:44}}>▣</Text></View>
         <Text style={{color:'#E8F3FF',fontSize:19,fontWeight:'900',marginTop:20,textAlign:'center'}}>{filter==='all'?'Твоя галерея ждёт первый фильм':'Избранных видео пока нет'}</Text>
         <Text style={{color:'#8EACCF',fontSize:13,lineHeight:20,textAlign:'center',marginTop:8}}>{filter==='all'?'Создай видео — и оно появится здесь автоматически.':'Отмечай звёздочкой видео, к которым хочешь быстро возвращаться.'}</Text>
         {filter==='all'
-          ? <TouchableOpacity onPress={onCreate} style={{marginTop:20,minHeight:48,paddingHorizontal:26,borderRadius:14,backgroundColor:'#1479F8',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FFFFFF',fontWeight:'900'}}>Создать видео</Text></TouchableOpacity>
-          : <TouchableOpacity onPress={()=>setFilter('all')} style={{marginTop:20,minHeight:46,paddingHorizontal:24,borderRadius:13,backgroundColor:'rgba(20,121,248,0.2)',borderWidth:1,borderColor:'rgba(105,190,255,0.48)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#BDE5FF',fontWeight:'900'}}>Показать все видео</Text></TouchableOpacity>}
+          ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Создать видео" onPress={onCreate} style={{marginTop:20,minHeight:48,paddingHorizontal:26,borderRadius:14,backgroundColor:'#1479F8',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FFFFFF',fontWeight:'900'}}>Создать видео</Text></TouchableOpacity>
+          : <TouchableOpacity accessibilityRole="button" accessibilityLabel="Показать все видео" onPress={()=>setFilter('all')} style={{marginTop:20,minHeight:46,paddingHorizontal:24,borderRadius:13,backgroundColor:'rgba(20,121,248,0.2)',borderWidth:1,borderColor:'rgba(105,190,255,0.48)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#BDE5FF',fontWeight:'900'}}>Показать все видео</Text></TouchableOpacity>}
       </View>}
       <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-between',rowGap:13}}>
         {visible.map((item)=>{
@@ -2525,7 +2525,7 @@ function NotificationScreen({
   const ru = language === 'ru';
   return (
     <View style={styles.screen}>
-      <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Назад" activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
         <Text style={styles.smallActionText}>{uiText(language, '‹ Back', '‹ Назад')}</Text>
       </TouchableOpacity>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 18 }}>
@@ -2539,11 +2539,11 @@ function NotificationScreen({
         </View>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-        <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Обновить" activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh}>
           <Text style={styles.smallActionText}>{uiText(language, 'Refresh', 'Обновить')}</Text>
         </TouchableOpacity>
         {unreadCount > 0 && (
-          <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={onReadAll}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Прочитать все уведомления" activeOpacity={0.86} style={styles.authTextButton} onPress={onReadAll}>
             <Text style={styles.authLinkText}>{uiText(language, 'Mark all read', 'Прочитать все')}</Text>
           </TouchableOpacity>
         )}
@@ -2551,7 +2551,7 @@ function NotificationScreen({
       {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 18 }} />}
       {!loading && items.length === 0 && <Text style={styles.note}>{uiText(language, 'No notifications yet.', 'Уведомлений пока нет.')}</Text>}
       {items.map((item) => (
-        <TouchableOpacity activeOpacity={0.86}
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel={item.title || 'Открыть уведомление'} activeOpacity={0.86}
           key={item.notification_id}
           style={[styles.galleryCard, { marginTop: 9, borderColor: item.read_at ? '#253147' : BLUE }]}
           onPress={() => !item.read_at && onRead(item.notification_id)}
@@ -2610,7 +2610,7 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
   return (
     <View style={styles.screen}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Назад" activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
           <Text style={styles.smallActionText}>{uiText(language, 'Back', 'Назад')}</Text>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh} disabled={loading}>
@@ -2619,7 +2619,7 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
       </View>
       <Text style={styles.eyebrow}>{uiText(language, 'SERVICE MANAGEMENT', 'УПРАВЛЕНИЕ СЕРВИСОМ')}</Text>
       <Text style={styles.screenTitle}>{uiText(language, 'Admin panel', 'Панель администратора')}</Text>
-      <TouchableOpacity activeOpacity={0.86} style={[styles.authSecondary, { marginTop: 12 }]} onPress={onOpenFaq}>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Управление FAQ" activeOpacity={0.86} style={[styles.authSecondary, { marginTop: 12 }]} onPress={onOpenFaq}>
         <Text style={styles.authSecondaryText}>{uiText(language, 'Manage FAQ', 'Управление FAQ')}</Text>
       </TouchableOpacity>
       {!!error && <Text style={styles.errorText}>{error}</Text>}
@@ -2901,7 +2901,7 @@ function FAQScreen({
   return (
     <ScrollView style={styles.screen} contentContainerStyle={{ paddingBottom: 32 }} keyboardShouldPersistTaps="handled">
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Назад" activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
           <Text style={styles.smallActionText}>{uiText(language, '‹ Back', '‹ Назад')}</Text>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh} disabled={loading}>
@@ -3044,7 +3044,7 @@ function SupportScreen({
 
   return (
     <View style={styles.screen}>
-      <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Назад" activeOpacity={0.86} style={styles.smallAction} onPress={onBack}>
         <Text style={styles.smallActionText}>{uiText(language, '‹ Back', '‹ Назад')}</Text>
       </TouchableOpacity>
       <Text style={styles.eyebrow}>{uiText(language, 'WE ARE HERE TO HELP', 'МЫ НА СВЯЗИ')}</Text>
@@ -3053,13 +3053,13 @@ function SupportScreen({
       {!authenticated ? (
         <View style={styles.emptyScreen}>
           <Text style={styles.description}>{uiText(language, 'Sign in to create a ticket and view replies.', 'Чтобы создать обращение и видеть ответы, войдите в аккаунт.')}</Text>
-          <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onSignIn}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Войти в аккаунт" activeOpacity={0.86} style={styles.secondaryButton} onPress={onSignIn}>
             <Text style={styles.secondaryButtonText}>{uiText(language, 'Sign in', 'Войти в аккаунт')}</Text>
           </TouchableOpacity>
         </View>
       ) : selectedTicket ? (
         <View>
-          <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={onBackToList}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Вернуться к списку обращений" activeOpacity={0.86} style={styles.authTextButton} onPress={onBackToList}>
             <Text style={styles.authLinkText}>{uiText(language, 'Back to tickets', 'К списку обращений')}</Text>
           </TouchableOpacity>
           <View style={styles.packageCard}>
@@ -3071,7 +3071,7 @@ function SupportScreen({
             <Text style={styles.mutedText}>#{String(selectedTicket.ticket_id).slice(0, 8)}</Text>
           </View>
           {isStaff && selectedTicket.status !== 'closed' && (
-            <TouchableOpacity activeOpacity={0.86} style={styles.authSecondary} onPress={onCloseTicket} disabled={busy}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Закрыть обращение" activeOpacity={0.86} style={styles.authSecondary} onPress={onCloseTicket} disabled={busy}>
               <Text style={styles.authSecondaryText}>{uiText(language, 'Close ticket', 'Закрыть обращение')}</Text>
             </TouchableOpacity>
           )}
@@ -3108,7 +3108,7 @@ function SupportScreen({
                 multiline
                 editable={!busy}
               />
-              <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={onChooseFiles} disabled={busy}>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Прикрепить изображения" activeOpacity={0.86} style={styles.authTextButton} onPress={onChooseFiles} disabled={busy}>
                 <Text style={styles.authLinkText}>{uiText(language, '＋ Attach images (up to 5)', '＋ Прикрепить изображения (до 5)')}</Text>
               </TouchableOpacity>
               {files.map((file, index) => (
@@ -3119,7 +3119,7 @@ function SupportScreen({
                   </TouchableOpacity>
                 </View>
               ))}
-              <TouchableOpacity activeOpacity={0.86} style={[styles.authAction, busy && styles.disabledButton]} onPress={onSend} disabled={busy || (!message.trim() && files.length === 0)}>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Отправить ответ" activeOpacity={0.86} style={[styles.authAction, busy && styles.disabledButton]} onPress={onSend} disabled={busy || (!message.trim() && files.length === 0)}>
                 {busy ? <ActivityIndicator color={WHITE} /> : <Text style={styles.createButtonText}>{uiText(language, 'SEND REPLY', 'ОТПРАВИТЬ')}</Text>}
               </TouchableOpacity>
             </>
@@ -3147,7 +3147,7 @@ function SupportScreen({
               </TouchableOpacity>
             ))}
           </View>
-          <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Обновить" activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh}>
             <Text style={styles.smallActionText}>{uiText(language, 'Refresh queue', 'Обновить очередь')}</Text>
           </TouchableOpacity>
           {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 18 }} />}
@@ -3194,7 +3194,7 @@ function SupportScreen({
             multiline
             editable={!busy}
           />
-          <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={onChooseFiles} disabled={busy}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Прикрепить изображения" activeOpacity={0.86} style={styles.authTextButton} onPress={onChooseFiles} disabled={busy}>
             <Text style={styles.authLinkText}>{uiText(language, '＋ Attach images (up to 5)', '＋ Прикрепить изображения (до 5)')}</Text>
           </TouchableOpacity>
           {files.map((file, index) => (
@@ -3205,12 +3205,12 @@ function SupportScreen({
               </TouchableOpacity>
             </View>
           ))}
-          <TouchableOpacity activeOpacity={0.86} style={[styles.authAction, busy && styles.disabledButton]} onPress={onCreate} disabled={busy || description.trim().length < 5}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Создать обращение в поддержку" activeOpacity={0.86} style={[styles.authAction, busy && styles.disabledButton]} onPress={onCreate} disabled={busy || description.trim().length < 5}>
             {busy ? <ActivityIndicator color={WHITE} /> : <Text style={styles.createButtonText}>{uiText(language, 'CREATE TICKET', 'СОЗДАТЬ ОБРАЩЕНИЕ')}</Text>}
           </TouchableOpacity>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 25 }}>
             <Text style={styles.sectionTitle}>{uiText(language, 'MY TICKETS', 'МОИ ОБРАЩЕНИЯ')}</Text>
-            <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Обновить" activeOpacity={0.86} style={styles.smallAction} onPress={onRefresh}>
               <Text style={styles.smallActionText}>{uiText(language, 'Refresh', 'Обновить')}</Text>
             </TouchableOpacity>
           </View>
