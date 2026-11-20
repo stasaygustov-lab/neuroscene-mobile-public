@@ -1912,7 +1912,7 @@ export default function App() {
               <View style={styles.brandMarkHalo} />
               <BrandMarkSvg size={112} />
             </View>
-            <Text style={styles.introBrandName}>НейроСцена</Text>
+            <Text style={styles.introBrandName}>Нейро{ '\n' }Сцена</Text>
             <Text style={styles.introBrandCaption}>СТУДИЯ СОЗДАНИЯ ВИДЕО</Text>
           </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
