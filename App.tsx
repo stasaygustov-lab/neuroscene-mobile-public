@@ -1903,13 +1903,9 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
-        <Image
-          source={require('./assets/neuroscene-cinematic-bg-small.jpg')}
-          style={StyleSheet.absoluteFill}
-          resizeMode="cover"
-          blurRadius={50}
-          fadeDuration={0}
-        />
+        <View style={StyleSheet.absoluteFill}>
+          <NeuroSceneBackdrop />
+        </View>
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1, 7, 20, 0.34)' }]} />
       </View>
       <StatusBar style="light" hidden={showIntro} />
@@ -2166,15 +2162,14 @@ function CreateScreen({
         <View style={{ gap: 20, minHeight: Math.max(560, windowHeight - 245), justifyContent: 'space-between', paddingBottom: 10 }}>
           <View style={{ height: 214, borderRadius: 26, overflow: 'hidden', backgroundColor: 'rgba(1,7,19,0.76)', borderWidth: 1, borderColor: 'rgba(91,177,255,0.56)', shadowColor: '#087BFF', shadowOpacity: 0.26, shadowRadius: 22, elevation: 10 }}>
             {videoUrl ? <HomeVideoPlayer uri={videoUrl} /> : (
-              <TouchableOpacity activeOpacity={0.86} onPress={() => setShowComposer(true)} accessibilityLabel="Открыть создание видео" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Image pointerEvents="none" source={require('./assets/neuroscene-create-hero.webp')} style={StyleSheet.absoluteFill} resizeMode="cover" />
-                <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(4,12,32,0.34)' }]} />
-                <View pointerEvents="none" style={{ position: 'absolute', left: 12, right: 12, bottom: 13, alignItems: 'center' }}>
-                  <Text style={{ color: '#D9ECFF', fontFamily: 'Manrope', fontSize: 12, lineHeight: 17, fontWeight: '700', textAlign: 'center', textShadowColor: '#07152E', textShadowRadius: 8 }}>
-                    Здесь появится превью твоего видео
-                  </Text>
-                </View>
-                <View style={{ width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13,89,173,0.48)', borderWidth: 1, borderColor: 'rgba(125,213,255,0.78)', shadowColor: '#168BFF', shadowOpacity: 0.72, shadowRadius: 20, elevation: 9 }}>
+              <TouchableOpacity
+                activeOpacity={0.86}
+                onPress={() => setShowComposer(true)}
+                accessibilityRole="button"
+                accessibilityLabel="Открыть создание видео"
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(1,7,19,0.92)' }}
+              >
+                <View style={{ width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13,89,173,0.42)', borderWidth: 1, borderColor: 'rgba(125,213,255,0.78)', shadowColor: '#168BFF', shadowOpacity: 0.72, shadowRadius: 20, elevation: 9 }}>
                   <PlayIconSvg size={25} />
                 </View>
               </TouchableOpacity>
