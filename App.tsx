@@ -2079,7 +2079,7 @@ function CreateScreen({
                     } else if (feature.id === 'sound') {
                       Alert.alert('Озвучка и эффекты', 'Звуковое оформление будет доступно в отдельном разделе создания.');
                     } else {
-                      Alert.alert('Профессиональное качество', 'Настройки качества доступны при создании видео.');
+                      setShowComposer(true);
                     }
                   }}
                   style={styles.featureTile}
@@ -2175,6 +2175,16 @@ function CreateScreen({
               </TouchableOpacity>
             ))}
           </View>
+        </View>
+      </View>
+
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, paddingHorizontal: 14, paddingVertical: 12, borderRadius: 13, backgroundColor: 'rgba(5,25,54,0.76)', borderWidth: 1, borderColor: 'rgba(77,166,235,0.34)' }}>
+        <View>
+          <Text style={{ color: '#8FB5DC', fontSize: 10, fontWeight: '800', letterSpacing: 1 }}>КАЧЕСТВО ВИДЕО</Text>
+          <Text style={{ color: '#E5F2FF', fontSize: 13, fontWeight: '800', marginTop: 3 }}>720p · автоматический режим</Text>
+        </View>
+        <View style={{ paddingHorizontal: 10, paddingVertical: 6, borderRadius: 9, backgroundColor: 'rgba(22,139,255,0.18)', borderWidth: 1, borderColor: 'rgba(112,201,255,0.42)' }}>
+          <Text style={{ color: '#A9DCFF', fontSize: 11, fontWeight: '900' }}>HD</Text>
         </View>
       </View>
 
