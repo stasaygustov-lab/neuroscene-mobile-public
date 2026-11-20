@@ -2455,7 +2455,7 @@ function GalleryScreen({
   return (
     <View style={{flex:1,paddingTop:8}}>
       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:18}}>
-        <View><Text style={{color:'#F4F8FF',fontSize:27,fontWeight:'900'}}>Галерея</Text><Text style={{color:'#86A9D0',fontSize:12,marginTop:4}}>Твои готовые видео — в одном месте</Text></View>
+        <View><Text style={{color:'#F4F8FF',fontSize:27,fontWeight:'900'}}>Мои видео</Text><Text style={{color:'#86A9D0',fontSize:12,marginTop:4}}>Твои готовые видео — в одном месте</Text></View>
         <TouchableOpacity onPress={onRefresh} style={{width:42,height:42,borderRadius:14,backgroundColor:'rgba(10,37,75,0.86)',borderWidth:1,borderColor:'rgba(86,157,232,0.38)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#A8D9FF',fontSize:20}}>↻</Text></TouchableOpacity>
       </View>
       <View style={{flexDirection:'row',padding:4,borderRadius:14,backgroundColor:'rgba(6,21,46,0.82)',borderWidth:1,borderColor:'rgba(82,145,213,0.28)',marginBottom:17}}>
