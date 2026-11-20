@@ -2056,20 +2056,8 @@ function CreateScreen({
         </TouchableOpacity>
       </View>
 
-      <View style={styles.engineCard}>
-        <View style={styles.engineDot} />
-        <View style={{ flex: 1 }}>
-          <Text style={styles.engineName}>{'Wan 2.2 TI2V 5B Turbo'}</Text>
-          <Text style={styles.engineDescription}>
-            {generationType === 'i2v' ? 'I2V · ИЗОБРАЖЕНИЕ В ВИДЕО' : 'T2V · ТЕКСТ В ВИДЕО'} · 720P · ЛОКАЛЬНЫЙ ПК
-          </Text>
-        </View>
-        <Text style={styles.engineStatus}>{generationType.toUpperCase()}</Text>
-      </View>
-
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>{uiText(language, 'YOUR PROMPT', 'ОПИСАНИЕ СЦЕНЫ')}</Text>
-        <Text style={styles.languageLabel}>{uiText(language, 'ENGLISH', 'НА АНГЛИЙСКОМ')}</Text>
       </View>
 
       <TextInput
@@ -2086,45 +2074,7 @@ function CreateScreen({
       />
 
       <Text style={styles.characterCount}>{prompt.length} / 2000</Text>
-      <Text style={styles.note}>Эталонный промпт Wan 2.2. Для T2V и I2V используется одна утверждённая формулировка.</Text>
-
-      <TouchableOpacity activeOpacity={0.86}
-        style={[styles.authSecondary, (busy || promptEnhancing || prompt.trim().length < 10) && styles.disabledButton]}
-        onPress={onEnhancePrompt}
-        disabled={busy || promptEnhancing || prompt.trim().length < 10}
-      >
-        {promptEnhancing
-          ? <ActivityIndicator color={WHITE} />
-          : <Text style={styles.authSecondaryText}>{uiText(language, '✨ ENHANCE WITH GEMMA 4 E2B', '✨ УЛУЧШИТЬ ЧЕРЕЗ GEMMA 4 E2B')}</Text>}
-      </TouchableOpacity>
-      {promptEnhancing && (
-        <Text style={styles.note}>{uiText(language, 'Gemma is running locally on your PC. This may take a moment.', 'Gemma работает локально на твоём ПК. Это может занять некоторое время.')}</Text>
-      )}
-      {!!enhancedPrompt && (
-        <View style={styles.imageUploadCard}>
-          <Text style={styles.sectionTitle}>{uiText(language, 'IMPROVED PROMPT · GEMMA 4 E2B', 'УЛУЧШЕННЫЙ ПРОМПТ · GEMMA 4 E2B')}</Text>
-          <TextInput
-            style={styles.prompt}
-            value={enhancedPrompt}
-            onChangeText={setEnhancedPrompt}
-            multiline
-            textAlignVertical="top"
-            maxLength={4000}
-            editable={!busy && !promptEnhancing}
-          />
-          <Text style={styles.note}>{uiText(language, 'Review and edit the result. It will not be used until you apply it.', 'Проверь и отредактируй результат. Он не будет использован, пока ты его не применишь.')}</Text>
-          <TouchableOpacity activeOpacity={0.86}
-            style={styles.authAction}
-            onPress={() => { setPrompt(enhancedPrompt); setEnhancedPrompt(''); }}
-            disabled={busy || promptEnhancing}
-          >
-            <Text style={styles.createButtonText}>{uiText(language, 'USE IMPROVED PROMPT', 'ИСПОЛЬЗОВАТЬ УЛУЧШЕННЫЙ ПРОМПТ')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={() => setEnhancedPrompt('')} disabled={promptEnhancing}>
-            <Text style={styles.authLinkText}>{uiText(language, 'Discard result', 'Отклонить результат')}</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+remove enhancement block
 
       {generationType === 'i2v' && (
         <View style={styles.imageUploadCard}>
@@ -2148,66 +2098,33 @@ function CreateScreen({
       )}
 
 
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>{uiText(language, 'DURATION', 'ДЛИТЕЛЬНОСТЬ')}</Text>
-      </View>
-
-      <View style={styles.optionRow}>
-        {[5, 10].map((value) => (
-          <TouchableOpacity activeOpacity={0.86}
-            key={value}
-            style={[
-              styles.option,
-              duration === value && styles.selectedOption,
-            ]}
-            onPress={() => setDuration(value)}
-            disabled={busy}
-          >
-            <Text style={[styles.optionMain, duration === value && styles.activeText]}>
-              {value}s
-            </Text>
-            <Text style={styles.optionSub}>{uiText(language, 'seconds', 'секунд')}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>{uiText(language, 'ASPECT RATIO', 'ФОРМАТ КАДРА')}</Text>
-      </View>
-
-      <View style={styles.optionRow}>
-        {['16:9', '9:16'].map((value) => (
-          <TouchableOpacity activeOpacity={0.86}
-            key={value}
-            style={[
-              styles.option,
-              ratio === value && styles.selectedOption,
-            ]}
-            onPress={() => setRatio(value)}
-            disabled={busy}
-          >
-            <Text style={[styles.optionMain, ratio === value && styles.activeText]}>
-              {value}
-            </Text>
-            <Text style={styles.optionSub}>
-              {value === '16:9' ? (uiText(language, 'Landscape', 'Горизонтальный')) : (uiText(language, 'Portrait', 'Вертикальный'))}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      <View style={styles.costCard}>
+      <View style={{ flexDirection: 'row', gap: 10, marginTop: 8, marginBottom: 16 }}>
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Text style={styles.costLabel}>{uiText(language, 'GENERATION COST', 'СТОИМОСТЬ ГЕНЕРАЦИИ')}</Text>
-          <Text style={styles.costDescription}>
-            {uiText(language, 'Generation pricing is not configured yet', 'Расчёт стоимости ещё не подключён')}
-          </Text>
+          <Text style={[styles.sectionTitle, { textAlign: 'center', marginBottom: 9 }]}>{uiText(language, 'DURATION', 'ДЛИТЕЛЬНОСТЬ')}</Text>
+          <View style={{ flexDirection: 'row', gap: 6 }}>
+            {[5, 10].map((value) => (
+              <TouchableOpacity activeOpacity={0.86} key={value}
+                style={[styles.option, { flex: 1, minWidth: 0, minHeight: 66, paddingVertical: 9, paddingHorizontal: 3 }, duration === value && styles.selectedOption]}
+                onPress={() => setDuration(value)} disabled={busy}>
+                <Text style={[styles.optionMain, { fontSize: 13 }, duration === value && styles.activeText]}>{value}s</Text>
+                <Text style={[styles.optionSub, { fontSize: 10, marginTop: 2 }]}>{uiText(language, 'seconds', 'сек.')}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-        <View style={styles.costBalance}>
-          <Text style={styles.costBalanceLabel}>БАЛАНС</Text>
-          <Text style={styles.costBalanceValue}>{creditsLoading ? '…' : creditsBalance === null ? '—' : creditsBalance.toLocaleString('ru-RU')}</Text>
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <Text style={[styles.sectionTitle, { textAlign: 'center', marginBottom: 9 }]}>{uiText(language, 'ASPECT RATIO', 'ФОРМАТ КАДРА')}</Text>
+          <View style={{ flexDirection: 'row', gap: 6 }}>
+            {['16:9', '9:16'].map((value) => (
+              <TouchableOpacity activeOpacity={0.86} key={value}
+                style={[styles.option, { flex: 1, minWidth: 0, minHeight: 66, paddingVertical: 9, paddingHorizontal: 3 }, ratio === value && styles.selectedOption]}
+                onPress={() => setRatio(value)} disabled={busy}>
+                <Text style={[styles.optionMain, { fontSize: 13 }, ratio === value && styles.activeText]}>{value}</Text>
+                <Text style={[styles.optionSub, { fontSize: 9, marginTop: 2 }]}>{value === '16:9' ? 'Горизонт.' : 'Вертик.'}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-        <Text style={styles.costIcon}>✦</Text>
       </View>
 
       <TouchableOpacity activeOpacity={0.86}
@@ -5083,5 +5000,8 @@ const styles = StyleSheet.create({
   ...(FINAL_UI_FIXES_V15 as any),
   ...(FINAL_UI_FIXES_V16 as any),
   ...(HTML_REBUILD as any),
+  prompt: { color: '#FFFFFF', backgroundColor: 'rgba(5,20,44,0.47)', borderColor: 'rgba(84,147,210,0.24)' },
+  imageUploadCard: { backgroundColor: 'rgba(6,22,48,0.27)', borderColor: 'rgba(81,144,207,0.22)' },
+  chooseImageButton: { backgroundColor: 'rgba(16,27,48,0.30)', borderColor: 'rgba(22,139,255,0.35)' },
 });
 
