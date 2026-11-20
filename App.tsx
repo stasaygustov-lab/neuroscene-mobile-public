@@ -5001,7 +5001,6 @@ const styles = StyleSheet.create({
   ...(FINAL_UI_FIXES_V16 as any),
   ...(HTML_REBUILD as any),
   ...({
-    prompt: { color: '#FFFFFF', backgroundColor: 'rgba(5,20,44,0.47)', borderColor: 'rgba(84,147,210,0.24)' },
     imageUploadCard: { backgroundColor: 'rgba(6,22,48,0.27)', borderColor: 'rgba(81,144,207,0.22)' },
     chooseImageButton: { backgroundColor: 'rgba(16,27,48,0.30)', borderColor: 'rgba(22,139,255,0.35)' },
     // Unified Manrope typography for the Text-to-Video and Image-to-Video composer.
