@@ -2187,7 +2187,7 @@ function CreateScreen({
                 { id: 'text', title: 'Текст в видео', subtitle: 'Создание по описанию' },
                 { id: 'image', title: 'Изображение в видео', subtitle: 'Оживление фотографии' },
                 { id: 'sound', title: 'Звуковое оформление', subtitle: 'Отдельный этап · пока не подключено' },
-                { id: 'quality', title: 'Профессиональное качество', subtitle: 'Параметры видеосцены' },
+                { id: 'quality', title: 'Настройки видео', subtitle: 'Длительность и формат кадра' },
               ].map((feature) => (
                 <TouchableOpacity
                   key={feature.id}
