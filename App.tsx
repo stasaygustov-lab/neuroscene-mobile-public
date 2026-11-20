@@ -1928,6 +1928,7 @@ export default function App() {
                 <Text style={{color:'#D8EDFF',fontSize:23,lineHeight:25}}>×</Text>
               </TouchableOpacity>
             </View>
+            <ScrollView style={{maxHeight:'66%'}} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom:2}}>
             <View style={{borderRadius:17,padding:15,backgroundColor:'rgba(4,15,34,0.7)',borderWidth:1,borderColor:'rgba(81,143,203,0.28)',marginBottom:12}}>
               <Text style={{color:'#80BDEB',fontSize:10,fontWeight:'900',letterSpacing:1.2}}>ЯЗЫК ИНТЕРФЕЙСА</Text>
               <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginTop:10}}>
@@ -1955,6 +1956,7 @@ export default function App() {
               <Text style={{color:'#8BA9C9',fontSize:11,marginTop:4}}>Мобильная студия управления локальной видеогенерацией</Text>
               <Text style={{color:'#7899BC',fontSize:10,marginTop:9}}>Версия интерфейса 1.0 · Без рекламных уведомлений</Text>
             </View>
+            </ScrollView>
             <TouchableOpacity onPress={()=>setShowSettings(false)} activeOpacity={0.86} style={{minHeight:48,marginTop:16,borderRadius:14,backgroundColor:'#1479F8',borderWidth:1,borderColor:'#65C8FF',alignItems:'center',justifyContent:'center'}}>
               <Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Готово</Text>
             </TouchableOpacity>
