@@ -2221,7 +2221,7 @@ function CreateScreen({
         </View>
       )}      {showComposer && (
       <>
-      <TouchableOpacity activeOpacity={0.86} style={styles.composerBack} onPress={() => setShowComposer(false)}>
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Назад к главному экрану создания" activeOpacity={0.86} style={styles.composerBack} onPress={() => setShowComposer(false)}>
         <Text style={styles.composerBackText}>‹ Назад к сцене</Text>
       </TouchableOpacity>
       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:11,paddingHorizontal:3}}>
@@ -2234,11 +2234,11 @@ function CreateScreen({
         </View>
       </View>
       <View style={styles.modeSelector}>
-        <TouchableOpacity activeOpacity={0.86} style={[styles.modeOption, generationType === 't2v' && styles.modeOptionActive]} onPress={() => setGenerationType('t2v')} disabled={busy}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Режим Текст в видео" accessibilityState={{selected:generationType === 't2v',disabled:busy}} activeOpacity={0.86} style={[styles.modeOption, generationType === 't2v' && styles.modeOptionActive]} onPress={() => setGenerationType('t2v')} disabled={busy}>
           <Text style={[styles.modeOptionText, generationType === 't2v' && styles.modeOptionTextActive]}>{uiText(language, 'Text to Video', 'Текст в видео')}</Text>
           <Text style={{color:generationType==='t2v'?'#D4ECFF':'#7899BD',fontSize:10,marginTop:3}}>По текстовому описанию</Text>
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.86} style={[styles.modeOption, generationType === 'i2v' && styles.modeOptionActive]} onPress={() => setGenerationType('i2v')} disabled={busy}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Режим Изображение в видео" accessibilityState={{selected:generationType === 'i2v',disabled:busy}} activeOpacity={0.86} style={[styles.modeOption, generationType === 'i2v' && styles.modeOptionActive]} onPress={() => setGenerationType('i2v')} disabled={busy}>
           <Text style={[styles.modeOptionText, generationType === 'i2v' && styles.modeOptionTextActive]}>{uiText(language, 'Image to Video', 'Изображение в видео')}</Text>
           <Text style={{color:generationType==='i2v'?'#D4ECFF':'#7899BD',fontSize:10,marginTop:3}}>С исходной фотографией</Text>
         </TouchableOpacity>
@@ -2249,6 +2249,7 @@ function CreateScreen({
       </View>
 
       <TextInput
+        accessibilityLabel="Описание сцены, до 2000 символов"
         style={styles.prompt}
         placeholder={uiText(language, 'Describe the scene and the action you want to see.', 'Опишите сцену и желаемое действие.')}
         placeholderTextColor="#687386"
@@ -2263,7 +2264,7 @@ function CreateScreen({
 
       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginTop:8,marginBottom:12}}>
         <Text style={[styles.characterCount,{marginTop:0,marginBottom:0}]}>{prompt.length} / 2000</Text>
-        <TouchableOpacity activeOpacity={0.84} onPress={onEnhancePrompt} disabled={busy||promptEnhancing||prompt.trim().length<10} style={{minHeight:38,paddingHorizontal:12,borderRadius:11,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:7,backgroundColor:'rgba(16,91,166,0.22)',borderWidth:1,borderColor:'rgba(83,178,244,0.42)',opacity:busy||promptEnhancing||prompt.trim().length<10?0.5:1}}>
+        <TouchableOpacity accessibilityRole="button" accessibilityLabel="Улучшить описание сцены" accessibilityState={{disabled:busy||promptEnhancing||prompt.trim().length<10}} activeOpacity={0.84} onPress={onEnhancePrompt} disabled={busy||promptEnhancing||prompt.trim().length<10} style={{minHeight:38,paddingHorizontal:12,borderRadius:11,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:7,backgroundColor:'rgba(16,91,166,0.22)',borderWidth:1,borderColor:'rgba(83,178,244,0.42)',opacity:busy||promptEnhancing||prompt.trim().length<10?0.5:1}}>
           {promptEnhancing?<ActivityIndicator color="#9EDBFF" size="small"/>:<Text style={{color:'#9EDBFF',fontSize:15}}>✧</Text>}
           <Text style={{color:'#B9DFFF',fontSize:11,fontWeight:'800'}}>{promptEnhancing?'Улучшаем…':'Улучшить описание'}</Text>
         </TouchableOpacity>
@@ -2272,10 +2273,10 @@ function CreateScreen({
         <Text style={{color:'#8ED2FF',fontSize:10,fontWeight:'900',letterSpacing:0.9}}>УЛУЧШЕННОЕ ОПИСАНИЕ</Text>
         <Text style={{color:'#DCEEFF',fontSize:13,lineHeight:19,marginTop:8}}>{enhancedPrompt}</Text>
         <View style={{flexDirection:'row',gap:9,marginTop:12}}>
-          <TouchableOpacity onPress={()=>setPrompt(enhancedPrompt)} activeOpacity={0.85} style={{flex:1,minHeight:39,borderRadius:10,backgroundColor:'rgba(20,121,248,0.25)',borderWidth:1,borderColor:'rgba(93,187,255,0.45)',alignItems:'center',justifyContent:'center'}}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Использовать улучшенное описание" onPress={()=>setPrompt(enhancedPrompt)} activeOpacity={0.85} style={{flex:1,minHeight:39,borderRadius:10,backgroundColor:'rgba(20,121,248,0.25)',borderWidth:1,borderColor:'rgba(93,187,255,0.45)',alignItems:'center',justifyContent:'center'}}>
             <Text style={{color:'#C8E8FF',fontSize:11,fontWeight:'900'}}>Использовать</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>setEnhancedPrompt('')} activeOpacity={0.85} style={{paddingHorizontal:13,minHeight:39,borderRadius:10,backgroundColor:'rgba(84,113,146,0.12)',borderWidth:1,borderColor:'rgba(118,155,193,0.25)',alignItems:'center',justifyContent:'center'}}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Скрыть улучшенное описание" onPress={()=>setEnhancedPrompt('')} activeOpacity={0.85} style={{paddingHorizontal:13,minHeight:39,borderRadius:10,backgroundColor:'rgba(84,113,146,0.12)',borderWidth:1,borderColor:'rgba(118,155,193,0.25)',alignItems:'center',justifyContent:'center'}}>
             <Text style={{color:'#9CB9D8',fontSize:11,fontWeight:'800'}}>Скрыть</Text>
           </TouchableOpacity>
         </View>
@@ -2289,12 +2290,12 @@ function CreateScreen({
               <ImagePickerPreview uri={sourceImage.uri} />
               <Text style={styles.imageFileName} numberOfLines={1}>{sourceImage.fileName || (uiText(language, 'Selected image', 'Выбранное изображение'))}</Text>
               <Text style={{color:'#83B5DE',fontSize:11,marginTop:4}}>{sourceImage.mimeType==='image/png'?'PNG':'JPG'} · {sourceImage.fileSize?(sourceImage.fileSize/1024/1024).toFixed(1)+' МБ':'до 10 МБ'} · исходник выбран</Text>
-              <TouchableOpacity activeOpacity={0.86} style={styles.removeImageButton} onPress={onRemoveImage} disabled={busy}>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Удалить выбранное изображение" activeOpacity={0.86} style={styles.removeImageButton} onPress={onRemoveImage} disabled={busy}>
                 <Text style={styles.removeImageText}>{uiText(language, 'Remove image', 'Удалить изображение')}</Text>
               </TouchableOpacity>
             </View>
           ) : (
-            <TouchableOpacity activeOpacity={0.86} style={styles.chooseImageButton} onPress={onChooseImage} disabled={busy}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Выбрать исходное изображение JPG или PNG до 10 мегабайт" accessibilityState={{disabled:busy}} activeOpacity={0.86} style={styles.chooseImageButton} onPress={onChooseImage} disabled={busy}>
               <Text style={styles.chooseImageIcon}>＋</Text>
               <Text style={styles.chooseImageText}>{uiText(language, 'Choose image', 'Выбрать изображение')}</Text>
               <Text style={styles.imageHint}>{uiText(language, 'JPEG or PNG · up to 10 MB', 'JPEG или PNG · до 10 МБ')}</Text>
@@ -2309,7 +2310,7 @@ function CreateScreen({
           <Text style={[styles.sectionTitle, { textAlign: 'center', marginBottom: 9 }]}>{uiText(language, 'DURATION', 'ДЛИТЕЛЬНОСТЬ')}</Text>
           <View style={{ flexDirection: 'row', gap: 6 }}>
             {[5, 10].map((value) => (
-              <TouchableOpacity activeOpacity={0.86} key={value}
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Длительность ${value} секунд`} accessibilityState={{selected:duration === value,disabled:busy}} activeOpacity={0.86} key={value}
                 style={[styles.option, { flex: 1, minWidth: 0, minHeight: 66, paddingVertical: 9, paddingHorizontal: 3 }, duration === value && styles.selectedOption]}
                 onPress={() => setDuration(value)} disabled={busy}>
                 <Text style={[styles.optionMain, { fontSize: 13 }, duration === value && styles.activeText]}>{value}s</Text>
@@ -2322,7 +2323,7 @@ function CreateScreen({
           <Text style={[styles.sectionTitle, { textAlign: 'center', marginBottom: 9 }]}>{uiText(language, 'ASPECT RATIO', 'ФОРМАТ КАДРА')}</Text>
           <View style={{ flexDirection: 'row', gap: 6 }}>
             {['16:9', '9:16'].map((value) => (
-              <TouchableOpacity activeOpacity={0.86} key={value}
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Формат кадра ${value}`} accessibilityState={{selected:ratio === value,disabled:busy}} activeOpacity={0.86} key={value}
                 style={[styles.option, { flex: 1, minWidth: 0, minHeight: 66, paddingVertical: 9, paddingHorizontal: 3 }, ratio === value && styles.selectedOption]}
                 onPress={() => setRatio(value)} disabled={busy}>
                 <Text style={[styles.optionMain, { fontSize: 13 }, ratio === value && styles.activeText]}>{value}</Text>
@@ -2343,7 +2344,7 @@ function CreateScreen({
         </View>
       </View>
 
-      <TouchableOpacity activeOpacity={0.86}
+      <TouchableOpacity accessibilityRole="button" accessibilityLabel="Создать видео" accessibilityState={{disabled:busy}} activeOpacity={0.86}
         style={[styles.createButton, busy && styles.disabledButton]}
         onPress={onCreate}
         disabled={busy}
@@ -2383,7 +2384,7 @@ function CreateScreen({
           )}
 
           {jobStatus === 'completed' && videoUrl && (
-            <TouchableOpacity activeOpacity={0.86} style={styles.secondaryButton} onPress={onOpenVideo}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Открыть готовое видео" activeOpacity={0.86} style={styles.secondaryButton} onPress={onOpenVideo}>
               <Text style={styles.secondaryButtonText}>{uiText(language, 'Open completed video', 'Открыть готовое видео')}</Text>
             </TouchableOpacity>
           )}
@@ -2395,7 +2396,7 @@ function CreateScreen({
           )}
 
           {(jobStatus === 'completed' || jobStatus === 'failed') && (
-            <TouchableOpacity activeOpacity={0.86} style={styles.resetButton} onPress={onReset}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Начать новую генерацию" activeOpacity={0.86} style={styles.resetButton} onPress={onReset}>
               <Text style={styles.resetButtonText}>{uiText(language, 'New generation', 'Новая генерация')}</Text>
             </TouchableOpacity>
           )}
