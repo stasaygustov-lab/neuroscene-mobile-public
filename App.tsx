@@ -2221,7 +2221,21 @@ function GalleryScreen({
 }) {
   const [filter,setFilter]=useState<'all'|'favorites'>('all');
   const [favorites,setFavorites]=useState<string[]>([]);
-  const visible=items.filter((item)=>Boolean(readVideoUrl(item))&&(filter==='all'||favorites.includes(String(item.job_id))));
+  const [favoritesReady,setFavoritesReady]=useState(false);
+  const completedItems=items.filter((item)=>Boolean(readVideoUrl(item)));
+  const visible=completedItems.filter((item)=>(filter==='all'||favorites.includes(String(item.job_id))));
+  useEffect(()=>{
+    let active=true;
+    SecureStore.getItemAsync('neuroscene.gallery.favorites').then((raw)=>{
+      if(!active)return;
+      if(raw){try{const parsed=JSON.parse(raw);if(Array.isArray(parsed))setFavorites(parsed.filter((value)=>typeof value==='string'));}catch{}}
+      setFavoritesReady(true);
+    }).catch(()=>{if(active)setFavoritesReady(true);});
+    return ()=>{active=false;};
+  },[]);
+  useEffect(()=>{
+    if(favoritesReady)void SecureStore.setItemAsync('neuroscene.gallery.favorites',JSON.stringify(favorites)).catch(()=>{});
+  },[favorites,favoritesReady]);
   return (
     <View style={{flex:1,paddingTop:8}}>
       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:18}}>
@@ -2264,7 +2278,7 @@ function GalleryScreen({
         })}
       </View>
       <View style={{marginTop:18,padding:14,borderRadius:15,backgroundColor:'rgba(6,23,49,0.8)',borderWidth:1,borderColor:'rgba(77,146,218,0.3)'}}>
-        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={{color:'#B9D3EE',fontSize:12,fontWeight:'700'}}>Доступно для хранения</Text><Text style={{color:'#E9F5FF',fontSize:13,fontWeight:'900'}}>{items.length}/2</Text></View>
+        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={{color:'#B9D3EE',fontSize:12,fontWeight:'700'}}>Доступно для хранения</Text><Text style={{color:'#E9F5FF',fontSize:13,fontWeight:'900'}}>{completedItems.length}/2</Text></View>
         <View style={{height:6,borderRadius:4,backgroundColor:'rgba(90,135,185,0.2)',overflow:'hidden',marginTop:10}}><View style={{height:6,width:(Math.min(items.length/2*100,100))+'%',backgroundColor:'#168BFF',borderRadius:4}}/></View>
       </View>
     </View>
