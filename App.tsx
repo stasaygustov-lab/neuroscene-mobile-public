@@ -1333,16 +1333,28 @@ export default function App() {
       if (result.canceled || !result.assets?.length) return;
       const asset = result.assets[0];
       const fileName = (asset.fileName || asset.uri).toLowerCase();
-      const mime = asset.mimeType || (fileName.endsWith('.png') ? 'image/png' : 'image/jpeg');
+      const extensionMime = fileName.endsWith('.png')
+        ? 'image/png'
+        : /\\.jpe?g(?:$|[?#])/.test(fileName)
+          ? 'image/jpeg'
+          : '';
+      const mime = String(asset.mimeType || extensionMime).toLowerCase();
       if (!['image/jpeg', 'image/png'].includes(mime)) {
         Alert.alert(
           language === 'ru' ? 'Неподдерживаемый формат' : 'Unsupported format',
-          language === 'ru' ? 'Выбери изображение JPEG или PNG.' : 'Choose a JPEG or PNG image.'
+          language === 'ru' ? 'Поддерживаются только изображения JPG и PNG.' : 'Only JPG and PNG images are supported.'
         );
         return;
       }
       const imageSize = asset.fileSize ?? new ExpoFile(asset.uri).size;
-      if (typeof imageSize === 'number' && imageSize > 10 * 1024 * 1024) {
+      if (!Number.isFinite(imageSize) || imageSize <= 0) {
+        Alert.alert(
+          language === 'ru' ? 'Не удалось проверить файл' : 'Unable to verify file',
+          language === 'ru' ? 'Не удалось определить размер изображения. Выбери другой файл.' : 'Could not determine the image size. Choose another file.'
+        );
+        return;
+      }
+      if (imageSize > 10 * 1024 * 1024) {
         Alert.alert(
           language === 'ru' ? 'Файл слишком большой' : 'File is too large',
           language === 'ru' ? 'Максимальный размер изображения — 10 МБ.' : 'Maximum image size is 10 MB.'
@@ -1423,8 +1435,8 @@ export default function App() {
 
     if (cleanPrompt.length < 10) {
       Alert.alert(
-        language === 'ru' ? 'Промпт слишком короткий' : 'Prompt is too short',
-        language === 'ru' ? 'Опиши сцену на английском языке. Минимум 10 символов.' : 'Describe the scene in English. At least 10 characters.'
+        language === 'ru' ? 'Описание слишком короткое' : 'Prompt is too short',
+        language === 'ru' ? 'Опиши сцену подробнее. Минимум 10 символов.' : 'Describe the scene in more detail. At least 10 characters.'
       );
       return;
     }
@@ -2113,7 +2125,6 @@ function CreateScreen({
       />
 
       <Text style={styles.characterCount}>{prompt.length} / 2000</Text>
-remove enhancement block
 
       {generationType === 'i2v' && (
         <View style={styles.imageUploadCard}>
