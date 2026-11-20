@@ -1832,8 +1832,11 @@ export default function App() {
         {...swipeResponder.panHandlers}
       >
               {tab === 'Create' && <View style={[styles.header, { minHeight: 66, height: 66, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, backgroundColor: 'transparent', borderBottomWidth: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', overflow: 'visible' }]}>
-        <View style={[styles.brandRow, { alignItems: 'center', marginTop: 4 }]}>
-          <BrandMarkSvg size={54} />
+        <View style={[styles.brandRow, { alignItems: 'center', marginTop: 4, gap: 10 }]}>
+          <BrandMarkSvg size={48} />
+          <Text style={{ color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 21, lineHeight: 22, fontWeight: '900', letterSpacing: 0.15, textShadowColor: '#38B6FF', textShadowRadius: 13 }}>
+            {'Нейро\nСцена'}
+          </Text>
         </View>
 
         <View style={[styles.headerActions, { position: 'relative', left: undefined, right: undefined, top: undefined, marginTop: 0 }]}>
@@ -2020,8 +2023,15 @@ function CreateScreen({
         <View style={{ gap: 20, minHeight: Math.max(560, windowHeight - 245), justifyContent: 'space-between', paddingBottom: 10 }}>
           <View style={{ height: 214, borderRadius: 26, overflow: 'hidden', backgroundColor: 'rgba(1,7,19,0.76)', borderWidth: 1, borderColor: 'rgba(91,177,255,0.56)', shadowColor: '#087BFF', shadowOpacity: 0.26, shadowRadius: 22, elevation: 10 }}>
             {videoUrl ? <HomeVideoPlayer uri={videoUrl} /> : (
-              <TouchableOpacity activeOpacity={0.86} onPress={() => setShowComposer(true)} accessibilityLabel="Открыть плеер последнего видео" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <View style={{ width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13,89,173,0.28)', borderWidth: 1, borderColor: 'rgba(125,213,255,0.62)', shadowColor: '#168BFF', shadowOpacity: 0.55, shadowRadius: 18, elevation: 8 }}>
+              <TouchableOpacity activeOpacity={0.86} onPress={() => setShowComposer(true)} accessibilityLabel="Открыть создание видео" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Image pointerEvents="none" source={require('./assets/neuroscene-create-hero.webp')} style={StyleSheet.absoluteFill} resizeMode="cover" />
+                <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(4,12,32,0.34)' }]} />
+                <View pointerEvents="none" style={{ position: 'absolute', left: 12, right: 12, bottom: 13, alignItems: 'center' }}>
+                  <Text style={{ color: '#D9ECFF', fontFamily: 'Manrope', fontSize: 12, lineHeight: 17, fontWeight: '700', textAlign: 'center', textShadowColor: '#07152E', textShadowRadius: 8 }}>
+                    Здесь появится превью твоего видео
+                  </Text>
+                </View>
+                <View style={{ width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13,89,173,0.48)', borderWidth: 1, borderColor: 'rgba(125,213,255,0.78)', shadowColor: '#168BFF', shadowOpacity: 0.72, shadowRadius: 20, elevation: 9 }}>
                   <PlayIconSvg size={25} />
                 </View>
               </TouchableOpacity>
@@ -2033,11 +2043,11 @@ function CreateScreen({
             </TouchableOpacity>
           </Animated.View>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 2 }}><View style={{ flex: 1, height: 1, backgroundColor: 'rgba(104,173,255,0.28)' }} /><Text style={{ color: '#DCEEFF', fontSize: 15, fontWeight: '800', letterSpacing: 1.1 }}>ВОЗМОЖНОСТИ</Text><View style={{ flex: 1, height: 1, backgroundColor: 'rgba(104,173,255,0.28)' }} /></View>
-          <View style={{ flexDirection: 'row', borderRadius: 19, overflow: 'hidden', backgroundColor: 'rgba(6,22,48,0.82)', borderWidth: 1, borderColor: 'rgba(81,151,222,0.34)', paddingVertical: 15, paddingHorizontal: 5 }}>
+          <View style={{ flexDirection: 'row', borderRadius: 19, overflow: 'hidden', backgroundColor: 'rgba(20,34,68,0.42)', borderWidth: 1, borderColor: 'rgba(120,190,255,0.35)', paddingVertical: 16, paddingHorizontal: 5 }}>
             {[{id:'text',icon:'T',title:'Текст',subtitle:'в видео'},{id:'image',icon:'▧',title:'Изображение',subtitle:'в видео'},{id:'sound',icon:'♫',title:'Озвучка',subtitle:'и эффекты'},{id:'quality',icon:'✧',title:'Проф.',subtitle:'качество'}].map((feature,index) => (
               <TouchableOpacity key={feature.id} activeOpacity={0.8} onPress={() => { if(feature.id==='text'){setGenerationType('t2v');setShowComposer(true);} else if(feature.id==='image'){setGenerationType('i2v');setShowComposer(true);} else if(feature.id==='sound') Alert.alert('Озвучка и эффекты','Звуковое оформление будет доступно в отдельном разделе создания.'); else Alert.alert('Профессиональное качество','Настройки качества доступны при создании видео.'); }} style={{ flex: 1, minWidth: 0, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, borderRightWidth: index===3 ? 0 : 1, borderRightColor: 'rgba(100,164,225,0.18)' }}>
-                <View style={{ width: 35, height: 35, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(29,105,190,0.2)', borderWidth: 1, borderColor: 'rgba(86,171,255,0.42)' }}><FeatureIconSvg kind={feature.id} /></View>
-                <Text numberOfLines={1} adjustsFontSizeToFit style={{ color: '#E5F2FF', fontSize: 10, fontWeight: '800', marginTop: 8, textAlign: 'center' }}>{feature.title}</Text><Text numberOfLines={1} adjustsFontSizeToFit style={{ color: '#8FB5DC', fontSize: 9, marginTop: 2, textAlign: 'center' }}>{feature.subtitle}</Text>
+                <View style={{ width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(56,182,255,0.20)', borderWidth: 1, borderColor: 'rgba(120,190,255,0.48)' }}><FeatureIconSvg kind={feature.id} /></View>
+                <Text numberOfLines={1} adjustsFontSizeToFit style={{ color: '#E5F2FF', fontSize: 11, fontWeight: '800', marginTop: 8, textAlign: 'center' }}>{feature.title}</Text><Text numberOfLines={1} adjustsFontSizeToFit style={{ color: '#8FB5DC', fontSize: 9, marginTop: 2, textAlign: 'center' }}>{feature.subtitle}</Text>
               </TouchableOpacity>
             ))}
           </View>
