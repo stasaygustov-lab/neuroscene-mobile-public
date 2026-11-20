@@ -3316,7 +3316,7 @@ function HomeVideoPlayer({ uri }: { uri: string }) {
       <VideoView player={player} style={{ width: '100%', height: '100%' }} nativeControls={false} contentFit="contain" />
       <TouchableOpacity
         activeOpacity={0.86}
-        accessibilityLabel={isPlaying ? 'Приостановить видео' : 'Воспроизвести видео'}
+        accessibilityRole="button" accessibilityLabel={isPlaying ? 'Приостановить видео' : 'Воспроизвести видео'}
         onPress={() => isPlaying ? player.pause() : player.play()}
         style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}
       >
@@ -3345,14 +3345,14 @@ function GalleryVideoPlayer({ uri }: { uri: string }) {
       <View style={styles.videoControls}>
         <TouchableOpacity activeOpacity={0.86}
           style={styles.videoControlButton}
-          accessibilityLabel={isPlaying ? 'Приостановить видео' : 'Воспроизвести видео'}
+          accessibilityRole="button" accessibilityLabel={isPlaying ? 'Приостановить видео' : 'Воспроизвести видео'}
           onPress={() => isPlaying ? player.pause() : player.play()}
         >
           <Text style={styles.videoControlText}>{isPlaying ? 'Ⅱ' : '▶'}</Text>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.86}
           style={styles.videoControlButton}
-          accessibilityLabel="Полноэкранный режим"
+          accessibilityRole="button" accessibilityLabel="Полноэкранный режим"
           onPress={() => videoViewRef.current?.enterFullscreen?.()}
         >
           <Text style={styles.videoControlText}>⛶</Text>
