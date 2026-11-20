@@ -2243,14 +2243,14 @@ function CreateScreen({
                 accessibilityLabel="Открыть создание видео"
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(1,7,19,0.92)' }}
               >
-                <View style={{ width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(13,89,173,0.42)', borderWidth: 1, borderColor: 'rgba(125,213,255,0.78)', shadowColor: '#168BFF', shadowOpacity: 0.72, shadowRadius: 20, elevation: 9 }}>
+                <View style={{ width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0, elevation: 0 }}>
                   <PlayIconSvg size={25} />
                 </View>
               </TouchableOpacity>
             )}
           </View>
-          <Animated.View style={{ shadowColor: '#168BFF', shadowOpacity: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [0.34,0.78] }), shadowRadius: ctaGlow.interpolate({ inputRange: [0,1], outputRange: [12,24] }), shadowOffset: { width: 0, height: 7 }, elevation: 10, borderRadius: 20 }}>
-            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Создать видео" activeOpacity={0.9} onPress={() => setShowComposer(true)} style={{ minHeight: 62, borderRadius: 20, paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, backgroundColor: 'rgba(20,121,248,0.5)', borderWidth: 1, borderColor: 'rgba(112,201,255,0.5)' }}>
+          <Animated.View style={{ borderRadius: 20 }}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Создать видео" activeOpacity={0.9} onPress={() => setShowComposer(true)} style={{ minHeight: 62, borderRadius: 20, paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent' }}>
               <Text style={{ color: '#FFFFFF', fontSize: 21, fontWeight: '900' }}>✦</Text><Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: '900' }}>Создать видео</Text><Text style={{ color: '#DDF5FF', fontSize: 21, fontWeight: '700' }}>›</Text>
             </TouchableOpacity>
           </Animated.View>
@@ -5307,6 +5307,7 @@ const styles = StyleSheet.create({
   ...(FINAL_UI_FIXES_V15 as any),
   ...(FINAL_UI_FIXES_V16 as any),
   ...(HTML_REBUILD as any),
+  ...({ featureTile: { backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0, shadowRadius: 0, elevation: 0 } } as any),
   ...({
     imageUploadCard: { backgroundColor: 'rgba(6,22,48,0.27)', borderColor: 'rgba(81,144,207,0.22)' },
     chooseImageButton: { backgroundColor: 'rgba(16,27,48,0.30)', borderColor: 'rgba(22,139,255,0.35)' },
