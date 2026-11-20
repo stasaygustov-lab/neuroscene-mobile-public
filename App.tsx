@@ -3305,7 +3305,7 @@ function FeatureIconSvg({ kind }: { kind: string }) {
 }
 
 function ImagePickerPreview({ uri }: { uri: string }) {
-  return <Image source={{ uri }} style={styles.imagePreview} resizeMode="cover" />;
+  return <Image accessibilityLabel="Предварительный просмотр выбранного изображения" source={{ uri }} style={styles.imagePreview} resizeMode="cover" />;
 }
 
 function HomeVideoPlayer({ uri }: { uri: string }) {
