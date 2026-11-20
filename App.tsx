@@ -330,22 +330,36 @@ export default function App() {
         const savedToken = await SecureStore.getItemAsync(SESSION_STORAGE_KEY);
         splashProgress.setValue(0.42);
         if (!savedToken) return;
-        const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
-          headers: { Authorization: `Bearer ${savedToken}`, Accept: 'application/json' },
-        });
+        const controller = new AbortController();
+        const sessionCheckTimeout = setTimeout(() => controller.abort(), 8000);
+        let response: Response;
+        try {
+          response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+            headers: { Authorization: `Bearer ${savedToken}`, Accept: 'application/json' },
+            signal: controller.signal,
+          });
+        } finally {
+          clearTimeout(sessionCheckTimeout);
+        }
         const data = await readResponse(response);
         splashProgress.setValue(0.72);
         if (!response.ok) {
-          await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY);
+          if (response.status === 401 || response.status === 403) {
+            await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY);
+          } else if (mounted) {
+            setAuthNotice('Не удалось проверить сохранённую сессию. Проверь подключение к компьютеру и повтори вход позже.');
+          }
           return;
         }
         if (mounted) {
           setAuthToken(savedToken);
           setAuthUser(data.user);
+          setAuthNotice('');
           setTab('Gallery');
         }
       } catch {
-        await SecureStore.deleteItemAsync(SESSION_STORAGE_KEY).catch(() => undefined);
+        // A temporary network failure must not erase a valid saved session.
+        if (mounted) setAuthNotice('Не удалось проверить сохранённую сессию. Проверь подключение к компьютеру и повтори вход позже.');
       } finally {
         splashProgress.setValue(0.90);
         if (mounted) setAuthReady(true);
@@ -1846,6 +1860,7 @@ export default function App() {
           <View style={{width:82,height:82,borderRadius:41,backgroundColor:'rgba(14,63,119,0.48)',borderWidth:1.5,borderColor:'rgba(87,189,255,0.7)',alignItems:'center',justifyContent:'center'}}><View style={{width:23,height:23,borderRadius:12,borderWidth:2,borderColor:'#9BDFFF',marginBottom:5}}/><View style={{width:42,height:22,borderTopLeftRadius:22,borderTopRightRadius:22,borderWidth:2,borderBottomWidth:0,borderColor:'#9BDFFF'}}/></View>
           <Text style={{color:'#F2F8FF',fontSize:20,fontWeight:'900',marginTop:13}}>{authUser?.name||authUser?.email?.split('@')[0]||'Гость'}</Text><Text style={{color:'#91B2D5',fontSize:13,marginTop:6,textAlign:'center'}}>{authUser?.email||'Войдите, чтобы открыть все возможности'}</Text><View style={{marginTop:11,paddingHorizontal:11,paddingVertical:6,borderRadius:20,backgroundColor:authUser?'rgba(35,190,142,0.13)':'rgba(95,145,205,0.14)',borderWidth:1,borderColor:authUser?'rgba(73,218,169,0.3)':'rgba(110,168,225,0.28)'}}><Text style={{color:authUser?'#80E7C2':'#A9C9EA',fontSize:10,fontWeight:'900',letterSpacing:0.7}}>{authUser?'АККАУНТ ПОДКЛЮЧЁН':'ГОСТЕВОЙ РЕЖИМ'}</Text></View>
         </View>
+        {!!authNotice&&<Text style={{color:'#FFCB86',fontSize:12,lineHeight:18,paddingHorizontal:4}}>{authNotice}</Text>}
         {!authUser?<View style={{borderRadius:18,padding:15,backgroundColor:'rgba(6,23,50,0.8)',borderWidth:1,borderColor:'rgba(79,145,211,0.3)'}}>
           <Text style={{color:'#B1CBE7',fontSize:12,lineHeight:18,textAlign:'center',marginBottom:13}}>Войдите, чтобы сохранять свои видео и пользоваться всеми возможностями НейроСцены</Text>
           <TouchableOpacity activeOpacity={0.86} onPress={handleVkLogin} disabled={authBusy} style={{minHeight:50,borderRadius:14,backgroundColor:'rgba(20,121,248,0.5)',borderWidth:1,borderColor:'rgba(117,201,255,0.5)',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:9}}>{authBusy?<ActivityIndicator color={WHITE}/>:<><Text style={{color:'#FFFFFF',fontSize:16,fontWeight:'900'}}>ᴠκ</Text><Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Войти через VK ID</Text></>}</TouchableOpacity>
@@ -1857,7 +1872,7 @@ export default function App() {
             {authMode==='login'&&<TouchableOpacity onPress={requestEmailLoginLink} disabled={authBusy} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>Войти по ссылке на email</Text></TouchableOpacity>}
             <TouchableOpacity onPress={()=>{setAuthMode(authMode==='login'?'register':'login');setAuthNotice('');}} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>{authMode==='login'?'Нет аккаунта? Зарегистрироваться':'Уже зарегистрированы? Войти'}</Text></TouchableOpacity>
             {!!pendingEmail&&<TouchableOpacity onPress={resendVerification} disabled={authBusy} style={{padding:8,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12}}>Отправить письмо подтверждения повторно</Text></TouchableOpacity>}
-            {!!authNotice&&<Text style={{color:'#83B7FF',fontSize:12,marginTop:8}}>{authNotice}</Text>}
+
           </View>}
           <Text style={{color:'#7897BA',fontSize:10,lineHeight:15,textAlign:'center',marginTop:12}}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
         </View>:<View style={{gap:9}}>
