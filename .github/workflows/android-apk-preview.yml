@@ -1,6 +1,9 @@
 name: NeuroScene Android APK preview (no emulator)
 
 on:
+  push:
+    branches:
+      - ui/full-screen-rebuild-html-reference
   workflow_dispatch:
 
 permissions:

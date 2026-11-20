@@ -2042,14 +2042,43 @@ function CreateScreen({
               <Text style={{ color: '#FFFFFF', fontSize: 21, fontWeight: '900' }}>✦</Text><Text style={{ color: '#FFFFFF', fontSize: 18, fontWeight: '900' }}>Создать видео</Text><Text style={{ color: '#DDF5FF', fontSize: 21, fontWeight: '700' }}>›</Text>
             </TouchableOpacity>
           </Animated.View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 2 }}><View style={{ flex: 1, height: 1, backgroundColor: 'rgba(104,173,255,0.28)' }} /><Text style={{ color: '#DCEEFF', fontSize: 15, fontWeight: '800', letterSpacing: 1.1 }}>ВОЗМОЖНОСТИ</Text><View style={{ flex: 1, height: 1, backgroundColor: 'rgba(104,173,255,0.28)' }} /></View>
-          <View style={{ flexDirection: 'row', borderRadius: 19, overflow: 'hidden', backgroundColor: 'rgba(20,34,68,0.42)', borderWidth: 1, borderColor: 'rgba(120,190,255,0.35)', paddingVertical: 16, paddingHorizontal: 5 }}>
-            {[{id:'text',icon:'T',title:'Текст',subtitle:'в видео'},{id:'image',icon:'▧',title:'Изображение',subtitle:'в видео'},{id:'sound',icon:'♫',title:'Озвучка',subtitle:'и эффекты'},{id:'quality',icon:'✧',title:'Проф.',subtitle:'качество'}].map((feature,index) => (
-              <TouchableOpacity key={feature.id} activeOpacity={0.8} onPress={() => { if(feature.id==='text'){setGenerationType('t2v');setShowComposer(true);} else if(feature.id==='image'){setGenerationType('i2v');setShowComposer(true);} else if(feature.id==='sound') Alert.alert('Озвучка и эффекты','Звуковое оформление будет доступно в отдельном разделе создания.'); else Alert.alert('Профессиональное качество','Настройки качества доступны при создании видео.'); }} style={{ flex: 1, minWidth: 0, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, borderRightWidth: index===3 ? 0 : 1, borderRightColor: 'rgba(100,164,225,0.18)' }}>
-                <View style={{ width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(56,182,255,0.20)', borderWidth: 1, borderColor: 'rgba(120,190,255,0.48)' }}><FeatureIconSvg kind={feature.id} /></View>
-                <Text numberOfLines={1} adjustsFontSizeToFit style={{ color: '#E5F2FF', fontSize: 11, fontWeight: '800', marginTop: 8, textAlign: 'center' }}>{feature.title}</Text><Text numberOfLines={1} adjustsFontSizeToFit style={{ color: '#8FB5DC', fontSize: 9, marginTop: 2, textAlign: 'center' }}>{feature.subtitle}</Text>
-              </TouchableOpacity>
-            ))}
+          <View style={styles.featureSection}>
+            <Text style={styles.featureSectionTitle}>ВОЗМОЖНОСТИ</Text>
+            <View style={styles.featureGrid}>
+              {[
+                { id: 'text', title: 'Текст в видео', subtitle: 'Создание по описанию' },
+                { id: 'image', title: 'Изображение в видео', subtitle: 'Оживление фотографии' },
+                { id: 'sound', title: 'Озвучка и эффекты', subtitle: 'Звуковое оформление' },
+                { id: 'quality', title: 'Профессиональное качество', subtitle: 'Параметры видеосцены' },
+              ].map((feature) => (
+                <TouchableOpacity
+                  key={feature.id}
+                  activeOpacity={0.84}
+                  accessibilityRole="button"
+                  accessibilityLabel={feature.title}
+                  onPress={() => {
+                    if (feature.id === 'text') {
+                      setGenerationType('t2v');
+                      setShowComposer(true);
+                    } else if (feature.id === 'image') {
+                      setGenerationType('i2v');
+                      setShowComposer(true);
+                    } else if (feature.id === 'sound') {
+                      Alert.alert('Озвучка и эффекты', 'Звуковое оформление будет доступно в отдельном разделе создания.');
+                    } else {
+                      Alert.alert('Профессиональное качество', 'Настройки качества доступны при создании видео.');
+                    }
+                  }}
+                  style={styles.featureTile}
+                >
+                  <View style={styles.featureIconSquare}>
+                    <FeatureIconSvg kind={feature.id} />
+                  </View>
+                  <Text style={styles.featureTitle}>{feature.title}</Text>
+                  <Text style={styles.featureSubtitle}>{feature.subtitle}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
         </View>
       )}      {showComposer && (
