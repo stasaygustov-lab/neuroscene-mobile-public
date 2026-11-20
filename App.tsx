@@ -2919,7 +2919,7 @@ function FAQScreen({
       />
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginVertical: 12 }}>
         {categories.map(([value, label]) => (
-          <TouchableOpacity accessibilityRole="button" accessibilityLabel={categoryLabels[value]} accessibilityState={{selected:category === value}} activeOpacity={0.86} key={value} style={[styles.smallAction, category === value && { borderColor: BLUE }]} onPress={() => setCategory(value)}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel={label} accessibilityState={{selected:category === value}} activeOpacity={0.86} key={value} style={[styles.smallAction, category === value && { borderColor: BLUE }]} onPress={() => setCategory(value)}>
             <Text style={styles.smallActionText}>{label}</Text>
           </TouchableOpacity>
         ))}
