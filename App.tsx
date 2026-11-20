@@ -1761,27 +1761,80 @@ export default function App() {
 
     if (tab === 'Credits') {
       return (
-        <View style={{flex:1,paddingTop:8,gap:16}}>
-          <View><Text style={{color:'#F4F8FF',fontSize:27,fontWeight:'900'}}>Кредиты</Text><Text style={{color:'#89AACA',fontSize:12,marginTop:5}}>Энергия для создания твоих видео</Text></View>
-          <View style={{borderRadius:22,padding:19,backgroundColor:'rgba(7,30,66,0.92)',borderWidth:1,borderColor:'rgba(78,161,238,0.48)',shadowColor:'#168BFF',shadowOpacity:0.2,shadowRadius:20}}>
-            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><View><Text style={{color:'#9CC4E9',fontSize:11,fontWeight:'900',letterSpacing:1.6}}>ВАШ БАЛАНС</Text><Text style={{color:'#FFFFFF',fontSize:36,fontWeight:'900',marginTop:8}}>{creditsLoading?'…':creditsBalance===null?'—':creditsBalance.toLocaleString('ru-RU')}</Text><Text style={{color:'#8DBCEB',fontSize:13,marginTop:2}}>кредитов</Text></View><View style={{width:74,height:74,borderRadius:24,backgroundColor:'rgba(17,94,171,0.35)',borderWidth:1,borderColor:'rgba(113,206,255,0.6)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FFE29A',fontSize:38,textShadowColor:'#FFB52E',textShadowRadius:15}}>✦</Text></View></View>
-            {creditsBalance===null&&!creditsLoading&&<Text style={{color:'#A5C0DE',fontSize:11,marginTop:12}}>Войдите в профиль, чтобы увидеть баланс</Text>}
+        <View style={{flex:1,paddingTop:8,gap:15}}>
+          <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+            <View style={{flex:1,paddingRight:12}}>
+              <Text style={{color:'#F4F8FF',fontSize:27,fontWeight:'900'}}>Кредиты</Text>
+              <Text style={{color:'#89AACA',fontSize:12,marginTop:5}}>Баланс и история операций</Text>
+            </View>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Обновить баланс и историю" onPress={()=>void loadCredits()} disabled={creditsLoading||!authToken} style={{width:44,height:44,borderRadius:14,backgroundColor:'rgba(10,37,75,0.86)',borderWidth:1,borderColor:'rgba(86,157,232,0.42)',alignItems:'center',justifyContent:'center',opacity:!authToken?0.45:1}}>
+              {creditsLoading?<ActivityIndicator color="#8EDBFF" size="small"/>:<Text style={{color:'#A8D9FF',fontSize:21}}>↻</Text>}
+            </TouchableOpacity>
           </View>
-          <View style={{gap:10}}>
-            <Text style={{color:'#DCEEFF',fontSize:15,fontWeight:'900'}}>Пакеты кредитов</Text>
-            {[500,1500,5000].map((amount)=><View key={amount} style={{minHeight:72,borderRadius:16,paddingHorizontal:14,paddingVertical:11,flexDirection:'row',alignItems:'center',gap:12,backgroundColor:amount===1500?'rgba(8,57,109,0.94)':'rgba(6,24,51,0.88)',borderWidth:1,borderColor:amount===1500?'#2DBEFF':'rgba(78,145,210,0.34)'}}>
-              <View style={{width:42,height:42,borderRadius:14,backgroundColor:'rgba(26,100,174,0.28)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#8FDFFF',fontSize:20}}>{amount===500?'★':amount===1500?'♛':'◆'}</Text></View>
-              <View style={{flex:1}}><Text style={{color:'#F0F7FF',fontSize:16,fontWeight:'900'}}>{amount.toLocaleString('ru-RU')} кредитов</Text><Text style={{color:'#8EACCC',fontSize:11,marginTop:3}}>Без подписки</Text></View>
-              <View style={{alignItems:'flex-end'}}>{amount===1500&&<Text style={{color:'#72D7FF',fontSize:9,fontWeight:'900',marginBottom:4}}>ПОПУЛЯРНЫЙ</Text>}<Text style={{color:'#FFFFFF',fontSize:17,fontWeight:'900'}}>{amount===500?'₽99':amount===1500?'₽249':'₽749'}</Text></View>
+          <View style={{borderRadius:22,padding:19,backgroundColor:'rgba(7,30,66,0.94)',borderWidth:1,borderColor:'rgba(78,161,238,0.5)',shadowColor:'#168BFF',shadowOpacity:0.2,shadowRadius:20,elevation:5}}>
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+              <View style={{flex:1}}>
+                <Text style={{color:'#9CC4E9',fontSize:11,fontWeight:'900',letterSpacing:1.6}}>ТЕКУЩИЙ БАЛАНС</Text>
+                <Text style={{color:'#FFFFFF',fontSize:38,fontWeight:'900',marginTop:7}}>{creditsLoading&&creditsBalance===null?'…':creditsBalance===null?'—':creditsBalance.toLocaleString('ru-RU')}</Text>
+                <Text style={{color:'#8DBCEB',fontSize:13,marginTop:2}}>кредитов</Text>
+              </View>
+              <View style={{width:72,height:72,borderRadius:23,backgroundColor:'rgba(17,94,171,0.35)',borderWidth:1,borderColor:'rgba(113,206,255,0.6)',alignItems:'center',justifyContent:'center'}}>
+                <Text style={{color:'#FFE29A',fontSize:37,textShadowColor:'#FFB52E',textShadowRadius:15}}>✦</Text>
+              </View>
+            </View>
+            {creditsBalance===null&&!creditsLoading&&<Text style={{color:'#A5C0DE',fontSize:11,lineHeight:16,marginTop:12}}>Войдите в профиль, чтобы загрузить баланс и историю операций.</Text>}
+            {!authToken&&<TouchableOpacity onPress={()=>setTab('Profile')} style={{alignSelf:'flex-start',marginTop:12,paddingHorizontal:13,paddingVertical:9,borderRadius:11,backgroundColor:'rgba(20,121,248,0.2)',borderWidth:1,borderColor:'rgba(98,185,255,0.4)'}}><Text style={{color:'#BCE2FF',fontSize:12,fontWeight:'800'}}>Перейти в профиль для входа ›</Text></TouchableOpacity>}
+          </View>
+
+          <View style={{gap:9}}>
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+              <Text style={{color:'#DCEEFF',fontSize:16,fontWeight:'900'}}>Пакеты кредитов</Text>
+              <Text style={{color:'#789FC5',fontSize:10}}>Без подписки</Text>
+            </View>
+            {[500,1500,5000].map((amount)=><View key={amount} style={{minHeight:69,borderRadius:16,paddingHorizontal:14,paddingVertical:10,flexDirection:'row',alignItems:'center',gap:12,backgroundColor:amount===1500?'rgba(8,57,109,0.94)':'rgba(6,24,51,0.88)',borderWidth:1,borderColor:amount===1500?'rgba(45,190,255,0.78)':'rgba(78,145,210,0.34)'}}>
+              <View style={{width:42,height:42,borderRadius:14,backgroundColor:'rgba(26,100,174,0.28)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#8FDFFF',fontSize:20}}>{amount===500?'✦':amount===1500?'♛':'◆'}</Text></View>
+              <View style={{flex:1}}>
+                <Text style={{color:'#F0F7FF',fontSize:16,fontWeight:'900'}}>{amount.toLocaleString('ru-RU')} кредитов</Text>
+                <Text style={{color:'#8EACCC',fontSize:11,marginTop:3}}>Пакет пополнения</Text>
+              </View>
+              {amount===1500?<View style={{paddingHorizontal:9,paddingVertical:6,borderRadius:9,backgroundColor:'rgba(45,190,255,0.13)',borderWidth:1,borderColor:'rgba(87,201,255,0.34)'}}><Text style={{color:'#8EDFFF',fontSize:9,fontWeight:'900'}}>ПОПУЛЯРНЫЙ</Text></View>:<Text style={{color:'#779FC6',fontSize:10,fontWeight:'700'}}>ПАКЕТ</Text>}
             </View>)}
+            <Text style={{color:'#7F9DBD',fontSize:10,lineHeight:15}}>Стоимость пока не установлена в приложении. Покупка будет доступна после подключения платёжной системы.</Text>
           </View>
-          <View style={{borderRadius:16,padding:14,flexDirection:'row',alignItems:'center',gap:12,backgroundColor:'rgba(7,36,72,0.76)',borderWidth:1,borderColor:'rgba(70,146,216,0.3)'}}><Text style={{color:'#8FE0FF',fontSize:26}}>✧</Text><View style={{flex:1}}><Text style={{color:'#E5F3FF',fontSize:13,fontWeight:'900'}}>Приветственный бонус</Text><Text style={{color:'#91B0D0',fontSize:11,lineHeight:16,marginTop:3}}>Одна пробная генерация — начните создавать свой первый фильм</Text></View></View>
-          <View style={{borderRadius:17,padding:14,backgroundColor:'rgba(5,20,44,0.78)',borderWidth:1,borderColor:'rgba(76,139,204,0.28)'}}>
-            <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginBottom:8}}><Text style={{color:'#D8EBFF',fontSize:13,fontWeight:'900',letterSpacing:1}}>ИСТОРИЯ ОПЕРАЦИЙ</Text><Text style={{color:'#7FAEDB',fontSize:12}}>{creditHistory.length}</Text></View>
-            {creditsLoading?<View style={{alignItems:'center',padding:14}}><ActivityIndicator color={BLUE}/><Text style={{color:'#91ACCA',fontSize:11,marginTop:8}}>Загружаем историю операций…</Text></View>:creditHistory.length>0?creditHistory.map((entry)=><View key={entry.entry_id} style={{paddingVertical:10,borderTopWidth:1,borderTopColor:'rgba(98,145,194,0.14)',flexDirection:'row',alignItems:'center',gap:10}}><View style={{width:30,height:30,borderRadius:10,backgroundColor:'rgba(23,83,142,0.35)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#8EDBFF'}}>✦</Text></View><View style={{flex:1}}><Text numberOfLines={2} style={{color:'#E5F1FF',fontSize:12,fontWeight:'700'}}>{entry.reason}</Text><Text style={{color:'#7898BA',fontSize:10,marginTop:3}}>{entry.created_at?new Date(entry.created_at).toLocaleString('ru-RU'):''}</Text></View><Text style={{color:entry.amount>0?'#65E6B0':'#FF9AA4',fontSize:13,fontWeight:'900'}}>{entry.amount>0?'+':''}{entry.amount} ✦</Text></View>):<View style={{alignItems:'center',padding:15}}><Text style={{color:'#7FAEDB',fontSize:23}}>◷</Text><Text style={{color:'#E1EEFC',fontSize:13,fontWeight:'800',marginTop:7}}>Операций пока нет</Text><Text style={{color:'#91ACCA',fontSize:11,textAlign:'center',marginTop:4}}>Здесь будут отображаться начисления и списания кредитов</Text></View>}
+
+          <View style={{borderRadius:16,padding:14,flexDirection:'row',alignItems:'center',gap:12,backgroundColor:'rgba(7,36,72,0.76)',borderWidth:1,borderColor:'rgba(70,146,216,0.3)'}}>
+            <Text style={{color:'#8FE0FF',fontSize:25}}>✧</Text>
+            <View style={{flex:1}}>
+              <Text style={{color:'#E5F3FF',fontSize:13,fontWeight:'900'}}>Приветственный пробный запуск</Text>
+              <Text style={{color:'#91B0D0',fontSize:11,lineHeight:16,marginTop:3}}>Предусмотрен один раз для нового аккаунта. Условия доступа проверяются при создании видео.</Text>
+            </View>
           </View>
-          <Text style={{color:'#A9C8E9',fontSize:12,textAlign:'center'}}>∞  Кредиты не сгорают · Без подписок</Text>
-          <TouchableOpacity activeOpacity={0.7} disabled style={{minHeight:54,borderRadius:15,backgroundColor:'#1479F8',borderWidth:1,borderColor:'#62C8FF',alignItems:'center',justifyContent:'center',opacity:0.52}}><Text style={{color:'#FFFFFF',fontSize:15,fontWeight:'900'}}>Купить кредиты</Text><Text style={{color:'#D6ECFF',fontSize:10,marginTop:2}}>Покупка пока не подключена</Text></TouchableOpacity>
+
+          <View style={{borderRadius:17,padding:14,backgroundColor:'rgba(5,20,44,0.82)',borderWidth:1,borderColor:'rgba(76,139,204,0.32)'}}>
+            <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
+              <Text style={{color:'#D8EBFF',fontSize:13,fontWeight:'900',letterSpacing:0.8}}>ИСТОРИЯ ОПЕРАЦИЙ</Text>
+              <View style={{paddingHorizontal:9,paddingVertical:4,borderRadius:9,backgroundColor:'rgba(14,93,169,0.3)'}}><Text style={{color:'#8BCFFF',fontSize:11,fontWeight:'900'}}>{creditHistory.length}</Text></View>
+            </View>
+            {creditsLoading?<View style={{alignItems:'center',padding:14}}><ActivityIndicator color={BLUE}/><Text style={{color:'#91ACCA',fontSize:11,marginTop:8}}>Загружаем историю операций…</Text></View>:creditHistory.length>0?creditHistory.map((entry)=><View key={entry.entry_id} style={{paddingVertical:11,borderTopWidth:1,borderTopColor:'rgba(98,145,194,0.14)',flexDirection:'row',alignItems:'center',gap:10}}>
+              <View style={{width:34,height:34,borderRadius:11,backgroundColor:'rgba(23,83,142,0.35)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#8EDBFF',fontSize:16}}>✦</Text></View>
+              <View style={{flex:1}}>
+                <Text numberOfLines={2} style={{color:'#E5F1FF',fontSize:12,fontWeight:'700'}}>{entry.reason}</Text>
+                <Text style={{color:'#7898BA',fontSize:10,marginTop:3}}>{entry.created_at?new Date(entry.created_at).toLocaleString('ru-RU'):''}</Text>
+              </View>
+              <Text style={{color:entry.amount>0?'#65E6B0':'#FF9AA4',fontSize:13,fontWeight:'900'}}>{entry.amount>0?'+':''}{entry.amount} ✦</Text>
+            </View>):<View style={{alignItems:'center',padding:16}}>
+              <Text style={{color:'#7FAEDB',fontSize:23}}>◷</Text>
+              <Text style={{color:'#E1EEFC',fontSize:13,fontWeight:'800',marginTop:7}}>Операций пока нет</Text>
+              <Text style={{color:'#91ACCA',fontSize:11,textAlign:'center',marginTop:4}}>Начисления и списания будут появляться здесь</Text>
+            </View>}
+          </View>
+          <View style={{borderRadius:14,padding:12,backgroundColor:'rgba(8,35,67,0.65)',borderWidth:1,borderColor:'rgba(75,139,194,0.24)'}}>
+            <Text style={{color:'#A9C8E9',fontSize:12,textAlign:'center'}}>∞  Кредиты не сгорают · Подписок нет</Text>
+          </View>
+          <View style={{minHeight:52,borderRadius:15,backgroundColor:'rgba(20,121,248,0.12)',borderWidth:1,borderColor:'rgba(98,185,255,0.25)',alignItems:'center',justifyContent:'center',padding:10}}>
+            <Text style={{color:'#A9D9FF',fontSize:13,fontWeight:'900'}}>Покупка кредитов пока не подключена</Text>
+            <Text style={{color:'#789FC5',fontSize:10,marginTop:3}}>Кнопка оплаты появится после настройки платежей</Text>
+          </View>
         </View>
       );
     }
