@@ -3153,7 +3153,7 @@ function SupportScreen({
           {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 18 }} />}
           {!loading && tickets.length === 0 && <Text style={styles.note}>{uiText(language, 'No tickets in this category.', 'Обращений в этой категории нет.')}</Text>}
           {tickets.map((ticket) => (
-            <TouchableOpacity activeOpacity={0.86} key={ticket.ticket_id} style={styles.packageCard} onPress={() => onOpen(ticket.ticket_id)}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Обращение: ${categoryLabels[ticket.category] || ticket.category}, ${statusLabels[ticket.status] || ticket.status}`} activeOpacity={0.86} key={ticket.ticket_id} style={styles.packageCard} onPress={() => onOpen(ticket.ticket_id)}>
               <View style={{ flex: 1 }}>
                 <Text style={styles.packageAmount}>{categoryLabels[ticket.category] || ticket.category}</Text>
                 <Text style={styles.mutedText}>{ticket.email}</Text>
@@ -3200,7 +3200,7 @@ function SupportScreen({
           {files.map((file, index) => (
             <View key={file.assetId || file.uri} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 5 }}>
               <Text style={styles.mutedText} numberOfLines={1}>{file.fileName || (uiText(language, 'Image', 'Изображение'))} · {file.fileSize ? (file.fileSize / 1024 / 1024).toFixed(1) + ' MB' : ''}</Text>
-              <TouchableOpacity activeOpacity={0.86} onPress={() => onRemoveFile(index)}>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Убрать прикреплённый файл" activeOpacity={0.86} onPress={() => onRemoveFile(index)}>
                 <Text style={styles.deleteVideoText}>{uiText(language, 'Remove', 'Убрать')}</Text>
               </TouchableOpacity>
             </View>
