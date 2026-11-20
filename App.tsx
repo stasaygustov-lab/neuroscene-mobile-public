@@ -2062,7 +2062,7 @@ function CreateScreen({
 
       <TextInput
         style={styles.prompt}
-        placeholder={uiText(language, 'Describe your scene in English. Put spoken dialogue in quotes; Russian lines are kept as written.', 'Опишите сцену на английском. Реплики заключайте в кавычки — русский текст сохранится без перевода.')}
+        placeholder={uiText(language, 'Describe the scene and the action you want to see.', 'Опишите сцену и желаемое действие.')}
         placeholderTextColor="#687386"
         multiline
         textAlignVertical="top"
