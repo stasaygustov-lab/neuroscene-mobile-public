@@ -1946,7 +1946,7 @@ export default function App() {
         {authReady ? <ScreenTransition key={activeScreenKey} direction={transitionDirection}>{showTab()}</ScreenTransition> : <ActivityIndicator color={BLUE} style={{ marginTop: 40 }} />}
       </ScrollView>
 
-      <View style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', alignSelf: 'stretch', flexShrink: 0, height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 20 }]}>
+      <View accessibilityRole="tablist" accessibilityLabel="Основная навигация" style={[styles.bottomNav, { flexDirection: 'row', flexWrap: 'nowrap', width: '100%', alignSelf: 'stretch', flexShrink: 0, height: 92, minHeight: 92, maxHeight: 92, paddingTop: 5, paddingBottom: 20 }]}>
         {([
           { id: 'Create', icon: 'film', label: 'Создать' },
           { id: 'Gallery', icon: 'grid', label: 'Галерея' },
