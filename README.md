@@ -25,8 +25,10 @@ Configure repository **Settings → Secrets and variables → Actions → Variab
 - `EXPO_PUBLIC_VK_CLIENT_ID`: public VK ID application identifier.
 - `EXPO_PUBLIC_TERMS_URL`: public HTTPS URL of the current Terms of Use document.
 - `EXPO_PUBLIC_PRIVACY_POLICY_URL`: public HTTPS URL of the current Privacy Policy document.
+- `EXPO_PUBLIC_TERMS_VERSION`: exact version identifier of the published Terms of Use (for example, a document revision date chosen by the operator).
+- `EXPO_PUBLIC_PRIVACY_POLICY_VERSION`: exact version identifier of the published Privacy Policy.
 
-The mobile app only enables new account registration and VK ID sign-in after both legal-document URLs are configured, the user confirms they are 18 or older, and accepts the Terms and Privacy Policy. Email sign-in for existing accounts remains available. The app sends `age_confirmed`, `terms_accepted`, and `privacy_policy_accepted` with registration and VK completion requests. The backend **must independently validate these fields and persist the consent timestamp and document versions**; client-side checks alone are not an enforceable age gate or consent record. Do not publish placeholder or example URLs.
+The mobile app only enables new account registration and VK ID sign-in after both legal-document URLs are configured, the user confirms they are 18 or older, and accepts the Terms and Privacy Policy. Email sign-in for existing accounts remains available. The app sends `age_confirmed`, `terms_accepted`, `privacy_policy_accepted`, `terms_version`, and `privacy_policy_version` with registration and VK completion requests. Registration stays disabled until both HTTPS URLs and both version identifiers are configured. The backend **must independently validate these fields and persist the consent timestamp and document versions**; client-side checks alone are not an enforceable age gate or consent record. Do not publish placeholder or example URLs.
 
 Do not add worker tokens, signing keys, SMTP credentials, database credentials, or backend secrets here.
 
