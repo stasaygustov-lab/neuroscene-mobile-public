@@ -2313,7 +2313,9 @@ function GalleryScreen({
         <View style={{width:104,height:104,borderRadius:30,backgroundColor:'rgba(15,67,128,0.34)',borderWidth:1,borderColor:'rgba(89,185,255,0.56)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#91DFFF',fontSize:44}}>▣</Text></View>
         <Text style={{color:'#E8F3FF',fontSize:19,fontWeight:'900',marginTop:20,textAlign:'center'}}>{filter==='all'?'Твоя галерея ждёт первый фильм':'Избранных видео пока нет'}</Text>
         <Text style={{color:'#8EACCF',fontSize:13,lineHeight:20,textAlign:'center',marginTop:8}}>{filter==='all'?'Создай видео — и оно появится здесь автоматически.':'Отмечай звёздочкой видео, к которым хочешь быстро возвращаться.'}</Text>
-        {filter==='all'&&<TouchableOpacity onPress={onCreate} style={{marginTop:20,minHeight:48,paddingHorizontal:26,borderRadius:14,backgroundColor:'#1479F8',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FFFFFF',fontWeight:'900'}}>Создать видео</Text></TouchableOpacity>}
+        {filter==='all'
+          ? <TouchableOpacity onPress={onCreate} style={{marginTop:20,minHeight:48,paddingHorizontal:26,borderRadius:14,backgroundColor:'#1479F8',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FFFFFF',fontWeight:'900'}}>Создать видео</Text></TouchableOpacity>
+          : <TouchableOpacity onPress={()=>setFilter('all')} style={{marginTop:20,minHeight:46,paddingHorizontal:24,borderRadius:13,backgroundColor:'rgba(20,121,248,0.2)',borderWidth:1,borderColor:'rgba(105,190,255,0.48)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#BDE5FF',fontWeight:'900'}}>Показать все видео</Text></TouchableOpacity>}
       </View>}
       <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-between',rowGap:13}}>
         {visible.map((item)=>{
@@ -2340,7 +2342,7 @@ function GalleryScreen({
       </View>
       <View style={{marginTop:18,padding:14,borderRadius:15,backgroundColor:'rgba(6,23,49,0.8)',borderWidth:1,borderColor:'rgba(77,146,218,0.3)'}}>
         <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}><Text style={{color:'#B9D3EE',fontSize:12,fontWeight:'700'}}>Доступно для хранения</Text><Text style={{color:'#E9F5FF',fontSize:13,fontWeight:'900'}}>{completedItems.length}/2</Text></View>
-        <View style={{height:6,borderRadius:4,backgroundColor:'rgba(90,135,185,0.2)',overflow:'hidden',marginTop:10}}><View style={{height:6,width:(Math.min(items.length/2*100,100))+'%',backgroundColor:'#168BFF',borderRadius:4}}/></View>
+        <View style={{height:6,borderRadius:4,backgroundColor:'rgba(90,135,185,0.2)',overflow:'hidden',marginTop:10}}><View style={{height:6,width:(Math.min(completedItems.length/2*100,100))+'%',backgroundColor:'#168BFF',borderRadius:4}}/></View>
       </View>
     </View>
   );
