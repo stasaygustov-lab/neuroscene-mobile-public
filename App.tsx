@@ -2201,12 +2201,23 @@ function CreateScreen({
       <TouchableOpacity activeOpacity={0.86} style={styles.composerBack} onPress={() => setShowComposer(false)}>
         <Text style={styles.composerBackText}>‹ Назад к сцене</Text>
       </TouchableOpacity>
+      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:11,paddingHorizontal:3}}>
+        <View style={{flex:1}}>
+          <Text style={{color:'#8FCBFF',fontSize:10,fontWeight:'900',letterSpacing:1.1}}>ВИДЕО ДЛЯ ТВОЕЙ ИДЕИ</Text>
+          <Text style={{color:'#7F9FBE',fontSize:11,marginTop:3}}>Wan 2.2 TI2V 5B Turbo · локально на ПК</Text>
+        </View>
+        <View style={{paddingHorizontal:10,paddingVertical:7,borderRadius:10,backgroundColor:'rgba(18,91,160,0.22)',borderWidth:1,borderColor:'rgba(91,171,231,0.3)'}}>
+          <Text style={{color:'#B9DFFF',fontSize:10,fontWeight:'800'}}>{creditsLoading?'Баланс …':creditsBalance===null?'Баланс —':creditsBalance.toLocaleString('ru-RU')+' ✦'}</Text>
+        </View>
+      </View>
       <View style={styles.modeSelector}>
         <TouchableOpacity activeOpacity={0.86} style={[styles.modeOption, generationType === 't2v' && styles.modeOptionActive]} onPress={() => setGenerationType('t2v')} disabled={busy}>
           <Text style={[styles.modeOptionText, generationType === 't2v' && styles.modeOptionTextActive]}>{uiText(language, 'Text to Video', 'Текст в видео')}</Text>
+          <Text style={{color:generationType==='t2v'?'#D4ECFF':'#7899BD',fontSize:10,marginTop:3}}>По текстовому описанию</Text>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.86} style={[styles.modeOption, generationType === 'i2v' && styles.modeOptionActive]} onPress={() => setGenerationType('i2v')} disabled={busy}>
           <Text style={[styles.modeOptionText, generationType === 'i2v' && styles.modeOptionTextActive]}>{uiText(language, 'Image to Video', 'Изображение в видео')}</Text>
+          <Text style={{color:generationType==='i2v'?'#D4ECFF':'#7899BD',fontSize:10,marginTop:3}}>С исходной фотографией</Text>
         </TouchableOpacity>
       </View>
 
@@ -2227,7 +2238,25 @@ function CreateScreen({
         editable={!busy && !promptEnhancing}
       />
 
-      <Text style={styles.characterCount}>{prompt.length} / 2000</Text>
+      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginTop:8,marginBottom:12}}>
+        <Text style={[styles.characterCount,{marginTop:0,marginBottom:0}]}>{prompt.length} / 2000</Text>
+        <TouchableOpacity activeOpacity={0.84} onPress={onEnhancePrompt} disabled={busy||promptEnhancing||prompt.trim().length<10} style={{minHeight:38,paddingHorizontal:12,borderRadius:11,flexDirection:'row',alignItems:'center',justifyContent:'center',gap:7,backgroundColor:'rgba(16,91,166,0.22)',borderWidth:1,borderColor:'rgba(83,178,244,0.42)',opacity:busy||promptEnhancing||prompt.trim().length<10?0.5:1}}>
+          {promptEnhancing?<ActivityIndicator color="#9EDBFF" size="small"/>:<Text style={{color:'#9EDBFF',fontSize:15}}>✧</Text>}
+          <Text style={{color:'#B9DFFF',fontSize:11,fontWeight:'800'}}>{promptEnhancing?'Улучшаем…':'Улучшить описание'}</Text>
+        </TouchableOpacity>
+      </View>
+      {enhancedPrompt!==''&&<View style={{borderRadius:15,padding:13,marginBottom:13,backgroundColor:'rgba(5,35,67,0.78)',borderWidth:1,borderColor:'rgba(82,174,235,0.4)'}}>
+        <Text style={{color:'#8ED2FF',fontSize:10,fontWeight:'900',letterSpacing:0.9}}>УЛУЧШЕННОЕ ОПИСАНИЕ</Text>
+        <Text style={{color:'#DCEEFF',fontSize:13,lineHeight:19,marginTop:8}}>{enhancedPrompt}</Text>
+        <View style={{flexDirection:'row',gap:9,marginTop:12}}>
+          <TouchableOpacity onPress={()=>setPrompt(enhancedPrompt)} activeOpacity={0.85} style={{flex:1,minHeight:39,borderRadius:10,backgroundColor:'rgba(20,121,248,0.25)',borderWidth:1,borderColor:'rgba(93,187,255,0.45)',alignItems:'center',justifyContent:'center'}}>
+            <Text style={{color:'#C8E8FF',fontSize:11,fontWeight:'900'}}>Использовать</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>setEnhancedPrompt('')} activeOpacity={0.85} style={{paddingHorizontal:13,minHeight:39,borderRadius:10,backgroundColor:'rgba(84,113,146,0.12)',borderWidth:1,borderColor:'rgba(118,155,193,0.25)',alignItems:'center',justifyContent:'center'}}>
+            <Text style={{color:'#9CB9D8',fontSize:11,fontWeight:'800'}}>Скрыть</Text>
+          </TouchableOpacity>
+        </View>
+      </View>}
 
       {generationType === 'i2v' && (
         <View style={styles.imageUploadCard}>
@@ -2236,6 +2265,7 @@ function CreateScreen({
             <View>
               <ImagePickerPreview uri={sourceImage.uri} />
               <Text style={styles.imageFileName} numberOfLines={1}>{sourceImage.fileName || (uiText(language, 'Selected image', 'Выбранное изображение'))}</Text>
+              <Text style={{color:'#83B5DE',fontSize:11,marginTop:4}}>{sourceImage.mimeType==='image/png'?'PNG':'JPG'} · {sourceImage.fileSize?(sourceImage.fileSize/1024/1024).toFixed(1)+' МБ':'до 10 МБ'} · исходник выбран</Text>
               <TouchableOpacity activeOpacity={0.86} style={styles.removeImageButton} onPress={onRemoveImage} disabled={busy}>
                 <Text style={styles.removeImageText}>{uiText(language, 'Remove image', 'Удалить изображение')}</Text>
               </TouchableOpacity>
