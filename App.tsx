@@ -37,7 +37,12 @@ const SESSION_STORAGE_KEY = 'neuroscene.session';
 const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || '').replace(/\/+$/, '');
 const TERMS_URL = (process.env.EXPO_PUBLIC_TERMS_URL || '').trim();
 const PRIVACY_POLICY_URL = (process.env.EXPO_PUBLIC_PRIVACY_POLICY_URL || '').trim();
-const LEGAL_DOCUMENTS_READY = /^https:\/\//i.test(TERMS_URL) && /^https:\/\//i.test(PRIVACY_POLICY_URL);
+const TERMS_VERSION = (process.env.EXPO_PUBLIC_TERMS_VERSION || '').trim();
+const PRIVACY_POLICY_VERSION = (process.env.EXPO_PUBLIC_PRIVACY_POLICY_VERSION || '').trim();
+const LEGAL_DOCUMENTS_READY = /^https:\/\//i.test(TERMS_URL)
+  && /^https:\/\//i.test(PRIVACY_POLICY_URL)
+  && Boolean(TERMS_VERSION)
+  && Boolean(PRIVACY_POLICY_VERSION);
 
 const StyledText = Text as typeof Text & { defaultProps?: any };
 StyledText.defaultProps = {
@@ -445,6 +450,8 @@ export default function App() {
             age_confirmed: ageConfirmed,
             terms_accepted: legalConsentAccepted,
             privacy_policy_accepted: legalConsentAccepted,
+            terms_version: TERMS_VERSION,
+            privacy_policy_version: PRIVACY_POLICY_VERSION,
           } : {}),
         }),
       });
@@ -551,6 +558,8 @@ export default function App() {
           age_confirmed: ageConfirmed,
           terms_accepted: legalConsentAccepted,
           privacy_policy_accepted: legalConsentAccepted,
+          terms_version: TERMS_VERSION,
+          privacy_policy_version: PRIVACY_POLICY_VERSION,
         }),
       });
       const completeData = await readResponse(completeResponse);
