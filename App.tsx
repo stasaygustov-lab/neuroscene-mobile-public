@@ -1934,6 +1934,9 @@ export default function App() {
         ] as const).map((item) => (
           <TouchableOpacity activeOpacity={0.86}
             key={item.id}
+            accessibilityRole="tab"
+            accessibilityLabel={item.label}
+            accessibilityState={{ selected: tab === item.id }}
             style={[styles.navItem, { flex: 1, flexGrow: 1, flexShrink: 1, flexBasis: 0, width: '25%', maxWidth: '25%', minWidth: 0, alignSelf: 'auto' }, tab === item.id && styles.navItemActive]}
             onPress={() => { const order: Tab[] = ['Create', 'Gallery', 'Credits', 'Profile']; setTransitionDirection(order.indexOf(item.id) >= order.indexOf(tab) ? 1 : -1); setShowSupport(false); setShowNotifications(false); setShowFaq(false); setShowAdminPanel(false); setTab(item.id); }}
           >
