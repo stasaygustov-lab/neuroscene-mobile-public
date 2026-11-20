@@ -2333,8 +2333,8 @@ function GalleryScreen({
             <Text numberOfLines={3} style={{color:'#E2EEFC',fontSize:13,lineHeight:18,marginTop:7,minHeight:54}}>{item.prompt||'Без описания'}</Text>
             <View style={{flexDirection:'row',flexWrap:'wrap',gap:7,marginTop:10}}>
               <TouchableOpacity onPress={()=>onCopyPrompt(String(item.prompt||''))} disabled={!item.prompt} style={{paddingVertical:8,paddingHorizontal:10,borderRadius:9,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:10,fontWeight:'800'}}>Копировать</Text></TouchableOpacity>
-              <TouchableOpacity onPress={()=>onRegenerate(item)} style={{paddingVertical:6,paddingHorizontal:7,borderRadius:7,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:9,fontWeight:'800'}}>Повторить</Text></TouchableOpacity>
-              <TouchableOpacity onPress={()=>onExport(url,id)} style={{paddingVertical:6,paddingHorizontal:7,borderRadius:7,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:9,fontWeight:'800'}}>Экспорт</Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=>onRegenerate(item)} style={{paddingVertical:8,paddingHorizontal:10,borderRadius:9,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:10,fontWeight:'800'}}>Повторить</Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=>onExport(url,id)} style={{paddingVertical:8,paddingHorizontal:10,borderRadius:9,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:10,fontWeight:'800'}}>Экспорт</Text></TouchableOpacity>
               <TouchableOpacity onPress={()=>Alert.alert('Удалить видео?','Видео и его файл будут удалены без возможности восстановления.',[{text:'Отмена',style:'cancel'},{text:'Удалить',style:'destructive',onPress:()=>onDelete(id)}])} style={{paddingVertical:8,paddingHorizontal:10,borderRadius:9,backgroundColor:'rgba(120,31,54,0.26)'}}><Text style={{color:'#FFB2C0',fontSize:10,fontWeight:'800'}}>Удалить</Text></TouchableOpacity>
             </View>
           </View>;
