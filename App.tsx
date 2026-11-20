@@ -1994,25 +1994,16 @@ export default function App() {
         {...swipeResponder.panHandlers}
       >
               {tab === 'Create' && <View style={[styles.header, { minHeight: 66, height: 66, paddingHorizontal: 18, paddingTop: 4, paddingBottom: 4, backgroundColor: 'transparent', borderBottomWidth: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', overflow: 'visible' }]}>
-        <View style={[styles.brandRow, { alignItems: 'center', marginTop: 4, gap: 10 }]}>
-          <BrandMarkSvg size={48} />
-          <Text style={{ color: '#F4FAFF', fontFamily: 'Manrope', fontSize: 21, lineHeight: 22, fontWeight: '900', letterSpacing: 0.15, textShadowColor: '#38B6FF', textShadowRadius: 13 }}>
-            {'Нейро\nСцена'}
-          </Text>
-        </View>
-
-        <View style={[styles.headerActions, { position: 'relative', left: undefined, right: undefined, top: undefined, marginTop: 0 }]}>
+        <View style={[styles.headerActions, { position: 'relative', left: undefined, right: undefined, top: undefined, marginTop: 0, transform: [{ translateY: 10 }] }]}>
           <TouchableOpacity activeOpacity={0.86}
             accessibilityRole="button"
             accessibilityLabel="Уведомления"
-            style={styles.notificationButton}
+            style={[styles.notificationButton, { width: 44, height: 44, borderRadius: 22, backgroundColor: 'transparent', borderWidth: 0, borderColor: 'transparent', shadowOpacity: 0, shadowRadius: 0, elevation: 0, alignItems: 'center', justifyContent: 'center' }]}
             onPress={() => { setShowNotifications(true); void loadNotifications(); }}
           >
-            <View style={styles.notificationBell}>
-              <View style={styles.notificationBellDome} />
-              <View style={styles.notificationBellBase} />
-              <View style={styles.notificationBellClapper} />
-            </View>
+            <Svg width={27} height={27} viewBox="0 0 24 24">
+              <Path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21a2 2 0 0 0 4 0" fill="none" stroke="#9BE8FF" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+            </Svg>
             {unreadNotifications > 0 && <View style={styles.notificationBadge}><Text style={styles.notificationBadgeText}>{unreadNotifications > 9 ? '9+' : unreadNotifications}</Text></View>}
           </TouchableOpacity>
         </View>
@@ -2120,14 +2111,6 @@ export default function App() {
           <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: '#010817' }]} />
           <View pointerEvents="none" style={{ position: 'absolute', width: 420, height: 420, borderRadius: 210, top: '12%', backgroundColor: 'rgba(0,80,190,0.2)' }} />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
-          <View style={styles.introBrandLockup}>
-            <View style={styles.introBrandMonogramWrap}>
-              <View style={styles.brandMarkHalo} />
-              <BrandMarkSvg size={112} />
-            </View>
-            <Text style={styles.introBrandName}>Нейро{ '\n' }Сцена</Text>
-            <Text style={styles.introBrandCaption}>СТУДИЯ СОЗДАНИЯ ВИДЕО</Text>
-          </View>
           <View pointerEvents="none" style={styles.introProgressTrack}>
             <Animated.View style={[styles.introProgressFill, {
               width: splashProgress.interpolate({ inputRange: [0, 1], outputRange: ['2%', '100%'] }),
@@ -2233,7 +2216,11 @@ function CreateScreen({
   return (
     <View>
       {!showComposer && (
-        <View style={{ gap: 20, minHeight: Math.max(560, windowHeight - 245), justifyContent: 'space-between', paddingBottom: 10 }}>
+        <View style={{ gap: 16, minHeight: Math.max(560, windowHeight - 245), justifyContent: 'space-between', paddingBottom: 10 }}>
+          <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 2, paddingBottom: 1 }}>
+            <Text style={{ color: '#F4FBFF', fontFamily: 'Manrope', fontSize: 30, lineHeight: 38, fontWeight: '900', letterSpacing: 1.15, textAlign: 'center', textShadowColor: '#168BFF', textShadowRadius: 19, textShadowOffset: { width: 0, height: 2 }, elevation: 8 }}>НейроСцена</Text>
+            <View style={{ width: 126, height: 2, marginTop: 4, borderRadius: 2, backgroundColor: '#58DFFF', shadowColor: '#16AFFF', shadowOpacity: 1, shadowRadius: 12, elevation: 7 }} />
+          </View>
           <View style={{ height: 214, borderRadius: 26, overflow: 'hidden', backgroundColor: 'rgba(1,7,19,0.76)', borderWidth: 1, borderColor: 'rgba(91,177,255,0.56)', shadowColor: '#087BFF', shadowOpacity: 0.26, shadowRadius: 22, elevation: 10 }}>
             {videoUrl ? <HomeVideoPlayer uri={videoUrl} /> : (
               <TouchableOpacity
