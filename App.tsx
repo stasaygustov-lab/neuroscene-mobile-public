@@ -1333,9 +1333,10 @@ export default function App() {
       if (result.canceled || !result.assets?.length) return;
       const asset = result.assets[0];
       const fileName = (asset.fileName || asset.uri).toLowerCase();
-      const extensionMime = fileName.endsWith('.png')
+      const filePath = fileName.split(/[?#]/, 1)[0];
+      const extensionMime = filePath.endsWith('.png')
         ? 'image/png'
-        : /\\.jpe?g(?:$|[?#])/.test(fileName)
+        : /\.jpe?g$/.test(filePath)
           ? 'image/jpeg'
           : '';
       const mime = String(asset.mimeType || extensionMime).toLowerCase();
