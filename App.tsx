@@ -1977,9 +1977,12 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View pointerEvents="none" style={styles.ambientBackdrop}>
-        <View style={StyleSheet.absoluteFill}>
-          <NeuroSceneBackdrop />
-        </View>
+        <Image
+          source={require('./assets/neuroscene-cinematic-bg-small.jpg')}
+          style={StyleSheet.absoluteFill}
+          resizeMode="cover"
+          blurRadius={20}
+        />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1, 7, 20, 0.34)' }]} />
       </View>
       <StatusBar style="light" hidden={showIntro} />
@@ -2108,7 +2111,13 @@ export default function App() {
 
       {showIntro && (
         <View style={styles.introOverlay}>
-          <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: '#010817' }]} />
+          <Image
+            pointerEvents="none"
+            source={require('./assets/neuroscene-cinematic-bg-small.jpg')}
+            style={StyleSheet.absoluteFill}
+            resizeMode="cover"
+            blurRadius={20}
+          />
           <View pointerEvents="none" style={{ position: 'absolute', width: 420, height: 420, borderRadius: 210, top: '12%', backgroundColor: 'rgba(0,80,190,0.2)' }} />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
           <View pointerEvents="none" style={styles.introProgressTrack}>
