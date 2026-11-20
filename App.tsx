@@ -570,7 +570,7 @@ export default function App() {
           onPress: async () => {
             setAuthBusy(true);
             try {
-              const response = await fetch(`${API_BASE_URL}/api/auth/account`, {
+              const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/account`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${authToken}` },
               });
