@@ -2163,7 +2163,7 @@ function CreateScreen({
               {[
                 { id: 'text', title: 'Текст в видео', subtitle: 'Создание по описанию' },
                 { id: 'image', title: 'Изображение в видео', subtitle: 'Оживление фотографии' },
-                { id: 'sound', title: 'Озвучка и эффекты', subtitle: 'Звуковое оформление' },
+                { id: 'sound', title: 'Звуковое оформление', subtitle: 'Отдельный этап · пока не подключено' },
                 { id: 'quality', title: 'Профессиональное качество', subtitle: 'Параметры видеосцены' },
               ].map((feature) => (
                 <TouchableOpacity
@@ -2171,6 +2171,8 @@ function CreateScreen({
                   activeOpacity={0.84}
                   accessibilityRole="button"
                   accessibilityLabel={feature.title}
+                  accessibilityState={{ disabled: feature.id === 'sound' }}
+                  disabled={feature.id === 'sound'}
                   onPress={() => {
                     if (feature.id === 'text') {
                       setGenerationType('t2v');
@@ -2178,13 +2180,11 @@ function CreateScreen({
                     } else if (feature.id === 'image') {
                       setGenerationType('i2v');
                       setShowComposer(true);
-                    } else if (feature.id === 'sound') {
-                      Alert.alert('Озвучка и эффекты', 'Звуковое оформление будет доступно в отдельном разделе создания.');
                     } else {
                       setShowComposer(true);
                     }
                   }}
-                  style={styles.featureTile}
+                  style={[styles.featureTile, feature.id === 'sound' && { opacity: 0.68 }]}
                 >
                   <View style={styles.featureIconSquare}>
                     <FeatureIconSvg kind={feature.id} />
@@ -3649,7 +3649,7 @@ const COSMIC_OVERRIDES : any = {
   featureIconSquareActive: { borderColor: '#B7F1FF', backgroundColor: 'rgba(0,139,255,0.36)', shadowColor: '#00B8FF', shadowOpacity: 1, shadowRadius: 15, elevation: 8 },
   ...({ featureIcon: { color: '#82D9FF', fontSize: 22, fontWeight: '900', textShadowColor: '#168BFF', textShadowRadius: 9 } } as any),
   featureTitle: { color: '#F4FAFF', fontSize: 16, fontWeight: '900', lineHeight: 21 },
-  featureSubtitle: { color: '#8FB5DC', fontSize: 16, lineHeight: 21, marginTop: 3 },
+  featureSubtitle: { color: '#8FB5DC', fontSize: 11, lineHeight: 15, marginTop: 4 },
   ...({ galleryCard: { backgroundColor: 'rgba(5,19,43,0.98)', borderRadius: 20, padding: 10, marginTop: 14, borderWidth: 1, borderColor: 'rgba(53,132,208,0.60)', width: '100%', shadowColor: '#006DFF', shadowOpacity: 0.18, shadowRadius: 15, elevation: 5 } } as any),
   ...({ galleryPreview: { borderRadius: 16, overflow: 'hidden', backgroundColor: '#020A18', borderWidth: 1, borderColor: 'rgba(65,152,224,0.42)', aspectRatio: 16 / 9 } } as any),
   ...({ videoFrame: { width: '100%', aspectRatio: 16 / 9, height: undefined, backgroundColor: '#020817', borderRadius: 16, overflow: 'hidden', justifyContent: 'center' } } as any),
