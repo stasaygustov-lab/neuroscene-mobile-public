@@ -64,6 +64,16 @@ type JobStatus =
   | 'completed'
   | 'failed';
 
+async function fetchWithTimeout(url: string, init: RequestInit = {}, timeoutMs = 15000): Promise<Response> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 function readVideoUrl(data: any): string | null {
   if (!data || typeof data !== 'object') return null;
 
@@ -301,7 +311,7 @@ export default function App() {
       if (!token) return;
       setAuthBusy(true);
       const endpoint = isLogin ? 'login-link/consume' : 'verify-email';
-      const response = await fetch(`${API_BASE_URL}/api/auth/${endpoint}`, {
+      const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ token }),
@@ -391,7 +401,7 @@ export default function App() {
     setAuthBusy(true);
     setAuthNotice('');
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/${authMode === 'register' ? 'register' : 'login'}`, {
+      const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/${authMode === 'register' ? 'register' : 'login'}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ email, password: authPassword }),
@@ -424,7 +434,7 @@ export default function App() {
     setAuthBusy(true);
     setAuthNotice('');
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login-link`, {
+      const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/login-link`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ email }),
@@ -445,7 +455,7 @@ export default function App() {
     if (!email) return;
     setAuthBusy(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/resend-verification`, {
+      const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/resend-verification`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -467,7 +477,7 @@ export default function App() {
       if (!VK_CLIENT_ID || !VK_REDIRECT_URI) {
         throw new Error('Вход через VK ID пока не настроен в конфигурации приложения.');
       }
-      const startResponse = await fetch(`${API_BASE_URL}/api/auth/vk/start`);
+      const startResponse = await fetchWithTimeout(`${API_BASE_URL}/api/auth/vk/start`);
       const startData = await readResponse(startResponse);
       if (!startResponse.ok) throw new Error(startData.detail || 'VK ID пока не настроен');
       if (startData.redirect_uri !== VK_REDIRECT_URI) throw new Error('Адрес возврата VK ID не совпадает с настройкой приложения.');
@@ -488,7 +498,7 @@ export default function App() {
           throw new Error('VK ID вернул некорректный ответ.');
         }
       }
-      const completeResponse = await fetch(`${API_BASE_URL}/api/auth/vk/complete`, {
+      const completeResponse = await fetchWithTimeout(`${API_BASE_URL}/api/auth/vk/complete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ code, state, device_id: deviceId }),
@@ -507,7 +517,7 @@ export default function App() {
     let revoked = false;
     try {
       if (authToken) {
-        const response = await fetch(`${API_BASE_URL}/api/auth/logout-all`, {
+        const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/logout-all`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${authToken}` },
         });
