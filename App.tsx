@@ -331,7 +331,7 @@ export default function App() {
         splashProgress.setValue(0.42);
         if (!savedToken) return;
         const controller = new AbortController();
-        const sessionCheckTimeout = setTimeout(() => controller.abort(), 8000);
+        const sessionCheckTimeout = setTimeout(() => controller.abort(), 4000);
         let response: Response;
         try {
           response = await fetch(`${API_BASE_URL}/api/auth/me`, {
