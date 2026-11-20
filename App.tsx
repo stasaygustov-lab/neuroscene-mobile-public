@@ -189,6 +189,7 @@ export default function App() {
   const [authBusy, setAuthBusy] = useState(false);
   const [authNotice, setAuthNotice] = useState('');
   const [profileEmailOpen, setProfileEmailOpen] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [pendingEmail, setPendingEmail] = useState('');
 
   const [jobId, setJobId] = useState<string | null>(null);
@@ -1787,10 +1788,10 @@ export default function App() {
 
     return (
       <View style={{flex:1,paddingTop:8,gap:15}}>
-        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><View><Text style={{color:'#F4F8FF',fontSize:27,fontWeight:'900'}}>Профиль</Text><Text style={{color:'#86A9D0',fontSize:12,marginTop:4}}>Твой аккаунт и настройки приложения</Text></View><TouchableOpacity onPress={()=>Alert.alert('Настройки','Настройки приложения')} style={{width:42,height:42,borderRadius:14,backgroundColor:'rgba(10,37,75,0.86)',borderWidth:1,borderColor:'rgba(86,157,232,0.38)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#A8D9FF',fontSize:20}}>⚙</Text></TouchableOpacity></View>
-        <View style={{borderRadius:20,padding:18,alignItems:'center',backgroundColor:'rgba(7,27,57,0.84)',borderWidth:1,borderColor:'rgba(83,151,219,0.34)'}}>
+        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}><View><Text style={{color:'#F4F8FF',fontSize:27,fontWeight:'900'}}>Профиль</Text><Text style={{color:'#86A9D0',fontSize:12,marginTop:4}}>Твой аккаунт и настройки приложения</Text></View><TouchableOpacity accessibilityRole="button" accessibilityLabel="Открыть настройки" onPress={()=>setShowSettings(true)} style={{width:46,height:46,borderRadius:15,backgroundColor:'rgba(10,37,75,0.86)',borderWidth:1,borderColor:'rgba(86,157,232,0.48)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#A8D9FF',fontSize:20}}>⚙</Text></TouchableOpacity></View>
+        <View style={{borderRadius:22,padding:20,alignItems:'center',backgroundColor:'rgba(7,27,57,0.88)',borderWidth:1,borderColor:'rgba(83,151,219,0.42)',shadowColor:'#168BFF',shadowOpacity:0.14,shadowRadius:18,elevation:5}}>
           <View style={{width:82,height:82,borderRadius:41,backgroundColor:'rgba(14,63,119,0.48)',borderWidth:1.5,borderColor:'rgba(87,189,255,0.7)',alignItems:'center',justifyContent:'center'}}><View style={{width:23,height:23,borderRadius:12,borderWidth:2,borderColor:'#9BDFFF',marginBottom:5}}/><View style={{width:42,height:22,borderTopLeftRadius:22,borderTopRightRadius:22,borderWidth:2,borderBottomWidth:0,borderColor:'#9BDFFF'}}/></View>
-          <Text style={{color:'#F2F8FF',fontSize:19,fontWeight:'900',marginTop:12}}>{authUser?.name||authUser?.email?.split('@')[0]||'Гость'}</Text><Text style={{color:'#91B2D5',fontSize:12,marginTop:5,textAlign:'center'}}>{authUser?.email||'Войдите, чтобы открыть все возможности'}</Text>
+          <Text style={{color:'#F2F8FF',fontSize:20,fontWeight:'900',marginTop:13}}>{authUser?.name||authUser?.email?.split('@')[0]||'Гость'}</Text><Text style={{color:'#91B2D5',fontSize:13,marginTop:6,textAlign:'center'}}>{authUser?.email||'Войдите, чтобы открыть все возможности'}</Text><View style={{marginTop:11,paddingHorizontal:11,paddingVertical:6,borderRadius:20,backgroundColor:authUser?'rgba(35,190,142,0.13)':'rgba(95,145,205,0.14)',borderWidth:1,borderColor:authUser?'rgba(73,218,169,0.3)':'rgba(110,168,225,0.28)'}}><Text style={{color:authUser?'#80E7C2':'#A9C9EA',fontSize:10,fontWeight:'900',letterSpacing:0.7}}>{authUser?'АККАУНТ ПОДКЛЮЧЁН':'ГОСТЕВОЙ РЕЖИМ'}</Text></View>
         </View>
         {!authUser?<View style={{borderRadius:18,padding:15,backgroundColor:'rgba(6,23,50,0.8)',borderWidth:1,borderColor:'rgba(79,145,211,0.3)'}}>
           <Text style={{color:'#B1CBE7',fontSize:12,lineHeight:18,textAlign:'center',marginBottom:13}}>Войдите, чтобы сохранять свои видео и пользоваться всеми возможностями НейроСцены</Text>
@@ -1811,7 +1812,7 @@ export default function App() {
           <TouchableOpacity onPress={deleteAccount} disabled={authBusy} style={{minHeight:48,borderRadius:13,backgroundColor:'rgba(91,24,42,0.34)',borderWidth:1,borderColor:'rgba(255,120,145,0.36)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FF9EAD',fontSize:13,fontWeight:'800'}}>Удалить аккаунт и личные данные</Text></TouchableOpacity>
         </View>}
         <View style={{borderRadius:18,paddingHorizontal:14,backgroundColor:'rgba(6,21,46,0.84)',borderWidth:1,borderColor:'rgba(83,151,219,0.3)'}}>
-          {[{label:'Мои видео',icon:'▣',action:()=>setTab('Gallery')},{label:'Уведомления',icon:'♧',action:()=>{setShowSupport(false);setShowNotifications(true);void loadNotifications();}},{label:'Настройки',icon:'⚙',action:()=>Alert.alert('Настройки','Настройки приложения')},{label:'О приложении',icon:'ⓘ',action:()=>Alert.alert('НейроСцена','Твоя творческая студия на компьютере.')},{label:'Помощь / FAQ',icon:'?',action:()=>{setShowSupport(false);setShowNotifications(false);setShowFaq(true);void loadFaq();}},{label:'Поддержка',icon:'◌',action:()=>{setSelectedSupportTicket(null);setShowNotifications(false);setShowSupport(true);void loadSupportTickets();}}].map((item,index)=><TouchableOpacity key={item.label} onPress={item.action} activeOpacity={0.84} style={{minHeight:54,flexDirection:'row',alignItems:'center',gap:12,borderBottomWidth:index===5?0:1,borderBottomColor:'rgba(107,155,205,0.16)'}}><Text style={{color:'#7CCBFF',fontSize:18,width:26,textAlign:'center'}}>{item.icon}</Text><Text style={{color:'#DCEBFA',fontSize:13,fontWeight:'700',flex:1}}>{item.label}</Text>{item.label==='Уведомления'&&unreadNotifications>0&&<View style={{minWidth:20,height:20,borderRadius:10,backgroundColor:'#E84C70',alignItems:'center',justifyContent:'center',paddingHorizontal:5}}><Text style={{color:'#FFFFFF',fontSize:10,fontWeight:'900'}}>{Math.min(unreadNotifications,9)}</Text></View>}<Text style={{color:'#7FA9D2',fontSize:22}}>›</Text></TouchableOpacity>)}
+          {[{label:'Мои видео',icon:'▣',action:()=>setTab('Gallery')},{label:'Уведомления',icon:'♧',action:()=>{setShowSupport(false);setShowNotifications(true);void loadNotifications();}},{label:'Настройки приложения',icon:'⚙',action:()=>setShowSettings(true)},{label:'О приложении',icon:'ⓘ',action:()=>setShowSettings(true)},{label:'Помощь / FAQ',icon:'?',action:()=>{setShowSupport(false);setShowNotifications(false);setShowFaq(true);void loadFaq();}},{label:'Поддержка',icon:'◌',action:()=>{setSelectedSupportTicket(null);setShowNotifications(false);setShowSupport(true);void loadSupportTickets();}}].map((item,index)=><TouchableOpacity key={item.label} onPress={item.action} activeOpacity={0.84} style={{minHeight:60,flexDirection:'row',alignItems:'center',gap:13,borderBottomWidth:index===5?0:1,borderBottomColor:'rgba(107,155,205,0.16)'}}><Text style={{color:'#7CCBFF',fontSize:18,width:26,textAlign:'center'}}>{item.icon}</Text><Text style={{color:'#DCEBFA',fontSize:14,fontWeight:'700',flex:1}}>{item.label}</Text>{item.label==='Уведомления'&&unreadNotifications>0&&<View style={{minWidth:20,height:20,borderRadius:10,backgroundColor:'#E84C70',alignItems:'center',justifyContent:'center',paddingHorizontal:5}}><Text style={{color:'#FFFFFF',fontSize:10,fontWeight:'900'}}>{Math.min(unreadNotifications,9)}</Text></View>}<Text style={{color:'#7FA9D2',fontSize:22}}>›</Text></TouchableOpacity>)}
         </View>
         {authToken&&['owner','admin'].includes(authUser?.role)&&<TouchableOpacity onPress={()=>{setShowAdminPanel(true);void loadAdminPanel();}} style={{minHeight:50,borderRadius:13,borderWidth:1,borderColor:'rgba(74,145,255,0.42)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#83B7FF',fontWeight:'900'}}>Панель администратора  ›</Text></TouchableOpacity>}
         <Text style={{color:'#6C89AC',fontSize:10,letterSpacing:1.2,textAlign:'center',marginTop:4}}>НЕЙРОСЦЕНА · ВЕРСИЯ 1.0</Text>
@@ -1914,6 +1915,52 @@ export default function App() {
           </TouchableOpacity>
         ))}
       </View>
+
+      <Modal visible={showSettings} transparent animationType="fade" onRequestClose={() => setShowSettings(false)}>
+        <View style={{flex:1,backgroundColor:'rgba(1,6,18,0.84)',justifyContent:'center',padding:20}}>
+          <View style={{width:'100%',maxWidth:440,alignSelf:'center',maxHeight:'86%',borderRadius:24,padding:20,backgroundColor:'#071A34',borderWidth:1,borderColor:'rgba(89,174,244,0.58)',shadowColor:'#168BFF',shadowOpacity:0.28,shadowRadius:24,elevation:18}}>
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:17}}>
+              <View style={{flex:1,paddingRight:12}}>
+                <Text style={{color:'#F3F8FF',fontSize:22,fontWeight:'900'}}>Настройки</Text>
+                <Text style={{color:'#8EAFD2',fontSize:12,marginTop:4}}>Параметры приложения НейроСцена</Text>
+              </View>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Закрыть настройки" onPress={()=>setShowSettings(false)} style={{width:40,height:40,borderRadius:13,alignItems:'center',justifyContent:'center',backgroundColor:'rgba(34,85,143,0.35)',borderWidth:1,borderColor:'rgba(108,181,238,0.35)'}}>
+                <Text style={{color:'#D8EDFF',fontSize:23,lineHeight:25}}>×</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{borderRadius:17,padding:15,backgroundColor:'rgba(4,15,34,0.7)',borderWidth:1,borderColor:'rgba(81,143,203,0.28)',marginBottom:12}}>
+              <Text style={{color:'#80BDEB',fontSize:10,fontWeight:'900',letterSpacing:1.2}}>ЯЗЫК ИНТЕРФЕЙСА</Text>
+              <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginTop:10}}>
+                <View style={{flexDirection:'row',alignItems:'center',gap:10}}>
+                  <Text style={{fontSize:21}}>🇷🇺</Text>
+                  <View><Text style={{color:'#F0F6FF',fontSize:15,fontWeight:'800'}}>Русский</Text><Text style={{color:'#8BA9C9',fontSize:11,marginTop:2}}>Текущий язык</Text></View>
+                </View>
+                <View style={{paddingHorizontal:10,paddingVertical:6,borderRadius:9,backgroundColor:'rgba(30,139,255,0.16)',borderWidth:1,borderColor:'rgba(82,174,255,0.4)'}}><Text style={{color:'#A8D8FF',fontSize:10,fontWeight:'900'}}>RU</Text></View>
+              </View>
+              <Text style={{color:'#819FBE',fontSize:11,lineHeight:16,marginTop:11}}>Другие языки появятся после завершения перевода всех экранов приложения.</Text>
+            </View>
+            <View style={{borderRadius:17,padding:15,backgroundColor:'rgba(4,15,34,0.7)',borderWidth:1,borderColor:'rgba(81,143,203,0.28)',marginBottom:12}}>
+              <Text style={{color:'#80BDEB',fontSize:10,fontWeight:'900',letterSpacing:1.2}}>ГЕНЕРАЦИЯ ВИДЕО</Text>
+              <View style={{flexDirection:'row',alignItems:'center',gap:11,marginTop:10}}>
+                <View style={{width:38,height:38,borderRadius:12,alignItems:'center',justifyContent:'center',backgroundColor:'rgba(24,112,205,0.2)'}}><Text style={{color:'#8EDBFF',fontSize:19}}>▣</Text></View>
+                <View style={{flex:1}}><Text style={{color:'#F0F6FF',fontSize:14,fontWeight:'800'}}>Локальная генерация</Text><Text style={{color:'#8BA9C9',fontSize:11,lineHeight:16,marginTop:3}}>Видео создаётся на подключённом компьютере. Доступны режимы «Текст в видео» и «Изображение в видео».</Text></View>
+              </View>
+              <View style={{flexDirection:'row',flexWrap:'wrap',gap:7,marginTop:13}}>
+                {['Wan 2.2 TI2V 5B Turbo','720p','5 или 10 секунд','16:9 и 9:16'].map((item)=><View key={item} style={{paddingHorizontal:9,paddingVertical:7,borderRadius:9,backgroundColor:'rgba(24,112,205,0.16)',borderWidth:1,borderColor:'rgba(83,158,224,0.25)'}}><Text style={{color:'#B8D9F7',fontSize:10,fontWeight:'700'}}>{item}</Text></View>)}
+              </View>
+            </View>
+            <View style={{borderRadius:17,padding:15,backgroundColor:'rgba(4,15,34,0.7)',borderWidth:1,borderColor:'rgba(81,143,203,0.28)'}}>
+              <Text style={{color:'#80BDEB',fontSize:10,fontWeight:'900',letterSpacing:1.2}}>О ПРИЛОЖЕНИИ</Text>
+              <Text style={{color:'#F0F6FF',fontSize:15,fontWeight:'900',marginTop:9}}>НейроСцена</Text>
+              <Text style={{color:'#8BA9C9',fontSize:11,marginTop:4}}>Мобильная студия управления локальной видеогенерацией</Text>
+              <Text style={{color:'#7899BC',fontSize:10,marginTop:9}}>Версия интерфейса 1.0 · Без рекламных уведомлений</Text>
+            </View>
+            <TouchableOpacity onPress={()=>setShowSettings(false)} activeOpacity={0.86} style={{minHeight:48,marginTop:16,borderRadius:14,backgroundColor:'#1479F8',borderWidth:1,borderColor:'#65C8FF',alignItems:'center',justifyContent:'center'}}>
+              <Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Готово</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       {showIntro && (
         <View style={styles.introOverlay}>
