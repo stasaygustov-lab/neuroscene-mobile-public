@@ -2323,19 +2323,19 @@ function GalleryScreen({
           const raw=item.duration_seconds??item.duration??item.duration_sec??''; const secs=Number(raw);
           const duration=typeof raw==='string'&&/^\d{1,2}:\d{2}$/.test(raw)?raw:(secs>0?'00:'+String(secs).padStart(2,'0'):'');
           const favorite=favorites.includes(id);
-          return <View key={id} style={{width:'48.4%',borderRadius:16,padding:7,backgroundColor:'rgba(7,24,51,0.88)',borderWidth:1,borderColor:'rgba(79,143,208,0.34)'}}>
-            <View style={{height:124,borderRadius:11,overflow:'hidden',backgroundColor:'#020916'}}>
+          return <View key={id} style={{width:'100%',borderRadius:18,padding:10,backgroundColor:'rgba(7,24,51,0.9)',borderWidth:1,borderColor:'rgba(79,143,208,0.38)'}}>
+            <View style={{height:196,borderRadius:13,overflow:'hidden',backgroundColor:'#020916'}}>
               <GalleryVideoPlayer uri={url}/>
               {!!duration&&<View style={{position:'absolute',right:7,bottom:7,paddingHorizontal:7,paddingVertical:3,borderRadius:6,backgroundColor:'rgba(0,0,0,0.72)'}}><Text style={{color:'#FFFFFF',fontSize:10,fontWeight:'800'}}>{duration}</Text></View>}
               <TouchableOpacity onPress={()=>setFavorites((old)=>favorite?old.filter((x)=>x!==id):[...old,id])} style={{position:'absolute',right:7,top:7,width:28,height:28,borderRadius:14,alignItems:'center',justifyContent:'center',backgroundColor:'rgba(0,0,0,0.58)'}}><Text style={{color:favorite?'#FFD66B':'#DCEEFF',fontSize:17}}>{favorite?'★':'☆'}</Text></TouchableOpacity>
             </View>
             <Text numberOfLines={1} style={{color:'#8EACCF',fontSize:10,marginTop:8}}>{item.created_at?new Date(item.created_at).toLocaleDateString('ru-RU'):'Дата не указана'}</Text>
-            <Text numberOfLines={3} style={{color:'#E2EEFC',fontSize:11,lineHeight:15,marginTop:5,minHeight:45}}>{item.prompt||'Без описания'}</Text>
-            <View style={{flexDirection:'row',flexWrap:'wrap',gap:5,marginTop:8}}>
-              <TouchableOpacity onPress={()=>onCopyPrompt(String(item.prompt||''))} disabled={!item.prompt} style={{paddingVertical:6,paddingHorizontal:7,borderRadius:7,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:9,fontWeight:'800'}}>Копировать</Text></TouchableOpacity>
+            <Text numberOfLines={3} style={{color:'#E2EEFC',fontSize:13,lineHeight:18,marginTop:7,minHeight:54}}>{item.prompt||'Без описания'}</Text>
+            <View style={{flexDirection:'row',flexWrap:'wrap',gap:7,marginTop:10}}>
+              <TouchableOpacity onPress={()=>onCopyPrompt(String(item.prompt||''))} disabled={!item.prompt} style={{paddingVertical:8,paddingHorizontal:10,borderRadius:9,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:10,fontWeight:'800'}}>Копировать</Text></TouchableOpacity>
               <TouchableOpacity onPress={()=>onRegenerate(item)} style={{paddingVertical:6,paddingHorizontal:7,borderRadius:7,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:9,fontWeight:'800'}}>Повторить</Text></TouchableOpacity>
               <TouchableOpacity onPress={()=>onExport(url,id)} style={{paddingVertical:6,paddingHorizontal:7,borderRadius:7,backgroundColor:'rgba(30,102,181,0.24)'}}><Text style={{color:'#A9D4FF',fontSize:9,fontWeight:'800'}}>Экспорт</Text></TouchableOpacity>
-              <TouchableOpacity onPress={()=>Alert.alert('Удалить видео?','Видео и его файл будут удалены без возможности восстановления.',[{text:'Отмена',style:'cancel'},{text:'Удалить',style:'destructive',onPress:()=>onDelete(id)}])} style={{paddingVertical:6,paddingHorizontal:7,borderRadius:7,backgroundColor:'rgba(120,31,54,0.26)'}}><Text style={{color:'#FFB2C0',fontSize:9,fontWeight:'800'}}>Удалить</Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=>Alert.alert('Удалить видео?','Видео и его файл будут удалены без возможности восстановления.',[{text:'Отмена',style:'cancel'},{text:'Удалить',style:'destructive',onPress:()=>onDelete(id)}])} style={{paddingVertical:8,paddingHorizontal:10,borderRadius:9,backgroundColor:'rgba(120,31,54,0.26)'}}><Text style={{color:'#FFB2C0',fontSize:10,fontWeight:'800'}}>Удалить</Text></TouchableOpacity>
             </View>
           </View>;
         })}
