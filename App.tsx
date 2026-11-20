@@ -4900,7 +4900,7 @@ const HTML_REBUILD : any = {
   content:{paddingHorizontal:18,paddingTop:18,paddingBottom:24},
   bottomNav:{minHeight:104,height:104,maxHeight:104,paddingTop:8,paddingBottom:10,backgroundColor:'rgba(3,12,29,0.30)',borderTopColor:'rgba(88,151,220,0.2)'},
   navItem:{minHeight:58,borderRadius:15,gap:6,alignItems:'center',justifyContent:'center'},
-  navItemActive:{backgroundColor:'rgba(20,83,157,0.32)',borderColor:'rgba(72,160,255,0.34)'},
+  navItemActive:{backgroundColor:'transparent',borderColor:'transparent',borderWidth:0,shadowColor:'transparent',shadowOpacity:0,shadowRadius:0,elevation:0},
   navLabel:{color:'#86A6CA',fontSize:11,lineHeight:15,fontWeight:'700',textAlign:'center',alignSelf:'center'},
   navLabelActive:{color:'#8ED7FF',fontWeight:'900'},
   screen:{flex:1,paddingTop:8},
