@@ -35,6 +35,9 @@ const VK_CLIENT_ID = process.env.EXPO_PUBLIC_VK_CLIENT_ID || '';
 const VK_REDIRECT_URI = VK_CLIENT_ID ? `vk${VK_CLIENT_ID}://vk.ru/blank.html` : '';
 const SESSION_STORAGE_KEY = 'neuroscene.session';
 const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || '').replace(/\/+$/, '');
+const TERMS_URL = (process.env.EXPO_PUBLIC_TERMS_URL || '').trim();
+const PRIVACY_POLICY_URL = (process.env.EXPO_PUBLIC_PRIVACY_POLICY_URL || '').trim();
+const LEGAL_DOCUMENTS_READY = /^https:\/\//i.test(TERMS_URL) && /^https:\/\//i.test(PRIVACY_POLICY_URL);
 
 const StyledText = Text as typeof Text & { defaultProps?: any };
 StyledText.defaultProps = {
@@ -196,6 +199,8 @@ export default function App() {
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
+  const [legalConsentAccepted, setLegalConsentAccepted] = useState(false);
   const [authBusy, setAuthBusy] = useState(false);
   const [authNotice, setAuthNotice] = useState('');
   const [profileEmailOpen, setProfileEmailOpen] = useState(false);
@@ -388,7 +393,36 @@ export default function App() {
     };
   }, []);
 
+  const openLegalDocument = async (url: string, title: string) => {
+    if (!/^https:\/\//i.test(url)) {
+      setAuthNotice('Ссылка на документ ещё не настроена. Регистрация временно недоступна.');
+      return;
+    }
+    try {
+      await Linking.openURL(url);
+    } catch {
+      setAuthNotice(`Не удалось открыть документ: ${title}.`);
+    }
+  };
+
+  const validateRegistrationConsent = () => {
+    if (!ageConfirmed) {
+      setAuthNotice('Подтвердите, что вам исполнилось 18 лет.');
+      return false;
+    }
+    if (!legalConsentAccepted) {
+      setAuthNotice('Подтвердите согласие с условиями использования и политикой конфиденциальности.');
+      return false;
+    }
+    if (!LEGAL_DOCUMENTS_READY) {
+      setAuthNotice('Регистрация недоступна: сначала подключите HTTPS-ссылки на условия использования и политику конфиденциальности.');
+      return false;
+    }
+    return true;
+  };
+
   const handleAuthSubmit = async () => {
+    if (authMode === 'register' && !validateRegistrationConsent()) return;
     const email = authEmail.trim().toLowerCase();
     if (!email || !authPassword) {
       setAuthNotice(language === 'ru' ? 'Укажи email и пароль.' : 'Enter your email and password.');
@@ -404,7 +438,15 @@ export default function App() {
       const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/${authMode === 'register' ? 'register' : 'login'}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ email, password: authPassword }),
+        body: JSON.stringify({
+          email,
+          password: authPassword,
+          ...(authMode === 'register' ? {
+            age_confirmed: ageConfirmed,
+            terms_accepted: legalConsentAccepted,
+            privacy_policy_accepted: legalConsentAccepted,
+          } : {}),
+        }),
       });
       const data = await readResponse(response);
       if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
@@ -471,6 +513,7 @@ export default function App() {
   };
 
   const handleVkLogin = async () => {
+    if (!validateRegistrationConsent()) return;
     setAuthBusy(true);
     setAuthNotice('');
     try {
@@ -501,7 +544,14 @@ export default function App() {
       const completeResponse = await fetchWithTimeout(`${API_BASE_URL}/api/auth/vk/complete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ code, state, device_id: deviceId }),
+        body: JSON.stringify({
+          code,
+          state,
+          device_id: deviceId,
+          age_confirmed: ageConfirmed,
+          terms_accepted: legalConsentAccepted,
+          privacy_policy_accepted: legalConsentAccepted,
+        }),
       });
       const completeData = await readResponse(completeResponse);
       if (!completeResponse.ok) throw new Error(completeData.detail || 'Не удалось войти через VK ID');
@@ -1873,18 +1923,33 @@ export default function App() {
         {!!authNotice&&<Text style={{color:'#FFCB86',fontSize:12,lineHeight:18,paddingHorizontal:4}}>{authNotice}</Text>}
         {!authUser?<View style={{borderRadius:18,padding:15,backgroundColor:'rgba(6,23,50,0.8)',borderWidth:1,borderColor:'rgba(79,145,211,0.3)'}}>
           <Text style={{color:'#B1CBE7',fontSize:12,lineHeight:18,textAlign:'center',marginBottom:13}}>Войдите, чтобы сохранять свои видео и пользоваться всеми возможностями НейроСцены</Text>
-          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Войти через VK ID" activeOpacity={0.86} onPress={handleVkLogin} disabled={authBusy} style={{minHeight:50,borderRadius:14,backgroundColor:'rgba(20,121,248,0.5)',borderWidth:1,borderColor:'rgba(117,201,255,0.5)',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:9}}>{authBusy?<ActivityIndicator color={WHITE}/>:<><Text style={{color:'#FFFFFF',fontSize:16,fontWeight:'900'}}>ᴠκ</Text><Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Войти через VK ID</Text></>}</TouchableOpacity>
+          <View style={{gap:10,marginBottom:13}}>
+            <TouchableOpacity accessibilityRole="checkbox" accessibilityLabel="Подтверждаю, что мне исполнилось 18 лет" accessibilityState={{checked:ageConfirmed}} onPress={()=>setAgeConfirmed(value=>!value)} activeOpacity={0.86} style={{minHeight:42,flexDirection:'row',alignItems:'center',gap:10}}>
+              <View style={{width:22,height:22,borderRadius:6,borderWidth:1.5,borderColor:ageConfirmed?'#53C9FF':'#6F8FB3',backgroundColor:ageConfirmed?'rgba(20,121,248,0.42)':'transparent',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>{ageConfirmed?'✓':''}</Text></View>
+              <Text style={{flex:1,color:'#D6E8FA',fontSize:12,lineHeight:17}}>Мне исполнилось 18 лет</Text>
+            </TouchableOpacity>
+            <TouchableOpacity accessibilityRole="checkbox" accessibilityLabel="Согласен с условиями использования и политикой конфиденциальности" accessibilityState={{checked:legalConsentAccepted}} onPress={()=>setLegalConsentAccepted(value=>!value)} activeOpacity={0.86} style={{minHeight:42,flexDirection:'row',alignItems:'center',gap:10}}>
+              <View style={{width:22,height:22,borderRadius:6,borderWidth:1.5,borderColor:legalConsentAccepted?'#53C9FF':'#6F8FB3',backgroundColor:legalConsentAccepted?'rgba(20,121,248,0.42)':'transparent',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>{legalConsentAccepted?'✓':''}</Text></View>
+              <Text style={{flex:1,color:'#D6E8FA',fontSize:12,lineHeight:17}}>Согласен с условиями использования и политикой конфиденциальности</Text>
+            </TouchableOpacity>
+            <View style={{flexDirection:'row',justifyContent:'center',flexWrap:'wrap',gap:14}}>
+              <TouchableOpacity accessibilityRole="link" accessibilityLabel="Открыть условия использования" disabled={!TERMS_URL.startsWith('https://')} onPress={()=>void openLegalDocument(TERMS_URL,'условия использования')}><Text style={{color:TERMS_URL.startsWith('https://')?'#83B7FF':'#6F829A',fontSize:11,textDecorationLine:'underline'}}>Условия использования</Text></TouchableOpacity>
+              <TouchableOpacity accessibilityRole="link" accessibilityLabel="Открыть политику конфиденциальности" disabled={!PRIVACY_POLICY_URL.startsWith('https://')} onPress={()=>void openLegalDocument(PRIVACY_POLICY_URL,'политику конфиденциальности')}><Text style={{color:PRIVACY_POLICY_URL.startsWith('https://')?'#83B7FF':'#6F829A',fontSize:11,textDecorationLine:'underline'}}>Политика конфиденциальности</Text></TouchableOpacity>
+            </View>
+            {!LEGAL_DOCUMENTS_READY&&<Text style={{color:'#FFCB86',fontSize:11,lineHeight:16,textAlign:'center'}}>Юридические документы ещё не подключены. Регистрация и вход через VK ID временно недоступны.</Text>}
+          </View>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Войти через VK ID" activeOpacity={0.86} onPress={handleVkLogin} disabled={authBusy || !ageConfirmed || !legalConsentAccepted || !LEGAL_DOCUMENTS_READY} style={{minHeight:50,borderRadius:14,backgroundColor:'rgba(20,121,248,0.5)',borderWidth:1,borderColor:'rgba(117,201,255,0.5)',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:9}}>{authBusy?<ActivityIndicator color={WHITE}/>:<><Text style={{color:'#FFFFFF',fontSize:16,fontWeight:'900'}}>ᴠκ</Text><Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Войти через VK ID</Text></>}</TouchableOpacity>
           <TouchableOpacity accessibilityRole="button" accessibilityLabel={profileEmailOpen?'Скрыть вход по email':'Войти по email'} accessibilityState={{expanded:profileEmailOpen}} onPress={()=>setProfileEmailOpen((v)=>!v)} style={{minHeight:46,marginTop:9,borderRadius:13,backgroundColor:'rgba(15,45,82,0.7)',borderWidth:1,borderColor:'rgba(90,156,220,0.35)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#C7E3FF',fontSize:13,fontWeight:'800'}}>{profileEmailOpen?'Скрыть вход по email':'Войти по email'}</Text></TouchableOpacity>
           {profileEmailOpen&&<View style={{marginTop:12}}>
             <TextInput accessibilityLabel="Электронная почта" style={styles.authInput} value={authEmail} onChangeText={setAuthEmail} placeholder="Электронная почта" placeholderTextColor="#7890AD" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} editable={!authBusy}/>
             <TextInput accessibilityLabel="Пароль" style={styles.authInput} value={authPassword} onChangeText={setAuthPassword} placeholder="Пароль (от 12 символов)" placeholderTextColor="#7890AD" secureTextEntry autoCapitalize="none" editable={!authBusy}/>
-            <TouchableOpacity accessibilityRole="button" accessibilityLabel={authMode==='login'?'Войти по электронной почте':'Создать аккаунт по электронной почте'} onPress={handleAuthSubmit} disabled={authBusy} style={{minHeight:48,borderRadius:13,backgroundColor:'#1479F8',alignItems:'center',justifyContent:'center',marginTop:12}}>{authBusy?<ActivityIndicator color={WHITE}/>:<Text style={{color:'#FFFFFF',fontWeight:'900'}}>{authMode==='login'?'ВОЙТИ ПО EMAIL':'СОЗДАТЬ АККАУНТ'}</Text>}</TouchableOpacity>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel={authMode==='login'?'Войти по электронной почте':'Создать аккаунт по электронной почте'} onPress={handleAuthSubmit} disabled={authBusy || (authMode === 'register' && (!ageConfirmed || !legalConsentAccepted || !LEGAL_DOCUMENTS_READY))} style={{minHeight:48,borderRadius:13,backgroundColor:'#1479F8',alignItems:'center',justifyContent:'center',marginTop:12}}>{authBusy?<ActivityIndicator color={WHITE}/>:<Text style={{color:'#FFFFFF',fontWeight:'900'}}>{authMode==='login'?'ВОЙТИ ПО EMAIL':'СОЗДАТЬ АККАУНТ'}</Text>}</TouchableOpacity>
             {authMode==='login'&&<TouchableOpacity accessibilityRole="button" accessibilityLabel="Войти по ссылке на электронную почту" onPress={requestEmailLoginLink} disabled={authBusy} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>Войти по ссылке на email</Text></TouchableOpacity>}
             <TouchableOpacity accessibilityRole="button" accessibilityLabel={authMode==='login'?'Зарегистрироваться':'Перейти ко входу'} onPress={()=>{setAuthMode(authMode==='login'?'register':'login');setAuthNotice('');}} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>{authMode==='login'?'Нет аккаунта? Зарегистрироваться':'Уже зарегистрированы? Войти'}</Text></TouchableOpacity>
             {!!pendingEmail&&<TouchableOpacity accessibilityRole="button" accessibilityLabel="Повторно отправить письмо подтверждения" onPress={resendVerification} disabled={authBusy} style={{padding:8,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12}}>Отправить письмо подтверждения повторно</Text></TouchableOpacity>}
 
           </View>}
-          <Text style={{color:'#7897BA',fontSize:10,lineHeight:15,textAlign:'center',marginTop:12}}>Продолжая, вы принимаете условия использования и политику конфиденциальности.</Text>
+          <Text style={{color:'#7897BA',fontSize:10,lineHeight:15,textAlign:'center',marginTop:12}}>Для регистрации требуется подтверждение возраста 18+ и отдельное согласие с документами выше.</Text>
         </View>:<View style={{gap:9}}>
           <TouchableOpacity accessibilityRole="button" accessibilityLabel="Выйти со всех устройств" onPress={logoutAllDevices} disabled={authBusy} style={{minHeight:48,borderRadius:13,backgroundColor:'rgba(16,48,91,0.82)',borderWidth:1,borderColor:'rgba(83,160,239,0.4)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#E2F0FF',fontSize:13,fontWeight:'800'}}>Выйти со всех устройств</Text></TouchableOpacity>
           <TouchableOpacity accessibilityRole="button" accessibilityLabel="Удалить аккаунт и личные данные" onPress={deleteAccount} disabled={authBusy} style={{minHeight:48,borderRadius:13,backgroundColor:'rgba(91,24,42,0.34)',borderWidth:1,borderColor:'rgba(255,120,145,0.36)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#FF9EAD',fontSize:13,fontWeight:'800'}}>Удалить аккаунт и личные данные</Text></TouchableOpacity>
