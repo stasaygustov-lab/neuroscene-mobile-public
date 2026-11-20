@@ -2785,20 +2785,20 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
             {job.status === 'queued' && (
               <View style={{ gap: 7, alignItems: 'flex-end' }}>
                 <View style={{ flexDirection: 'row', gap: 6 }}>
-                  <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} disabled={loading || job.priority <= -100} onPress={() => onSetPriority(job.job_id, Math.max(-100, Number(job.priority || 0) - 1))}>
+                  <TouchableOpacity accessibilityRole="button" accessibilityLabel="Понизить приоритет задачи" activeOpacity={0.86} style={styles.smallAction} disabled={loading || job.priority <= -100} onPress={() => onSetPriority(job.job_id, Math.max(-100, Number(job.priority || 0) - 1))}>
                     <Text style={styles.smallActionText}>−</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} disabled={loading || job.priority >= 100} onPress={() => onSetPriority(job.job_id, Math.min(100, Number(job.priority || 0) + 1))}>
+                  <TouchableOpacity accessibilityRole="button" accessibilityLabel="Повысить приоритет задачи" activeOpacity={0.86} style={styles.smallAction} disabled={loading || job.priority >= 100} onPress={() => onSetPriority(job.job_id, Math.min(100, Number(job.priority || 0) + 1))}>
                     <Text style={styles.smallActionText}>＋</Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} disabled={loading} onPress={() => onCancelGeneration(job.job_id)}>
+                <TouchableOpacity accessibilityRole="button" accessibilityLabel="Отменить генерацию" activeOpacity={0.86} style={styles.authTextButton} disabled={loading} onPress={() => onCancelGeneration(job.job_id)}>
                   <Text style={styles.deleteVideoText}>{uiText(language, 'Cancel', 'Отменить')}</Text>
                 </TouchableOpacity>
               </View>
             )}
             {job.status === 'failed' && job.generation_type === 't2v' && (
-              <TouchableOpacity activeOpacity={0.86} style={styles.smallAction} disabled={loading} onPress={() => onRetryGeneration(job.job_id)}>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel="Повторить генерацию" activeOpacity={0.86} style={styles.smallAction} disabled={loading} onPress={() => onRetryGeneration(job.job_id)}>
                 <Text style={styles.smallActionText}>{uiText(language, 'Retry', 'Повторить')}</Text>
               </TouchableOpacity>
             )}
@@ -2933,7 +2933,7 @@ function FAQScreen({
           <Text style={styles.packageAmount}>{faqText(language, item, 'question')}</Text>
           <Text style={styles.description}>{faqText(language, item, 'answer')}</Text>
           {isAdmin && (
-            <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={() => editItem(item)}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Редактировать вопрос FAQ" activeOpacity={0.86} style={styles.authTextButton} onPress={() => editItem(item)}>
               <Text style={styles.authLinkText}>{uiText(language, 'Edit', 'Редактировать')}</Text>
             </TouchableOpacity>
           )}
@@ -2944,7 +2944,7 @@ function FAQScreen({
           <Text style={styles.sectionTitle}>{editingId ? (uiText(language, 'EDIT FAQ ENTRY', 'РЕДАКТИРОВАТЬ ВОПРОС')) : (uiText(language, 'ADD FAQ ENTRY', 'ДОБАВИТЬ ВОПРОС'))}</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 10 }}>
             {categories.filter((item) => item[0] !== 'all').map(([value, label]) => (
-              <TouchableOpacity activeOpacity={0.86} key={value} style={[styles.smallAction, formCategory === value && { borderColor: BLUE }]} onPress={() => setFormCategory(value)}>
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel={label} accessibilityState={{selected:formCategory === value}} activeOpacity={0.86} key={value} style={[styles.smallAction, formCategory === value && { borderColor: BLUE }]} onPress={() => setFormCategory(value)}>
                 <Text style={styles.smallActionText}>{label}</Text>
               </TouchableOpacity>
             ))}
@@ -2952,14 +2952,14 @@ function FAQScreen({
           <TextInput accessibilityLabel="Вопрос на русском" style={styles.authInput} value={questionRu} onChangeText={setQuestionRu} maxLength={240} placeholder="Вопрос на русском" placeholderTextColor="#687386" />
           <TextInput accessibilityLabel="Ответ на русском" style={[styles.authInput, { minHeight: 90, textAlignVertical: 'top' }]} value={answerRu} onChangeText={setAnswerRu} maxLength={3000} multiline placeholder="Ответ на русском" placeholderTextColor="#687386" />
           <TextInput accessibilityLabel="Порядок отображения" style={styles.authInput} value={sortOrder} onChangeText={setSortOrder} keyboardType="numbers-and-punctuation" placeholder={uiText(language, 'Display order', 'Порядок отображения')} placeholderTextColor="#687386" />
-          <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={() => setIsActive((value) => !value)}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel={isActive ? 'Скрыть вопрос FAQ' : 'Показывать вопрос FAQ'} accessibilityState={{checked:isActive}} activeOpacity={0.86} style={styles.authTextButton} onPress={() => setIsActive((value) => !value)}>
             <Text style={styles.authLinkText}>{isActive ? (uiText(language, '● Visible to users', '● Показывать пользователям')) : (uiText(language, '○ Hidden from users', '○ Скрыто от пользователей'))}</Text>
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.86} style={[styles.authAction, loading && styles.disabledButton]} onPress={submit} disabled={loading || [questionRu, answerRu].some((value) => value.trim().length < 3) || !Number.isSafeInteger(Number(sortOrder))}>
+          <TouchableOpacity accessibilityRole="button" accessibilityLabel="Сохранить вопрос FAQ" activeOpacity={0.86} style={[styles.authAction, loading && styles.disabledButton]} onPress={submit} disabled={loading || [questionRu, answerRu].some((value) => value.trim().length < 3) || !Number.isSafeInteger(Number(sortOrder))}>
             <Text style={styles.createButtonText}>{uiText(language, 'SAVE FAQ', 'СОХРАНИТЬ FAQ')}</Text>
           </TouchableOpacity>
           {!!editingId && (
-            <TouchableOpacity activeOpacity={0.86} style={styles.authTextButton} onPress={clearForm}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel="Отменить редактирование FAQ" activeOpacity={0.86} style={styles.authTextButton} onPress={clearForm}>
               <Text style={styles.authLinkText}>{uiText(language, 'Cancel editing', 'Отменить редактирование')}</Text>
             </TouchableOpacity>
           )}
@@ -3114,7 +3114,7 @@ function SupportScreen({
               {files.map((file, index) => (
                 <View key={file.assetId || file.uri} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 5 }}>
                   <Text style={styles.mutedText} numberOfLines={1}>{file.fileName || (uiText(language, 'Image', 'Изображение'))} · {file.fileSize ? (file.fileSize / 1024 / 1024).toFixed(1) + ' MB' : ''}</Text>
-                  <TouchableOpacity activeOpacity={0.86} onPress={() => onRemoveFile(index)}>
+                  <TouchableOpacity accessibilityRole="button" accessibilityLabel="Убрать прикреплённый файл" activeOpacity={0.86} onPress={() => onRemoveFile(index)}>
                     <Text style={styles.deleteVideoText}>{uiText(language, 'Remove', 'Убрать')}</Text>
                   </TouchableOpacity>
                 </View>
@@ -3169,7 +3169,7 @@ function SupportScreen({
           <Text style={styles.sectionTitle}>{uiText(language, 'NEW SUPPORT TICKET', 'НОВОЕ ОБРАЩЕНИЕ')}</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12, marginBottom: 10 }}>
             {(['generation', 'payment', 'account', 'other'] as const).map((value) => (
-              <TouchableOpacity activeOpacity={0.86}
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel={categoryLabels[value]} accessibilityState={{selected:category === value}} activeOpacity={0.86}
                 key={value}
                 onPress={() => setCategory(value)}
                 style={{
@@ -3217,7 +3217,7 @@ function SupportScreen({
           {loading && <ActivityIndicator color={BLUE} style={{ marginTop: 18 }} />}
           {!loading && tickets.length === 0 && <Text style={styles.note}>{uiText(language, 'No support tickets yet.', 'Обращений пока нет.')}</Text>}
           {tickets.map((ticket) => (
-            <TouchableOpacity activeOpacity={0.86} key={ticket.ticket_id} style={styles.packageCard} onPress={() => onOpen(ticket.ticket_id)}>
+            <TouchableOpacity accessibilityRole="button" accessibilityLabel={`Обращение: ${categoryLabels[ticket.category] || ticket.category}, ${statusLabels[ticket.status] || ticket.status}`} activeOpacity={0.86} key={ticket.ticket_id} style={styles.packageCard} onPress={() => onOpen(ticket.ticket_id)}>
               <View style={{ flex: 1 }}>
                 <Text style={styles.packageAmount}>{categoryLabels[ticket.category] || ticket.category}</Text>
                 <Text style={styles.mutedText} numberOfLines={2}>{ticket.description}</Text>
