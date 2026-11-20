@@ -2015,7 +2015,7 @@ export default function App() {
                 </View>
                 <View style={{paddingHorizontal:10,paddingVertical:6,borderRadius:9,backgroundColor:'rgba(30,139,255,0.16)',borderWidth:1,borderColor:'rgba(82,174,255,0.4)'}}><Text style={{color:'#A8D8FF',fontSize:10,fontWeight:'900'}}>RU</Text></View>
               </View>
-              <Text style={{color:'#819FBE',fontSize:11,lineHeight:16,marginTop:11}}>Другие языки появятся после завершения перевода всех экранов приложения.</Text>
+              <Text style={{color:'#819FBE',fontSize:11,lineHeight:16,marginTop:11}}>Интерфейс приложения доступен только на русском языке.</Text>
             </View>
             <View style={{borderRadius:17,padding:15,backgroundColor:'rgba(4,15,34,0.7)',borderWidth:1,borderColor:'rgba(81,143,203,0.28)',marginBottom:12}}>
               <Text style={{color:'#80BDEB',fontSize:10,fontWeight:'900',letterSpacing:1.2}}>ГЕНЕРАЦИЯ ВИДЕО</Text>
