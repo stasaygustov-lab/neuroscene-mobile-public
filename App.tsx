@@ -1454,9 +1454,7 @@ export default function App() {
         form.append('prompt', cleanPrompt);
         form.append('duration', String(duration));
         form.append('aspect_ratio', ratio);
-        form.append('model', 'kandinsky-6');
-        form.append('audio_enabled', 'true');
-        form.append('audio_profile', 'prompt-driven');
+        form.append('model', 'wan2.2-a14b');
         const extension = sourceImage.mimeType === 'image/png' ? 'png' : 'jpg';
         const imageFile = new ExpoFile(sourceImage.uri);
         form.append(
@@ -1479,12 +1477,10 @@ export default function App() {
           },
           body: JSON.stringify({
             prompt: cleanPrompt,
-            model: 'kandinsky-6',
-            generation_type: 't2v',
+            model: 'wan2.2-a14b',
+            generation_type: 'auto',
             duration,
             aspect_ratio: ratio,
-            audio_enabled: true,
-            audio_profile: 'prompt-driven',
           }),
         });
       }
