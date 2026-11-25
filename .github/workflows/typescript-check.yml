@@ -19,7 +19,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: neuroscene-typescript-check
+  group: neuroscene-typescript-check-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
