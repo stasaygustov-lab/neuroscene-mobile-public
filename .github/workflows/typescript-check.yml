@@ -1,0 +1,41 @@
+name: NeuroScene TypeScript check
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - ui/full-screen-rebuild-html-reference
+      - feat/wan22-a14b-on-html-reference-20261125
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - '.github/workflows/typescript-check.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neuroscene-typescript-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck:
+    name: Strict TypeScript validation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout pull request revision
+        uses: actions/checkout@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run strict TypeScript check
+        run: npx tsc --noEmit
