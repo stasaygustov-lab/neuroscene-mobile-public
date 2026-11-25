@@ -1559,7 +1559,8 @@ export default function App() {
         form.append('prompt', cleanPrompt);
         form.append('duration', String(duration));
         form.append('aspect_ratio', ratio);
-        // The backend selects the configured local Wan 2.2 workflow.
+        form.append('model', 'wan2.2-a14b');
+        // The backend selects the configured local Wan 2.2 A14B workflow.
         // Video generation is silent; audio is handled by the separate audio pipeline.
         const extension = sourceImage.mimeType === 'image/png' ? 'png' : 'jpg';
         const imageFile = new ExpoFile(sourceImage.uri);
@@ -1583,7 +1584,8 @@ export default function App() {
           },
           body: JSON.stringify({
             prompt: cleanPrompt,
-            generation_type: 't2v',
+            model: 'wan2.2-a14b',
+            generation_type: 'auto',
             duration,
             aspect_ratio: ratio,
           }),
