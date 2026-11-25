@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: neuroscene-android-validation
+  group: neuroscene-android-validation-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
