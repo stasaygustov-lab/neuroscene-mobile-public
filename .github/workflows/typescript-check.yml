@@ -38,8 +38,6 @@ jobs:
     steps:
       - name: Checkout UI branch
         uses: actions/checkout@v5
-        with:
-          ref: ui/full-visual-redesign
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
