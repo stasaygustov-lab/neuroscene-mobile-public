@@ -2,6 +2,16 @@ name: NeuroScene TypeScript check
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - ui/full-visual-redesign
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - '.github/workflows/typescript-check.yml'
   push:
     branches:
       - ui/full-visual-redesign
@@ -29,7 +39,6 @@ jobs:
       - name: Checkout UI branch
         uses: actions/checkout@v5
         with:
-          ref: ui/full-visual-redesign
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
