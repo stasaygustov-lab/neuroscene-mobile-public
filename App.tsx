@@ -1947,8 +1947,8 @@ export default function App() {
           <TouchableOpacity accessibilityRole="button" accessibilityLabel="Войти через VK ID" activeOpacity={0.86} onPress={handleVkLogin} disabled={authBusy || !ageConfirmed || !legalConsentAccepted} style={{minHeight:50,borderRadius:14,backgroundColor:'rgba(20,121,248,0.5)',borderWidth:1,borderColor:'rgba(117,201,255,0.5)',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:9}}>{authBusy?<ActivityIndicator color={WHITE}/>:<><Text style={{color:'#FFFFFF',fontSize:16,fontWeight:'900'}}>ᴠκ</Text><Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Войти через VK ID</Text></>}</TouchableOpacity>
           <TouchableOpacity accessibilityRole="button" accessibilityLabel={profileEmailOpen?'Скрыть вход по email':'Войти по email'} accessibilityState={{expanded:profileEmailOpen}} onPress={()=>setProfileEmailOpen((v)=>!v)} style={{minHeight:46,marginTop:9,borderRadius:13,backgroundColor:'rgba(15,45,82,0.7)',borderWidth:1,borderColor:'rgba(90,156,220,0.35)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#C7E3FF',fontSize:13,fontWeight:'800'}}>{profileEmailOpen?'Скрыть вход по email':'Войти по email'}</Text></TouchableOpacity>
           {profileEmailOpen&&<View style={{marginTop:12}}>
-            <TextInput color="#FFFFFF" accessibilityLabel="Электронная почта" style={[styles.authInput, { backgroundColor: 'rgba(5,20,44,0.94)', borderColor: 'rgba(84,147,210,0.38)', borderRadius: 16, borderWidth: 1, minHeight: 58, paddingHorizontal: 18, paddingVertical: 15, marginTop: 10, shadowColor: '#168BFF', shadowOpacity: 0.12, shadowRadius: 10, elevation: 2 }]} value={authEmail} onChangeText={setAuthEmail} placeholder="Электронная почта" placeholderTextColor="#7890AD" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} editable={!authBusy}/>
-            <TextInput color="#FFFFFF" accessibilityLabel="Пароль" style={[styles.authInput, { backgroundColor: 'rgba(5,20,44,0.94)', borderColor: 'rgba(84,147,210,0.38)', borderRadius: 16, borderWidth: 1, minHeight: 58, paddingHorizontal: 18, paddingVertical: 15, marginTop: 10, shadowColor: '#168BFF', shadowOpacity: 0.12, shadowRadius: 10, elevation: 2 }]} value={authPassword} onChangeText={setAuthPassword} placeholder="Пароль (от 12 символов)" placeholderTextColor="#7890AD" secureTextEntry autoCapitalize="none" editable={!authBusy}/>
+            <TextInput accessibilityLabel="Электронная почта" style={[styles.authInput, { backgroundColor: 'rgba(5,20,44,0.94)', borderColor: 'rgba(84,147,210,0.38)', borderRadius: 16, borderWidth: 1, minHeight: 58, paddingHorizontal: 18, paddingVertical: 15, marginTop: 10, shadowColor: '#168BFF', shadowOpacity: 0.12, shadowRadius: 10, elevation: 2 }]} value={authEmail} onChangeText={setAuthEmail} placeholder="Электронная почта" placeholderTextColor="#7890AD" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} editable={!authBusy}/>
+            <TextInput accessibilityLabel="Пароль" style={[styles.authInput, { backgroundColor: 'rgba(5,20,44,0.94)', borderColor: 'rgba(84,147,210,0.38)', borderRadius: 16, borderWidth: 1, minHeight: 58, paddingHorizontal: 18, paddingVertical: 15, marginTop: 10, shadowColor: '#168BFF', shadowOpacity: 0.12, shadowRadius: 10, elevation: 2 }]} value={authPassword} onChangeText={setAuthPassword} placeholder="Пароль (от 12 символов)" placeholderTextColor="#7890AD" secureTextEntry autoCapitalize="none" editable={!authBusy}/>
             <TouchableOpacity accessibilityRole="button" accessibilityLabel={authMode==='login'?'Войти по электронной почте':'Создать аккаунт по электронной почте'} onPress={handleAuthSubmit} disabled={authBusy || (authMode === 'register' && (!ageConfirmed || !legalConsentAccepted))} style={{minHeight:48,borderRadius:13,backgroundColor:'#1479F8',alignItems:'center',justifyContent:'center',marginTop:12}}>{authBusy?<ActivityIndicator color={WHITE}/>:<Text style={{color:'#FFFFFF',fontWeight:'900'}}>{authMode==='login'?'ВОЙТИ ПО EMAIL':'СОЗДАТЬ АККАУНТ'}</Text>}</TouchableOpacity>
             {authMode==='login'&&<TouchableOpacity accessibilityRole="button" accessibilityLabel="Войти по ссылке на электронную почту" onPress={requestEmailLoginLink} disabled={authBusy} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>Войти по ссылке на email</Text></TouchableOpacity>}
             <TouchableOpacity accessibilityRole="button" accessibilityLabel={authMode==='login'?'Зарегистрироваться':'Перейти ко входу'} onPress={()=>{setAuthMode(authMode==='login'?'register':'login');setAuthNotice('');}} style={{padding:10,alignItems:'center'}}><Text style={{color:'#83B7FF',fontSize:12,fontWeight:'700'}}>{authMode==='login'?'Нет аккаунта? Зарегистрироваться':'Уже зарегистрированы? Войти'}</Text></TouchableOpacity>
@@ -2315,7 +2315,7 @@ function CreateScreen({
         <Text style={styles.sectionTitle}>{uiText(language, 'YOUR PROMPT', 'ОПИСАНИЕ СЦЕНЫ')}</Text>
       </View>
 
-      <TextInput color="#FFFFFF"
+      <TextInput
         accessibilityLabel="Описание сцены, до 2000 символов"
         style={styles.prompt}
         placeholder={uiText(language, 'Describe the scene and the action you want to see.', 'Опишите сцену и желаемое действие.')}
@@ -2766,7 +2766,7 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
         <View style={[styles.authCard, { marginTop: 18 }]}>
           <Text style={styles.sectionTitle}>{uiText(language, 'ADJUST CREDITS', 'ИЗМЕНИТЬ БАЛАНС')}</Text>
           <Text style={styles.mutedText}>{selectedUser.email}</Text>
-          <TextInput color="#FFFFFF" accessibilityLabel="Количество кредитов"
+          <TextInput accessibilityLabel="Количество кредитов"
             style={styles.authInput}
             value={creditAmount}
             onChangeText={setCreditAmount}
@@ -2774,7 +2774,7 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
             placeholder={uiText(language, 'Credit amount (+/-)', 'Количество кредитов (+/-)')}
             placeholderTextColor="#687386"
           />
-          <TextInput color="#FFFFFF" accessibilityLabel="Причина корректировки баланса"
+          <TextInput accessibilityLabel="Причина корректировки баланса"
             style={styles.authInput}
             value={creditReason}
             onChangeText={setCreditReason}
@@ -2795,7 +2795,7 @@ function AdminScreen({ language, users, audit, generations, workers, analytics, 
           {isOwner && selectedUser.role !== 'owner' && (
             <View style={{ marginTop: 22 }}>
               <Text style={styles.sectionTitle}>{uiText(language, 'ASSIGN ROLE', 'НАЗНАЧИТЬ РОЛЬ')}</Text>
-              <TextInput color="#FFFFFF" accessibilityLabel="Причина изменения роли"
+              <TextInput accessibilityLabel="Причина изменения роли"
                 style={styles.authInput}
                 value={roleReason}
                 onChangeText={setRoleReason}
@@ -2977,7 +2977,7 @@ function FAQScreen({
       </View>
       <Text style={styles.eyebrow}>{uiText(language, 'HELP CENTER', 'ЦЕНТР ПОМОЩИ')}</Text>
       <Text style={styles.screenTitle}>FAQ</Text>
-      <TextInput color="#FFFFFF" accessibilityLabel="Поиск по вопросам и ответам"
+      <TextInput accessibilityLabel="Поиск по вопросам и ответам"
         style={styles.authInput}
         value={search}
         onChangeText={setSearch}
@@ -3016,9 +3016,9 @@ function FAQScreen({
               </TouchableOpacity>
             ))}
           </View>
-          <TextInput color="#FFFFFF" accessibilityLabel="Вопрос на русском" style={styles.authInput} value={questionRu} onChangeText={setQuestionRu} maxLength={240} placeholder="Вопрос на русском" placeholderTextColor="#687386" />
-          <TextInput color="#FFFFFF" accessibilityLabel="Ответ на русском" style={[styles.authInput, { minHeight: 90, textAlignVertical: 'top' }]} value={answerRu} onChangeText={setAnswerRu} maxLength={3000} multiline placeholder="Ответ на русском" placeholderTextColor="#687386" />
-          <TextInput color="#FFFFFF" accessibilityLabel="Порядок отображения" style={styles.authInput} value={sortOrder} onChangeText={setSortOrder} keyboardType="numbers-and-punctuation" placeholder={uiText(language, 'Display order', 'Порядок отображения')} placeholderTextColor="#687386" />
+          <TextInput accessibilityLabel="Вопрос на русском" style={styles.authInput} value={questionRu} onChangeText={setQuestionRu} maxLength={240} placeholder="Вопрос на русском" placeholderTextColor="#687386" />
+          <TextInput accessibilityLabel="Ответ на русском" style={[styles.authInput, { minHeight: 90, textAlignVertical: 'top' }]} value={answerRu} onChangeText={setAnswerRu} maxLength={3000} multiline placeholder="Ответ на русском" placeholderTextColor="#687386" />
+          <TextInput accessibilityLabel="Порядок отображения" style={styles.authInput} value={sortOrder} onChangeText={setSortOrder} keyboardType="numbers-and-punctuation" placeholder={uiText(language, 'Display order', 'Порядок отображения')} placeholderTextColor="#687386" />
           <TouchableOpacity accessibilityRole="button" accessibilityLabel={isActive ? 'Скрыть вопрос FAQ' : 'Показывать вопрос FAQ'} accessibilityState={{checked:isActive}} activeOpacity={0.86} style={styles.authTextButton} onPress={() => setIsActive((value) => !value)}>
             <Text style={styles.authLinkText}>{isActive ? (uiText(language, '● Visible to users', '● Показывать пользователям')) : (uiText(language, '○ Hidden from users', '○ Скрыто от пользователей'))}</Text>
           </TouchableOpacity>
@@ -3166,7 +3166,7 @@ function SupportScreen({
             <Text style={styles.note}>{uiText(language, 'This ticket is closed. Create a new ticket if you still need help.', 'Обращение закрыто. Если проблема осталась, создайте новое обращение.')}</Text>
           ) : (
             <>
-              <TextInput color="#FFFFFF" accessibilityLabel="Текст ответа в обращении"
+              <TextInput accessibilityLabel="Текст ответа в обращении"
                 style={[styles.authInput, { minHeight: 90, textAlignVertical: 'top' }]}
                 value={message}
                 onChangeText={setMessage}
@@ -3252,7 +3252,7 @@ function SupportScreen({
               </TouchableOpacity>
             ))}
           </View>
-          <TextInput color="#FFFFFF" accessibilityLabel="Описание обращения в поддержку"
+          <TextInput accessibilityLabel="Описание обращения в поддержку"
             style={[styles.authInput, { minHeight: 110, textAlignVertical: 'top' }]}
             value={description}
             onChangeText={setDescription}
