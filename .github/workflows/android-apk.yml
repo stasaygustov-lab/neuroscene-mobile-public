@@ -47,6 +47,11 @@ jobs:
           .venv/bin/python scripts/fit-android-icon.py
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install --clean
+      - name: Verify generated Android manifest allows LAN HTTP
+        run: |
+          set -eu
+          grep -n 'usesCleartextTraffic' android/app/src/main/AndroidManifest.xml
+          grep -q 'android:usesCleartextTraffic="true"' android/app/src/main/AndroidManifest.xml
       - name: Diagnose Foojay plugin resolution
         run: |
           set -eu
@@ -66,9 +71,12 @@ jobs:
           ./gradlew --no-daemon --info assembleRelease
       - name: Verify standalone APK and embedded JavaScript
         run: |
+          set -eu
           APK="android/app/build/outputs/apk/release/app-release.apk"
           test -s "$APK"
           unzip -l "$APK" | grep -E 'assets/index.android.bundle'
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump xmltree "$APK" AndroidManifest.xml > /tmp/release-manifest.txt
+          grep -E 'usesCleartextTraffic.*=true' /tmp/release-manifest.txt
           ls -lh "$APK"
           file "$APK"
       - uses: actions/upload-artifact@v4
