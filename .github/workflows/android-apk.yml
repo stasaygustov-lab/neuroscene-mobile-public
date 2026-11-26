@@ -3,7 +3,7 @@ name: NeuroScene Android APK and UI smoke test
 
 on:
   push:
-    branches: [main]
+    branches: [main, fix/android-lan-backend-url-2026-11-26]
   pull_request:
   workflow_dispatch:
 
