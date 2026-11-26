@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     env:
-      EXPO_PUBLIC_API_URL: ${{ vars.EXPO_PUBLIC_API_URL }}
+      EXPO_PUBLIC_API_URL: ${{ vars.EXPO_PUBLIC_API_URL || 'http://192.168.0.175:8000' }}
       EXPO_PUBLIC_VK_CLIENT_ID: ${{ vars.EXPO_PUBLIC_VK_CLIENT_ID }}
     steps:
       - uses: actions/checkout@v5
