@@ -98,6 +98,24 @@ function readVideoUrl(data: any): string | null {
       const value = data[key];
 
       if (value.startsWith('http://') || value.startsWith('https://')) {
+        // A loopback URL returned by the PC backend points to the phone itself on Android.
+        // Rewrite only loopback hosts to the API origin configured for this app.
+        try {
+          const parsed = new URL(value);
+          const hostname = parsed.hostname.toLowerCase();
+          const isLoopback =
+            hostname === 'localhost' ||
+            hostname === '::1' ||
+            hostname === '[::1]' ||
+            hostname === '0.0.0.0' ||
+            hostname.startsWith('127.');
+          if (isLoopback) {
+            const apiOrigin = new URL(API_BASE_URL).origin;
+            return `${apiOrigin}${parsed.pathname}${parsed.search}${parsed.hash}`;
+          }
+        } catch {
+          // Preserve the original absolute URL if it cannot be parsed.
+        }
         return value;
       }
 
