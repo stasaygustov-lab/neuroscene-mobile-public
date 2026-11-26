@@ -34,7 +34,7 @@ const Text = (props: TextProps) => { const flat = StyleSheet.flatten(props.style
 const VK_CLIENT_ID = process.env.EXPO_PUBLIC_VK_CLIENT_ID || '';
 const VK_REDIRECT_URI = VK_CLIENT_ID ? `vk${VK_CLIENT_ID}://vk.ru/blank.html` : '';
 const SESSION_STORAGE_KEY = 'neuroscene.session';
-const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || '').replace(/\/+$/, '');
+const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || 'http://192.168.0.175:8000').replace(/\/+$/, ''); // LAN fallback for local-PC testing; CI/prod must set EXPO_PUBLIC_API_URL.
 const TERMS_URL = (process.env.EXPO_PUBLIC_TERMS_URL || '').trim();
 const PRIVACY_POLICY_URL = (process.env.EXPO_PUBLIC_PRIVACY_POLICY_URL || '').trim();
 const TERMS_VERSION = (process.env.EXPO_PUBLIC_TERMS_VERSION || '').trim();
