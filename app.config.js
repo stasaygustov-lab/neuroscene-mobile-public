@@ -18,6 +18,8 @@ module.exports = ({ config }) => {
     scheme: vkScheme ? ["neuroscene", vkScheme] : "neuroscene",
     android: {
       ...(config.android || {}),
+      // Allow the local HTTP API during LAN testing; use HTTPS for public deployments.
+      usesCleartextTraffic: true,
       intentFilters: [...existingFilters, ...vkFilter],
     },
   };
