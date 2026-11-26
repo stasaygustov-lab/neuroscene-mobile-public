@@ -29,7 +29,7 @@ import { faqText, uiText } from './localization';
 const VK_CLIENT_ID = process.env.EXPO_PUBLIC_VK_CLIENT_ID || '';
 const VK_REDIRECT_URI = VK_CLIENT_ID ? `vk${VK_CLIENT_ID}://vk.ru/blank.html` : '';
 const SESSION_STORAGE_KEY = 'neuroscene.session';
-const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || 'http://192.168.0.175:8000').replace(/\/+$/, '');
+const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || '').replace(/\/+$/, '');
 
 const StyledText = Text as typeof Text & { defaultProps?: any };
 StyledText.defaultProps = {
