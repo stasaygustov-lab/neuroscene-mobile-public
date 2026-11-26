@@ -481,6 +481,7 @@ export default function App() {
       const data = await readResponse(response);
       if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
       await saveAuthenticatedSession(data);
+      setProfileEmailOpen(false);
       setAuthNotice('Выполнен вход в локальный тестовый режим.');
     } catch (error) {
       setAuthNotice(error instanceof Error ? error.message : 'Не удалось войти в локальный тестовый режим.');
