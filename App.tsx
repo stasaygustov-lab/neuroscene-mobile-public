@@ -35,6 +35,7 @@ const VK_CLIENT_ID = process.env.EXPO_PUBLIC_VK_CLIENT_ID || '';
 const VK_REDIRECT_URI = VK_CLIENT_ID ? `vk${VK_CLIENT_ID}://vk.ru/blank.html` : '';
 const SESSION_STORAGE_KEY = 'neuroscene.session';
 const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL || 'http://192.168.0.175:8000').replace(/\/+$/, ''); // LAN fallback for local-PC testing; CI/prod must set EXPO_PUBLIC_API_URL.
+const LOCAL_TEST_MODE = process.env.EXPO_PUBLIC_LOCAL_TEST_MODE === 'true';
 const TERMS_URL = (process.env.EXPO_PUBLIC_TERMS_URL || '').trim();
 const PRIVACY_POLICY_URL = (process.env.EXPO_PUBLIC_PRIVACY_POLICY_URL || '').trim();
 const TERMS_VERSION = (process.env.EXPO_PUBLIC_TERMS_VERSION || '').trim();
@@ -464,6 +465,25 @@ export default function App() {
         setPendingEmail(email);
       }
       setAuthNotice(error instanceof Error ? error.message : 'Неизвестная ошибка');
+    } finally {
+      setAuthBusy(false);
+    }
+  };
+
+  const handleLocalTestLogin = async () => {
+    setAuthBusy(true);
+    setAuthNotice('');
+    try {
+      const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/local-test`, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+      });
+      const data = await readResponse(response);
+      if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
+      await saveAuthenticatedSession(data);
+      setAuthNotice('Выполнен вход в локальный тестовый режим.');
+    } catch (error) {
+      setAuthNotice(error instanceof Error ? error.message : 'Не удалось войти в локальный тестовый режим.');
     } finally {
       setAuthBusy(false);
     }
@@ -1945,6 +1965,15 @@ export default function App() {
             <Text style={{color:'#A9C4E3',fontSize:11,lineHeight:16,textAlign:'center'}}>Полные юридические документы будут опубликованы отдельно. Сейчас для авторизации действуют временные правила обработки данных.</Text>
           </View>
           <TouchableOpacity accessibilityRole="button" accessibilityLabel="Войти через VK ID" activeOpacity={0.86} onPress={handleVkLogin} disabled={authBusy || !ageConfirmed || !legalConsentAccepted} style={{minHeight:50,borderRadius:14,backgroundColor:'rgba(20,121,248,0.5)',borderWidth:1,borderColor:'rgba(117,201,255,0.5)',flexDirection:'row',alignItems:'center',justifyContent:'center',gap:9}}>{authBusy?<ActivityIndicator color={WHITE}/>:<><Text style={{color:'#FFFFFF',fontSize:16,fontWeight:'900'}}>ᴠκ</Text><Text style={{color:'#FFFFFF',fontSize:14,fontWeight:'900'}}>Войти через VK ID</Text></>}</TouchableOpacity>
+          {LOCAL_TEST_MODE && <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel="Войти для локального тестирования"
+            onPress={handleLocalTestLogin}
+            disabled={authBusy}
+            style={{minHeight:46,marginTop:9,borderRadius:13,backgroundColor:'rgba(15,45,82,0.7)',borderWidth:1,borderColor:'rgba(90,156,220,0.35)',alignItems:'center',justifyContent:'center'}}
+          >
+            {authBusy ? <ActivityIndicator color={WHITE}/> : <Text style={{color:'#C7E3FF',fontSize:13,fontWeight:'800'}}>Войти для локального тестирования</Text>}
+          </TouchableOpacity>}
           <TouchableOpacity accessibilityRole="button" accessibilityLabel={profileEmailOpen?'Скрыть вход по email':'Войти по email'} accessibilityState={{expanded:profileEmailOpen}} onPress={()=>setProfileEmailOpen((v)=>!v)} style={{minHeight:46,marginTop:9,borderRadius:13,backgroundColor:'rgba(15,45,82,0.7)',borderWidth:1,borderColor:'rgba(90,156,220,0.35)',alignItems:'center',justifyContent:'center'}}><Text style={{color:'#C7E3FF',fontSize:13,fontWeight:'800'}}>{profileEmailOpen?'Скрыть вход по email':'Войти по email'}</Text></TouchableOpacity>
           {profileEmailOpen&&<View style={{marginTop:12}}>
             <TextInput accessibilityLabel="Электронная почта" style={[styles.authInput, { backgroundColor: 'rgba(5,20,44,0.94)', borderColor: 'rgba(84,147,210,0.38)', borderRadius: 16, borderWidth: 1, minHeight: 58, paddingHorizontal: 18, paddingVertical: 15, marginTop: 10, shadowColor: '#168BFF', shadowOpacity: 0.12, shadowRadius: 10, elevation: 2 }]} value={authEmail} onChangeText={setAuthEmail} placeholder="Электронная почта" placeholderTextColor="#7890AD" keyboardType="email-address" autoCapitalize="none" autoCorrect={false} editable={!authBusy}/>
