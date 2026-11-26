@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 35
     env:
       EXPO_PUBLIC_API_URL: ${{ vars.EXPO_PUBLIC_API_URL || 'http://192.168.0.175:8000' }}
-      EXPO_PUBLIC_LOCAL_TEST_MODE: ${{ github.ref == 'refs/heads/fix/android-lan-backend-url-2026-11-26' || github.head_ref == 'fix/android-lan-backend-url-2026-11-26' }}
+      EXPO_PUBLIC_LOCAL_TEST_MODE: ${{ github.ref == 'refs/heads/fix/android-lan-backend-url-2026-11-26' || github.head_ref == 'fix/android-lan-backend-url-2026-11-26' || github.ref == 'refs/heads/fix/android-gallery-video-player-2026-11-26' || github.head_ref == 'fix/android-gallery-video-player-2026-11-26' || github.base_ref == 'fix/android-lan-backend-url-2026-11-26' }}
       EXPO_PUBLIC_VK_CLIENT_ID: ${{ vars.EXPO_PUBLIC_VK_CLIENT_ID }}
     steps:
       - uses: actions/checkout@v5

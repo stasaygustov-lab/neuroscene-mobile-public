@@ -98,6 +98,24 @@ function readVideoUrl(data: any): string | null {
       const value = data[key];
 
       if (value.startsWith('http://') || value.startsWith('https://')) {
+        // A loopback URL returned by the PC backend points to the phone itself on Android.
+        // Rewrite only loopback hosts to the API origin configured for this app.
+        try {
+          const parsed = new URL(value);
+          const hostname = parsed.hostname.toLowerCase();
+          const isLoopback =
+            hostname === 'localhost' ||
+            hostname === '::1' ||
+            hostname === '[::1]' ||
+            hostname === '0.0.0.0' ||
+            hostname.startsWith('127.');
+          if (isLoopback) {
+            const apiOrigin = new URL(API_BASE_URL).origin;
+            return `${apiOrigin}${parsed.pathname}${parsed.search}${parsed.hash}`;
+          }
+        } catch {
+          // Preserve the original absolute URL if it cannot be parsed.
+        }
         return value;
       }
 
@@ -2020,7 +2038,7 @@ export default function App() {
           source={require('./assets/neuroscene-cinematic-bg-small.jpg')}
           style={StyleSheet.absoluteFill}
           resizeMode="cover"
-          blurRadius={20}
+          blurRadius={6}
         />
         <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(1, 7, 20, 0.34)' }]} />
       </View>
@@ -2155,7 +2173,7 @@ export default function App() {
             source={require('./assets/neuroscene-cinematic-bg-small.jpg')}
             style={StyleSheet.absoluteFill}
             resizeMode="cover"
-            blurRadius={20}
+            blurRadius={6}
           />
           <View pointerEvents="none" style={{ position: 'absolute', width: 420, height: 420, borderRadius: 210, top: '12%', backgroundColor: 'rgba(0,80,190,0.2)' }} />
           <View pointerEvents="none" style={styles.splashCinematicShade} />
@@ -3450,8 +3468,9 @@ function GalleryVideoPlayer({ uri }: { uri: string }) {
         style={styles.videoPlayer}
         nativeControls={false}
         contentFit="contain"
+        surfaceType="textureView"
       />
-      <View style={styles.videoControls}>
+      <View pointerEvents="box-none" style={styles.videoControls}>
         <TouchableOpacity activeOpacity={0.86}
           style={styles.videoControlButton}
           accessibilityRole="button" accessibilityLabel={isPlaying ? 'Приостановить видео' : 'Воспроизвести видео'}
@@ -3588,7 +3607,7 @@ const COSMIC_OVERRIDES : any = {
   galleryFavoriteText: { color: '#73CFFF', fontSize: 23, lineHeight: 27 },
   videoFrame: { width: '100%', height: 154, backgroundColor: '#020817', borderRadius: 13, overflow: 'hidden', justifyContent: 'center' },
   videoPlayer: { width: '100%', height: 154, backgroundColor: '#000000', borderRadius: 13 },
-  videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
+  videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 10, elevation: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
   videoControlButton: { width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(17,24,39,0.88)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#3978FF' },
   videoControlText: { color: '#FFFFFF', fontSize: 16, fontWeight: '900' },
   galleryVideoTitle: { color: '#E7F3FF', fontSize: 16, fontWeight: '800', marginTop: 9 },
@@ -5194,7 +5213,7 @@ const styles = StyleSheet.create({
   galleryCard: { backgroundColor: PANEL, borderRadius: 14, padding: 12, marginTop: 14, borderWidth: 1, borderColor: '#253147' },
   videoFrame: { width: '100%', height: 220, backgroundColor: '#000000', borderRadius: 10, overflow: 'hidden', justifyContent: 'center' },
   videoPlayer: { width: '100%', height: 220, backgroundColor: '#000000' },
-  videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
+  videoControls: { position: 'absolute', left: 0, right: 0, bottom: 0, zIndex: 10, elevation: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'rgba(0,0,0,0.42)' },
   videoControlButton: { width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(17,24,39,0.88)', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#3978FF' },
   videoControlText: { color: WHITE, fontSize: 16, fontWeight: '900' },
   galleryVideoTitle: { color: WHITE, fontSize: 16, fontWeight: '800', marginTop: 12 },
