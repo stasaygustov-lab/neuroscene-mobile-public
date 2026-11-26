@@ -19,6 +19,7 @@ module.exports = ({ config }) => {
     android: {
       ...(config.android || {}),
       // Allow the local HTTP API during LAN testing; use HTTPS for public deployments.
+      // Local-PC preview backend uses HTTP on the private LAN.
       usesCleartextTraffic: true,
       intentFilters: [...existingFilters, ...vkFilter],
     },
