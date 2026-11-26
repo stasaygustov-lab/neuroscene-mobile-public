@@ -76,7 +76,7 @@ jobs:
           test -s "$APK"
           unzip -l "$APK" | grep -E 'assets/index.android.bundle'
           "$ANDROID_HOME/build-tools/36.0.0/aapt" dump xmltree "$APK" AndroidManifest.xml > /tmp/release-manifest.txt
-          grep -E 'usesCleartextTraffic.*=true' /tmp/release-manifest.txt
+          grep -E 'usesCleartextTraffic.*(0xffffffff|0x00000001|true)' /tmp/release-manifest.txt
           ls -lh "$APK"
           file "$APK"
       - uses: actions/upload-artifact@v4
