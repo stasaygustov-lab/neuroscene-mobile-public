@@ -18,7 +18,6 @@ module.exports = ({ config }) => {
     scheme: vkScheme ? ["neuroscene", vkScheme] : "neuroscene",
     android: {
       ...(config.android || {}),
-      usesCleartextTraffic: true,
       intentFilters: [...existingFilters, ...vkFilter],
     },
   };
