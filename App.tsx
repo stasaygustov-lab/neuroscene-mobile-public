@@ -472,12 +472,24 @@ export default function App() {
 
   const handleLocalTestLogin = async () => {
     setAuthBusy(true);
-    setAuthNotice('');
+    setAuthNotice('Проверяем соединение с локальным Backend…');
+    const endpoint = `${API_BASE_URL}/api/auth/local-test`;
     try {
-      const response = await fetchWithTimeout(`${API_BASE_URL}/api/auth/local-test`, {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-      });
+      // Use Expo's native fetch implementation for the Android LAN request.
+      // Keep this request separate from the global fetch wrapper so a native
+      // networking failure can be reported with its actual error details.
+      let response: Response;
+      try {
+        response = await expoFetch(endpoint, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+        });
+      } catch (networkError) {
+        const detail = networkError instanceof Error
+          ? `${networkError.name}: ${networkError.message}`
+          : String(networkError);
+        throw new Error(`Не удалось подключиться к Backend по адресу ${API_BASE_URL}. Ошибка Android: ${detail}`);
+      }
       const data = await readResponse(response);
       if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
       await saveAuthenticatedSession(data);
