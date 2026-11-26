@@ -15,47 +15,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  local-backend-auth-smoke:
-    name: Verify local Backend test login on PC runner
-    if: github.ref == 'refs/heads/fix/android-lan-backend-url-2026-11-26' || github.head_ref == 'fix/android-lan-backend-url-2026-11-26'
-    runs-on: [self-hosted, Windows, X64]
-    timeout-minutes: 3
-    env:
-      NEUROSCENE_API_BASE_URL: ${{ vars.NEUROSCENE_LOCAL_API_URL || 'http://127.0.0.1:8000' }}
-    steps:
-      - name: Call local test-login endpoint and validate response shape
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $uri = "$($env:NEUROSCENE_API_BASE_URL.TrimEnd('/'))/api/auth/local-test"
-          $client = [System.Net.Http.HttpClient]::new()
-          try {
-            $request = [System.Net.Http.HttpRequestMessage]::new([System.Net.Http.HttpMethod]::Post, $uri)
-            $request.Headers.Accept.ParseAdd('application/json')
-            $response = $client.SendAsync($request).GetAwaiter().GetResult()
-            $body = $response.Content.ReadAsStringAsync().GetAwaiter().GetResult()
-            Write-Host "Endpoint: $uri"
-            Write-Host "HTTP status: $([int]$response.StatusCode)"
-            if (-not $response.IsSuccessStatusCode) {
-              Write-Host "Backend error response: $body"
-              throw "Local test-login request failed."
-            }
-            $data = $body | ConvertFrom-Json
-            $fields = @($data.PSObject.Properties.Name)
-            Write-Host "Response fields: $($fields -join ', ')"
-            $hasToken = $fields -contains 'access_token' -and -not [string]::IsNullOrWhiteSpace([string]$data.access_token)
-            $hasUser = $fields -contains 'user' -and $null -ne $data.user
-            Write-Host "access_token present: $hasToken"
-            Write-Host "user present: $hasUser"
-            if (-not ($hasToken -and $hasUser)) {
-              throw "Backend response does not match the mobile app session contract."
-            }
-            Write-Host 'Local test-login response matches the mobile app contract.'
-          }
-          finally {
-            $client.Dispose()
-          }
-
   build-android-apk:
     name: Build standalone Android APK
     runs-on: ubuntu-24.04
