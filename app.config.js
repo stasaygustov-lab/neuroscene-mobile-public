@@ -13,7 +13,7 @@ module.exports = ({ config }) => {
       }]
     : [];
 
-  let nextConfig = {
+  const nextConfig = {
     ...config,
     scheme: vkScheme ? ["neuroscene", vkScheme] : "neuroscene",
     android: {
@@ -22,5 +22,15 @@ module.exports = ({ config }) => {
     },
   };
 
-  return nextConfig;
+  // Expo's config-level usesCleartextTraffic option did not make it into the
+  // generated release APK. Set the Android manifest attribute explicitly so
+  // the app can reach the user's private-LAN HTTP backend during local tests.
+  return withAndroidManifest(nextConfig, (modConfig) => {
+    const application = modConfig.modResults.manifest.application?.[0];
+    if (application) {
+      application.$ = application.$ || {};
+      application.$["android:usesCleartextTraffic"] = "true";
+    }
+    return modConfig;
+  });
 };

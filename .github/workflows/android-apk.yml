@@ -3,7 +3,7 @@ name: NeuroScene Android APK and UI smoke test
 
 on:
   push:
-    branches: [main]
+    branches: [main, fix/android-lan-backend-url-2026-11-26]
   pull_request:
   workflow_dispatch:
 
@@ -20,7 +20,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     env:
-      EXPO_PUBLIC_API_URL: ${{ vars.EXPO_PUBLIC_API_URL }}
+      EXPO_PUBLIC_API_URL: ${{ vars.EXPO_PUBLIC_API_URL || 'http://192.168.0.175:8000' }}
+      EXPO_PUBLIC_LOCAL_TEST_MODE: ${{ github.ref == 'refs/heads/fix/android-lan-backend-url-2026-11-26' || github.head_ref == 'fix/android-lan-backend-url-2026-11-26' }}
       EXPO_PUBLIC_VK_CLIENT_ID: ${{ vars.EXPO_PUBLIC_VK_CLIENT_ID }}
     steps:
       - uses: actions/checkout@v5
@@ -46,16 +47,36 @@ jobs:
           .venv/bin/python scripts/fit-android-icon.py
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install --clean
+      - name: Verify generated Android manifest allows LAN HTTP
+        run: |
+          set -eu
+          grep -n 'usesCleartextTraffic' android/app/src/main/AndroidManifest.xml
+          grep -q 'android:usesCleartextTraffic="true"' android/app/src/main/AndroidManifest.xml
+      - name: Diagnose Foojay plugin resolution
+        run: |
+          set -eu
+          echo "Java:"
+          java -version
+          echo "Generated Foojay declarations:"
+          grep -R -n --include='settings.gradle' --include='settings.gradle.kts' 'foojay-resolver-convention' android node_modules/@react-native/gradle-plugin 2>/dev/null || true
+          marker="https://plugins.gradle.org/m2/org/gradle/toolchains/foojay-resolver-convention/org.gradle.toolchains.foojay-resolver-convention.gradle.plugin/1.0.0/org.gradle.toolchains.foojay-resolver-convention.gradle.plugin-1.0.0.pom"
+          echo "Checking Gradle Plugin Portal marker: $marker"
+          curl --retry 3 --retry-all-errors --retry-delay 3 -sS -L -o /tmp/foojay-marker.pom -w 'Plugin Portal HTTP status: %{http_code}\n' "$marker"
+          echo "Marker POM preview:"
+          head -n 12 /tmp/foojay-marker.pom
       - name: Build standalone installable APK
         run: |
           cd android
           chmod +x ./gradlew
-          ./gradlew --no-daemon assembleRelease
+          ./gradlew --no-daemon --info assembleRelease
       - name: Verify standalone APK and embedded JavaScript
         run: |
+          set -eu
           APK="android/app/build/outputs/apk/release/app-release.apk"
           test -s "$APK"
           unzip -l "$APK" | grep -E 'assets/index.android.bundle'
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump xmltree "$APK" AndroidManifest.xml > /tmp/release-manifest.txt
+          grep -E 'usesCleartextTraffic.*(0xffffffff|0x00000001|true)' /tmp/release-manifest.txt
           ls -lh "$APK"
           file "$APK"
       - uses: actions/upload-artifact@v4
@@ -70,6 +91,8 @@ jobs:
     needs: build-android-apk
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    env:
+      ANDROID_I_WANT_MY_TCG: 'yes'
     steps:
       - uses: actions/checkout@v5
       - uses: actions/download-artifact@v4
