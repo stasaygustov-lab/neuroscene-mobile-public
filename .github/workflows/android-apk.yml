@@ -47,11 +47,23 @@ jobs:
           .venv/bin/python scripts/fit-android-icon.py
       - name: Generate native Android project
         run: npx expo prebuild --platform android --no-install --clean
+      - name: Diagnose Foojay plugin resolution
+        run: |
+          set -eu
+          echo "Java:"
+          java -version
+          echo "Generated Foojay declarations:"
+          grep -R -n --include='settings.gradle' --include='settings.gradle.kts' 'foojay-resolver-convention' android node_modules/@react-native/gradle-plugin 2>/dev/null || true
+          marker="https://plugins.gradle.org/m2/org/gradle/toolchains/foojay-resolver-convention/org.gradle.toolchains.foojay-resolver-convention.gradle.plugin/1.0.0/org.gradle.toolchains.foojay-resolver-convention.gradle.plugin-1.0.0.pom"
+          echo "Checking Gradle Plugin Portal marker: $marker"
+          curl --retry 3 --retry-all-errors --retry-delay 3 -sS -L -o /tmp/foojay-marker.pom -w 'Plugin Portal HTTP status: %{http_code}\n' "$marker"
+          echo "Marker POM preview:"
+          head -n 12 /tmp/foojay-marker.pom
       - name: Build standalone installable APK
         run: |
           cd android
           chmod +x ./gradlew
-          ./gradlew --no-daemon assembleRelease
+          ./gradlew --no-daemon --info assembleRelease
       - name: Verify standalone APK and embedded JavaScript
         run: |
           APK="android/app/build/outputs/apk/release/app-release.apk"
